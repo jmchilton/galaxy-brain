@@ -13,7 +13,7 @@ PR CI green except Converter tests (red on `release_26.1` too), unrelated; rerun
 
 ## Summary
 
-Collections now get built in the history the user picked, not the current one. This covers the data library's Add to History > as a Collection, and Build List / Auto/Advanced Build List from an owned non-current history's view page. The branch also adds missing E2E coverage of library Add to History > as Datasets. A queued issue covers the library bug: [library_collection_ignores_selected_history](../../../../../agents/gx_issues/to_file/library_collection_ignores_selected_history.md) (not filed).
+Collections now get built in the history the user picked, not the current one. This covers the data library's Add to History > as a Collection, and Build List / Auto/Advanced Build List from an owned non-current history's view page. The branch also adds missing E2E coverage of library Add to History > as Datasets. A queued issue covers the library bug: [library_collection_ignores_selected_history](../../../issues_incubator/incubating/library_collection_ignores_selected_history/raw.md) (not filed).
 
 [Implementation](implementation_debrief.md) · [Initial implementation](initial_implementation_debrief.md) · [Re-scope](implementation_rescope_debrief.md) · [Original scope alt](alts/original_scope.md) · [Normal review](subagents/normal_review.md) · [Re-scope review](subagents/rescope_normal_review.md) · [Test challenges](test_challenges_debrief.md) · [E2E polish](polish_e2e_tests_debrief.md) · [Codex review](codex_review.md) · [Thermo-nuclear review](thermo_nuclear_review.md) · [Baseline refactor](baseline_refactor.md) · [Scope evaluation](scope_evaluation.md) · [Screenshots](screenshot_debrief.md)
 

@@ -4,7 +4,7 @@ Status: `merged` (refreshed 2026-10-16).
 
 **[PR description](pr_description.md) · [Titles](pr_titles.md) · [Polish debrief](polish_debrief.md)** · [Checklist evaluation](checklist_evaluation.md)
 
-Invocation graph shows a color parameter input as bold hex text instead of the color swatch the run-form graph shows. PR-first fix for [proposed issue](../../../../../agents/gx_issues/internally_managed/proposed_invocation_graph_color_param_swatch_dead.md) ([research debrief](../../../../../agents/gx_issues/internally_managed/debrief_invocation_graph_color_param_swatch_dead.md)); no issue filed.
+Invocation graph shows a color parameter input as bold hex text instead of the color swatch the run-form graph shows. PR-first fix for [proposed issue](../../../issues_incubator/internal/invocation_graph_color_param_swatch_dead/proposal.md) ([research debrief](../../../issues_incubator/internal/invocation_graph_color_param_swatch_dead/debrief.md)); no issue filed.
 
 [Implementation](implementation_debrief.md) · [Initial implementation](initial_implementation_debrief.md) · [Normal review](subagents/normal_review.md) · [Test challenges](test_challenges_debrief.md) · [Codex](codex_review.md) · [Scope evaluation](scope_evaluation.md) · [Screenshots](screenshot_debrief.md)
 

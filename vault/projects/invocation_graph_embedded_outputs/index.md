@@ -17,7 +17,7 @@ summary: "Outputs inside the invocation graph: hover previews, embedded workflow
 
 Pull outputs into the invocation graph in three stages: hover preview, workflow outputs as large embedded nodes (local nudging, never a full re-layout), and steps that render as their preferred output.
 
-- Issue draft (not filed yet): [`invocation_graph_embedded_outputs.md`](../../agents/gx_issues/to_file/invocation_graph_embedded_outputs.md)
+- Issue draft (not filed yet): [`invocation_graph_embedded_outputs.md`](../../repositories/galaxy/issues_incubator/incubating/invocation_graph_embedded_outputs/raw.md)
 - Spike branch: [`jmchilton/invocation_graph_embedded_outputs`](https://github.com/jmchilton/galaxy/tree/invocation_graph_embedded_outputs) — [branch record](../../repositories/galaxy/branches/active/invocation_graph_embedded_outputs/index.md), [spike debrief](../../repositories/galaxy/branches/active/invocation_graph_embedded_outputs/spike_debrief.md)
 
 ## Screenshots

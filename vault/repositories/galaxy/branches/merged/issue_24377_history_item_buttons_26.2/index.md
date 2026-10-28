@@ -21,4 +21,4 @@ Implements [#24377](https://github.com/galaxyproject/galaxy/issues/24377) ([issu
 
 - Base `release_26.2`: restores test coverage that has been a no-op since 2022 ("missing tests are bugs"); found in 26.2 release testing. Same stub on `release_26.1` and `dev`.
 - Re-scoped to Scope E per the first scope evaluation: galaxy-ui marker class plus the shared helper wait, instead of a test-local inline-style wait.
-- Disabled edit button's "not yet editable" tooltip never shows (`vGTooltip` skips `aria-disabled`). Out of scope; queued in `gx_issues/to_file/history_item_disabled_edit_tooltip.md`. The discarded test asserts `aria-disabled` instead.
+- Disabled edit button's "not yet editable" tooltip never shows (`vGTooltip` skips `aria-disabled`). Out of scope; queued in `repositories/galaxy/issues_incubator/incubating/history_item_disabled_edit_tooltip/raw.md`. The discarded test asserts `aria-disabled` instead.

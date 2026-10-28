@@ -22,7 +22,7 @@ Pulled out of [`galaxy_ui_driver`](../../active/galaxy_ui_driver/index.md) per [
 
 ## Decisions
 
-- Kept the original scope. The scope eval's API happy-path test can't pass without a product fix: API-key FASTA builds 500 because there's no current history. Queued as `gx_issues/to_file/custom_build_fasta_api_no_current_history.md`. The eval suggests the fix plus that API test belong next to `custom_build_no_converter_400_26.0` / #24310 (John's call).
+- Kept the original scope. The scope eval's API happy-path test can't pass without a product fix: API-key FASTA builds 500 because there's no current history. Queued as `repositories/galaxy/issues_incubator/incubating/custom_build_fasta_api_no_current_history/raw.md`. The eval suggests the fix plus that API test belong next to `custom_build_no_converter_400_26.0` / #24310 (John's call).
 
 ## Related
 

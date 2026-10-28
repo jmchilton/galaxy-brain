@@ -204,7 +204,7 @@ There is precedent for discriminated models: `AnyJobStateSummary` on `model` (`s
 - Row links need 🎯 #24173 (invocation deep links).
 - 🎯 #24174 (rerun lineage) would let rows show "rerun of".
 - Mode 2 has to account for duplicate output labels, 🎯 #24305.
-- A single-step rerun ([`rerun_single_step_from_invocation.md`](../../agents/gx_issues/internally_managed/rerun_single_step_from_invocation.md)) produces exactly a new mode 1 row.
+- A single-step rerun ([`rerun_single_step_from_invocation.md`](../../repositories/galaxy/issues_incubator/internal/rerun_single_step_from_invocation/raw.md)) produces exactly a new mode 1 row.
 - Galaxy has no comparison or diff feature today apart from page revisions.
 
 **Later:**

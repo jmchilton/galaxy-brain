@@ -18,7 +18,7 @@ Some of them I'm tracking via bigger galaxy-brain projects:
 	- Highlight to look at here - did a throw away spike and got some screenshots and hardened the plan around real implementation details.
 
 Some of them are internal still:
-- [rerun_single_step_from_invocation](../../agents/gx_issues/internally_managed/rerun_single_step_from_invocation.md) — Edit one step's parameters from a completed invocation and rerun, reusing unchanged upstream jobs
+- [rerun_single_step_from_invocation](../../repositories/galaxy/issues_incubator/internal/rerun_single_step_from_invocation/raw.md) — Edit one step's parameters from a completed invocation and rerun, reusing unchanged upstream jobs
 
 Merged PRs from this work:
 - [#24164](https://github.com/galaxyproject/galaxy/pull/24164) — Add E2E tests for the invocation graph

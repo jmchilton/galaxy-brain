@@ -22,4 +22,4 @@ CI on `96113857dae` in progress, no reds yet.
 
 ## Notes
 
-Internally managed issue (no GitHub issue; PR-first): [source draft](../../../../../agents/gx_issues/internally_managed/custom_build_conversion_error_swallowed.md) · [proposal](../../../../../agents/gx_issues/internally_managed/proposed_custom_build_conversion_error_swallowed.md) · [debrief](../../../../../agents/gx_issues/internally_managed/debrief_custom_build_conversion_error_swallowed.md) · [initial](initial_implementation_debrief.md) · [implementation](implementation_debrief.md)
+Internally managed issue (no GitHub issue; PR-first): [source draft](../../../issues_incubator/internal/custom_build_conversion_error_swallowed/raw.md) · [proposal](../../../issues_incubator/internal/custom_build_conversion_error_swallowed/proposal.md) · [debrief](../../../issues_incubator/internal/custom_build_conversion_error_swallowed/debrief.md) · [initial](initial_implementation_debrief.md) · [implementation](implementation_debrief.md)
