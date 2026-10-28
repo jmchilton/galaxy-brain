@@ -13,8 +13,8 @@ No PR.
 
 CSS-safe Selenium/Playwright selectors for free-text labels. Editor terminal names, node labels, connector ids and workflow run-form input labels all go through one `css_attribute_value` escape, and the connector targets become `[id='…']`. E2E tests cover the editor (a subworkflow with `it's an input` / `it's a \ output` labels, and a step labelled `cat's downstream`) and the run form (`it's input`).
 
-This is item A of [the parent's second scope evaluation](../../active/workflow_editor_connection_helpers/scope_evaluation.md), deferred by John on 2026-10-22. It was re-scoped once to add the run form; the editor-only version is kept as an [alt](alts/original_scope.md).
+This is item A of [the parent's second scope evaluation](../../merged/workflow_editor_connection_helpers/scope_evaluation.md), deferred by John on 2026-10-22. It was re-scoped once to add the run form; the editor-only version is kept as an [alt](alts/original_scope.md).
 
-Stacked on [`workflow_editor_connection_helpers`](../../active/workflow_editor_connection_helpers/index.md), base `release_26.2`. It shares that branch's worktree (`branch/workflow_editor_connection_helpers`). Open its PR only after the parent's, or retarget it.
+Stacked on [`workflow_editor_connection_helpers`](../../merged/workflow_editor_connection_helpers/index.md), base `release_26.2`. It shares that branch's worktree (`branch/workflow_editor_connection_helpers`). Open its PR only after the parent's, or retarget it.
 
 [Implementation debrief](implementation_debrief.md)

@@ -1,7 +1,7 @@
 # Implementation debrief: workflow_editor_selector_escaping
 
 STATUS: READY.
-- Head `7ba4f7bd25f`, stacked on [`workflow_editor_connection_helpers`](../../active/workflow_editor_connection_helpers/index.md) `9699ec45644` (base `release_26.2`), pushed to `jmchilton`.
+- Head `7ba4f7bd25f`, stacked on [`workflow_editor_connection_helpers`](../../merged/workflow_editor_connection_helpers/index.md) `9699ec45644` (base `release_26.2`), pushed to `jmchilton`.
 - 5 commits, +117/−24 across 4 files.
 - Re-scoped once and hardened twice. The second scope evaluation says keep as implemented.
 

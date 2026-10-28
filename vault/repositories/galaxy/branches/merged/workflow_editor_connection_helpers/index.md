@@ -5,11 +5,9 @@
 
 ## Status
 
-Head `bbb56abe1bb` (2026-10-27): rebased onto `release_26.2` (nav.yml `tooltip_*` conflict, kept both), fixed davelopez mypy blocker, escaping moved to selector sites per his optional note. `workflow_editor_selector_escaping` content is folded in; restack `galaxy_ui_driver`.
+Merged: head `bbb56abe1bb`, with `workflow_editor_selector_escaping` folded in. Worktree removed 2026-10-28.
 
-[#24370](https://github.com/galaxyproject/galaxy/pull/24370) is draft (waiting on CI), mergeable, against `release_26.2`; opened 2026-10-22 with the first title from `pr_titles.md` and labels from `pr_tags.md`.
-
-CI pending on `bbb56abe1bb`; mypy and lint clean locally, no local E2E run (port 8080 held by another worktree).
+[#24370](https://github.com/galaxyproject/galaxy/pull/24370) merged to `release_26.2` as `bd00965b3b9`.
 
 ## Scope
 
@@ -25,7 +23,7 @@ It brings these changes:
 
 The original label-only scope is kept as an [alt](alts/original_scope.md).
 
-Base `release_26.2` on John's call (2026-10-21), not dev as [the upstreaming plan](../../../../../projects/playwright/GALAXY_UI_DRIVER_UPSTREAM.md) says. It backs gxui's editor verbs (pitch refinement plan item 5). [`galaxy_ui_driver`](../galaxy_ui_driver/index.md) is stacked on it, so restack that branch after any rewrite here.
+Base `release_26.2` on John's call (2026-10-21), not dev as [the upstreaming plan](../../../../../projects/playwright/GALAXY_UI_DRIVER_UPSTREAM.md) says. It backs gxui's editor verbs (pitch refinement plan item 5). [`galaxy_ui_driver`](../../active/galaxy_ui_driver/index.md) is stacked on it, so restack that branch after any rewrite here.
 - Restacked onto `9699ec45644` on 2026-10-22 (tip `b271e13696c`).
 
 **Follow-up (John, 2026-10-22):** CSS-safe terminal and connector selectors, for subworkflow terminals whose labels contain spaces, `'` or `\`. See scope_evaluation item A. It is not in this branch; it's on [`workflow_editor_selector_escaping`](../../abandoned/workflow_editor_selector_escaping/index.md), stacked on this one.
