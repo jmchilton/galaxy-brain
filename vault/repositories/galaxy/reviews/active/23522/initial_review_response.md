@@ -1,5 +1,16 @@
 (space for John's free style comments - just keep empty)
 
+<details><summary>Why async jobs misroute but sync jobs don't</summary>
+
+Handler assignment (`JobManager.enqueue` → `assign_handler`) always uses the job config of whichever process calls `enqueue`. What differs is which process that is.
+
+- **Sync (`POST /api/tools`)**: `ToolsService` calls `tool.handle_input` → `execute` → `enqueue` inside the web process that took the request. On a subsite like VGP, that's the subsite's web process, so `tool.get_configured_job_handler()`, `default_handler_id` and the `handlers` map all come from the subsite's job config. It works.
+- **Async (`POST /api/jobs`)**: `JobsService.create` only builds a `QueueJobs` payload and calls `queue_jobs.delay(...)`. The `queue_jobs` Celery task rebuilds the tool from raw source (`cached_create_tool_from_representation`) and calls `enqueue` in the Celery worker. If Celery workers are shared and run with the main instance's job config, the configured/default handler is resolved against the main config, and the job lands on the main instance's handler.
+
+So the PR's fix is to resolve the handler in the web process (like the sync path) and send it in `QueueJobs`. P2 3 and P3 1 below follow from this: the ID is chosen with the web's config, but `assign_handler` still runs in the worker with the worker's `handlers` map.
+
+</details>
+
 <details><summary>Automated Review Details</summary>
 
 Reviewed with [John's Galaxy Brain Review Factory](https://jmchilton.github.io/galaxy-brain/factory/galaxy-reviews/).
