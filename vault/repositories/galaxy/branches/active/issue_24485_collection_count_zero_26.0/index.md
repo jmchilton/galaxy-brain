@@ -9,11 +9,11 @@ upstream_base_branch: release_26.0
 
 ## Status
 
-Implemented and hardened (READY) at `8eb7779ec8a`; awaiting polish.
+Polished at `8eb7779ec8a`; ready for final review.
 
 No PR.
 
-Fork CI pending.
+Fork CI partly pending; only red (`test_trs_proxy`, external server) unrelated.
 
 ## Issue
 
@@ -24,4 +24,4 @@ Fixes [#24485](https://github.com/galaxyproject/galaxy/issues/24485). Issue reco
 - Base `release_26.0`: regression from `6178df3dcff` (min/max for test output collections, 26.0); `release_25.1` still checks `count is not None`.
 - Scope as implemented (scope eval); Codex no findings.
 
-[Implementation debrief](implementation_debrief.md) · [Scope evaluation](scope_evaluation.md) · [Test challenges](test_challenges_debrief.md) · [Codex review](codex_review.md) · [Baseline refactor](baseline_refactor.md)
+[PR description](pr_description.md) · [Titles](pr_titles.md) · [Tags](pr_tags.md) · [Polish debrief](polish_debrief.md) · [Implementation debrief](implementation_debrief.md) · [Scope evaluation](scope_evaluation.md) · [Test challenges](test_challenges_debrief.md) · [Codex review](codex_review.md) · [Baseline refactor](baseline_refactor.md)

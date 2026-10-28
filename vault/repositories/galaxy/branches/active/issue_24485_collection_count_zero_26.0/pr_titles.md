@@ -1,0 +1,4 @@
+- [26.0] Fix collection output tests ignoring count, element_count and max of 0
+- [26.0] Fix count="0" / element_count: 0 silently passing in collection output tests
+- [26.0] Restore checking of zero-size expectations for test output collections
+- [26.0] Fix verify_collection skipping count/min/max of 0

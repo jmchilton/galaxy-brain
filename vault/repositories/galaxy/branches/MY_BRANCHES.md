@@ -84,7 +84,6 @@ None yet.
 - [`vitest_real_api_calls`](active/vitest_real_api_calls/index.md) — Records real Galaxy API responses for client tests, starting with history and quota usage. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:vitest_real_api_calls?expand=1).
 - [`cwl_fixes_5`](active/cwl_fixes_5/index.md) — Collects CWL validation, typing, output-path and job-document fixes. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:cwl_fixes_5?expand=1).
 - [`staging_workflow_parameter_lists`](active/staging_workflow_parameter_lists/index.md) — Lets galaxy-tool-util staging leave parameter-input values (e.g. multi-value lists) unstaged; upstream of planemo#1744. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:staging_workflow_parameter_lists?expand=1).
-- [`issue_24485_collection_count_zero_26.0`](active/issue_24485_collection_count_zero_26.0/index.md) — Collection output tests honor `count`/`element_count`/`max` of 0 (26.0 truthiness regression) (#24485); baseline first, hardened READY. Base `release_26.0`, head `8eb7779ec8a`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.0...jmchilton:galaxy:issue_24485_collection_count_zero_26.0?expand=1).
 
 ## Galaxy branches — implemented, work left, green (`branches_implemented`)
 
@@ -101,6 +100,7 @@ None yet.
 
 ## Galaxy branches — ready for final review (`branches_ready_for_final_review`)
 
+- [`issue_24485_collection_count_zero_26.0`](active/issue_24485_collection_count_zero_26.0/index.md) — Collection output tests honor `count`/`element_count`/`max` of 0 (26.0 truthiness regression) (#24485). [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.0...jmchilton:galaxy:issue_24485_collection_count_zero_26.0?expand=1).
 - [`issue_23891_output_reference_resolver`](active/issue_23891_output_reference_resolver/index.md) — Resolves format_source/metadata_source against declared inputs at tool load; lints both; errors gated at profile 27.0 (#23891). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_23891_output_reference_resolver?expand=1).
 - [`ag_grid_36`](active/ag_grid_36/index.md) — Upgrades ag-grid to 36.2.0 with grid editing and renderer adaptations. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:ag_grid_36?expand=1).
 - [`optional_input_gating`](active/optional_input_gating/index.md) — Lets editor authors gate a step on an optional input: condition modes, drop-to-gate, validity for gated links. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:optional_input_gating?expand=1).
