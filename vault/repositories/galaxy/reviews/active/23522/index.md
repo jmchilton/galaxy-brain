@@ -1,6 +1,6 @@
 # #23522 — [26.2] Resolve the job handler on the instance that received the tool request
 
-- [View on GitHub](https://github.com/galaxyproject/galaxy/pull/23522) · [default review](initial_review.md) · [risks](risks.md) · [verified review](verified_review.md) · [review branch `pr_23522_review_0`](https://github.com/jmchilton/galaxy/tree/pr_23522_review_0) ([details](review_0_branch_details.md)) · [response](initial_review_response.md) · [response action](initial_response_action.md) · [findings checklist](verified_findings_checklist.md) · [agents](initial_review_agents.md) · [repro](repro/forwarded_handler_repro.py)
+- [View on GitHub](https://github.com/galaxyproject/galaxy/pull/23522) · [default review](initial_review.md) · [risks](risks.md) · [verified review](verified_review.md) · [review branch `pr_23522_review_0`](https://github.com/jmchilton/galaxy/tree/pr_23522_review_0) ([details](review_0_branch_details.md)) · [response](initial_review_response.md) · [response action](initial_response_action.md) · [findings checklist](verified_findings_checklist.md) · [agents](initial_review_agents.md) · [repro](repro/forwarded_handler_repro.py) · [VGP deployment research](vgp_deployment_research.md)
 
 ## Status
 
