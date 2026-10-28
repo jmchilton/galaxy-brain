@@ -3,7 +3,7 @@
 - [#24540](https://github.com/galaxyproject/galaxy/pull/24540) — initial review ready, unposted (two P2 test gaps + four P3s; all fixed on `pr_24540_review_0`; perf negligible). [notes](active/24540/index.md)
 - [#24534](https://github.com/galaxyproject/galaxy/pull/24534) — initial review ready, unposted (four P2s + three P3s; fixed on `pr_24534_review_0`). [notes](active/24534/index.md)
 - [#24535](https://github.com/galaxyproject/galaxy/pull/24535) — initial review ready, unposted (two P2s + two P3s; three fixed on `pr_24535_review_0`; P2 1 = int half should retarget `release_25.1`). [notes](active/24535/index.md)
-- [#24525](https://github.com/galaxyproject/galaxy/pull/24525) — initial review ready, unposted (two P2s + one P3; P2s fixed on `pr_24525_review_0`). [notes](active/24525/index.md)
+- [#24525](https://github.com/galaxyproject/galaxy/pull/24525) — approved 2026-10-28 with review round 0 (two P2s + one P3; P2s fixed on `pr_24525_review_0`); awaiting merge. [notes](active/24525/index.md)
 - [#24517](https://github.com/galaxyproject/galaxy/pull/24517) — initial review ready, unposted (two P2s + four P3s; five fixed on `pr_24517_review_0`). [notes](active/24517/index.md)
 - [#24513](https://github.com/galaxyproject/galaxy/pull/24513) — initial review ready, unposted (one P2 + one P3 test gaps; fixed on `pr_24513_review_0`). [notes](active/24513/index.md)
 - [#24484](https://github.com/galaxyproject/galaxy/pull/24484) — initial review ready, unposted (six P2s + four P3s; nine fixed on `pr_24484_review_0`). [notes](active/24484/index.md)

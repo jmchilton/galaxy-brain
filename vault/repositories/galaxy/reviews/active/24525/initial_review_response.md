@@ -1,4 +1,4 @@
-(space for John's free style comments - just keep empty)
+Hey Sam - can you have your agent pull these tweaks in? I would just drop the vitest for the E2E test but I understand if you want to keep it. -John
 
 <details><summary>Automated Review Details</summary>
 

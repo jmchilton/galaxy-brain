@@ -2,7 +2,7 @@
 
 - PR: https://github.com/galaxyproject/galaxy/pull/24525 (guerler, base `release_26.2`)
 - Worktree: `~/projects/worktrees/galaxy/pr/24525`
-- Latest review: round 0 at `e37e3605` (2026-10-28) — ready, **unposted**.
+- Latest review: round 0 at `e37e3605` (2026-10-28) — **delivered as approval** 2026-10-28.
   - [initial_review_response.md](initial_review_response.md) — response to post
   - [initial_response_action.md](initial_response_action.md) · [verified_findings_checklist.md](verified_findings_checklist.md)
   - [verified_review.md](verified_review.md): P2 1 URL segment from display label; P2 2 no page-sharing E2E; P3 1 heavy vitest
