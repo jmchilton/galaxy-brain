@@ -1,9 +1,9 @@
 ## Review New PRs
 
 when: daily
-what: newly opened `galaxyproject/galaxy` PRs; pick at most 5 worth reviewing per "Choosing new reviews" in ./AGENTS.md, skipping any already tracked (active or archived records).
+what: newly opened `galaxyproject/galaxy` PRs; pick at most 5 worth reviewing per "Choosing new reviews" in ./AGENTS.md, skipping any already tracked (active or archived records) and any with an outstanding review request to someone other than John.
 
-For each PR number `n`, `description` is a one-line summary from the PR text plus why it was picked. `status` is `recommended` for picks that fit the preferences in ./AGENTS.md (out of draft, no recent review request to someone else), otherwise `idea`.
+For each PR number `n`, `description` is a one-line summary from the PR text plus why it was picked. `status` is `recommended` for picks that fit the preferences in ./AGENTS.md (e.g. out of draft), otherwise `idea`.
 
 Suggest:
 
