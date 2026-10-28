@@ -1,3 +1,7 @@
+---
+upstream_base_branch: release_26.2
+---
+
 # issue_22598_login_prompt_26.2
 
 - [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:issue_22598_login_prompt_26.2?expand=1)
@@ -5,15 +9,15 @@
 
 ## Status
 
-`branches_implemented`: hardening stopped at scope evaluation (2026-10-27), which recommends a modest expansion; awaiting John's call. Base `release_26.2` (`1ff2ce4cc51`), head `64f0b66df55`. Worktree: `~/projects/worktrees/galaxy/branch/issue_22598_login_prompt_26.2`.
+`branches_ready_for_final_review`: polished 2026-10-28 with scope B (John’s choice). Base `release_26.2` (`0902830bfa6`), head `3a3d5771d30`. Worktree: `~/projects/worktrees/galaxy/branch/issue_22598_login_prompt_26.2`.
 
 No PR yet.
 
-Fork CI not yet run on `64f0b66df55`.
+Fork CI started on `3a3d5771d30`; not yet checked.
 
 ## Hardening
 
-Done: [test challenges](test_challenges_debrief.md), [E2E polish](polish_e2e_tests_debrief.md), [Codex review](codex_review.md), [thermo-nuclear review](thermo_nuclear_review.md), [baseline refactor](baseline_refactor.md), [scope evaluation](scope_evaluation.md). Remaining: check branch, screenshots.
+Done: [test challenges](test_challenges_debrief.md), [E2E polish](polish_e2e_tests_debrief.md), [Codex review](codex_review.md), [thermo-nuclear review](thermo_nuclear_review.md), [baseline refactor](baseline_refactor.md), [scope evaluation](scope_evaluation.md). Polish: [debrief](polish_debrief.md), [checklist](pr_checklist.md).
 
 ## About
 
@@ -31,4 +35,3 @@ Shed frontend: vitest 185/185, plus vue-tsc, prettier and eslint (0 errors). Eve
 
 - The merge forward to `dev` conflicts with #24167's `RepositoryExplore.vue`. Dev should keep #24167's in-app Contents and logged-in-only Changelog. The login return path in `LoginForm`, `LoginPage`, `auth.store` and `routes` could carry forward, so that dev's anonymous Changelog becomes a login prompt too.
 - `PaginatedRepositoriesGrid.test.ts` gets the same pinia and `RouterLinkStub` setup as #24167, to keep that conflict trivial.
-- The auth store's `returnUrl` state is unused and was left untouched.
