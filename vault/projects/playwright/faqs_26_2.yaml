@@ -2465,25 +2465,61 @@
   gtn_commit: 45d4932d33
   used_by: []
 - faq: faqs/galaxy-de/analysis_results_may_vary.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
+  used_by: [topics/introduction/tutorials/galaxy-intro-peaks2genes/tutorial_DE.md, topics/transcriptomics/tutorials/ref-based/tutorial_DE.md]
 - faq: faqs/galaxy-de/collections_build_list_paired.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
+  used_by: [topics/sequence-analysis/tutorials/mapping/tutorial_DE.md, topics/transcriptomics/tutorials/ref-based/tutorial_DE.md]
+  faq_findings: [galaxy-de-translation-drift]
 - faq: faqs/galaxy-de/collections_build_list.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
+  used_by: [topics/transcriptomics/tutorials/ref-based/tutorial_DE.md]
+  faq_findings: [galaxy-de-translation-drift]
 - faq: faqs/galaxy-de/datasets_add_tag.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
+  used_by: [topics/introduction/tutorials/galaxy-intro-peaks2genes/tutorial_DE.md]
 - faq: faqs/galaxy-de/datasets_change_datatype.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
+  used_by: [topics/introduction/tutorials/galaxy-intro-peaks2genes/tutorial_DE.md, topics/transcriptomics/tutorials/ref-based/tutorial_DE.md]
+  faq_findings: [galaxy-de-translation-drift]
 - faq: faqs/galaxy-de/datasets_create_new_file.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
+  used_by: [topics/transcriptomics/tutorials/ref-based/tutorial_DE.md]
+  faq_findings: [upload-tool-panel-button]
 - faq: faqs/galaxy-de/datasets_import_from_data_library.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
+  used_by: [topics/data-science/tutorials/online-resources-gene/tutorial_DE.md, topics/introduction/tutorials/galaxy-intro-peaks2genes/tutorial_DE.md, topics/sequence-analysis/tutorials/mapping/tutorial_DE.md, topics/sequence-analysis/tutorials/quality-control/tutorial_DE.md, topics/transcriptomics/tutorials/ref-based/tutorial_DE.md]
 - faq: faqs/galaxy-de/datasets_import_via_link.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
+  used_by: [topics/data-science/tutorials/online-resources-gene/tutorial_DE.md, topics/introduction/tutorials/galaxy-intro-peaks2genes/tutorial_DE.md, topics/sequence-analysis/tutorials/mapping/tutorial_DE.md, topics/sequence-analysis/tutorials/quality-control/tutorial_DE.md, topics/transcriptomics/tutorials/ref-based/tutorial_DE.md]
+  faq_findings: [galaxy-de-translation-drift, upload-tool-panel-button]
 - faq: faqs/galaxy-de/datasets_rename.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
+  used_by: [topics/introduction/tutorials/galaxy-intro-peaks2genes/tutorial_DE.md, topics/sequence-analysis/tutorials/mapping/tutorial_DE.md]
 - faq: faqs/galaxy-de/features_scratchbook.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
+  used_by: [topics/sequence-analysis/tutorials/quality-control/tutorial_DE.md]
+  faq_findings: [galaxy-de-translation-drift]
 - faq: faqs/galaxy-de/histories_copy_dataset.md
   status: pending
 - faq: faqs/galaxy-de/histories_create_new.md

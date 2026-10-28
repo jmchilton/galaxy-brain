@@ -319,7 +319,7 @@
   fix: Say **Auto-detect** on the **Attributes** tab; for a wrong datatype, point to the **Datatypes** tab.
 
 - label: upload-tool-panel-button
-  faqs: [faqs/galaxy/datasets_create_new_file.md, faqs/galaxy/datasets_import_from_remote_files.md, faqs/galaxy/datasets_upload.md, topics/assembly/tutorials/vgp_genome_assembly/faqs/dataset_upload_fastqsanger_via_urls.md]
+  faqs: [faqs/galaxy/datasets_create_new_file.md, faqs/galaxy/datasets_import_from_remote_files.md, faqs/galaxy/datasets_upload.md, topics/assembly/tutorials/vgp_genome_assembly/faqs/dataset_upload_fastqsanger_via_urls.md, faqs/galaxy-de/datasets_create_new_file.md, faqs/galaxy-de/datasets_import_via_link.md]
   target: main
   summary: There is no **Upload Data** button at the top of the tool panel; upload is the Activity Bar's **Upload**.
   fix: Say "Click {% icon galaxy-upload %} **Upload** in the Activity Bar".
@@ -1074,3 +1074,9 @@
   target: main
   summary: 'GenAP link redirects to a "genap_end_of_life" page; www.gvl.org.au and CloudLaunch (launch.usegalaxy.org) do not respond; Docker-image paragraph is dated. Same issues as instructors-server-links-stale.'
   fix: 'Drop GenAP, GVL and CloudLaunch (or replace with current options); update or drop the Docker paragraph.'
+
+- label: galaxy-de-translation-drift
+  faqs: [faqs/galaxy-de/collections_build_list_paired.md, faqs/galaxy-de/collections_build_list.md, faqs/galaxy-de/datasets_change_datatype.md, faqs/galaxy-de/datasets_import_via_link.md, faqs/galaxy-de/features_scratchbook.md]
+  target: main
+  summary: 'German FAQs lag their English sources: build_list_paired says choose "Liste der Datensatzpaare erstellen" and build_list says "Build Dataset List" where EN (and Galaxy) now say **Advanced Build List**; build_list leaves "You are in collection building wizard…" untranslated and renders "to {{name}}" as "bis"; change_datatype has broken bold/italic ("*registerkarte *Datentypen**"); import_via_link still says upload is at the top of the tool bar and lacks the EN GIF; scratchbook adds a step 3 "click outside the file to exit the Window Manager" that EN does not have and that contradicts step 6. Galaxy''s de locale leaves most of these labels in English, so German bold labels do not match the screen either.'
+  fix: 'Re-sync each DE FAQ with its EN source (Advanced Build List, Activity Bar Upload, drop the extra scratchbook step), fix the markdown, and keep Galaxy UI labels in English (optionally with a German gloss).'
