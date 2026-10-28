@@ -1,0 +1,4 @@
+Branch `pr_24543_review_0` is based on the PR head `41b869bc0b2` and is not pushed yet. It replaces the PR's stubbed unit test with an API test: four real browser sessions log in as the same user, and the test checks that a plain sign-out and a `logout_all=false` sign-out leave the other sessions logged in, while `logout_all=true` ends them. The test fails at the `"false"` step when the server fix is reverted. The branch also removes a `click` listener on the Masthead user dropdown that never fires.
+
+- `0f1523486a0` Replace stubbed logout unit test with multi-session API test: adds `test_logout_ends_other_sessions_only_with_logout_all`, factors `_browser_csrf_token` and `_logout_browser_session` into `lib/galaxy_test/base/api.py`, and deletes `test/unit/webapps/test_user_logout.py`.
+- `5c3f65240bf` Drop dead click listener on Masthead user dropdown: removes `@click="userLogout"`, which `MastheadDropdown` never emits.
