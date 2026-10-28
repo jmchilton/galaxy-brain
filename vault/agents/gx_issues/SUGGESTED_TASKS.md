@@ -1,9 +1,9 @@
 ## Process Issues
 
 when: whenever
-what: review ./to_file/ for issues without debrief and recommendation, for each of those recommend a task for the format
+what: review records in `vault/repositories/galaxy/issues_incubator/incubating/` without a debrief and recommendation, for each of those recommend a task for the format
 
-Prepare `path` (the path to the issue) and `description` a one paragraph summary of the issue.
+Prepare `path` (the record directory), `short_name` (its last path segment) and `description` a one paragraph summary of the issue. Skip records that already have an open task with this `record`.
 
 Suggest:
 
@@ -11,6 +11,7 @@ Suggest:
 prompt: Prepare to file issue at {path} with ./PREPARE_TO_FILE.md
 agent_dir: gx_issues
 profile: Opus (low)
+record: galaxy/issues_incubator/{short_name}
 description: ❯ {description}
 status: recommended
 ```
@@ -18,9 +19,9 @@ status: recommended
 ## File Issues
 
 when: daily
-what: review ./to_file/ for issues that have a suggestion of filing them, for each of those recommend a task of
+what: review records in `vault/repositories/galaxy/issues_incubator/incubating/` whose recommendation is to post them, for each of those recommend a task of
 
-Prepare `path` (the path to the issue) and `description` a one paragraph summary of the issue.
+Prepare `path` (the record directory), `short_name` (its last path segment) and `description` a one paragraph summary of the issue. Skip records that already have an open task with this `record`.
 
 Suggest:
 
@@ -28,6 +29,7 @@ Suggest:
 prompt: File a Galaxy issue {path} according to ./AGENTS.md
 agent_dir: gx_issues
 profile: Sonnet (medium)
+record: galaxy/issues_incubator/{short_name}
 description: 📤 {description}
 status: recommended
 ```

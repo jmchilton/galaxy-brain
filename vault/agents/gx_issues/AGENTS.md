@@ -20,4 +20,4 @@ with a cross reference maintained between branches developed here and the issues
 tracked in `ISSUES.md`.
 ## To File
 
-Issues dropped into to_file/ need to make their way to Github and be deleted. When the user asks to prepare an issue for filing, follow [`PREPARE_TO_FILE.md`](PREPARE_TO_FILE.md).
+Issue drafts queued in [`issues_incubator/incubating/`](../../repositories/galaxy/issues_incubator/incubating/) need to make their way to Github, internal tracking or rejection. When the user asks to prepare an issue for filing, follow [`PREPARE_TO_FILE.md`](PREPARE_TO_FILE.md).
