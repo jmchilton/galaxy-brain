@@ -1,0 +1,3 @@
+- `kind/bug` — s3/cloud URLs lived 24 h vs documented ~1 h (#24550).
+- `area/objectstore` — all changes in `lib/galaxy/objectstore` (labeler applies it too).
+- `area/security` — bearer-link lifetime; revoking access doesn't revoke URLs.

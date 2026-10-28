@@ -1,0 +1,4 @@
+- [26.2] Make direct download URL lifetime configurable, default 1 hour
+- [26.2] Add `direct_download_expires_in`; s3/cloud direct downloads no longer last 24 h
+- [26.2] Fix 24 h direct-download URLs on s3/cloud object stores
+- [26.2] Per-object-store lifetime for presigned direct-download URLs

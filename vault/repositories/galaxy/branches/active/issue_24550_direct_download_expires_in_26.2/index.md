@@ -9,11 +9,11 @@ upstream_base_branch: release_26.2
 
 ## Status
 
-Implemented and hardened (READY) at `c324c6103c9`; needs rebase onto `release_26.2`.
+Polished at `87e98db68b9` (rebased on `release_26.2`); ready for final review.
 
 No PR yet.
 
-No CI yet.
+Fork CI on `87e98db68b9` pending.
 
 ## Issue
 
@@ -26,4 +26,4 @@ Fixes [#24550](https://github.com/galaxyproject/galaxy/issues/24550). Issue reco
 - Not exposed in `ConcreteObjectStoreModel` (no API schema change on release branch).
 - Re-scoped once (single XML parse helper); alt `_alt_original_scope`. Declined 7-day cap (S3 SigV4 only).
 
-[Implementation debrief](implementation_debrief.md) · [Initial debrief](initial_implementation_debrief.md) · [Re-scope debrief](implementation_rescope_debrief.md) · [Scope evaluation](scope_evaluation.md) · [Test challenges](test_challenges_debrief.md) · [Codex review](codex_review.md) · [Thermo-nuclear review](thermo_nuclear_review.md) · [Baseline refactor](baseline_refactor.md)
+[Implementation debrief](implementation_debrief.md) · [Initial debrief](initial_implementation_debrief.md) · [Re-scope debrief](implementation_rescope_debrief.md) · [Scope evaluation](scope_evaluation.md) · [Test challenges](test_challenges_debrief.md) · [Codex review](codex_review.md) · [Thermo-nuclear review](thermo_nuclear_review.md) · [Baseline refactor](baseline_refactor.md) · [Polish debrief](polish_debrief.md) · [PR description](pr_description.md) · [PR titles](pr_titles.md) · [PR tags](pr_tags.md) · [PR checklist](pr_checklist.md)
