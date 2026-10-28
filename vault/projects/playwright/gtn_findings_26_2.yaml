@@ -1068,3 +1068,9 @@
   target: main
   summary: 'Say you need a GitHub or Twitter account to post in Gitter; Gitter now runs on Matrix (login via Matrix/GitHub/etc., no Twitter), and other GTN FAQs already point at the Matrix room.'
   fix: 'Point at the Matrix room and drop the account sentence (or say "a Matrix account").'
+
+- label: learners-server-links-stale
+  faqs: [faqs/gtn/learners_running_tutorials.md]
+  target: main
+  summary: 'GenAP link redirects to a "genap_end_of_life" page; www.gvl.org.au and CloudLaunch (launch.usegalaxy.org) do not respond; Docker-image paragraph is dated. Same issues as instructors-server-links-stale.'
+  fix: 'Drop GenAP, GVL and CloudLaunch (or replace with current options); update or drop the Docker paragraph.'
