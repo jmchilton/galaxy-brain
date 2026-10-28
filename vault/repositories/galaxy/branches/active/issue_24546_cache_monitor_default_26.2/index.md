@@ -17,7 +17,7 @@ CI not run.
 
 ## Issue
 
-Fixes [#24546](https://github.com/galaxyproject/galaxy/issues/24546). Issue record: `vault/repositories/galaxy/issues/queued/24546/`.
+Fixes [#24546](https://github.com/galaxyproject/galaxy/issues/24546). Issue record: `vault/repositories/galaxy/issues/queued/24546/`. Workhorse record [comment](https://github.com/galaxyproject/galaxy/issues/24546#issuecomment-6480206493).
 
 ## Decisions
 
