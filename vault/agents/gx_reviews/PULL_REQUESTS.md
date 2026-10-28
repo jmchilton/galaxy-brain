@@ -1,4 +1,5 @@
 PRs To Review:
+- [#24517](https://github.com/galaxyproject/galaxy/pull/24517) — initial review ready, unposted (two P2s + four P3s; five fixed on `pr_24517_review_0`). [notes](../../repositories/galaxy/reviews/active/24517/index.md)
 - [#24513](https://github.com/galaxyproject/galaxy/pull/24513) — initial review ready, unposted (one P2 + one P3 test gaps; fixed on `pr_24513_review_0`). [notes](../../repositories/galaxy/reviews/active/24513/index.md)
 - [#24484](https://github.com/galaxyproject/galaxy/pull/24484) — initial review ready, unposted (six P2s + four P3s; nine fixed on `pr_24484_review_0`). [notes](../../repositories/galaxy/reviews/active/24484/index.md)
 - [#23522](https://github.com/galaxyproject/galaxy/pull/23522) — initial review ready, unposted (three P2s + one P3; two fixed on `pr_23522_review_0`). [notes](../../repositories/galaxy/reviews/active/23522/index.md)
