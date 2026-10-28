@@ -26,7 +26,7 @@ Each fix below was reproduced as a failing API or unit test first.
 | The default invocation report's `invocation_inputs()` / `invocation_outputs()` sections export to PDF as raw directives, for every workflow | They render the invocation's datasets |
 | Hid-path extraction (`/api/histories/{id}/extract_workflow`, bioblend's `extract_workflow_from_history`) wires a tool input only to whichever copy of a dataset Galaxy summarized last; sending another copy's hid leaves the input unconnected | Copies of one original are one input, wired whichever hid is sent |
 
-***No stored workflow changes behavior; this changes what extraction builds and how reports export.*** ***The bugs came from reviewing #22860 after merge, not from user reports: 26.2 hasn't shipped, so nobody has hit them yet.*** ***Most of the diff is tests: the non-test change is +984/−773.***
+***No stored workflow changes behavior; this changes what extraction builds and how reports export.*** ***The bugs came from reviewing #22860 after merge, not from user reports: 26.2 hasn't shipped, so nobody has hit them yet.*** ***Most of the diff is tests: the non-test change is +929/−711.***
 
 ***API change, safe only before 26.2.0:*** `GET /api/pages/{id}/workflow_extraction_summary` becomes `GET /api/pages/{id}/extraction_summary`, matching `/api/histories/{id}/extraction_summary` from 26.1. The unused `report_title` payload field is dropped; the report title is the workflow name. Both are new in 26.2, so ***this needs to merge before 26.2.0 or it becomes a breaking change.***
 
@@ -51,7 +51,7 @@ Each fix below was reproduced as a failing API or unit test first.
 - **Validation.** Names not parallel to their ids or hids get a 400 instead of an `IndexError`. A user-defined tool the caller can't access shows `CUSTOM_TOOL_INACCESSIBLE` on its card instead of a 500.
 - **Shared code.** `PageManager.get_accessible_notebook`; one `ContentKind`/`ContentRef` vocabulary in `galaxy.schema.workflows` (OpenAPI unchanged); public `get_original_hda`/`get_original_hdca`, `original_content_ref`, `resolve_content`, `walk_directives`.
 - **Client.** Summary rows carry `referenced_by_report`, which locks the star. `from_page` is a route prop. Extract Workflow ignores repeat clicks while the notebook saves. A copied collection's input card lists its in-history copies. The GCard clear-title button is icon-only, like rename.
-- **Tests.** Three leading "Baseline tests" commits pin behavior that already holds on `release_26.2` (403s, rollback on a failed rewrite, converted-input wiring). A Selenium/Playwright round trip goes notebook → extract → invoke on fresh data → invocation report. Notebook chat selectors that a rebase had brought back into `navigation.yml` are removed again.
+- **Tests.** Baseline tests pinning behavior that already held on `release_26.2` landed first in #24368. A Selenium/Playwright round trip goes notebook → extract → invoke on fresh data → invocation report. Notebook chat selectors that a rebase had brought back into `navigation.yml` are removed again.
 
 </details>
 
@@ -78,7 +78,7 @@ The seeding boundary rule in `workflow_extraction_summary.py` decides which fore
 
 ## Context
 
-Builds on 🔀 #22860. Alternative kept on 🌿[`extract_next_followups_alt_original_scope`](https://github.com/jmchilton/galaxy/tree/extract_next_followups_alt_original_scope): the branch before its second scope pass. It lacks the 400 for names not parallel to ids, the single copies-to-one-input rule, quoted labels in expanded invocation sections, complete keys for the notebook history boundary, and everything after the retarget to `release_26.2`; it stays based on `dev`.
+Builds on 🔀 #22860 and 🔀 #24368 (baseline tests and behavior-neutral refactors, merged first).
 
 ## Agentic Checks
 
@@ -108,7 +108,7 @@ Builds on 🔀 #22860. Alternative kept on 🌿[`extract_next_followups_alt_orig
 
 <details><summary>Every new test fails without its change at a behavior assertion; one that already passed on 26.2 moved to a baseline commit.</summary>
 
-- `test_hid_extract_connects_implicitly_converted_input` passes on `release_26.2`, so it's the third "Baseline tests" commit.
+- `test_hid_extract_connects_implicitly_converted_input` passes on `release_26.2`, so it moved to the baseline PR #24368.
 - Earlier passes replaced call-order unit tests with an API test where the rewrite fails and no workflow is created, and turned the `*_rejected` quote tests into acceptance tests asserting the stored label.
 - Shared helpers for Grep1 conversion setup and single-input wiring; populator downloads instead of raw `GET`s. Nothing dropped or weakened.
 
@@ -126,7 +126,7 @@ Builds on 🔀 #22860. Alternative kept on 🌿[`extract_next_followups_alt_orig
 
 ### ✅ [Refactoring of base branch](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/GX_PROCESS_REFACTOR_BASELINE.md)
 
-<details><summary>Four behavior-neutral refactors sit right after the baseline tests.</summary>
+<details><summary>Four behavior-neutral refactors landed with the baseline tests in #24368.</summary>
 
 - `PageManager.get_accessible_notebook`, public `get_original_hda`/`get_original_hdca`/`skip_output_assoc_name`, public `walk_directives`, `DatasetPopulator.run_cat1`.
 - The `ContentRef` vocabulary and `HistoryBoundary` were considered and left in place: both carry behavior or would force reworking feature commits.
@@ -139,7 +139,7 @@ Builds on 🔀 #22860. Alternative kept on 🌿[`extract_next_followups_alt_orig
 - [x] What does the user see when it fails? A specific 400 in the form's alert (non-parallel names, differently named copies, label too long, non-notebook page). Report notes stay in a toast until dismissed, and a failed report rewrite creates no workflow.
 - [x] Is the diff free of unrelated or stale generated changes? Yes!
 - [x] Are unit tests not just testing the literal implementation? Yes. They assert rewritten report lines and exact warnings. One `toolbox.calls` assertion is the only direct way to see each map walked once.
-- [x] Are baseline tests in their own leading commits (if applicable)? Yes, the first three commits.
+- [x] Are baseline tests in their own leading commits (if applicable)? Yes, merged separately in #24368.
 - [x] Are the comments free of excess archeology? Yes.
 - [x] If comments contain some description of previous implementation, bugs, etc.. - what purpose do they serve? N/A
 - [x] Which existing workflows change behavior (if any)? None stored. Extraction changes: quoted names are accepted again, copies become one input on the hid path, and default-report invocation sections render in PDF.
