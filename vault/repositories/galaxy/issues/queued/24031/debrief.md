@@ -1,6 +1,6 @@
 # Debrief: object_store_badge_tooltip_literal_html
 
-Prepared 2026-10-09. Source: `vault/projects/just_jesting_around/BUGS_FOUND.md` row 1 (Play lane, ObjectStoreBadges). The shared ledger was not moved; if this is posted, save that row as `issue_draft.md`. Proposal: `proposed_object_store_badge_tooltip_literal_html.md`. Sibling row 2 was rejected: `reject_use_config_fetch_once_guard.md`.
+Prepared 2026-10-09. Source: `vault/projects/just_jesting_around/BUGS_FOUND.md` row 1 (Play lane, ObjectStoreBadges). The shared ledger was not moved; if this is posted, save that row as `raw.md`. Proposal: `proposed_object_store_badge_tooltip_literal_html.md`. Sibling row 2 was rejected: `reject_use_config_fetch_once_guard.md`.
 
 ## Research
 

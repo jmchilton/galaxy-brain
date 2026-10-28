@@ -1,6 +1,6 @@
 # Preparation debrief: collection input type validation
 
-Prepared 2026-10-26 from [the original draft](issue_draft.md). The [proposed issue](proposal.md) was filed as [galaxy#24474](https://github.com/galaxyproject/galaxy/issues/24474) on 2026-10-26 after John approved posting.
+Prepared 2026-10-26 from [the original draft](raw.md). The [proposed issue](proposal.md) was filed as [galaxy#24474](https://github.com/galaxyproject/galaxy/issues/24474) on 2026-10-26 after John approved posting.
 
 ## Recommendation
 

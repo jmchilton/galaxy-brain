@@ -2,7 +2,7 @@
 
 [Issue](https://github.com/galaxyproject/galaxy/issues/24200)
 
-Filed 2026-10-16 from [proposal](proposal.md) ([source draft](issue_draft.md), [debrief](debrief.md)). Assigned to jmchilton.
+Filed 2026-10-16 from [proposal](proposal.md) ([source draft](raw.md), [debrief](debrief.md)). Assigned to jmchilton.
 
 `InputParameterModule.save_to_step` stores `_parse_state_into_dict()`, so import drops `negate`, all but the last range, range `message`s and exclusive bounds. Negated validators are inverted. Separately, `min > max` imports and later asserts in `InRangeValidator`. Format2 side: gxformat2#265 (merged, unreleased; adds `negate`) and gxformat2#266. Related: #24199 (run-form bounds, same `get_runtime_inputs`).
 

@@ -1,7 +1,7 @@
 # #24476 — ParsedTool output models drop `<filter>`
 
 - Issue: https://github.com/galaxyproject/galaxy/issues/24476 (filed 2026-10-26, assigned jmchilton)
-- [issue_draft.md](issue_draft.md) — original to_file draft
+- [raw.md](raw.md) — original to_file draft
 - [proposal.md](proposal.md) — posted text
 - [debrief.md](debrief.md) — verification and rewrite notes
 

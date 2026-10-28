@@ -2,9 +2,9 @@
 
 Galaxy conventions for files in `repositories/galaxy/issues/<status>/<number>/`. Sections here replace the [default Issue File Docs](../../_defaults/issues/FILE_DOCS.md) with the same pattern; other files fall through to them.
 
-Issues we filed carry the three files from [PREPARE_TO_FILE](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/gx_issues/PREPARE_TO_FILE.md), moved here from `to_file/` once posted.
+Issues we filed carry the three files from [PREPARE_TO_FILE](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/gx_issues/PREPARE_TO_FILE.md), moved here from their `issues_incubator/` record once posted.
 
-## issue_draft.md
+## raw.md
 
 The source idea or file the issue was prepared from.
 

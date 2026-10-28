@@ -1,6 +1,6 @@
 # Preparation debrief: mapped collection outputs over sample sheets
 
-Prepared 2026-10-26 from [the original draft](issue_draft.md). See [the proposal](proposal.md).
+Prepared 2026-10-26 from [the original draft](raw.md). See [the proposal](proposal.md).
 
 ## Existing work and duplicate check
 

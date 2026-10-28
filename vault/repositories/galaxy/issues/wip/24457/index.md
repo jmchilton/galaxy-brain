@@ -2,7 +2,7 @@
 
 https://github.com/galaxyproject/galaxy/issues/24457 (assigned jmchilton, filed 2026-10-25)
 
-- [issue_draft.md](issue_draft.md) — source note
+- [raw.md](raw.md) — source note
 - [proposal.md](proposal.md) — posted text
 - [debrief.md](debrief.md) — research + review
 

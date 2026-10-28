@@ -1,6 +1,6 @@
 # galaxy#23978 — Framework `parameters/` test tools use `ext=` on data inputs
 
-[Issue](https://github.com/galaxyproject/galaxy/issues/23978) · [issue draft](issue_draft.md) · [proposal](proposal.md) · [debrief](debrief.md)
+[Issue](https://github.com/galaxyproject/galaxy/issues/23978) · [issue draft](raw.md) · [proposal](proposal.md) · [debrief](debrief.md)
 
 Filed 2026-10-08 by Claude for John; assigned jmchilton. Came out of branch `issue_18642_framework_tool_coverage` (#18642).
 

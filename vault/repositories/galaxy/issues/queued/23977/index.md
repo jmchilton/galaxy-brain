@@ -1,6 +1,6 @@
 # galaxy#23977 — Client page loads fan out enough /api/ requests to trip rate limits
 
-[Issue](https://github.com/galaxyproject/galaxy/issues/23977) · [issue draft](issue_draft.md) · [proposal](proposal.md) · [debrief](debrief.md)
+[Issue](https://github.com/galaxyproject/galaxy/issues/23977) · [issue draft](raw.md) · [proposal](proposal.md) · [debrief](debrief.md)
 
 Filed 2026-10-08 by Claude for John; assigned jmchilton. Came out of the playwright/gxui 429 measurements (`vault/projects/playwright/GALAXY_UI_SKILL_DESIGN.md`).
 

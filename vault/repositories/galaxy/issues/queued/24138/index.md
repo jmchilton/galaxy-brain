@@ -1,6 +1,6 @@
 # galaxy#24138 — Invocation Steps tab: step state headers stop updating while the invocation runs
 
-[Issue](https://github.com/galaxyproject/galaxy/issues/24138) · [issue draft](issue_draft.md) · [proposal](proposal.md) · [debrief](debrief.md)
+[Issue](https://github.com/galaxyproject/galaxy/issues/24138) · [issue draft](raw.md) · [proposal](proposal.md) · [debrief](debrief.md)
 
 Filed 2026-10-14 by Claude for John; assigned jmchilton. Came out of re-verifying the `Component - Invocation Graph View` vault note against dev `c63ffc2ccae`.
 

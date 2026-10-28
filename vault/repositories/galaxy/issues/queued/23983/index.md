@@ -1,6 +1,6 @@
 # galaxy#23983 — CI: "TEMP" SSE/notification overrides never reverted; two are dead config keys
 
-[Issue](https://github.com/galaxyproject/galaxy/issues/23983) · [issue draft](issue_draft.md) · [proposal](proposal.md) · [debrief](debrief.md)
+[Issue](https://github.com/galaxyproject/galaxy/issues/23983) · [issue draft](raw.md) · [proposal](proposal.md) · [debrief](debrief.md)
 
 Filed 2026-10-08 by Claude for John; assigned jmchilton. Found while removing `selenium.yaml` in John's #23976.
 

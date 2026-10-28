@@ -1,6 +1,6 @@
 # galaxy#23900 — Workflow rename leaves a literal `#{...}` in the output name when an empty placeholder sits right before another
 
-[Issue](https://github.com/galaxyproject/galaxy/issues/23900) · [issue draft](issue_draft.md) · [proposal](proposal.md) · [debrief](debrief.md)
+[Issue](https://github.com/galaxyproject/galaxy/issues/23900) · [issue draft](raw.md) · [proposal](proposal.md) · [debrief](debrief.md)
 
 Closed on GitHub as completed 2026-10-07 (sync 2026-10-26).
 

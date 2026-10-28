@@ -1,7 +1,7 @@
 # #24481 — Mapping collection outputs over sample sheets precreates invalid types
 
 - Issue: https://github.com/galaxyproject/galaxy/issues/24481 (filed 2026-10-26, assigned jmchilton)
-- [issue_draft.md](issue_draft.md) — original draft
+- [raw.md](raw.md) — original draft
 - [proposal.md](proposal.md) — posted proposal
 - [debrief.md](debrief.md) — reproduction and review notes
 

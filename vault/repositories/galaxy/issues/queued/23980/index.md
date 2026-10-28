@@ -1,6 +1,6 @@
 # galaxy#23980 — Workflow text params with static allowed values ignore their default in the run form
 
-[Issue](https://github.com/galaxyproject/galaxy/issues/23980) · [issue draft](issue_draft.md) · [proposal](proposal.md) · [debrief](debrief.md)
+[Issue](https://github.com/galaxyproject/galaxy/issues/23980) · [issue draft](raw.md) · [proposal](proposal.md) · [debrief](debrief.md)
 
 Filed 2026-10-08 by Claude for John; assigned jmchilton. Came out of branch `issue_21015_multiple_text_param` (#21015).
 

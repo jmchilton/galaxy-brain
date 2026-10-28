@@ -1,6 +1,6 @@
 # galaxy#23979 — Playwright E2E backend with default headless setting needs chromedriver/geckodriver
 
-[Issue](https://github.com/galaxyproject/galaxy/issues/23979) · [issue draft](issue_draft.md) · [proposal](proposal.md) · [debrief](debrief.md)
+[Issue](https://github.com/galaxyproject/galaxy/issues/23979) · [issue draft](raw.md) · [proposal](proposal.md) · [debrief](debrief.md)
 
 Closed on GitHub as completed 2026-10-09 (sync 2026-10-26).
 

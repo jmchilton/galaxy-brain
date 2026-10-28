@@ -1,6 +1,6 @@
 # galaxy#24311 — New upload panel no longer converts line endings by default (26.2 regression)
 
-[Issue](https://github.com/galaxyproject/galaxy/issues/24311) · [proposal](proposal.md) · [debrief](debrief.md) · [source draft](issue_draft.md)
+[Issue](https://github.com/galaxyproject/galaxy/issues/24311) · [proposal](proposal.md) · [debrief](debrief.md) · [source draft](raw.md)
 
 Closed on GitHub as completed 2026-10-23 (sync 2026-10-26).
 

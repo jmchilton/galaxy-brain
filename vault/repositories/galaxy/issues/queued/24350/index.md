@@ -2,7 +2,7 @@
 
 [Issue](https://github.com/galaxyproject/galaxy/issues/24350) · assigned jmchilton · from galaxyproject/foundry#657
 
-- [issue_draft.md](issue_draft.md) — source note
+- [raw.md](raw.md) — source note
 - [proposal.md](proposal.md) — posted text
 - [debrief.md](debrief.md) — research, review round, leftovers
 

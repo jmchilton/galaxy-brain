@@ -1,6 +1,6 @@
 # galaxy#24308 — `type_source` output collections can get a different type than the input the tool received
 
-[Issue](https://github.com/galaxyproject/galaxy/issues/24308) · [proposal](proposal.md) · [debrief](debrief.md) · [source draft](issue_draft.md)
+[Issue](https://github.com/galaxyproject/galaxy/issues/24308) · [proposal](proposal.md) · [debrief](debrief.md) · [source draft](raw.md)
 
 Filed 2026-10-20, assigned to jmchilton. Came out of #24303 research (branch `issue_24303_collection_type_prefix_26.2`, which already fixes the subworkflow-export path).
 

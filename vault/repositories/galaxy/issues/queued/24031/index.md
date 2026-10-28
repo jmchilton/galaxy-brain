@@ -2,7 +2,7 @@
 
 https://github.com/galaxyproject/galaxy/issues/24031. Filed 2026-10-10, assigned to jmchilton.
 
-[Proposal as posted](proposal.md) · [Debrief](debrief.md) · [Source draft](issue_draft.md)
+[Proposal as posted](proposal.md) · [Debrief](debrief.md) · [Source draft](raw.md)
 
 ## Summary
 

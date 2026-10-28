@@ -6,7 +6,7 @@ Closed on GitHub as completed 2026-10-25 (sync 2026-10-26).
 
 Delegated on 2026-10-21: posted with a proposed approach (`statistics.median` over non-`None` values, plus API tests) for pickup during 26.2 release-testing Q&A, labeled `release-testing-26.2`, unassigned. Not being worked by us.
 
-- [issue_draft.md](issue_draft.md) — source note
+- [raw.md](raw.md) — source note
 - [proposal.md](proposal.md) — posted text
 - [debrief.md](debrief.md) — research, review round, leftovers
 

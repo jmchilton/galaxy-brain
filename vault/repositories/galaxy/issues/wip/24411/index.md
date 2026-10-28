@@ -1,6 +1,6 @@
 # galaxy#24411 — Job cache reuses a mapped-over job for a plain run, returning the wrong `element_identifier`
 
-[Issue](https://github.com/galaxyproject/galaxy/issues/24411) · [proposal](proposal.md) · [debrief](debrief.md) · [source](issue_draft.md) · related [#24410](https://github.com/galaxyproject/galaxy/issues/24410)
+[Issue](https://github.com/galaxyproject/galaxy/issues/24411) · [proposal](proposal.md) · [debrief](debrief.md) · [source](raw.md) · related [#24410](https://github.com/galaxyproject/galaxy/issues/24410)
 
 Filed 2026-10-23. `JobSearch` never requires a plain request's cached job to lack `|__identifier__`. Reproduced on dev with the `identifier_single` tool.
 

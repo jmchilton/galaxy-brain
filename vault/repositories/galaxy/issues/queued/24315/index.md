@@ -1,6 +1,6 @@
 # galaxy#24315 — Error report forms are always shown, but can only fail when error emails aren't configured
 
-[Issue](https://github.com/galaxyproject/galaxy/issues/24315) · [proposal](proposal.md) · [debrief](debrief.md) · [source draft](issue_draft.md)
+[Issue](https://github.com/galaxyproject/galaxy/issues/24315) · [proposal](proposal.md) · [debrief](debrief.md) · [source draft](raw.md)
 
 Filed 2026-10-21, unassigned (John asked not to be assigned). Found by the 26.2 Playwright FAQ loop (`faqs/galaxy/analysis_troubleshooting`) on `galaxy_ui_driver`.
 

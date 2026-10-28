@@ -52,7 +52,7 @@ Superseded copies, numbered by round. Don't edit.
 
 - `_defaults/{branches,issues,reviews}/FILE_DOCS.md` from the "Contents" sections of `vault/agents/_shared/REPOSITORY_{BRANCHES,ISSUES,REVIEWS}.md`. Review names (`review.md`, `review-*.md`, `draft-review.md`) are shared by Galaxy and Pulsar, so they live in the defaults rather than per-repository files.
 - `galaxy/branches/FILE_DOCS.md` from the recurring names and the process docs that define them (hardening debriefs, PR text, `subagents/**`, `earlier_drafts/**`, `alts/*.md`, …).
-- `galaxy/issues/FILE_DOCS.md` (`issue_draft.md`, `proposal.md`, `debrief.md` from `gx_issues/PREPARE_TO_FILE.md`).
+- `galaxy/issues/FILE_DOCS.md` (`raw.md`, `proposal.md`, `debrief.md` from `gx_issues/PREPARE_TO_FILE.md`).
 - Other repositories get their own File Docs only once they diverge from the defaults.
 
 ## F4 — Agent wiring

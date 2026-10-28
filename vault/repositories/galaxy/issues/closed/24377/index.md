@@ -1,6 +1,6 @@
 # galaxy#24377 — History item button checks in `test_history_dataset_state.py` are a stub
 
-[Issue](https://github.com/galaxyproject/galaxy/issues/24377) · label `release-testing-26.2` · [proposal](proposal.md) · [debrief](debrief.md) · [source](issue_draft.md)
+[Issue](https://github.com/galaxyproject/galaxy/issues/24377) · label `release-testing-26.2` · [proposal](proposal.md) · [debrief](debrief.md) · [source](raw.md)
 
 Closed on GitHub as completed 2026-10-24 (sync 2026-10-26).
 

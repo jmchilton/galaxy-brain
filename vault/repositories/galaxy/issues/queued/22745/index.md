@@ -1,6 +1,6 @@
 # galaxy#22745 — Workflow invocation graph freezes mid run
 
-[Issue](https://github.com/galaxyproject/galaxy/issues/22745) · [our comment](https://github.com/galaxyproject/galaxy/issues/22745#issuecomment-6182903092) · [issue draft](issue_draft.md) · [comment text](proposal.md) · [debrief](debrief.md)
+[Issue](https://github.com/galaxyproject/galaxy/issues/22745) · [our comment](https://github.com/galaxyproject/galaxy/issues/22745#issuecomment-6182903092) · [issue draft](raw.md) · [comment text](proposal.md) · [debrief](debrief.md)
 
 Reported by nilchia (171-step workflow on usegalaxy.eu, 26.0/26.1). Assigned ahmedhamidawan; jmchilton added 2026-10-14 when Claude posted the perf analysis comment for John.
 

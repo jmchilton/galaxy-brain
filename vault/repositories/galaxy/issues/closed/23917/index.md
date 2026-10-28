@@ -1,6 +1,6 @@
 # galaxy#23917 — Vitest auto-stubs drop `COMPONENT_V_MODEL: false`, so every `modelValue` migration needs per-spec workarounds
 
-[Issue](https://github.com/galaxyproject/galaxy/issues/23917) · [issue draft](issue_draft.md) · [proposal](proposal.md) · [debrief](debrief.md)
+[Issue](https://github.com/galaxyproject/galaxy/issues/23917) · [issue draft](raw.md) · [proposal](proposal.md) · [debrief](debrief.md)
 
 Closed on GitHub as completed 2026-10-08 (sync 2026-10-26).
 

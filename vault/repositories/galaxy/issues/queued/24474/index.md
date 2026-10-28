@@ -1,6 +1,6 @@
 # galaxy#24474 — Collection input validation accepts undeclared types
 
-[Issue](https://github.com/galaxyproject/galaxy/issues/24474) · [draft](issue_draft.md) · [proposal](proposal.md) · [debrief](debrief.md)
+[Issue](https://github.com/galaxyproject/galaxy/issues/24474) · [draft](raw.md) · [proposal](proposal.md) · [debrief](debrief.md)
 
 Filed 2026-10-26, assigned to jmchilton. Status: `queued`.
 

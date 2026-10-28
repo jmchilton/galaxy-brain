@@ -1,6 +1,6 @@
 # galaxy#24316 — Filter (Filter1) error handling: a missing column gives a bare traceback, and its own error messages finish green
 
-[Issue](https://github.com/galaxyproject/galaxy/issues/24316) · [proposal](proposal.md) · [debrief](debrief.md) · [source draft](issue_draft.md)
+[Issue](https://github.com/galaxyproject/galaxy/issues/24316) · [proposal](proposal.md) · [debrief](debrief.md) · [source draft](raw.md)
 
 Filed 2026-10-21, unassigned (John asked not to be assigned). Found by the 26.2 Playwright FAQ loop (`faqs/galaxy/analysis_troubleshooting`).
 

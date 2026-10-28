@@ -1,6 +1,6 @@
 # galaxy#23981 — Workflow rename `#{name }` with padding silently renders empty
 
-[Issue](https://github.com/galaxyproject/galaxy/issues/23981) · [issue draft](issue_draft.md) · [proposal](proposal.md) · [debrief](debrief.md)
+[Issue](https://github.com/galaxyproject/galaxy/issues/23981) · [issue draft](raw.md) · [proposal](proposal.md) · [debrief](debrief.md)
 
 Filed 2026-10-08 by Claude for John; assigned jmchilton. Came out of #23900 work (fixed by #23943, merged).
 

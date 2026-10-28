@@ -1,6 +1,6 @@
 # galaxy#24471 — Workflow import IntegrityError with embedded UDT after output/PJA step
 
-[Issue](https://github.com/galaxyproject/galaxy/issues/24471) · [draft](issue_draft.md) · [proposal](proposal.md) · [debrief](debrief.md)
+[Issue](https://github.com/galaxyproject/galaxy/issues/24471) · [draft](raw.md) · [proposal](proposal.md) · [debrief](debrief.md)
 
 Filed 2026-10-26, assigned to jmchilton. Found during Foundry ncbi/egapx → Galaxy conversion.
 
