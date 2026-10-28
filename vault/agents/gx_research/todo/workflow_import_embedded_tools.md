@@ -9,3 +9,4 @@ The current ToolModule section describes only admin dynamic tools and omits the 
 ## Requested by
 
 - vault/repositories/galaxy/branches/active/workflow_import_embedded_tools/index.md: Needed current embedded tool resolution and session ordering for issue #24471.
+- vault/repositories/galaxy/branches/active/issue_24530_atomic_embedded_tool_import_26.1/index.md: Needs every commit point in create/update import (subworkflow builds with is_subworkflow=True, tag/annotation helpers, dry_run) to make embedded-tool creation atomic (#24530).
