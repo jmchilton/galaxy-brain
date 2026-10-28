@@ -14,6 +14,8 @@ Draft PR #710; its live body predates the 2026-10-26 collection-input commit. Up
 
 Head `21431450`, ready for final review. Local `make check` green except `check-vendored` (stale local clones) and `validate-roadmap` (GitHub state: #672 not linked as a native sub-issue of #501).
 
+CI on `21431450` (2026-10-28): unrelated only — `Packages / test` roadmap validation, GitHub-issue-dependent, green on main; rerun failed jobs.
+
 ## Decisions
 
 - §5 keeps the flat collection-output shape (Galaxy 26.1/dev). gxwf 1.14.0 rejects it; fix is gtu-ts #198 (merged 2026-10-25, unreleased). Needs a gxwf release + pin bump, not a note change.

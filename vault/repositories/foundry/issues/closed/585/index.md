@@ -1,5 +1,7 @@
 # #585 The real UDT registration endpoint is `/api/unprivileged_tools`, not the admin-only `/api/dynamic_tools`
 
+Closed completed 2026-10-24 by PR [#714](https://github.com/galaxyproject/foundry/pull/714) (merge `9f31439bdd`).
+
 [Issue](https://github.com/galaxyproject/foundry/issues/585) — opened 2026-09-18 by scottcain (AI-assisted), currently only `needs-triage`.
 
 Addressed in part by draft PR [#617](https://github.com/galaxyproject/foundry/pull/617) (`mvdbeek:udt-workflow-binding`).

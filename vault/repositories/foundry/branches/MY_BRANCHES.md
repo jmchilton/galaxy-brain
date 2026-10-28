@@ -1,21 +1,19 @@
 # Open PR and branch queue
 
-Snapshot: 2026-10-23 (recovered from live GitHub state, local worktrees and agent notes; earlier tracking lived in `agents/foundry/PULL_REQUESTS.md`).
+Snapshot: 2026-10-28 (originally recovered from live GitHub state, local worktrees and agent notes; earlier tracking lived in `agents/foundry/PULL_REQUESTS.md`).
 
 ## Open Foundry PRs — ready from our side (`ready`)
 
-- [`issue-677-rename-syntax`](active/issue-677-rename-syntax/index.md) — Documents rename post-job action syntax (#677). [#702](https://github.com/galaxyproject/foundry/pull/702).
+- [`issue-726-import-rejection-surface`](active/issue-726-import-rejection-surface/index.md) — debug-galaxy-workflow-output: workflow import rejection surface (#726). [#732](https://github.com/galaxyproject/foundry/pull/732).
+- [`issue-730-udt-run-recipe`](active/issue-730-udt-run-recipe/index.md) — run-workflow-test: external_galaxy route for UDT workflows, data-table detect-and-defer (#730). [#733](https://github.com/galaxyproject/foundry/pull/733).
+- [`issue-731-igwt-cardinality-trace`](active/issue-731-igwt-cardinality-trace/index.md) — implement-galaxy-workflow-test: trace output kinds; stop overclaiming cross-check (#731). [#734](https://github.com/galaxyproject/foundry/pull/734).
 - [`feat/test-pipeline-test-data-branch`](active/feat-test-pipeline-test-data-branch/index.md) — Runs the test-data branch in test-pipeline, one worker per leg. Base `feat/test-pipeline-draft-loop`. [#690](https://github.com/galaxyproject/foundry/pull/690).
-
 - [`issue-719-eval-draft-fixes`](active/issue-719-eval-draft-fixes/index.md) — Template and draft-loop evals stop failing correct output (#719). [#720](https://github.com/galaxyproject/foundry/pull/720).
 - [`issue-724-shed-tool-id-version`](active/issue-724-shed-tool-id-version/index.md) — Shed tool_id is the full versioned GUID in implement-galaxy-tool-step (#724). [#727](https://github.com/galaxyproject/foundry/pull/727).
 - [`issue-725-brief-scope-conflicts`](active/issue-725-brief-scope-conflicts/index.md) — Clear scope vs source conflicts become brief open questions (#725). [#728](https://github.com/galaxyproject/foundry/pull/728).
-- [`issue-718-nextflow-scenarios`](active/issue-718-nextflow-scenarios/index.md) — Plain end-to-end nextflow-to-galaxy scenarios for nine more fixtures (#718). [#729](https://github.com/galaxyproject/foundry/pull/729).
-- [`gxwf-1-15`](active/gxwf-1-15/index.md) — Bumps gxwf/schema pins to 1.15.0, re-casts Molds. [#736](https://github.com/galaxyproject/foundry/pull/736).
 
 ## Open Foundry PRs — needs attention (`attention`)
 
-- [`fix/data-flow-unique-element-identifiers`](active/fix-data-flow-unique-element-identifiers/index.md) — data-flow Mold: element identifiers unique per dataset. [#705](https://github.com/galaxyproject/foundry/pull/705).
 - [`issue-694-direct-build-on-brief`](active/issue-694-direct-build-on-brief/index.md) — Builds the direct Galaxy routes on the Workflow Brief Molds (#694). [#696](https://github.com/galaxyproject/foundry/pull/696).
 - [`feat/test-pipeline-draft-loop`](active/feat-test-pipeline-draft-loop/index.md) — Runs the draft loop in test-pipeline, one worker per call, capped and budgeted. [#686](https://github.com/galaxyproject/foundry/pull/686).
 - [`fix/author-galaxy-tool-wrapper-optional-nextflow`](active/fix-author-galaxy-tool-wrapper-optional-nextflow/index.md) — Makes Nextflow evidence optional in Galaxy UDT authoring. [#545](https://github.com/galaxyproject/foundry/pull/545).
@@ -48,9 +46,6 @@ None yet.
 
 ## Foundry branches — ready for final review (`branches_ready_for_final_review`)
 
-- [`issue-726-import-rejection-surface`](active/issue-726-import-rejection-surface/index.md) — debug-galaxy-workflow-output: workflow import rejection surface, evidence, bisection, routing (#726). [Open PR](https://github.com/galaxyproject/foundry/compare/main...issue-726-import-rejection-surface).
-- [`issue-730-udt-run-recipe`](active/issue-730-udt-run-recipe/index.md) — run-workflow-test: external_galaxy route for UDT workflows, data-table detect-and-defer (#730). [Open PR](https://github.com/galaxyproject/foundry/compare/main...issue-730-udt-run-recipe).
-- [`issue-731-igwt-cardinality-trace`](active/issue-731-igwt-cardinality-trace/index.md) — implement-galaxy-workflow-test: trace output kinds via `--connections`; stop overclaiming cross-check (#731). [Open PR](https://github.com/galaxyproject/foundry/compare/main...issue-731-igwt-cardinality-trace).
 - [`issue-672-udt-authoring-note`](active/issue-672-udt-authoring-note/index.md) — UDT authoring note: collection inputs/outputs, vendoring recipes, `inputs.x` shape (#672). Draft [#710](https://github.com/galaxyproject/foundry/pull/710). [Open PR](https://github.com/galaxyproject/foundry/compare/main...issue-672-udt-authoring-note).
 
 ## Foundry branches — approved, opens when green (`branches_need_pr`)

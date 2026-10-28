@@ -2,7 +2,7 @@
 
 Triage index for `galaxyproject/foundry` issues, per [`MY_ISSUES_INDEX.md`](../../../agents/_shared/MY_ISSUES_INDEX.md); detail lives in `vault/repositories/foundry/issues/`. Statuses are seeded from GitHub labels; see the label mapping in `AGENTS.md`.
 
-GitHub state last refreshed: 2026-10-23. Issues here are unassigned by default and `priority/v2` by default; `(mvp)` marks `priority/mvp`, `(large)` marks `roadmap/main`.
+GitHub state last refreshed: 2026-10-28. Issues here are unassigned by default and `priority/v2` by default; `(mvp)` marks `priority/mvp`, `(large)` marks `roadmap/main`.
 
 ## Waiting on John (`needs_decision`)
 
@@ -32,19 +32,16 @@ GitHub state last refreshed: 2026-10-23. Issues here are unassigned by default a
 
 ## In motion (`wip`)
 
-- [#534](https://github.com/galaxyproject/foundry/issues/534) — Replace abstract summarize-nextflow scenarios with concrete pinned fixtures; branch `issue-534-concrete-nextflow-scenarios` on `jmchilton` (1 commit, 116 behind main). [notes](wip/534/index.md)
+- [#534](https://github.com/galaxyproject/foundry/issues/534) — Replace abstract summarize-nextflow scenarios with concrete pinned fixtures; branch `issue-534-concrete-nextflow-scenarios`. [notes](wip/534/index.md)
 - [#548](https://github.com/galaxyproject/foundry/issues/548) — `gxwf draft-validate --concrete`: the other half of #166 — a ParsedTool decode failure's `Error.message` is…; draft PR [#554](https://github.com/galaxyproject/foundry/pull/554). [notes](wip/548/index.md)
-- [#573](https://github.com/galaxyproject/foundry/issues/573) — `implement-galaxy-tool-step` documents no binding convention for an authored UDT; PR [#714](https://github.com/galaxyproject/foundry/pull/714) (supersedes #617). [notes](wip/573/index.md)
 - [#694](https://github.com/galaxyproject/foundry/issues/694) — (large) Build PAPER/INTERVIEW → GALAXY on the Workflow Brief Molds, retire the freeform Galaxy Molds; PR [#696](https://github.com/galaxyproject/foundry/pull/696). [notes](wip/694/index.md)
 - (mvp) [#672](https://github.com/galaxyproject/foundry/issues/672) — UDT authoring note: collection example vs stale gxwf schema, no vendoring recipes, `inputs.x` shape undocumented; draft PR [#710](https://github.com/galaxyproject/foundry/pull/710) (`issue-672-udt-authoring-note`), needs gxwf release with gtu-ts [#198](https://github.com/jmchilton/galaxy-tool-util-ts/pull/198). [notes](wip/672/index.md)
-- (mvp) [#585](https://github.com/galaxyproject/foundry/issues/585) — UDT registration endpoint is `/api/unprivileged_tools`, not `/api/dynamic_tools`; PR [#714](https://github.com/galaxyproject/foundry/pull/714) (supersedes #617, also fixes #573). [notes](wip/585/index.md)
-- [#718](https://github.com/galaxyproject/foundry/issues/718) — nextflow-to-galaxy scenarios cover 4 of 25 Nextflow fixtures; add simple end-to-end cases; PR [#729](https://github.com/galaxyproject/foundry/pull/729). [notes](wip/718/index.md)
 - [#719](https://github.com/galaxyproject/foundry/issues/719) — Template eval uses plain validate on drafts; draft-loop eval greps whole draft for TODOs mid-loop; PR [#720](https://github.com/galaxyproject/foundry/pull/720). [notes](wip/719/index.md)
 - [#724](https://github.com/galaxyproject/foundry/issues/724) — implement-galaxy-tool-step leaves shed tool_id versionless, failing exact-version invocation; PR [#727](https://github.com/galaxyproject/foundry/pull/727). [notes](wip/724/index.md)
 - [#725](https://github.com/galaxyproject/foundry/issues/725) — Brief Mold has no rule for clear scope that conflicts with source behavior; PR [#728](https://github.com/galaxyproject/foundry/pull/728). [notes](wip/725/index.md)
-- (mvp) [#726](https://github.com/galaxyproject/foundry/issues/726) — debug-galaxy-workflow-output has no surface for a pre-invocation workflow import rejection; branch `issue-726-import-rejection-surface`. [notes](wip/726/index.md)
-- (mvp) [#730](https://github.com/galaxyproject/foundry/issues/730) — run-workflow-test: no guidance for UDT-embedding workflows (external_galaxy recipe) or empty data tables; branch `issue-730-udt-run-recipe`. [notes](wip/730/index.md)
-- (mvp) [#731](https://github.com/galaxyproject/foundry/issues/731) — implement-galaxy-workflow-test cross-check overclaims shape/datatype; output cardinality not traced; branch `issue-731-igwt-cardinality-trace`. [notes](wip/731/index.md)
+- (mvp) [#726](https://github.com/galaxyproject/foundry/issues/726) — debug-galaxy-workflow-output has no surface for a pre-invocation workflow import rejection; PR [#732](https://github.com/galaxyproject/foundry/pull/732). [notes](wip/726/index.md)
+- (mvp) [#730](https://github.com/galaxyproject/foundry/issues/730) — run-workflow-test: no guidance for UDT-embedding workflows (external_galaxy recipe) or empty data tables; PR [#733](https://github.com/galaxyproject/foundry/pull/733). [notes](wip/730/index.md)
+- (mvp) [#731](https://github.com/galaxyproject/foundry/issues/731) — implement-galaxy-workflow-test cross-check overclaims shape/datatype; output cardinality not traced; PR [#734](https://github.com/galaxyproject/foundry/pull/734). [notes](wip/731/index.md)
 
 ## Queued (`queued`)
 

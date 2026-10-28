@@ -12,7 +12,7 @@ Branch `issue-724-shed-tool-id-version` @ `ee92fdca` on `origin/main` `f48c01b6`
 
 PR #727 open, not draft; fixes #724.
 
-`make -k check` green locally except machine-local `check-vendored`; CI not yet seen.
+CI on `ee92fdca` (2026-10-28): unrelated only — `Packages / test` roadmap validation, GitHub-issue-dependent, green on main; rerun failed jobs.
 
 ## Evidence
 

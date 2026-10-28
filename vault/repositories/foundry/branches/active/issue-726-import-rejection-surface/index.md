@@ -14,6 +14,8 @@ No PR yet. Polished; waiting on John's final review.
 
 Local `make -k check`: all green except `check-vendored` (machine-only) and `validate-roadmap` (#672 roadmap/substep label vs `content/roadmap` — live GitHub state, untouched by this branch). No CI until a PR opens.
 
+CI on `bea1d69c` (2026-10-28): unrelated only — `Packages / test` roadmap validation, GitHub-issue-dependent, green on main; rerun failed jobs.
+
 ## Supporting files
 
 - [Implementation debrief](implementation_debrief.md) · [Normal review](subagents/normal_review.md) · [Codex review](codex_review.md) · [Polish debrief](polish_debrief.md) · [PR description](pr_description.md) · [Titles](pr_titles.md) · [Tags](pr_tags.md)

@@ -9,4 +9,4 @@ Branch `fix/author-galaxy-tool-wrapper-optional-nextflow` on `galaxyproject`, ba
 
 PR #545 open, conflicting.
 
-CI red on `f5e2024bf8`: test.
+CI on `f5e2024b` (2026-10-28): unrelated only — Pi container test 5s timeout flake; run too old to rerun, needs a push to retrigger.

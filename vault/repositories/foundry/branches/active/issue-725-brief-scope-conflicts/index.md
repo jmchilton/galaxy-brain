@@ -12,7 +12,7 @@ Branch `issue-725-brief-scope-conflicts` @ `a8b2d7f5` on `origin/main` `f48c01b6
 
 PR #728 open, not draft; fixes #725.
 
-`make -k check` green locally except machine-local `check-vendored`; CI not yet seen.
+CI on `a8b2d7f5` (2026-10-28): unrelated only — `Packages / test` roadmap validation, GitHub-issue-dependent, green on main; rerun failed jobs.
 
 ## Evidence
 

@@ -12,7 +12,7 @@ Polished, ready for final review; based on `origin/main` `f48c01b6`, head `c1cd1
 
 No PR yet.
 
-CI runs only on PRs; local gate green except `validate-roadmap` (live #672 roadmap linkage, not this branch) and `check-vendored` (known local).
+CI on `c1cd15e9` (2026-10-28): unrelated only — `Packages / test` roadmap validation, GitHub-issue-dependent, green on main; rerun failed jobs.
 
 ## Evidence
 
