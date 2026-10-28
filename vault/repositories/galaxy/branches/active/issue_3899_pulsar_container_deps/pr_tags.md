@@ -1,0 +1,3 @@
+- `kind/bug`
+- `area/jobs`
+- `area/tool-dependencies`

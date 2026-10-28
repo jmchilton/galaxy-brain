@@ -1,6 +1,16 @@
+---
+upstream_base_branch: release_26.2
+---
 # issue_3899_pulsar_container_deps
 
-Status: `branches_implemented_needs_ci`. Base: `dev`.
+- [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:issue_3899_pulsar_container_deps?expand=1)
+- [View on GitHub](https://github.com/jmchilton/galaxy/tree/issue_3899_pulsar_container_deps)
+
+## Status
+
+Status: `branches_ready_for_final_review`. Polished 2026-10-28: [description](pr_description.md) · [titles](pr_titles.md) · [tags](pr_tags.md) · [checklist](pr_checklist.md) · [polish debrief](polish_debrief.md). Retargeted 2026-10-28 from `dev` to `release_26.2` (clean rebase, head `d9a8abb4ca9`, 42 runner unit tests pass).
+
+Fresh fork CI pending for `d9a8abb4ca9`.
 
 Respects a Pulsar container job’s dependency-resolution opt-in (#3899).
 

@@ -1,0 +1,4 @@
+- [26.2] Skip Pulsar dependency resolution for containers that don't opt in
+- [26.2] Respect container `resolve_dependencies` in the Pulsar runner
+- [26.2] Don't resolve tool dependencies on the Pulsar host for containerized jobs
+- [26.2] Fix Pulsar resolving dependencies outside containers (#3899)
