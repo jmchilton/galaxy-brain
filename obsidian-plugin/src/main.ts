@@ -17,7 +17,7 @@ import {
 } from "obsidian";
 import type { RecordKind } from "../../site/src/lib/records";
 import { AGENTS_VIEW, AgentsView, ALL_AGENTS } from "./agents-view";
-import { fillTemplate, type Launcher, launcherScope, launchersFor, parseLaunchers, type RecordRef, recordFromPath } from "./launchers";
+import { commandArgs, fillTemplate, type Launcher, launcherScope, launchersFor, parseLaunchers, type RecordRef, recordFromPath } from "./launchers";
 import { defaultProfile, FALLBACK_PROFILES, type Profile, parseProfiles, profileArgs } from "./profiles";
 import { isReviewableRecordKind } from "../../site/src/lib/records";
 import { openDifferentialReview, registerDifferentialReview } from "./diff-review-view";
@@ -262,6 +262,11 @@ export default class GalaxyBrainPlugin extends Plugin {
 	private async confirmLaunch(launcher: Launcher, record: RecordRef) {
 		const vaultRoot = this.vaultRoot();
 		if (!vaultRoot) return;
+		if (launcher.command) {
+			const args = commandArgs(launcher, record, vaultRoot);
+			new CommandModal(this.app, launcher.label, args, () => this.runCommand(launcher.label, args)).open();
+			return;
+		}
 		const profiles = await this.loadProfiles();
 		new LaunchModal(this.app, launcher, {
 			profiles,
@@ -361,6 +366,19 @@ export default class GalaxyBrainPlugin extends Plugin {
 		}).open();
 	}
 
+	private runCommand(label: string, [executable, ...args]: string[]) {
+		// Required lazily: child_process doesn't exist on mobile.
+		const { execFile } = require("child_process") as typeof import("child_process");
+		const { homedir } = require("os") as typeof import("os");
+		const PATH = [`${homedir()}/.local/bin`, ...CLI_BIN_DIRS, process.env.PATH].join(":");
+		const started = new Notice(`Running ${label}…`, 0);
+		execFile(executable!, args, { env: { ...process.env, PATH }, timeout: 180_000 }, (error, stdout, stderr) => {
+			started.hide();
+			if (error) new Notice(`${label} failed: ${(stderr || error.message).trim()}`, 0);
+			else new Notice(stdout.trim() || `${label} done`, 15_000);
+		});
+	}
+
 	private launch(vaultRoot: string, launcher: Launcher, profile: Profile, name: string, prompt: string, launched?: () => void, pending?: (on: boolean) => void) {
 		// Required lazily: child_process doesn't exist on mobile.
 		const { execFile } = require("child_process") as typeof import("child_process");
@@ -381,6 +399,37 @@ export default class GalaxyBrainPlugin extends Plugin {
 				}
 			},
 		);
+	}
+}
+
+class CommandModal extends Modal {
+	constructor(
+		app: App,
+		private label: string,
+		private args: string[],
+		private run: () => void,
+	) {
+		super(app);
+	}
+
+	onOpen() {
+		this.setTitle(this.label);
+		this.contentEl.createEl("pre", { text: this.args.join(" \\\n  ") });
+		new Setting(this.contentEl)
+			.addButton((button) =>
+				button
+					.setButtonText("Run")
+					.setCta()
+					.onClick(() => {
+						this.close();
+						this.run();
+					}),
+			)
+			.addButton((button) => button.setButtonText("Cancel").onClick(() => this.close()));
+	}
+
+	onClose() {
+		this.contentEl.empty();
 	}
 }
 

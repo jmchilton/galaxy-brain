@@ -21,7 +21,7 @@ Write a debrief of the research and the rewrite to `RECORD/debrief.md`. Update `
 ## 4. Hand off
 
 - Give the user a recommendation: post the issue as it stands, keep it internal, or accept a rejection. Issues are meant to be granular, but some are too small to be worth a GitHub issue; recommend keeping those internal.
-- If the user wants it posted, post it, then triage it per [`ISSUES_INDEX.md`](../_shared/ISSUES_INDEX.md): move RECORD's `raw.md`, `proposal.md` and `debrief.md` to the new `vault/repositories/galaxy/issues/STATUS/<number>/` record and delete RECORD.
+- If the user wants it posted, run [`file_incubator_issue.py`](../_shared/scripts/file_incubator_issue.py) `RECORD --status STATUS` (add `--assign` per the last bullet). It posts `proposal.md` and moves RECORD to the new `vault/repositories/galaxy/issues/STATUS/<number>/` record. Then triage it per [`ISSUES_INDEX.md`](../_shared/ISSUES_INDEX.md). John can also post it with the 📤 File issue launcher.
 - If the user keeps it internal, because it's too small for its own issue or for another reason they give (such as fixing it PR-first), move RECORD to `issues_incubator/internal/`. A branch that implements it links RECORD from its `index.md`.
 - If the user decides not to post it or accepts a rejection, move RECORD to `issues_incubator/rejected/`.
 - Infer from context whether John should be assigned, for example when the issue came out of his own branch or work. If so, assign John and add the issue to `ISSUES.md`.

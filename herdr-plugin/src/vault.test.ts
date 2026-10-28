@@ -20,6 +20,12 @@ describe("vault", () => {
 		expect(firstDefault === -1 || launchers.slice(firstDefault).every((l) => l.repo === null)).toBe(true);
 	});
 
+	it("skips command launchers, which only Obsidian runs", () => {
+		const launchers = loadLaunchers(VAULT);
+		expect(launchers.filter((l) => l.command)).toEqual([]);
+		expect(launchers.find((l) => l.kind === "issues_incubator" && l.label === "💭 New session")).toBeDefined();
+	});
+
 	it("loads records across repos with titles from index.md", () => {
 		const records = loadRecords(VAULT);
 		expect(new Set(records.map((r) => r.repo))).toContain("galaxy");

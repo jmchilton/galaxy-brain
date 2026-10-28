@@ -8,6 +8,10 @@ profile: Opus (low)
 
 Prepare to file issue at {record} with ./PREPARE_TO_FILE.md
 
+## 📤 File issue
+status: incubating, internal
+command: agents/_shared/scripts/file_incubator_issue.py {record}
+
 ## 💭 New session
 agent_dir: gx_issues
 name: inc-{name}

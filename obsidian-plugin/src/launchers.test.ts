@@ -1,6 +1,6 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
-import { fillTemplate, launcherScope, launchersFor, parseLaunchers, recordFromPath, untrackedRecord } from "./launchers";
+import { commandArgs, fillTemplate, launcherScope, launchersFor, parseLaunchers, recordFromPath, untrackedRecord } from "./launchers";
 
 const CONFIG = `Intro text, ignored.
 
@@ -62,6 +62,20 @@ describe("parseLaunchers", () => {
 		expect(implement).not.toHaveProperty("profile");
 	});
 
+	it("reads command launchers, which need no agent_dir or prompt", () => {
+		const [file] = parseLaunchers("## 📤 File\nstatus: incubating\ncommand: agents/_shared/scripts/file.py {record} --dry-run\n", GALAXY_ISSUES);
+		expect(file).toEqual({
+			label: "📤 File",
+			repo: "galaxy",
+			kind: "issues",
+			statuses: ["incubating"],
+			agentDir: "",
+			name: "",
+			prompt: "",
+			command: "agents/_shared/scripts/file.py {record} --dry-run",
+		});
+	});
+
 	it("skips launchers missing agent_dir or prompt", () => {
 		expect(parseLaunchers(CONFIG, GALAXY_ISSUES).map((l) => l.label)).toEqual(["🐴 Implement", "✨ Polish"]);
 	});
@@ -87,6 +101,7 @@ describe("parseLaunchers", () => {
 		]);
 		expect(vaultLaunchers("repositories/galaxy/issues_incubator/LAUNCHERS.md")).toEqual([
 			["❯ Prepare to file", "incubating", "gx_issues"],
+			["📤 File issue", "incubating,internal", ""],
 			["💭 New session", "", "gx_issues"],
 		]);
 		expect(vaultLaunchers("repositories/galaxy/reviews/LAUNCHERS.md")).toEqual([
@@ -192,6 +207,19 @@ describe("launchersFor", () => {
 
 	it("treats a missing status as any", () => {
 		expect(launchersFor(launchers, { ...issue, status: "closed" }).map((l) => l.label)).toEqual(["✨ Polish"]);
+	});
+});
+
+describe("commandArgs", () => {
+	it("splits the command before filling, resolving the executable in the vault", () => {
+		const draft = recordFromPath("repositories/galaxy/issues_incubator/incubating/my draft/index.md")!;
+		const [launcher] = parseLaunchers("## File\ncommand: agents/_shared/scripts/file.py {record} --repo {repo}\n", { repo: "galaxy", kind: "issues_incubator" });
+		expect(commandArgs(launcher!, draft, "/vault")).toEqual([
+			"/vault/agents/_shared/scripts/file.py",
+			"/vault/repositories/galaxy/issues_incubator/incubating/my draft",
+			"--repo",
+			"galaxy",
+		]);
 	});
 });
 

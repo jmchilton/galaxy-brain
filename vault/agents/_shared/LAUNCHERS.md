@@ -8,5 +8,6 @@ One `## Label` per launcher. Leading `key: value` lines configure it; the rest i
 - `agent_dir:` directory under `vault/agents/` to start in.
 - `name:` Herdr agent name; sanitized and de-duplicated by the script.
 - `profile:` profile preselected in the dialog, by name; the first profile when unset.
+- `command:` run a vault-relative executable instead of an agent, e.g. `agents/_shared/scripts/file_incubator_issue.py {record}`. Args split on whitespace before placeholders fill; no prompt, `agent_dir`, `name` or `profile`. Obsidian asks for confirmation, then shows the output; herdr, the Chrome extension and the 🚀 menu skip these.
 
 Placeholders: `{repo}`, `{kind}`, `{status}`, `{name}` (branch name, PR or issue number), `{record}` (absolute record directory; empty for untracked items).

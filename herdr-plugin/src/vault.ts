@@ -33,14 +33,15 @@ export const readVault = (vaultRoot: string, path: string): string => {
 };
 
 export function loadLaunchers(vaultRoot: string, files = vaultFiles(vaultRoot)): Launcher[] {
-	// Repo files sort before `_defaults`, so a repo's own launchers list first.
+	// Repo files sort before `_defaults`, so a repo's own launchers list first. Command launchers are Obsidian-only.
 	return files
 		.flatMap((file) => {
 			const scope = launcherScope(file.path);
 			return scope ? [{ file, scope }] : [];
 		})
 		.sort((a, b) => Number(a.scope.repo === null) - Number(b.scope.repo === null))
-		.flatMap(({ file, scope }) => parseLaunchers(readVault(vaultRoot, file.path), scope));
+		.flatMap(({ file, scope }) => parseLaunchers(readVault(vaultRoot, file.path), scope))
+		.filter((launcher) => !launcher.command);
 }
 
 export function loadRecords(vaultRoot: string, files = vaultFiles(vaultRoot)): RecordSummary[] {

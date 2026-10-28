@@ -16,6 +16,8 @@ export interface Launcher {
 	/** Profile preselected in the launch dialog; the first profile when unset. */
 	profile?: string;
 	prompt: string;
+	/** Vault-relative executable and args, run directly instead of an agent; agentDir, name and prompt are empty. */
+	command?: string;
 }
 
 export interface RecordRef {
@@ -27,7 +29,7 @@ export interface RecordRef {
 	dir: string;
 }
 
-const KEY_LINE = /^(status|agent_dir|name|profile):\s*(.*)$/;
+const KEY_LINE = /^(status|agent_dir|name|profile|command):\s*(.*)$/;
 
 const list = (value: string) =>
 	value
@@ -58,7 +60,12 @@ export function parseLaunchers(markdown: string, scope: LauncherScope): Launcher
 		}
 		const prompt = lines.slice(i).join("\n").trim();
 		const label = heading.trim();
-		if (!label || !fields.agent_dir || !prompt) continue;
+		if (!label) continue;
+		if (fields.command) {
+			launchers.push({ label, ...scope, statuses: list(fields.status ?? ""), agentDir: "", name: "", prompt: "", command: fields.command });
+			continue;
+		}
+		if (!fields.agent_dir || !prompt) continue;
 		launchers.push({
 			label,
 			...scope,
@@ -106,4 +113,10 @@ export function fillTemplate(template: string, record: RecordRef, vaultRoot: str
 		record: record.dir ? `${vaultRoot}/${record.dir}` : "",
 	};
 	return template.replace(/\{(\w+)\}/g, (whole, key: string) => values[key] ?? whole);
+}
+
+/** A command launcher's argv: split on whitespace, then filled, so record paths with spaces stay one arg. */
+export function commandArgs(launcher: Launcher, record: RecordRef, vaultRoot: string): string[] {
+	const [executable = "", ...args] = (launcher.command ?? "").trim().split(/\s+/);
+	return [`${vaultRoot}/${executable}`, ...args.map((arg) => fillTemplate(arg, record, vaultRoot))];
 }
