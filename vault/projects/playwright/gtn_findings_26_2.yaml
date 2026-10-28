@@ -319,7 +319,7 @@
   fix: Say **Auto-detect** on the **Attributes** tab; for a wrong datatype, point to the **Datatypes** tab.
 
 - label: upload-tool-panel-button
-  faqs: [faqs/galaxy/datasets_create_new_file.md, faqs/galaxy/datasets_import_from_remote_files.md, faqs/galaxy/datasets_upload.md, topics/assembly/tutorials/vgp_genome_assembly/faqs/dataset_upload_fastqsanger_via_urls.md, faqs/galaxy-de/datasets_create_new_file.md, faqs/galaxy-de/datasets_import_via_link.md]
+  faqs: [faqs/galaxy/datasets_create_new_file.md, faqs/galaxy/datasets_import_from_remote_files.md, faqs/galaxy/datasets_upload.md, topics/assembly/tutorials/vgp_genome_assembly/faqs/dataset_upload_fastqsanger_via_urls.md, faqs/galaxy-de/datasets_create_new_file.md, faqs/galaxy-de/datasets_import_via_link.md, faqs/galaxy-es/datasets_create_new_file.md, faqs/galaxy-es/datasets_import_via_link.md, faqs/galaxy-it/datasets_create_new_file.md, faqs/galaxy-it/datasets_import_via_link.md, faqs/galaxy-fr/datasets_importa_via_link.md]
   target: main
   summary: There is no **Upload Data** button at the top of the tool panel; upload is the Activity Bar's **Upload**.
   fix: Say "Click {% icon galaxy-upload %} **Upload** in the Activity Bar".
@@ -1080,3 +1080,21 @@
   target: main
   summary: 'German FAQs lag their English sources: build_list_paired says choose "Liste der Datensatzpaare erstellen" and build_list says "Build Dataset List" where EN (and Galaxy) now say **Advanced Build List**; build_list leaves "You are in collection building wizard…" untranslated and renders "to {{name}}" as "bis"; change_datatype has broken bold/italic ("*registerkarte *Datentypen**"); import_via_link still says upload is at the top of the tool bar and lacks the EN GIF; scratchbook adds a step 3 "click outside the file to exit the Window Manager" that EN does not have and that contradicts step 6. Galaxy''s de locale leaves most of these labels in English, so German bold labels do not match the screen either.'
   fix: 'Re-sync each DE FAQ with its EN source (Advanced Build List, Activity Bar Upload, drop the extra scratchbook step), fix the markdown, and keep Galaxy UI labels in English (optionally with a German gloss).'
+
+- label: galaxy-es-translation-drift
+  faqs: [faqs/galaxy-es/collections_build_list_paired.md, faqs/galaxy-es/collections_build_list.md, faqs/galaxy-es/datasets_change_datatype.md, faqs/galaxy-es/datasets_import_via_link.md, faqs/galaxy-es/features_scratchbook.md, faqs/galaxy-es/histories_rename.md, faqs/galaxy-es/histories_sharing.md, faqs/galaxy-es/workflows_extract_from_history.md]
+  target: main
+  summary: 'Spanish FAQs translate old EN versions: build_list(_paired) say "Build dataset list" / "Build List of Dataset Pairs" (now **Advanced Build List**) and drop the wizard steps and screenshots; change_datatype ends with a **Change datatype** button (now **Save**) and drops the New Type step; import_via_link has upload at the top of the tool panel and no GIFs; scratchbook calls it "Scratchbook" and adds "click outside the file to exit"; histories_rename only has the old click-the-name fallback (no pencil/Save); histories_sharing and workflows_extract_from_history use the gear icon, a "Share with a user" button and User > Histories shared with me (now History options menu and the Histories activity "Shared with me" tab).'
+  fix: 'Re-translate each from its current EN source.'
+
+- label: galaxy-it-translation-drift
+  faqs: [faqs/galaxy-it/collections_build_list_paired.md, faqs/galaxy-it/collections_build_list.md, faqs/galaxy-it/datasets_import_via_link.md, faqs/galaxy-it/features_scratchbook.md]
+  target: main
+  summary: 'Italian FAQs lag EN: build_list(_paired) use "Costruisci elenco dataset" / "…coppie di set di dati" (old "Build dataset list" labels; now **Advanced Build List**) and drop the wizard steps and screenshots; import_via_link puts upload at the top of the tool panel and lacks the GIFs; scratchbook adds step 3 "click outside the file to exit the Window Manager", which EN lacks.'
+  fix: 'Re-sync with EN; keep Galaxy labels in English (Galaxy has no Italian locale).'
+
+- label: galaxy-fr-translation-drift
+  faqs: [faqs/galaxy-fr/datasets_change_datatype.md, faqs/galaxy-fr/datasets_importa_via_link.md, faqs/galaxy-fr/histories_create_new.md]
+  target: main
+  summary: 'French FAQs lag EN: change_datatype ends on a **Modifier le type de données** ("Change datatype") button (now **Save**) and drops the New Type step; datasets_importa_via_link (filename typo "importa") puts upload at the top right of the tool panel, lacks the GIFs and leaves "the window" untranslated; histories_create_new offers a gear-menu "Créer un nouveau" fallback that current Galaxy lacks and omits the EN diagram.'
+  fix: 'Re-sync with EN; rename the file to datasets_import_via_link.md with a redirect.'
