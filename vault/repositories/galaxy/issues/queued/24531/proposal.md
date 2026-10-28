@@ -1,3 +1,5 @@
+# Disabled history item edit button never shows its "not yet editable" tooltip
+
 The disabled edit (pencil) button on a history item never shows its "This dataset is not yet editable." tooltip, so users get no hint why it does nothing.
 
 For a dataset in `discarded`, `new`, `upload`, `queued`, `running` or `waiting` state, hovering the pencil shows nothing: no tooltip balloon and no native browser `title`. The neighboring buttons on the same item show their tooltips normally. The rendered button looks like this:
