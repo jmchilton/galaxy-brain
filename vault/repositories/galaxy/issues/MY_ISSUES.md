@@ -39,6 +39,7 @@ GitHub state last refreshed: 2026-10-27. Every open issue below is assigned to j
 
 ## Queued (`queued`)
 
+- [#24546](https://github.com/galaxyproject/galaxy/issues/24546) — object store cache monitor never starts w/o Celery; `enable_cache_monitor` gate defaults False; next: red unit test + drop gate. [notes](queued/24546/index.md)
 - [#24532](https://github.com/galaxyproject/galaxy/issues/24532) — Delete Account modal shows generic error; checks `err_code === 403` vs server's 403004; next: named constant + red vitest. [notes](queued/24532/index.md)
 - [#24485](https://github.com/galaxyproject/galaxy/issues/24485) — collection test `count`/`element_count`/`max` of 0 skipped by truthiness check; next: `is not None` + unit test. [notes](queued/24485/index.md)
 - [#24481](https://github.com/galaxyproject/galaxy/issues/24481) — mapped list outputs over sample sheets precreate invalid collection types; next: red regression test for composition. [notes](queued/24481/index.md)

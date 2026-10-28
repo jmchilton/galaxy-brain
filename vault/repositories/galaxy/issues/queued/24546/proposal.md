@@ -1,3 +1,5 @@
+# Caching object store caches never evict without Celery
+
 With Celery disabled, caching object stores (S3, Azure, cloud, onedata, ...) never start the in-process cache monitor that `object_store_cache_monitor_driver: auto` promises, so sized caches grow without bound.
 
 | Setting | Docs say | `dev` does |
