@@ -6,10 +6,11 @@ upstream_base_branch: dev
 - [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:staging_workflow_parameter_lists)
 - [View on GitHub](https://github.com/jmchilton/galaxy/tree/staging_workflow_parameter_lists)
 - [Implementation debrief](implementation_debrief.md)
+- [Test challenges](test_challenges_debrief.md) · [Codex review](codex_review.md) · [Thermo-nuclear review](thermo_nuclear_review.md) · [Baseline refactor](baseline_refactor.md) · [Scope evaluation](scope_evaluation.md)
 
 ## Status
 
-Implemented at `05af7656` on `dev` (`fd43a3c6`), incl. review 1 fixes and `WorkflowPopulator` adoption; unit, framework workflow tests and lint green locally.
+Hardened (test challenges, Codex, thermo-nuclear, baseline refactor) at `48aa65fb` on `dev` (`fd43a3c6`); scope evaluation recommends retargeting to `release_26.2`, awaiting John's decision before polish.
 
 No PR.
 
