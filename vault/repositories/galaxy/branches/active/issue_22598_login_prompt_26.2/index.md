@@ -1,5 +1,6 @@
 ---
 upstream_base_branch: release_26.2
+pr: 24549
 ---
 
 # issue_22598_login_prompt_26.2
@@ -9,11 +10,11 @@ upstream_base_branch: release_26.2
 
 ## Status
 
-`branches_ready_for_final_review`: polished 2026-10-28 with scope B (John’s choice). Base `release_26.2` (`0902830bfa6`), head `3a3d5771d30`. Worktree: `~/projects/worktrees/galaxy/branch/issue_22598_login_prompt_26.2`.
+Polished 2026-10-28 with scope B (John’s choice), approved at `3a3d5771d30` by launching the PR open. Base `release_26.2` (`0902830bfa6`). Worktree: `~/projects/worktrees/galaxy/branch/issue_22598_login_prompt_26.2`.
 
-No PR yet.
+[#24549](https://github.com/galaxyproject/galaxy/pull/24549) opened as draft 2026-10-28 (CI not finished).
 
-Fork CI started on `3a3d5771d30`; not yet checked.
+Fork CI on `3a3d5771d30`: most green; Playwright, Integration Selenium, first startup, tool form harness, OpenAPI lint and DB indexes queued; "Test Galaxy release script" red, not yet diagnosed.
 
 ## Hardening
 
