@@ -61,7 +61,7 @@ Good side effect worth mentioning in the PR: the old markdown code raised `KeyEr
 - `GET /api/jobs/{id}/inputs` and `/outputs` (`dictify_associations`): `name` is the tool parameter name, not the dataset name. Out of scope.
 - `summarize_job_outputs`: `{src, id}` plus the tool's output label. Out of scope.
 - Rerun/`build_for_rerun` (tool `to_json` with a `job`) restores input values into the tool form, and data param `to_dict` may include hid/name for referenced items. Gated by `get_accessible_job`. Worth a quick look in a follow-up to check whether the form state carries names of items from other histories. Out of scope for this branch.
-- Provenance (`/api/histories/{id}/contents/{id}/provenance`): emits input ids/uuids and raw params. Worth a follow-up check, out of scope.
+- Provenance: out of scope; possible follow-up.
 
 ## Client
 
