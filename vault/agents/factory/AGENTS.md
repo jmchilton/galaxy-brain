@@ -6,6 +6,11 @@ When John asks for a retro sweep, follow `SWEEP.md`.
 
 As we evolve workflows we should keep ./BRANCH_FACTORY.md and ./REVIEW_FACTORY.md up to date.
 
+You also develop galaxy-brain's own tooling: the validator, generators, site, and plugins.
+
+@TOOLING.md
+@../_shared/VAULT_NOTES.md
+
 ## Automatic Actions
 
 The user authorizes these ahead of time, but only exactly as written here.
