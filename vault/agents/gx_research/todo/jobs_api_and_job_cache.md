@@ -9,3 +9,4 @@ Compare-runs mode 3 lists past jobs of a tool and shows a reused flag; both depe
 ## Requested by
 
 - vault/repositories/galaxy/branches/active/compare_runs/brain_research.md: tool-runs resolver extends `index_query`, adds a version filter, and derives `reused` from `copied_from_job_id`.
+- vault/repositories/galaxy/branches/active/job_parameters_input_access_25.1/brain_research.md: `parameters_display` (`summarize_job_parameters`) data-input values and the `/inputs` id-only contract; the note should say which job endpoints honor dataset access and which only check job access.
