@@ -1,4 +1,4 @@
-.PHONY: validate test install site-dev site-build site-preview dashboard check-dashboard index check-index architecture-views check-architecture-views architecture-update references check-references plugin-build plugin-dev plugin-test herdr-plugin-build herdr-plugin-test chrome-ext-build chrome-native-install site-test diff-review-build diff-review-test
+.PHONY: validate test install site-dev site-build site-preview site-deploy dashboard check-dashboard index check-index architecture-views check-architecture-views architecture-update references check-references plugin-build plugin-dev plugin-test herdr-plugin-build herdr-plugin-test chrome-ext-build chrome-native-install site-test diff-review-build diff-review-test
 
 DEPS = --with python-frontmatter --with jsonschema --with pyyaml
 
@@ -48,6 +48,9 @@ site-build:
 
 site-preview:
 	cd site && npm run preview
+
+site-deploy:
+	scripts/deploy_site.sh $(ARGS)
 
 site-test:
 	cd site && npm test

@@ -24,7 +24,7 @@ galaxy-brain/
     templates/                 # Templater templates (skipped by validator)
     bases/                     # Obsidian Bases views
     .obsidian/                 # Obsidian config
-  site/                        # Astro static site (GitHub Pages)
+  site/                        # Astro static site (galaxy-brain.jmchilton.net)
     src/layouts/               # Base layout w/ Tailwind
     src/pages/                 # Dashboard, note detail, tags, raw markdown
     src/styles/global.css      # Tailwind theme tokens + component classes
@@ -67,12 +67,13 @@ All research subtypes also require `subtype` in frontmatter. **Base fields** (re
 
 ## Static Site
 
-The vault is published as a static site via Astro + Tailwind CSS, deployed to GitHub Pages.
+The vault is published as a static site via Astro + Tailwind CSS at https://galaxy-brain.jmchilton.net/.
 
 ```sh
 make site-dev      # start dev server at localhost:4321
 make site-build    # build to site/dist/
 make site-preview  # preview production build
+make site-deploy   # build origin/main and rsync to jmchilton.net (ARGS=--dry-run to preview)
 ```
 
 Features:
@@ -81,7 +82,7 @@ Features:
 - Tag browser with grouped listing and per-tag filtered views
 - Raw markdown endpoint + clipboard copy button on each note
 - Dark mode (auto-detects OS preference)
-- Deployed automatically on push to `main`
+- Deployed manually with `make site-deploy`
 
 ## Validation
 
