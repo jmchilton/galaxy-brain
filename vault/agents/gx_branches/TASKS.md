@@ -91,4 +91,9 @@
   kind: human
   link: https://github.com/galaxyproject/galaxy/pull/24349
   record: galaxy/branches/issue_24328_data_table_mismatch_26.1
+- prompt: Review dannon-response change (location.replace nit) in the differential review, then post the suggested reply in review_response_dannon_1.md.
+  agent_dir: gx_branches
+  kind: human
+  link: https://github.com/galaxyproject/galaxy/pull/24473
+  record: galaxy/branches/issue_24457_password_reset_25.1
 ```

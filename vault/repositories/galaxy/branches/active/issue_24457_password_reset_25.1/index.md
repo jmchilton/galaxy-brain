@@ -9,11 +9,15 @@ upstream_base_branch: release_25.1
 
 ## Status
 
-Polished (`branches_ready_for_final_review`) at `b88e76ad2ca`, awaiting John's read-through; base `release_25.1` (`bd2cb474a8d`).
+Polished and opened as PR [#24473](https://github.com/galaxyproject/galaxy/pull/24473) at `b88e76ad2ca`; base `release_25.1` (`bd2cb474a8d`).
 
-PR not opened.
+PR #24473 is open, approved by dannon; head `b201a506f0c` applies his `location.replace()` nit ([response](review_response_dannon_1.md)).
 
 Fork CI has no reported failures as of 2026-10-25: 18 workflows passed, one skipped, six queued/running; both local Selenium flows passed.
+
+## Merge-forward
+
+From 26.0 on, `ChangePassword` must call `discardActiveConnectionsBeforeAuthNavigation()` before its POST and send `SKIP_PENDING_REQUESTS_HEADER`, like `LoginForm`/`RegisterForm` (dannon, PR comment).
 
 ## Handoff
 
