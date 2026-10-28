@@ -8,7 +8,7 @@ upstream_base_branch: release_26.0
 
 ## Status
 
-Implemented (head `3d1273c67c3`) on `release_26.0`; red→green API test. Worktree: `~/projects/worktrees/galaxy/branch/issue_24529_custom_build_fasta_history_26.0`.
+BLOCKED on scope decision (head `0a6c27e2cae`) on `release_26.0`; expanded to `converted/{ext}` + feature search; see implementation_debrief.md. Alt: `issue_24529_custom_build_fasta_history_26.0_alt_original_scope`. Worktree: `~/projects/worktrees/galaxy/branch/issue_24529_custom_build_fasta_history_26.0`.
 
 No PR.
 
