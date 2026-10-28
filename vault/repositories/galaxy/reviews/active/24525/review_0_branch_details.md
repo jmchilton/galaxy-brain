@@ -1,0 +1,4 @@
+`pr_24525_review_0` builds on the PR head (e37e3605). It has `SharingPage.vue` derive its API and `list_published` path segment from `modelClass`, the way `PublishedItem.vue` does, so display labels like "Notebooks" no longer drive URLs. That removes the PR's optional `resource` prop and router addition. It also adds the missing Selenium coverage for the notebook sharing page.
+
+- `d45b27f1388` Derive sharing API segment from modelClass, not display label. Replaces the `resource ?? pluralName.toLowerCase()` fallback with `History` -> `histories`, else `${modelClass.toLowerCase()}s`, and removes `resource: "pages"` from the `pages/sharing` route.
+- `44c11ba8024` Add Selenium test for publishing a page via sharing page. Adds `go_to_page_sharing` to `navigates_galaxy.py` and `test_page_sharing.py`, which publishes a populator-created page through the UI and asserts the sharing state through the API.
