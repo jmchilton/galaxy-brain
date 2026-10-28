@@ -5,11 +5,11 @@
 
 ## Status
 
-`ready`: polished, head `2a5656f8f8b` on `release_26.2`.
+`ready`: polished, head `d0ec25c9634` on `release_26.2` (rebased 2026-10-28, one import conflict in `framework.py`).
 
 [#24439](https://github.com/galaxyproject/galaxy/pull/24439) out of draft (found undrafted 2026-10-24).
 
-PR CI green.
+CI re-running after the 2026-10-28 rebase.
 
 ## Scope
 
