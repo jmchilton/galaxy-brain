@@ -5,11 +5,11 @@
 
 ## Status
 
-`ready`: polished, head `32cc69c6e02` on `release_26.2`.
+`ready`: polished, head `509236eca45` on `release_26.2`; rebased 2026-10-28 (one `navigates_galaxy.py` add/add conflict, kept both).
 
 [#24440](https://github.com/galaxyproject/galaxy/pull/24440) undrafted 2026-10-24 (tick).
 
-PR CI green except Integration `test_pulsar_embedded_extended_metadata::test_runtime_environment_warning` (Pulsar job stuck `running`), unrelated to E2E-only change; rerun.
+CI rerunning after force-push; prior run's only red was unrelated Integration `test_pulsar_embedded_extended_metadata::test_runtime_environment_warning`.
 
 ## PR
 
