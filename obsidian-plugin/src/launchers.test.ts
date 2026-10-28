@@ -93,16 +93,19 @@ describe("parseLaunchers", () => {
 			["🛝 Build Slides - Pitch", "", "gx_branches"],
 			["🗣 Build Slides - Implementation", "", "gx_branches"],
 			["📝 Address diff comments", "active", "gx_branches"],
+			["🗄️ Shelve", "active", "gx_branches"],
 		]);
 		expect(vaultLaunchers("repositories/galaxy/issues/LAUNCHERS.md")).toEqual([
 			["🐴 Implement", "queued,wip,needs_decision,blocked", "gx_workhorse"],
 			["💭 New session", "", "gx_issues"],
 			["🩺 Root cause", "untracked", "gx_workhorse"],
 			["🛠️ Work on", "untracked", "gx_workhorse"],
+			["🗄️ Shelve", SHELVE_ISSUE, "gx_issues"],
 		]);
 		expect(vaultLaunchers("repositories/galaxy/issues_incubator/LAUNCHERS.md")).toEqual([
 			["❯ Prepare to file", "incubating", "gx_issues"],
 			["📤 File issue", "incubating,internal", ""],
+			["📤 File issue and assign me", "incubating,internal", ""],
 			["💭 New session", "", "gx_issues"],
 		]);
 		expect(vaultLaunchers("repositories/galaxy/reviews/LAUNCHERS.md")).toEqual([
@@ -113,6 +116,7 @@ describe("parseLaunchers", () => {
 			["🔁 Rework review into PR", "active", "gx_reviews"],
 			["⚡ Quick merge", "untracked,active", "gx_reviews"],
 			["📝 Address diff comments", "active", "gx_reviews"],
+			["🗄️ Shelve", "active", "gx_reviews"],
 		]);
 	});
 
@@ -124,21 +128,19 @@ describe("parseLaunchers", () => {
 			const session = dir === "workflow_libs" ? [["💭 New session", "", dir]] : [];
 			const issues =
 				dir === "wf_foundry"
-			["🗄️ Shelve", "active", "gx_branches"],
 					? [["🏷️ Triage issue", "untracked,needs_decision", dir], ["🐴 Work on issue", "untracked,queued,wip", dir]]
 					: [...session, ["🐴 Work on issue", WORK_ON, dir]];
 			const expected = {
 				branches: [...session, ["🚀 Open pull request", "active", dir], ["🟣 Merge branch", "active", dir], ["🗄️ Shelve", "active", dir]],
 				issues: [...issues, ["✅ Close issue", OPEN_ISSUE, dir], ["🗄️ Shelve", SHELVE_ISSUE, dir]],
 				reviews: [
-			["🗄️ Shelve", SHELVE_ISSUE, "gx_issues"],
 					...session,
 					["🔎 Review", "untracked", dir],
 					["🟣 Merge pull request", "active", dir],
 					["💬 Respond to review", "active", dir],
-			["📤 File issue and assign me", "incubating,internal", ""],
 					["🔁 Rework review into PR", "active", dir],
 					["⚡ Quick merge", "untracked,active", dir],
+					["🗄️ Shelve", "active", dir],
 				],
 			};
 			for (const [kind, launchers] of Object.entries(expected)) {
@@ -147,7 +149,6 @@ describe("parseLaunchers", () => {
 		}
 	});
 
-			["🗄️ Shelve", "active", "gx_reviews"],
 	it("defaults the merge, quick merge, open, close, respond and rework launchers to Sonnet", () => {
 		for (const repo of ["foundry", "gxformat2", "galaxy-tool-util-ts", "pulsar", "planemo", "galaxy"]) {
 			// Galaxy only gets the review actions.
@@ -171,7 +172,6 @@ describe("recordFromPath", () => {
 			status: "active",
 			name: "fix_26.0",
 			dir: "repositories/galaxy/branches/active/fix_26.0",
-					["🗄️ Shelve", "active", dir],
 		});
 	});
 
