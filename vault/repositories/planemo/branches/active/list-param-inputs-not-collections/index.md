@@ -22,4 +22,4 @@ Fork CI on `129b9a55` queued (run 40434086940); local gate green; Galaxy-backed 
 
 ## Dependencies
 
-- Upstream Galaxy branch [`staging_workflow_parameter_lists`](../../../../galaxy/branches/active/staging_workflow_parameter_lists/index.md) adds `parameter_input_keys` to galaxy-tool-util staging; adopt it here once planemo can require that release.
+- Upstream Galaxy branch [`staging_workflow_parameter_lists`](../../../../galaxy/branches/active/staging_workflow_parameter_lists/index.md) adds `parameter_input_keys` to galaxy-tool-util staging; targets `release_26.2`; adopt it here once planemo can require galaxy-tool-util 26.2 (or the 26.2.x point release it lands in).
