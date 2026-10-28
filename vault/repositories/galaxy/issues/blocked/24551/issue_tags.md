@@ -1,0 +1,3 @@
+- `kind/enhancement` — extends existing stream/redirect paths to more file kinds
+- `area/objectstore` — object store read paths
+- `area/performance` — avoids whole-file cache pulls and 504s

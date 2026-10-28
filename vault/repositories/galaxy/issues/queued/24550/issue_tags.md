@@ -1,0 +1,4 @@
+- `kind/bug` — documented ~1 h lifetime, actual 24 h on three store types
+- `area/objectstore` — backend `_get_object_url` implementations
+- `area/configuration` — sample config docs and proposed setting
+- `area/security` — bearer-link exposure window (hardening, opt-in)

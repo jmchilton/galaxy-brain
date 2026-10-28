@@ -39,6 +39,7 @@ GitHub state last refreshed: 2026-10-27. Every open issue below is assigned to j
 
 ## Queued (`queued`)
 
+- [#24550](https://github.com/galaxyproject/galaxy/issues/24550) — direct-download URLs live 24 h on aws_s3/generic_s3/cloud, docs say ~1 h; next: `direct_download_expires_in` setting + per-backend red tests. [notes](queued/24550/index.md)
 - [#24546](https://github.com/galaxyproject/galaxy/issues/24546) — object store cache monitor never starts w/o Celery; `enable_cache_monitor` gate defaults False; next: red unit test + drop gate. [notes](queued/24546/index.md)
 - [#24532](https://github.com/galaxyproject/galaxy/issues/24532) — Delete Account modal shows generic error; checks `err_code === 403` vs server's 403004; next: named constant + red vitest. [notes](queued/24532/index.md)
 - [#24485](https://github.com/galaxyproject/galaxy/issues/24485) — collection test `count`/`element_count`/`max` of 0 skipped by truthiness check; next: `is not None` + unit test. [notes](queued/24485/index.md)
@@ -109,6 +110,7 @@ GitHub state last refreshed: 2026-10-27. Every open issue below is assigned to j
 
 ## Blocked on others (`blocked`)
 
+- [#24551](https://github.com/galaxyproject/galaxy/issues/24551) — metadata-file / extra-file downloads pull through object store cache, fail past cache size; blocked on: #24484 merging. [notes](blocked/24551/index.md)
 - [#22598](https://github.com/galaxyproject/galaxy/issues/22598) — Tool Shed contents hidden from anonymous users after bot traffic; blocked on: an infrastructure decision (natefoo, mvdbeek). [notes](blocked/22598/index.md)
 - [#23183](https://github.com/galaxyproject/galaxy/issues/23183) — warm pool of interactive tool instances; blocked on: startup metrics showing which part is slow. [notes](blocked/23183/index.md)
 
