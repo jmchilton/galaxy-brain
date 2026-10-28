@@ -2,3 +2,5 @@
 
 - `d45b27f1388` Derive sharing API segment from modelClass, not display label. Replaces the `resource ?? pluralName.toLowerCase()` fallback with `History` -> `histories`, else `${modelClass.toLowerCase()}s`, and removes `resource: "pages"` from the `pages/sharing` route.
 - `44c11ba8024` Add Selenium test for publishing a page via sharing page. Adds `go_to_page_sharing` to `navigates_galaxy.py` and `test_page_sharing.py`, which publishes a populator-created page through the UI and asserts the sharing state through the API.
+- `bfb8151240a` Add sharing status populator helpers and published items link component. Adds `BasePopulator.get_sharing_status(api_name, id)` and `wait_for_published(api_name, id)`, plus the `histories.sharing.published_items_link` smart component.
+- `0ae6cf53a24` Use sharing helpers and smart component in page sharing test. Replaces the raw CSS selector, `_wait_on_custom` lambda, and repeated `api_get` with the new helpers, and drops the fixed slug.
