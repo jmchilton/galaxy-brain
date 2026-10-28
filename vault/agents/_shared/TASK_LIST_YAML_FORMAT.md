@@ -31,7 +31,7 @@ A task list is a ```` ```gb-tasks ```` fenced block inside a Markdown note, hold
 | `priority`  | no       | `high` or `low`; omitted is normal. Shown as a badge. |
 | `kind`      | no       | `human`: John does it; no launch and no `profile`. Omitted is an agent task. |
 | `link`      | no       | An `http(s)` URL shown as a link on the card, e.g. the PR or issue. Not sent to the agent. |
-| `record`    | no       | Repository record the task is about, as `<repo>/<branches\|issues\|reviews>/<name>` (no status, so it survives moves), e.g. `galaxy/reviews/24222`. Shown as a 📓 link opening its `index.md`. Not sent to the agent. |
+| `record`    | no       | Repository record the task is about, as `<repo>/<branches\|issues\|issues_incubator\|reviews>/<name>` (no status, so it survives moves), e.g. `galaxy/reviews/24222`. Shown as a 📓 link opening its `index.md`. Not sent to the agent. |
 | `suggested_by` | no   | The SUGGESTED_TASKS.md section that produced the task, as `<path under vault/agents>#<heading>`, e.g. `gx_reviews/SUGGESTED_TASKS.md#Review New PRs`. Not sent to the agent; included in 🪄 refinement prompts. |
 
 Unknown fields are errors.

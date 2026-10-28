@@ -1,6 +1,6 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
-import { groupBySections, groupingFor, parseGrouping } from './records';
+import { RECORD_KINDS, groupBySections, groupingFor, parseGrouping } from './records';
 import { FORK_OWNER, REPOSITORY_TABS, githubListUrl, upstreamOwner } from './repository-tabs';
 
 const QUEUE_PATH = 'repositories/galaxy/branches/MY_BRANCHES.md';
@@ -84,8 +84,15 @@ describe('upstreamOwner', () => {
 describe('REPOSITORY_TABS', () => {
   it('lists record tabs first, then GitHub tabs', () => {
     expect(REPOSITORY_TABS.map(tab => tab.id)).toEqual([
-      'branches', 'issues', 'reviews', 'my-drafts', 'conflicting', 'new-prs', 'undrafted-prs', 'new-issues',
+      'branches', 'issues', 'issues_incubator', 'reviews', 'my-drafts', 'conflicting', 'new-prs', 'undrafted-prs', 'new-issues',
     ]);
+  });
+});
+
+describe('record tabs', () => {
+  it('gives every record kind a tab', () => {
+    const ids: readonly string[] = REPOSITORY_TABS.map(tab => tab.id);
+    expect(RECORD_KINDS.filter(kind => !ids.includes(kind))).toEqual([]);
   });
 });
 

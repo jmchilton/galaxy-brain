@@ -1,7 +1,7 @@
 // Repository record paths, statuses and grouping. Dependency-free: shared with
 // the Obsidian plugin (obsidian-plugin/), which runs without Node on mobile.
 
-export const RECORD_KINDS = ['branches', 'issues', 'reviews'] as const;
+export const RECORD_KINDS = ['branches', 'issues', 'issues_incubator', 'reviews'] as const;
 export type RecordKind = typeof RECORD_KINDS[number];
 
 // `_defaults` holds only the default File Docs; it isn't a tracked repository.
@@ -40,6 +40,7 @@ export function parseRecordPath(rel: string): RecordPath | null {
 export const KIND_LABELS: Record<RecordKind, string> = {
   branches: 'Branches',
   issues: 'Issues',
+  issues_incubator: 'Issue incubator',
   reviews: 'Reviews',
 };
 
@@ -48,11 +49,12 @@ export const KIND_LABELS: Record<RecordKind, string> = {
 export const STATUS_ORDER: Record<RecordKind, string[]> = {
   branches: ['active', 'merged', 'abandoned'],
   issues: ['needs_decision', 'queued', 'wip', 'blocked', 'delegated', 'closed'],
+  issues_incubator: ['incubating', 'internal', 'rejected'],
   reviews: ['active', 'archived'],
 };
 
 // Finished statuses; collapsed by default on repository pages.
-const TERMINAL_STATUSES = new Set(['merged', 'abandoned', 'archived', 'closed']);
+const TERMINAL_STATUSES = new Set(['merged', 'abandoned', 'archived', 'closed', 'rejected']);
 
 export function isTerminalStatus(status: string): boolean {
   return TERMINAL_STATUSES.has(status);

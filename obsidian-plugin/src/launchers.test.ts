@@ -35,6 +35,7 @@ describe("launcherScope", () => {
 	it("reads repo and kind from a kind-level LAUNCHERS.md; _defaults applies to every repo", () => {
 		expect(launcherScope("repositories/galaxy/issues/LAUNCHERS.md")).toEqual(GALAXY_ISSUES);
 		expect(launcherScope("repositories/_defaults/branches/LAUNCHERS.md")).toEqual({ repo: null, kind: "branches" });
+		expect(launcherScope("repositories/galaxy/issues_incubator/LAUNCHERS.md")).toEqual({ repo: "galaxy", kind: "issues_incubator" });
 	});
 
 	it("ignores other files", () => {
@@ -83,6 +84,10 @@ describe("parseLaunchers", () => {
 			["💭 New session", "", "gx_issues"],
 			["🩺 Root cause", "untracked", "gx_workhorse"],
 			["🛠️ Work on", "untracked", "gx_workhorse"],
+		]);
+		expect(vaultLaunchers("repositories/galaxy/issues_incubator/LAUNCHERS.md")).toEqual([
+			["❯ Prepare to file", "incubating", "gx_issues"],
+			["💭 New session", "", "gx_issues"],
 		]);
 		expect(vaultLaunchers("repositories/galaxy/reviews/LAUNCHERS.md")).toEqual([
 			["💬 Respond to review", "active", "gx_reviews"],
@@ -146,6 +151,14 @@ describe("recordFromPath", () => {
 			status: "active",
 			name: "fix_26.0",
 			dir: "repositories/galaxy/branches/active/fix_26.0",
+		});
+	});
+
+	it("finds issue incubator records", () => {
+		expect(recordFromPath("repositories/galaxy/issues_incubator/rejected/oidc_optional_refresh_token/debrief.md")).toMatchObject({
+			kind: "issues_incubator",
+			status: "rejected",
+			name: "oidc_optional_refresh_token",
 		});
 	});
 

@@ -43,6 +43,16 @@ describe('parseRecordPath', () => {
     expect(parseRecordPath('repositories/galaxy/reviews/active/23223')).toMatchObject({ id: '23223', rest: '' });
   });
 
+  it('parses issue incubator records', () => {
+    expect(parseRecordPath('repositories/galaxy/issues_incubator/incubating/oidc_extra_authorize_params/proposal.md')).toEqual({
+      repo: 'galaxy',
+      kind: 'issues_incubator',
+      status: 'incubating',
+      id: 'oidc_extra_authorize_params',
+      rest: 'proposal.md',
+    });
+  });
+
   it('ignores kind-level files, unknown kinds, and non-repository paths', () => {
     expect(parseRecordPath('repositories/galaxy/branches/queue_context.md')).toBeNull();
     expect(parseRecordPath('repositories/galaxy/notes/active/x/index.md')).toBeNull();

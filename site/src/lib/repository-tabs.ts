@@ -6,6 +6,7 @@ import type { RecordKind } from './records';
 export const REPOSITORY_TABS = [
   { id: 'branches', label: 'My branches' },
   { id: 'issues', label: 'My issues' },
+  { id: 'issues_incubator', label: 'Issue incubator' },
   { id: 'reviews', label: 'My reviews' },
   { id: 'my-drafts', label: 'My drafts' },
   { id: 'conflicting', label: 'Conflicting' },

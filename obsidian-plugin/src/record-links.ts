@@ -8,7 +8,7 @@ const BRANCHES_ON_UPSTREAM = new Set(["foundry"]);
 
 /**
  * Branches: their PR (linked, or named on the Status line), else their branch;
- * reviews and issues: the PR or issue named by the record.
+ * reviews and issues: the PR or issue named by the record; issue drafts: the upstream issue list.
  */
 export function githubUrl(record: RecordRef, body: string): string {
 	const all = githubLinks(body);
@@ -18,6 +18,7 @@ export function githubUrl(record: RecordRef, body: string): string {
 	const upstream = `https://github.com/${upstreamOwner(record.repo, [body])}/${record.repo}`;
 	if (record.kind === "reviews") return find(new RegExp(`/pull/${id}$`)) ?? `${upstream}/pull/${record.name}`;
 	if (record.kind === "issues") return find(new RegExp(`/issues/${id}$`)) ?? `${upstream}/issues/${record.name}`;
+	if (record.kind === "issues_incubator") return `${upstream}/issues`;
 	const statusPr = /^Status:.*?\bPR #(\d+)/m.exec(body)?.[1];
 	const forkOwner = BRANCHES_ON_UPSTREAM.has(record.repo) ? upstreamOwner(record.repo, [body]) : FORK_OWNER;
 	return (

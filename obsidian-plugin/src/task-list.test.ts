@@ -37,6 +37,12 @@ describe("parseTasks", () => {
 		expect(parseTasks([{ prompt: "x", agent_dir: "planemo", link }], known)).toEqual([{ prompt: "x", agentDir: "planemo", link }]);
 	});
 
+	it("reads an issue incubator record reference", () => {
+		expect(parseTasks([{ prompt: "x", agent_dir: "planemo", record: "galaxy/issues_incubator/oidc_extra_authorize_params" }], known)).toEqual([
+			{ prompt: "x", agentDir: "planemo", record: { repo: "galaxy", kind: "issues_incubator", name: "oidc_extra_authorize_params" } },
+		]);
+	});
+
 	it("reads a record reference", () => {
 		expect(parseTasks([{ prompt: "x", agent_dir: "planemo", record: "galaxy/reviews/24396" }], known)).toEqual([
 			{ prompt: "x", agentDir: "planemo", record: { repo: "galaxy", kind: "reviews", name: "24396" } },
@@ -65,7 +71,7 @@ describe("parseTasks", () => {
 		[[{ prompt: "x", agent_dir: "planemo", kind: "robot" }], /task 1: unknown kind robot/],
 		[[{ prompt: "x", agent_dir: "planemo", kind: "human", profile: "Opus (high)" }], /task 1: human task with a profile/],
 		[[{ prompt: "x", agent_dir: "planemo", link: "galaxy#24396" }], /task 1: link must be an http\(s\) URL/],
-		[[{ prompt: "x", agent_dir: "planemo", record: "galaxy/pulls/24396" }], /task 1: record must be <repo>\/<branches\|issues\|reviews>\/<name>/],
+		[[{ prompt: "x", agent_dir: "planemo", record: "galaxy/pulls/24396" }], /task 1: record must be <repo>\/<branches\|issues\|issues_incubator\|reviews>\/<name>/],
 		[[{ prompt: "x", agent_dir: "planemo", record: "repositories/galaxy/reviews/active/24396" }], /task 1: record must be/],
 		[[{ prompt: "x", agent_dir: "planemo", suggested_by: "gx_reviews/SUGGESTED_TASKS" }], /task 1: suggested_by must be/],
 	])("rejects %j", (data, error) => {

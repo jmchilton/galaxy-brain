@@ -1,10 +1,10 @@
 # Repository records on the site — implementation plan
 
-Render `vault/repositories/<repo>/<kind>/<status>/<id>/` records (branches, issues, reviews) on the Astro site with URLs that survive status moves, plus a landing page per repository.
+Render `vault/repositories/<repo>/<kind>/<status>/<id>/` records (branches, issues, issue incubator, reviews) on the Astro site with URLs that survive status moves, plus a landing page per repository.
 
 ## Decisions
 
-- Kinds: `branches`, `issues`, `reviews` ("PRs" in early notes meant reviews).
+- Kinds: `branches`, `issues`, `issues_incubator`, `reviews` ("PRs" in early notes meant reviews). `issues_incubator` holds issue drafts not yet filed (`incubating`, `internal`, `rejected`).
 - Site-only persistence. Vault directories keep their status segment and records still move; Obsidian links still break on moves. Site URLs drop the status segment:
   `repositories/<repo>/<kind>/<status>/<id>/<rest>` → `/repositories/<repo>/<kind>/<id>/<rest>/`.
 - Pages are named "repository" (`/projects/` is already the project note type).
@@ -21,7 +21,7 @@ Render `vault/repositories/<repo>/<kind>/<status>/<id>/` records (branches, issu
 
 - `repositoryFiles` content collection over `repositories/**/*.md`, no schema (records have no frontmatter).
 - `/repositories/` — repository list with per-kind counts.
-- `/repositories/<repo>/` — landing page: branches, issues, reviews grouped by directory status, record title from the first `# ` heading.
+- `/repositories/<repo>/` — landing page: branches, issues, issue incubator, reviews grouped by directory status, record title from the first `# ` heading.
 - `/repositories/<repo>/<kind>/<id>/…` — record `index.md` with status badge + file tree of sub-files; sub-file and folder pages with breadcrumbs. Reuses `FileTree.astro` and the `projects/[project]/[...path].astro` pattern.
 - Header nav + dashboard link to `/repositories/`.
 - Only `.md` files render; logs, screenshots, patches etc. are not published.

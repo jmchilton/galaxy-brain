@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'vitest';
+import { isTerminalStatus } from './records';
 import { buildRepositories, groupByStatus, listedRepositories, recordTitle, repositoryPages } from './repository-records';
 import { vaultPathToSlug } from './vault-urls';
 
@@ -83,6 +84,17 @@ describe('groupByStatus', () => {
       entry('repositories/x/issues/wip/2/index.md'),
     ])[0].records;
     expect(groupByStatus(records, 'issues').map(g => g.status)).toEqual(['wip', 'someday']);
+  });
+
+  it('orders issue incubator statuses', () => {
+    const records = buildRepositories([
+      entry('repositories/x/issues_incubator/rejected/a/index.md'),
+      entry('repositories/x/issues_incubator/internal/b/index.md'),
+      entry('repositories/x/issues_incubator/incubating/c/index.md'),
+    ])[0].records;
+    expect(groupByStatus(records, 'issues_incubator').map(g => g.status)).toEqual(['incubating', 'internal', 'rejected']);
+    expect(isTerminalStatus('rejected')).toBe(true);
+    expect(isTerminalStatus('internal')).toBe(false);
   });
 });
 

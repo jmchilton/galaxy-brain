@@ -35,8 +35,8 @@ const isMine = (tab: GithubTab) => tab === "my-drafts" || tab === "conflicting";
 
 const RECENT_BY: Record<RecentBy, string> = { created: "Newest", updated: "Recently updated" };
 
-const RECORD_ICONS: Record<RecordKind, string> = { branches: "git-branch", reviews: "file-search", issues: "file-text" };
-const RECORD_NOUNS: Record<RecordKind, string> = { branches: "branch", reviews: "review", issues: "issue" };
+const RECORD_ICONS: Record<RecordKind, string> = { branches: "git-branch", reviews: "file-search", issues: "file-text", issues_incubator: "sprout" };
+const RECORD_NOUNS: Record<RecordKind, string> = { branches: "branch", reviews: "review", issues: "issue", issues_incubator: "issue draft" };
 
 const FEED_KEYS: Record<GithubTab, FeedList> = {
 	"new-prs": "newPrs",

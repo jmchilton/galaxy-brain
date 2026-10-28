@@ -123,7 +123,7 @@ Do not weaken the schema to fit a non-conforming note. Reshape the note or delib
 
 ### Shared records and configuration
 
-- Records live at `vault/repositories/<repo>/<kind>/<status>/<id>/`, where kind is `branches`, `issues`, or `reviews`. Their `index.md` files need no frontmatter.
+- Records live at `vault/repositories/<repo>/<kind>/<status>/<id>/`, where kind is `branches`, `issues`, `issues_incubator`, or `reviews`. Their `index.md` files need no frontmatter.
 - `site/src/lib/records.ts` supplies record paths, status helpers, and queue grouping shared by the site and Obsidian plugin. Keep it dependency-free and free of Node imports because the plugin also loads on mobile.
 - Branch records group by sections in `vault/repositories/<repo>/branches/MY_BRANCHES.md` when present. Unlisted records fall back to status groups. The branches tab also embeds the queue file.
 - Launchers come from `vault/repositories/<repo>/<kind>/LAUNCHERS.md` and `_defaults/<kind>/LAUNCHERS.md`. The format is documented in `vault/agents/_shared/LAUNCHERS.md` and parsed by `obsidian-plugin/src/launchers.ts`.
