@@ -9,7 +9,11 @@ parent_branch: workflow_import_embedded_tools
 
 ## Status
 
-Implementation in progress for [#24530](https://github.com/galaxyproject/galaxy/issues/24530).
+Implemented and hardened for [#24530](https://github.com/galaxyproject/galaxy/issues/24530) at `dadc555490f`; READY, stacked on #24475.
+
+No PR yet.
+
+CI not run; targeted API and unit tests pass locally.
 
 ## Decisions
 

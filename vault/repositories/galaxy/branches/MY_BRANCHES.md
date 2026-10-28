@@ -68,6 +68,8 @@ None yet.
 
 ## Galaxy branches — implemented, work left (`branches_implemented_needs_ci`)
 
+- [`issue_24530_atomic_embedded_tool_import_26.1`](active/issue_24530_atomic_embedded_tool_import_26.1/index.md) — Failed workflow import/update/shared copy rolls back embedded tools (DB + toolbox) (#24530). Stacked on `workflow_import_embedded_tools` (#24475). [Open PR](https://github.com/jmchilton/galaxy/compare/workflow_import_embedded_tools...issue_24530_atomic_embedded_tool_import_26.1?expand=1).
+
 - [`deployment_test_docs_decorators_26_2`](active/deployment_test_docs_decorators_26_2/index.md) — Documents deployment tests and adds a decorator audit skill. Stacked on `deployment_test_fixes_26_2`. [Open PR](https://github.com/jmchilton/galaxy/compare/deployment_test_fixes_26_2...deployment_test_docs_decorators_26_2?expand=1).
 - [`selenium_workflow_preview_import_26.2`](active/selenium_workflow_preview_import_26.2/index.md) — Public workflow preview/Run/Import tests + TRS launch-link auto-import and version-alias fixes; baseline first, hardened READY. Base `release_26.2`, head `ef7bf72fdea9`; both browser backends verified.
 
