@@ -39,6 +39,8 @@ This [review branch](https://github.com/jmchilton/galaxy/tree/pr_24525_review_0)
 
 - [`d45b27f1388`](https://github.com/jmchilton/galaxy/commit/d45b27f1388) Derive sharing API segment from modelClass, not display label. Replaces the `resource ?? pluralName.toLowerCase()` fallback with `History` -> `histories`, else `${modelClass.toLowerCase()}s`, and removes `resource: "pages"` from the `pages/sharing` route.
 - [`44c11ba8024`](https://github.com/jmchilton/galaxy/commit/44c11ba8024) Add Selenium test for publishing a page via sharing page. Adds `go_to_page_sharing` to `navigates_galaxy.py` and `test_page_sharing.py`, which publishes a populator-created page through the UI and asserts the sharing state through the API.
+- [`bfb8151240a`](https://github.com/jmchilton/galaxy/commit/bfb8151240a) Add sharing status populator helpers and published items link component. Adds `BasePopulator.get_sharing_status(api_name, id)` and `wait_for_published(api_name, id)`, plus the `histories.sharing.published_items_link` smart component.
+- [`0ae6cf53a24`](https://github.com/jmchilton/galaxy/commit/0ae6cf53a24) Use sharing helpers and smart component in page sharing test. Replaces the raw CSS selector, custom wait lambda, and repeated sharing GETs with the new helpers.
 
 </details>
 
@@ -84,7 +86,7 @@ The new test (Playwright backend) passes against a client built from the review 
 
 Add `go_to_page_sharing` next to `go_to_workflow_sharing` in `navigates_galaxy.py`, plus a short `test_page_sharing.py`. The test creates a page through the populator, opens `pages/sharing?id=…`, makes the page accessible and publishable, checks the "Published Notebooks" link points at `/pages/list_published`, and asserts `importable`/`published` through the API.
 
-Fixed on the review branch in [`44c11ba8024`](https://github.com/jmchilton/galaxy/commit/44c11ba8024).
+Fixed on the review branch in [`44c11ba8024`](https://github.com/jmchilton/galaxy/commit/44c11ba8024), with reusable sharing populator helpers and a smart component in [`bfb8151240a`](https://github.com/jmchilton/galaxy/commit/bfb8151240a) and [`0ae6cf53a24`](https://github.com/jmchilton/galaxy/commit/0ae6cf53a24).
 
 <details><summary>Discovery & Verification Agent Details</summary>
 
