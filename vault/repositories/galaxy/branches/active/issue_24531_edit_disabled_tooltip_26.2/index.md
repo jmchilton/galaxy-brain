@@ -8,4 +8,4 @@ upstream_base_branch: release_26.2
 
 ## Status
 
-Implementation in progress (gx_workhorse).
+Implemented and re-hardened READY (gx_workhorse, head `e816c0542f0`); needs rebase onto `release_26.2` before PR.
