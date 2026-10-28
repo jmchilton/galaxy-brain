@@ -1050,3 +1050,21 @@
   target: main
   summary: 'Copied from the news-post FAQ: introduces the sample with "A news post is a markdown file that looks as follows:" though the sample is an FAQ.'
   fix: '"An FAQ is a markdown file that looks as follows:".'
+
+- label: gtn-workflow-testing-names
+  faqs: [faqs/gtn/gtn_workflow_testing.md]
+  target: main
+  summary: 'Example claims `machinelearning/workflows/machine_learning-tests.yml`, but the file is `machine_learning-test.yml` (56 GTN workflows use `-test.yml`, 138 `-tests.yml`, so "find tutorials without `-tests.yml`" misleads). API key path says "Manage API Key"; Galaxy''s preferences entry is "Manage Galaxy API Key".'
+  fix: 'Say `-test.yml` or `-tests.yml`, fix the example filename, use "Manage Galaxy API Key".'
+
+- label: instructors-server-links-stale
+  faqs: [faqs/gtn/instructors_choosing_server.md]
+  target: main
+  summary: 'GenAP link redirects to a "genap_end_of_life" page; GVL launch.genome.edu.au/launch does not respond; sentence "For example, the usegalaxy.eu" is cut off; "Some training topics have a Docker image" is dated.'
+  fix: 'Drop GenAP and GVL launch (or replace), finish the usegalaxy.eu sentence (e.g. TIaaS), drop or update the Docker paragraph.'
+
+- label: gitter-twitter-login
+  faqs: [faqs/gtn/instructors_getting_help.md, faqs/gtn/learners_getting_help.md]
+  target: main
+  summary: 'Say you need a GitHub or Twitter account to post in Gitter; Gitter now runs on Matrix (login via Matrix/GitHub/etc., no Twitter), and other GTN FAQs already point at the Matrix room.'
+  fix: 'Point at the Matrix room and drop the account sentence (or say "a Matrix account").'
