@@ -1,10 +1,10 @@
 #!/bin/bash
 # Print a compact CI failure digest (gh-ci-artifacts --digest).
-# Usage: gx_check_ci.sh <PR number | PR URL> [--repo OWNER/REPO] [--fresh]
-#        gx_check_ci.sh --branch NAME --base UPSTREAM_BASE [--repo OWNER/REPO] [--fresh]
+# Usage: check_ci.sh <PR number | PR URL> [--upstream OWNER/REPO] [--repo OWNER/REPO] [--fresh]
+#        check_ci.sh --branch NAME --base UPSTREAM_BASE [--upstream OWNER/REPO] [--repo OWNER/REPO] [--fresh]
 # Cached per head SHA and run attempts/statuses, so reruns and finished runs refresh it.
-# PR default repo: galaxyproject/galaxy. Branch mode reads fork CI (default repo: <gh user>/galaxy)
-# and compares against UPSTREAM_BASE in galaxyproject/galaxy.
+# UPSTREAM defaults to galaxyproject/galaxy. A PR number is read from UPSTREAM; a PR URL names its own repo.
+# Branch mode reads fork CI (default repo: <gh user>/<UPSTREAM name>) and compares against UPSTREAM_BASE in UPSTREAM.
 # Exit: 0 green, 1 failures, 2 nothing failed yet but runs pending or not started, 3 tool error.
 # GH_CI_ARTIFACTS overrides the tool command (default: local clone's dist/cli.js, else npx).
 set -eu
@@ -13,6 +13,7 @@ usage() { sed -n 3,4p "$0" | sed 's/^# //' >&2; exit 3; }
 upstream=galaxyproject/galaxy repo= pr= branch= base= fresh=
 while [ $# -gt 0 ]; do
   case $1 in
+    --upstream) upstream=$2; shift ;;
     --repo) repo=$2; shift ;;
     --branch) branch=$2; shift ;;
     --base) base=$2; shift ;;
@@ -34,14 +35,14 @@ if [ -n "$pr" ]; then
   sha=$(gh pr view "$pr" -R "$repo" --json headRefOid --jq .headRefOid)
   key=pr-$pr ref=$pr base_args=()
 elif [ -n "$branch" ] && [ -n "$base" ]; then
-  repo=${repo:-$(gh api user --jq .login)/galaxy}
+  repo=${repo:-$(gh api user --jq .login)/${upstream#*/}}
   sha=$(gh api "repos/$repo/branches/$branch" --jq .commit.sha)
   key=branch-$(echo "$branch" | tr -c 'A-Za-z0-9._-\n' _) ref=$branch base_args=(--base "$base" --base-repo "$upstream")
 else
   usage
 fi
 
-root=${XDG_CACHE_HOME:-$HOME/.cache}/gx-check-ci
+root=${XDG_CACHE_HOME:-$HOME/.cache}/check-ci
 key_dir=$root/${repo/\//_}/$key
 out=$key_dir/${sha:0:12}
 mkdir -p "$key_dir"
@@ -54,7 +55,7 @@ if [ -n "$fresh" ] || [ "$(cat "$out.runs" 2>/dev/null)" != "$runs" ]; then
   rm -rf "$out" "$out.runs"
   status=0
   # shellcheck disable=SC2086
-  $tool "$ref" --repo "$repo" -o "$out" --config "$(dirname "$0")/gx_check_ci.json" "${base_args[@]+"${base_args[@]}"}" \
+  $tool "$ref" --repo "$repo" -o "$out" --config "$(dirname "$0")/check_ci.json" "${base_args[@]+"${base_args[@]}"}" \
     --digest >/dev/null 2>"$out.log" || status=$?
   digest=$(find "$out" -maxdepth 2 -name digest.txt 2>/dev/null | head -1)
   if [ -z "$digest" ]; then

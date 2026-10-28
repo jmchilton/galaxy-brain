@@ -28,6 +28,12 @@ The review queue is [PULL_REQUESTS.md](agents/pulsar/PULL_REQUESTS.md); detail l
 
 The agent running in this directory is also responsible for maintaining and promoting John's branches within [MY_BRANCHES.md](../../repositories/pulsar/branches/MY_BRANCHES.md). Branch records and supporting files live in `vault/repositories/pulsar/branches/active/<branch_name>/`.
 
+## Automatic Actions
+
+The user authorizes these ahead of time, but only exactly as written here.
+
+- **Rerun unrelated reds.** For each MY_BRANCHES.md entry whose PR or pushed branch has failed CI: unless its branch record has a CI verdict for that head SHA, check CI per [`CHECK_CI.md`](../_shared/CHECK_CI.md) (upstream `galaxyproject/pulsar`) and replace the record's CI line with the verdict. Then rerun per that file's "Rerun unrelated reds". Skip `branches_need_decision` and `branches_reference` entries.
+
 ## User Interaction
 
 When asked to implement features, fix bugs, tweak PRs, etc. - when the work is "doneish" and you'd like to report the work to John - please make sure it is committed and pushed to a remote. Send John the URL of the branch. Obviously don't commit/push work that contains secrets or security issues - those things need to be reported to John immediately.

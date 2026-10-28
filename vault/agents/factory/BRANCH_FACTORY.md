@@ -110,7 +110,7 @@ John can also comment on diff lines in Obsidian and select **Address diff commen
 
 ## gx_branches: polish, approve, open
 
-The branch manager owns a single queue of every open PR and every branch meant to become one. It reclassifies entries from live GitHub state, reruns unrelated CI failures and takes green drafts out of draft. Rebasing a conflicting PR is suggested as a task for John to approve, never done just because a branch is old.
+The branch manager owns a single queue of every open PR and every branch meant to become one. It reclassifies entries from live GitHub state, reruns unrelated CI failures once per head SHA (never ones that also fail on base) and takes green drafts out of draft. Rebasing a conflicting PR is suggested as a task for John to approve, never done just because a branch is old.
 
 ```mermaid
 flowchart TD

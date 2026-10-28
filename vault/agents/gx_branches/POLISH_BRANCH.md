@@ -7,7 +7,7 @@ BRANCH_DIRECTORY is `vault/repositories/galaxy/branches/active/<branch_name>/`, 
 Polish only hardened branches: check BRANCH_DIRECTORY for the debriefs [`GX_PROCESS_HARDEN_BRANCH.md`](../_shared/GX_PROCESS_HARDEN_BRANCH.md) produces (e.g. `baseline_refactor.md`, `scope_evaluation.md`); if they're missing, stop and ask user to confirm polishing before hardening.
 ## 1. Check CI
 
-Check CI for issues with this branch before continuing with the polish, following [`GX_CHECK_CI.md`](../_shared/GX_CHECK_CI.md). If some checks are still running that is fine - but check the current failures for evidence they are related to this branch. Fix the branch before continuing.
+Check CI for issues with this branch before continuing with the polish, following [`CHECK_CI.md`](../_shared/CHECK_CI.md). If some checks are still running that is fine - but check the current failures for evidence they are related to this branch. Fix the branch before continuing.
 ## 2. Pick the checklist
 
 Always use [`GENERAL.md`](../_shared/gx_pr_checklists/GENERAL.md). Add [`WORKFLOW_RELATED.md`](../_shared/gx_pr_checklists/WORKFLOW_RELATED.md) if the branch touches workflows, using the scope in `GX_PR_DESCRIPTIONS.md`.

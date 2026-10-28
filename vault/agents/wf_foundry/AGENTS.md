@@ -30,6 +30,12 @@ If the user asks to abandon a branch, follow the process described for that.
 Worktree inventory and scan tool: [TREE_MANAGE.md](TREE_MANAGE.md) and
 `./scan_worktrees.sh`.
 
+## Automatic Actions
+
+The user authorizes these ahead of time, but only exactly as written here.
+
+- **Rerun unrelated reds.** For each MY_BRANCHES.md entry whose open PR has failed CI: unless its branch record has a CI verdict for that head SHA, check CI per [`CHECK_CI.md`](../_shared/CHECK_CI.md) (upstream `galaxyproject/foundry`) and replace the record's CI line with the verdict. Then rerun per that file's "Rerun unrelated reds". Skip `branches_need_decision` and `branches_reference` entries.
+
 @../_shared/ISSUES_INDEX.md
 
 ## Label mapping
