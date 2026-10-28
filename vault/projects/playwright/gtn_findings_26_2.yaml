@@ -1032,3 +1032,9 @@
   target: main
   summary: 'Tells contributors to run `git submodule init`/`update` (repo has no .gitmodules), says CI runs on Travis CI (no .travis.yml; GitHub Actions), skips step 17 in the numbered list, and the Carpentries "lesson writing" link (instructor-training/15-lesson-study/) returns 404.'
   fix: 'Drop the submodule step, say GitHub Actions, renumber, and point the lesson-writing link at the current Carpentries instructor-training page.'
+
+- label: contributors-tour-builder-gone
+  faqs: [faqs/gtn/contributors_tours.md]
+  target: main
+  summary: 'Says to run tours with the 2017 Tour Builder browser extension; its Chrome Web Store link now redirects to an "empty-title" listing with no extension page (Firefox page is behind a bot challenge, unverified).'
+  fix: 'Drop the Chrome link (or the extension), and describe a current way to run a tutorial tour.yaml.'
