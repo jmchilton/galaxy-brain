@@ -104,3 +104,5 @@ record: galaxy/branches/{name}
 description: 🤔 {description}
 status: idea
 ```
+
+@../_shared/BLOCKER_SUGGESTED_TASKS.md

@@ -18,7 +18,6 @@ BRANCH_DIRECTORY is `vault/repositories/PROJECT/branches/active/<branch_name>/`,
 
 - Make each change on the branch.
 - Commit, push to the `jmchilton` fork, and update the description so it claims only what the branch now proves.
-- Re-run the checklist subagent if the changes touched any item it answered.
 - Do one strengthening round only. Report anything left over instead of looping.
 
 ## 4. PR Titles

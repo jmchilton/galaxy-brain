@@ -35,7 +35,7 @@ parent_branch: job_cache_refactor
 ---
 ```
 
-`upstream_base_branch` is required and names the eventual upstream target, without a remote prefix. `parent_branch` is optional and references another branch record by branch name within the same project. Omit it for independent branches.
+`upstream_base_branch` is required and names the eventual upstream target, without a remote prefix. `parent_branch` is optional and references another branch record by branch name within the same project. Omit it for independent branches. `blocker` is optional, per [BLOCKERS.md](BLOCKERS.md).
 
 Branch from, rebase onto, and target PRs and compare links at `parent_branch` when present, otherwise `upstream_base_branch`. Use the same base for branch-specific diffs and checks. Keep these fields current when the target changes. Existing records without metadata may continue using their recorded prose until migrated.
 

@@ -14,3 +14,11 @@ name: cl-{name}
 profile: Sonnet (medium)
 
 Close issue galaxyproject/planemo#{name} according to the processes described in AGENTS.md.
+
+## 🗄️ Shelve
+status: needs_decision, queued, wip, blocked
+agent_dir: planemo
+name: sh-{name}
+profile: Sonnet (medium)
+
+Shelve the issue {name} per ../_shared/PROCESS_SHELVE.md. The record is {record}. Blocked on: <user_input_here>

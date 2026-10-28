@@ -4,10 +4,10 @@ Most of the Galaxy pull requests and reviews John posts start with coding agents
 
 There are two factories:
 
-- **[Branch Factory](https://jmchilton.github.io/galaxy-brain/factory/galaxy-branches/)**: how an issue becomes a pull request. Issues are triaged, a workhorse agent implements and hardens a branch, and a branch manager polishes it and opens the PR once John approves it.
-- **[Review Factory](https://jmchilton.github.io/galaxy-brain/factory/galaxy-reviews/)**: how a review of someone else's pull request is produced. Several reviewer profiles run in parallel, a verifier reproduces and filters their findings, and John edits the response before it's posted.
+- **[Branch Factory](https://galaxy-brain.jmchilton.net/factory/galaxy-branches/)**: how an issue becomes a pull request. Issues are triaged, a workhorse agent implements and hardens a branch, and a branch manager polishes it and opens the PR once John approves it.
+- **[Review Factory](https://galaxy-brain.jmchilton.net/factory/galaxy-reviews/)**: how a review of someone else's pull request is produced. Several reviewer profiles run in parallel, a verifier reproduces and filters their findings, and John edits the response before it's posted.
 
-Both share **[Differential Review](https://jmchilton.github.io/galaxy-brain/factory/differential-review/)**: agents snapshot each branch after every phase, so John checks work off once and later reads only what changed, across rebases and force-pushes.
+Both share **[Differential Review](https://galaxy-brain.jmchilton.net/factory/differential-review/)**: agents snapshot each branch after every phase, so John checks work off once and later reads only what changed, across rebases and force-pushes.
 
 > [!TIP]
 > **💭 Workflow Rule:** agents draft; John decides. A PR opens only after John has read and approved the branch, and a review is posted only after John has edited it and picked an action. Approval is pinned to a commit SHA, so any change other than a clean rebase sends the branch back for another read.

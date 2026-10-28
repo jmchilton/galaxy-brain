@@ -51,3 +51,5 @@ profile: Opus (low)
 description: 🐴 {description}
 status: {status}
 ```
+
+@../_shared/BLOCKER_SUGGESTED_TASKS.md

@@ -34,12 +34,18 @@ Each check should be the form:
 
 <details><summary>TOP_LINE</summary>
 
+(details)
+
+[Full report](REPORT_LINK). RUN_LINE
+
 </details>
 ```
 
 - TOP_LINE should be one short sentence - probably pulled from the debrief document for that check.
 - GitHub doesn't render Markdown inside `<summary>` - use HTML there (`<b>`, `<i>`, `<code>`, `<a href>`), never `**`, backticks or `[text](url)`.
 - Summarize the details of the document concisely and add to details.
+- REPORT_LINK is the debrief's page on the galaxy-brain site: `https://galaxy-brain.jmchilton.net/` plus its vault path without `vault/`, the status directory and `.md`, with a trailing `/`. E.g. `vault/repositories/pulsar/branches/active/foo_bar/codex_review.md` → `https://galaxy-brain.jmchilton.net/repositories/pulsar/branches/foo_bar/codex_review/`. It may not be published yet; link it anyway.
+- RUN_LINE is the debrief's `Run via <model> at <effort> effort.` line; leave it out if the debrief has none.
 
 Each of these files (if present in the branch) represents one check to document.
 

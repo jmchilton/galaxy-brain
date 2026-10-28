@@ -63,13 +63,20 @@ describe('parseRecordPath', () => {
 describe('vaultPathToSlug', () => {
   it('drops the status segment from record paths', () => {
     expect(vaultPathToSlug('repositories/galaxy/branches/active/integration_ci_paths/pr_description.md'))
-      .toBe('repositories/galaxy/branches/integrationcipaths/prdescription');
+      .toBe('repositories/galaxy/branches/integration_ci_paths/pr_description');
+  });
+
+  it('keeps record ids and sub-paths verbatim', () => {
+    expect(vaultPathToSlug('repositories/galaxy/branches/active/issue_24485_collection_count_zero_26.0/scope_evaluation.md'))
+      .toBe('repositories/galaxy/branches/issue_24485_collection_count_zero_26.0/scope_evaluation');
+    expect(vaultPathToSlug('repositories/galaxy/branches/active/licenses/earlier_drafts/1/DIRECTION.md'))
+      .toBe('repositories/galaxy/branches/licenses/earlier_drafts/1/DIRECTION');
   });
 
   it('gives a record the same slug in every status', () => {
     const active = vaultPathToSlug('repositories/galaxy/branches/active/foo_bar/index.md');
     const merged = vaultPathToSlug('repositories/galaxy/branches/merged/foo_bar/index.md');
-    expect(active).toBe('repositories/galaxy/branches/foobar');
+    expect(active).toBe('repositories/galaxy/branches/foo_bar');
     expect(merged).toBe(active);
   });
 
@@ -131,12 +138,10 @@ describe('filesystem helpers', () => {
       ]);
     });
 
-    it('reports ids that differ on disk but share a URL', () => {
+    it('gives ids that differ on disk separate URLs', () => {
       touch('repositories/galaxy/branches/active/foo_bar/index.md');
       touch('repositories/galaxy/branches/merged/foobar/index.md');
-      expect(findRecordCollisions(vault)).toEqual([
-        { repo: 'galaxy', kind: 'branches', id: 'foo_bar', statuses: ['active', 'merged'] },
-      ]);
+      expect(findRecordCollisions(vault)).toEqual([]);
     });
 
     it('ignores leftover directories without markdown', () => {

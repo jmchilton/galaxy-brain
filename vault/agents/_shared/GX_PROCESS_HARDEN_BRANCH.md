@@ -2,6 +2,8 @@ You will be given a BRANCH_DIRECTORY and WORKING_DIRECTORY for an implemented br
 
 When rerunning a step whose debrief already exists, first move the old debrief into `BRANCH_DIRECTORY/earlier_drafts/N/` for the next unused N.
 
+Set each subagent's model and effort explicitly (default: your own), and have it start its debrief with `Run via <model> at <effort> effort.` For `/codex-review`, use the model and effort Codex reports, and leave the line out if it reports none.
+
 - If the branch added any new test code, have a subagent run `_shared/GX_PROCESS_CHALLENGE_TESTS.md` and implement the changes directly. It should write a debrief to `BRANCH_DIRECTORY/test_challenges_debrief.md`. If test changes are needed but cannot be implemented or ran correctly - status is BLOCKED.
 - If the branch added any E2E/Selenium/Playwright tests (either before or after the test challenges above), have a subagent run `_shared/GX_PROCESS_POLISH_E2E_TESTS.md` and implement the changes directly. It should write a debrief to `BRANCH_DIRECTORY/polish_e2e_tests_debrief.md`.
 - If you're a Claude/Opus/Fable agent - run `/codex-review` on this branch and fix up recommendations Codex believes you should make unless you feel they don't make sense. Write a review debrief to `BRANCH_DIRECTORY/codex_review.md`.

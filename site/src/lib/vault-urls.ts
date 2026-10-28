@@ -23,14 +23,14 @@ export function slugifyPath(rel: string): string {
 
 /**
  * Site slug for a vault-relative path. Record paths drop their status segment
- * so a record keeps one URL as it moves between status directories.
+ * so a record keeps one URL as it moves between status directories, and keep
+ * their names verbatim so agents can write record URLs by hand.
  */
 export function vaultPathToSlug(rel: string): string {
   const record = parseRecordPath(rel);
-  const stable = record
-    ? ['repositories', record.repo, record.kind, record.id, record.rest].filter(Boolean).join('/')
-    : rel;
-  let slug = slugifyPath(stable);
+  let slug = record
+    ? ['repositories', record.repo, record.kind, record.id, record.rest].filter(Boolean).join('/').replace(/\.md$/, '')
+    : slugifyPath(rel);
   if (slug.endsWith('/index')) slug = slug.slice(0, -'/index'.length);
   return slug;
 }
@@ -84,17 +84,14 @@ export function findRecordCollisions(vaultDir: string): RecordCollision[] {
   for (const repo of subdirs(reposDir)) {
     for (const kind of RECORD_KINDS) {
       const kindDir = path.join(reposDir, repo, kind);
-      const bySlug = new Map<string, { id: string; statuses: string[] }>();
+      const byId = new Map<string, string[]>();
       for (const status of subdirs(kindDir)) {
         for (const id of subdirs(path.join(kindDir, status))) {
           if (!containsMarkdown(path.join(kindDir, status, id))) continue;
-          const slug = slugify(id);
-          const seen = bySlug.get(slug) ?? { id, statuses: [] };
-          seen.statuses.push(status);
-          bySlug.set(slug, seen);
+          byId.set(id, [...(byId.get(id) ?? []), status]);
         }
       }
-      for (const { id, statuses } of bySlug.values()) {
+      for (const [id, statuses] of byId) {
         if (statuses.length > 1) collisions.push({ repo, kind, id, statuses });
       }
     }

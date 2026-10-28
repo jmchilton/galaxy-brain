@@ -14,7 +14,7 @@ Always use [`GENERAL.md`](../_shared/gx_pr_checklists/GENERAL.md). Add [`WORKFLO
 
 ## 3. Evaluate the checklist with a subagent
 
-- Give a fresh subagent the branch's diff against its base, the checklist and the branch's notes. Ask it to answer every item with evidence from the diff.
+- Give a fresh subagent the branch's diff against its base, the checklist and the branch's notes. Ask it to answer every item with evidence from the diff, in `BRANCH_DIRECTORY/pr_checklist.md` as a `- [x] <question> <answer>` list (`- [ ]` for a failing item). Set its model and effort explicitly and have it start the file with `Run via <model> at <effort> effort.`
 - If an item fails, fix the branch, or stop and ask user when the fix is a judgement call. Don't write a description for a branch that fails its checklist.
 
 ## 4. Write the PR description

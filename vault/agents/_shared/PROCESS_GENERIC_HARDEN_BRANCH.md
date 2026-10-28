@@ -2,5 +2,7 @@ You will be given a BRANCH_DIRECTORY and WORKING_DIRECTORY for an implemented br
 
 When rerunning a step whose debrief already exists, first move the old debrief into `BRANCH_DIRECTORY/earlier_drafts/N/` for the next unused N.
 
+Set each subagent's model and effort explicitly (default: your own), and have it start its debrief with `Run via <model> at <effort> effort.` For `/codex-review`, use the model and effort Codex reports, and leave the line out if it reports none.
+
 - If you're a Claude/Sonnet/Opus/Fable agent - run `/codex-review` on this branch and fix up recommendations Codex believes you should make unless you feel they don't make sense. Write a review debrief to `BRANCH_DIRECTORY/codex_review.md`.
 - If this branch has more than 50 lines of implementation or test code or is touching intricate or substantial pieces of plumbing - have a subagent run `_shared/prompts/thermo-nuclear-code-quality-review.md` and address the review comments. Have the agent write a debrief of the process to `BRANCH_DIRECTORY/thermo_nuclear_review.md`.

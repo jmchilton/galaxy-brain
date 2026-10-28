@@ -15,3 +15,11 @@ name: mb-{name}
 profile: Sonnet (medium)
 
 Merge the pull request associated with branch {name} according to the processes described in AGENTS.md. Clean up relevant worktrees.
+
+## 🗄️ Shelve
+status: active
+agent_dir: pulsar
+name: sh-{name}
+profile: Sonnet (medium)
+
+Shelve the branch {name} per ../_shared/PROCESS_SHELVE.md. The record is {record}. Blocked on: <user_input_here>

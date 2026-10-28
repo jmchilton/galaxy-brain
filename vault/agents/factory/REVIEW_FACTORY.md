@@ -4,7 +4,7 @@ If a review on your Galaxy pull request linked you here, the findings came from 
 
 ## Overview
 
-A coordinating agent keeps the review queue. Reading a diff plus the code around it burns a lot of context, so the coordinator leaves that to subagents: each kind of review runs in its own, at an effort level the coordinator sets explicitly. Each round also starts with a local snapshot of the PR head, so on follow-up rounds John can read only [what changed](https://jmchilton.github.io/galaxy-brain/factory/differential-review/) since the last look, even across force-pushes.
+A coordinating agent keeps the review queue. Reading a diff plus the code around it burns a lot of context, so the coordinator leaves that to subagents: each kind of review runs in its own, at an effort level the coordinator sets explicitly. Each round also starts with a local snapshot of the PR head, so on follow-up rounds John can read only [what changed](https://galaxy-brain.jmchilton.net/factory/differential-review/) since the last look, even across force-pushes.
 
 John can also comment on diff lines in Obsidian and select **Address diff comments** on the record. The agent reads the persistent threads, responds with any resulting revision snapshot, and leaves resolution to John.
 
@@ -82,7 +82,7 @@ flowchart TD
 
 ## Respond
 
-A low-effort subagent assembles the response: space for John's own comments at the top, a Human Review line when John has checked off every commit or diff in the [differential review](https://jmchilton.github.io/galaxy-brain/factory/differential-review/), the risk summary, then the verified findings, each with its evidence, suggested fix, and the review-branch commit if there is one. If nothing survives verification, the response says so in one line. John can uncheck findings to drop them; the review branch is then rebuilt without their commits, the remaining findings are renumbered, and the response is composed again. John edits it and checks the actions to take.
+A low-effort subagent assembles the response: space for John's own comments at the top, a Human Review line when John has checked off every commit or diff in the [differential review](https://galaxy-brain.jmchilton.net/factory/differential-review/), the risk summary, then the verified findings, each with its evidence, suggested fix, and the review-branch commit if there is one. If nothing survives verification, the response says so in one line. John can uncheck findings to drop them; the review branch is then rebuilt without their commits, the remaining findings are renumbered, and the response is composed again. John edits it and checks the actions to take.
 
 ```mermaid
 flowchart TD

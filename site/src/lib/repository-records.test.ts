@@ -43,7 +43,7 @@ describe('buildRepositories', () => {
       repo: 'galaxy',
       kind: 'branches',
       status: 'active',
-      slug: 'repositories/galaxy/branches/integrationcipaths',
+      slug: 'repositories/galaxy/branches/integration_ci_paths',
       originalDir: 'repositories/galaxy/branches/active/integration_ci_paths',
       title: 'integration_ci_paths',
     });
@@ -110,17 +110,17 @@ describe('repositoryPages', () => {
 
   it('creates record, folder, file, and repo-level pages', () => {
     expect([...bySlug.keys()].sort()).toEqual([
-      'repositories/galaxy/branches/foobar',
-      'repositories/galaxy/branches/foobar/earlierdrafts',
-      'repositories/galaxy/branches/foobar/earlierdrafts/1',
-      'repositories/galaxy/branches/foobar/earlierdrafts/1/review',
-      'repositories/galaxy/branches/foobar/prdescription',
+      'repositories/galaxy/branches/foo_bar',
+      'repositories/galaxy/branches/foo_bar/earlier_drafts',
+      'repositories/galaxy/branches/foo_bar/earlier_drafts/1',
+      'repositories/galaxy/branches/foo_bar/earlier_drafts/1/review',
+      'repositories/galaxy/branches/foo_bar/pr_description',
       'repositories/galaxy/branches/queuecontext',
     ]);
   });
 
   it('record root shows its index with the other files as children', () => {
-    const root = bySlug.get('repositories/galaxy/branches/foobar')!;
+    const root = bySlug.get('repositories/galaxy/branches/foo_bar')!;
     expect(root.title).toBe('Foo bar');
     expect(root.entry?.filePath).toMatch(/foo_bar\/index\.md$/);
     expect(root.children).toHaveLength(3);
@@ -133,13 +133,13 @@ describe('repositoryPages', () => {
   });
 
   it('nested folder pages link back through original folder names', () => {
-    const drafts = bySlug.get('repositories/galaxy/branches/foobar/earlierdrafts/1')!;
+    const drafts = bySlug.get('repositories/galaxy/branches/foo_bar/earlier_drafts/1')!;
     expect(drafts.title).toBe('1');
     expect(drafts.entry?.filePath).toMatch(/earlier_drafts\/1\/index\.md$/);
-    expect(drafts.children?.map(c => c.id)).toEqual(['repositories/galaxy/branches/foobar/earlierdrafts/1/review']);
+    expect(drafts.children?.map(c => c.id)).toEqual(['repositories/galaxy/branches/foo_bar/earlier_drafts/1/review']);
     expect(drafts.trail.slice(3)).toEqual([
-      { label: 'foo_bar', href: 'repositories/galaxy/branches/foobar/' },
-      { label: 'earlier_drafts', href: 'repositories/galaxy/branches/foobar/earlierdrafts/' },
+      { label: 'foo_bar', href: 'repositories/galaxy/branches/foo_bar/' },
+      { label: 'earlier_drafts', href: 'repositories/galaxy/branches/foo_bar/earlier_drafts/' },
       { label: '1' },
     ]);
   });

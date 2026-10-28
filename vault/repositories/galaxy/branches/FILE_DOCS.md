@@ -9,6 +9,10 @@ Proposed PR description. Structured per [GX_PR_DESCRIPTIONS](https://github.com/
 
 Three to five PR title options as a markdown list, written while polishing ([POLISH_BRANCH](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/gx_branches/POLISH_BRANCH.md)). Release-branch targets prefix each title with the version tag, e.g. `[26.0]`.
 
+## pr_checklist.md
+
+John's PR checklist answered from the diff while polishing ([POLISH_BRANCH](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/gx_branches/POLISH_BRANCH.md)). Cited as an Agentic Check in the PR description.
+
 ## pr_tags.md
 
 Recommended labels, written while polishing: exactly one `kind/` label and the `area/` labels that fit.

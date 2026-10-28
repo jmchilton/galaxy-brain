@@ -7,6 +7,7 @@ Render `vault/repositories/<repo>/<kind>/<status>/<id>/` records (branches, issu
 - Kinds: `branches`, `issues`, `issues_incubator`, `reviews` ("PRs" in early notes meant reviews). `issues_incubator` holds issue drafts not yet filed (`incubating`, `internal`, `rejected`).
 - Site-only persistence. Vault directories keep their status segment and records still move; Obsidian links still break on moves. Site URLs drop the status segment:
   `repositories/<repo>/<kind>/<status>/<id>/<rest>` → `/repositories/<repo>/<kind>/<id>/<rest>/`.
+- Record ids and sub-paths are kept verbatim (only `.md` and `/index` are dropped), unlike note slugs, so agents can write record URLs by hand (e.g. in PR descriptions).
 - Pages are named "repository" (`/projects/` is already the project note type).
 - `agents/**` stays off the site for now; record links into it render as dead links.
 

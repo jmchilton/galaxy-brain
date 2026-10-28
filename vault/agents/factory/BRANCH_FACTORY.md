@@ -104,7 +104,7 @@ Not every step runs every time. Test challenges run only when the branch adds te
 
 When the work is done, the workhorse writes an implementation debrief, adds one line to the branch queue, and for the first handoff posts a short note on the issue saying a branch exists and John hasn't reviewed it yet.
 
-At the end of implementation, hardening and, later, polishing, and after rebases, requested changes and review responses (`revision`), the agent also saves a [differential review snapshot](https://jmchilton.github.io/galaxy-brain/factory/differential-review/) of the branch, so John's review tooling can show only what changed since the last check-off.
+At the end of implementation, hardening and, later, polishing, and after rebases, requested changes and review responses (`revision`), the agent also saves a [differential review snapshot](https://galaxy-brain.jmchilton.net/factory/differential-review/) of the branch, so John's review tooling can show only what changed since the last check-off.
 
 John can also comment on diff lines in Obsidian and select **Address diff comments** on the record. The agent reads the persistent threads, responds with any resulting revision snapshot, and leaves resolution to John.
 
@@ -149,7 +149,7 @@ flowchart TD
 
 ## What the Agentic Checks mean
 
-Each check in a PR's "Agentic Checks" section links to the process that produced it, and its summary comes from that step's debrief.
+Each check in a PR's "Agentic Checks" section links to the process that produced it, and its summary comes from that step's debrief. Each also links its full report and names the model and effort it ran at.
 
 | Check | What happened |
 | --- | --- |
@@ -158,8 +158,9 @@ Each check in a PR's "Agentic Checks" section links to the process that produced
 | [Cursor's Thermo Nuclear Review](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/prompts/thermo-nuclear-code-quality-review.md) | A strict maintainability review covering abstraction quality, oversized files and growing tangles of conditionals, with its findings addressed. |
 | Second Frontier Model Review | A model from another vendor reviewed the branch, and the recommendations that made sense were applied. |
 | [Refactoring of base branch](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/GX_PROCESS_REFACTOR_BASELINE.md) | Refactoring that the change needed was moved into its own commits ahead of it, so the fix or feature reads as a small diff on top. |
+| [John's Checklist](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/gx_pr_checklists/GENERAL.md) | An agent answered John's PR checklist from the diff; a failing item blocks the description until it's fixed. |
 
-"John's Checklist" is answered from the diff by an agent. "Human Review" is written by John's [differential review](https://jmchilton.github.io/galaxy-brain/factory/differential-review/) tool once they have checked off every commit or diff, and names the SHA they reviewed.
+"Human Review" is written by John's [differential review](https://galaxy-brain.jmchilton.net/factory/differential-review/) tool once they have checked off every commit or diff, and names the SHA they reviewed.
 
 > [!NOTE]
 > Want to see the raw records? Each branch's notes, debriefs and earlier drafts live under [`vault/repositories/galaxy/branches/`](https://github.com/jmchilton/galaxy-brain/tree/main/vault/repositories/galaxy/branches) while the work is active.

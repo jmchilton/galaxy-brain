@@ -18,3 +18,6 @@ Give me some relevant and useful next possible steps. I want to decide how we co
 
 ## 🐱 Show on GitHub
 Let me see the relevant work on GitHub please. If we're working on a branch, make sure it is committed and pushed, then give me a link to its pull request if it has one, otherwise to the branch. If we're discussing an issue or review instead, give me a link to the issue or pull request. Show me the link and use `open` to open it in my web browser.
+
+## 🗄️ Shelve
+Shelve this work per ../_shared/PROCESS_SHELVE.md.

@@ -24,14 +24,6 @@ For the main body - use best judgement.
 
 (see below - exclude section if none available)
 
-## John's Checklist
-
-<details><summary>Checklist Details</summary>
-
-(see below)
-
-</details>
-
 (Galaxy template stuff - how to test, license, etc. if changed)
 
 (no agent marker at the end please!)
@@ -39,7 +31,7 @@ For the main body - use best judgement.
 
 ## PR checklists
 
-Before finalizing a Galaxy branch or drafting its PR description, work through `gx_pr_checklists/GENERAL.md`, and also `gx_pr_checklists/WORKFLOW_RELATED.md` if the change touches workflows (editor, scheduler, invocations, collection mapping, gxformat2). Any item that fails means the branch isn't ready: fix it, or ask John before writing the description.
+Before finalizing a Galaxy branch or drafting its PR description, work through `gx_pr_checklists/GENERAL.md`, and also `gx_pr_checklists/WORKFLOW_RELATED.md` if the change touches workflows (editor, scheduler, invocations, collection mapping, gxformat2). Any item that fails means the branch isn't ready: fix it, or ask John before writing the description. The answers go in `BRANCH_DIRECTORY/pr_checklist.md` and become an Agentic Check.
 
 ## Agentic Checks
 
@@ -52,12 +44,18 @@ Each check should be the form:
 
 <details><summary>TOP_LINE</summary>
 
+(details)
+
+[Full report](REPORT_LINK). RUN_LINE
+
 </details>
 ```
 
 - TOP_LINE should be one short sentence - probably pulled from the debrief document for that check.
 - GitHub doesn't render Markdown inside `<summary>` - use HTML there (`<b>`, `<i>`, `<code>`, `<a href>`), never `**`, backticks or `[text](url)`.
 - Summarize the details of the document concisely and add to details.
+- REPORT_LINK is the debrief's page on the galaxy-brain site: `https://galaxy-brain.jmchilton.net/` plus its vault path without `vault/`, the status directory and `.md`, with a trailing `/`. E.g. `vault/repositories/galaxy/branches/active/foo_26.0/scope_evaluation.md` → `https://galaxy-brain.jmchilton.net/repositories/galaxy/branches/foo_26.0/scope_evaluation/`. It may not be published yet; link it anyway.
+- RUN_LINE is the debrief's `Run via <model> at <effort> effort.` line; leave it out if the debrief has none.
 
 Each of these files (if present in the branch) represents one check to document.
 
@@ -66,6 +64,7 @@ Each of these files (if present in the branch) represents one check to document.
 - `test_challenges_debrief.md` CHECK_NAME = "John's Galaxy Test Challenges", CHECK_LINK = https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/GX_PROCESS_CHALLENGE_TESTS.md
 - `codex_review.md` CHECK_NAME = "Second Frontier Model Review" (no link)
 - `baseline_refactor.md` CHECK_NAME = "Refactoring of base branch", CHECK_LINK = https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/GX_PROCESS_REFACTOR_BASELINE.md
+- `pr_checklist.md` CHECK_NAME = "John's Checklist", CHECK_LINK = https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/gx_pr_checklists/GENERAL.md. Its details are the `- [x] <question> <answer>` list.
 
 ## Openers
 
@@ -90,7 +89,7 @@ Combine sentences into one short paragraphs in a "## Context" section above the 
 - Alternative to <pr_number>.
 - Alternative kept on 🌿<alt_branch_name_and_link> - <how it differs, from `alts/<short_description>.md`>. One per file in `BRANCH_DIRECTORY/alts/`.
 
-Always end the paragraph with `Developed with [John's Galaxy Brain Branch Factory](https://jmchilton.github.io/galaxy-brain/factory/galaxy-branches/).`, so the section is present even when nothing else applies.
+Always end the paragraph with `Developed with [John's Galaxy Brain Branch Factory](https://galaxy-brain.jmchilton.net/factory/galaxy-branches/).`, so the section is present even when nothing else applies.
 
 ## DO: Clean the Galaxy checklist.
 

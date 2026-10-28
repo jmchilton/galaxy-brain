@@ -23,6 +23,7 @@ status: queued
 `;
 
 const GALAXY_ISSUES = { repo: "galaxy", kind: "issues" } as const;
+const SHELVE_ISSUE = "needs_decision,queued,wip,blocked";
 
 const vaultLaunchers = (path: string) =>
 	parseLaunchers(readFileSync(new URL(`../../vault/${path}`, import.meta.url), "utf8"), launcherScope(path)!).map((l) => [
@@ -123,16 +124,19 @@ describe("parseLaunchers", () => {
 			const session = dir === "workflow_libs" ? [["💭 New session", "", dir]] : [];
 			const issues =
 				dir === "wf_foundry"
+			["🗄️ Shelve", "active", "gx_branches"],
 					? [["🏷️ Triage issue", "untracked,needs_decision", dir], ["🐴 Work on issue", "untracked,queued,wip", dir]]
 					: [...session, ["🐴 Work on issue", WORK_ON, dir]];
 			const expected = {
-				branches: [...session, ["🚀 Open pull request", "active", dir], ["🟣 Merge branch", "active", dir]],
-				issues: [...issues, ["✅ Close issue", OPEN_ISSUE, dir]],
+				branches: [...session, ["🚀 Open pull request", "active", dir], ["🟣 Merge branch", "active", dir], ["🗄️ Shelve", "active", dir]],
+				issues: [...issues, ["✅ Close issue", OPEN_ISSUE, dir], ["🗄️ Shelve", SHELVE_ISSUE, dir]],
 				reviews: [
+			["🗄️ Shelve", SHELVE_ISSUE, "gx_issues"],
 					...session,
 					["🔎 Review", "untracked", dir],
 					["🟣 Merge pull request", "active", dir],
 					["💬 Respond to review", "active", dir],
+			["📤 File issue and assign me", "incubating,internal", ""],
 					["🔁 Rework review into PR", "active", dir],
 					["⚡ Quick merge", "untracked,active", dir],
 				],
@@ -143,6 +147,7 @@ describe("parseLaunchers", () => {
 		}
 	});
 
+			["🗄️ Shelve", "active", "gx_reviews"],
 	it("defaults the merge, quick merge, open, close, respond and rework launchers to Sonnet", () => {
 		for (const repo of ["foundry", "gxformat2", "galaxy-tool-util-ts", "pulsar", "planemo", "galaxy"]) {
 			// Galaxy only gets the review actions.
@@ -166,6 +171,7 @@ describe("recordFromPath", () => {
 			status: "active",
 			name: "fix_26.0",
 			dir: "repositories/galaxy/branches/active/fix_26.0",
+					["🗄️ Shelve", "active", dir],
 		});
 	});
 

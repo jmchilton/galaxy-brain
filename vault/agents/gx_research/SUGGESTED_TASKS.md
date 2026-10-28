@@ -14,3 +14,5 @@ profile: Opus (medium)
 description: 🧠 {description}
 status: {status}
 ```
+
+@../_shared/BLOCKER_SUGGESTED_TASKS.md

@@ -54,4 +54,4 @@ Base branch refactoring and rebasing happens automatically during implementation
 This branch was created during John's normal branch polishing process using the [Decompose Baseline Process](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/gx_branches/DECOMPOSE_BASELINE_CHANGES_AND_POLISH.md)
 ```
 
-The rest of the PR should match the normal PR description for Galaxy - context, risks, (probably skip ## Agentic Checks), checklists, license, etc.. Keep "## Risks" - whether the refactorings really preserve behavior is the risk to assess.
+The rest of the PR should match the normal PR description for Galaxy - context, risks, Agentic Checks (probably just John's Checklist), license, etc.. Keep "## Risks" - whether the refactorings really preserve behavior is the risk to assess.

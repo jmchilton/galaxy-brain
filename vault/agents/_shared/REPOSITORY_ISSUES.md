@@ -23,7 +23,7 @@ When the status changes, move the directory. Until permanent URLs exist, a move 
 
 ## Contents
 
-Each directory contains an `index.md` file without frontmatter. It serves as an ongoing debrief as work is done.
+Each directory contains an `index.md` file without frontmatter (except a `blocker:` per [BLOCKERS.md](BLOCKERS.md)). It serves as an ongoing debrief as work is done.
 
 File names follow the File Docs: `vault/repositories/_defaults/issues/FILE_DOCS.md`, with sections replaced by `vault/repositories/PROJECT/issues/FILE_DOCS.md`. Prefer a documented name over a new one; add a section when a new kind of file starts recurring. Undocumented files are fine.
 

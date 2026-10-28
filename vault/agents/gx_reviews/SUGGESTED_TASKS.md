@@ -58,3 +58,5 @@ description: 👀 {description}
 status: recommended
 priority: high
 ```
+
+@../_shared/BLOCKER_SUGGESTED_TASKS.md

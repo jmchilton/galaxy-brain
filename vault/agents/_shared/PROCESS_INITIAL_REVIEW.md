@@ -82,7 +82,7 @@ The coordinator, which launched every subagent and knows their models and effort
 ```
 <details><summary>Automated Review Details</summary>
 
-Reviewed with [John's Galaxy Brain Review Factory](https://jmchilton.github.io/galaxy-brain/factory/galaxy-reviews/).
+Reviewed with [John's Galaxy Brain Review Factory](https://galaxy-brain.jmchilton.net/factory/galaxy-reviews/).
 
 - Review profile [<profile>](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/reviewers/<profile>.md) was run via <model> at <effort> effort.
 - Verification was run as documented [here](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/PROCESS_INITIAL_REVIEW.md) via <model> at <effort> effort.

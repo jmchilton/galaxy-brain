@@ -1,5 +1,6 @@
-import { debounce, ItemView, Notice, parseYaml, Platform, stringifyYaml, type ViewStateResult, type WorkspaceLeaf } from "obsidian";
+import { debounce, ItemView, Notice, parseYaml, Platform, stringifyYaml, TFolder, type ViewStateResult, type WorkspaceLeaf } from "obsidian";
 import { ROUTINES, routineLaunch, tasksPath } from "./agent-routines";
+import { type Blocker, blockerFromPath, blockersPath } from "./blockers";
 import type { Profile } from "./profiles";
 import { renderTaskCards } from "./task-cards";
 import { byPriority, parseTasks, removeTask, type Task, type TaskRecord, taskBlocks } from "./task-list";
@@ -19,13 +20,17 @@ export interface AgentHost {
 /** A task and the agent dir whose TASKS.md holds it (not necessarily its `agent_dir`). */
 type ListedTask = Task & { source: string };
 
+type AgentsTab = "tasks" | "blockers";
+
 interface AgentsViewState extends Record<string, unknown> {
 	agent?: string;
+	tab?: AgentsTab;
 }
 
-/** Agent dirs' routines (good morning, tick) and TASKS.md task lists: merged on the landing page, or one agent's. */
+/** Agent dirs' routines (good morning, tick), TASKS.md task lists and blockers: merged on the landing page, or one agent's. */
 export class AgentsView extends ItemView {
 	private agent = ALL_AGENTS;
+	private tab: AgentsTab = "tasks";
 	private scheduleRender = debounce(() => void this.render(), 300, true);
 
 	constructor(
@@ -48,18 +53,19 @@ export class AgentsView extends ItemView {
 	}
 
 	getState(): AgentsViewState {
-		return { agent: this.agent };
+		return { agent: this.agent, tab: this.tab };
 	}
 
 	async setState(state: AgentsViewState, result: ViewStateResult) {
 		if (typeof state.agent === "string") this.agent = state.agent;
+		if (state.tab === "tasks" || state.tab === "blockers") this.tab = state.tab;
 		await super.setState(state, result);
 		await this.render();
 	}
 
 	async onOpen() {
 		const onChange = (file: { path: string }) => {
-			if (file.path.startsWith("agents/") && file.path.endsWith("/TASKS.md")) this.scheduleRender();
+			if ((file.path.startsWith("agents/") && file.path.endsWith("/TASKS.md")) || blockerFromPath(file.path)) this.scheduleRender();
 		};
 		this.registerEvent(this.app.vault.on("create", onChange));
 		this.registerEvent(this.app.vault.on("modify", onChange));
@@ -79,6 +85,7 @@ export class AgentsView extends ItemView {
 		const shown = all ? dirs : [this.agent];
 		const lists = await Promise.all(shown.map((dir) => this.readTasks(dir, known)));
 		const routines = await Promise.all(shown.map((dir) => this.routinesFor(dir)));
+		const blockers = await Promise.all(shown.map((dir) => this.readBlockers(dir)));
 
 		const root = this.contentEl;
 		root.empty();
@@ -89,7 +96,7 @@ export class AgentsView extends ItemView {
 		const select = header.createEl("select", { cls: "dropdown" });
 		select.createEl("option", { text: "All agents", value: ALL_AGENTS }).selected = all;
 		for (const dir of dirs) select.createEl("option", { text: dir, value: dir }).selected = dir === this.agent;
-		select.onchange = () => void this.leaf.setViewState({ type: AGENTS_VIEW, state: { agent: select.value } });
+		select.onchange = () => void this.leaf.setViewState({ type: AGENTS_VIEW, state: { agent: select.value, tab: this.tab } });
 
 		if (all) {
 			const list = root.createEl("ul");
@@ -99,10 +106,12 @@ export class AgentsView extends ItemView {
 				const link = row.createEl("a", { text: dir, cls: "internal-link", href: "#" });
 				link.onclick = (event) => {
 					event.preventDefault();
-					void this.leaf.setViewState({ type: AGENTS_VIEW, state: { agent: dir } });
+					void this.leaf.setViewState({ type: AGENTS_VIEW, state: { agent: dir, tab: this.tab } });
 				};
 				const count = lists[i]!.tasks.length;
 				if (count) row.createSpan({ text: `${count} task${count === 1 ? "" : "s"}`, cls: "gbr-tag" });
+				const blocked = blockers[i]!.length;
+				if (blocked) row.createSpan({ text: `${blocked} blocker${blocked === 1 ? "" : "s"}`, cls: "gbr-tag" });
 			});
 		} else {
 			const bar = root.createDiv({ cls: "gbr-sync" });
@@ -117,10 +126,22 @@ export class AgentsView extends ItemView {
 			}
 		}
 
+		const tasks = byPriority(lists.flatMap((list) => list.tasks));
+		const allBlockers = blockers.flat();
+		const bar = root.createDiv({ cls: "gbr-tabs" });
+		const tabs: Array<[AgentsTab, string]> = [["tasks", `Tasks (${tasks.length})`], ["blockers", `Blockers (${allBlockers.length})`]];
+		for (const [id, label] of tabs) {
+			const button = bar.createEl("button", { text: label, cls: id === this.tab ? "mod-cta" : "" });
+			button.onclick = () => {
+				this.tab = id;
+				void this.render();
+			};
+		}
+		if (this.tab === "blockers") return this.renderBlockers(root, allBlockers, all);
+
 		for (const { source, error } of lists) {
 			if (error) root.createDiv({ cls: "gb-tasks-error", text: `${tasksPath(source)}: ${error}` });
 		}
-		const tasks = byPriority(lists.flatMap((list) => list.tasks));
 		renderTaskCards(root, tasks, {
 			defaultProfile: profiles[0]?.name ?? "",
 			...(Platform.isDesktopApp
@@ -133,6 +154,22 @@ export class AgentsView extends ItemView {
 			remove: (_task, i) => void this.remove(tasks[i]!),
 			openRecord: (record, newLeaf) => this.host.openTaskRecord(record, newLeaf),
 		});
+	}
+
+	/** One row per blocker: its name (opening index.md), agent dir on the landing page, and condition. */
+	private renderBlockers(root: HTMLElement, blockers: Blocker[], all: boolean) {
+		if (!blockers.length) return void root.createEl("p", { text: "No blockers.", cls: "gbr-empty" });
+		const list = root.createEl("ul");
+		for (const blocker of blockers) {
+			const row = list.createEl("li", { cls: "gbr-record" });
+			const link = row.createEl("a", { text: blocker.name, cls: "internal-link", href: "#" });
+			link.onclick = (event) => {
+				event.preventDefault();
+				void this.app.workspace.openLinkText(`${blockersPath(blocker.agentDir)}/${blocker.name}/index.md`, "", event.metaKey || event.ctrlKey);
+			};
+			if (all) row.createSpan({ text: blocker.agentDir, cls: "gbr-tag" });
+			if (blocker.condition) row.createSpan({ text: blocker.condition });
+		}
 	}
 
 	/** 🌅 / ⏱️ buttons for the routine files the agent dir has; desktop only. */
@@ -148,6 +185,17 @@ export class AgentsView extends ItemView {
 	private async routinesFor(dir: string): Promise<typeof ROUTINES> {
 		const present = await Promise.all(ROUTINES.map((routine) => this.app.vault.adapter.exists(`agents/${dir}/${routine.file}`)));
 		return ROUTINES.filter((_, i) => present[i]);
+	}
+
+	private async readBlockers(dir: string): Promise<Blocker[]> {
+		const folder = this.app.vault.getFolderByPath(blockersPath(dir));
+		const names = (folder?.children ?? []).filter((child) => child instanceof TFolder).map((child) => child.name).sort();
+		return Promise.all(
+			names.map(async (name) => {
+				const file = this.app.vault.getFileByPath(`${blockersPath(dir)}/${name}/condition.md`);
+				return { agentDir: dir, name, condition: file ? (await this.app.vault.cachedRead(file)).trim() : "" };
+			}),
+		);
 	}
 
 	private async readTasks(dir: string, known: { profiles: string[]; agentDirs: string[] }): Promise<{ source: string; tasks: ListedTask[]; error?: string }> {

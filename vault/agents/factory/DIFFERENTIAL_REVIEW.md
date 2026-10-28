@@ -60,8 +60,8 @@ Threads and replies live beside the snapshots under `annotations/`, in tracked J
 
 ## Where it fits
 
-- In the [branch factory](https://jmchilton.github.io/galaxy-brain/factory/galaxy-branches/), snapshots land at the end of each workhorse phase and after every rebase or round of requested changes, so John's final read before approving a branch covers only what John hasn't already seen. Once every commit or every diff is checked off, the view writes `human_review.md` into the branch record, and the PR description quotes it under "Human Review".
-- In the [review factory](https://jmchilton.github.io/galaxy-brain/factory/galaxy-reviews/), each review round snapshots the PR head, so follow-up rounds on someone else's PR show only what the author changed since the last round, even across force-pushes.
+- In the [branch factory](https://galaxy-brain.jmchilton.net/factory/galaxy-branches/), snapshots land at the end of each workhorse phase and after every rebase or round of requested changes, so John's final read before approving a branch covers only what John hasn't already seen. Once every commit or every diff is checked off, the view writes `human_review.md` into the branch record, and the PR description quotes it under "Human Review".
+- In the [review factory](https://galaxy-brain.jmchilton.net/factory/galaxy-reviews/), each review round snapshots the PR head, so follow-up rounds on someone else's PR show only what the author changed since the last round, even across force-pushes.
 
 Everything is local: no server, and no GitHub integration beyond the git fetches agents already do. Snapshots stay out of git; `review-state.json` is committed with the record.
 

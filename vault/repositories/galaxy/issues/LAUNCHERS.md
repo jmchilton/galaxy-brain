@@ -26,3 +26,11 @@ agent_dir: gx_workhorse
 name: wo-{name}
 
 Let's work on https://github.com/galaxyproject/galaxy/issues/{name}. If unassigned, assign me. Implement the feature or bug and harden.
+
+## 🗄️ Shelve
+status: needs_decision, queued, wip, blocked
+agent_dir: gx_issues
+name: sh-{name}
+profile: Sonnet (medium)
+
+Shelve the issue {name} per ../_shared/PROCESS_SHELVE.md. The record is {record}. Blocked on: <user_input_here>

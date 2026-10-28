@@ -44,3 +44,11 @@ name: qm-{name}
 profile: Sonnet (medium)
 
 Quick merge pull request jmchilton/galaxy-tool-util-ts#{name} - skip the initial review process. Check it is still open, not a draft and mergeable; if not, stop and report without merging. Otherwise merge it according to the processes described in AGENTS.md. This launch is my approval to merge. Then clean up the review record and relevant worktree (if present).
+
+## 🗄️ Shelve
+status: active
+agent_dir: workflow_libs
+name: sh-{name}
+profile: Sonnet (medium)
+
+Shelve the review of {name} per ../_shared/PROCESS_SHELVE.md. The record is {record}. Blocked on: <user_input_here>

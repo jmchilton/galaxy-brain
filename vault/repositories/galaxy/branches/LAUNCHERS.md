@@ -68,3 +68,11 @@ agent_dir: gx_branches
 name: diff-{name}
 
 Address the open differential-review comments in {record} following ../_shared/PROCESS_DIFFERENTIAL_REVIEW_COMMENTS.md.
+
+## 🗄️ Shelve
+status: active
+agent_dir: gx_branches
+name: sh-{name}
+profile: Sonnet (medium)
+
+Shelve the branch {name} per ../_shared/PROCESS_SHELVE.md. The record is {record}. Blocked on: <user_input_here>

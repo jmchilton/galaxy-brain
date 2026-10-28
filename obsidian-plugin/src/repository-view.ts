@@ -3,6 +3,8 @@ import { type GroupingSection, groupingFor, isReviewableRecordKind, KIND_LABELS,
 import { type GithubTab, githubListTitle, githubListUrl, REPOSITORY_TABS as TABS, type RepositoryTab as Tab, upstreamOwner } from "../../site/src/lib/repository-tabs";
 import { type Launcher, launchersFor, type RecordRef, untrackedRecord } from "./launchers";
 import { type FeedItem, type FeedList, type Feeds, feedArgs, matchRecords, parseFeeds } from "./github-feed";
+import { BlockerModal } from "./blocker-modal";
+import { recordBlocker } from "./blockers";
 import { hasDifferentialReview, openDifferentialReview } from "./diff-review-view";
 import { compareUrl, githubUrl } from "./record-links";
 import { SYNC_PROCESSES, SYNC_PROFILE } from "./record-agents";
@@ -352,6 +354,8 @@ export class RepositoryView extends ItemView {
 			action(RECORD_ICONS[record.kind], `Open ${kind} record ${record.name} (${statusLabel(record.status)})`, (event) =>
 				void this.app.workspace.openLinkText(record.indexPath ?? record.dir, "", event.metaKey || event.ctrlKey),
 			);
+			const blocker = recordBlocker(bodyOf(record));
+			if (blocker) action("lock", `Blocked: ${blocker.agentDir}/${blocker.name}`, () => new BlockerModal(this.app, blocker).open());
 			if (launchable.has(record.dir)) action("bot", `Launch agent for ${kind} record`, () => void this.host.pickLauncher(record));
 			const worktree = this.host.worktreeFor(record, bodyOf(record));
 			if (worktree) action("code", `Open ${kind} worktree with Code`, () => this.host.openInCode(worktree));
@@ -443,6 +447,8 @@ export class RepositoryView extends ItemView {
 			setIcon(button, icon);
 			button.onclick = onClick;
 		};
+		const blocker = recordBlocker(body);
+		if (blocker) action("lock", `Blocked: ${blocker.agentDir}/${blocker.name}`, () => new BlockerModal(this.app, blocker).open());
 		if (launchable) action("bot", "Launch agent", () => void this.host.pickLauncher(record));
 		const github = githubUrl(record, body);
 		if (github) action("github", "Open on GitHub", () => window.open(github));
