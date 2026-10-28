@@ -8,7 +8,7 @@ upstream_base_branch: release_26.0
 
 ## Status
 
-BLOCKED on scope decision (head `0a6c27e2cae`) on `release_26.0`; expanded to `converted/{ext}` + feature search; see implementation_debrief.md. Alt: `issue_24529_custom_build_fasta_history_26.0_alt_original_scope`. Worktree: `~/projects/worktrees/galaxy/branch/issue_24529_custom_build_fasta_history_26.0`.
+READY (head `025d2d5450c`) on `release_26.0`; re-scoped twice (converted/{ext}, feature search, pending-dep 202), re-hardened; see implementation_debrief.md. Alt: `issue_24529_custom_build_fasta_history_26.0_alt_original_scope`. Worktree: `~/projects/worktrees/galaxy/branch/issue_24529_custom_build_fasta_history_26.0`.
 
 No PR.
 
