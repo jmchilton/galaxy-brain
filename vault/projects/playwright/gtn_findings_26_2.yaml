@@ -1038,3 +1038,15 @@
   target: main
   summary: 'Says to run tours with the 2017 Tour Builder browser extension; its Chrome Web Store link now redirects to an "empty-title" listing with no extension page (Firefox page is behind a bot challenge, unverified).'
   fix: 'Drop the Chrome link (or the extension), and describe a current way to run a tutorial tour.yaml.'
+
+- label: gtn-event-create-schema-link
+  faqs: [faqs/gtn/gtn_event_create.md]
+  target: main
+  summary: '"schema documentation page" links to `_layouts/event.html` (a Jekyll layout), not the event schema (`bin/schema-event.yaml` / `bin/schema-event-external.yaml`). Also "desciption" typo.'
+  fix: 'Link the schema files (or the rendered schema docs page); fix the typo.'
+
+- label: gtn-faq-create-says-news-post
+  faqs: [faqs/gtn/gtn_faq_create.md]
+  target: main
+  summary: 'Copied from the news-post FAQ: introduces the sample with "A news post is a markdown file that looks as follows:" though the sample is an FAQ.'
+  fix: '"An FAQ is a markdown file that looks as follows:".'

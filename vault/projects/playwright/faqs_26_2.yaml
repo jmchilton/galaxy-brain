@@ -2308,25 +2308,57 @@
   gtn_commit: 45d4932d33
   used_by: []
 - faq: faqs/gtn/gtn_audience.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
+  used_by: []
 - faq: faqs/gtn/gtn_citing.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
+  used_by: []
 - faq: faqs/gtn/gtn_event_create.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
+  used_by: []
+  faq_findings: [gtn-event-create-schema-link]
 - faq: faqs/gtn/gtn_example_histories.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
+  used_by: [topics/single-cell/tutorials/scrna-case_basic-pipeline/tutorial.md, topics/single-cell/tutorials/scrna-case_alevin/tutorial.md, topics/single-cell/tutorials/scrna-case_alevin-combine-datasets/tutorial.md]
 - faq: faqs/gtn/gtn_faq_create.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
+  used_by: []
+  faq_findings: [gtn-faq-create-says-news-post]
 - faq: faqs/gtn/gtn_license.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
+  used_by: []
 - faq: faqs/gtn/gtn_licenses.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
+  used_by: []
 - faq: faqs/gtn/gtn_minor_correction.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
+  used_by: []
 - faq: faqs/gtn/gtn_news_create_post.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
+  used_by: []
 - faq: faqs/gtn/gtn_stats.md
-  status: pending
+  status: reviewed
+  mode: text
+  gtn_commit: 45d4932d33
+  used_by: [topics/introduction/tutorials/galaxy-intro-short/slides.html, topics/teaching/tutorials/gtn-for-instructors/slides.html]
 - faq: faqs/gtn/gtn_sustainability.md
   status: pending
 - faq: faqs/gtn/gtn_tutorial_mode.md
