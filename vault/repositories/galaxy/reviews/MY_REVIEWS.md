@@ -1,6 +1,6 @@
 ## PRs to review (`to_review`)
 
-- [#24543](https://github.com/galaxyproject/galaxy/pull/24543) — approved + fork PR davelopez/galaxy#12 opened; awaiting merge (one P2 + one P3; both fixed on `pr_24543_review_0`). [notes](active/24543/index.md)
+- [#24543](https://github.com/galaxyproject/galaxy/pull/24543) — review comment posted 2026-10-28 (P2 + P3; fixes on `pr_24543_review_0`, not pushed to PR); awaiting author. [notes](active/24543/index.md)
 - [#24540](https://github.com/galaxyproject/galaxy/pull/24540) — approved + fork PR davelopez/galaxy#12 opened; awaiting merge (two P2 test gaps + four P3s; all fixed on `pr_24540_review_0`; perf negligible). [notes](active/24540/index.md)
 - [#24534](https://github.com/galaxyproject/galaxy/pull/24534) — approved + fork PR davelopez/galaxy#12 opened; awaiting merge (four P2s + three P3s; fixed on `pr_24534_review_0`). [notes](active/24534/index.md)
 - [#24535](https://github.com/galaxyproject/galaxy/pull/24535) — approved + fork PR davelopez/galaxy#12 opened; awaiting merge (two P2s + two P3s; three fixed on `pr_24535_review_0`; P2 1 = int half should retarget `release_25.1`). [notes](active/24535/index.md)

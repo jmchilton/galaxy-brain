@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "kind": "differential-review-state",
+  "updatedAt": "2026-10-28T20:39:45.481Z",
+  "hunks": {
+    "h1:e495faa38f627d9e": {
+      "snapshotId": "20261028T194057Z-review-41b869bc0b25",
+      "path": "test/unit/webapps/test_user_logout.py",
+      "reviewedAt": "2026-10-28T20:39:41.523Z"
+    },
+    "h1:61e083b1c7f22d91": {
+      "snapshotId": "20261028T194057Z-review-41b869bc0b25",
+      "path": "lib/galaxy/webapps/galaxy/controllers/user.py",
+      "reviewedAt": "2026-10-28T20:39:42.457Z"
+    },
+    "h1:b0e27ddb2b1f65ee": {
+      "snapshotId": "20261028T194057Z-review-41b869bc0b25",
+      "path": "client/src/utils/logout.test.js",
+      "reviewedAt": "2026-10-28T20:39:44.499Z"
+    },
+    "h1:8d1a431ec3a2c6ce": {
+      "snapshotId": "20261028T194057Z-review-41b869bc0b25",
+      "path": "client/src/utils/logout.js",
+      "reviewedAt": "2026-10-28T20:39:45.481Z"
+    }
+  },
+  "commits": {}
+}

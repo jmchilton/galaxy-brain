@@ -1,6 +1,6 @@
 - [ ] Approve the PR with the response
 - [ ] Approve and merge the PR with the response
-- [ ] Comment with the response
+- [x] Comment with the response (posted 2026-10-28)
 - [ ] Review comment with the response
 - [ ] Request changes with the response
 - [ ] Pull request: open a PR from the review branch

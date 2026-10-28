@@ -1,4 +1,4 @@
-(space for John's free style comments - just keep empty)
+I don't love that unit test - it is really testing the literal implementation of the parameter name. Can you swap it out for this API test that tests behavior? -John
 
 <details><summary>Automated Review Details</summary>
 
