@@ -4,7 +4,7 @@
 
 ## Status
 
-Initial review of `deed873a70a` complete 2026-10-28 (two P2s + two P3s; three fixed on `pr_24535_review_0` `b47ddbc1ebe`, pushed to fork); unposted.
+Initial review of `deed873a70a` complete 2026-10-28 (two P2s + two P3s; three fixed on `pr_24535_review_0` `b47ddbc1ebe`, pushed to fork); unposted. [Regression comment](https://github.com/galaxyproject/galaxy/pull/24535#issuecomment-6480348932) ([draft](regression_comment_draft.md)) posted 2026-10-28.
 
 PR open against `release_26.2` (mvdbeek), `review/high`.
 
