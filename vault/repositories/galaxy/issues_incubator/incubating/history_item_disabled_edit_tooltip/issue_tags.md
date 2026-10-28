@@ -1,0 +1,3 @@
+- `kind/bug` — tooltip text exists but never displays
+- `area/UI-UX` — tooltip/GButton component behavior
+- `area/histories` — history item edit button
