@@ -4,6 +4,6 @@
 
 ## Status
 
-Initial review of `c66b78b6ddd` complete 2026-10-27, unposted: three P2s + one P3, all implementation verified. P2 1 (explicit `job_handler` threading) and P2 2 (enqueue precedence tests, red-to-green) fixed on `pr_23522_review_0` (`147d0c9a4ff`, `5771fe951aa`; pushed to fork). P2 3 (unknown forwarded handler fails job under db-preassign/db-self) and P3 1 (`default_handler_id` forwarding changes assignment) left as findings.
+Initial review of `c66b78b6ddd` complete 2026-10-27, posted as [comment](https://github.com/galaxyproject/galaxy/pull/23522#issuecomment-6477448259) 2026-10-28 (review branch not pushed to PR): three P2s + one P3, all implementation verified. P2 1 (explicit `job_handler` threading) and P2 2 (enqueue precedence tests, red-to-green) fixed on `pr_23522_review_0` (`147d0c9a4ff`, `5771fe951aa`; pushed to fork). P2 3 (unknown forwarded handler fails job under db-preassign/db-self) and P3 1 (`default_handler_id` forwarding changes assignment) left as findings.
 
 Open, ready for review, against `release_26.2`. Author guerler. 6 files, +12/-6. Worktree `~/projects/worktrees/galaxy/pr/23522`.

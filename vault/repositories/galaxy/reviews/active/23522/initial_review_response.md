@@ -1,4 +1,4 @@
-(space for John's free style comments - just keep empty)
+@natefoo is the right thing to do here to have a separate Celery setup for worker for VGP? Or to add a configuration option that causes the web handler to by-pass the job handler assignment abstractions? I don't know that just skipping all of the job handler abstractions when not behind some sort of flag seems wrong. -John
 
 <details><summary>Why async jobs misroute but sync jobs don't</summary>
 
