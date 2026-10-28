@@ -7,10 +7,11 @@ upstream_base_branch: release_26.2
 - [View on GitHub](https://github.com/jmchilton/galaxy/tree/staging_workflow_parameter_lists)
 - [Implementation debrief](implementation_debrief.md)
 - [Test challenges](test_challenges_debrief.md) · [Codex review](codex_review.md) · [Thermo-nuclear review](thermo_nuclear_review.md) · [Baseline refactor](baseline_refactor.md) · [Scope evaluation](scope_evaluation.md) · [Retarget to 26.2](retarget_release_26_2.md)
+- [PR description](pr_description.md) · [Titles](pr_titles.md) · [Tags](pr_tags.md) · [Checklist](pr_checklist.md) · [Planemo adoption proof](planemo_adoption_proof.md) · [Polish debrief](polish_debrief.md)
 
 ## Status
 
-Hardened and retargeted to `release_26.2` at `a812cad3` (on `0902830b`); polishing.
+Polished at `a812cad3` on `release_26.2` (`0902830b`); awaiting John's final review.
 
 No PR.
 

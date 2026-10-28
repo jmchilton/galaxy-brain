@@ -102,11 +102,11 @@ None yet.
 
 ## Galaxy branches — needs polish (`branches_need_polish`)
 
-- [`staging_workflow_parameter_lists`](active/staging_workflow_parameter_lists/index.md) — Lets galaxy-tool-util staging leave parameter-input values (e.g. multi-value lists) unstaged; upstream of planemo#1744. Targets 26.2. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:staging_workflow_parameter_lists?expand=1).
 - [`issue_24530_atomic_embedded_tool_import_26.1`](active/issue_24530_atomic_embedded_tool_import_26.1/index.md) — Failed workflow import/update/shared copy rolls back embedded tools (DB + toolbox) (#24530). Stacked on `workflow_import_embedded_tools` (#24475). [Open PR](https://github.com/jmchilton/galaxy/compare/workflow_import_embedded_tools...issue_24530_atomic_embedded_tool_import_26.1?expand=1).
 
 ## Galaxy branches — ready for final review (`branches_ready_for_final_review`)
 
+- [`staging_workflow_parameter_lists`](active/staging_workflow_parameter_lists/index.md) — Lets galaxy-tool-util staging leave parameter-input values (e.g. multi-value lists) unstaged; upstream of planemo#1744. Targets 26.2. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:staging_workflow_parameter_lists?expand=1).
 - [`issue_22598_login_prompt_26.2`](active/issue_22598_login_prompt_26.2/index.md) — Prompts anonymous shed users to log in for Changelog/Contents, then returns them (#22598). Base `release_26.2`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:issue_22598_login_prompt_26.2?expand=1).
 - [`issue_23891_output_reference_resolver`](active/issue_23891_output_reference_resolver/index.md) — Resolves format_source/metadata_source against declared inputs at tool load; lints both; errors gated at profile 27.0 (#23891). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_23891_output_reference_resolver?expand=1).
 - [`ag_grid_36`](active/ag_grid_36/index.md) — Upgrades ag-grid to 36.2.0 with grid editing and renderer adaptations. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:ag_grid_36?expand=1).

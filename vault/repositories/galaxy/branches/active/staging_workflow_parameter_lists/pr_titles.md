@@ -1,0 +1,4 @@
+- [26.2] Let galaxy-tool-util staging leave workflow parameter inputs unstaged
+- [26.2] Add parameter_input_keys to staging so multiple-value parameter lists aren't uploaded as collections
+- [26.2] Fix staging multiple-value workflow parameter lists as collections (opt-in parameter_input_keys)
+- [26.2] Allow staging clients to pass workflow parameter values through untouched
