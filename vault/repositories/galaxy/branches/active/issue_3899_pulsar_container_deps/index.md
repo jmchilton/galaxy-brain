@@ -1,10 +1,10 @@
 # issue_3899_pulsar_container_deps
 
-Status: `branches_implemented`. Base: `dev`.
+Status: `branches_implemented_needs_ci`. Base: `dev`.
 
 Respects a Pulsar container job’s dependency-resolution opt-in (#3899).
 
-[Implementation](implementation_debrief.md) · [test challenge debrief](test_challenge_debrief.md) · [Tracking history](tracking_history.md)
+[Implementation](implementation_debrief.md) · [test challenges](test_challenges_debrief.md) · [codex](codex_review.md) · [thermo-nuclear](thermo_nuclear_review.md) · [baseline refactor](baseline_refactor.md) · [scope](scope_evaluation.md) · [earlier drafts](earlier_drafts/1/implementation_debrief.md) · [Tracking history](tracking_history.md)
 
 ## TICK — 2026-10-11
 
@@ -21,3 +21,7 @@ Rebased onto actual dev `b23da2fc8f0943d51b2cb191148464aa2297de43`. Resolved onl
 ## TICK — 2026-10-13 evening
 
 Current fork head `05e0c26b297a743b69ff14401ab9a535cd11e858` has passing Integration, including both `test_host_job_resolves_dependencies_in_pulsar` and `test_container_job_skips_dependency_resolution_in_pulsar` in [run 38430289612](https://github.com/jmchilton/galaxy/actions/runs/38430289612). The sole red is release-script run 38430289239, which compares the old fork master version (`VERSION_MINOR = None`) against the expected release value; unrelated to dependency resolution. Promoted to `branches_implemented`; failed release-script jobs were rerun. No PR approval or publication inferred.
+
+## Re-harden — 2026-10-28
+
+Re-hardened READY, scope keep. Baseline refactor commit split out ahead of fix; tree identical to `05e0c26b297`. New head `1b94de12b96` pushed to jmchilton; fresh CI pending. Moved to `branches_implemented_needs_ci`. See [debrief](implementation_debrief.md).
