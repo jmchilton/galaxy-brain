@@ -71,7 +71,6 @@ None yet.
 
 ## Galaxy branches — implemented, work left (`branches_implemented_needs_ci`)
 
-- [`issue_24530_atomic_embedded_tool_import_26.1`](active/issue_24530_atomic_embedded_tool_import_26.1/index.md) — Failed workflow import/update/shared copy rolls back embedded tools (DB + toolbox) (#24530). Stacked on `workflow_import_embedded_tools` (#24475). [Open PR](https://github.com/jmchilton/galaxy/compare/workflow_import_embedded_tools...issue_24530_atomic_embedded_tool_import_26.1?expand=1).
 - [`selenium_workflow_preview_import_26.2`](active/selenium_workflow_preview_import_26.2/index.md) — Public workflow preview/Run/Import tests + TRS launch-link auto-import and version-alias fixes; baseline first, hardened READY. Base `release_26.2`, head `ef7bf72fdea9`; both browser backends verified.
 
 - [`issue_24303_collection_type_prefix_26.2`](active/issue_24303_collection_type_prefix_26.2/index.md) — `type_prefix` on `type_source` tool output collections (parser/XSD/lint, runtime, workflow server + subworkflow export fix, editor, collection_semantics) + Nest 1.1.0 replacing #24190 (bernt-matthias's commit cherry-picked; 1.0.0 kept) (#24303). Hardened + re-scoped; decisions: #24190 fate, PR split. Base `release_26.2`, head `e0239d8d74b`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:issue_24303_collection_type_prefix_26.2?expand=1).
@@ -101,7 +100,7 @@ None yet.
 
 ## Galaxy branches — needs polish (`branches_need_polish`)
 
-None yet.
+- [`issue_24530_atomic_embedded_tool_import_26.1`](active/issue_24530_atomic_embedded_tool_import_26.1/index.md) — Failed workflow import/update/shared copy rolls back embedded tools (DB + toolbox) (#24530). Stacked on `workflow_import_embedded_tools` (#24475). [Open PR](https://github.com/jmchilton/galaxy/compare/workflow_import_embedded_tools...issue_24530_atomic_embedded_tool_import_26.1?expand=1).
 
 ## Galaxy branches — ready for final review (`branches_ready_for_final_review`)
 
