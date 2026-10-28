@@ -444,7 +444,8 @@ export class RepositoryView extends ItemView {
 			button.onclick = onClick;
 		};
 		if (launchable) action("bot", "Launch agent", () => void this.host.pickLauncher(record));
-		action("github", "Open on GitHub", () => window.open(githubUrl(record, body)));
+		const github = githubUrl(record, body);
+		if (github) action("github", "Open on GitHub", () => window.open(github));
 		const compare = compareUrl(record, body);
 		if (compare) action("git-compare-arrows", "Compare to upstream base", () => window.open(compare));
 		const worktree = Platform.isDesktopApp ? this.host.worktreeFor(record, body) : null;

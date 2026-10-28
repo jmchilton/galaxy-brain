@@ -26,7 +26,7 @@ export function recordsForRef(ref: GithubRef, records: RecordRef[], body: (recor
 	const found = records.filter((record) => {
 		if (record.repo !== ref.repo) return false;
 		if (record.kind === ref.kind) return record.name === name;
-		return ref.kind === "reviews" && record.kind === "branches" && (record.name === headBranch || githubUrl(record, body(record)).endsWith(`/pull/${name}`));
+		return ref.kind === "reviews" && record.kind === "branches" && (record.name === headBranch || !!githubUrl(record, body(record))?.endsWith(`/pull/${name}`));
 	});
 	return found.length ? found : [untrackedRecord(ref.repo, ref.kind, ref.number)];
 }

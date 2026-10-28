@@ -115,7 +115,7 @@ export default class GalaxyBrainPlugin extends Plugin {
 		}
 	}
 
-	/** Code, GitHub, agent, (branches/reviews) differential review and (branches) compare icons in the header of notes inside a repository record. */
+	/** Code, GitHub (not issue incubator), agent, (branches/reviews) differential review and (branches) compare icons in the header of notes inside a repository record. */
 	private refreshRecordActions() {
 		for (const leaf of this.app.workspace.getLeavesOfType("markdown")) {
 			const view = leaf.view;
@@ -137,7 +137,7 @@ export default class GalaxyBrainPlugin extends Plugin {
 					...(reviewable ? [view.addAction("git-compare", "Differential review", withRecord((r) => openDifferentialReview(this.app, r.dir)))] : []),
 					view.addAction("code", "Open with Code", withRecord((r) => this.openRecordInCode(r))),
 					...(record.kind === "branches" ? [view.addAction("git-compare-arrows", "Compare to upstream base", withRecord((r) => this.openRecordCompare(r)))] : []),
-					view.addAction("github", "Open on GitHub", withRecord((r) => this.openRecordOnGithub(r))),
+					...(record.kind !== "issues_incubator" ? [view.addAction("github", "Open on GitHub", withRecord((r) => this.openRecordOnGithub(r)))] : []),
 					view.addAction("bot", "Launch agent", withRecord((r) => this.pickLauncher(r))),
 				];
 				this.recordActions.set(view, { kind: record.kind, actions });
@@ -184,7 +184,8 @@ export default class GalaxyBrainPlugin extends Plugin {
 	}
 
 	private async openRecordOnGithub(record: RecordRef) {
-		window.open(githubUrl(record, await this.indexBody(record)));
+		const url = githubUrl(record, await this.indexBody(record));
+		if (url) window.open(url);
 	}
 
 	private async openRecordCompare(record: RecordRef) {

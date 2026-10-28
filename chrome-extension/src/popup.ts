@@ -4,7 +4,7 @@
 const HOST = "org.galaxybrain.launcher";
 
 interface Launcher { label: string; agentDir: string; name: string; prompt: string; profile: string }
-interface LookupRecord { key: string; repo: string; kind: string; status: string; name: string; title: string; github: string; obsidian?: string; launchers: Launcher[] }
+interface LookupRecord { key: string; repo: string; kind: string; status: string; name: string; title: string; github?: string; obsidian?: string; launchers: Launcher[] }
 interface Profile { name: string; agent: string; args: string[] }
 interface Lookup { ref?: { repo: string; kind: string; name: string }; records: LookupRecord[]; profiles: Profile[]; agentDirs: string[] }
 
@@ -69,7 +69,8 @@ function newAgentView(data: Lookup, url: string, dir: string) {
 }
 
 function recordCard(data: Lookup, url: string, record: LookupRecord) {
-	const links = el("div", {}, button("🌐 GitHub", () => run("Opening", { type: "open", url: record.github })));
+	const links = el("div", {});
+	if (record.github) links.append(button("🌐 GitHub", () => run("Opening", { type: "open", url: record.github! })));
 	if (record.obsidian) links.append(button("📓 Obsidian", () => run("Opening", { type: "open", url: record.obsidian! })));
 	return el(
 		"div",

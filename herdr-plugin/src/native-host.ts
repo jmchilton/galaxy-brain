@@ -29,7 +29,7 @@ export interface LookupRecord {
 	status: string;
 	name: string;
 	title: string;
-	github: string;
+	github?: string;
 	obsidian?: string;
 	launchers: Array<{ label: string; agentDir: string; name: string; prompt: string; profile: string }>;
 }
@@ -107,7 +107,7 @@ export function lookup(vaultRoot: string, url?: string, headBranch?: HeadBranch)
 			status: record.status,
 			name: record.name,
 			title: found.titles.get(record.dir) ?? record.name,
-			github: links.github,
+			...(links.github ? { github: links.github } : {}),
 			...(links.obsidian ? { obsidian: links.obsidian } : {}),
 			launchers: launchersFor(launchers, record).map((l) => ({
 				label: l.label,

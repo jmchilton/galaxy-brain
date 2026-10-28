@@ -51,9 +51,9 @@ Blocked on [#24297](https://github.com/galaxyproject/galaxy/pull/24297).`;
 });
 
 describe("githubUrl for issue incubator records", () => {
-	it("opens the upstream issue list, not a fork branch", () => {
+	it("has none, since drafts aren't on GitHub", () => {
 		const draft = recordFromPath("repositories/galaxy/issues_incubator/incubating/oidc_extra_authorize_params/index.md")!;
-		expect(githubUrl(draft, "Related: [#9](https://github.com/galaxyproject/galaxy/issues/9)")).toBe("https://github.com/galaxyproject/galaxy/issues");
+		expect(githubUrl(draft, "Related: [#9](https://github.com/galaxyproject/galaxy/issues/9)")).toBeUndefined();
 	});
 });
 
