@@ -1,0 +1,3 @@
+- `bug` — a hung install blocked planemo indefinitely.
+- `toolshed` — Tool Shed repository installs.
+- `testing` — affects `planemo test`/`shed_test` runs.

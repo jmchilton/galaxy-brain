@@ -57,6 +57,7 @@ None yet.
 ## Planemo branches — ready for final review (`branches_ready_for_final_review`)
 
 - [`issue-1764-workflow-tool-data-tables`](active/issue-1764-workflow-tool-data-tables/index.md) — Document data table discovery for workflow tests; print the loaded conf. [Open PR](https://github.com/galaxyproject/planemo/compare/master...jmchilton:planemo:issue-1764-workflow-tool-data-tables?expand=1).
+- [`shed_install_timeout`](active/shed_install_timeout/index.md) — Times out Tool Shed installs Galaxy never answers (#1768). [Open PR](https://github.com/galaxyproject/planemo/compare/master...jmchilton:planemo:shed_install_timeout?expand=1).
 
 ## Planemo branches — approved, opens when green (`branches_need_pr`)
 
