@@ -17,14 +17,6 @@
   link: https://github.com/galaxyproject/galaxy/pull/24473
   record: galaxy/branches/issue_24457_password_reset_25.1
 - prompt: |
-    Run ./POLISH_BRANCH.md deployment_test_docs_decorators_26_2
-  agent_dir: gx_branches
-  record: galaxy/branches/deployment_test_docs_decorators_26_2
-  description: |
-    ✨ Documents deployment tests and adds a decorator audit skill. Stacked on `deployment_test_fixes_26_2`.
-  status: recommended
-  suggested_by: gx_branches/SUGGESTED_TASKS.md#Polish Branches
-- prompt: |
     Run ./POLISH_BRANCH.md compare_runs
   agent_dir: gx_branches
   record: galaxy/branches/compare_runs
@@ -33,43 +25,11 @@
   status: recommended
   suggested_by: gx_branches/SUGGESTED_TASKS.md#Polish Branches
 - prompt: |
-    Run ./POLISH_BRANCH.md staging_workflow_parameter_lists
-  agent_dir: gx_branches
-  record: galaxy/branches/staging_workflow_parameter_lists
-  description: |
-    ✨ Lets galaxy-tool-util staging leave parameter-input values (e.g. multi-value lists) unstaged; upstream of planemo#1744.
-  status: recommended
-  suggested_by: gx_branches/SUGGESTED_TASKS.md#Polish Branches
-- prompt: |
-    Run ./POLISH_BRANCH.md issue_22598_login_prompt_26.2
-  agent_dir: gx_branches
-  record: galaxy/branches/issue_22598_login_prompt_26.2
-  description: |
-    ✨ Prompts anonymous shed users to log in for Changelog/Contents, then returns them (#22598). Base `release_26.2`.
-  status: recommended
-  suggested_by: gx_branches/SUGGESTED_TASKS.md#Polish Branches
-- prompt: |
-    Run ./POLISH_BRANCH.md workflow_editor_selector_escaping
-  agent_dir: gx_branches
-  record: galaxy/branches/workflow_editor_selector_escaping
-  description: |
-    ✨ CSS-safe selector escaping (`css_attribute_value`) for editor terminal names, node labels, connector ids (`[id='…']`) and workflow run-form input labels, so `'`/`\` in free-text labels no longer break the Selenium/Playwright helpers; editor + run-form E2E tests. Re-scoped, re-hardened. Stacked on `workflow_editor_connection_helpers` (`9699ec45644`), head `7ba4f7bd25f`.
-  status: recommended
-  suggested_by: gx_branches/SUGGESTED_TASKS.md#Polish Branches
-- prompt: |
     Run ./POLISH_BRANCH.md issue_23902_qualified_output_references
   agent_dir: gx_branches
   record: galaxy/branches/issue_23902_qualified_output_references
   description: |
     ✨ From 26.2, unqualified `format_source`/`metadata_source` fail tool load; runtime skips legacy aliases (fixes #23902).
-  status: recommended
-  suggested_by: gx_branches/SUGGESTED_TASKS.md#Polish Branches
-- prompt: |
-    Run ./POLISH_BRANCH.md resubmit_static_chain_test_26.1
-  agent_dir: gx_branches
-  record: galaxy/branches/resubmit_static_chain_test_26.1
-  description: |
-    ✨ Tests repeated resubmission through static destinations with per-hop environment values.
   status: recommended
   suggested_by: gx_branches/SUGGESTED_TASKS.md#Polish Branches
 - prompt: |
@@ -97,39 +57,6 @@
   description: |
     🔀 FAQ account/storage, workflow editor and populated/empty display-catalog tests and helpers. Base `release_26.2`. Conflicting files not enumerated (GitHub reports CONFLICTING).
   status: recommended
-  suggested_by: gx_branches/SUGGESTED_TASKS.md#De-conflict Branches
-- prompt: |
-    De-conflict branch selenium_history_import_purge. BRANCH_DIRECTORY is vault/repositories/galaxy/branches/active/selenium_history_import_purge/. Rebase it onto its actual base branch (`parent_branch` when present, otherwise `upstream_base_branch`, per ../_shared/REPOSITORY_BRANCHES.md), reconciling any disagreement with the PR's `baseRefName` first. Resolve mechanical and clear conflicts, and stop and ask me about substantial ones. Force-push with `--force-with-lease` to the `jmchilton` fork, update the SHA in the branch record and queue, and take a `revision` snapshot per ../_shared/PROCESS_DIFFERENTIAL_REVIEW_SNAPSHOT.md.
-  agent_dir: gx_branches
-  profile: Sonnet (high)
-  link: https://github.com/galaxyproject/galaxy/pull/24440
-  record: galaxy/branches/selenium_history_import_purge
-  description: |
-    🔀 Add missing 26.2 E2E tests for shared history import and histories list bulk purge. Base `release_26.2`. Conflicting files not enumerated (GitHub reports CONFLICTING).
-  status: recommended
-  priority: high
-  suggested_by: gx_branches/SUGGESTED_TASKS.md#De-conflict Branches
-- prompt: |
-    De-conflict branch selenium_data_formats_interval_columns. BRANCH_DIRECTORY is vault/repositories/galaxy/branches/active/selenium_data_formats_interval_columns/. Rebase it onto its actual base branch (`parent_branch` when present, otherwise `upstream_base_branch`, per ../_shared/REPOSITORY_BRANCHES.md), reconciling any disagreement with the PR's `baseRefName` first. Resolve mechanical and clear conflicts, and stop and ask me about substantial ones. Force-push with `--force-with-lease` to the `jmchilton` fork, update the SHA in the branch record and queue, and take a `revision` snapshot per ../_shared/PROCESS_DIFFERENTIAL_REVIEW_SNAPSHOT.md.
-  agent_dir: gx_branches
-  profile: Sonnet (high)
-  link: https://github.com/galaxyproject/galaxy/pull/24439
-  record: galaxy/branches/selenium_data_formats_interval_columns
-  description: |
-    🔀 Add missing E2E tests: tool form accepted formats, Attributes tab interval columns; shared `form_element_*` read/set helpers. Conflicting files not enumerated (GitHub reports CONFLICTING).
-  status: recommended
-  priority: high
-  suggested_by: gx_branches/SUGGESTED_TASKS.md#De-conflict Branches
-- prompt: |
-    De-conflict branch selenium_history_datatype_citations. BRANCH_DIRECTORY is vault/repositories/galaxy/branches/active/selenium_history_datatype_citations/. Rebase it onto its actual base branch (`parent_branch` when present, otherwise `upstream_base_branch`, per ../_shared/REPOSITORY_BRANCHES.md), reconciling any disagreement with the PR's `baseRefName` first. Resolve mechanical and clear conflicts, and stop and ask me about substantial ones. Force-push with `--force-with-lease` to the `jmchilton` fork, update the SHA in the branch record and queue, and take a `revision` snapshot per ../_shared/PROCESS_DIFFERENTIAL_REVIEW_SNAPSHOT.md.
-  agent_dir: gx_branches
-  profile: Sonnet (high)
-  link: https://github.com/galaxyproject/galaxy/pull/24329
-  record: galaxy/branches/selenium_history_datatype_citations
-  description: |
-    🔀 Browser tests for bulk Change data type, Change Database/Build and history Export Tool References (26.2). Conflicting files not enumerated (GitHub reports CONFLICTING).
-  status: recommended
-  priority: high
   suggested_by: gx_branches/SUGGESTED_TASKS.md#De-conflict Branches
 - prompt: |
     De-conflict branch vitest_story_play. BRANCH_DIRECTORY is vault/repositories/galaxy/branches/active/vitest_story_play/. Rebase it onto its actual base branch (`parent_branch` when present, otherwise `upstream_base_branch`, per ../_shared/REPOSITORY_BRANCHES.md), reconciling any disagreement with the PR's `baseRefName` first. Resolve mechanical and clear conflicts, and stop and ask me about substantial ones. Force-push with `--force-with-lease` to the `jmchilton` fork, update the SHA in the branch record and queue, and take a `revision` snapshot per ../_shared/PROCESS_DIFFERENTIAL_REVIEW_SNAPSHOT.md.

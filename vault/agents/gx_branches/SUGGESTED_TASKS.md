@@ -105,4 +105,19 @@ description: 🤔 {description}
 status: idea
 ```
 
+## Merge Branches
+when: daily
+what: entries in `ready` that have an approval and no outstanding review comments to address
+
+Suggest:
+
+```
+prompt: Let's talk about branch {name}. The branch record is vault/repositories/galaxy/branches/active/{name}/.
+agent_dir: gx_branches
+link: https://github.com/galaxyproject/galaxy/pull/{n}
+record: galaxy/branches/{name}
+description: 🔀 {description}
+status: recommended
+```
+
 @../_shared/BLOCKER_SUGGESTED_TASKS.md
