@@ -10,7 +10,7 @@ Foundry's `/test-pipeline` is a slash command in the checkout's `.claude/command
 - New worktree: `pnpm install --frozen-lockfile && npm run packages-build`.
 - Fixtures the case names: `make fixtures-nextflow`, `make fixtures-iwc fixtures-skeletons`, etc. One at a time; parallel runs collide on a git lock. For parallel journeys, build all fixtures before launching any driver.
 - Parallel journeys are fine, with no cap here; John picks how many. Give each its own worktree (drivers commit Mold fixes locally) and check free disk first.
-- Run dir: `~/foundry-runs/prose-<pipeline-short>-<case-short>-<YYYY-MM-DD>/`. Not `casts/claude/_emulated-runs/`: upstream tracks files there, so new runs dirty the worktree and block cleanup.
+- Run dir: `~/foundry-runs/prose-<pipeline-short>-<case-short>-<YYYY-MM-DD>/`. `~/foundry-runs` is a clone of the private [jmchilton/foundry-runs](https://github.com/jmchilton/foundry-runs); `git pull` it first. Not `casts/claude/_emulated-runs/`: upstream tracks files there, so new runs dirty the worktree and block cleanup.
 
 ## 2. Drive (a background subagent)
 
@@ -41,4 +41,5 @@ Return at most 60 lines: per-phase eval table, then the pipeline eval.md and the
 - If the run tested a branch or issue, add the report to that record. Otherwise write `vault/repositories/foundry/pipeline_runs/<YYYY-MM-DD>-<pipeline-short>-<case-short>/index.md`: title, worktree, branch @ SHA, run dir, `## Status` (completed / incomplete / blocked), then the eval table and misses.
 - Mold fixes the driver committed: tell John and propose an issue and branch; don't push without a decision.
 - Commit the vault record per VAULT_SYNC.
+- Archive the run dir once no driver will resume it: `git log --format='%h %ad %s' --date=iso > CHECKPOINTS.txt`, rename its `.git` to `.checkpoints.git` (ignored), then commit the run dir and its `.bin/` to foundry-runs by explicit path and push. Its `.gitignore` drops test data, `.scratch/`, traces and archives.
 - Leave the worktree until its commits are pushed or John drops them; then clean it up per WORKTREES.md.
