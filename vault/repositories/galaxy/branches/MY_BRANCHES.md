@@ -56,12 +56,12 @@ None yet.
 - [`issue_3899_pulsar_container_deps`](active/issue_3899_pulsar_container_deps/index.md) — Respects a Pulsar container job’s dependency-resolution opt-in (#3899). [#24555](https://github.com/galaxyproject/galaxy/pull/24555).
 - [`issue_22598_login_prompt_26.2`](active/issue_22598_login_prompt_26.2/index.md) — Prompts anonymous shed users to log in for Changelog/Contents, then returns them. [#24549](https://github.com/galaxyproject/galaxy/pull/24549).
 - [`staging_workflow_parameter_lists`](active/staging_workflow_parameter_lists/index.md) — Lets galaxy-tool-util staging leave parameter-input values (e.g. multi-value lists) unstaged. Base `release_26.2`. [#24552](https://github.com/galaxyproject/galaxy/pull/24552).
+- [`selenium_faq_account_workflow_display_26.2`](active/selenium_faq_account_workflow_display_26.2/index.md) — FAQ account/storage, workflow editor and populated/empty display-catalog tests and helpers. Base `release_26.2`. [#24482](https://github.com/galaxyproject/galaxy/pull/24482).
 
 ## Draft Galaxy PRs — needs author work (`author_work`)
 
 - [`issue_24476_parsed_output_filters_26_1`](active/issue_24476_parsed_output_filters_26_1/index.md) — Preserves filter expressions in parsed data, collection and scalar outputs (#24476). Base `release_26.1`. [#24483](https://github.com/galaxyproject/galaxy/pull/24483).
 - [`issue_24389_lint_duplicate_test_params_26.1`](active/issue_24389_lint_duplicate_test_params_26.1/index.md) — Lint conflicting duplicate tool-test params (load unchanged); `<edit_attributes>` stored as dicts (#24389). Base `release_26.1`. [#24480](https://github.com/galaxyproject/galaxy/pull/24480).
-- [`selenium_faq_account_workflow_display_26.2`](active/selenium_faq_account_workflow_display_26.2/index.md) — FAQ account/storage, workflow editor and populated/empty display-catalog tests and helpers. Base `release_26.2`. [#24482](https://github.com/galaxyproject/galaxy/pull/24482).
 - [`extract_next_followups`](active/extract_next_followups/index.md) — Fixes notebook-to-workflow extraction, report references and editor behavior after #22860. Base `release_26.2`; must merge before 26.2.0 (API rename). [#24225](https://github.com/galaxyproject/galaxy/pull/24225). Draft [WIP] by John's request: up early while they review it in detail.
 - [`vitest_readability`](active/vitest_readability/index.md) — Rewrites client tests for readability, shared fixtures and stronger assertions. [#24038](https://github.com/galaxyproject/galaxy/pull/24038).
 - [`vitest_story_play`](active/vitest_story_play/index.md) — Storybook stories, browser plays and accessibility checks for richer client-test review. [#24300](https://github.com/galaxyproject/galaxy/pull/24300). Keep draft RFC per John.

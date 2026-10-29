@@ -9,11 +9,11 @@ upstream_base_branch: release_26.2
 
 ## Status
 
-Approved by launch; PR opened as draft (`ci_wait`), pushed at `64b7f1ef204` against `release_26.2` (`cce99870510`).
+Approved by launch; PR opened as draft (`ci_wait`), rebased onto `release_26.2` (`62dcd7b0a7a`) and pushed at `9c088e58794`.
 
 [PR #24482](https://github.com/galaxyproject/galaxy/pull/24482) draft against `release_26.2`; screenshots hosted on fork branch `pr-assets-selenium_faq_account_workflow_display_26.2`.
 
-CI checked 2026-10-26: fresh head queued; pre-rebase head passed all 23 workflows that ran, and local post-rebase browser verification was blocked during setup.
+CI not yet run on `9c088e58794` (rebased 2026-10-29, mergeable); pre-rebase head `64b7f1ef204` passed all 23 workflows that ran. Rebase conflict in `navigates_galaxy.py` kept upstream's `request_password_reset` plus the prefilled-email assertion, and reused `navigate_to_storage_dashboard` for `storage_dashboard_recalculate_disk_usage`.
 
 ## Handoff
 
