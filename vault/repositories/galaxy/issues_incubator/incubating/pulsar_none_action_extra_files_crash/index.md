@@ -1,3 +1,3 @@
-# Pulsar `default_file_action: none` crashes on extra files; sample job_conf staging docs are wrong
+# Pulsar `default_file_action: none` crashes on extra files
 
-With `none` (or a no-op `rewrite`), `PulsarComputeEnvironment.input_extra_files_rewrite` / `output_extra_files_rewrite` pass `None` into `dataset_path_to_extra_path` and raise `TypeError`; also rolls in `job_conf.sample.yml` file-action doc drift. Reproduced in a unit test on dev 7761eeb.
+Pulsar `none`/no-op `rewrite` actions make both extra-files hooks raise `TypeError` (composite and Directory inputs reproduced in integration tests on dev 18296103e03); recommend filing as-is ([proposal](proposal.md), [debrief](debrief.md)).
