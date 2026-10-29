@@ -9,7 +9,7 @@ upstream_base_branch: release_26.2
 
 ## Status
 
-Implemented and hardened at `6fe63109810`, re-scoped once (iRODS/pithos). BLOCKED on a scope decision: the second scope eval says expand (pithos XML `<cache>`; base-class monitor lifecycle).
+Implemented and hardened at `aa56d883292`, re-scoped once (iRODS/pithos). BLOCKED on a scope decision: the second scope eval says expand (pithos XML `<cache>`; base-class monitor lifecycle).
 
 No PR yet.
 

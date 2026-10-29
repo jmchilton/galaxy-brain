@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "kind": "differential-review-reply",
+  "id": "f6a2bf2f-8bb4-4505-923c-ac01cd985597",
+  "threadId": "978e8303-4343-461e-9c74-db62e93cf0a9",
+  "body": "Dropped `test_pithos_sized_cache_starts_cache_monitor` and its now-unused `MockConfig` import; amended into `aa56d883292` (the commit that added it) and force-pushed. `test_objectstore.py`: 96 passed, 14 skipped; ruff clean.\n",
+  "author": "Agent",
+  "source": "agent",
+  "createdAt": "2026-10-29T00:47:22.544Z",
+  "snapshotId": "20261029T004713Z-revision-aa56d8832925"
+}

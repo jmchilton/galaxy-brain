@@ -1,0 +1,32 @@
+{
+  "id": "978e8303-4343-461e-9c74-db62e93cf0a9",
+  "origin": {
+    "snapshotId": "20261028T203823Z-hardening-6fe63109810f",
+    "path": "test/unit/objectstore/test_objectstore.py",
+    "basePath": "test/unit/objectstore/test_objectstore.py",
+    "hunkId": "h1:da4743d8411b5983",
+    "side": "new",
+    "range": [
+      655,
+      655
+    ],
+    "quote": "def test_pithos_sized_cache_starts_cache_monitor(tmp_path, monkeypatch):",
+    "contextBefore": [
+      "            assert object_store.staging_path != directory.global_config.file_path",
+      "",
+      ""
+    ],
+    "contextAfter": [
+      "    monkeypatch.setattr(\"galaxy.objectstore.pithos.KamakiClient\", object)",
+      "    monkeypatch.setattr(PithosObjectStore, \"_authenticate\", lambda self: None)",
+      "    monkeypatch.setattr(PithosObjectStore, \"_init_pithos\", lambda self: None)"
+    ]
+  },
+  "body": "Drop this test please. ",
+  "author": "John",
+  "createdAt": "2026-10-29T00:45:40.345Z",
+  "schemaVersion": 1,
+  "kind": "differential-review-thread",
+  "status": "open",
+  "resolvedAt": null
+}

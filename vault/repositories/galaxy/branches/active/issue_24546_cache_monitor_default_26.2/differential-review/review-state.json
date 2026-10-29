@@ -1,0 +1,108 @@
+{
+  "schemaVersion": 1,
+  "kind": "differential-review-state",
+  "updatedAt": "2026-10-29T00:45:23.054Z",
+  "hunks": {
+    "h1:926256e0c9f06a96": {
+      "snapshotId": "20261028T203823Z-hardening-6fe63109810f",
+      "path": "lib/galaxy/objectstore/__init__.py",
+      "reviewedAt": "2026-10-29T00:44:46.844Z"
+    },
+    "h1:789e7eee329ce031": {
+      "snapshotId": "20261028T203823Z-hardening-6fe63109810f",
+      "path": "lib/galaxy/objectstore/_caching_base.py",
+      "reviewedAt": "2026-10-29T00:44:53.332Z"
+    },
+    "h1:6f169c12fee911bf": {
+      "snapshotId": "20261028T203823Z-hardening-6fe63109810f",
+      "path": "lib/galaxy/objectstore/caching.py",
+      "reviewedAt": "2026-10-29T00:44:58.523Z"
+    },
+    "h1:6f36445cefaeb137": {
+      "snapshotId": "20261028T203823Z-hardening-6fe63109810f",
+      "path": "lib/galaxy/objectstore/caching.py",
+      "reviewedAt": "2026-10-29T00:44:58.523Z"
+    },
+    "h1:6c9c1b44fc52aecc": {
+      "snapshotId": "20261028T203823Z-hardening-6fe63109810f",
+      "path": "lib/galaxy/objectstore/caching.py",
+      "reviewedAt": "2026-10-29T00:44:58.523Z"
+    },
+    "h1:19eb533573acdcca": {
+      "snapshotId": "20261028T203823Z-hardening-6fe63109810f",
+      "path": "lib/galaxy/objectstore/irods.py",
+      "reviewedAt": "2026-10-29T00:45:03.092Z"
+    },
+    "h1:42e6539878b982c2": {
+      "snapshotId": "20261028T203823Z-hardening-6fe63109810f",
+      "path": "lib/galaxy/objectstore/irods.py",
+      "reviewedAt": "2026-10-29T00:45:03.092Z"
+    },
+    "h1:afa1e320337ead5f": {
+      "snapshotId": "20261028T203823Z-hardening-6fe63109810f",
+      "path": "lib/galaxy/objectstore/irods.py",
+      "reviewedAt": "2026-10-29T00:45:03.092Z"
+    },
+    "h1:d29673d61403cfc5": {
+      "snapshotId": "20261028T203823Z-hardening-6fe63109810f",
+      "path": "lib/galaxy/objectstore/irods.py",
+      "reviewedAt": "2026-10-29T00:45:03.092Z"
+    },
+    "h1:aab92421e433dc3c": {
+      "snapshotId": "20261028T203823Z-hardening-6fe63109810f",
+      "path": "lib/galaxy/objectstore/irods.py",
+      "reviewedAt": "2026-10-29T00:45:03.092Z"
+    },
+    "h1:3f75ecc75e5076d5": {
+      "snapshotId": "20261028T203823Z-hardening-6fe63109810f",
+      "path": "lib/galaxy/objectstore/pithos.py",
+      "reviewedAt": "2026-10-29T00:45:06.049Z"
+    },
+    "h1:7da18ae4e40e779f": {
+      "snapshotId": "20261028T203823Z-hardening-6fe63109810f",
+      "path": "lib/galaxy/objectstore/pithos.py",
+      "reviewedAt": "2026-10-29T00:45:06.049Z"
+    },
+    "h1:5c6eb3e747f4bfa1": {
+      "snapshotId": "20261028T203823Z-hardening-6fe63109810f",
+      "path": "lib/galaxy/objectstore/pithos.py",
+      "reviewedAt": "2026-10-29T00:45:06.049Z"
+    },
+    "h1:c0cbae1303185159": {
+      "snapshotId": "20261028T203823Z-hardening-6fe63109810f",
+      "path": "lib/galaxy/objectstore/rucio.py",
+      "reviewedAt": "2026-10-29T00:45:08.114Z"
+    },
+    "h1:fd449e43f70fd76f": {
+      "snapshotId": "20261028T203823Z-hardening-6fe63109810f",
+      "path": "test/unit/objectstore/test_caching.py",
+      "reviewedAt": "2026-10-29T00:45:13.303Z"
+    },
+    "h1:cd901d9dbc4ff6b6": {
+      "snapshotId": "20261028T203823Z-hardening-6fe63109810f",
+      "path": "test/unit/objectstore/test_caching.py",
+      "reviewedAt": "2026-10-29T00:45:13.303Z"
+    },
+    "h1:e1919a0f81ae3d90": {
+      "snapshotId": "20261028T203823Z-hardening-6fe63109810f",
+      "path": "test/unit/objectstore/test_from_configuration_object.py",
+      "reviewedAt": "2026-10-29T00:45:16.117Z"
+    },
+    "h1:e54160a7833f2d74": {
+      "snapshotId": "20261028T203823Z-hardening-6fe63109810f",
+      "path": "test/unit/objectstore/test_from_configuration_object.py",
+      "reviewedAt": "2026-10-29T00:45:16.117Z"
+    },
+    "h1:ee1b53dbf1809aad": {
+      "snapshotId": "20261028T203823Z-hardening-6fe63109810f",
+      "path": "test/unit/objectstore/test_irods.py",
+      "reviewedAt": "2026-10-29T00:45:23.054Z"
+    },
+    "h1:8fdbdb558b8d6821": {
+      "snapshotId": "20261028T203823Z-hardening-6fe63109810f",
+      "path": "test/unit/objectstore/test_irods.py",
+      "reviewedAt": "2026-10-29T00:45:23.054Z"
+    }
+  },
+  "commits": {}
+}
