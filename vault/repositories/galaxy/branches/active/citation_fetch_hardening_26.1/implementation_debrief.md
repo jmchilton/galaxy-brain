@@ -69,7 +69,6 @@ Re-scoped once: shared `cached_fetch` and the Tool Shed fix ([re-scope](implemen
 - **Unblocks** `yaml_tool_model_validation_26.1` Scope 2: user-tool citations get the caps, bounded and validated fetches, and per-request budgets.
   - Whether user tools may write the shared DOI cache is Scope 2's call.
   - A zero-fetch `DoiFetchBudget` skips before anything is written, so it gives read-only behavior per citation with no change here.
-- **Private notes:** reviews and scope evaluations wrote several, under `~` with the `security-galaxy-citation_fetch_hardening-*` prefix. One describes a pre-existing gap outside this branch worth a separate private fix.
 - **Follow-ups** (dev material):
   - history citations N+1
   - set-based citation dedupe
