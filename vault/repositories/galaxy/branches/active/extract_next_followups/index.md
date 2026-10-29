@@ -11,7 +11,7 @@ Fixes notebook-to-workflow extraction, report references and editor behavior aft
 
 Draft PR [#24225](https://github.com/galaxyproject/galaxy/pull/24225); screenshots hosted on `pr-assets-extract_next_followups`. E5 renames a 26.2 API route, so this must merge before 26.2.0.
 
-Rebased 2026-10-28 onto `release_26.2` `0902830bfa6` (#24368 merged); head `9936a675512`. One `navigation.yml` conflict (kept upstream tooltip selectors + `shown_tooltip`); unit tests 120 passed. PR CI re-running.
+Rebased 2026-10-29 onto `release_26.2` `62dcd7b0a7a` (#24525 merged); head `409c23e0b59`, no conflicts, unit tests 120 passed. Revision snapshot taken (`--base release_26.2`; record has no frontmatter). PR CI re-running.
 
 ## Decisions and references
 
