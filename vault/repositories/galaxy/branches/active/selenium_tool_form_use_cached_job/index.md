@@ -5,16 +5,17 @@
 
 ## Status
 
-`pr_open`: head `f62f22acedf` on `release_26.2` (`39084b89e8f`).
+`pr_open`: head `f8d966c2316` (mvdbeek follow-ups fast-forwarded) on `release_26.2` (`39084b89e8f`).
 
 [#24451](https://github.com/galaxyproject/galaxy/pull/24451) opened 2026-10-25, not draft.
 
-Fork CI green on `f62f22acedf`; screenshot hosted on fork branch `pr-assets-selenium_tool_form_use_cached_job`.
+Fork CI pending on `f8d966c2316` (was green on `f62f22acedf`); screenshot hosted on fork branch `pr-assets-selenium_tool_form_use_cached_job`.
 
 ## Polish
 
 - [PR description](pr_description.md), [titles](pr_titles.md), [tags](pr_tags.md)
 - [Polish debrief](polish_debrief.md)
+- [Draft reply to mvdbeek review](review_response.md)
 
 ## Scope
 
