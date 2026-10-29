@@ -3,7 +3,7 @@
 - [#24523](https://github.com/galaxyproject/galaxy/pull/24523) — initial review in progress (round 0 on `55b681c1fa9`). [notes](active/24523/index.md)
 - [#24511](https://github.com/galaxyproject/galaxy/pull/24511) — initial review in progress (round 0 on `46102a0d363`). [notes](active/24511/index.md)
 - [#24538](https://github.com/galaxyproject/galaxy/pull/24538) — initial review ready, unposted (approve; one P3 fixed on `pr_24538_review_0`). [notes](active/24538/index.md)
-- [#24507](https://github.com/galaxyproject/galaxy/pull/24507) — initial review in progress (head 7c7538edb16). [notes](active/24507/index.md)
+- [#24507](https://github.com/galaxyproject/galaxy/pull/24507) — initial review drafted, unposted (3 P2s + 7 P3s; 9 fixed on `pr_24507_review_0`). [notes](active/24507/index.md)
 - [#24509](https://github.com/galaxyproject/galaxy/pull/24509) — initial review in progress (round 0 on `7aa5ec64156`). [notes](active/24509/index.md)
 - [#24518](https://github.com/galaxyproject/galaxy/pull/24518) — approved with review; awaiting merge (two P2s + two P3s; fixed on `pr_24518_review_0`). [notes](active/24518/index.md)
 
