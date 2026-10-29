@@ -18,4 +18,4 @@ CI pending.
 ## Notes
 
 - Mirrors galaxyproject/gxformat2#284. Uses `--generate-notes` to match Planemo's existing release style.
-- 0.75.47 still has no GitHub release; backfill is John's call.
+- 0.75.47 GitHub release backfilled 2026-10-29.
