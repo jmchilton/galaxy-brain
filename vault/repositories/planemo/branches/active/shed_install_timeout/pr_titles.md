@@ -1,0 +1,4 @@
+- Time out Tool Shed repository installs that never return
+- Fail hung Tool Shed installs instead of blocking planemo forever
+- Add --shed_install_timeout and fail installs Galaxy never answers
+- Bound Tool Shed repository installs with a per-request timeout
