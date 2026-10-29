@@ -14,11 +14,11 @@ Branch `list-param-inputs-not-collections` on `jmchilton`, `~/projects/worktrees
 
 No PR of its own yet; #1744 open by mvdbeek.
 
-Fork CI on `129b9a55` queued (run 40434086940); local gate green; Galaxy-backed test passed against Galaxy master (26.1) at `1e9956a5`. Reviewed (subagents/review_1.md); head `129b9a55`.
+Head `9008b571` (requires gxformat2>=0.29.0, gate dropped); fork CI pending; `test_galaxy_activity.py` + `make lint` green locally, mypy left to CI. Fork CI green on prior head `129b9a55`.
 
 ## Decisions
 
-- Don't bump the gxformat2 pin; `_has_parameter_list` gate stays until a gxformat2 release with #202 (gxformat2 PR #281).
+- 2026-10-29: gxformat2 0.29.0 shipped PR #281 (#202); pin raised to `>=0.29.0` and `_has_parameter_list` gate dropped.
 
 ## Dependencies
 
