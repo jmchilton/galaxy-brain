@@ -32,6 +32,7 @@ None yet.
 
 ## Draft Planemo PRs — waiting for CI (`ci_wait`)
 
+- [`release_process_agents`](active/release_process_agents/index.md) — Add `make check-release`, document GitHub release step, move release walkthrough to `.agents/skills`. [#1773](https://github.com/galaxyproject/planemo/pull/1773).
 - [`fail-tests-leaking-secrets`](active/fail-tests-leaking-secrets/index.md) — Fails tool tests whose stdio or outputs contain a test credential secret or the API key. [#1754](https://github.com/galaxyproject/planemo/pull/1754).
 - [`workflow-informal-params-sentinel`](active/workflow-informal-params-sentinel/index.md) — Fills undeclared workflow `${...}` parameters with a sentinel and warns (#1750). [#1755](https://github.com/galaxyproject/planemo/pull/1755).
 
