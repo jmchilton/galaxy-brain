@@ -8,7 +8,7 @@ upstream_base_branch: release_26.1
 
 ## Status
 
-Implementation in progress.
+`READY`: implemented, re-scoped once (shared `cached_fetch`, Tool Shed fix), re-hardened; head `cda4733996f`. See [implementation_debrief.md](implementation_debrief.md).
 
 No PR.
 
@@ -22,3 +22,7 @@ Harden tool citation handling for every tool source (XML, YAML, user-defined too
 - One citation cap for every tool; over-cap entries dropped with a warning, no profile gating.
 - Redirect hops checked with the existing `validate_non_local`; no host allowlist.
 - Commits structured so the work can split into several PRs.
+
+Original scope kept as `citation_fetch_hardening_26.1_alt_original_scope` ([alt](alts/original_scope.md)).
+
+[Implementation](implementation_debrief.md) · [Initial implementation](initial_implementation_debrief.md) · [Re-scope](implementation_rescope_debrief.md)

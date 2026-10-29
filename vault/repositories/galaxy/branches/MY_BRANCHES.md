@@ -72,6 +72,7 @@ None yet.
 
 ## Galaxy branches — implemented, work left (`branches_implemented_needs_ci`)
 
+- [`citation_fetch_hardening_26.1`](active/citation_fetch_hardening_26.1/index.md) — Bounded DOI/bio.tools lookups (`bounded_get`, per-hop `validate_non_local`), shared `cached_fetch` with short failure TTLs, per-request DOI fetch budget/deadline, per-tool citation cap (50, 32KB BibTeX), config options, Tool Shed `citation_cache_url` fix; unblocks `yaml_tool_model_validation_26.1` Scope 2. Base `release_26.1`, head `cda4733996f`, 19 commits splittable A–E. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.1...jmchilton:galaxy:citation_fetch_hardening_26.1?expand=1).
 - [`extraction_hid_copies_pdf_sections_26.1`](active/extraction_hid_copies_pdf_sections_26.1/index.md) — 26.1 port of #24225 fixes: copies are one extraction input/summary card, name 400s, user-tool summary 403, PDF invocation sections. Hardened; land after #24225 reaches 26.2. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.1...jmchilton:galaxy:extraction_hid_copies_pdf_sections_26.1?expand=1).
 - [`selenium_workflow_preview_import_26.2`](active/selenium_workflow_preview_import_26.2/index.md) — Public workflow preview/Run/Import tests + TRS launch-link auto-import and version-alias fixes; baseline first, hardened READY. Base `release_26.2`, head `ef7bf72fdea9`; both browser backends verified.
 
