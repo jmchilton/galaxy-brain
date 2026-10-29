@@ -16,6 +16,7 @@ From golden-plan runs on the Linux host. Process: [RUN_FINDINGS.md](../../../../
 | 10 | [Brief Mold has no inputs for caller request or environment](10-brief-mold-input-contract.md); test-requirement placement and confidence scale undefined | galaxyproject/foundry | related #694/PR #696, #725/PR #728 | draft |
 | 11 | [Galaxy runs a skipped model-operation step's outputs](11-galaxy-when-skip-model-operation.md): `__RELABEL_FROM_FILE__` fails the invocation | galaxyproject/galaxy | none; related galaxy #16632, #21142, #24286 | draft; Foundry tracking comment drafted |
 | 13 | [find-test-data never checks library layout](13-test-data-library-layout.md): random-N reads hid miRNA signal, v0 misdiagnosed miRDeep2 | galaxyproject/foundry | related #575, #735, PRs #690, #328, #684 | draft |
+| 14 | [Assertion idioms wrong on planemo collection routing](14-collection-assertion-idioms.md); FastQC/MultiQC `.`→`_` rename is intended | galaxyproject/foundry | planemo #1705 (PR #1723 open), #1759 (PR #1760 merged, unreleased); related #731, #675/#697, #698, #701 | draft |
 | 15 | [Tool Shed search misses `seqkit stats`](15-toolshed-search-recall.md): ids unsearched, multi-word AND | galaxyproject/galaxy (tool shed) | Foundry #574 (comment drafted), galaxy #2285 | draft; no Mold change |
 
 Seen in: 11–15 `~/foundry-runs/prose-wb2g-smrnaseq-v1-2026-10-29/`; 01–06 `~/foundry-runs/prose-wb2g-demo-v1-2026-10-29/`; 07–10 `~/foundry-runs/prose-nf2wb-callings-2026-10-29/`.
