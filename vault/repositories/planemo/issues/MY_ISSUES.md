@@ -73,3 +73,5 @@ GitHub state last refreshed: 2026-10-27. Issues here are unassigned by default. 
 - (assigned) [#135](https://github.com/galaxyproject/planemo/issues/135) — Refactor planemo.shed module
 - (assigned) [#1137](https://github.com/galaxyproject/planemo/issues/1137) — new option
 - (assigned) [#1737](https://github.com/galaxyproject/planemo/issues/1737) — Document a Python version-based install in docs
+- [#1767](https://github.com/galaxyproject/planemo/issues/1767) — Null data_manager_config_file hangs data-manager repo installs on Galaxy < 26.1
+- [#1768](https://github.com/galaxyproject/planemo/issues/1768) — Tool Shed repository installs have no timeout; a hung install blocks planemo indefinitely
