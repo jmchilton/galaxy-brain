@@ -1,0 +1,42 @@
+# planemo-asserts-idioms doesn't say how planemo 0.75.47 routes collection assertions, or how wrappers rewrite sample names
+
+- Target: galaxyproject/foundry (`content/research/planemo-asserts-idioms/index.md` §4–§5). The planemo bugs behind (a) are already filed and have fixes, so Foundry only needs version-scoped guidance. For (b) the tools-iuc rename is intended, so nothing goes upstream. Foundry tracking needed: yes (this is the Foundry issue).
+- Seen in: /home/ubuntu/foundry-runs/prose-wb2g-smrnaseq-v1-2026-10-29, phases 7/8 (plan, implement test) and planemo attempt 1, 2026-10-29. Ledger entry `asserts-idioms-silent-on-planemo-collection-routing` (major). First seen in v0 (`prose-wb2g-smrnaseq-v0-2026-10-25`, ledger `planemo-count-only-collection-test-takes-file-path`, `planemo-crash-on-expression-json-collection-element-tests`). Foundry worktree `pipeline-run-smrnaseq-v1` @ e0aefee0. The note is the same on `origin/main` @ 9f83fd55.
+- Existing issues/PRs: planemo#1705 (routing on the `element_tests` key only, and `collection_type` dropped), fix planemo PR #1723 (open, not merged). planemo#1759 (crash on expression.json elements), fixed by planemo PR #1760 (merged 2026-10-29 at e7df3b57, 156 commits after tag 0.75.47, so not in a release yet). #1759 is still open. tools-iuc#1595 (element_identifier as the MultiQC sample name is the design goal). Foundry: #675/#697, #698, #701 changed the same note but don't cover this. Related: #731. No duplicate in Foundry.
+- Related findings: [06](06-weak-test-assertions.md) says values are fixed before any run and never tightened. Part (b) is one more case of that, so it isn't repeated here. [04](04-tool-summary-no-command.md) says tool summaries have no command, so the author couldn't see the rename.
+
+## Symptom
+(a) Section 5 of the idioms note says that "`collection_type:` and `element_count:` check shape". Under planemo 0.75.47 neither is checked unless the test also has an `element_tests` key. `element_tests` on map-over outputs skipped by `when` aborts the whole run. v0 lost two planemo attempts to this. v1 got through only because the caller's brief passed on the v0 workaround (`element_tests: {}`, see the comment in `galaxy-workflow.gxwf-tests.yml:7-8`), not because the bundle said so.
+(b) Attempt 1 (2632 s) failed case 0 only on `multiqc_report` `has_text: cpc1.raw` (`test_output.json` `output_problems`). `cpc1.trim` was also absent, but planemo stops at the first failure. The real report has `cpc1_raw` and `cpc1_trim`, 13 times each (`workflow-debug-report.md:11`). The plan had marked the token `confidence: low` with "fix after the first run" (`galaxy-test-plan.yml:701-711, 1031-1037`), but P8 shipped it as written.
+
+## Root cause
+(a) Planemo behaviour that the idioms note doesn't document. All of it is in the planemo 0.75.47 and galaxy-tool-util 26.1.2 code that this run used:
+1. `planemo/test/_check_output.py:27-28` sends an output to the collection checker only when its test has `"element_tests"`. Otherwise `planemo/runnable.py:402-416` checks it as a file, and the collection has no `path`, so the result is "No path specified for expected output file". `class: Collection` doesn't help either.
+2. Even on the collection path, `_check_output.py:34` calls `TestCollectionOutputDef.from_dict` (`galaxy/tool_util/parser/interface.py:914-921`), which ignores top-level `collection_type`. Only `from_yaml_test_format` (`:923-933`) maps it. So `collection_type:` is never asserted, and the note's "check shape" is only half true. This is planemo#1705.
+3. `verify_collection` (`galaxy/tool_util/verify/interactor.py:1601-1602`) skips `verify_elements` when `element_tests` is empty, so `element_tests: {}` gives a count-only check that works.
+4. For a skipped element (expression.json `null`), `activity.py:585-590` stores the parsed JSON as `_output_object`. `_check_output.py:39` then passes it on, and `:52` (`output_properties["path"]`) raises a TypeError. Only `AssertionError` is caught, so no `test_output.json` is written. This is planemo#1759.
+
+(b) The rename is intended wrapper behaviour, and nothing in Foundry tells the author about it. iuc/fastqc stages its input as `re.sub('[^\w\-\s]', '_', element_identifier)` (`tools/fastqc/rgFastQC.xml:19`; in this run `ln -sf … 'cpc1_raw.gz'`, `planemo.log:10180`). MultiQC's FastQC module takes the sample name from `Filename` in `fastqc_data.txt` (MultiQC v1.35 `modules/fastqc/fastqc.py:86-87, 345-347`). So the FastQC sample is already `cpc1_raw` before MultiQC runs. iuc/multiqc 1.35+galaxy5 applies the same regex when it stages files (`tools/multiqc/macros.xml:73-76, 130, 156`). The debug report credits only the MultiQC macro, which is incomplete. Both wrappers replace characters outside `[\w\s-]` to get shell-safe filenames. This is a standard IUC idiom and not a bug, so filing upstream would ask for a behaviour change nobody wants. At most the wrapper help could mention it. Why Foundry missed it: no research note mentions it (searched `content/`), the tool summaries have no command (finding 04), and values are fixed before any run (finding 06).
+
+## Evidence
+- Idioms note `content/research/planemo-asserts-idioms/index.md:81` (section 5) and the implement Mold `content/molds/implement-galaxy-workflow-test/index.md:125`: neither mentions routing, `element_tests: {}`, or skipped elements.
+- v0 `workflow-debug-report.md:254-279` (crash, then the "No path specified" failure, then `element_tests: {}`). v1 attempt 1 `test_output.json` (one assertion failure, case 1 failed for an unrelated Galaxy scheduling reason). The `TypeError: … 'bool' has no len()` lines in `planemo.log:4817-4847` are Tool Shed metadata noise from `pick_value` and have nothing to do with this.
+
+## Proposed fix
+1. Idioms §5: add a short paragraph labelled "planemo ≤ 0.75.47":
+   - Every collection output needs an `element_tests` key. For a count-only check write `element_tests: {}`.
+   - Top-level `collection_type` is not enforced yet (planemo#1705, PR #1723).
+   - For outputs that a `when` may skip, assert only the count, with `element_tests: {}` (planemo#1759, fixed after 0.75.47 by PR #1760).
+   - Recheck the paragraph when planemo is next released.
+2. Idioms §4 (or §5): sample names in aggregate reports. Many IUC wrappers stage an element identifier as `re.sub('[^\w\-\s]', '_', id)`, and MultiQC takes FastQC sample names from the staged filename. Derive expected tokens from the sanitized identifier. Better still, have relabel steps that feed MultiQC use `_` separators. Prefer `multiqc_data` table rows over HTML tokens.
+3. implement-galaxy-workflow-test step 3: point to both rules. Add an eval case that fails a `class: Collection` output test with no `element_tests` key.
+4. No separate fix for the timing of `cpc1.raw`: finding 06's measure-after-run proposal covers it.
+
+## Draft issue
+**Title:** planemo-asserts-idioms: document planemo 0.75.47 collection routing (`element_tests` required, `collection_type` ignored, skipped elements crash) and wrapper sample-name sanitizing
+
+The note says `collection_type:`/`element_count:` "check shape". Under planemo 0.75.47 a collection output test is routed to the collection checker only if it has an `element_tests` key (`_check_output.py:27-28`). Otherwise it fails with "No path specified for expected output file". The top-level `collection_type` is dropped by `from_dict` (planemo#1705, PR #1723). `element_tests` over map-over outputs skipped by `when` crashes planemo before `test_output.json` is written (planemo#1759, fixed by PR #1760, not yet released). The smRNA-seq builds hit both. v1 passed only because the caller copied the v0 workaround (`element_tests: {}`).
+
+Separately, the iuc fastqc and multiqc wrappers stage element identifiers as `re.sub('[^\w\-\s]', '_', id)`, so a relabel to `cpc1.raw` appears in MultiQC as `cpc1_raw`. A pre-run `has_text: cpc1.raw` cost one 44-minute planemo attempt. This is intended wrapper behaviour, so it should be documented here and not reported upstream.
+
+Proposal: add a version-scoped planemo paragraph to §5 (`element_tests: {}` for count-only and skippable outputs; `collection_type` not enforced until #1723 ships). Add a sample-name sanitizing note to §4. Reference both from implement-galaxy-workflow-test step 3, with an eval case. Revisit after the next planemo release. Related: #731, finding on measure-after-run assertions.
