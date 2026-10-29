@@ -66,3 +66,5 @@ When a run exposes a Mold problem, fix the Mold and its eval directly; don't wri
 To test-drive a pipeline (`/test-pipeline` journey), follow [TEST_PIPELINE.md](TEST_PIPELINE.md). Overview and lessons: [DRIVING_PIPELINE_TESTS.md](DRIVING_PIPELINE_TESTS.md).
 
 To grow a workflow's golden brief over repeated builds, follow [GOLDEN_PLANS.md](GOLDEN_PLANS.md).
+
+Queued runs and the two-at-a-time cap: [RUN_QUEUE.md](RUN_QUEUE.md). Turning run problems into reviewable findings: [RUN_FINDINGS.md](RUN_FINDINGS.md).
