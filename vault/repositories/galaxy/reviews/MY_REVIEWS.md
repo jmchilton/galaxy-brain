@@ -1,5 +1,9 @@
 ## PRs to review (`to_review`)
 
+- [#24511](https://github.com/galaxyproject/galaxy/pull/24511) — initial review in progress (round 0 on `46102a0d363`). [notes](active/24511/index.md)
+- [#24538](https://github.com/galaxyproject/galaxy/pull/24538) — initial review in progress. [notes](active/24538/index.md)
+- [#24507](https://github.com/galaxyproject/galaxy/pull/24507) — initial review in progress (head 7c7538edb16). [notes](active/24507/index.md)
+- [#24509](https://github.com/galaxyproject/galaxy/pull/24509) — initial review in progress (round 0 on `7aa5ec64156`). [notes](active/24509/index.md)
 - [#24518](https://github.com/galaxyproject/galaxy/pull/24518) — approved with review; awaiting merge (two P2s + two P3s; fixed on `pr_24518_review_0`). [notes](active/24518/index.md)
 
 - [#24543](https://github.com/galaxyproject/galaxy/pull/24543) — review comment posted 2026-10-28 (P2 + P3; fixes on `pr_24543_review_0`, not pushed to PR); awaiting author. [notes](active/24543/index.md)
@@ -17,7 +21,7 @@
 - [#24409](https://github.com/galaxyproject/galaxy/pull/24409) — review delivered 2026-10-23 as [PR to author's branch](https://github.com/richard-burhans/galaxy/pull/2) + [comment](https://github.com/galaxyproject/galaxy/pull/24409#issuecomment-6376180656); awaiting author (one P2 + two P3s). [notes](active/24409/index.md)
 - [#24288](https://github.com/galaxyproject/galaxy/pull/24288) — approved + fork PR davelopez/galaxy#12 opened; awaiting merge (six P2s + ten P3s; 12 fixed on `pr_24288_review_0`, opened as ahmedhamidawan/galaxy#44); John commented 2026-10-23 pointing author at #44; new head c91e3494 since review — re-check. [notes](active/24288/index.md)
 - [#24395](https://github.com/galaxyproject/galaxy/pull/24395) — review comment posted, fixes pushed into PR branch (P1 label/value bug); awaiting author/CI. [notes](active/24395/index.md)
-- [#23964](https://github.com/galaxyproject/galaxy/pull/23964) — approved 2026-10-22 with three P3s (fixes on fork branch, not pushed); awaiting merge; new head 81701ecc since review (dannon 10-26). [notes](active/23964/index.md)
+- [#23964](https://github.com/galaxyproject/galaxy/pull/23964) — approved 2026-10-22 with three P3s (fixes on fork branch, not pushed); awaiting merge; merged `dev` into PR branch at a8842b1d on 2026-10-29; checks pending. [notes](active/23964/index.md)
 - [#24323](https://github.com/galaxyproject/galaxy/pull/24323) — approved with response; awaiting merge; new head e73aaa3a since approval (mvdbeek 10-26). [notes](active/24323/index.md)
 - [#24271](https://github.com/galaxyproject/galaxy/pull/24271) — review fixes pushed into PR; approved; awaiting merge. [notes](active/24271/index.md)
 - [#24222](https://github.com/galaxyproject/galaxy/pull/24222) — Approved with response (five P3s; fixes + integration/E2E tests on fork branch); awaiting merge. [notes](active/24222/index.md)
@@ -27,6 +31,7 @@
 - [#24018](https://github.com/galaxyproject/galaxy/pull/24018) — Draft; review delivered; ball with author. [notes](active/24018/index.md)
 - [#23223](https://github.com/galaxyproject/galaxy/pull/23223) — Draft; TPV recommended; ball with author. [notes](active/23223/index.md)
 - [#23560](https://github.com/galaxyproject/galaxy/pull/23560) — Draft; prior review delivered; re-review when ready. [notes](active/23560/index.md)
+- [#24548](https://github.com/galaxyproject/galaxy/pull/24548) — initial review drafted; no findings; recommend approve. [notes](active/24548/index.md)
 
 PRs to Skip For 7 Days:
 
