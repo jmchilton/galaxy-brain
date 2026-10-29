@@ -1,0 +1,4 @@
+- [25.1] Job files API: reject relative write paths, match dev's upload-source validation
+- [25.1] Job files API: require absolute write paths and return 4xx for invalid upload sources
+- [25.1] Return 4xx instead of 500 for malformed job files API writes
+- [25.1] Port JobFilesManager upload-source validation to the 25.1 job files API

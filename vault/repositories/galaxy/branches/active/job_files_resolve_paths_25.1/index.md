@@ -9,7 +9,13 @@ upstream_base_branch: release_25.1
 
 ## Status
 
-`branches_need_decision` — hardened at `c7e144050f2`; second scope eval says expand (port dev's read-side/unknown-job 4xx handling) ([debrief](implementation_debrief.md)).
+`branches_ready_for_final_review` — polished at `c7e144050f2`: [description](pr_description.md), [titles](pr_titles.md), [tags](pr_tags.md), [polish debrief](polish_debrief.md).
+
+Fork CI green on `c7e144050f2`.
+
+## Decisions
+
+- 2026-10-29: John chose to ship as implemented (scope 1); dev's read-side/unknown-job 4xx port not taken.
 
 ## Merge-forward
 
