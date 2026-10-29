@@ -30,7 +30,7 @@ The first hardening pass ended at `1a5b68ca6b2`. Its scope evaluation recommende
 ## For the PR body
 
 - Removing `ContainerRequirement` breaks a public import in the 25.1/26.0 `galaxy-tool-util-models` releases. No known consumers.
-- User-tool citations now render, and DOIs trigger server-side doi.org fetches, as XML tools already do.
+- Admin `GalaxyTool` citations now render (API-tested), and their DOIs trigger server-side doi.org fetches, as XML tools already do. User-tool citations are parsed but likely not shown. The test-challenge pass found by code reading that the footer's `api/tools/{id}/citations` looks tools up by id, and user tools are only reachable by uuid. This is unverified in the UI and is a pre-existing endpoint gap.
 - Mapped-over (implicit) collections don't apply `hidden`.
 
 Next: re-harden, with every hardening step run fresh.
