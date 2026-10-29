@@ -21,6 +21,7 @@ import { CiStatusModal } from "./ci-status-modal";
 import { AGENTS_VIEW, AgentsView, ALL_AGENTS } from "./agents-view";
 import { agentFromPath, agentLaunchersPath, commandArgs, fillAgentTemplate, fillTemplate, type Launcher, launcherScope, launchersFor, parseAgentLaunchers, parseLaunchers, type RecordRef, recordFromPath } from "./launchers";
 import { defaultProfile, FALLBACK_PROFILES, type Profile, parseProfiles, profileArgs } from "./profiles";
+import { defaultEnvironment, type Environment, LOCAL_ENVIRONMENT, launchArgv, parseEnvironments } from "./environments";
 import { isReviewableRecordKind } from "../../site/src/lib/records";
 import { openDifferentialReview, registerDifferentialReview } from "./diff-review-view";
 import { compareUrl, githubUrl, worktreeCandidates } from "./record-links";
@@ -31,8 +32,8 @@ import { parseTasks, recordIndexPath, refinementPrompt, replaceBlockBody, type T
 import { ALL_REPOS, REPOSITORY_VIEW, RepositoryView } from "./repository-view";
 
 const PROFILES_PATH = "agents/_shared/AGENT_PROFILES.yml";
+const ENVIRONMENTS_PATH = "agents/_shared/ENVIRONMENTS.yml";
 const RECORD_AGENTS_PATH = "agents/_shared/RECORD_AGENTS.yml";
-const LAUNCH_SCRIPT = "agents/_shared/scripts/launch_agent.sh";
 /** Agent dir that maintains the agent processes, e.g. SUGGESTED_TASKS.md. */
 const FACTORY_AGENT_DIR = "factory";
 // Where the `code` and `gh` CLIs live; GUI apps get a bare PATH.
@@ -316,6 +317,16 @@ export default class GalaxyBrainPlugin extends Plugin {
 		return FALLBACK_PROFILES;
 	}
 
+	async loadEnvironments(): Promise<Environment[]> {
+		try {
+			const environments = parseEnvironments(parseYaml(await this.app.vault.adapter.read(ENVIRONMENTS_PATH)));
+			if (environments.length > 0) return environments;
+		} catch {
+			// Missing file: this machine only.
+		}
+		return [LOCAL_ENVIRONMENT];
+	}
+
 	private async confirmLaunch(launcher: Launcher, record: RecordRef) {
 		const vaultRoot = this.vaultRoot();
 		if (!vaultRoot) return;
@@ -325,12 +336,15 @@ export default class GalaxyBrainPlugin extends Plugin {
 			return;
 		}
 		const profiles = await this.loadProfiles();
+		const environments = await this.loadEnvironments();
 		new LaunchModal(this.app, launcher, {
 			profiles,
 			profile: defaultProfile(profiles, launcher),
+			environments,
+			environment: defaultEnvironment(environments),
 			name: fillTemplate(launcher.name, record, vaultRoot),
 			prompt: fillTemplate(launcher.prompt, record, vaultRoot),
-			launch: (profile, name, prompt) => this.launch(vaultRoot, launcher, profile, name, prompt),
+			launch: (profile, environment, name, prompt) => this.launch(vaultRoot, launcher, profile, environment, name, prompt),
 		}).open();
 	}
 
@@ -413,13 +427,16 @@ export default class GalaxyBrainPlugin extends Plugin {
 		const vaultRoot = this.vaultRoot();
 		if (!vaultRoot) return;
 		const profiles = await this.loadProfiles();
+		const environments = await this.loadEnvironments();
 		const launcher: Launcher = { label: "Task", repo: null, kind: null, statuses: [], agentDir: task.agentDir, name, prompt: task.prompt, ...(task.profile ? { profile: task.profile } : {}) };
 		new LaunchModal(this.app, launcher, {
 			profiles,
 			profile: defaultProfile(profiles, launcher),
+			environments,
+			environment: defaultEnvironment(environments),
 			name: launcher.name,
 			prompt: task.prompt,
-			launch: (profile, name, prompt) => this.launch(vaultRoot, launcher, profile, name, prompt, launched, pending),
+			launch: (profile, environment, name, prompt) => this.launch(vaultRoot, launcher, profile, environment, name, prompt, launched, pending),
 		}).open();
 	}
 
@@ -436,14 +453,16 @@ export default class GalaxyBrainPlugin extends Plugin {
 		});
 	}
 
-	private launch(vaultRoot: string, launcher: Launcher, profile: Profile, name: string, prompt: string, launched?: () => void, pending?: (on: boolean) => void) {
+	private launch(vaultRoot: string, launcher: Launcher, profile: Profile, environment: Environment, name: string, prompt: string, launched?: () => void, pending?: (on: boolean) => void) {
 		// Required lazily: child_process doesn't exist on mobile.
 		const { execFile } = require("child_process") as typeof import("child_process");
-		const started = new Notice(`Launching ${profile.name} in ${launcher.agentDir}…`, 0);
+		const where = environment.host ? ` on ${environment.name}` : "";
+		const started = new Notice(`Launching ${profile.name} in ${launcher.agentDir}${where}…`, 0);
 		pending?.(true);
+		const [executable, ...args] = launchArgv(environment, vaultRoot, [launcher.agentDir, profile.agent, name, prompt, ...profileArgs(profile)]);
 		execFile(
-			`${vaultRoot}/${LAUNCH_SCRIPT}`,
-			[launcher.agentDir, profile.agent, name, prompt, ...profileArgs(profile)],
+			executable!,
+			args,
 			{ timeout: 180_000 },
 			(error, stdout, stderr) => {
 				started.hide();
@@ -540,12 +559,14 @@ class ChoiceSuggest extends FuzzySuggestModal<string> {
 interface LaunchDetails {
 	profiles: Profile[];
 	profile: Profile;
+	environments: Environment[];
+	environment: Environment;
 	name: string;
 	prompt: string;
-	launch: (profile: Profile, name: string, prompt: string) => void;
+	launch: (profile: Profile, environment: Environment, name: string, prompt: string) => void;
 }
 
-/** Confirm dialog: editable name and prompt, agent profile, launch. */
+/** Confirm dialog: editable name and prompt, agent profile, environment, launch. */
 class LaunchModal extends Modal {
 	constructor(
 		app: App,
@@ -557,7 +578,7 @@ class LaunchModal extends Modal {
 
 	onOpen() {
 		const { launcher } = this;
-		let { name, prompt, profile } = this.details;
+		let { name, prompt, profile, environment } = this.details;
 		this.setTitle(`${launcher.label} in ${launcher.agentDir}`);
 		new Setting(this.contentEl).setName("Agent name").addText((text) =>
 			text.setValue(name).onChange((value) => (name = value)),
@@ -576,13 +597,22 @@ class LaunchModal extends Modal {
 					profile = this.details.profiles.find((option) => option.name === value) ?? profile;
 				});
 			})
+			.then((setting) => {
+				if (this.details.environments.length < 2) return;
+				setting.addDropdown((dropdown) => {
+					for (const option of this.details.environments) dropdown.addOption(option.name, option.name);
+					dropdown.setValue(environment.name).onChange((value) => {
+						environment = this.details.environments.find((option) => option.name === value) ?? environment;
+					});
+				});
+			})
 			.addButton((button) =>
 				button
 					.setButtonText("Launch")
 					.setCta()
 					.onClick(() => {
 						this.close();
-						this.details.launch(profile, name, prompt);
+						this.details.launch(profile, environment, name, prompt);
 					}),
 			)
 			.addButton((button) => button.setButtonText("Cancel").onClick(() => this.close()));

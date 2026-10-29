@@ -2,9 +2,9 @@ Set up MACHINE for agent work. MACHINE is an ssh target such as `chickenstraws` 
 
 Prefer user-level installs under `~/.local/bin`. Ask John before using `sudo` or the system package manager.
 
-## git
+## git and make
 
-It only needs to be installed. If it's missing, ask John to approve installing it with the system package manager, e.g. `sudo apt-get install -y git`.
+They only need to be installed. If either is missing, ask John to approve installing it with the system package manager, e.g. `sudo apt-get install -y git make`.
 
 ## uv
 
@@ -28,6 +28,7 @@ It only needs to be installed. If it's missing, ask John to approve installing i
 
 - Missing: `curl -fsSL https://herdr.dev/install.sh | sh`
 - Present: `herdr update`. It stops a running herdr server, so if one is running, ask John first.
+- If `herdr machine list` on this machine doesn't list MACHINE, ask John to run `! herdr machine add MACHINE`, so agents launched there show in his local herdr.
 
 ## Node
 
@@ -47,6 +48,11 @@ Install from `jmchilton/ghwt` main, not npm, because the npm release lags main. 
 3. Check that `ghwt --help` runs.
 4. If `~/.ghwtrc.json` is missing, run `ghwt init --vaults-path ~/projects/obsidian-vaults --vault-name ghwt`.
 
+## galaxy-brain
+
+1. Clone `git@github.com:jmchilton/galaxy-brain.git` to `~/projects/repositories/galaxy-brain`. If the clone already exists, pull main; if it has local changes, ask John first.
+2. Check that MACHINE's entry in [ENVIRONMENTS.yml](ENVIRONMENTS.yml) points at its `vault/`.
+
 ## Claude Code
 
 - Missing: `curl -fsSL https://claude.ai/install.sh | bash`
@@ -57,6 +63,7 @@ Install from `jmchilton/ghwt` main, not npm, because the npm release lags main. 
 
 - Install or update with `npm install -g @openai/codex@latest`.
 - If `codex login status` shows it isn't logged in, ask John to run `! ssh -t MACHINE codex login --device-auth`.
+- The first codex launch in the galaxy-brain clone stops on a trust prompt. Accept it over ssh with `herdr pane send-keys <pane> Enter`.
 
 ## Report
 

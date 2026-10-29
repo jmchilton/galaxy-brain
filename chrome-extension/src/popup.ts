@@ -6,7 +6,7 @@ const HOST = "org.galaxybrain.launcher";
 interface Launcher { label: string; agentDir: string; name: string; prompt: string; profile: string }
 interface LookupRecord { key: string; repo: string; kind: string; status: string; name: string; title: string; github?: string; obsidian?: string; launchers: Launcher[] }
 interface Profile { name: string; agent: string; args: string[] }
-interface Lookup { ref?: { repo: string; kind: string; name: string }; records: LookupRecord[]; profiles: Profile[]; agentDirs: string[] }
+interface Lookup { ref?: { repo: string; kind: string; name: string }; records: LookupRecord[]; profiles: Profile[]; environments: string[]; agentDirs: string[] }
 
 const app = document.getElementById("app")!;
 const statusLine = document.getElementById("status")!;
@@ -46,25 +46,37 @@ function profileSelect(profiles: Profile[], selected?: string) {
 	return select;
 }
 
+/** Environment picker, or nothing with only one environment. */
+function environmentSelect(environments: string[]) {
+	const select = el("select");
+	for (const name of environments) select.append(el("option", { value: name, textContent: `Run on: ${name}` }));
+	const value = () => (environments.length > 1 ? { environment: select.value } : {});
+	return { nodes: environments.length > 1 ? [select] : [], value };
+}
+
 function launchView(data: Lookup, url: string, record: LookupRecord, index: number) {
 	const launcher = record.launchers[index]!;
 	const select = profileSelect(data.profiles, launcher.profile);
+	const environment = environmentSelect(data.environments);
 	const prompt = el("textarea", { value: launcher.prompt });
 	app.replaceChildren(
 		el("h1", {}, `${launcher.label}`),
 		el("div", { className: "meta" }, `${record.repo} ${record.kind} ${record.name} → ${launcher.agentDir} as ${launcher.name}`),
 		select,
+		...environment.nodes,
 		prompt,
-		el("div", {}, button("🚀 Launch", () => run("Launching", { type: "launch", url, record: record.key, launcher: index, profile: select.value, prompt: prompt.value }), "primary"), button("Back", () => mainView(data, url))),
+		el("div", {}, button("🚀 Launch", () => run("Launching", { type: "launch", url, record: record.key, launcher: index, profile: select.value, ...environment.value(), prompt: prompt.value }), "primary"), button("Back", () => mainView(data, url))),
 	);
 }
 
 function newAgentView(data: Lookup, url: string, dir: string) {
 	const select = profileSelect(data.profiles);
+	const environment = environmentSelect(data.environments);
 	app.replaceChildren(
 		el("h1", {}, `New ${dir} agent`),
 		select,
-		el("div", {}, button("🚀 Launch", () => run("Launching", { type: "newAgent", dir, profile: select.value }), "primary"), button("Back", () => mainView(data, url))),
+		...environment.nodes,
+		el("div", {}, button("🚀 Launch", () => run("Launching", { type: "newAgent", dir, profile: select.value, ...environment.value() }), "primary"), button("Back", () => mainView(data, url))),
 	);
 }
 

@@ -1,0 +1,18 @@
+# Where launched agents run, offered in the launch dialogs (see LAUNCHERS.md). The first is the default.
+#
+#   name:  shown in the dropdown
+#   host:  optional ssh target (an alias in John's ~/.ssh/config); unset means this machine
+#   vault: with host, the absolute path of that host's galaxy-brain vault/ clone
+#
+# Remote launches pull that clone first and swap this vault's paths in the prompt for its own.
+# Set a host up with PROCESS_SETUP_MACHINE.md.
+
+environments:
+  - name: Local
+  - name: chickenstraws
+    host: chickenstraws
+    vault: /home/ubuntu/projects/repositories/galaxy-brain/vault
+  # Off until its stale galaxy-brain clone is updated (local changes from OpenClaw days).
+  # - name: jmchilton.net
+  #   host: jmchilton.net
+  #   vault: /home/openclaw/projects/repositories/galaxy-brain/vault

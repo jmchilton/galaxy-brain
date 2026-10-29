@@ -72,6 +72,7 @@ describe("agent launchers", () => {
 			["⏱️ Tick", "wf_foundry"],
 			["📥 Pick up backlog", "wf_foundry"],
 			["🧪 Test pipeline", "wf_foundry"],
+			["🧹 Recover disk", "wf_foundry"],
 			["💭 Discuss this note", "wf_foundry"],
 		]);
 	});

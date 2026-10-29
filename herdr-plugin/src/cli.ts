@@ -7,6 +7,7 @@ import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { isTerminalStatus } from "../../site/src/lib/records";
 import { fillTemplate, type Launcher, launchersFor, type RecordRef } from "../../obsidian-plugin/src/launchers";
+import { defaultEnvironment, type Environment, launchArgv } from "../../obsidian-plugin/src/environments";
 import { defaultProfile, type Profile, profileArgs } from "../../obsidian-plugin/src/profiles";
 import type { RecordSummary } from "../../obsidian-plugin/src/repository";
 import { agentActions } from "./agent-actions";
@@ -14,7 +15,7 @@ import { fzfKey, fzfLine } from "./fzf-lines";
 import { parseGithubRef, recordsForRef } from "./github-ref";
 import { type OpenLinks, openLinks } from "./open-links";
 import { pickerEnv } from "./selection";
-import { LAUNCH_SCRIPT, loadLaunchers, loadProfiles, loadRecords, readVault, vaultFiles } from "./vault";
+import { loadEnvironments, loadLaunchers, loadProfiles, loadRecords, readVault, vaultFiles } from "./vault";
 
 const PLUGIN_ID = "galaxy-brain";
 const vaultRoot = resolve(process.env.HERDR_PLUGIN_ROOT ?? join(__dirname, ".."), "../vault");
@@ -73,12 +74,20 @@ function pickProfile(profiles: Profile[], preferred: Profile): Profile | null {
 	return key === null ? null : ordered[Number(key)]!;
 }
 
+/** The only environment, else the user's pick. */
+function pickEnvironment(environments: Environment[]): Environment | null {
+	if (environments.length < 2) return defaultEnvironment(environments);
+	const lines = environments.map((e, i) => fzfLine(String(i), [e.name, e.host ?? "this machine"]));
+	const key = fzf(lines, { prompt: "Environment" });
+	return key === null ? null : environments[Number(key)]!;
+}
+
 /** Confirms the launch, letting the user edit the prompt; the final prompt, or null to cancel. */
-function confirm(name: string, profile: Profile, prompt: string, prompts: string): string | null {
+function confirm(name: string, profile: Profile, environment: Environment, prompt: string, prompts: string): string | null {
 	const file = join(prompts, "final.txt");
 	writeFileSync(file, prompt);
 	for (;;) {
-		const header = `${name} · ${profile.name}`;
+		const header = `${name} · ${profile.name} · ${environment.name}`;
 		const key = fzf([fzfLine("launch", ["🚀 Launch"]), fzfLine("edit", ["✏️ Edit prompt"]), fzfLine("cancel", ["Cancel"])], {
 			prompt: "Confirm",
 			header,
@@ -95,10 +104,10 @@ function openUrl(url: string) {
 	spawnSync("open", [url]);
 }
 
-function launch(launcher: Launcher, profile: Profile, name: string, prompt: string) {
-	const args = [launcher.agentDir, profile.agent, name, prompt, ...profileArgs(profile)];
-	if (dryRun) return waitForEnter(`Dry run: ${LAUNCH_SCRIPT} ${JSON.stringify(args)}`);
-	const result = spawnSync(join(vaultRoot, LAUNCH_SCRIPT), args, { encoding: "utf8" });
+function launch(launcher: Launcher, profile: Profile, environment: Environment, name: string, prompt: string) {
+	const [executable, ...args] = launchArgv(environment, vaultRoot, [launcher.agentDir, profile.agent, name, prompt, ...profileArgs(profile)]);
+	if (dryRun) return waitForEnter(`Dry run: ${executable} ${JSON.stringify(args)}`);
+	const result = spawnSync(executable!, args, { encoding: "utf8" });
 	waitForEnter(result.status === 0 ? result.stdout.trim() : `Launch failed: ${(result.stderr || result.error?.message || "").trim()}`);
 }
 
@@ -134,9 +143,11 @@ function chooseAndLaunch(launchers: Launcher[], record: RecordRef, links: OpenLi
 	const profiles = loadProfiles(vaultRoot);
 	const profile = pickProfile(profiles, defaultProfile(profiles, launcher));
 	if (!profile) return;
+	const environment = pickEnvironment(loadEnvironments(vaultRoot));
+	if (!environment) return;
 	const name = fillTemplate(launcher.name, record, vaultRoot);
-	const prompt = confirm(name, profile, fillTemplate(launcher.prompt, record, vaultRoot), prompts);
-	if (prompt) launch(launcher, profile, name, prompt);
+	const prompt = confirm(name, profile, environment, fillTemplate(launcher.prompt, record, vaultRoot), prompts);
+	if (prompt) launch(launcher, profile, environment, name, prompt);
 }
 
 /** Opens the picker as a popup, passing on a clicked or highlighted URL or a filter query. */

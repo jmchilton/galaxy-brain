@@ -78,7 +78,8 @@ make diff-review-test               # differential-review Vitest suite
 - Branch, issue and review records group by sections in their queue file (`vault/repositories/<repo>/<kind>/MY_BRANCHES.md`, `MY_ISSUES.md`, `MY_REVIEWS.md`) when present. Unlisted records fall back to status groups. The tab also embeds the queue file.
 - Launchers come from `vault/repositories/<repo>/<kind>/LAUNCHERS.md` and `_defaults/<kind>/LAUNCHERS.md`. The format is documented in `vault/agents/_shared/LAUNCHERS.md` and parsed by `obsidian-plugin/src/launchers.ts`.
 - Launch profiles (agent, model, effort, args) come from `vault/agents/_shared/AGENT_PROFILES.yml`, parsed by `obsidian-plugin/src/profiles.ts`.
-- `vault/agents/_shared/scripts/launch_agent.sh` starts agents. Agent directories hold their own `AGENTS.md` instructions, with `CLAUDE.md` symlinks for Claude discovery.
+- Launch environments come from `vault/agents/_shared/ENVIRONMENTS.yml`, parsed by `obsidian-plugin/src/environments.ts`. Remote ones run the host's own `launch_agent.sh` over ssh after pulling its vault clone, with vault paths in the prompt re-rooted. Command launchers stay local. Saving the host with `herdr machine add` shows its agents in the local Herdr.
+- `vault/agents/_shared/scripts/launch_agent.sh` starts agents, starting a headless Herdr server if none is running. Agent directories hold their own `AGENTS.md` instructions, with `CLAUDE.md` symlinks for Claude discovery.
 - Agent directories' `SUGGESTED_PROMPTS.md` files feed the separate `suggested-prompts` hooks plugin in `~/projects/repositories/claude-jmchilton-plugins/plugins/suggested-prompts/`.
 
 ### Obsidian plugin

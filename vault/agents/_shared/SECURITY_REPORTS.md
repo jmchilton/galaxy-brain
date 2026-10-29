@@ -1,7 +1,7 @@
 # Private security reports
 
 Write suspected security findings and sensitive evidence directly to a unique
-`/Users/jxc755/security-<project>-<task>-<date>.md` report with owner-only permissions
+`~/security-<project>-<task>-<date>.md` report with owner-only permissions
 (`0600`). Tell John privately where it was saved.
 
 - Never record sensitive findings or private report paths in repositories

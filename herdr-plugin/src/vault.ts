@@ -4,11 +4,12 @@ import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { join, relative } from "node:path";
 import { parse } from "yaml";
 import { type Launcher, launcherScope, parseLaunchers } from "../../obsidian-plugin/src/launchers";
+import { type Environment, LOCAL_ENVIRONMENT, parseEnvironments } from "../../obsidian-plugin/src/environments";
 import { FALLBACK_PROFILES, type Profile, parseProfiles } from "../../obsidian-plugin/src/profiles";
 import { collectRecords, type RecordSummary, type VaultFile } from "../../obsidian-plugin/src/repository";
 
 const PROFILES_PATH = "agents/_shared/AGENT_PROFILES.yml";
-export const LAUNCH_SCRIPT = "agents/_shared/scripts/launch_agent.sh";
+const ENVIRONMENTS_PATH = "agents/_shared/ENVIRONMENTS.yml";
 
 /** Markdown files under `repositories/`, with vault-relative paths. */
 export function vaultFiles(vaultRoot: string): VaultFile[] {
@@ -56,4 +57,14 @@ export function loadProfiles(vaultRoot: string): Profile[] {
 		// Fall through to the defaults, as Obsidian does.
 	}
 	return FALLBACK_PROFILES;
+}
+
+export function loadEnvironments(vaultRoot: string): Environment[] {
+	try {
+		const environments = parseEnvironments(parse(readVault(vaultRoot, ENVIRONMENTS_PATH)));
+		if (environments.length > 0) return environments;
+	} catch {
+		// Fall through to this machine only, as Obsidian does.
+	}
+	return [LOCAL_ENVIRONMENT];
 }

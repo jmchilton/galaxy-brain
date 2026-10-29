@@ -1,19 +1,20 @@
 // Chrome extension requests: look up a GitHub page's records and launch agents for them.
-// Launches name records, launchers and profiles by reference, re-resolved here; only the prompt is free text.
+// Launches name records, launchers, profiles and environments by reference, re-resolved here; only the prompt is free text.
 
 import { existsSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 import { fillTemplate, launchersFor, type RecordRef } from "../../obsidian-plugin/src/launchers";
+import { defaultEnvironment, type Environment, launchArgv } from "../../obsidian-plugin/src/environments";
 import { defaultProfile, type Profile, profileArgs } from "../../obsidian-plugin/src/profiles";
 import { FORK_OWNER } from "../../site/src/lib/repository-tabs";
 import { branchRecordsForUrl, type GithubRef, parseBranchUrl, parseGithubRef, recordsForRef } from "./github-ref";
 import { openLinks } from "./open-links";
-import { LAUNCH_SCRIPT, loadLaunchers, loadProfiles, loadRecords, readVault, vaultFiles } from "./vault";
+import { loadEnvironments, loadLaunchers, loadProfiles, loadRecords, readVault, vaultFiles } from "./vault";
 
 export type Request =
 	| { type: "lookup"; url?: string }
-	| { type: "launch"; url: string; record: string; launcher: number; profile: string; prompt: string }
-	| { type: "newAgent"; dir: string; profile?: string }
+	| { type: "launch"; url: string; record: string; launcher: number; profile: string; environment?: string; prompt: string }
+	| { type: "newAgent"; dir: string; profile?: string; environment?: string }
 	| { type: "open"; url: string };
 
 export interface HostDeps {
@@ -39,6 +40,8 @@ export interface LookupResult {
 	ref?: { repo: string; kind: string; name: string };
 	records: LookupRecord[];
 	profiles: Array<{ name: string; agent: string; args: string[] }>;
+	/** Names; the first is the default. */
+	environments: string[];
 	agentDirs: string[];
 }
 
@@ -92,6 +95,7 @@ export function lookup(vaultRoot: string, url?: string, headBranch?: HeadBranch)
 	const result: LookupResult = {
 		records: [],
 		profiles: profiles.map((p) => ({ name: p.name, agent: p.agent, args: profileArgs(p) })),
+		environments: loadEnvironments(vaultRoot).map((e) => e.name),
 		agentDirs: agentDirs(vaultRoot),
 	};
 	const found = recordsFor(vaultRoot, url, headBranch);
@@ -127,10 +131,19 @@ function findProfile(vaultRoot: string, name: string): Profile {
 	return profile;
 }
 
-function launch(deps: HostDeps, agentDir: string, profile: Profile | undefined, name: string, prompt: string) {
+/** The named environment, else the default. */
+function findEnvironment(vaultRoot: string, name: string | undefined): Environment {
+	const environments = loadEnvironments(vaultRoot);
+	if (name === undefined) return defaultEnvironment(environments);
+	const environment = environments.find((e) => e.name === name);
+	if (!environment) throw new Error(`unknown environment: ${name}`);
+	return environment;
+}
+
+function launch(deps: HostDeps, agentDir: string, profile: Profile | undefined, environment: Environment, name: string, prompt: string) {
 	const kind = profile?.agent ?? "claude";
 	const args = profile ? profileArgs(profile) : [];
-	const result = deps.run([join(deps.vaultRoot, LAUNCH_SCRIPT), agentDir, kind, name, prompt, ...args]);
+	const result = deps.run(launchArgv(environment, deps.vaultRoot, [agentDir, kind, name, prompt, ...args]));
 	if (result.status !== 0) throw new Error((result.stderr || result.stdout).trim() || `launch exited ${result.status}`);
 	return { message: result.stdout.trim() };
 }
@@ -146,12 +159,14 @@ export function handle(request: Request, deps: HostDeps): unknown {
 			const launcher = launchersFor(loadLaunchers(deps.vaultRoot, found.files), record)[request.launcher];
 			if (!launcher) throw new Error(`no launcher ${request.launcher} for ${request.record}`);
 			const profile = findProfile(deps.vaultRoot, request.profile);
-			return launch(deps, launcher.agentDir, profile, fillTemplate(launcher.name, record, deps.vaultRoot), request.prompt);
+			const environment = findEnvironment(deps.vaultRoot, request.environment);
+			return launch(deps, launcher.agentDir, profile, environment, fillTemplate(launcher.name, record, deps.vaultRoot), request.prompt);
 		}
 		case "newAgent": {
 			if (!agentDirs(deps.vaultRoot).includes(request.dir)) throw new Error(`unknown agent dir: ${request.dir}`);
 			const profile = request.profile ? findProfile(deps.vaultRoot, request.profile) : undefined;
-			return launch(deps, request.dir, profile, request.dir, "");
+			const environment = findEnvironment(deps.vaultRoot, request.environment);
+			return launch(deps, request.dir, profile, environment, request.dir, "");
 		}
 		case "open": {
 			if (!/^(https:\/\/github\.com\/|obsidian:\/\/open\?)/.test(request.url)) throw new Error(`refusing to open ${request.url}`);
