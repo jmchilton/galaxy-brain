@@ -8,11 +8,11 @@ upstream_base_branch: release_25.1
 
 ## Status
 
-Status: `ci_wait`; approved head `83ed090f9b4`, targeting `release_25.1`.
+Status: `ready`; head `82dba888f08` (fast-forwarded to davelopez's jmchilton/galaxy#97, dropdown-driven Jest tests), targeting `release_25.1`.
 
 Draft PR [#24487](https://github.com/galaxyproject/galaxy/pull/24487) opened at John's request on 2026-10-26.
 
-Fresh fork CI is queued/pending; local Jest passed 29/29, formatting passed, and mypy diagnostics match the base.
+PR approved by davelopez and itisAliRH; CI rerunning on `82dba888f08`, local Jest 29/29.
 
 ## Approval
 
@@ -23,6 +23,9 @@ Screenshots are hosted on the fork's `pr-assets-issue_24469_collection_build_res
 Fixes galaxyproject/galaxy#24469 ([issue record](../../../issues/queued/24469/index.md)): building a collection from a history selection leaves selection mode on.
 
 ## Decisions
+
+- Merge-forward to 26.0+: swap `jest.fn()` → `vi.fn()` in SelectionOperations.test.js (vitest `globals: false`, per itisAliRH).
+- Cancel-loses-selection tradeoff queued as follow-up: [incubator](../../../issues_incubator/incubating/collection_wizard_cancel_restore_selection/index.md).
 
 - Base `release_25.1` per John (issue notes said 25.0, unsupported).
 - Reset selection when opening the list wizard (issue path), not on create; cancel drops selection. Restored `createdCollection` for build-list-all modal.
