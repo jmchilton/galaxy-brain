@@ -39,6 +39,7 @@ GitHub state last refreshed: 2026-10-27. Every open issue below is assigned to j
 
 ## Queued (`queued`)
 
+- [#24601](https://github.com/galaxyproject/galaxy/issues/24601) — Auto/Advanced Build List clears history selection on open, lost if user leaves; next: after #24487 lands on dev, clear on create via store signal. [notes](queued/24601/index.md)
 - [#24550](https://github.com/galaxyproject/galaxy/issues/24550) — direct-download URLs live 24 h on aws_s3/generic_s3/cloud, docs say ~1 h; next: `direct_download_expires_in` setting + per-backend red tests. [notes](queued/24550/index.md)
 - [#24546](https://github.com/galaxyproject/galaxy/issues/24546) — object store cache monitor never starts w/o Celery; `enable_cache_monitor` gate defaults False; next: red unit test + drop gate. [notes](queued/24546/index.md)
 - [#24532](https://github.com/galaxyproject/galaxy/issues/24532) — Delete Account modal shows generic error; checks `err_code === 403` vs server's 403004; next: named constant + red vitest. [notes](queued/24532/index.md)

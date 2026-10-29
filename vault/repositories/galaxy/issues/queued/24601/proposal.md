@@ -1,3 +1,5 @@
+# Preserve history selection when leaving the Auto/Advanced Build List wizard without creating
+
 Leaving the Auto/Advanced Build List wizard without creating a list discards the user's history selection.
 
 1. History panel → select some datasets.
