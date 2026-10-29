@@ -14,7 +14,7 @@ Sections match the status directories, in this order, plus `untriaged`. Write `N
 4. `blocked`
 5. `untriaged` — no directory yet.
 
-`delegated` and `closed` issues leave the index: remove the line and move the directory. On close, also prune branches associated with the issue (if present).
+`delegated` and `closed` issues leave the index: remove the line and move the directory. Its branches follow the branch queue's own rules in `MY_BRANCHES_INDEX.md`, not the issue's.
 
 A line's section and its directory's status always agree; change both together.
 

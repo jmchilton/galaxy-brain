@@ -20,7 +20,7 @@ Use `gh issue view` directly only for labels or other fields the script omits.
 
 ## Reconcile
 
-- **Closed on GitHub:** move the directory to `closed/`, add a line near the top of `index.md` (how it closed, PR and merge commit if any, date), remove the `MY_ISSUES.md` line, and prune its branches and worktrees per [WORKTREES.md](WORKTREES.md).
+- **Closed on GitHub:** move the directory to `closed/`, add a line near the top of `index.md` (how it closed, PR and merge commit if any, date), and remove the `MY_ISSUES.md` line. Leave its branches and worktrees to [PROCESS_SYNC_BRANCH_STATE.md](PROCESS_SYNC_BRANCH_STATE.md).
 - **Linked PR merged, issue still open:** leave it open; move to `needs_decision` with `decide: close?` unless the PR clearly doesn't resolve it.
 - **Status drift:** if a line's section and its directory disagree, or the facts changed (a PR opened → `wip`, a blocker merged → `queued`), move both together.
 - **Assignment changed:** update `(assigned)` / `(unassigned)` markers against the header default.
@@ -35,4 +35,4 @@ Refresh the snapshot date in each `MY_ISSUES.md`, write the report, run `make va
 
 ## Report
 
-Write one report per PROJECT to `vault/repositories/PROJECT/issues/SYNC_REPORT.md`, replacing the previous one. Start with the sync date and agent directory, then list: closed out, moved (from → to, why), new untriaged, and anything needing John's decision. Name branches or worktrees kept and why. Summarize it in the reply.
+Write one report per PROJECT to `vault/repositories/PROJECT/issues/SYNC_REPORT.md`, replacing the previous one. Start with the sync date and agent directory, then list: closed out, moved (from → to, why), new untriaged, and anything needing John's decision. Summarize it in the reply.
