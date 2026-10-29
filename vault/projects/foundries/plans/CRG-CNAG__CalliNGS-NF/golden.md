@@ -30,7 +30,7 @@ The expert selected the expansive reading. Every scientific step of the source w
 - **Known-sites preparation:** remove known variants that fall in denylisted regions (`vcftools --exclude-bed`), then compress and index the result (`modules.nf:84-89`). The filtered set serves as the base-recalibration known sites and as the comparison set.
 - **Per-replicate alignment:** two-pass STAR alignment in which pass-1 splice junctions are inserted into pass 2 (`modules.nf:114-134`). Then keep uniquely mapped reads (`NH:i:1`) and index the result (`modules.nf:137-141`).
 - **Per-replicate GATK RNA-seq preprocessing:** SplitNCigarReads with `--refactor-cigar-string` (`modules.nf:169-173`), then BaseRecalibrator against the filtered known sites and ApplyBQSR (`modules.nf:204-216`).
-- **Per-sample grouping of replicates:** the replicate id loses its trailing `1`/`2` to form the sample id (`modules.nf:200`). All recalibrated BAMs of a sample go to a single calling run (`main.nf:106`, `modules.nf:241`).
+- **Per-sample grouping of replicates:** the replicate id loses its trailing `1`/`2` to form the sample id (`modules.nf:201`). All recalibrated BAMs of a sample go to a single calling run (`main.nf:106`, `modules.nf:241`).
 - **Per-sample variant calling:** HaplotypeCaller with `--standard-min-confidence-threshold-for-calling 20.0` and `--dont-use-soft-clipped-bases` (`modules.nf:247-253`).
 - **VariantFiltration (expert: keep in scope):** cluster window 35 / cluster size 3, `FS > 30.0` (FS) and `QD < 2.0` (QD). These annotate FILTER and do not remove records (`modules.nf:256-261`).
 - **Post-processing:**
@@ -50,7 +50,7 @@ The expert selected the expansive reading. Every scientific step of the source w
 
 Scientific inputs (source-supported formats in parentheses):
 
-- Paired-end RNA-seq reads, one pair per replicate (gzipped FASTQ). The source names files `<sampleID><replicate 1|2>_<mate 1|2>.<ext>` and derives replicate and sample identity from those names (`README.md:39-47`, `main.nf:72`, `modules.nf:200`).
+- Paired-end RNA-seq reads, one pair per replicate (gzipped FASTQ). The source names files `<sampleID><replicate 1|2>_<mate 1|2>.<ext>` and derives replicate and sample identity from those names (`README.md:39-47`, `main.nf:72`, `modules.nf:201`).
 - Reference genome (FASTA). The source builds every index from this file and accepts no prebuilt index.
 - Known variants (VCF, bgzipped in the bundled data).
 - Denylisted genome regions (BED).
@@ -110,7 +110,7 @@ The source does not publish the intermediates: indexes, aligned and recalibrated
   - Missing: whether the expert prefers SM to be the derived sample id.
 - How is replicate-to-sample identity supplied?
   - Proposed: preserve the semantics. Replicates sharing a sample identity are pooled for calling and ASE counting, and the test pools `rep1` + `rep2` into sample `rep`. How the workflow receives that identity is left to design.
-  - Evidence: the source derives the sample id by stripping one trailing `1` or `2` from the file-pair prefix (`modules.nf:200`). Ids ending in other digits stay separate samples (phase-1 inference).
+  - Evidence: the source derives the sample id by stripping one trailing `1` or `2` from the file-pair prefix (`modules.nf:201`). Ids ending in other digits stay separate samples (phase-1 inference).
   - Confidence: medium
   - Missing: whether real inputs ever have more than two replicates or other naming.
 - Should the workflow handle several samples, each with one or more replicates, or only the single test sample?
@@ -139,7 +139,7 @@ The source does not publish the intermediates: indexes, aligned and recalibrated
   - Confidence: medium
   - Missing: an expert requirement on versions. None was given.
 - How should the allele-fraction histogram be produced?
-  - Proposed: produce a histogram of alt/(ref+alt) per known-SNP site from the sample's allele depths, excluding sites with a zero count and values equal to 1, as the source does. The plotting tool and image format are left to design. The source's PDF is evidence, not a requirement.
+  - Proposed: produce a histogram of alt/(ref+alt) per known-SNP site from the sample's allele depths, excluding sites where both counts are 0 and values equal to 1, as the source does (`modules.nf:306-309`). The plotting tool and image format are left to design. The source's PDF is evidence, not a requirement.
   - Evidence: `modules.nf:303-316` and `bin/gghist.R:1-40` (ggplot2). FORMAT field 2 is assumed to be AD (phase-1 inference).
   - Confidence: medium
   - Missing: whether the expert needs the PDF format or the AF value list as an output.
@@ -190,6 +190,6 @@ Observed on 2026-10-29 by harmless availability and version probes (`environment
 
 - Preference: none stated by the expert. The source runs every step in one all-in-one image, `quay.io/nextflow/callings-nf:gatk4`. That is evidence, not a requirement.
 - Docker: 29.1.3 (linux/amd64, overlayfs). `hello-world` ran with `pull=never`, so the engine is usable for local images. One biocontainer image is cached (`quay.io/biocontainers/samtools:1.21--h96c455f_1`). Registry pulls were not attempted, so pull availability is unknown.
-- Singularity, Apptainer and Podman are absent. Conda and Mamba are absent, so tool dependencies would have to come from container images.
+- Singularity, Apptainer and Podman are absent. Conda and Mamba are absent from PATH; planemo can still provision its own conda, so this does not by itself require containers.
 
 ### Blockers
