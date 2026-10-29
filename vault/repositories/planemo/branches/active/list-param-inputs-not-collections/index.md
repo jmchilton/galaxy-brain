@@ -10,11 +10,11 @@ Takes over [planemo#1744](https://github.com/galaxyproject/planemo/pull/1744) (m
 
 ## Status
 
-Branch `list-param-inputs-not-collections` on `jmchilton`, `~/projects/worktrees/planemo/branch/list-param-inputs-not-collections`; rebased onto #1744's head `498524ab` (duplicate `f93fe7dc` skipped, tree unchanged) and pushed into #1744 as `95ab8365`, mirrored on `jmchilton`.
+Branch `list-param-inputs-not-collections` on `jmchilton`, `~/projects/worktrees/planemo/branch/list-param-inputs-not-collections`; rebased onto #1744's head `498524ab` (duplicate `f93fe7dc` skipped, tree unchanged) and pushed into #1744 as `95ab8365`, then merged `origin/master` (`1199bf38`; conflicts in imports and appended tests, union-resolved); mirrored on `jmchilton`.
 
 #1744 open by mvdbeek, now carrying this branch; no separate PR.
 
-Head `95ab8365` (requires gxformat2>=0.29.0, gate dropped); PR CI pending; `test_galaxy_activity.py` + `make lint` green locally, mypy left to CI. Fork CI green on prior head `129b9a55`.
+Head `1199bf38` (requires gxformat2>=0.29.0, gate dropped); PR CI pending; after merge, activity/workflow/template/lint tests (47) and `make lint` green; `test_galaxy_activity.py` + `make lint` green locally, mypy left to CI. Fork CI green on prior head `129b9a55`.
 
 ## Decisions
 
