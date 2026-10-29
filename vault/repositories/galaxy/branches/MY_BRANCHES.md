@@ -22,6 +22,7 @@ Snapshot: 2026-10-28 (reclassified from GitHub: #24520 merged and archived; #243
 - [`issue_24061_24062_repository_details`](active/issue_24061_24062_repository_details/index.md) — Tool Shed repository page: `hg clone` command, category links, generated `.shed.yml`; API adds `categories`, `clone_url`. [#24298](https://github.com/galaxyproject/galaxy/pull/24298).
 - [`upgrade_advice_structured_like`](active/upgrade_advice_structured_like/index.md) — Tool upgrade advisor: `structured_like` advice moved to 26.0 (#23884), plus 26.1/26.2 advice and advisor fixes. [#24524](https://github.com/galaxyproject/galaxy/pull/24524).
 - [`issue_24485_collection_count_zero_26.0`](active/issue_24485_collection_count_zero_26.0/index.md) — Collection output tests honor `count`/`element_count`/`max` of 0 (26.0 truthiness regression) (#24485). Base `release_26.0`. [#24539](https://github.com/galaxyproject/galaxy/pull/24539).
+- [`job_files_resolve_paths_25.1`](active/job_files_resolve_paths_25.1/index.md) — Job files API only accepts absolute write paths, returns 4xx for invalid upload sources; job ports logs job id only. Base `release_25.1`. [#24564](https://github.com/galaxyproject/galaxy/pull/24564).
 
 ## Open Galaxy PRs — needs attention (`attention`)
 
@@ -102,7 +103,6 @@ None yet.
 
 ## Galaxy branches — ready for final review (`branches_ready_for_final_review`)
 
-- [`job_files_resolve_paths_25.1`](active/job_files_resolve_paths_25.1/index.md) — Job files API only accepts absolute write paths, returns 4xx for invalid upload sources; job ports logs job id only. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_25.1...jmchilton:galaxy:job_files_resolve_paths_25.1?expand=1).
 - [`issue_24529_custom_build_fasta_history_26.0`](active/issue_24529_custom_build_fasta_history_26.0/index.md) — API-key conversions (custom build from FASTA #24529, `converted/{ext}`, feature search) run in a user-owned active history. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.0...jmchilton:galaxy:issue_24529_custom_build_fasta_history_26.0?expand=1).
 - [`issue_24531_edit_disabled_tooltip_26.2`](active/issue_24531_edit_disabled_tooltip_26.2/index.md) — Disabled GButtons show their disabled-reason tooltips (history item edit #24531, nav, multiview, GCard, rule builder). [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:issue_24531_edit_disabled_tooltip_26.2?expand=1).
 - [`pages_extraction_summary_rename_26.2`](active/pages_extraction_summary_rename_26.2/index.md) — Pages `workflow_extraction_summary` route → `extraction_summary`; drop unused `report_title`; label hint `kind` → `src`. Must merge before 26.2.0. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:pages_extraction_summary_rename_26.2?expand=1).

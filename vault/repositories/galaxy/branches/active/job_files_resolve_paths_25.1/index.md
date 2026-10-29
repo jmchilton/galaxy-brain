@@ -1,5 +1,6 @@
 ---
 upstream_base_branch: release_25.1
+pr: 24564
 ---
 
 # Job files API: absolute write paths, 4xx for invalid upload sources; job ports stops logging request kwargs
@@ -9,9 +10,9 @@ upstream_base_branch: release_25.1
 
 ## Status
 
-`branches_ready_for_final_review` — polished at `c7e144050f2`: [description](pr_description.md), [titles](pr_titles.md), [tags](pr_tags.md), [polish debrief](polish_debrief.md).
+PR [#24564](https://github.com/galaxyproject/galaxy/pull/24564) opened 2026-10-29 at `c7e144050f2f744136a2a959ecf0f2caf75e9067`, approved by John.
 
-Fork CI green on `c7e144050f2`.
+Fork CI green on `c7e144050f2f744136a2a959ecf0f2caf75e9067`.
 
 ## Decisions
 
