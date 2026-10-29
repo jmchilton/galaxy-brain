@@ -9,11 +9,7 @@ pr: 285
 
 ## Status
 
-Implemented at `03d275a`; makes gxformat2 tolerate Galaxy's `LintContext` so released Planemo stops crashing on native `workflow_lint` (galaxyproject/planemo#1769, fixed Planemo-side in galaxyproject/planemo#1770).
-
-PR #285 open, not draft.
-
-CI pending.
+Merged as #285; released in gxformat2 0.29.1.
 
 ## Notes
 

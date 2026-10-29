@@ -18,7 +18,7 @@ Read those from `origin/main` first; if they disagree with this file, upstream w
 
 - Confirm `galaxyproject/main` CI (`tox`, `typescript`, `maven`, `deploy` build job) is green on the commit being released: `gh run list --repo galaxyproject/gxformat2 --branch main`.
 - Target version: propose from the HISTORY entries (minor bump for features/drops, patch for fixes only), confirm with John.
-- Patch release after main already minted the next minor (e.g. `0.30.0.dev0` → `0.29.1`): set `__version__` and the HISTORY `.devN` header to `X.Y.Z.dev0` before `make add-history`. `make release` then mints `X.Y.(Z+1).dev0`; bump back to the minor afterwards only if John asks.
+- Patch release after main already minted the next minor (e.g. `0.30.0.dev0` → `0.29.1`): set `__version__` and the HISTORY `.devN` header to `X.Y.Z.dev0` before `make add-history`. `scripts/new_version.py` always mints the next minor `.dev0`; if John wants the next patch instead, edit `__version__` and the HISTORY header afterwards and push `main` to upstream.
 - Review `make add-history` output for junk/dupes; John may want dependabot lines trimmed or grouped — ask.
 
 ## After release
