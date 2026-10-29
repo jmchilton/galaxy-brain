@@ -1,0 +1,8 @@
+Run via Claude Opus 5.5 at high effort.
+
+- [x] What does the user see when it fails? Hovering or focusing a disabled button now shows a GTooltip that gives the reason, where before it showed nothing. Examples: "This dataset is not yet editable." (`ContentOptions.vue:143`), "You cannot edit a deleted workflow. Restore it first." (`WorkflowPublishedButtons.vue:79`), "Switching history..." (`HistoryNavigation.vue:82`), GCard action titles such as "Log in to run workflow" (`GCard.vue:862,891`), and the rule builder's validation-error title (`RuleCollectionBuilder.vue:575`). Screenshots are in `screenshots/`.
+- [x] Is the diff free of unrelated or stale generated changes? Yes!
+- [x] Are unit tests not just testing the literal implementation? Mostly. The two main tests check behavior. `GCard.test.ts:71` follows `aria-describedby` to the `role="tooltip"` text, and `ContentOptions.test.ts:31,40` checks `aria-disabled` and that no `edit` event is emitted. The new `HistoryNavigation.test.ts:49` is weaker: it uses `shallowMount` and only checks the `disabledtitle` prop on the stubbed GButton. That matches the file's existing style. The real E2E check is `test_history_dataset_state.py:77` `assert_tooltip_text`.
+- [x] Are baseline tests in their own leading commits (if applicable)? Yes. `dc6fd94e090` is the first commit and touches only `ContentOptions.test.ts`.
+- [x] Are the comments free of excess archeology? Yes. The only new comment (`navigates_galaxy.py:3222`) describes how GTooltip works now. The stale "vGTooltip skips aria-disabled buttons" comment in `test_history_dataset_state.py` is removed.
+- [x] If comments contain some description of previous implementation, bugs, etc.. - what purpose do they serve? N/A

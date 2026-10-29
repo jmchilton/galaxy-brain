@@ -1,0 +1,4 @@
+- [26.2] Show disabled-reason tooltips on disabled buttons
+- [26.2] Fix disabled history item edit button never showing its tooltip
+- [26.2] Explain why buttons are disabled: history edit, GCard actions, rule builder
+- [26.2] Use GButton disabled-title for disabled buttons silenced by v-g-tooltip

@@ -8,4 +8,10 @@ upstream_base_branch: release_26.2
 
 ## Status
 
-Implemented and re-hardened READY (gx_workhorse, head `e816c0542f0`); needs rebase onto `release_26.2` before PR.
+Polished, ready for final review (head `142a9901162`, rebased onto `release_26.2`).
+
+Fork CI pending on `142a9901162`.
+
+## Polish
+
+- [PR description](pr_description.md) · [titles](pr_titles.md) · [tags](pr_tags.md) · [checklist](pr_checklist.md) · [debrief](polish_debrief.md)
