@@ -24,7 +24,7 @@ None yet.
 
 ## Branches — implemented (`branches_implemented`)
 
-None yet.
+- [`remove_terminal_sessions`](active/remove_terminal_sessions/index.md) — Remove terminal session support (tmux, zellij, wezterm, ghostty) and `attach`/`clean-session`. [Open PR](https://github.com/jmchilton/ghwt/compare/main...remove_terminal_sessions).
 
 ## Branches — needs polish (`branches_need_polish`)
 
