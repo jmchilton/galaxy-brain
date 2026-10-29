@@ -1,20 +1,42 @@
 # Agent dir responsible for each repository's record kinds (under vault/repositories/<repo>/<kind>/).
 # The Obsidian plugin's repository view launches it for the 🔄 Sync button on My issues / My reviews.
+artifact-detective:
+  branches: dev_tooling
+  issues: dev_tooling
+  reviews: dev_tooling
+differential-review:
+  branches: dev_tooling
+  issues: dev_tooling
+  reviews: dev_tooling
 foundry:
+  branches: wf_foundry
   issues: wf_foundry
   reviews: wf_foundry
 galaxy:
+  branches: gx_branches
   issues: gx_issues
   reviews: gx_reviews
+gh-ci-artifacts:
+  branches: dev_tooling
+  issues: dev_tooling
+  reviews: dev_tooling
+ghwt:
+  branches: dev_tooling
+  issues: dev_tooling
+  reviews: dev_tooling
 galaxy-tool-util-ts:
+  branches: workflow_libs
   issues: workflow_libs
   reviews: workflow_libs
 gxformat2:
+  branches: workflow_libs
   issues: workflow_libs
   reviews: workflow_libs
 planemo:
+  branches: planemo
   issues: planemo
   reviews: planemo
 pulsar:
+  branches: pulsar
   issues: pulsar
   reviews: pulsar
