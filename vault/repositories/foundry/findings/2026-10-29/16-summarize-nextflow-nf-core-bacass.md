@@ -1,0 +1,56 @@
+# summarize-nextflow on nf-core/bacass: config literals dropped, edges and channel sources garbled, wrong kinds and tool FKs, wrapper forces `--profile test`
+
+- Target: galaxyproject/foundry (`packages/summarize-nextflow` resolver, `packages/gxwf-foundry` wrapper, `casts/claude/skills/summarize-nextflow/runs/`). All of it is Foundry code. Nextflow was not used (`--no-with-nextflow`). Foundry tracking needed: yes.
+- Seen in: /home/ubuntu/foundry-runs/prose-nf2wb-bacass-test-2026-10-29, phase 1 (summarize-nextflow), 2026-10-29. Ledger ids: `snf-cli-drops-boolean-and-empty-config-literals`, `snf-cli-edges-and-channel-sources-garbled`, `snf-cli-entry-workflow-and-utility-kind`, `snf-cli-tool-fk-by-process-name`, `snf-cli-foundry-wrapper-default-profile-test`, `snf-mold-utility-calls-and-entry-name`. The bundle concern is in run-summary.md.
+- Existing issues/PRs: no duplicate. Related: #666 (open; rnaseq resolver batch. Item 2 drops profile fixture URLs and item 3 keeps comments in nf-test values: the same family, different lines), #356 (closed; multi-package FK is null by design), #213 (closed; null tool FKs), #215 (open; derived edge view). **Not filed before:** the 2026-10-16 bacass run (`issues/closed/563/runs/bacass-sr-assembly.md:23-27`) logged dropped booleans, null defaults, comments in edges and the silent `--profile test`. Searches for booleans, params_delta, `--profile`, edges, tool FK and bundle runs found no issue for any of them.
+
+## Symptom
+nf-core/bacass 2.5.0 @ 76e4b12c, package 0.4.0, foundry 9f83fd55. The output is schema-valid. Problems:
+- The selected candidate's `params_delta` lacks `skip_pycoqc/skip_kraken2/skip_kmerfinder = true` (`conf/test.config:31-33`), and all 9 candidates lose their booleans. 48 `params[]` have `default: null`, and 30 of those are set to `true`/`false`/`''`/a number in `nextflow.config`.
+- There are 112 edges, all with `via: []`. KRAKEN2_LONG gets 11 edges, one per source line (`"info = [:]"`, `"}"`, `"false"`). All 6 BUSCO_BUSCO edges keep their `// …` comments. The source of `ch_input` starts at `ch_versions = Channel.empty() …`, so it is classified `fromPath`/`from_param: prokka_proteins`.
+- PIPELINE_INITIALISATION, PIPELINE_COMPLETION and UTILS_NFSCHEMA_PLUGIN have `kind: pipeline`, with `samplesheetToList`, `completionEmail` and `validateParameters` in `calls[]`.
+- KRAKEN2_DB_PREPARATION maps to `kraken2` (its env is sed), KMERFINDER_SUMMARY to `kmerfinder` (env multiqc 1.19) and KMERFINDER_DOWNLOAD_REFERENCE to `kmerfinder` (env requests). `tools[multiqc]` has `bioconda::multiqc=1.27` with `biocontainers/racon:1.4.20…`.
+- The ledger also lists GUNZIP→sed and UNTAR→`""`, and both are wrong. GUNZIP→sed matches its only env dependency. UNTAR comes out `null`, not `""`, which is the #356 multi-package decision.
+- `foundry summarize-nextflow` sets every one of the 9 candidates' `effective_profiles` to `["test"]`.
+
+## Root cause
+New causes (resolver line numbers are `packages/summarize-nextflow/src/resolver.ts` @ 9f83fd55):
+1. **The config literal grammar is too narrow.** `resolveParamExpression` (`:2685-2693`) accepts only a quoted string or `params.X + '…'`, and returns null for `true`, `false`, numbers and `null`. `parseAllParamAssignments` then runs `if (!value) continue;` (`:2630`), which also drops `''`. Its maps are `Map<string,string>`, so booleans have no representation. This is the same helper (`pipelineDefaultParams`) that 07 fix 3 proposes to reuse for `params[]`.
+2. **Call arguments are parsed line by line.** `extractCallInvocations` (`:2025-2049`) treats each line of a multi-line call as one argument, so closures and maps fragment. `splitCallArguments` (`:2051`) splits single-line calls on `,` without tracking brackets (`[[:],[]]`). Workflow bodies are masked with `preserveInlineLineComments = true` (`:1370`), so trailing `//` comments survive, and `.replace(/,$/)` then misses the comma. `parseWorkflowEdges` (`:1567-1577`) emits every argument, literals included, with `via: []` hardcoded.
+3. **`.set {}` capture is not bounded to one statement.** `extractSetChains` (`:1475-1504`) starts at any line beginning `ch_` and keeps accumulating, for up to 80 lines, until some `.set { ch_X }`, swallowing earlier `ch_a = …` statements and `def` blocks. `setPreferredChannel` (`:1425-1433`) keeps whichever source has more operators, so the garbled chain beats the correct one.
+4. **Kind is set by any imported name.** `parseWorkflows` matches calls against every `include`d name (`:1264-1272`), plugin functions included, and sets `kind: calls.length > 0 ? "pipeline" : "utility"` (`:1276`). The schema says `pipeline` means "invokes pipeline processes" and that free functions are NOT in `calls` (`summary-nextflow.schema.json:261,263`). There is also a contract conflict. Mold `content/molds/summarize-nextflow/index.md:358` says `calls` is empty for utilities, but the schema (`:263`) lists nested subworkflows. Mold `:265` puts the anonymous entry in `subworkflows[]`, while the schema (`:254`) says "one *named* workflow block" and names no anonymous entry.
+5. **The tool FK comes from the process name.** `resolveProcessToolFk` (`:2153-2169`) prefers the longest tool name that prefixes the process name over the process's own singleton dependency. `buildTools` (`:2207-2225`) keys `tools[]` by dependency name and stamps each dependency with its process's containers, and the last process wins. racon's env lists `multiqc=1.27`, so racon's images overwrite the multiqc entry.
+6. **The wrapper default overrides each test's profile.** `packages/gxwf-foundry/src/commands/summarize-nextflow.ts:22` sets `--profile` to default `"test"`, though its header says "Same surface as the standalone bin". The value reaches `parseNfTests` as `explicitProfile`, and `applyProfileDirective` (`:2841`, defined `:2923`) replaces each nf-test's profile. As a result `dfast`/`liftoff` lose `annotation_tool`.
+7. **The bundle ships an uncorrected sample run.** `casts/claude/skills/summarize-nextflow/runs/nf-core__bacass/summary.json` (from 9814ceca, 2026-09-15) is byte-identical (`cmp`) to today's raw CLI output, so it carries every defect above. Bundles keep `runs/` as "what the skill actually produced" and check it only against the schema (`packages/build-cli/src/lib/runs-check.ts:1-6,58`). SKILL.md never references it. On the bacass fixture it is a ready-made answer an agent or eval can anchor on.
+
+Same as 07: the anonymous `main.nf` entry and its invocations are missing (07-1, `:1268`). `params[].default` is null when only `nextflow.config` sets it (07-3, `parseParams` reads the schema only).
+
+## Evidence
+- Repro: `node packages/summarize-nextflow/dist/bin/summarize-nextflow.js --no-with-nextflow --pin 2.5.0 workflow-fixtures/pipelines/nf-core__bacass --out bacass.json`. The `jq -S` diff against the run's `summary-nextflow.cli.json` is empty.
+- `node packages/gxwf-foundry/dist/bin/foundry.js summarize-nextflow …` (same args) gives `test_candidates[].effective_profiles` = `["test"]` ×9. The standalone bin gives `test_dfast`, `test_hybrid`, … with `annotation_tool: dfast/liftoff`.
+- Source: `workflows/bacass.nf:85-101` (the `ch_input` chain), `:453-465` (KRAKEN2_LONG), `:548-553` (BUSCO comments); `modules/nf-core/racon/environment.yml` (multiqc + racon); `modules/local/kraken2/db_preparation/environment.yml` (sed only).
+- Coverage: the bacass integration tests (`test/integration/cli.test.ts:870-960`) assert candidate count, snapshot captures, aliases and tools, but not `params_delta`, edges, channel sources, kinds or FKs.
+
+## Proposed fix
+One resolver PR with a bacass integration case per cause, plus two small PRs:
+1. Return typed literals (`true`/`false`/numbers/`null`/`''`) from `resolveParamExpression` and keep falsy values. Make the maps `Map<string, unknown>`. Land this before or with 07 fix 3, so that `params[].default` falls back to `nextflow.config`.
+2. Tokenize call arguments once, from the matched `(` with `findMatchingParen`, tracking bracket, brace and string depth and stripping `//` comments. Drop literal arguments (`true`, `false`, `[]`, `[[:],[]]`, numbers, quoted strings). Fill `via` from operator chains.
+3. Bound `.set` capture to the current statement: start a new chain at each top-level assignment or call line, and stop at the first non-continuation line.
+4. Set `kind` from reachable processes, and keep only processes and workflows (not included functions) in `calls[]`. Align Mold `:358` with schema `:263`. Name the anonymous entry (e.g. `main`, `path: main.nf`) in both the schema and the Mold.
+5. Use the process's own resolution first (singleton dependency, or a container whose image name matches a dependency). Use a name prefix only when that dependency is among the process's own. Never stamp one process's container onto a sibling dependency's `tools[]` entry.
+6. Drop the wrapper's `"test"` default (the resolver already selects deterministically).
+7. Regenerate `runs/` only from reviewed output, or drop `nf-core__bacass` (keep `nf-core__demo` for smoke). Say in `runs-check.ts` or the cast docs that `runs/` is schema-checked only.
+
+## Draft issue
+**Title:** summarize-nextflow on nf-core/bacass: config booleans dropped, per-line edges, garbled `.set` sources, utility kind and tool FKs wrong
+
+On nf-core/bacass 2.5.0 (fixture `nf-core__bacass`), `summarize-nextflow` 0.4.0 emits a schema-valid summary that a pipeline run had to correct by hand. It has five resolver causes, all in `resolver.ts`:
+1. `resolveParamExpression` accepts only quoted strings and `params.X + '…'`, and `parseAllParamAssignments` skips falsy values. So `skip_kraken2 = true` etc. from `conf/test.config` vanish from every candidate's `params_delta`, and `''` defaults are lost.
+2. `extractCallInvocations` turns each line of a multi-line call into an edge (KRAKEN2_LONG: 11 edges, including `"}"` and `"false"`) and keeps `//` comments (BUSCO_BUSCO). `via` is always `[]`, and the 112 edges reduce to about 80 real ones.
+3. `extractSetChains` captures across statements up to a `.set {}`, so `ch_input`'s source begins at `ch_versions = Channel.empty()` and is misclassified as `fromPath`/`prokka_proteins`.
+4. `kind` is `pipeline` whenever any included name is called, so PIPELINE_INITIALISATION, PIPELINE_COMPLETION and UTILS_NFSCHEMA_PLUGIN are `pipeline` with free functions in `calls[]`. The Mold (`calls` empty for utilities) and the schema (nested subworkflows allowed; "named" blocks only) also disagree.
+5. `resolveProcessToolFk` prefers process-name prefixes over the process's own env (KRAKEN2_DB_PREPARATION→kraken2, KMERFINDER_*→kmerfinder), and `buildTools` lets racon's container overwrite `tools[multiqc]`.
+
+Expected: typed config literals; bracket-aware, comment-free arguments with literals dropped; statement-bounded channel sources; kind from reachable processes, with the Mold and schema aligned; FKs from the process's own dependencies. Add bacass integration assertions for each. Related: #666, #356, #213; ad-hoc counterpart: (07 issue, when filed).
+
+Separately (small): `foundry summarize-nextflow` defaults `--profile test`, which rewrites all 9 bacass candidates to `test`, unlike the standalone bin. And the summarize-nextflow bundle ships raw CLI output as `runs/nf-core__bacass/summary.json`, which carries these defects.
