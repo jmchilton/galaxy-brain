@@ -10,6 +10,8 @@ CalliNGS-NF has no nf-test and no `test`-kind profile, so selection fell to `pip
 ## Root cause
 The `test` kind keys only on nf-core input names, and the defaults fallback emits exactly one candidate. An ad-hoc profile that points the pipeline's own data params at other bundled data is classified `container`/`executor` and drops out of selection. The Mold already calls this out as a known limit but has no mitigation for it.
 
+2. **Same shape one tier up (nf-core/bacass whole pipeline, /home/ubuntu/foundry-runs/prose-nf2wb-bacass-full-2026-10-29, ledger `snf-mold-whole-pipeline-scope-test-candidates`).** The tiers are exclusive: when pipeline nf-tests exist, input-bearing profiles are never emitted (Mold `index.md:370`, note `:51`, resolver `:2377-2408` returns before the profile branch). `test_full` is the only configuration enabling Kmerfinder, QUAST_BYREFSEQID and short-read Kraken2, and no nf-test uses it, yet it was added only by hand. `TestCandidate` (schema `:395-400`) has no structured coverage field, so which stages a candidate exercises or skips (no candidate covers CANU, FILTLONG, Bakta, NANOPOLISH, PYCOQC) lives only in free-text `rationale`. Fix: emit `test`-kind profiles not referenced by any nf-test as `deferred` candidates, and add a per-candidate enabled/disabled-stage field derived from `params_delta`. No PR covers it.
+
 ## Evidence
 - Mold (origin/main): `content/molds/summarize-nextflow/index.md:281`: `test` = includes `conf/test*.config` or assigns non-null `params.input`/`samplesheet`. Line 293 states the limit (all 103 corpus `test` profiles are nf-core, none ad-hoc). Lines 368-372: fidelity order; step 3 emits "one `pipeline-defaults` candidate".
 - Policy note: `content/research/nextflow-test-case-selection/index.md:51-52` (steps 4-5, same single fallback). Line 88: the array carries input-bearing profiles "or" the defaults fallback.
@@ -42,5 +44,7 @@ Proposal:
 - Keep the defaults selected. Also emit each profile whose params differ from the defaults on a data-path param (a `from_param` channel, or a path/URL default) as an unselected `eligible` candidate (`deferred` if remote-only), with only the differing params in `params_delta`.
 - Update `nextflow-test-case-selection` steps 5 and 88 first, then the Mold, the CLI, `scenarios.md`, and `changes.md`.
 - Separately, the CLI skips anonymous `workflow {}` blocks (resolver.ts:1268), leaving `workflow.channels` empty for CalliNGS.
+
+Also: when nf-tests exist, input-bearing profiles none of them uses are dropped (nf-core/bacass `test_full`, the only config enabling Kmerfinder/QUAST_BYREFSEQID), and `TestCandidate` has no structured field for the stages a candidate exercises or skips. Emit such profiles as `deferred` and add a coverage field.
 
 Acceptance: on the CalliNGS fixture the CLI emits `pipeline-defaults` (selected), `profile:cluster` (eligible, `reads` delta only) and `profile:aws` (deferred).
