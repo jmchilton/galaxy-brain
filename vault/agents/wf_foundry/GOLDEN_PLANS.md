@@ -16,6 +16,8 @@ Trial run here before it becomes a Foundry issue.
 
 No `index.md`: vault validation would then expect frontmatter.
 
+**Variants.** One fixture can carry several golden plans when John wants different objectives, e.g. the whole pipeline and only its test-profile path. Name the variant's directory `<wf>--<variant>` (`nf-core__bacass--test-profile`); the plain `<wf>` stays the whole-pipeline plan. Each variant has its own seed objective, history and debriefs, and is built and folded independently. Put the objective in the variant's v0 `### Sources` or scope so later builds see it. Diffing variants is planner-loop evidence: what the narrow plan learns that the broad one should have.
+
 ## Review rule
 
 The build route wants a recorded expert review. Here:
