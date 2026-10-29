@@ -1,5 +1,6 @@
 ---
 upstream_base_branch: release_26.0
+pr: 24578
 ---
 # issue_24529_custom_build_fasta_history_26.0
 
@@ -8,9 +9,9 @@ upstream_base_branch: release_26.0
 
 ## Status
 
-Polished (head `3929a42f347`) on `release_26.0`; ready for final review. Alt: `issue_24529_custom_build_fasta_history_26.0_alt_original_scope`. Worktree: `~/projects/worktrees/galaxy/branch/issue_24529_custom_build_fasta_history_26.0`.
+Polished (head `3929a42f347`) on `release_26.0`; approved, PR opened. Alt: `issue_24529_custom_build_fasta_history_26.0_alt_original_scope`. Worktree: `~/projects/worktrees/galaxy/branch/issue_24529_custom_build_fasta_history_26.0`.
 
-No PR.
+PR [#24578](https://github.com/galaxyproject/galaxy/pull/24578) opened 2026-10-29 (not draft); fork CI green at 3929a42f347.
 
 ## Polish
 
