@@ -36,7 +36,7 @@ John's scope is the whole pipeline, including the merged-replicate level. It cov
 
 #### Excluded
 
-- Pipeline plumbing, which is not scientific work (agent decision, consistent with the coordinator's context): nf-validation parameter checks and help, iGenomes existence errors, software-version collation (`CUSTOM_DUMPSOFTWAREVERSIONS`, `workflows/atacseq.nf:693-695`), completion e-mail and notifications (`workflow.onComplete`, `workflows/atacseq.nf:766`), and nf-core template utility code under `lib/`. The validation rules in `lib/WorkflowAtacseq.groovy` that encode scientific input requirements remain as evidence for the input contract (see Inputs and outputs).
+- Pipeline plumbing, which is not scientific work (agent decision, for expert review): nf-validation parameter checks and help, iGenomes existence errors, software-version collation (`CUSTOM_DUMPSOFTWAREVERSIONS`, `workflows/atacseq.nf:693-695`), completion e-mail and notifications (`workflow.onComplete`, `workflows/atacseq.nf:766`), and nf-core template utility code under `lib/`. The validation rules in `lib/WorkflowAtacseq.groovy` that encode scientific input requirements remain as evidence for the input contract (see Inputs and outputs).
 - UMI extraction. The source passes `with_umi` as the literal `false` (`workflows/atacseq.nf:152`), so it never runs.
 - Publish-directory layout and file naming, except where a scientific output depends on them (see the IGV question).
 
@@ -146,7 +146,7 @@ Outputs (scientific roles, per level unless stated):
 - John (2026-10-29): scope is the whole pipeline, including the merged-replicate level.
 - John (2026-10-29): `macs_gsize` derivation stays in scope; how it is supplied is the first open question.
 - John: no Galaxy requirements beyond the objective and scope.
-- Agent decision, for expert review: pipeline plumbing (parameter validation, version collation, e-mails, nf-core utility code) is excluded as non-scientific. This follows the coordinator's context; John did not state it.
+- Agent decision, for expert review: pipeline plumbing (parameter validation, version collation, e-mails, nf-core utility code) is excluded as non-scientific. Neither John nor the coordinator stated it.
 - Agent decision, for expert review: where John's whole-pipeline scope meets source branches that are gated on optional inputs or off by default (controls, blacklist, preseq, alternative aligners, narrow peaks), they are kept in scope and the conflicts recorded as open questions, not blockers.
 
 ### Related artifacts
