@@ -1,0 +1,3 @@
+- [26.0] Look up existing implicit conversions through the HDA manager
+- [26.0] Route implicit conversion lookups through DatasetAssociationManager
+- [26.0] Add DatasetAssociationManager.get_accessible_converted

@@ -8,8 +8,8 @@ upstream_base_branch: release_26.0
 
 ## Status
 
-Hardened, READY (head `937be9882a4`) on `release_26.0`; alt `converted_dataset_lookup_via_manager_26.0_alt_original_scope`. Worktree: `~/projects/worktrees/galaxy/branch/converted_dataset_lookup_via_manager_26.0`.
+Polish paused at step 5 (head `937be9882a4`); description and checklist held outside the vault pending John's decisions.
 
 No PR.
 
-CI not yet run.
+CI shows only unrelated failures at `937be9882a4`.
