@@ -9,8 +9,8 @@ Each new pipeline runs seed (step 0) then build (step 1) then fold, per [GOLDEN_
 | 1 | nf-core__demo | build v1 → v2 | `pipeline-run-demo-v1` | `~/foundry-runs/prose-wb2g-demo-v1-2026-10-29/` | done: green 1/1, folded to v2 (2026-10-29) |
 | 2 | nf-core__smrnaseq | build v1 → v2 | `pipeline-run-smrnaseq-v1` | `~/foundry-runs/prose-wb2g-smrnaseq-v1-2026-10-29/` | done: green on attempt 2 (v0: 9), dropped 0 (v0: 8), surrendered 12 (v0: 16); folded to v2 |
 | 3 | CRG-CNAG__CalliNGS-NF | seed v0, build v0 → v1 | `pipeline-run-callings` | seed `~/foundry-runs/prose-nf2wb-callings-2026-10-29/`; build `~/foundry-runs/prose-wb2g-callings-v0-2026-10-29/` | seed done (v0 `f8993830`); build running |
-| 4 | nf-core__bacass--test-profile | seed v0, build v0 → v1 | `pipeline-run-bacass` | seed `~/foundry-runs/prose-nf2wb-bacass-test-2026-10-29/` | seed running |
-| 5 | nf-core__bacass | seed v0, build v0 → v1 | `pipeline-run-bacass-full` | | queued |
+| 4 | nf-core__bacass--test-profile | seed v0, build v0 → v1 | `pipeline-run-bacass` | seed `~/foundry-runs/prose-nf2wb-bacass-test-2026-10-29/` | seed done (v0 `c0df6a03`); build waits on BUSCO decision; seed run dir not yet archived (needs John) |
+| 5 | nf-core__bacass | seed v0, build v0 → v1 | `pipeline-run-bacass-full` | seed `~/foundry-runs/prose-nf2wb-bacass-full-2026-10-29/` | seed running |
 | 6 | nf-core__atacseq | seed v0, build v0 → v1 | `pipeline-run-atacseq` | | queued |
 
 ## Seed objectives (John, 2026-10-29)
