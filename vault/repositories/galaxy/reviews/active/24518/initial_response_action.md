@@ -1,4 +1,4 @@
-- [x] Approve the PR with the response
+- [x] Approve the PR with the response (done)
 - [ ] Approve and merge the PR with the response
 - [ ] Comment with the response
 - [ ] Review comment with the response

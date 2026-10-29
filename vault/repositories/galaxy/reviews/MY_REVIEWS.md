@@ -1,6 +1,6 @@
 ## PRs to review (`to_review`)
 
-- [#24518](https://github.com/galaxyproject/galaxy/pull/24518) — initial review ready, not delivered (two P2s + two P3s; fixed on `pr_24518_review_0`). [notes](active/24518/index.md)
+- [#24518](https://github.com/galaxyproject/galaxy/pull/24518) — approved with review; awaiting merge (two P2s + two P3s; fixed on `pr_24518_review_0`). [notes](active/24518/index.md)
 
 - [#24543](https://github.com/galaxyproject/galaxy/pull/24543) — review comment posted 2026-10-28 (P2 + P3; fixes on `pr_24543_review_0`, not pushed to PR); awaiting author. [notes](active/24543/index.md)
 - [#24540](https://github.com/galaxyproject/galaxy/pull/24540) — approved + fork PR davelopez/galaxy#12 opened; awaiting merge (two P2 test gaps + four P3s; all fixed on `pr_24540_review_0`; perf negligible). [notes](active/24540/index.md)
