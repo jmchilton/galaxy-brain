@@ -2,7 +2,7 @@
 # Launch Claude or Codex in a new Herdr workspace under vault/agents/<agent_dir> and send it a prompt.
 # Usage: launch_agent.sh <agent_dir> <claude|codex> <name> <prompt> [agent args...]
 # An empty prompt just starts the agent. Agent args go to claude/codex, e.g. --model opus --effort xhigh.
-# Works outside Herdr (e.g. from Obsidian) as long as the Herdr server is running.
+# Works outside Herdr (e.g. from Obsidian or over ssh); starts a headless Herdr server if none is running.
 set -eu
 
 PATH="$HOME/.local/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:$PATH"
@@ -17,7 +17,15 @@ agents_root=$(cd "$(dirname "$0")/../.." && pwd)
 cwd="$agents_root/$agent_dir"
 [ -d "$cwd" ] || { echo "no agent directory: $cwd" >&2; exit 2; }
 
-herdr workspace list >/dev/null 2>&1 || { echo "Herdr server not reachable - is herdr running?" >&2; exit 1; }
+if ! herdr workspace list >/dev/null 2>&1; then
+  nohup herdr server >/dev/null 2>&1 </dev/null &
+  n=0
+  until herdr workspace list >/dev/null 2>&1; do
+    n=$((n + 1))
+    [ $n -le 20 ] || { echo "Herdr server did not start" >&2; exit 1; }
+    sleep 0.5
+  done
+fi
 
 # Herdr names: [a-z][a-z0-9_-]{0,31}, unique among live agents.
 base=$(printf '%s' "$name" | tr 'A-Z' 'a-z' | tr -c 'a-z0-9_-' '-' | sed 's/^[^a-z]*//' | cut -c1-28)
