@@ -8,9 +8,9 @@ upstream_base_branch: release_26.2
 
 ## Status
 
-Polished, ready for final review (head `142a9901162`, rebased onto `release_26.2`).
+Back in final review: pushed `1d705c313ad` fixing Playwright red in `test_tool_discovery_view.py` (read `data-title`, caused by GCard change); earlier approval at `142a9901162` void.
 
-Fork CI pending on `142a9901162`.
+Fork CI pending on `1d705c313ad`.
 
 ## Polish
 

@@ -29,7 +29,7 @@ Risks are minimal - this change doesn't lock Galaxy into particular difficult to
 
 <details><summary>Risk Details</summary>
 
-- Every converted button (history item edit, history navigation, multiview, published workflow Edit, rule builder Reset/Finish, GCard actions) loses its native `title`; downstream Selenium/Playwright code selecting them by `title` must use `data-title`. No Galaxy selector used those titles. Screen readers get the text via GTooltip's `aria-describedby` instead.
+- Every converted button (history item edit, history navigation, multiview, published workflow Edit, rule builder Reset/Finish, GCard actions) loses its native `title`; downstream Selenium/Playwright code selecting them by `title` must use `data-title`. The one Selenium test that did (`test_tool_discovery_view.py`, tool card favorite button) now reads `data-title`. Screen readers get the text via GTooltip's `aria-describedby` instead.
 - Targets `release_26.2`; the bug isn't a 26.2 regression (26.1's disabled `BButton` link never got hover either), but GCard and the rule builder are touched on a release branch.
 
 </details>
