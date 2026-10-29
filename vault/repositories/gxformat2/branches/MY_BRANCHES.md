@@ -24,7 +24,7 @@ None yet.
 
 ## gxformat2 branches — implemented, work left (`branches_implemented_needs_ci`)
 
-None yet.
+- [`lint_context_without_child`](active/lint_context_without_child/index.md) — Tolerate lint contexts without `child()` so released Planemo stops crashing (planemo#1769). [Open PR](https://github.com/galaxyproject/gxformat2/compare/main...jmchilton:gxformat2:lint_context_without_child?expand=1).
 
 ## gxformat2 branches — implemented, work left, green (`branches_implemented`)
 
