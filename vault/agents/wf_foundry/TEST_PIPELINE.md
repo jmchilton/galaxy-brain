@@ -32,10 +32,13 @@ Overrides:
 - Run executable phases for real (`gxwf validate`, `planemo test`). Without a green planemo result the journey is incomplete, not done.
 - Galaxy for planemo is release_26.1 or newer: pass `--galaxy_branch release_26.1` (a newer release_* or master is fine), never an older branch. If that branch's `~/.planemo/gx_venv_*` is broken, rebuild it when no running Galaxy uses it; otherwise stop and report. Never downgrade to get a run going.
 - Never hand back while a child agent or background command is still running; wait for it.
-- Keep the output datasets of the final green planemo attempt under <RUN_DIR>/.scratch/test-outputs/ (planemo's Galaxy is deleted at exit; e.g. `--no_cleanup` then copy, or `--test_output_json` plus downloads) and remove the kept Galaxy dir afterwards. Folds and findings measure assertion values from them.
+- Keep the output datasets of the final green planemo attempt under <RUN_DIR>/.scratch/test-outputs/ (planemo's Galaxy is deleted at exit; e.g. `--no_cleanup` then copy, or `--test_output_json` plus downloads) and remove the kept Galaxy dir afterwards, and between failed attempts. Docker leaves root-owned mount dirs; remove those with `docker run --rm -v <dir>:/d busybox rm -rf /d/<subdir>`.
+- Before each planemo attempt, if another `planemo test` is running on the host and `MemAvailable` is under 8 GiB, wait for it to finish (poll every few minutes). An attempt killed by the host OOM killer counts as an attempt with cause "host OOM", not a workflow defect.
 - Other planemo Galaxies may be running; run yours anyway. If a failure looks caused by them (port, ~/.planemo cache, locks), report it as a suspected planemo bug with the error text and the other runs' PIDs, then retry once.
 Return at most 60 lines: per-phase eval table, then the pipeline eval.md and the case's expect results; misses; incomplete or blocked phases; Mold fixes committed (SHAs); the paths to run-summary.md and the ledger.
 ```
+
+If a driver hands back while its own planemo run or child is still going (an "interim" report), resume it with SendMessage and tell it to wait and finish. Drivers have done this twice, once claiming they were told to.
 
 ## 3. Record (you)
 
