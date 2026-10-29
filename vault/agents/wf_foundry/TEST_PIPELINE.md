@@ -32,6 +32,7 @@ Overrides:
 - Run executable phases for real (`gxwf validate`, `planemo test`). Without a green planemo result the journey is incomplete, not done.
 - Galaxy for planemo is release_26.1 or newer: pass `--galaxy_branch release_26.1` (a newer release_* or master is fine), never an older branch. If that branch's `~/.planemo/gx_venv_*` is broken, rebuild it when no running Galaxy uses it; otherwise stop and report. Never downgrade to get a run going.
 - Never hand back while a child agent or background command is still running; wait for it.
+- Keep the output datasets of the final green planemo attempt under <RUN_DIR>/.scratch/test-outputs/ (planemo's Galaxy is deleted at exit; e.g. `--no_cleanup` then copy, or `--test_output_json` plus downloads) and remove the kept Galaxy dir afterwards. Folds and findings measure assertion values from them.
 - Other planemo Galaxies may be running; run yours anyway. If a failure looks caused by them (port, ~/.planemo cache, locks), report it as a suspected planemo bug with the error text and the other runs' PIDs, then retry once.
 Return at most 60 lines: per-phase eval table, then the pipeline eval.md and the case's expect results; misses; incomplete or blocked phases; Mold fixes committed (SHAs); the paths to run-summary.md and the ledger.
 ```
