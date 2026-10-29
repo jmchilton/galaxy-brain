@@ -1,0 +1,4 @@
+- [26.0] Fix dataset conversions for API-key requests without a current history
+- [26.0] Run API-triggered dataset conversions in a history the user owns
+- [26.0] Fix 500s on custom builds from FASTA, converted/{ext} and feature search via API keys
+- [26.0] Fix custom builds from FASTA and other API conversions without a current history
