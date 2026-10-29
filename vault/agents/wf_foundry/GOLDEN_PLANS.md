@@ -38,6 +38,7 @@ Drive `workflow-brief-to-galaxy` per [TEST_PIPELINE.md](TEST_PIPELINE.md), with 
 
 - case: ad-hoc, "golden brief <wf> v<N>"; expect: the pipeline eval.md, plus a gxformat2 workflow that validates and whose workflow test runs.
 - Copy golden.md into the run dir as `workflow-brief.md`; the run never edits it (the harness hash check enforces this).
+- Copy the run-dir files the brief cites, `caller-request.md` and `summary-nextflow.json`, from the seed run dir in HISTORY.md's v0 row (archived in foundry-runs). Too large for the vault (up to ~1 MB), so they stay there.
 - Review and preflight: record per the review rule above; run the real environment preflight.
 - Return the ledger path and counts alongside the usual report.
 

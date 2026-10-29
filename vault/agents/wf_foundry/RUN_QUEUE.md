@@ -6,9 +6,9 @@ Each new pipeline runs seed (step 0) then build (step 1) then fold, per [GOLDEN_
 
 | Slot order | Workflow | Step | Worktree | Run dir | State |
 |---|---|---|---|---|---|
-| 1 | nf-core__demo | build v1 → v2 | `pipeline-run-demo-v1` | `~/foundry-runs/prose-wb2g-demo-v1-2026-10-29/` | running |
+| 1 | nf-core__demo | build v1 → v2 | `pipeline-run-demo-v1` | `~/foundry-runs/prose-wb2g-demo-v1-2026-10-29/` | built green 1/1 (2026-10-29); folding |
 | 2 | nf-core__smrnaseq | build v1 → v2 | `pipeline-run-smrnaseq-v1` | `~/foundry-runs/prose-wb2g-smrnaseq-v1-2026-10-29/` | running |
-| 3 | CRG-CNAG__CalliNGS-NF | seed v0, build v0 → v1 | `pipeline-run-callings` | | queued |
+| 3 | CRG-CNAG__CalliNGS-NF | seed v0, build v0 → v1 | `pipeline-run-callings` | `~/foundry-runs/prose-nf2wb-callings-2026-10-29/` | seed running |
 | 4 | nf-core__bacass--test-profile | seed v0, build v0 → v1 | `pipeline-run-bacass` | | queued |
 | 5 | nf-core__bacass | seed v0, build v0 → v1 | `pipeline-run-bacass-full` | | queued |
 | 6 | nf-core__atacseq | seed v0, build v0 → v1 | `pipeline-run-atacseq` | | queued |
@@ -26,3 +26,4 @@ Worktrees are on `origin/main` @ `9f83fd55` with packages and Nextflow fixtures 
 ## Machine and process log
 
 - 2026-10-29: cloned `galaxyproject/foundry` to `~/projects/repositories/foundry` (`origin` upstream, `jmchilton` fork); `npm i -g pnpm@10.33.0` (no corepack on Node 26). planemo via `uvx --from planemo==0.75.47`; `gxwf` from each worktree's `node_modules/.bin`.
+- 2026-10-29: GOLDEN_PLANS build step now copies `caller-request.md` and `summary-nextflow.json` from the seed run dir (the demo v1 driver had to find them itself).
