@@ -4,6 +4,7 @@ Snapshot: 2026-10-26 (#1763 opened and checked; other entries retain their previ
 
 ## Open Planemo PRs — ready from our side (`ready`)
 
+- [`list-param-inputs-not-collections`](active/list-param-inputs-not-collections/index.md) — Passes lists to multiple-value workflow parameter inputs instead of uploading collections. [#1744](https://github.com/galaxyproject/planemo/pull/1744).
 - [`shed_install_timeout`](active/shed_install_timeout/index.md) — Times out Tool Shed installs Galaxy never answers. [#1772](https://github.com/galaxyproject/planemo/pull/1772).
 - [`embedded-user-tool-workflows`](active/embedded-user-tool-workflows/index.md) — Runs local workflows with embedded user tools in managed Galaxy. [#1763](https://github.com/galaxyproject/planemo/pull/1763).
 - [`preserve-falsy-test-outputs`](active/preserve-falsy-test-outputs/index.md) — Checks false, zero and empty workflow outputs instead of reporting them missing. [#1761](https://github.com/galaxyproject/planemo/pull/1761).
@@ -46,7 +47,6 @@ None yet.
 ## Planemo branches — implemented, work left (`branches_implemented_needs_ci`)
 
 - [`committer-self-merge`](active/committer-self-merge/index.md) — Clarifies committer self-merging and keeps review by request. [Open PR](https://github.com/galaxyproject/planemo/compare/master...jmchilton:planemo:committer-self-merge).
-- [`list-param-inputs-not-collections`](active/list-param-inputs-not-collections/index.md) — Takes over #1744: passes lists to multiple-value workflow parameter inputs instead of uploading collections. [Open PR](https://github.com/galaxyproject/planemo/compare/master...jmchilton:planemo:list-param-inputs-not-collections).
 
 ## Planemo branches — implemented, work left, green (`branches_implemented`)
 

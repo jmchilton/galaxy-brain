@@ -10,4 +10,4 @@ PR open by mvdbeek; base `master`.
 
 ## Decisions
 
-- 2026-10-26: John took over the work as planemo branch [`list-param-inputs-not-collections`](../../../branches/active/list-param-inputs-not-collections/index.md) (builds on `pr_1744_review_0`), with upstream Galaxy branch [`staging_workflow_parameter_lists`](../../../../galaxy/branches/active/staging_workflow_parameter_lists/index.md). Routing (push into #1744 vs new PR) undecided.
+- 2026-10-26: John took over the work as planemo branch [`list-param-inputs-not-collections`](../../../branches/active/list-param-inputs-not-collections/index.md) (builds on `pr_1744_review_0`), with upstream Galaxy branch [`staging_workflow_parameter_lists`](../../../../galaxy/branches/active/staging_workflow_parameter_lists/index.md). 2026-10-29: pushed into #1744 as `95ab8365`; initial review response superseded by the takeover, not delivered.

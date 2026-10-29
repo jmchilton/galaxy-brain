@@ -10,14 +10,15 @@ Takes over [planemo#1744](https://github.com/galaxyproject/planemo/pull/1744) (m
 
 ## Status
 
-Branch `list-param-inputs-not-collections` on `jmchilton`, `~/projects/worktrees/planemo/branch/list-param-inputs-not-collections`; built on PR head `d3b58601` + review branch `pr_1744_review_0` (`5a205ab3`), not rebased (merge-base `b1ac9ac5`; `origin/master` `5ff07fa8` at creation), so it can still be pushed into #1744.
+Branch `list-param-inputs-not-collections` on `jmchilton`, `~/projects/worktrees/planemo/branch/list-param-inputs-not-collections`; rebased onto #1744's head `498524ab` (duplicate `f93fe7dc` skipped, tree unchanged) and pushed into #1744 as `95ab8365`, mirrored on `jmchilton`.
 
-No PR of its own yet; #1744 open by mvdbeek.
+#1744 open by mvdbeek, now carrying this branch; no separate PR.
 
-Head `9008b571` (requires gxformat2>=0.29.0, gate dropped); fork CI pending; `test_galaxy_activity.py` + `make lint` green locally, mypy left to CI. Fork CI green on prior head `129b9a55`.
+Head `95ab8365` (requires gxformat2>=0.29.0, gate dropped); PR CI pending; `test_galaxy_activity.py` + `make lint` green locally, mypy left to CI. Fork CI green on prior head `129b9a55`.
 
 ## Decisions
 
+- 2026-10-29: John chose to push into #1744 (pushed `95ab8365`).
 - 2026-10-29: gxformat2 0.29.0 shipped PR #281 (#202); pin raised to `>=0.29.0` and `_has_parameter_list` gate dropped.
 
 ## Dependencies
