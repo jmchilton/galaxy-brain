@@ -1,3 +1,8 @@
+---
+upstream_base_branch: release_26.2
+pr: 24225
+---
+
 # extract_next_followups
 
 - [#24225](https://github.com/galaxyproject/galaxy/pull/24225)
