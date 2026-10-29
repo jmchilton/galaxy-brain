@@ -33,6 +33,7 @@ None yet.
 
 ## Draft Planemo PRs — waiting for CI (`ci_wait`)
 
+- [`untyped-workflow-input-templates`](active/untyped-workflow-input-templates/index.md) — Treats untyped format2 workflow inputs as data in `workflow_job_init`/`workflow_test_init` templates. [#1774](https://github.com/galaxyproject/planemo/pull/1774).
 - [`release_process_agents`](active/release_process_agents/index.md) — Add `make check-release`, document GitHub release step, move release walkthrough to `.agents/skills`. [#1773](https://github.com/galaxyproject/planemo/pull/1773).
 - [`fail-tests-leaking-secrets`](active/fail-tests-leaking-secrets/index.md) — Fails tool tests whose stdio or outputs contain a test credential secret or the API key. [#1754](https://github.com/galaxyproject/planemo/pull/1754).
 - [`workflow-informal-params-sentinel`](active/workflow-informal-params-sentinel/index.md) — Fills undeclared workflow `${...}` parameters with a sentinel and warns (#1750). [#1755](https://github.com/galaxyproject/planemo/pull/1755).
@@ -58,7 +59,6 @@ None yet.
 
 ## Planemo branches — ready for final review (`branches_ready_for_final_review`)
 
-- [`untyped-workflow-input-templates`](active/untyped-workflow-input-templates/index.md) — Treats untyped format2 workflow inputs as data in `workflow_job_init`/`workflow_test_init` templates. [Open PR](https://github.com/galaxyproject/planemo/compare/master...jmchilton:planemo:untyped-workflow-input-templates).
 - [`issue-1764-workflow-tool-data-tables`](active/issue-1764-workflow-tool-data-tables/index.md) — Document data table discovery for workflow tests; print the loaded conf. [Open PR](https://github.com/galaxyproject/planemo/compare/master...jmchilton:planemo:issue-1764-workflow-tool-data-tables?expand=1).
 
 ## Planemo branches — approved, opens when green (`branches_need_pr`)

@@ -1,5 +1,6 @@
 ---
 upstream_base_branch: master
+pr: 1774
 ---
 # Treat untyped workflow inputs as data in job templates
 
@@ -12,7 +13,7 @@ Found while taking over [planemo#1744](https://github.com/galaxyproject/planemo/
 
 Branch `untyped-workflow-input-templates` on `jmchilton`, `~/projects/worktrees/planemo/branch/untyped-workflow-input-templates`; based on `origin/master` `2a815808`; head `fcf41a60`.
 
-Polished; ready for John's final review. No PR yet.
+Draft PR [#1774](https://github.com/galaxyproject/planemo/pull/1774) opened 2026-10-29 at John's request.
 
 Fork CI on `fcf41a60` pending; local gate green.
 
