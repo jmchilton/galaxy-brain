@@ -4,6 +4,7 @@ Snapshot: 2026-10-24 (live GitHub state for jmchilton's open gxformat2 PRs).
 
 ## Open gxformat2 PRs — ready from our side (`ready`)
 
+- [`lint_context_without_child`](active/lint_context_without_child/index.md) — Tolerate lint contexts without `child()` so released Planemo stops crashing (planemo#1769). [#285](https://github.com/galaxyproject/gxformat2/pull/285).
 - [`color_directory_uri_inputs`](active/color_directory_uri_inputs/index.md) — First-class `color`/`directory_uri` workflow parameter inputs (#202). [#281](https://github.com/galaxyproject/gxformat2/pull/281).
 
 ## Open gxformat2 PRs — needs attention (`attention`)
@@ -16,7 +17,7 @@ None yet.
 
 ## Draft gxformat2 PRs — waiting for CI (`ci_wait`)
 
-- [`lint_context_without_child`](active/lint_context_without_child/index.md) — Tolerate lint contexts without `child()` so released Planemo stops crashing (planemo#1769). [#285](https://github.com/galaxyproject/gxformat2/pull/285).
+None yet.
 
 ## Draft gxformat2 PRs — needs author work (`author_work`)
 
