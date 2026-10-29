@@ -1,0 +1,6 @@
+Branch `pr_24518_review_0` (in `~/projects/worktrees/galaxy/pr/24518`, from reviewed commit `8ee467177ab`, pushed to `jmchilton/galaxy`) fixes the verified findings on top of the PR. Folder listings that are no longer wanted no longer select files or hold OK. The current page is listed again once folder listings finish, so page and filter changes made while they load aren't lost. A paginated folder that fits on one page is selected as a whole. The pending-listing tests hold and release listings explicitly instead of sleeping. All 7 tests in `FilesDialogPagination.test.ts` pass, and each new test fails without its fix.
+
+- `7aeb32d6f45` Hold folder listings explicitly in FilesDialog pagination tests: replaces the 50 ms delay with a hold/release helper and checks that the held folder's files are confirmed (P3 2).
+- `e231b1b2a2e` Ignore FilesDialog folder listings that are no longer wanted: tracks the latest listing per folder, releases OK on unselect, and drops stale results (P2 2).
+- `2eb4f663ec5` List the current FilesDialog page again once folder listings finish: exposes `SelectionDialog.refresh()` and calls it once the last listing finishes on a paginated folder (P2 1).
+- `fc6cb14c2cd` Select a one-page paginated FilesDialog folder as a whole: `isPaginated` now also requires more matches than rows, or an active filter (P3 1).
