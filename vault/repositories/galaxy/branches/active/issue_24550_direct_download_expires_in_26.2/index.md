@@ -1,5 +1,6 @@
 ---
 upstream_base_branch: release_26.2
+pr: 24596
 ---
 
 # issue_24550_direct_download_expires_in_26.2
@@ -9,11 +10,11 @@ upstream_base_branch: release_26.2
 
 ## Status
 
-Polished at `87e98db68b9` (rebased on `release_26.2`); ready for final review.
+Approved and opened at `87e98db68b9` (rebased on `release_26.2`).
 
-No PR yet.
+[#24596](https://github.com/galaxyproject/galaxy/pull/24596) open, not draft.
 
-Fork CI on `87e98db68b9` pending.
+Fork CI green except Playwright (infra failure at "Restore client cache"; objectstore-only change, unrelated).
 
 ## Issue
 
