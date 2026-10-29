@@ -9,3 +9,4 @@ PR #24465 changes a shared visibility and concurrency contract across outputs, j
 ## Requested by
 
 - vault/repositories/galaxy/reviews/active/24465: learning review needed a reusable account of job completion commits and cross-process observers.
+- vault/repositories/galaxy/reviews/active/24511: `finish()`/`fail()` now charge every output holder via `_charge_outputs`; `total_size is None` marks uncharged outputs.
