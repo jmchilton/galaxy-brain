@@ -16,7 +16,7 @@ None yet.
 
 ## Draft gxformat2 PRs — waiting for CI (`ci_wait`)
 
-None yet.
+- [`lint_context_without_child`](active/lint_context_without_child/index.md) — Tolerate lint contexts without `child()` so released Planemo stops crashing (planemo#1769). [#285](https://github.com/galaxyproject/gxformat2/pull/285).
 
 ## Draft gxformat2 PRs — needs author work (`author_work`)
 
@@ -24,7 +24,7 @@ None yet.
 
 ## gxformat2 branches — implemented, work left (`branches_implemented_needs_ci`)
 
-- [`lint_context_without_child`](active/lint_context_without_child/index.md) — Tolerate lint contexts without `child()` so released Planemo stops crashing (planemo#1769). [Open PR](https://github.com/galaxyproject/gxformat2/compare/main...jmchilton:gxformat2:lint_context_without_child?expand=1).
+None yet.
 
 ## gxformat2 branches — implemented, work left, green (`branches_implemented`)
 

@@ -1,5 +1,6 @@
 ---
 upstream_base_branch: main
+pr: 285
 ---
 # Fall back when lint context lacks child()
 
@@ -10,9 +11,9 @@ upstream_base_branch: main
 
 Implemented at `03d275a`; makes gxformat2 tolerate Galaxy's `LintContext` so released Planemo stops crashing on native `workflow_lint` (galaxyproject/planemo#1769, fixed Planemo-side in galaxyproject/planemo#1770).
 
-No PR yet.
+PR #285 open, not draft.
 
-Fork CI pending on push.
+CI pending.
 
 ## Notes
 
