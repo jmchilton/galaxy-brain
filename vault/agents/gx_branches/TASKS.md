@@ -1,7 +1,7 @@
 # Tasks
 
 ```gb-tasks
-- prompt: Review mvdbeek's commit 93ee487fbe5 on issue_24220_drop_collection_matching_26.0 in the differential review. Then update the live PR body from pr_description.md (Risks rewritten), post the suggested reply in review_response_mvdbeek_1.md, and decide where the server follow-up in followup_issue_split_paired_or_unpaired.md lands (release_26.0 or dev).
+- prompt: Review mvdbeek's commit 93ee487fbe5 on issue_24220_drop_collection_matching_26.0 in the differential review. The PR is in draft while the expanded server fix is built in-branch.
   agent_dir: gx_branches
   kind: human
   link: https://github.com/galaxyproject/galaxy/pull/24453

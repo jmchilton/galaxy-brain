@@ -11,7 +11,7 @@ pr: 24453
 
 Status: PR open; head `93ee487fbe5` (mvdbeek's review commit fast-forwarded on 2026-10-29). Worktree: `~/projects/worktrees/galaxy/branch/issue_24220_drop_collection_matching_26.0`.
 
-PR [#24453](https://github.com/galaxyproject/galaxy/pull/24453) open, not draft; mvdbeek review 1 addressed in [review_response_mvdbeek_1.md](review_response_mvdbeek_1.md), reply not posted, live description not yet updated from [pr_description.md](pr_description.md).
+PR [#24453](https://github.com/galaxyproject/galaxy/pull/24453) moved to draft 2026-10-29 for the expanded server fix ([comment](https://github.com/galaxyproject/galaxy/pull/24453#issuecomment-6507455866)); see [review_response_mvdbeek_1.md](review_response_mvdbeek_1.md).
 
 CI on `93ee487fbe5` running; API-shard red `test_data_input_recovery_on_delayed_input` (invocation wait timeout) and fork "Test Galaxy release script" are unrelated.
 
@@ -26,5 +26,5 @@ Fixes galaxyproject/galaxy#24220: tool form drag and drop matched collections to
 - Option-dedupe changes from 20657 (`68b8d3969e5`) left out; not needed for drop matching.
 - Alt `issue_24220_drop_collection_matching_26.0_alt_original_scope` keeps the pre-re-scope fix ([alts/original_scope.md](alts/original_scope.md)).
 
-- Map-over drops the server can't split (`sample_sheet` targets, compound `X:paired_or_unpaired`) are refused, per mvdbeek's commit. The compound case is a stopgap against `collection_semantics.md`; the server fix is drafted in [followup_issue_split_paired_or_unpaired.md](followup_issue_split_paired_or_unpaired.md).
+- Map-over drops the server can't split (`sample_sheet` targets, compound `X:paired_or_unpaired`) are refused, per mvdbeek's commit. The compound case contradicts `collection_semantics.md`. John's decision (2026-10-29): expand this PR with the server fix scoped in [followup_issue_split_paired_or_unpaired.md](followup_issue_split_paired_or_unpaired.md). Scope: a shared split-type helper on `CollectionTypeDescription` with a TS mirror, used by `basic.py`, `workflow/modules.py` and `collectionMatch.ts`; no `sample_sheet` map-over listing; API tests for the documented compound cases; Marius' guard kept as a backstop.
 - Merge forward: `canMatch` → `accepts` is already on `release_26.1`; only tsc/vitest will catch it.

@@ -29,7 +29,6 @@ Snapshot: 2026-10-28 (reclassified from GitHub: #24520 merged and archived; #243
 
 ## Open Galaxy PRs — needs attention (`attention`)
 
-- [`issue_24220_drop_collection_matching_26.0`](active/issue_24220_drop_collection_matching_26.0/index.md) — Tool form drag and drop matches dropped collections to collection inputs like the server's dropdown (#24220). Base `release_26.0`. [#24453](https://github.com/galaxyproject/galaxy/pull/24453).
 - [`selenium_stories_core`](active/selenium_stories_core/index.md) — Writes Selenium and Playwright screenshots as Markdown, HTML and PDF stories; narrates tours. [#24137](https://github.com/galaxyproject/galaxy/pull/24137).
 
 - [`selenium_history_datatype_citations`](active/selenium_history_datatype_citations/index.md) — Browser tests for bulk Change data type, Change Database/Build and history Export Tool References (26.2). [#24329](https://github.com/galaxyproject/galaxy/pull/24329).
@@ -60,6 +59,7 @@ None yet.
 
 ## Draft Galaxy PRs — needs author work (`author_work`)
 
+- [`issue_24220_drop_collection_matching_26.0`](active/issue_24220_drop_collection_matching_26.0/index.md) — Tool form drag and drop matches dropped collections to collection inputs like the server; expanding to server split types (#24220). Base `release_26.0`. [#24453](https://github.com/galaxyproject/galaxy/pull/24453).
 - [`issue_24476_parsed_output_filters_26_1`](active/issue_24476_parsed_output_filters_26_1/index.md) — Preserves filter expressions in parsed data, collection and scalar outputs (#24476). Base `release_26.1`. [#24483](https://github.com/galaxyproject/galaxy/pull/24483).
 - [`issue_24389_lint_duplicate_test_params_26.1`](active/issue_24389_lint_duplicate_test_params_26.1/index.md) — Lint conflicting duplicate tool-test params (load unchanged); `<edit_attributes>` stored as dicts (#24389). Base `release_26.1`. [#24480](https://github.com/galaxyproject/galaxy/pull/24480).
 - [`extract_next_followups`](active/extract_next_followups/index.md) — Fixes notebook-to-workflow extraction, report references and editor behavior after #22860. Base `release_26.2`; must merge before 26.2.0 (API rename). [#24225](https://github.com/galaxyproject/galaxy/pull/24225). Draft [WIP] by John's request: up early while they review it in detail.
