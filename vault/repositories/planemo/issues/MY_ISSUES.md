@@ -27,7 +27,7 @@ GitHub state last refreshed: 2026-10-27. Issues here are unassigned by default. 
 
 ## In motion (`wip`)
 
-- [#1768](https://github.com/galaxyproject/planemo/issues/1768) — Tool Shed installs have no timeout; a hung install blocks planemo forever; branch `shed_install_timeout`. [notes](wip/1768/index.md)
+- [#1768](https://github.com/galaxyproject/planemo/issues/1768) — Tool Shed installs have no timeout; a hung install blocks planemo forever; PR [#1772](https://github.com/galaxyproject/planemo/pull/1772). [notes](wip/1768/index.md)
 - [#1764](https://github.com/galaxyproject/planemo/issues/1764) — undocumented `tool_data_table_conf.xml.test` discovery for workflow tests; branch `issue-1764-workflow-tool-data-tables`. [notes](wip/1764/index.md)
 - [#1759](https://github.com/galaxyproject/planemo/issues/1759) — expression.json collection assertions; PR [#1760](https://github.com/galaxyproject/planemo/pull/1760). [notes](wip/1759/index.md)
 - [#1757](https://github.com/galaxyproject/planemo/issues/1757) — embedded user tools crash discovery and lack managed permissions; branch `embedded-user-tool-workflows`. [notes](wip/1757/index.md)
