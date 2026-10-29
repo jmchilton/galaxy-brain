@@ -3,8 +3,8 @@
 Release `galaxyproject/gxformat2` to PyPI. Upstream owns the process; defer to it:
 
 - `docs/developing.rst` → "Releases" — checklist, steps, trusted publishing.
-- `.claude/commands/ready-release.md` — the interactive walkthrough. Follow its steps and stop points.
-- `Makefile` targets `add-history`, `check-release`, `release`.
+- `.agents/skills/ready-release/SKILL.md` — the interactive walkthrough, through the GitHub release. Follow its steps and stop points.
+- `Makefile` targets `add-history`, `check-release`, `release`, `release-notes`.
 
 Read those from `origin/main` first; if they disagree with this file, upstream wins — tell John.
 
@@ -18,12 +18,13 @@ Read those from `origin/main` first; if they disagree with this file, upstream w
 
 - Confirm `galaxyproject/main` CI (`tox`, `typescript`, `maven`, `deploy` build job) is green on the commit being released: `gh run list --repo galaxyproject/gxformat2 --branch main`.
 - Target version: propose from the HISTORY entries (minor bump for features/drops, patch for fixes only), confirm with John.
+- Patch release after main already minted the next minor (e.g. `0.30.0.dev0` → `0.29.1`): set `__version__` and the HISTORY `.devN` header to `X.Y.Z.dev0` before `make add-history`. `make release` then mints `X.Y.(Z+1).dev0`; bump back to the minor afterwards only if John asks.
 - Review `make add-history` output for junk/dupes; John may want dependabot lines trimmed or grouped — ask.
 
 ## After release
 
 - Watch the tag's `Deploy` run reach `pypi-publish` success; verify the version on https://pypi.org/project/gxformat2/.
-- Create the GitHub Release for the tag (`make release` only pushes a tag; maintainers expect a Release). Body = the version's HISTORY entries converted to Markdown, matching earlier releases (`gh release view <prev> --repo galaxyproject/gxformat2`). Show John the body first — its `@` thanks notify people — then `gh release create X.Y.Z --repo galaxyproject/gxformat2 --title X.Y.Z --verify-tag --notes-file <file>`.
+- Create the GitHub Release per upstream docs: `make release-notes RELEASE_TAG=X.Y.Z > <scratch>/notes.md`, show John the body first (its `@` thanks notify people), then `gh release create` as documented.
 - Append this task to this dir's `TASKS.md` gb-tasks block (no need to ask; John launches tasks), per [`TASK_LIST_YAML_FORMAT.md`](../_shared/TASK_LIST_YAML_FORMAT.md), filling in `X.Y.Z`:
 
   ```yaml
@@ -41,4 +42,3 @@ Read those from `origin/main` first; if they disagree with this file, upstream w
 
 - npm/TypeScript (`typescript/`) or Java (`java/`) artifacts released too, or PyPI only? Upstream CI publishes PyPI only.
 - Trim dependabot entries from HISTORY?
-- Create GitHub Release entries, or tag only (current practice)?
