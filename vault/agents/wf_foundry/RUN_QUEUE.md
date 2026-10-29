@@ -6,9 +6,9 @@ Each new pipeline runs seed (step 0) then build (step 1) then fold, per [GOLDEN_
 
 | Slot order | Workflow | Step | Worktree | Run dir | State |
 |---|---|---|---|---|---|
-| 1 | nf-core__demo | build v1 → v2 | `pipeline-run-demo-v1` | `~/foundry-runs/prose-wb2g-demo-v1-2026-10-29/` | built green 1/1 (2026-10-29); folding |
+| 1 | nf-core__demo | build v1 → v2 | `pipeline-run-demo-v1` | `~/foundry-runs/prose-wb2g-demo-v1-2026-10-29/` | done: green 1/1, folded to v2 (2026-10-29) |
 | 2 | nf-core__smrnaseq | build v1 → v2 | `pipeline-run-smrnaseq-v1` | `~/foundry-runs/prose-wb2g-smrnaseq-v1-2026-10-29/` | running |
-| 3 | CRG-CNAG__CalliNGS-NF | seed v0, build v0 → v1 | `pipeline-run-callings` | `~/foundry-runs/prose-nf2wb-callings-2026-10-29/` | seed running |
+| 3 | CRG-CNAG__CalliNGS-NF | seed v0, build v0 → v1 | `pipeline-run-callings` | seed `~/foundry-runs/prose-nf2wb-callings-2026-10-29/`; build `~/foundry-runs/prose-wb2g-callings-v0-2026-10-29/` | seed done (v0 `f8993830`); build running |
 | 4 | nf-core__bacass--test-profile | seed v0, build v0 → v1 | `pipeline-run-bacass` | | queued |
 | 5 | nf-core__bacass | seed v0, build v0 → v1 | `pipeline-run-bacass-full` | | queued |
 | 6 | nf-core__atacseq | seed v0, build v0 → v1 | `pipeline-run-atacseq` | | queued |
