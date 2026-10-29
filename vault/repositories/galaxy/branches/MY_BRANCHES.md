@@ -4,6 +4,7 @@ Snapshot: 2026-10-28 (reclassified from GitHub: #24520 merged and archived; #243
 
 ## Open Galaxy PRs — ready from our side (`ready`)
 
+- [`pages_extraction_summary_rename_26.2`](active/pages_extraction_summary_rename_26.2/index.md) — Pages `workflow_extraction_summary` route → `extraction_summary`; drop unused `report_title`; label hint `kind` → `src`. [#24595](https://github.com/galaxyproject/galaxy/pull/24595).
 - [`issue_24529_custom_build_fasta_history_26.0`](active/issue_24529_custom_build_fasta_history_26.0/index.md) — API-key conversions (custom build from FASTA #24529, `converted/{ext}`, feature search) run in a user-owned active history. [#24578](https://github.com/galaxyproject/galaxy/pull/24578).
 - [`issue_24438_select_comma_split_25.1`](active/issue_24438_select_comma_split_25.1/index.md) — Preserve commas in single-select tool tests; lint and document multiple-select comma values (#24438). [#24491](https://github.com/galaxyproject/galaxy/pull/24491).
 - [`deployment_test_fixes_26_2`](active/deployment_test_fixes_26_2/index.md) — Restore deployment test collection, failure propagation, bootstrap and runtime capability skips. [#24489](https://github.com/galaxyproject/galaxy/pull/24489).
@@ -106,7 +107,6 @@ None yet.
 ## Galaxy branches — ready for final review (`branches_ready_for_final_review`)
 
 - [`issue_24531_edit_disabled_tooltip_26.2`](active/issue_24531_edit_disabled_tooltip_26.2/index.md) — Disabled GButtons show their disabled-reason tooltips (history item edit #24531, nav, multiview, GCard, rule builder). [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:issue_24531_edit_disabled_tooltip_26.2?expand=1).
-- [`pages_extraction_summary_rename_26.2`](active/pages_extraction_summary_rename_26.2/index.md) — Pages `workflow_extraction_summary` route → `extraction_summary`; drop unused `report_title`; label hint `kind` → `src`. Must merge before 26.2.0. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:pages_extraction_summary_rename_26.2?expand=1).
 - [`issue_24550_direct_download_expires_in_26.2`](active/issue_24550_direct_download_expires_in_26.2/index.md) — Per-store `direct_download_expires_in` (default 1 h) for presigned direct-download URLs; s3/cloud drop from 24 h (#24550). [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:issue_24550_direct_download_expires_in_26.2?expand=1).
 - [`issue_23891_output_reference_resolver`](active/issue_23891_output_reference_resolver/index.md) — Resolves format_source/metadata_source against declared inputs at tool load; lints both; errors gated at profile 27.0 (#23891). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_23891_output_reference_resolver?expand=1).
 - [`ag_grid_36`](active/ag_grid_36/index.md) — Upgrades ag-grid to 36.2.0 with grid editing and renderer adaptations. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:ag_grid_36?expand=1).

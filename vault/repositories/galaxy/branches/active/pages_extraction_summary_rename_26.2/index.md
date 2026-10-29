@@ -1,5 +1,6 @@
 ---
 upstream_base_branch: release_26.2
+pr: 24595
 ---
 
 # pages_extraction_summary_rename_26.2
@@ -11,7 +12,7 @@ upstream_base_branch: release_26.2
 
 ## Status
 
-`branches_ready_for_final_review`: polished 2026-10-28; hardened and re-scoped 2026-10-28, head `9425d5e862b` (3 commits on `release_26.2` `0902830bfa6`). See [implementation_debrief.md](implementation_debrief.md), [polish_debrief.md](polish_debrief.md), [pr_description.md](pr_description.md), [pr_titles.md](pr_titles.md), [pr_tags.md](pr_tags.md).
+PR #24595 opened 2026-10-29 (not draft); fork CI green on `9425d5e862b`. Polished 2026-10-28; hardened and re-scoped 2026-10-28, head `9425d5e862b` (3 commits on `release_26.2` `0902830bfa6`). See [implementation_debrief.md](implementation_debrief.md), [polish_debrief.md](polish_debrief.md), [pr_description.md](pr_description.md), [pr_titles.md](pr_titles.md), [pr_tags.md](pr_tags.md).
 
 ## Standing instructions
 
