@@ -10,7 +10,7 @@ John (the expert), quoted from the caller request:
 
 Scientifically, the source assembles bacterial genomes per sample from short reads, long (Oxford Nanopore) reads, or both. It QCs and trims or filters the reads, assembles them, optionally polishes long-read and hybrid assemblies, screens reads for contamination and species, assesses the assemblies, and annotates them. It then aggregates every report into one summary report. John's objective selects all of this.
 
-John gave no Galaxy requirements beyond the objective, and the terminal artifact of this run is this brief (caller request, John section).
+John gave no Galaxy requirements beyond the objective. The terminal artifact of this run is this brief (coordinator).
 
 ### Sources
 
@@ -156,7 +156,7 @@ Outputs, by scientific role:
   - Confidence: low
   - Missing: test evidence for hybrid Canu, hybrid miniasm, and any Canu run at all (phase 1: no candidate exercises CANU). Also missing: whether John wants those hybrid combinations offered.
 - What should `discard_trimmed_pass` mean?
-  - Proposed: keep the source's effective behavior. Trimmed reads that pass fastp always feed downstream steps, and the option is not carried as a read-discarding switch, because discarding passing reads would leave assembly without input. The misbinding is recorded as a source defect, not reproduced.
+  - Proposed: keep the source's effective behavior. Trimmed reads that pass fastp always feed downstream steps, and the option is not carried as a read-discarding switch, The misbinding is recorded as a source defect, not reproduced.
   - Evidence:
     - The call passes `params.discard_trimmed_pass` as the 5th positional argument (`workflows/bacass.nf:181`). The take block's 5th name is `val_save_merged`, and `val_discard_trimmed_pass` is 4th (`subworkflows/nf-core/fastq_trim_fastp_fastqc/main.nf:27-28`). The 4th argument passed is `[]` (`workflows/bacass.nf:180`).
     - The schema describes the option as using "fastp for the output report only" (summary `params[discard_trimmed_pass]`).
