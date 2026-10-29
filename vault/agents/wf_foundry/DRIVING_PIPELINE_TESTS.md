@@ -52,6 +52,7 @@ Lessons, now in the brief or the prepare step:
 - The child was waiting for another session's planemo Galaxy. Concurrent planemo runs are now allowed; a clash between them is a planemo bug to report, not a reason to serialize.
 - Fixture builds collide on a git lock; build them one at a time.
 - `make check` stops at `check-vendored`, which fails only on this machine; `make -k check` shows the rest.
+- Test on Galaxy release_26.1 or newer only. The smrnaseq and funcscan v0 builds fell back to release_25.1 over a stale venv, and funcscan hung 41 h installing a data-manager repo, a Galaxy bug fixed in 26.1 ([galaxy#23394](https://github.com/galaxyproject/galaxy/pull/23394); planemo [#1767](https://github.com/galaxyproject/planemo/issues/1767), [#1768](https://github.com/galaxyproject/planemo/issues/1768)).
 
 ## Limits
 
