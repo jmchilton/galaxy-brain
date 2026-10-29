@@ -33,6 +33,7 @@
 - [#23223](https://github.com/galaxyproject/galaxy/pull/23223) — Draft; TPV recommended; ball with author. [notes](active/23223/index.md)
 - [#23560](https://github.com/galaxyproject/galaxy/pull/23560) — Draft; prior review delivered; re-review when ready. [notes](active/23560/index.md)
 - [#24548](https://github.com/galaxyproject/galaxy/pull/24548) — initial review drafted; no findings; recommend approve. [notes](active/24548/index.md)
+- [#24585](https://github.com/galaxyproject/galaxy/pull/24585) — initial review in progress (round 0, 71178a56e3b). [notes](active/24585/index.md)
 
 PRs to Skip For 7 Days:
 
