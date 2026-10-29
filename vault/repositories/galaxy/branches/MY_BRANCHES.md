@@ -71,7 +71,7 @@ None yet.
 
 ## Galaxy branches — implemented, work left (`branches_implemented_needs_ci`)
 
-- [`extraction_hid_copies_pdf_sections_26.1`](active/extraction_hid_copies_pdf_sections_26.1/index.md) — 26.1 port of #24225 fixes: copies are one extraction input, name 400s, user-tool summary 403, PDF invocation sections. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.1...jmchilton:galaxy:extraction_hid_copies_pdf_sections_26.1?expand=1).
+- [`extraction_hid_copies_pdf_sections_26.1`](active/extraction_hid_copies_pdf_sections_26.1/index.md) — 26.1 port of #24225 fixes: copies are one extraction input/summary card, name 400s, user-tool summary 403, PDF invocation sections. Hardened; land after #24225 reaches 26.2. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.1...jmchilton:galaxy:extraction_hid_copies_pdf_sections_26.1?expand=1).
 - [`selenium_workflow_preview_import_26.2`](active/selenium_workflow_preview_import_26.2/index.md) — Public workflow preview/Run/Import tests + TRS launch-link auto-import and version-alias fixes; baseline first, hardened READY. Base `release_26.2`, head `ef7bf72fdea9`; both browser backends verified.
 
 - [`issue_24303_collection_type_prefix_26.2`](active/issue_24303_collection_type_prefix_26.2/index.md) — `type_prefix` on `type_source` tool output collections (parser/XSD/lint, runtime, workflow server + subworkflow export fix, editor, collection_semantics) + Nest 1.1.0 replacing #24190 (bernt-matthias's commit cherry-picked; 1.0.0 kept) (#24303). Hardened + re-scoped; decisions: #24190 fate, PR split. Base `release_26.2`, head `e0239d8d74b`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:issue_24303_collection_type_prefix_26.2?expand=1).

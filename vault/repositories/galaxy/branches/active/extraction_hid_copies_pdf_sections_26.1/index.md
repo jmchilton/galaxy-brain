@@ -12,16 +12,15 @@ The `extract_next_followups` (#24225) fixes whose bugs also exist on `release_26
 - PDF/basic export of default-report `invocation_inputs()`/`invocation_outputs()` renders the datasets (by id) instead of raw directives.
 - Hid and by-ids extraction: copies of one original are one input, wired whichever copy is sent; tool outputs with in-history copies connect; implicitly converted inputs connect; copies sent with different names → 400.
 - Input names not parallel to their ids/hids → 400 instead of 500.
-- History extraction summary: another user's (or deactivated) user tool marks its row `custom_tool_inaccessible` instead of 403ing the whole summary.
+- History extraction summary: one input card per original, listing this history's copies (no more "hdca_ids contains duplicates" 400 from the form); another user's (or deactivated) user tool marks its row `custom_tool_inaccessible` instead of 403ing the whole summary.
 
 ## Status
 
-`branches_implemented_needs_ci`: two commits on `release_26.1`, head `6336ce84404`, pushed 2026-10-28.
-
-Red check: every ported test except the converted-input guard failed on bare `release_26.1`. With the fixes, `test_workflow_extraction.py` 62 passed / 1 skipped, and workflow + markdown unit tests 249 passed.
+`branches_implemented_needs_ci`: hardened (READY), 8 commits on `release_26.1`, head `2f0cd130446`, pushed 2026-10-28.
 
 ## Decisions and references
 
-- Scope: tests ported from #24225 that fail on bare `release_26.1`. `test_extract_from_history_duplicate_input_names_rejected` was left out: it's a 26.2 feature test that already exists on `release_26.2`.
-- Not ported: one summary card per original (`90b36ff9158`). It rewrites `workflow_extraction_summary.py`, which doesn't exist on 26.1. So the 26.1 versions of `test_extract_with_two_copies_of_one_collection_makes_one_input` and `test_copies_of_job_less_dataset_list_one_input` assert only the extraction, not the summary card. Both still fail without the fix.
-- Merge-forward into 26.2 conflicts with #24225's `ContentRef` rewrite of `extract.py`; take 26.2's side. Helper names match the 26.2 branch (`group_inputs_by_original`, `group_hid_inputs_by_original`, `_unconverted`, `_invocation_section`).
+- Scope expanded during hardening to port the summary-card half of #24225 (`90b36ff9158`, `202d3b3570c`) into 26.1's `histories.py`; original scope kept as alt `extraction_hid_copies_pdf_sections_26.1_alt_original_scope` ([alts/original_scope.md](alts/original_scope.md)).
+- `test_extract_from_history_duplicate_input_names_rejected` left out: 26.2 feature test.
+- By-ids default input names use `is not None` (keeps explicit `""`, as base); #24225 still has `or`.
+- Landing order: #24225 must reach `release_26.2` before this merges forward. Merge-forward conflicts in `extract.py`/`histories.py`; take 26.2's side. Helper names match #24225 (`group_inputs_by_original`, `group_hid_inputs_by_original`, `_unconverted`, `_invocation_section`, `_original_key`).
