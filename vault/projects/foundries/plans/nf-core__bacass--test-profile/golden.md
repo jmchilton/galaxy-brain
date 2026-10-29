@@ -15,7 +15,7 @@ This is the test-profile variant of a golden plan; a separate whole-pipeline pla
 - Source: nf-core/bacass 2.5.0, https://github.com/nf-core/bacass, commit `76e4b12cacdc242891ea57e723c5e273f4ac71b4`, MIT. The pin is in the source summary's `source.version`; the local fixture clone `workflow-fixtures/pipelines/nf-core__bacass` was used for the citations here.
 - Selected test candidate: `tests/default.nf.test::-profile test` (summary `test_selection.status: selected`). The test runs `test("-profile test")` (tests/default.nf.test:7), with profile `test` coming from `profile "test"` in nf-test.config:15, and overrides only `outdir` (tests/default.nf.test:10-12).
 - Test profile: `conf/test.config` sets `input = params.pipelines_testdata_base_path + 'bacass/bacass_short_reseq.tsv'` (conf/test.config:26) and `prokka_args = " --fast"`, `assembly_type = 'short'`, `skip_pycoqc = true`, `skip_kraken2 = true`, `skip_kmerfinder = true` (conf/test.config:29-33). With `pipelines_testdata_base_path = 'https://raw.githubusercontent.com/nf-core/test-datasets/'` (nextflow.config:90) the sample sheet URL is https://raw.githubusercontent.com/nf-core/test-datasets/bacass/bacass_short_reseq.tsv.
-- Evidence availability: the remote sample sheet and its FASTQ files were not fetched during brief production. What the sheet contains is known only from the caller and from the test snapshot `tests/default.nf.test.snap`.
+- Evidence availability: the remote sample sheet and its FASTQ files were not fetched during brief production. The coordinator fetched the sheet afterwards (`bacass_short_reseq.tsv` at nf-core/test-datasets branch `bacass`, fetched by the coordinator 2026-10-29); its contents below come from that fetch and the test snapshot `tests/default.nf.test.snap`.
 - Caller instructions: `caller-request.md` (objective, scope, "no Galaxy requirements beyond that").
 - Caller-supplied evidence about Galaxy (recorded with attribution, not inferred): the Galaxy BUSCO wrapper is offline-only and reads lineages from the `busco_database` data table.
 
@@ -52,9 +52,9 @@ Caller: exclude long-read, hybrid, other assemblers/annotators, and tools the te
 
 Inputs (source-supported):
 
-- A sample sheet (`.tsv` in the test profile, conf/test.config:26) with columns ID, R1, R2, LongFastQ, Fast5, GenomeSize (assets/schema_input.json). Only ID is required; `NA` marks an absent file. In the test profile only ID, R1 and R2 carry data (caller; the sheet was not fetched).
+- A sample sheet (`.tsv` in the test profile, conf/test.config:26) with columns ID, R1, R2, LongFastQ, Fast5, GenomeSize (assets/schema_input.json). Only ID is required; `NA` marks an absent file. In the test sheet, ID, R1, R2 and GenomeSize (`2.8m` on every row) carry data; LongFastQ and Fast5 are `NA` (`bacass_short_reseq.tsv` at nf-core/test-datasets branch `bacass`, fetched by the coordinator 2026-10-29).
 - Per run, gzipped FASTQ short reads. The test data are paired-end: the snapshot has fastp Read 2 plots (tests/default.nf.test.snap:342).
-- The test sheet has three rows and two sample IDs, one ID repeated across two runs (caller). The snapshot shows two samples, ERR044595 and ERR064912 (tests/default.nf.test.snap:77-82), and a CAT_FASTQ_SHORT version entry (tests/default.nf.test.snap:9-11). Which ID repeats is not verified.
+- The test sheet has three rows and two sample IDs: ERR044595 appears twice (runs `ERR044595_1M_*` and `r-ERR044595_1M_*`), ERR064912 once (`bacass_short_reseq.tsv` at nf-core/test-datasets branch `bacass`, fetched by the coordinator 2026-10-29). The snapshot shows two samples, ERR044595 and ERR064912 (tests/default.nf.test.snap:77-82), and a CAT_FASTQ_SHORT version entry (tests/default.nf.test.snap:9-11).
 - BUSCO lineage dataset `bacteria_odb10`. The source downloads it at runtime: `busco_db_path` defaults to `null` (nextflow.config:43), so the module omits `--download_path` (`busco_lineages_path ? "--download_path ${busco_lineages_path}" : ''`, modules/nf-core/busco/busco/main.nf:52) and the output contains `busco/busco_downloads` (tests/default.nf.test.snap:146).
 - Prokka uses no external database parameter in this path; `ch_proteins` is `[]` when `prokka_proteins` is empty and the third argument is `[]` (workflows/bacass.nf:97, 569-573).
 
@@ -94,11 +94,6 @@ Outputs (scientific roles; per sample unless noted):
 
 ### Open questions
 
-- Which sample ID repeats in the test sheet, and in how many runs?
-  - Proposed: the sheet has three paired-end rows over two IDs (ERR044595, ERR064912); one ID has two runs, which the workflow merges per read direction before QC. Use the sheet as published.
-  - Evidence: caller states three rows, two IDs, one duplicated. The snapshot shows exactly two samples (tests/default.nf.test.snap:77-82) and a CAT_FASTQ_SHORT task version (tests/default.nf.test.snap:9-11).
-  - Confidence: low
-  - Missing: the contents of `bacass_short_reseq.tsv`, which was not fetched.
 - Must final results match the source snapshot's content checksums (e.g. Unicycler scaffold md5s)?
   - Proposed: no. Require the scientific outputs listed under Acceptance criteria for both samples; do not require byte-identical outputs or the source's tool versions.
   - Evidence: the caller asks for an "equivalent" workflow without naming fidelity criteria. The source pins Unicycler 0.5.1, fastp 0.24.0, BUSCO 5.8.3, Prokka 1.14.6, QUAST 5.2.0 in its snapshot (tests/default.nf.test.snap:6-31), and assembler output depends on the tool version.
@@ -139,6 +134,7 @@ Outputs (scientific roles; per sample unless noted):
 
 - Caller: the scope is the default test-profile path; long-read, hybrid, other assemblers and annotators, and the tools the test profile skips are out.
 - Caller: run merging of the duplicate sample ID is in scope.
+- Source fact (fetched sheet `bacass_short_reseq.tsv`, nf-core/test-datasets branch `bacass`, 2026-10-29): ERR044595 has two runs (`ERR044595_1M_*`, `r-ERR044595_1M_*`), ERR064912 one; all three rows are paired-end with GenomeSize `2.8m`. The test uses the sheet as published.
 - Caller: BUSCO, Prokka and MultiQC are in.
 - Caller: no expert-provided Galaxy requirements; the terminal artifact of this run is the brief.
 
@@ -169,7 +165,7 @@ Observed from probes taken 2026-10-29T20:26:21Z on the brief-production host (`e
 - Host: Linux x86_64, 4 CPUs, MemTotal 15333296 kB (MemAvailable 9229708 kB at probe time), swap 16777212 kB, root filesystem 496G with 440G available.
 - Another driver's Galaxy server and `planemo test` run were active on the host at probe time.
 - Brief production ran under no-install, no-container-pull, no-download rules (caller). Network access and install permissions for the build agent: not stated (unknown).
-- BUSCO lineage data: a search for BUSCO lineage data and Galaxy data tables returned nothing (the caller reports the search covered `~/.planemo`).
+- BUSCO lineage data: a search for BUSCO lineage data and Galaxy data tables returned nothing (the brief-production probe's search covered `~/.planemo`).
 
 ### Containerization
 
