@@ -10,5 +10,9 @@ From golden-plan runs on the Linux host. Process: [RUN_FINDINGS.md](../../../../
 | 04 | [Tool summaries have no command or requirements](04-tool-summary-no-command.md) | jmchilton/galaxy-tool-util-ts | Foundry #553 (comment corrects it), #648 | draft |
 | 05 | [Debug Mold undefined on a green run](05-debug-mold-green-handoff.md); nobody owns the ledger close | galaxyproject/foundry | related #662, PR #732 | draft |
 | 06 | [Weak test assertions](06-weak-test-assertions.md): values fixed before any run, never tightened | galaxyproject/foundry | related #662 | draft; run-output retention fixed in TEST_PIPELINE.md |
+| 07 | [`summarize-nextflow` CLI misreads ad hoc pipelines](07-summarize-nextflow-adhoc-pipeline.md): five resolver bugs (anonymous workflow, tuple IO, params, containers, license) | galaxyproject/foundry | related #666, #111, #211, #176 | draft |
+| 08 | [Test selection falls back to defaults only](08-test-selection-default-fallback.md) when there's no nf-test or test profile | galaxyproject/foundry | related #67, #211, #666, PRs #528, #529 | draft; revise local Mold fix `0d8daf0e`; rev 19 collides with two unpushed branches |
+| 09 | [Brief changes cited facts without re-reading source](09-brief-source-fidelity.md) | galaxyproject/foundry | same class as #647 | draft; v0 corrected by hand |
+| 10 | [Brief Mold has no inputs for caller request or environment](10-brief-mold-input-contract.md); test-requirement placement and confidence scale undefined | galaxyproject/foundry | related #694/PR #696, #725/PR #728 | draft |
 
-Seen in: `~/foundry-runs/prose-wb2g-demo-v1-2026-10-29/` (all six).
+Seen in: 01–06 `~/foundry-runs/prose-wb2g-demo-v1-2026-10-29/`; 07–10 `~/foundry-runs/prose-nf2wb-callings-2026-10-29/`.
