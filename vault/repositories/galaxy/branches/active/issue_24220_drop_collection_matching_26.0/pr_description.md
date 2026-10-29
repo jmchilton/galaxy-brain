@@ -13,7 +13,7 @@ Drag a collection onto a tool form collection input and the client decides by `e
 
 All seven rows of the issue's table are fixed: `paired` accepted directly on `paired_or_unpaired`, `list`/`list:paired` accepted directly on `list:paired_or_unpaired` and mapped over on `paired_or_unpaired`, `sample_sheet` accepted on `list`, `X:paired_or_unpaired` refused on `paired`, the deepest declared type picked for map-over, and dropped collection elements mapped over like collections.
 
-***One drop is newly allowed on purpose: a mapped-over drop onto a `sample_sheet` input with column definitions, because the 26.0 dropdown already lists and runs it (see Risks).***
+***Drag and drop is stricter than the dropdown in one way: it refuses map-overs that the dropdown lists but the server can't split at submit ("Cannot split collection in desired fashion."). That covers any map-over onto a `sample_sheet` input and compound `X:paired_or_unpaired` inputs such as `list:list` on `list:paired_or_unpaired` (see Risks). `release_26.0` refused these drops too.***
 
 <details><summary>How</summary>
 
@@ -35,20 +35,21 @@ All seven rows of the issue's table are fixed: `paired` accepted directly on `pa
 
 ## Risks
 
-One behavior is a judgement call: a mapped-over drop onto a `sample_sheet` input with column definitions is now accepted, matching the 26.0 dropdown, and each job gets a plain list without column data. Everything else is a two-way door.
+Drag and drop now refuses some map-overs that the dropdown still lists, because the server fails them at submit. Everything is a two-way door.
 
 <details><summary>Risk Details</summary>
 
-- The `sample_sheet` relaxation above follows the server's `match_multirun_collections`, which doesn't check column definitions. If that's the server's bug, the fix is a server issue plus reverting one `match.mapOverType === null &&` guard and flipping its test.
+- The refusal requires the collection type to end in `:<map_over_type>` (`single_datasets` excepted), as `_split_dataset_collection` does. For `sample_sheet` that is the intended semantics, since a split never yields a sample sheet. For compound `X:paired_or_unpaired` it is a stopgap: `collection_semantics.md` documents `list:list` and `list:list:paired` → `list:paired_or_unpaired` as valid. The server's listing and split don't yet agree on how to run them. A server follow-up would rewrite those to a literal split type and drop the matching refusal rows.
+- Map-over still picks the deepest input type, like the server. If that type is unsplittable, a shallower type that would run is not tried.
 - The `formattedOptions` patch that keeps a dropped element's `map_over_type` works around the server's `DataCollectionToolParameter.to_dict` omitting it; a server fix would let it go.
-- Merge forward: `dev` renamed `canMatch` to `accepts`, so `collectionMatch.ts` needs that rename on merge.
+- Merge forward: `release_26.1` (39597b33667) and `dev` renamed `canMatch` to `accepts`. `collectionMatch.ts` is a new file, so the merge won't conflict; only tsc/vitest will catch it.
 - 25.1 isn't targeted: its dropdown still has the suffix bug, so a fixed client would disagree with it.
 
 </details>
 
 <details><summary>Risk Review Advice</summary>
 
-Compare `matchCollectionType` against `DataCollectionToolParameter.to_dict` / `HistoryQuery` in `basic.py` and `query.py`: direct match first, deepest map-over next, then the `paired_or_unpaired` rewrite. Then decide whether the `sample_sheet` map-over drop should follow the dropdown (as here) or the dropdown should be tightened.
+Compare `matchCollectionType` against `DataCollectionToolParameter.to_dict` / `HistoryQuery` in `basic.py` and `query.py`: direct match first, deepest map-over next, then the `paired_or_unpaired` rewrite, then the literal-suffix check from `_split_dataset_collection` in `subcollections.py`.
 
 </details>
 

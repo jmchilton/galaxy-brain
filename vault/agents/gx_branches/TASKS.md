@@ -1,6 +1,11 @@
 # Tasks
 
 ```gb-tasks
+- prompt: Review mvdbeek's commit 93ee487fbe5 on issue_24220_drop_collection_matching_26.0 in the differential review. Then update the live PR body from pr_description.md (Risks rewritten), post the suggested reply in review_response_mvdbeek_1.md, and decide where the server follow-up in followup_issue_split_paired_or_unpaired.md lands (release_26.0 or dev).
+  agent_dir: gx_branches
+  kind: human
+  link: https://github.com/galaxyproject/galaxy/pull/24453
+  record: galaxy/branches/issue_24220_drop_collection_matching_26.0
 - prompt: Review dannon-response changes (rebase + tool-count assertion) in the differential review, open the follow-up issue from followup_atomic_import_issue.md (galaxyproject/galaxy, dev), then post the suggested comment from review_pushback_dannon_1.md with the issue number filled in.
   agent_dir: gx_branches
   kind: human
@@ -16,148 +21,6 @@
   kind: human
   link: https://github.com/galaxyproject/galaxy/pull/24473
   record: galaxy/branches/issue_24457_password_reset_25.1
-- prompt: |
-    Run ./POLISH_BRANCH.md compare_runs
-  agent_dir: gx_branches
-  record: galaxy/branches/compare_runs
-  description: |
-    ✨ Compare runs of a workflow step, workflow outputs or a tool in one table (3 GET endpoints, All runs tab, `/comparisons`, 5 entry points, diff/export/highlights); baselines + 10 base refactors first; hardened ×3, READY. Decisions: PR split, [design questions](active/compare_runs/design_questions.md). Base `dev`, head `be7415d94dd`.
-  status: recommended
-  suggested_by: gx_branches/SUGGESTED_TASKS.md#Polish Branches
-- prompt: |
-    Run ./POLISH_BRANCH.md issue_23902_qualified_output_references
-  agent_dir: gx_branches
-  record: galaxy/branches/issue_23902_qualified_output_references
-  description: |
-    ✨ From 26.2, unqualified `format_source`/`metadata_source` fail tool load; runtime skips legacy aliases (fixes #23902).
-  status: recommended
-  suggested_by: gx_branches/SUGGESTED_TASKS.md#Polish Branches
-- prompt: |
-    Run ./POLISH_BRANCH.md api_gotchas
-  agent_dir: gx_branches
-  record: galaxy/branches/api_gotchas
-  description: |
-    ✨ Documents API client best practices for external projects, plus a review rubric for API-driven work.
-  status: recommended
-  suggested_by: gx_branches/SUGGESTED_TASKS.md#Polish Branches
-- prompt: |
-    Run ./POLISH_BRANCH.md issue_3899_pulsar_container_deps
-  agent_dir: gx_branches
-  record: galaxy/branches/issue_3899_pulsar_container_deps
-  description: |
-    ✨ Respects a Pulsar container job’s dependency-resolution opt-in (#3899).
-  status: recommended
-  suggested_by: gx_branches/SUGGESTED_TASKS.md#Polish Branches
-- prompt: |
-    De-conflict branch selenium_faq_account_workflow_display_26.2. BRANCH_DIRECTORY is vault/repositories/galaxy/branches/active/selenium_faq_account_workflow_display_26.2/. Rebase it onto its actual base branch (`parent_branch` when present, otherwise `upstream_base_branch`, per ../_shared/REPOSITORY_BRANCHES.md), reconciling any disagreement with the PR's `baseRefName` first. Resolve mechanical and clear conflicts, and stop and ask me about substantial ones. Force-push with `--force-with-lease` to the `jmchilton` fork, update the SHA in the branch record and queue, and take a `revision` snapshot per ../_shared/PROCESS_DIFFERENTIAL_REVIEW_SNAPSHOT.md.
-  agent_dir: gx_branches
-  profile: Sonnet (high)
-  link: https://github.com/galaxyproject/galaxy/pull/24482
-  record: galaxy/branches/selenium_faq_account_workflow_display_26.2
-  description: |
-    🔀 FAQ account/storage, workflow editor and populated/empty display-catalog tests and helpers. Base `release_26.2`. Conflicting files not enumerated (GitHub reports CONFLICTING).
-  status: recommended
-  suggested_by: gx_branches/SUGGESTED_TASKS.md#De-conflict Branches
-- prompt: |
-    De-conflict branch vitest_story_play. BRANCH_DIRECTORY is vault/repositories/galaxy/branches/active/vitest_story_play/. Rebase it onto its actual base branch (`parent_branch` when present, otherwise `upstream_base_branch`, per ../_shared/REPOSITORY_BRANCHES.md), reconciling any disagreement with the PR's `baseRefName` first. Resolve mechanical and clear conflicts, and stop and ask me about substantial ones. Force-push with `--force-with-lease` to the `jmchilton` fork, update the SHA in the branch record and queue, and take a `revision` snapshot per ../_shared/PROCESS_DIFFERENTIAL_REVIEW_SNAPSHOT.md.
-  agent_dir: gx_branches
-  profile: Sonnet (high)
-  link: https://github.com/galaxyproject/galaxy/pull/24300
-  record: galaxy/branches/vitest_story_play
-  description: |
-    🔀 Storybook stories, browser plays and accessibility checks for richer client-test review. Keep draft RFC per John. Conflicting files not enumerated (GitHub reports CONFLICTING).
-  status: recommended
-  suggested_by: gx_branches/SUGGESTED_TASKS.md#De-conflict Branches
-- prompt: |
-    De-conflict branch extract_next_followups. BRANCH_DIRECTORY is vault/repositories/galaxy/branches/active/extract_next_followups/. Rebase it onto its actual base branch (`parent_branch` when present, otherwise `upstream_base_branch`, per ../_shared/REPOSITORY_BRANCHES.md), reconciling any disagreement with the PR's `baseRefName` first. Resolve mechanical and clear conflicts, and stop and ask me about substantial ones. Force-push with `--force-with-lease` to the `jmchilton` fork, update the SHA in the branch record and queue, and take a `revision` snapshot per ../_shared/PROCESS_DIFFERENTIAL_REVIEW_SNAPSHOT.md.
-  agent_dir: gx_branches
-  profile: Sonnet (high)
-  link: https://github.com/galaxyproject/galaxy/pull/24225
-  record: galaxy/branches/extract_next_followups
-  description: |
-    🔀 Fixes notebook-to-workflow extraction, report references and editor behavior after #22860. Base `release_26.2`; must merge before 26.2.0 (API rename). Draft [WIP] by John's request: up early while they review it in detail. Conflicting files not enumerated (GitHub reports CONFLICTING).
-  status: recommended
-  suggested_by: gx_branches/SUGGESTED_TASKS.md#De-conflict Branches
-- prompt: |
-    De-conflict branch vitest_readability. BRANCH_DIRECTORY is vault/repositories/galaxy/branches/active/vitest_readability/. Rebase it onto its actual base branch (`parent_branch` when present, otherwise `upstream_base_branch`, per ../_shared/REPOSITORY_BRANCHES.md), reconciling any disagreement with the PR's `baseRefName` first. Resolve mechanical and clear conflicts, and stop and ask me about substantial ones. Force-push with `--force-with-lease` to the `jmchilton` fork, update the SHA in the branch record and queue, and take a `revision` snapshot per ../_shared/PROCESS_DIFFERENTIAL_REVIEW_SNAPSHOT.md.
-  agent_dir: gx_branches
-  profile: Sonnet (high)
-  link: https://github.com/galaxyproject/galaxy/pull/24038
-  record: galaxy/branches/vitest_readability
-  description: |
-    🔀 Rewrites client tests for readability, shared fixtures and stronger assertions. Conflicting files not enumerated (GitHub reports CONFLICTING).
-  status: recommended
-  suggested_by: gx_branches/SUGGESTED_TASKS.md#De-conflict Branches
-- prompt: |
-    De-conflict branch subworkflow_mapping. BRANCH_DIRECTORY is vault/repositories/galaxy/branches/active/subworkflow_mapping/. Rebase it onto its actual base branch (`parent_branch` when present, otherwise `upstream_base_branch`, per ../_shared/REPOSITORY_BRANCHES.md), reconciling any disagreement with the PR's `baseRefName` first. Resolve mechanical and clear conflicts, and stop and ask me about substantial ones. Force-push with `--force-with-lease` to the `jmchilton` fork, update the SHA in the branch record and queue, and take a `revision` snapshot per ../_shared/PROCESS_DIFFERENTIAL_REVIEW_SNAPSHOT.md.
-  agent_dir: gx_branches
-  profile: Sonnet (high)
-  link: https://github.com/galaxyproject/galaxy/pull/23676
-  record: galaxy/branches/subworkflow_mapping
-  description: |
-    🔀 Brings subworkflow mapping inline between the workflow editor and the backend. Conflicting files not enumerated (GitHub reports CONFLICTING).
-  status: recommended
-  suggested_by: gx_branches/SUGGESTED_TASKS.md#De-conflict Branches
-- prompt: |
-    De-conflict branch htcondor_pulsar. BRANCH_DIRECTORY is vault/repositories/galaxy/branches/active/htcondor_pulsar/. Rebase it onto its actual base branch (`parent_branch` when present, otherwise `upstream_base_branch`, per ../_shared/REPOSITORY_BRANCHES.md), reconciling any disagreement with the PR's `baseRefName` first. Resolve mechanical and clear conflicts, and stop and ask me about substantial ones. Force-push with `--force-with-lease` to the `jmchilton` fork, update the SHA in the branch record and queue, and take a `revision` snapshot per ../_shared/PROCESS_DIFFERENTIAL_REVIEW_SNAPSHOT.md.
-  agent_dir: gx_branches
-  profile: Sonnet (high)
-  link: https://github.com/galaxyproject/galaxy/pull/23326
-  record: galaxy/branches/htcondor_pulsar
-  description: |
-    🔀 Shares HTCondor mechanics with Pulsar and bounds held-job handling. Conflicting files not enumerated (GitHub reports CONFLICTING).
-  status: recommended
-  suggested_by: gx_branches/SUGGESTED_TASKS.md#De-conflict Branches
-- prompt: |
-    De-conflict branch wf_tool_state. BRANCH_DIRECTORY is vault/repositories/galaxy/branches/active/wf_tool_state/. Rebase it onto its actual base branch (`parent_branch` when present, otherwise `upstream_base_branch`, per ../_shared/REPOSITORY_BRANCHES.md), reconciling any disagreement with the PR's `baseRefName` first. Resolve mechanical and clear conflicts, and stop and ask me about substantial ones. Force-push with `--force-with-lease` to the `jmchilton` fork, update the SHA in the branch record and queue, and take a `revision` snapshot per ../_shared/PROCESS_DIFFERENTIAL_REVIEW_SNAPSHOT.md.
-  agent_dir: gx_branches
-  profile: Sonnet (high)
-  link: https://github.com/galaxyproject/galaxy/pull/22996
-  record: galaxy/branches/wf_tool_state
-  description: |
-    🔀 Adds gxwf CLI tooling for validating and converting stateful workflows. Conflicting files not enumerated (GitHub reports CONFLICTING).
-  status: recommended
-  suggested_by: gx_branches/SUGGESTED_TASKS.md#De-conflict Branches
-- prompt: |
-    De-conflict branch fix_copied_datasets. BRANCH_DIRECTORY is vault/repositories/galaxy/branches/active/fix_copied_datasets/. Rebase it onto its actual base branch (`parent_branch` when present, otherwise `upstream_base_branch`, per ../_shared/REPOSITORY_BRANCHES.md), reconciling any disagreement with the PR's `baseRefName` first. Resolve mechanical and clear conflicts, and stop and ask me about substantial ones. Force-push with `--force-with-lease` to the `jmchilton` fork, update the SHA in the branch record and queue, and take a `revision` snapshot per ../_shared/PROCESS_DIFFERENTIAL_REVIEW_SNAPSHOT.md.
-  agent_dir: gx_branches
-  profile: Sonnet (high)
-  link: https://github.com/galaxyproject/galaxy/pull/21806
-  record: galaxy/branches/fix_copied_datasets
-  description: |
-    🔀 Fixes workflow extraction for datasets copied across histories. Conflicting files not enumerated (GitHub reports CONFLICTING).
-  status: recommended
-  suggested_by: gx_branches/SUGGESTED_TASKS.md#De-conflict Branches
-- prompt: |
-    De-conflict branch collection_restructure_panel. BRANCH_DIRECTORY is vault/repositories/galaxy/branches/active/collection_restructure_panel/. Rebase it onto its actual base branch (`parent_branch` when present, otherwise `upstream_base_branch`, per ../_shared/REPOSITORY_BRANCHES.md), reconciling any disagreement with the PR's `baseRefName` first. Resolve mechanical and clear conflicts, and stop and ask me about substantial ones. Force-push with `--force-with-lease` to the `jmchilton` fork, update the SHA in the branch record and queue, and take a `revision` snapshot per ../_shared/PROCESS_DIFFERENTIAL_REVIEW_SNAPSHOT.md.
-  agent_dir: gx_branches
-  profile: Sonnet (high)
-  link: https://github.com/galaxyproject/galaxy/pull/12238
-  record: galaxy/branches/collection_restructure_panel
-  description: |
-    🔀 Adds a panel for transforming dataset collection layouts. Conflicting files not enumerated (GitHub reports CONFLICTING).
-  status: recommended
-  suggested_by: gx_branches/SUGGESTED_TASKS.md#De-conflict Branches
-- prompt: |
-    De-conflict branch pulsar-mq-pull. BRANCH_DIRECTORY is vault/repositories/galaxy/branches/active/pulsar-mq-pull/. Rebase it onto its actual base branch (`parent_branch` when present, otherwise `upstream_base_branch`, per ../_shared/REPOSITORY_BRANCHES.md), reconciling any disagreement with the PR's `baseRefName` first. Resolve mechanical and clear conflicts, and stop and ask me about substantial ones. Force-push with `--force-with-lease` to the `jmchilton` fork, update the SHA in the branch record and queue, and take a `revision` snapshot per ../_shared/PROCESS_DIFFERENTIAL_REVIEW_SNAPSHOT.md.
-  agent_dir: gx_branches
-  profile: Sonnet (high)
-  link: https://github.com/galaxyproject/galaxy/pull/9911
-  record: galaxy/branches/pulsar-mq-pull
-  description: |
-    🔀 Polls for Pulsar MQ jobs missed by normal event handling. Conflicting files not enumerated (GitHub reports CONFLICTING).
-  status: recommended
-  suggested_by: gx_branches/SUGGESTED_TASKS.md#De-conflict Branches
-- prompt: |
-    Respond to mvdbeek's review of galaxyproject/galaxy#24453 (branch issue_24220_drop_collection_matching_26.0) per ../_shared/RESPOND_TO_REVIEW.md. BRANCH_DIRECTORY is vault/repositories/galaxy/branches/active/issue_24220_drop_collection_matching_26.0/.
-  agent_dir: gx_branches
-  profile: Opus (low)
-  link: https://github.com/galaxyproject/galaxy/pull/24453
-  record: galaxy/branches/issue_24220_drop_collection_matching_26.0
-  description: |
-    🙇 Tool form drag and drop matches dropped collections to collection inputs like the server's dropdown (#24220). Base `release_26.0`. Review: drops now accepted for map-overs the server can't split (400); mvdbeek pushed a fix commit to cherry-pick.
-  status: recommended
-  suggested_by: gx_branches/SUGGESTED_TASKS.md#Respond to Review (deferential)
 - prompt: |
     Let's talk about branch issue_24529_custom_build_fasta_history_26.0. The branch record is vault/repositories/galaxy/branches/active/issue_24529_custom_build_fasta_history_26.0/.
   agent_dir: gx_branches
@@ -270,33 +133,6 @@
     🤔 Conflicting duplicate tool-test params raise "Ambiguous" instead of silently keeping one; `<edit_attributes>` stored as dicts (#24389). Base `release_26.1`. Closed: split into the `_lint_` 26.1 and `_reject_` 26.2 branches. Decision: abandon or keep as reference.
   status: idea
   suggested_by: gx_branches/SUGGESTED_TASKS.md#Decide Branches
-- prompt: |
-    Let's talk about branch deployment_test_fixes_26_2. The branch record is vault/repositories/galaxy/branches/active/deployment_test_fixes_26_2/.
-  agent_dir: gx_branches
-  link: https://github.com/galaxyproject/galaxy/pull/24489
-  record: galaxy/branches/deployment_test_fixes_26_2
-  description: |
-    🔀 Restore deployment test collection, failure propagation, bootstrap and runtime capability skips.
-  status: recommended
-  suggested_by: gx_branches/SUGGESTED_TASKS.md#Merge Branches
-- prompt: |
-    Let's talk about branch issue_24469_collection_build_reset_selection_25.1. The branch record is vault/repositories/galaxy/branches/active/issue_24469_collection_build_reset_selection_25.1/.
-  agent_dir: gx_branches
-  link: https://github.com/galaxyproject/galaxy/pull/24487
-  record: galaxy/branches/issue_24469_collection_build_reset_selection_25.1
-  description: |
-    🔀 Leave history selection mode when handing datasets to collection builders (#24469).
-  status: recommended
-  suggested_by: gx_branches/SUGGESTED_TASKS.md#Merge Branches
-- prompt: |
-    Let's talk about branch selenium_tool_form_use_cached_job. The branch record is vault/repositories/galaxy/branches/active/selenium_tool_form_use_cached_job/.
-  agent_dir: gx_branches
-  link: https://github.com/galaxyproject/galaxy/pull/24451
-  record: galaxy/branches/selenium_tool_form_use_cached_job
-  description: |
-    🔀 Missing E2E test of the tool form's re-use equivalent jobs switch + `tool_form_set_switch` helper.
-  status: recommended
-  suggested_by: gx_branches/SUGGESTED_TASKS.md#Merge Branches
 - prompt: |
     Let's talk about branch untyped_param_lint_declared_labels. The branch record is vault/repositories/galaxy/branches/active/untyped_param_lint_declared_labels/.
   agent_dir: gx_branches
