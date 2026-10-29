@@ -11,3 +11,7 @@ PR open against `dev`, by itisAliRH. Branch carries open #24260's commits; only 
 ## Notes
 
 - Verifier's FilterMenuBoolean reset scratch test (disproved thermo P3 1) was not committed; candidate to add.
+
+## Archived — 2026-10-29
+
+GitHub: MERGED 2026-10-29 (merge commit `d763a6ae0093c79ab1cee19b7b38990d9aaab4c9`). Tracking ended on merge.

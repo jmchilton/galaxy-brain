@@ -7,3 +7,7 @@
 Initial review of `63c6cbf9eb3` complete 2026-10-24; APPROVED with response posted 2026-10-26 (no PR from review branch, not pushed to PR head): two P2s + three P3s, all fixed on `pr_24367_review_0` (`dd33df60f6a`, pushed to fork; per-job backstop in resubmit loop, `__fail__` in shared helper, integration test vs real `JobWrapper.fail`). Unit tests (sqlite) + new integration test pass; postgres variants skipped locally.
 
 Open, ready for review, against `release_26.2`. Author afgane. 2 files, +82/-10. Worktree `~/projects/worktrees/galaxy/pr/24367` (bootstrapped `.venv`). `initial_review.md` header says low effort; it ran at medium.
+
+## Archived — 2026-10-29
+
+GitHub: MERGED 2026-10-27 (merge commit `3a8f6bfd8d80cda02d2498ac37c8c40f0b1d457e`). Tracking ended on merge.

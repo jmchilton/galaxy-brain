@@ -7,3 +7,7 @@
 Initial review of `cece83167b7` delivered 2026-10-19 as a [comment](https://github.com/galaxyproject/galaxy/pull/24262#issuecomment-6272736977) (John: LGTM, asked to integrate the de-duplication). Two P2s, two P3s; P2 1, P2 2 (Selenium test, red/green verified) and P3 1 fixed on `pr_24262_review_0` (`7cf62c963ca`, `73a590377f8`, `940c558fc04`).
 
 PR open against `dev`, by itisAliRH; fixes #24011. Worktree: `~/projects/worktrees/galaxy/pr/24262` (on `pr_24262_review_0`).
+
+## Archived — 2026-10-29
+
+GitHub: MERGED 2026-10-29 (merge commit `6c71d34f8c7925105ce9b80b6ba658684c21f3f9`). Tracking ended on merge.

@@ -7,3 +7,7 @@
 Review: initial review ready, unposted, on 30b80862 (one P2 + one P3, both test gaps fixed on `pr_24513_review_0`).
 
 PR: open against `release_26.0` (davelopez); fixes #24512.
+
+## Archived — 2026-10-29
+
+GitHub: MERGED 2026-10-27 (merge commit `29d1801ad21b42094ca3914a77faaf8e6937029d`). Tracking ended on merge.

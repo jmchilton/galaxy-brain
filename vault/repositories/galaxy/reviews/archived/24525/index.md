@@ -9,3 +9,7 @@
   - Review branch `pr_24525_review_0` on jmchilton fork — [details](review_0_branch_details.md)
   - Branch test challenge (2026-10-28, head `0ae6cf53`): [review_0_test_challenges_debrief.md](review_0_test_challenges_debrief.md)
   - Reports: [initial_review.md](initial_review.md), [test_challenges_review.md](test_challenges_review.md), [risks.md](risks.md), [initial_review_agents.md](initial_review_agents.md)
+
+## Archived — 2026-10-29
+
+GitHub: MERGED 2026-10-29 (merge commit `62dcd7b0a7ad8aff5eaf04401bebd9060fdea3ce`). Tracking ended on merge.

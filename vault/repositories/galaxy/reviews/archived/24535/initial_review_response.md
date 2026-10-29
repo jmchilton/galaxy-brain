@@ -1,4 +1,4 @@
-
+Things to consider below - understandable I think fixing this is more important than holding up this up so feel free to merge as is and follow up if you're interested. -John
 
 <details><summary>Automated Review Details</summary>
 

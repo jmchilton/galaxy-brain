@@ -19,3 +19,7 @@ All five threads are resolved by the author; this assessment checks implementati
 ## Risks
 
 Risk is low: localized, reversible changes to failure reporting and regression coverage (a two-way door). Runner failure/resubmission behavior and diagnostic persistence were specifically checked.
+
+## Archived — 2026-10-29
+
+GitHub: MERGED 2026-10-14 (merge commit `a7c89a6e5783099bee598b62f9dc4985167e7fe2`). Tracking ended on merge.

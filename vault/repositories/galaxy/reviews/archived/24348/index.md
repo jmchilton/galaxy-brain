@@ -7,3 +7,7 @@
 Initial review of `ebd02a8b4b47b2ec4d9ec406c5afb65ed81f5c2d` complete, unposted: one verified P2 concurrency finding fixed on `pr_24348_review_0` (`b465fdd6e20`, pushed to John's fork); the new concurrent-access regression fails before the fix and passes afterward.
 
 PR open, targeting `release_26.0`; checked 2026-10-26, CI green except skipped CWL check; release-push-only Helm install check was not rerun locally.
+
+## Archived — 2026-10-29
+
+GitHub: MERGED 2026-10-28 (merge commit `08c21d0146dfade91244ab21f9ece90fc694eebf`). Tracking ended on merge.

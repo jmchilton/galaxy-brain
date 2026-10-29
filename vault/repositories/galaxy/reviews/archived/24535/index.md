@@ -11,3 +11,7 @@ PR open against `release_26.2` (mvdbeek), `review/high`.
 ## Related
 
 - Regression sources: [#24357](../../archived/24357/index.md) (comment_lines `IntParameter`) and [#23866](../../archived/23866/index.md) (unknown extensions → `data`). [Regression analysis](regression_analysis.md) answers John's in-line/counter and profile-gating questions.
+
+## Archived — 2026-10-29
+
+GitHub: MERGED 2026-10-29 (merge commit `8a3b0bc34d079cdc4d91dd71f38daf8a31fa2bd3`). Tracking ended on merge.
