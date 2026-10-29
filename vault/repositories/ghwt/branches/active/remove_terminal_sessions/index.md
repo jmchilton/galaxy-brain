@@ -1,18 +1,19 @@
 ---
 upstream_base_branch: main
+pr: 11
 ---
 # Remove terminal session support (tmux, zellij, wezterm, ghostty)
 
-- [Open PR](https://github.com/jmchilton/ghwt/compare/main...remove_terminal_sessions)
+- [PR #11](https://github.com/jmchilton/ghwt/pull/11)
 - [View on GitHub](https://github.com/jmchilton/ghwt/tree/remove_terminal_sessions)
 
 ## Status
 
 Implemented at `12e9cd5` and pushed; worktree `~/projects/worktrees/ghwt/branch/remove_terminal_sessions`.
 
-No PR yet; description drafted in [pr_description.md](pr_description.md).
+PR [#11](https://github.com/jmchilton/ghwt/pull/11) open (ready for review), body from [pr_description.md](pr_description.md).
 
-Lint and full test suite (123) pass locally; CI runs only once a PR opens.
+Lint and full test suite (123) pass locally; PR CI pending.
 
 ## Decisions
 

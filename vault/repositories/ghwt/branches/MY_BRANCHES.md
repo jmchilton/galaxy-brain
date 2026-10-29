@@ -4,7 +4,7 @@ Snapshot: 2026-10-29.
 
 ## Open ghwt PRs — ready from our side (`ready`)
 
-None yet.
+- [`remove_terminal_sessions`](active/remove_terminal_sessions/index.md) — Remove terminal session support (tmux, zellij, wezterm, ghostty) and `attach`/`clean-session`. [#11](https://github.com/jmchilton/ghwt/pull/11).
 
 ## Open ghwt PRs — needs attention (`attention`)
 
@@ -24,7 +24,7 @@ None yet.
 
 ## Branches — implemented (`branches_implemented`)
 
-- [`remove_terminal_sessions`](active/remove_terminal_sessions/index.md) — Remove terminal session support (tmux, zellij, wezterm, ghostty) and `attach`/`clean-session`. [Open PR](https://github.com/jmchilton/ghwt/compare/main...remove_terminal_sessions).
+None yet.
 
 ## Branches — needs polish (`branches_need_polish`)
 
