@@ -16,7 +16,13 @@ The `extract_next_followups` (#24225) fixes whose bugs also exist on `release_26
 
 ## Status
 
-`branches_implemented_needs_ci`: hardened (READY), 8 commits on `release_26.1`, head `2f0cd130446`, pushed 2026-10-28.
+`branches_ready_for_final_review`: polished, 8 commits on `release_26.1`, head `2f0cd130446`, pushed 2026-10-28.
+
+CI: unrelated reds only (on-base library Selenium, CWL setup).
+
+## Polish
+
+- [PR description](pr_description.md), [titles](pr_titles.md), [tags](pr_tags.md), [checklist](pr_checklist.md), [debrief](polish_debrief.md).
 
 ## Decisions and references
 

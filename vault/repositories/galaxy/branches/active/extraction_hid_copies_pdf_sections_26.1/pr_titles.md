@@ -1,0 +1,4 @@
+- [26.1] Fix workflow extraction with in-history copies; render PDF invocation sections
+- [26.1] Backport #24225 fixes: copied inputs in workflow extraction, PDF invocation sections
+- [26.1] Treat copies of one dataset/collection as one workflow extraction input
+- [26.1] Fix "hdca_ids contains duplicates" when extracting a workflow with copied collections
