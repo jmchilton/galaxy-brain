@@ -32,10 +32,12 @@ flowchart TD
   Sel --> D["default<br/>every PR"]
   Sel --> R["risk assessment<br/>every PR"]
   Sel --> T["test challenger<br/>PR touches tests"]
+  Sel --> PF["performance challenger<br/>PR touches queries, endpoints or fetching"]
   Sel --> TH["thermo review<br/>500+ lines"]
   Sel --> L["learning_galaxy<br/>250+ lines or on request"]
   D --> F["P1 / P2 / P3 findings"]
   T --> F
+  PF --> F
   TH --> F
   R --> RK["Risks section<br/>pasted as is"]
   L --> LG["Notes for galaxy-brain research<br/>not posted"]
@@ -46,6 +48,7 @@ flowchart TD
 | --- | --- |
 | [default](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/reviewers/default.md) | A thorough review weighted by [John's review focus](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/REVIEW_FOCUS.md): reuse, sibling-path consistency, test coverage, typing. |
 | [gx_test_challenger](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/reviewers/gx_test_challenger.md) | The same [test challenges](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/GX_PROCESS_CHALLENGE_TESTS.md) John's own branches go through, given as recommendations. |
+| [gx_performance_challenger](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/reviewers/gx_performance_challenger.md) | The same [performance challenges](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/GX_PROCESS_CHALLENGE_PERFORMANCE.md) John's own branches go through: Galaxy-scale behavior of queries, endpoints and client fetching, backed by measurements where possible. |
 | [thermo_review](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/reviewers/thermo_review.md) | Maintainability: abstraction quality, oversized files, growing tangles of conditionals. |
 | [gx_risk_assessment](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/reviewers/gx_risk_assessment.md) | One-way versus two-way doors: what the change would lock Galaxy into. |
 | [learning_galaxy](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/reviewers/learning_galaxy.md) | What a Galaxy developer should learn from architecturally interesting changes. Feeds John's notes, not your review. |
@@ -54,7 +57,7 @@ flowchart TD
 > **💭 John's Dev Philosophy:** don't keep broken input alive. If code supports input that never worked and nothing could have relied on, the review asks for it to be rejected with a load-time, lint or validation error instead.
 
 > [!TIP]
-> **💭 Workflow Rule:** effort is matched to the PR. A bug fix against a release branch gets its test and maintainability challenges at low effort. Big refactorings that don't belong in a release fix are collapsed into one P2 or P3 finding and offered as a follow-up issue instead. Thermo review starts at 500 lines here, compared with 50 on John's own branches, because John spends more attention on work they author than on PRs they review.
+> **💭 Workflow Rule:** effort is matched to the PR. A bug fix against a release branch gets its test and maintainability challenges at low effort, but not its performance challenges. Big refactorings that don't belong in a release fix are collapsed into one P2 or P3 finding and offered as a follow-up issue instead. Thermo review starts at 500 lines here, compared with 50 on John's own branches, because John spends more attention on work they author than on PRs they review.
 
 > [!TIP]
 > **💭 Stealing Best Practices:** thermo review runs the [Cursor team's thermo-nuclear code quality prompt](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/prompts/thermo-nuclear-code-quality-review_readme.md) as is, and risk assessment uses [Matt Pocock's one-way and two-way doors](https://www.youtube.com/watch?v=LlgiOCmFG_w), with a [Galaxy list](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/GX_ASSESSING_RISK.md) of which changes are which.

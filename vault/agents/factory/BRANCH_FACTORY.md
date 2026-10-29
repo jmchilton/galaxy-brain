@@ -72,7 +72,8 @@ flowchart TD
   subgraph H["Harden"]
     direction TB
     TC["Test challenges"] --> E2E["Polish E2E tests"]
-    E2E --> CX["Second-model review"]
+    E2E --> PC["Performance challenges"]
+    PC --> CX["Second-model review"]
     CX --> TN["Thermo-nuclear review"]
     TN --> RB["Refactor onto the base"]
     RB --> SE["Scope evaluation"]
@@ -85,7 +86,7 @@ flowchart TD
   St -->|"BLOCKED or ABANDON"| Dec["Queue: needs John's decision"]
 ```
 
-Not every step runs every time. Test challenges run only when the branch adds tests, E2E polish only for browser tests, thermo-nuclear only above about 50 lines or for intricate plumbing, and screenshots only for UI changes. A scope evaluation that recommends contracting scope, or a second re-scope, parks the branch for John instead of looping.
+Not every step runs every time. Test challenges run only when the branch adds tests, E2E polish only for browser tests, performance challenges only for query, endpoint or client-fetching changes, thermo-nuclear only above about 50 lines or for intricate plumbing, and screenshots only for UI changes. A scope evaluation that recommends contracting scope, or a second re-scope, parks the branch for John instead of looping.
 
 > [!TIP]
 > **💭 John's Dev Philosophy:** refactoring and tests always land ahead of the implementation. The fix or feature should look like it always belonged in the codebase. New tests for an existing component land first, in their own "Baseline tests" commits that pass on the base branch. Reviewers can then see exactly what the change alters, and the baseline can be split into its own PR. John has been doing this for Galaxy for over a decade, and it is a pattern agents should follow. In the era of agentic development we need to prioritize developer attention and understanding, and baseline refactoring and tests aid this.
@@ -155,6 +156,7 @@ Each check in a PR's "Agentic Checks" section links to the process that produced
 | --- | --- |
 | [Scope Evaluation](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/GX_PROCESS_SCOPE_EVALUATION.md) | Alternative scopes were weighed against the branch as implemented, leaning toward modest expansion. Larger branches also get possible ways to split them into several PRs. |
 | [John's Galaxy Test Challenges](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/GX_PROCESS_CHALLENGE_TESTS.md) | Every new test was challenged: dropped, rewritten at a better layer, de-mocked, or backed up by a missing E2E test. |
+| [Galaxy Performance Challenges](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/GX_PROCESS_CHALLENGE_PERFORMANCE.md) | The change was checked at Galaxy scale against patterns from past performance reviews (unbounded queries, per-row round trips, fan-out joins, request storms), backed by measurements where possible. |
 | [Cursor's Thermo Nuclear Review](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/prompts/thermo-nuclear-code-quality-review.md) | A strict maintainability review covering abstraction quality, oversized files and growing tangles of conditionals, with its findings addressed. |
 | Second Frontier Model Review | A model from another vendor reviewed the branch, and the recommendations that made sense were applied. |
 | [Refactoring of base branch](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/GX_PROCESS_REFACTOR_BASELINE.md) | Refactoring that the change needed was moved into its own commits ahead of it, so the fix or feature reads as a small diff on top. |

@@ -62,9 +62,10 @@ Each of these files (if present in the branch) represents one check to document.
 - `scope_evaluation.md` CHECK_NAME = "Scope Evaluation", CHECK_LINK = https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/GX_PROCESS_SCOPE_EVALUATION.md
 - `thermo_nuclear_review.md` CHECK_NAME = "Cursor's Thermo Nuclear Review", CHECK_LINK = https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/prompts/thermo-nuclear-code-quality-review.md
 - `test_challenges_debrief.md` CHECK_NAME = "John's Galaxy Test Challenges", CHECK_LINK = https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/GX_PROCESS_CHALLENGE_TESTS.md
+- `performance_challenges_debrief.md` CHECK_NAME = "N.O.T. M.A.R.I.U.S. Performance Challenges", CHECK_LINK = https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/GX_PROCESS_CHALLENGE_PERFORMANCE.md
 - `codex_review.md` CHECK_NAME = "Second Frontier Model Review" (no link)
 - `baseline_refactor.md` CHECK_NAME = "Refactoring of base branch", CHECK_LINK = https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/GX_PROCESS_REFACTOR_BASELINE.md
-- `pr_checklist.md` CHECK_NAME = "John's Checklist", CHECK_LINK = https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/gx_pr_checklists/GENERAL.md. Its details are the `- [x] <question> <answer>` list.
+- `pr_checklist.md` CHECK_NAME = "John's Agentic Checklist", CHECK_LINK = https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/gx_pr_checklists/GENERAL.md. Its details are the `- [x] <question> <answer>` list.
 
 ## Openers
 
