@@ -44,3 +44,8 @@ Five independent causes in `packages/summarize-nextflow/src/resolver.ts`:
 Expected: treat the anonymous entrypoint as primary when no named workflow exists, and name it from manifest, then remote, then directory basename. Join continued IO lines and name unnamed outputs positionally. Emit config/entrypoint params with `params_block` provenance. Resolve config-level containers into `tools[]`, and warn about modules/ only when no processes are found. Detect the SPDX id from the LICENSE text, or emit `null` with a warning.
 
 Coverage gap: integration tests cover only nf-core fixtures, and the `summarize-nextflow` scenario for CalliNGS-NF asserts only the process count. Add a CalliNGS-NF integration case plus synthetic tests for each cause. Related: #666, #466, #111, #211.
+
+## Also seen on nf-core/bacass (2026-10-29)
+From /home/ubuntu/foundry-runs/prose-nf2wb-bacass-test-2026-10-29, phase 1. New causes are in [16](16-summarize-nextflow-nf-core-bacass.md).
+- Cause 1 also hits nf-core. The anonymous `main.nf:52-85` entry is missing from `subworkflows[]`, and so are its invocations of PIPELINE_INITIALISATION, NFCORE_BACASS and PIPELINE_COMPLETION, because `buildSubworkflowInvocations` iterates only named workflows (ledger `snf-cli-entry-workflow-and-utility-kind`).
+- Cause 3 also hits nf-core. 48 `params[]` have `default: null`, and 30 of those are set in `nextflow.config` (`skip_* = false`, `kraken2db = ''`). Caveat for fix 3: `pipelineDefaultParams` itself drops booleans, numbers and `''` (16, cause 1), so it can't be reused as-is.
