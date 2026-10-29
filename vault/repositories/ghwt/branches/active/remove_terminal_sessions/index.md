@@ -19,4 +19,4 @@ Lint and full test suite (123) pass locally; CI runs only once a PR opens.
 - Remove zellij along with tmux/wezterm/ghostty; no herdr replacement.
 - No major bump: `feat:` subject, no `BREAKING CHANGE` footer.
 - Drop Obsidian "Open Terminal" quick action; delete `AGENT_INTEGRATION_PLAN.md` and `WORKTREE_STRUCTURE_PLAN.md`.
-- Conflicts with unqueued `cmux_integration` branch (cmux + herdr session backends on this feature).
+- Superseded `cmux_integration` (PR #8, cmux + herdr backends): closed 2026-10-29, branch and worktree deleted.
