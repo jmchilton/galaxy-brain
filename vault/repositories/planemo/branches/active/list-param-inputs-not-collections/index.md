@@ -24,3 +24,4 @@ Head `95ab8365` (requires gxformat2>=0.29.0, gate dropped); PR CI pending; `test
 ## Dependencies
 
 - Upstream Galaxy branch [`staging_workflow_parameter_lists`](../../../../galaxy/branches/active/staging_workflow_parameter_lists/index.md) adds `parameter_input_keys` to galaxy-tool-util staging; targets `release_26.2`; adopt it here once planemo can require galaxy-tool-util 26.2 (or the 26.2.x point release it lands in).
+- [`untyped-workflow-input-templates`](../untyped-workflow-input-templates/index.md) fixes untyped inputs in job templates on master via `normalized_input_type`; whichever merges second keeps one untyped-is-data default (`input_kind(normalized_input_type(step))`).

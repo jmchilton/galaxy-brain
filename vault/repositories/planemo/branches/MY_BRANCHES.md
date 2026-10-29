@@ -46,6 +46,7 @@ None yet.
 
 ## Planemo branches — implemented, work left (`branches_implemented_needs_ci`)
 
+- [`untyped-workflow-input-templates`](active/untyped-workflow-input-templates/index.md) — Treats untyped format2 workflow inputs as data in `workflow_job_init`/`workflow_test_init` templates. [Open PR](https://github.com/galaxyproject/planemo/compare/master...jmchilton:planemo:untyped-workflow-input-templates).
 - [`committer-self-merge`](active/committer-self-merge/index.md) — Clarifies committer self-merging and keeps review by request. [Open PR](https://github.com/galaxyproject/planemo/compare/master...jmchilton:planemo:committer-self-merge).
 
 ## Planemo branches — implemented, work left, green (`branches_implemented`)
