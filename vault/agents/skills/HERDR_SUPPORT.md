@@ -8,21 +8,21 @@ command below and verified the resulting snapshot. Running sessions were
 left in place.
 
 The maintained shell helper is [`config/herdr-codex.zsh`](config/herdr-codex.zsh),
-sourced from `~/.zshrc`. Inside Herdr, normal `codex ...` shell commands now
+sourced from `~/.zshrc` and `~/.bashrc`. Inside Herdr, normal `codex ...` shell commands now
 invoke `command codex --no-daemon ...`, so each new session's hooks inherit
 the launching pane's environment. Outside Herdr, arguments pass through
 unchanged. This uses the installed CLI's documented `--no-daemon` flag.
 The existing glyph and official session hooks remain unchanged.
 
 New shells load the helper automatically. Existing shell prompts can load it
-with `source ~/projects/repositories/galaxy-brain/vault/projects/skills/config/herdr-codex.zsh`.
+with `source ~/projects/repositories/galaxy-brain/vault/agents/skills/config/herdr-codex.zsh`.
 Direct executable launches that bypass shell functions must still pass
 `--no-daemon` explicitly. This workaround does not repair session references
 in already-running daemon-backed sessions. A new interactive Codex session
 has not been launched as part of this repair.
 
 To undo the persistent workaround, remove the helper's source line from
-`~/.zshrc`, then run `unfunction codex` at existing prompts or open a new shell.
+`~/.zshrc` and `~/.bashrc`, then run `unfunction codex` (`unset -f codex` in bash) at existing prompts or open a new shell.
 
 ## Codex glyph regression (2026-10-05)
 

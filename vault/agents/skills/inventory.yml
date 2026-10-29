@@ -150,13 +150,21 @@ local_installations:
     source: unresolved
     revision: unknown
     disposition: locate-upstream-or-adopt
-  - name: gh-stack
-    path: ~/.codex/skills/gh-stack
-    source: https://github.com/github/gh-stack
-    source_path: skills/gh-stack
-    revision: refs/tags/v0.1.0
-    tree_sha: c95c8b5b4dd850f3fef007b304428f5684f2fb87
-    disposition: retain-upstream-provenance
+
+environments:
+  # Keyed by name in vault/agents/_shared/ENVIRONMENTS.yml. Expected installs per machine.
+  chickenstraws:
+    host: chickenstraws
+    claude_marketplaces:
+      - jmchilton/claude-jmchilton-plugins
+      - galaxyproject/claude-galaxy-plugins
+    claude_plugins:
+      - jmchilton@claude-jmchilton-plugins
+      - gx-arch-review@claude-galaxy-plugins
+      - playwright@claude-plugins-official
+    claude_commands:
+      - ghwt  # ~/.claude/commands/ghwt -> ~/projects/repositories/ghwt/agent-commands
+    last_synced: 2026-10-29
 
 maintenance_backlog:
   - id: dual-host-smoke-test

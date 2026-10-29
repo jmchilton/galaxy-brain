@@ -1,6 +1,6 @@
 # Galaxy Brain Index
 
-*127 notes. Auto-generated — run `make index` to refresh.*
+*126 notes. Auto-generated — run `make index` to refresh.*
 
 ## Plans
 
@@ -22,7 +22,6 @@
 - [[wf_refactor_persistence]] — Persisted undo/redo and workflow CHANGELOG by bridging frontend actions to the backend refactor API (#9166, #21113).
 - [[playwright]] — Recover PR #21199's core, upstream galaxy_ui_driver's fixes with E2E coverage, and finish gxui; the Selenium-to-Playwright migration is done (#24020).
 - [[usecases]] — Galaxy Notebooks paper use cases: UC1–UC3 worked with extracted workflows; UC4–UC7 newly seeded as interview inputs from an IWC review.
-- [[skills]] — Tracks canonical homes, documentation, packaging, provenance, and maintenance status for reusable agent skills.
 - [[toolshed]] — Ongoing Tool Shed maintenance, API modernization, dead-code cleanup, and feature work.
 - [[shed_reviews]] — Conveying IUC-like review authority to non-IUC Tool Shed repositories, and publishing the gates an agentic tool-maturation pipeline passes
 - [[workflow_applications]] — Project tracking work on Galaxy workflow applications.

@@ -1,1 +1,0 @@
-../../../../claude-jmchilton-plugins/AGENTS.md

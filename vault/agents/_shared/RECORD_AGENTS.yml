@@ -4,6 +4,10 @@ artifact-detective:
   branches: dev_tooling
   issues: dev_tooling
   reviews: dev_tooling
+claude-jmchilton-plugins:
+  branches: skills
+  issues: skills
+  reviews: skills
 differential-review:
   branches: dev_tooling
   issues: dev_tooling
@@ -16,6 +20,10 @@ galaxy:
   branches: gx_branches
   issues: gx_issues
   reviews: gx_reviews
+galaxy-skills:
+  branches: skills
+  issues: skills
+  reviews: skills
 gh-ci-artifacts:
   branches: dev_tooling
   issues: dev_tooling

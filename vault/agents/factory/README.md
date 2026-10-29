@@ -20,7 +20,7 @@ Galaxy development matters most, so it's split across narrowly scoped agents:
 
 ### Project agents
 
-Daily drivers for one project or a set of related projects. Each one reviews, implements and maintains for its scope: `planemo`, `pulsar`, `docker-galaxy`, `workflow_libs` (gxformat2, galaxy-tool-util-ts, gxwf-web, the VS Code extension), `dev_tooling` (artifact-detective, gh-ci-artifacts, ghwt, differential-review) and `wf_foundry`. When work needs a Galaxy change, they hand that branch to `gx_branches` (`GX_IMPLEMENTATION_HANDOFF.md`).
+Daily drivers for one project or a set of related projects. Each one reviews, implements and maintains for its scope: `planemo`, `pulsar`, `docker-galaxy`, `workflow_libs` (gxformat2, galaxy-tool-util-ts, gxwf-web, the VS Code extension), `dev_tooling` (artifact-detective, gh-ci-artifacts, ghwt, differential-review), `skills` (claude-jmchilton-plugins, galaxy-skills, and installed skills per machine) and `wf_foundry`. When work needs a Galaxy change, they hand that branch to `gx_branches` (`GX_IMPLEMENTATION_HANDOFF.md`).
 
 ## Anatomy of an agent directory
 

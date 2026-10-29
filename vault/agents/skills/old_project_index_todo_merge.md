@@ -1,16 +1,3 @@
----
-type: project
-title: "Skill Maintenance"
-tags:
-  - project
-status: draft
-created: 2026-09-03
-revised: 2026-09-25
-revision: 2
-ai_generated: true
-summary: "Tracks canonical homes, documentation, packaging, provenance, and maintenance status for reusable agent skills."
----
-
 # Skill Maintenance
 
 ## Overview
