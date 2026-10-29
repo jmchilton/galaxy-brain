@@ -6,13 +6,13 @@ upstream_base_branch: master
 - [Open PR](https://github.com/galaxyproject/planemo/compare/master...jmchilton:planemo:untyped-workflow-input-templates)
 - [View on GitHub](https://github.com/jmchilton/planemo/tree/untyped-workflow-input-templates)
 
-Found while taking over [planemo#1744](https://github.com/galaxyproject/planemo/pull/1744) ([`list-param-inputs-not-collections`](../list-param-inputs-not-collections/index.md) debrief); no GitHub issue. Debrief: [implementation_debrief.md](implementation_debrief.md).
+Found while taking over [planemo#1744](https://github.com/galaxyproject/planemo/pull/1744) ([`list-param-inputs-not-collections`](../list-param-inputs-not-collections/index.md) debrief); no GitHub issue. Debriefs: [implementation](implementation_debrief.md), [review](subagents/review_1.md), [Codex](codex_review.md), [polish](polish_debrief.md). PR: [description](pr_description.md), [titles](pr_titles.md), [tags](pr_tags.md).
 
 ## Status
 
 Branch `untyped-workflow-input-templates` on `jmchilton`, `~/projects/worktrees/planemo/branch/untyped-workflow-input-templates`; based on `origin/master` `2a815808`; head `fcf41a60`.
 
-No PR yet.
+Polished; ready for John's final review. No PR yet.
 
 Fork CI on `fcf41a60` pending; local gate green.
 

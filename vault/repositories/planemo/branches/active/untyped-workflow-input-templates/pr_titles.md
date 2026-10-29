@@ -1,0 +1,4 @@
+- Treat untyped workflow inputs as data in job templates
+- Fix KeyError: 'type' in workflow_job_init/workflow_test_init for untyped inputs
+- Fix job templates for format2 workflow inputs without a type
+- Default untyped format2 workflow inputs to data in job and test templates

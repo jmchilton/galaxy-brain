@@ -1,0 +1,2 @@
+- `bug` — crash (`KeyError: 'type'`) in two commands.
+- `workflows` — format2 workflow input handling in `workflow_job_init`/`workflow_test_init`.

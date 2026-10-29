@@ -46,7 +46,6 @@ None yet.
 
 ## Planemo branches — implemented, work left (`branches_implemented_needs_ci`)
 
-- [`untyped-workflow-input-templates`](active/untyped-workflow-input-templates/index.md) — Treats untyped format2 workflow inputs as data in `workflow_job_init`/`workflow_test_init` templates. [Open PR](https://github.com/galaxyproject/planemo/compare/master...jmchilton:planemo:untyped-workflow-input-templates).
 - [`committer-self-merge`](active/committer-self-merge/index.md) — Clarifies committer self-merging and keeps review by request. [Open PR](https://github.com/galaxyproject/planemo/compare/master...jmchilton:planemo:committer-self-merge).
 
 ## Planemo branches — implemented, work left, green (`branches_implemented`)
@@ -59,6 +58,7 @@ None yet.
 
 ## Planemo branches — ready for final review (`branches_ready_for_final_review`)
 
+- [`untyped-workflow-input-templates`](active/untyped-workflow-input-templates/index.md) — Treats untyped format2 workflow inputs as data in `workflow_job_init`/`workflow_test_init` templates. [Open PR](https://github.com/galaxyproject/planemo/compare/master...jmchilton:planemo:untyped-workflow-input-templates).
 - [`issue-1764-workflow-tool-data-tables`](active/issue-1764-workflow-tool-data-tables/index.md) — Document data table discovery for workflow tests; print the loaded conf. [Open PR](https://github.com/galaxyproject/planemo/compare/master...jmchilton:planemo:issue-1764-workflow-tool-data-tables?expand=1).
 
 ## Planemo branches — approved, opens when green (`branches_need_pr`)
