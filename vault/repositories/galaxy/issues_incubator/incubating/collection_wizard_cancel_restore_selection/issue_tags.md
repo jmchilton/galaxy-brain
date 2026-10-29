@@ -1,0 +1,3 @@
+- `kind/enhancement` — behavior change on a follow-up, not a regression in a release yet (#24487 unmerged)
+- `area/UI-UX` — history panel selection UX
+- `area/dataset-collections` — list wizard / collection builders
