@@ -1,3 +1,8 @@
+---
+upstream_base_branch: dev
+pr: 23326
+---
+
 # htcondor_pulsar
 
 Status: `author_work`. Base: `dev`. [PR #23326](https://github.com/galaxyproject/galaxy/pull/23326) (open).
