@@ -1,4 +1,4 @@
-(space for John's free style comments - just keep empty)
+LGTM! Optional suggestions below. Thanks. -John
 
 <details><summary>Automated Review Details</summary>
 
