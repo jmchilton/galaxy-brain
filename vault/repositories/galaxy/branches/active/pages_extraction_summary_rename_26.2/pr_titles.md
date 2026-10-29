@@ -1,0 +1,4 @@
+- [26.2] Align new notebook extraction API names with Galaxy conventions before 26.2.0
+- [26.2] Rename pages `workflow_extraction_summary` route and label hint `kind` → `src` before release
+- [26.2] Settle notebook extraction API naming: `extraction_summary`, `src`, no `report_title`
+- [26.2] Freeze-proof notebook extraction API: match history route and (src, id) convention

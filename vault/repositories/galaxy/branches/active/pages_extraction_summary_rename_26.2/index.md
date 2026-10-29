@@ -11,7 +11,7 @@ upstream_base_branch: release_26.2
 
 ## Status
 
-`branches_implemented_needs_ci`: hardened and re-scoped 2026-10-28, head `9425d5e862b` (3 commits on `release_26.2` `0902830bfa6`). See [implementation_debrief.md](implementation_debrief.md).
+`branches_ready_for_final_review`: polished 2026-10-28; hardened and re-scoped 2026-10-28, head `9425d5e862b` (3 commits on `release_26.2` `0902830bfa6`). See [implementation_debrief.md](implementation_debrief.md), [polish_debrief.md](polish_debrief.md), [pr_description.md](pr_description.md), [pr_titles.md](pr_titles.md), [pr_tags.md](pr_tags.md).
 
 ## Standing instructions
 
