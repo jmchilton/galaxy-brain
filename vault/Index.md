@@ -1,6 +1,6 @@
 # Galaxy Brain Index
 
-*136 notes. Auto-generated — run `make index` to refresh.*
+*137 notes. Auto-generated — run `make index` to refresh.*
 
 ## Plans
 
@@ -97,6 +97,7 @@
 - [[Component - Tool Citations and External Metadata Fetch]] — Tool citations from XML parse to DOI-resolved BibTeX display, the bio.tools EDAM lookup, their beaker caches, config, consumers and tests
 - [[Component - Tool Data Tables]] — How ToolDataTableManager orders config sources, resolves .loc files, merges same-named tables and propagates reloads across Galaxy processes
 - [[Component - Tool Linters]] — Galaxy's tool lint framework, Linter discovery and its pitfalls, profile-gated linters, and the output-reference resolver shared with runtime
+- [[Component - Tool Profile Versions and Upgrade Advisor]] — Catalog of tool profile gates with advisor and linter coverage, and how the galaxy-tool-upgrade-advisor works and where it is broken
 - [[Component - Tool Shed Data Model]] — Shed-side SQLAlchemy schema — 14 tables, hg-keyed RepositoryMetadata over a denormalized JSON blob, dead flags, two-revision alembic history
 - [[Component - User Password Management]] — PBKDF2 storage, 24-hour reset tokens, five password entry flows, and the legacy controllers behind them
 - [[Component - Workflow Comments]] — Visual annotation system for workflows, text/markdown/frames/freehand without execution impact

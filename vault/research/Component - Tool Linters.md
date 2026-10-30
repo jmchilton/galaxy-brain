@@ -12,7 +12,7 @@ galaxy_areas:
 status: draft
 created: 2026-10-30
 revised: 2026-10-30
-revision: 1
+revision: 2
 ai_generated: true
 sources:
   - "vault/agents/gx_research/archive/tool_linters_and_reference_resolution.md"
@@ -23,6 +23,7 @@ related_notes:
   - "[[Component - Tool Citations and External Metadata Fetch]]"
   - "[[Component - Tool Data Tables]]"
   - "[[Component - Tool Testing Infrastructure]]"
+  - "[[Component - Tool Profile Versions and Upgrade Advisor]]"
 related_prs:
   - 23919
   - 23890
@@ -36,7 +37,7 @@ Verified against Galaxy `origin/dev` @ `65e6daff2334c8cfd4971682eecfb87f38a224be
 
 **In scope:** the framework in `lib/galaxy/tool_util/lint.py`, the 153 `Linter` subclasses in `lib/galaxy/tool_util/linters/`, how the framework finds them, profile-gated linters, `LintContext`, and the output-reference resolver in `linters/output.py`: what it checks and which runtime lookup each rule copies. The note also covers where the resolver may move.
 
-**Out of scope:** what each linter checks, beyond the reference linters. The tool profile upgrade advisor (`lib/galaxy/tool_util/upgrade/`) has its own queued request; this note mentions it only where it would reuse the resolver. Planemo's `lint` command lives outside Galaxy.
+**Out of scope:** what each linter checks, beyond the reference linters. The tool profile upgrade advisor (`lib/galaxy/tool_util/upgrade/`) and the full catalog of profile gates are in [[Component - Tool Profile Versions and Upgrade Advisor]]. This note mentions the advisor only where it would reuse the resolver. Planemo's `lint` command lives outside Galaxy.
 
 ## Map
 

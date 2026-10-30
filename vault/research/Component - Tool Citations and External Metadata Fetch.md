@@ -11,7 +11,7 @@ component: "Tool Citations and External Metadata Fetch"
 status: draft
 created: 2026-10-30
 revised: 2026-10-30
-revision: 2
+revision: 3
 ai_generated: true
 sources:
   - "vault/agents/gx_research/archive/tool_citations_and_external_metadata_fetch.md"
@@ -25,6 +25,7 @@ related_notes:
   - "[[PR 22615 - UserToolSource Pydantic Semantic Validation]]"
   - "[[PR 18524 - Add Tool-Centric APIs to Tool Shed 2.0]]"
   - "[[Component - Tool Linters]]"
+  - "[[Component - Tool Profile Versions and Upgrade Advisor]]"
 related_prs:
   - 22029
   - 20408

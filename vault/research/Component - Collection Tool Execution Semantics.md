@@ -9,7 +9,7 @@ tags:
 status: draft
 created: 2026-02-05
 revised: 2026-10-30
-revision: 8
+revision: 9
 ai_generated: true
 component: dataset_collections
 galaxy_areas:
@@ -31,6 +31,7 @@ related_notes:
   - "[[PR 22706 - Workflow Extraction by IDs]]"
   - "[[Component - Job Completion Lifecycle]]"
   - "[[Component - Tool Linters]]"
+  - "[[Component - Tool Profile Versions and Upgrade Advisor]]"
 ---
 
 # Collection Tool Execution Semantics in Galaxy

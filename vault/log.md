@@ -413,3 +413,12 @@ Excluded from frontmatter validator and Astro site; Obsidian-visible.
   - [[Component - Tool Citations and External Metadata Fetch]] — backlink
   - [[Component - Tool Data Tables]] — backlink
   - [[Component - Tool Testing Infrastructure]] — backlink
+
+## 2026-10-30 ingest — Component - Tool Profile Versions and Upgrade Advisor
+- **source**: vault/agents/gx_research/archive/tool_profile_versions_and_upgrade_advisor.md (research request; Galaxy origin/dev @ 65e6daff; open #24524 described separately)
+- **created**: [[Component - Tool Profile Versions and Upgrade Advisor]]
+- **updated**:
+  - [[Component - Tool Linters]] — backlink; out-of-scope pointer now links the advisor note
+  - [[Component - Collection Tool Execution Semantics]] — backlink
+  - [[Component - Tool Citations and External Metadata Fetch]] — backlink
+  - [[Component - Tool Testing Infrastructure]] — backlink
