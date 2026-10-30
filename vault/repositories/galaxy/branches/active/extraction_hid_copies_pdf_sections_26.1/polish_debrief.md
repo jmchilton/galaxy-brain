@@ -25,3 +25,13 @@ created .../differential-review/snapshots/20261029T183826Z-polishing-2f0cd130446
 - **Push `is not None` fix to #24225?** Now required: otherwise `test_extract_by_ids_keeps_empty_input_name` fails on 26.2 after merge-forward.
 - Keep PR draft until #24225 lands on 26.2? Split PDF commit (Option B) so it isn't gated?
 - Optional: PDF export before/after screenshot (only fix without a visual).
+
+## Re-framing: land first (2026-10-30)
+
+John: this lands ahead of #24225, not after. Description flipped; gate removed.
+
+- Merge-forward prepared: `extraction_hid_copies_pdf_sections_26.1_merge_26.2` @ `a599e531691` (merge of `2f0cd130446` into `release_26.2` `62dcd7b0a7a`), resolved toward #24225's 26.2 versions; summary fix hand-ported into `workflow_extraction_summary.py`. API extraction 107 passed / 1 skipped; pages 48 passed.
+  - Dropped `test_extract_by_ids_keeps_empty_input_name` in the merge (John approved): 26.2 400s on `""` first; `test_extract_empty_input_name_rejected` covers it.
+  - Changed 26.2's `test_referenced_copied_collection_normalizes_to_original` to #24225's `800163a0a04` expectation (one row listing the copy's id; stricter).
+- #24225 rebased onto the merge: `extract_next_followups_on_26.1_merge` @ `1419d722008` (PR head `409c23e0b59` untouched; backup `backup/extract_next_followups_pre_26.1_merge_rebase_20261029`). 67 → 66 commits; 121 passed / 1 skipped. Library diff shrinks (e.g. `extract.py` 443→392, `markdown_util.py` 97→47); test file grows 891→919 from ordering moves. Several commit messages no longer match their (now test-only) contents.
+- Open: reorder the merge's test file to #24225's positions and redo the rebase (~919→~380 test lines).

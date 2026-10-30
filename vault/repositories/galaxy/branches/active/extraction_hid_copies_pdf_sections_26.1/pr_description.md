@@ -1,6 +1,6 @@
-Backport of 🔀 #24225's fixes for bugs that also exist on 26.1 - extracting a workflow from a history holding copies of a dataset or collection fails or builds the wrong inputs, and PDF export shows the default report's invocation sections as raw directives.
+Lands ahead of 🔀 #24225 the fixes from it whose bugs also exist on 26.1 - extracting a workflow from a history holding copies of a dataset or collection fails or builds the wrong inputs, and PDF export shows the default report's invocation sections as raw directives.
 
-***The Extract Workflow form, its summary API and by-ids extraction are new in 26.1 and shipped in 26.1.0–26.1.2; #24225 is a draft for its notebook work, which 26.1 doesn't have.***
+***The Extract Workflow form, its summary API and by-ids extraction are new in 26.1 and shipped in 26.1.0–26.1.2; #24225 stays a draft for its notebook work, which 26.1 doesn't have.***
 
 On `release_26.1`, copy a list into the same history and open Extract Workflow. The input card lists the source collection twice and never the copy, and submitting the form fails:
 
@@ -16,9 +16,9 @@ The same root - copies of one original treated as unrelated items - breaks extra
 - **Input names not parallel to their ids/hids:** 400 instead of 500.
 - **PDF/basic export:** the default report's `invocation_inputs()`/`invocation_outputs()` expand to the datasets by id, so they render instead of appearing as raw directives.
 
-***This is a port, not new design: every fix and nearly every test is #24225's, reshaped onto 26.1's code (keys stay 26.1's `("dataset"|"collection", id)`, helper names match #24225) so merge-forward takes 26.2's side of the code files; the test files, `populators.py` and `navigation.yml` must keep both sides.*** Three 26.1-only tests: job-less collection copies in the summary, explicit empty by-ids input names, and the E2E test above. ***Most of the diff is tests: the non-test change is +257/−170.*** One deliberate divergence: by-ids default input names keep an explicit `""` (`is not None`), as base does; #24225 still uses `or`.
+***This is a port, not new design: every fix and nearly every test is #24225's, reshaped onto 26.1's code (keys stay 26.1's `("dataset"|"collection", id)`, helper names match #24225).*** Three 26.1-only tests: job-less collection copies in the summary, explicit empty by-ids input names (26.1 only; 26.2 rejects empty names), and the E2E test above. ***Most of the diff is tests: the non-test change is +257/−170.*** One deliberate divergence: by-ids default input names keep an explicit `""` (`is not None`), as base does; #24225 still uses `or`.
 
-***Merge this only after #24225, with the `is not None` fix, is on `release_26.2`.*** Otherwise merge-forward taking 26.2's side of `histories.py`/`extract.py` drops these fixes while their tests merge in and fail.
+***This lands first, and the merge-forward is already done:*** 🌿[`extraction_hid_copies_pdf_sections_26.1_merge_26.2`](https://github.com/jmchilton/galaxy/tree/extraction_hid_copies_pdf_sections_26.1_merge_26.2) merges this branch into `release_26.2`, resolving each conflict with #24225's 26.2 version of the same fix. API `test_workflow_extraction.py` passes there (107 passed); the 26.1-only empty-name test is dropped in the merge, since 26.2 already rejects empty input names with a 400. #24225 then rebases onto that merge (🌿[`extract_next_followups_on_26.1_merge`](https://github.com/jmchilton/galaxy/tree/extract_next_followups_on_26.1_merge)) and shrinks to its notebook work.
 
 <details><summary>Commits</summary>
 
@@ -44,19 +44,19 @@ The one-way door is a small API-shape change on a release branch: the extraction
 - `GET /api/histories/{id}/extraction_summary` input rows: one per original rather than one per producing job, so a multi-file upload yields one card per file, and collection rows list this history's copies rather than the source HDCA. The response schema is unchanged; the client already handles it.
 - Extraction requests whose names aren't parallel to their ids/hids, or that send copies of one original under different names, now get 400 (previously 500, or silently wrong workflows).
 - `custom_tool_inaccessible` was already a summary row field; it's now set instead of failing the whole request.
-- Landing order: if this merges forward before #24225 reaches `release_26.2`, the fixes are dropped and their tests fail on 26.2.
+- Merge-forward conflicts in 7 files (26.2 moved the summary into `workflow_extraction_summary.py` and reshaped `extract.py`); the prepared merge resolves them, and a merge that instead takes 26.2's side would drop these fixes while their tests come through and fail.
 
 </details>
 
 <details><summary>Risk Review Advice</summary>
 
-Focus on `create_workflow_extraction_summary` in `histories.py` - the only substantial 26.1-specific code, which merge-forward replaces with 26.2's `workflow_extraction_summary.py`. Check that grouping by `_original_key` and listing `contents_iter` collections matches what `extract.py` accepts. `extract.py` mirrors draft #24225, so it needs review here; each change is pinned by a test that fails on base.
+Focus on `create_workflow_extraction_summary` in `histories.py` - the only substantial 26.1-specific code, which the merge-forward replaces with 26.2's `workflow_extraction_summary.py`. Check that grouping by `_original_key` and listing `contents_iter` collections matches what `extract.py` accepts. `extract.py` mirrors draft #24225, so it needs review here; each change is pinned by a test that fails on base.
 
 </details>
 
 ## Context
 
-Backports the 26.1-applicable half of 🔀 #24225 (draft on `release_26.2`); its notebook-to-workflow parts have no 26.1 counterpart. Alternative kept on 🌿[`extraction_hid_copies_pdf_sections_26.1_alt_original_scope`](https://github.com/jmchilton/galaxy/tree/extraction_hid_copies_pdf_sections_26.1_alt_original_scope) - extraction-layer fixes only, no summary-card change; the 26.1 form still posts duplicate `hdca_ids` and can reach the new "different names" 400. Developed with [John's Galaxy Brain Branch Factory](https://galaxy-brain.jmchilton.net/factory/galaxy-branches/).
+The 26.1-applicable half of 🔀 #24225 (draft on `release_26.2`), landed first; its notebook-to-workflow parts have no 26.1 counterpart. Merge-forward prepared on 🌿[`extraction_hid_copies_pdf_sections_26.1_merge_26.2`](https://github.com/jmchilton/galaxy/tree/extraction_hid_copies_pdf_sections_26.1_merge_26.2); #24225 rebased onto it on 🌿[`extract_next_followups_on_26.1_merge`](https://github.com/jmchilton/galaxy/tree/extract_next_followups_on_26.1_merge). Alternative kept on 🌿[`extraction_hid_copies_pdf_sections_26.1_alt_original_scope`](https://github.com/jmchilton/galaxy/tree/extraction_hid_copies_pdf_sections_26.1_alt_original_scope) - extraction-layer fixes only, no summary-card change; the 26.1 form still posts duplicate `hdca_ids` and can reach the new "different names" 400. Developed with [John's Galaxy Brain Branch Factory](https://galaxy-brain.jmchilton.net/factory/galaxy-branches/).
 
 ## Human Review
 
