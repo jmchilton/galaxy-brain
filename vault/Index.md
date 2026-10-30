@@ -1,6 +1,6 @@
 # Galaxy Brain Index
 
-*138 notes. Auto-generated — run `make index` to refresh.*
+*139 notes. Auto-generated — run `make index` to refresh.*
 
 ## Plans
 
@@ -105,6 +105,7 @@
 - [[Component - Workflow Editor Terminal Tests]] — Unit tests for editor terminal connection rules, datatype/collection compatibility validation
 - [[Component - Workflow Editor Terminals]] — Terminal connection logic, compatibility checking, map-over propagation, plain class instances
 - [[Component - Workflow Extraction]] — Extract history to workflow via Mako UI, traces jobs/datasets back to reconstruct graph
+- [[Component - Workflow Invocation Models]] — Invocation-side ORM tables, their keys and indexes, and how the element, collection and step_details views key inputs and outputs
 - [[Component - Invocation Report to Pages]] — Pipeline for converting invocation reports to Pages with encoded ID transformation and markdown
 - [[Component - E2E Tests - Writing]] — Layered test infrastructure: SeleniumTestCase, NavigatesGalaxy helpers, smart component system, Selenium/Playwright
 - [[Component - API Tests]] — API test plumbing: ApiTestCase base class, populators, fixtures, decorators, assertions, user context switching

@@ -11,7 +11,7 @@ tags:
 status: draft
 created: 2026-10-30
 revised: 2026-10-30
-revision: 3
+revision: 4
 ai_generated: true
 component: Jobs API and Job Cache
 galaxy_areas:
@@ -37,6 +37,7 @@ related_notes:
   - "[[PR 21842 - Tool Execution Migrated to api jobs]]"
   - "[[Component - Pulsar Input Staging]]"
   - "[[Component - User Disk Usage Accounting]]"
+  - "[[Component - Workflow Invocation Models]]"
 ---
 
 # Jobs API and Job Cache

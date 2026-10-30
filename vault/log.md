@@ -437,3 +437,14 @@ Excluded from frontmatter validator and Astro site; Obsidian-visible.
 - **updated**:
   - [[Component - User-Defined Tools]] — backlink; workflow-embedded motivation points to import note
   - [[Component - Workflow Refactoring API]] — backlink; dry-run caveat about committing side effects
+
+## 2026-10-30 ingest — Component - Workflow Invocation Models
+- **source**: vault/agents/gx_research/archive/workflow_invocation_models.md (research request; Galaxy origin/dev @ 65e6daff)
+- **created**: [[Component - Workflow Invocation Models]]
+- **updated**:
+  - [[Component - Workflow API]] — backlink
+  - [[Component - Invocation Graph View]] — backlink
+  - [[Component - Jobs API and Job Cache]] — backlink
+  - [[Component - Job Completion Lifecycle]] — backlink
+  - [[Component - Workflow Extraction Models]] — backlink
+  - [[Component - Collection Models]] — backlink

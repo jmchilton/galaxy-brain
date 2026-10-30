@@ -8,7 +8,7 @@ tags:
 status: draft
 created: 2026-03-16
 revised: 2026-10-30
-revision: 8
+revision: 9
 ai_generated: true
 component: Workflow API
 galaxy_areas: [workflows, api]
@@ -25,6 +25,7 @@ related_notes:
   - "[[Component - CORS Handling]]"
   - "[[Component - Private Object Stores]]"
   - "[[Component - Jobs API and Job Cache]]"
+  - "[[Component - Workflow Invocation Models]]"
 ---
 
 # Galaxy Workflow API - Comprehensive Reference Documentation

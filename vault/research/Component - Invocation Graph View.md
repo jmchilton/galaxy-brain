@@ -8,8 +8,8 @@ tags:
 component: Invocation Graph View
 status: draft
 created: 2026-02-11
-revised: 2026-10-14
-revision: 4
+revised: 2026-10-30
+revision: 5
 ai_generated: true
 summary: "Readonly workflow-editor canvas overlaying live job state on invocation steps, plus its step card, search, polling and the generic GraphView alternative"
 related_notes:
@@ -17,6 +17,7 @@ related_notes:
   - "[[Component - Workflow Editor Terminals]]"
   - "[[PR 17413 - Invocation Graph View]]"
   - "[[PR 21932 - History Graph API]]"
+  - "[[Component - Workflow Invocation Models]]"
 related_prs:
   - 17413
   - 20719

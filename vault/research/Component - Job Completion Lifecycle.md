@@ -10,7 +10,7 @@ tags:
 status: draft
 created: 2026-10-30
 revised: 2026-10-30
-revision: 4
+revision: 5
 ai_generated: true
 component: Job Completion Lifecycle
 galaxy_areas:
@@ -34,6 +34,7 @@ related_notes:
   - "[[Component - Jobs API and Job Cache]]"
   - "[[Component - Pulsar Input Staging]]"
   - "[[Component - User Disk Usage Accounting]]"
+  - "[[Component - Workflow Invocation Models]]"
 ---
 
 # Job Completion Lifecycle

@@ -8,8 +8,8 @@ tags:
 component: Workflow Extraction Models
 status: draft
 created: 2026-02-05
-revised: 2026-05-16
-revision: 5
+revised: 2026-10-30
+revision: 6
 ai_generated: true
 summary: "ORM model relationships for reconstructing workflows from history via dataset ancestry"
 related_notes:
@@ -21,6 +21,7 @@ related_notes:
   - "[[Problem - YAML Tool Post-Hoc State Divergence]]"
   - "[[Workflow Extraction Issues]]"
   - "[[Workflow Extraction Multiple Histories]]"
+  - "[[Component - Workflow Invocation Models]]"
 ---
 
 # Galaxy Models for Workflow Extraction
