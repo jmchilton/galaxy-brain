@@ -10,7 +10,7 @@ tags:
 status: draft
 created: 2026-02-19
 revised: 2026-10-30
-revision: 5
+revision: 6
 ai_generated: true
 component: Workflow Import
 galaxy_areas: [api, workflows, lib, models]
@@ -29,6 +29,7 @@ related_notes:
   - "[[Component - gxformat2 Parsing and Syntax]]"
   - "[[PR 21335 - GA4GH WES API]]"
   - "[[Component - Dynamic Tool Manager and Toolbox Lifecycle]]"
+  - "[[Component - YAML Tool Parser and Authoring Model Boundary]]"
 ---
 
 # Galaxy Workflow Import: Component Architecture

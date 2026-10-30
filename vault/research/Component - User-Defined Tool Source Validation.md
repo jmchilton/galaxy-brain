@@ -10,7 +10,7 @@ component: User-Defined Tools - Source Validation
 status: draft
 created: 2026-05-07
 revised: 2026-10-30
-revision: 5
+revision: 6
 ai_generated: true
 sources:
   - https://github.com/galaxyproject/galaxy/pull/22507
@@ -41,6 +41,7 @@ related_notes:
   - "[[PR 22615 - UserToolSource Pydantic Semantic Validation]]"
   - "[[Component - Tool Citations and External Metadata Fetch]]"
   - "[[Component - Tool Linters]]"
+  - "[[Component - YAML Tool Parser and Authoring Model Boundary]]"
 ---
 
 # Validating the User-Defined Tool Source
@@ -50,6 +51,15 @@ related_notes:
 > validation (`Job.tool_state`, `runtimeify`, post-hoc divergence) is out
 > of scope and lives in [[Component - User-Defined Tools]] and
 > [[Problem - YAML Tool Post-Hoc State Divergence]].
+>
+> Where the parser (`galaxy.tool_util.parser.yaml.YamlToolSource`) is
+> built, which model and `model_dump` policy sits in front of each site,
+> `lift_user_tool_source` for stored user rows, the parser's own trust gate
+> (`USER_TOOL_ROOT_KEYS`, `UntrustedToolSourceError`), the canonical vs
+> legacy dialect, and the incoming vs internal output models are covered in
+> [[Component - YAML Tool Parser and Authoring Model Boundary]]. On dev the
+> models now live in `tool_util_models/_models.py`, not
+> `tool_util_models/__init__.py`, so the line numbers below may be stale.
 
 ## 1. Why source validation is the load-bearing problem
 

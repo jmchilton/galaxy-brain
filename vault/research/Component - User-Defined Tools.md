@@ -13,7 +13,7 @@ component: User-Defined Tools
 status: draft
 created: 2026-05-07
 revised: 2026-10-30
-revision: 7
+revision: 8
 ai_generated: true
 sources:
   - https://github.com/galaxyproject/galaxy/pull/19434
@@ -55,6 +55,7 @@ related_notes:
   - "[[Component - Dynamic Tool Manager and Toolbox Lifecycle]]"
   - "[[Component - Tool Citations and External Metadata Fetch]]"
   - "[[Component - Workflow Import]]"
+  - "[[Component - YAML Tool Parser and Authoring Model Boundary]]"
 ---
 
 # User-Defined Tools in Galaxy

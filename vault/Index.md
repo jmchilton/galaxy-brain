@@ -1,6 +1,6 @@
 # Galaxy Brain Index
 
-*139 notes. Auto-generated — run `make index` to refresh.*
+*140 notes. Auto-generated — run `make index` to refresh.*
 
 ## Plans
 
@@ -109,6 +109,7 @@
 - [[Component - Invocation Report to Pages]] — Pipeline for converting invocation reports to Pages with encoded ID transformation and markdown
 - [[Component - E2E Tests - Writing]] — Layered test infrastructure: SeleniumTestCase, NavigatesGalaxy helpers, smart component system, Selenium/Playwright
 - [[Component - API Tests]] — API test plumbing: ApiTestCase base class, populators, fixtures, decorators, assertions, user context switching
+- [[Component - YAML Tool Parser and Authoring Model Boundary]] — Every site that builds the YAML tool parser from a dict, which Pydantic model and model_dump policy gates each, the user-tool trust gate, and YAML dialects
 - [[Component - YAML Tool Runtime]] — YAML tool runtime converts tool state to CWL-style inputs with validated JobInternalToolState
 
 ### Pull Requests

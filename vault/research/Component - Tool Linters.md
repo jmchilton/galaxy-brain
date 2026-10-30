@@ -12,7 +12,7 @@ galaxy_areas:
 status: draft
 created: 2026-10-30
 revised: 2026-10-30
-revision: 2
+revision: 3
 ai_generated: true
 sources:
   - "vault/agents/gx_research/archive/tool_linters_and_reference_resolution.md"
@@ -24,6 +24,7 @@ related_notes:
   - "[[Component - Tool Data Tables]]"
   - "[[Component - Tool Testing Infrastructure]]"
   - "[[Component - Tool Profile Versions and Upgrade Advisor]]"
+  - "[[Component - YAML Tool Parser and Authoring Model Boundary]]"
 related_prs:
   - 23919
   - 23890

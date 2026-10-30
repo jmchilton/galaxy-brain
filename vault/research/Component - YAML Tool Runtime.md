@@ -9,8 +9,8 @@ tags:
 component: YAML Tool Runtime
 status: draft
 created: 2026-02-05
-revised: 2026-08-17
-revision: 7
+revised: 2026-10-30
+revision: 8
 ai_generated: true
 summary: "YAML tool runtime converts tool state to CWL-style inputs with validated JobInternalToolState"
 related_notes:
@@ -27,6 +27,7 @@ related_notes:
   - "[[Problem - YAML Tool Post-Hoc State Divergence]]"
   - "[[Problem - basic.py Parameter Hierarchy]]"
   - "[[Component - Galaxy Pulsar Runner Code Sharing]]"
+  - "[[Component - YAML Tool Parser and Authoring Model Boundary]]"
 ---
 
 # YAML Tool Runtime State Representation

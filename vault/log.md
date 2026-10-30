@@ -448,3 +448,15 @@ Excluded from frontmatter validator and Astro site; Obsidian-visible.
   - [[Component - Job Completion Lifecycle]] — backlink
   - [[Component - Workflow Extraction Models]] — backlink
   - [[Component - Collection Models]] — backlink
+
+## 2026-10-30 ingest — Component - YAML Tool Parser and Authoring Model Boundary
+- **source**: vault/agents/gx_research/archive/yaml_tool_parser_authoring_boundary.md (research request; Galaxy origin/dev @ 65e6daff; release_26.1 differences noted)
+- **created**: [[Component - YAML Tool Parser and Authoring Model Boundary]]
+- **updated**:
+  - [[Component - User-Defined Tool Source Validation]] — backlink; scope pointer to parser/lift/trust-gate map; stale-line-number note
+  - [[Component - User-Defined Tools]] — backlink
+  - [[Component - YAML Tool Runtime]] — backlink
+  - [[Component - Dynamic Tool Manager and Toolbox Lifecycle]] — backlink
+  - [[Component - Tool Linters]] — backlink
+  - [[Component - Tool Citations and External Metadata Fetch]] — backlink
+  - [[Component - Workflow Import]] — backlink
