@@ -340,3 +340,10 @@ Excluded from frontmatter validator and Astro site; Obsidian-visible.
 - **updated**:
   - [[Component - User-Defined Tools]] — backlink
   - [[Component - Workflow Import]] — backlink; ToolModule resolution step now names `resolve_tool_uuid` and UDT copies
+
+## 2026-10-30 ingest — Component - History Panel Selection and Collection Builders
+- **source**: vault/agents/gx_research/archive/history_panel_selection_and_collection_builders.md (research request; Galaxy origin/dev @ 65e6daff)
+- **created**: [[Component - History Panel Selection and Collection Builders]]
+- **updated**:
+  - [[PR 19377 - Collection Types and Wizard UI]] — backlink; pointer from the List Wizard summary item
+  - [[Component - E2E Tests - Writing]] — backlink; pointer to the build-list Selenium helpers

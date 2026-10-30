@@ -5,7 +5,7 @@ tags: [research/component, galaxy/testing, galaxy/client]
 status: draft
 created: 2026-02-11
 revised: 2026-10-30
-revision: 7
+revision: 8
 ai_generated: true
 component: E2E Testing
 galaxy_areas: [testing, client]
@@ -19,6 +19,7 @@ related_notes:
   - "[[Component - User Password Management]]"
   - "[[Component - Deployment Tests]]"
   - "[[Component - Galaxy UI Buttons and Tooltips]]"
+  - "[[Component - History Panel Selection and Collection Builders]]"
 ---
 
 # Writing E2E Tests in Galaxy: A Comprehensive Guide
@@ -1291,3 +1292,5 @@ A selection of the most commonly used methods from `NavigatesGalaxy` (in `lib/ga
 | `assert_error_message()` | Assert error alert is visible |
 | `clear_tooltips()` | Dismiss any open `v-g-tooltip` balloons (not GTooltip; see [[Component - Galaxy UI Buttons and Tooltips]]) |
 | `fill(form_element, info_dict)` | Fill form fields by name |
+
+For history-selection and collection-builder helpers (`history_panel_build_list_*`, `collection_builder_create`), see [[Component - History Panel Selection and Collection Builders]].
