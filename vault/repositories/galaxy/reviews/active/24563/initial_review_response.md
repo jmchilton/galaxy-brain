@@ -1,4 +1,4 @@
-(space for John's free style comments - just keep empty)
+LTGM - probably worth pulling in at least this E2E test. Other findings here look good also to me. -John
 
 <details><summary>Automated Review Details</summary>
 
