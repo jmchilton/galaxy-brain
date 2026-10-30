@@ -4,6 +4,6 @@
 
 ## Status
 
-Initial review (round 0) of `71178a56e3b` trimmed by John to three P3s (test-gap P3 dropped), ready and unposted; all fixed on `pr_24585_review_1` (pushed to John's fork only).
+Initial review (round 0) of `71178a56e3b` approved with response (three P3s, all fixed on `pr_24585_review_1`, pushed to John's fork only) on 2026-10-30; awaiting author/merge.
 
 PR open against `dev` by itisAliRH, out of draft; part of #23812 (W4). Worktree: `~/projects/worktrees/galaxy/pr/24585/`.
