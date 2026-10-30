@@ -14,6 +14,8 @@ The `test` kind keys only on nf-core input names, and the defaults fallback emit
 
 3. **Ad hoc sample sheets: the Mold forced `columns: []` when the source declares the header (nf-core/atacseq 2.1.2, /home/ubuntu/foundry-runs/prose-nf2wb-atacseq-2026-10-29, sample-sheet half of ledger `snf-mold-ad-hoc-samplesheet-columns-and-subworkflow-guards`).** Pre-nf-schema nf-core releases run `SAMPLESHEET_CHECK` (`bin/check_samplesheet.py`) and then `.splitCsv(header:true)` on its output (`subworkflows/local/input_check.nf:15-17`). Rev 18's `ad-hoc` branch (`index.md:304`) said `columns: []`, yet the checker states the header (`check_samplesheet.py:55-58`; 4 columns, or 6 under `with_control`). An unwired `assets/schema_input.json` lists the same 6. The CLI emits no sample sheet: atacseq's `input` has no `schema:` keyword, so the 16-11 `definitions` fix alone won't produce one. The correction pass filled the columns by judgment. The guard half of that ledger entry is 16-14. No PR covers either.
 
+4. **nf-schema sheets: the row schema is not always the runtime layout (nf-core/chipseq 2.1.0, /home/ubuntu/foundry-runs/prose-nf2wb-chipseq-2026-10-30, ledger `snf-mold-nfschema-sheet-not-runtime-layout`).** The `nf-schema` branch (`index.md:301`) says "`samplesheetToList()` emits columns in property order". chipseq's `input` has `"schema": "assets/schema_input.json"` (`nextflow_schema.json:19`), but only nf-validation's param check reads it. The channel comes from `SAMPLESHEET_CHECK` → `.splitCsv(header:true)` (`subworkflows/local/input_check.nf:13-17`; TODO at `workflows/chipseq.nf:116`), and `check_samplesheet.py:168-178,231` rewrites the sheet: it adds `single_end`, folds `control_replicate` into `control` as `<control>_REP<n>`, and renames ids `<sample>_REP<n>_T<run>`. Same family as item 3, from the other side. Fix: `discovered_via: nf-schema` only when `samplesheetToList`/`fromSamplesheet` consumes the schema; otherwise use item 3's checker-header rule and record the schema as validation-only (or warn that its columns differ from the channel's). Fold into bedb13d4's revision, which edits the same paragraph. No PR covers it.
+
 ## Evidence
 - Mold (origin/main): `content/molds/summarize-nextflow/index.md:281`: `test` = includes `conf/test*.config` or assigns non-null `params.input`/`samplesheet`. Line 293 states the limit (all 103 corpus `test` profiles are nf-core, none ad-hoc). Lines 368-372: fidelity order; step 3 emits "one `pipeline-defaults` candidate".
 - Policy note: `content/research/nextflow-test-case-selection/index.md:51-52` (steps 4-5, same single fallback). Line 88: the array carries input-bearing profiles "or" the defaults fallback.
@@ -42,10 +44,18 @@ bedb13d4 on `pipeline-run-atacseq` is summarize-nextflow rev 19. Its `ad-hoc` br
 - Put the atacseq case in `scenarios.md` and add a `changes.md` entry. The eval stays abstract, which it already is.
 - No CLI counterpart is needed in this PR. Note in the Mold that the CLI emits no ad hoc entry, so the LLM pass adds it.
 
-Three unmerged changes all claim rev 19: `summarize-nextflow-reference-assets` (35002353, §6.5; the same change is fe8a0d88 on `pipeline-run-golden-funcscan`), 0d8daf0e (this finding) and bedb13d4. `git merge-tree` shows that their index.md bodies touch disjoint hunks. Conflicts arise only in the frontmatter `revision`, `_provenance.json`, `Dashboard.md` and the re-cast `SKILL.md`. Sequence:
+## Local Mold fix 9b2fd539 (chipseq)
+9b2fd539 on `pipeline-run-chipseq` is also summarize-nextflow rev 19: §1 ranks the primary workflow by direct calls (`index.md:265`), §6 records config `ext.when` closures as `conditionals[]` (`:354`), plus two deterministic eval properties. Verdict: keep, revised and split.
+- Primary selection: the wording is right, but the eval property is `check: deterministic` and the CLI still fails it (16-16, #666 item 1). Ship it in the CLI selection PR, not alone.
+- `ext.when`: right rule, but it packs the config path and selector into the `guard` string and sets `branch: default`, which 16-14 already flags as misleading. Prefer a structured source on `Conditional` (16-19, fix 15); until the schema has one, say the prefix is a stopgap. Its eval is deterministic with no CLI support yet, so mark it llm-judged or land it with the CLI change.
+- Both halves lack the chipseq case in `scenarios.md` and a `changes.md` entry.
+
+## Rev-19 sequencing
+Four unmerged changes claim rev 19: `summarize-nextflow-reference-assets` (35002353, §6.5; the same change is fe8a0d88 on `pipeline-run-golden-funcscan`), 0d8daf0e (this finding), bedb13d4 (atacseq) and 9b2fd539 (chipseq). Their index.md body hunks are disjoint (`:265`/`:354` for 9b2fd539, `:301` bedb13d4, `:361` reference-assets, `:371` 0d8daf0e; `:354` and `:361` are close, so check the rebase), and so are their eval.md hunks. Conflicts arise only in the frontmatter `revision`, `_provenance.json`, `Dashboard.md` and the re-cast `SKILL.md`. Sequence:
 1. reference-assets as rev 19. It is oldest, and the funcscan branch already carries it. Funcscan then rebases and drops fe8a0d88.
-2. bedb13d4 (revised) as rev 20. It is Mold-only and small.
-3. 0d8daf0e as rev 21, in one PR with its CLI change, since that is the slow one.
+2. bedb13d4 (revised, plus item 4's nf-schema clause) as rev 20. It is Mold-only and small.
+3. 0d8daf0e as rev 21, in one PR with its CLI change.
+4. 9b2fd539 as rev 22, split: the `ext.when` half (Mold-only once the eval is llm-judged) may go before 0d8daf0e; the primary-selection half rides with the #666 CLI fix.
 
 Each step renumbers the frontmatter, re-casts the bundle, regenerates the Dashboard and runs `make check`. Mold gap (2), subworkflow guards in `conditionals[]` (16-14), also touches §6.5's `reference_rebuilds` (the PREPARE_GENOME index builders), so that work should follow step 1.
 
@@ -64,5 +74,7 @@ Proposal:
 Also: when nf-tests exist, input-bearing profiles none of them uses are dropped (nf-core/bacass `test_full`, the only config enabling Kmerfinder/QUAST_BYREFSEQID), and `TestCandidate` has no structured field for the stages a candidate exercises or skips. Emit such profiles as `deferred` and add a coverage field.
 
 Also (nf-core/atacseq 2.1.2): the Mold's `ad-hoc` sample-sheet branch said `columns: []`, although the `SAMPLESHEET_CHECK` script declares the header (`bin/check_samplesheet.py:55-58`, plus 2 columns under `with_control`). Recover the columns from a checker's declared header, a literal `splitCsv` header, or an unwired `assets/schema_input.json`, with conditional columns marked `required: false`.
+
+Also (nf-core/chipseq 2.1.0): the `nf-schema` branch assumes the row schema's property order is the channel layout, but chipseq's schema only validates the param; the channel is `check_samplesheet.py`'s rewritten sheet (adds `single_end`, folds `control_replicate` into `control`, renames ids). Use `nf-schema` only when `samplesheetToList`/`fromSamplesheet` consumes the schema.
 
 Acceptance: on the CalliNGS fixture the CLI emits `pipeline-defaults` (selected), `profile:cluster` (eligible, `reads` delta only) and `profile:aws` (deferred).
