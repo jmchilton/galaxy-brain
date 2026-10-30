@@ -394,3 +394,12 @@ Excluded from frontmatter validator and Astro site; Obsidian-visible.
   - [[Component - Agents Backend]] — backlink
   - [[PR 22615 - UserToolSource Pydantic Semantic Validation]] — backlink
   - [[PR 18524 - Add Tool-Centric APIs to Tool Shed 2.0]] — backlink
+
+## 2026-10-30 ingest — Component - Tool Data Tables
+- **source**: vault/agents/gx_research/archive/tool_data_tables.md (research request; Galaxy origin/dev @ 65e6daff, after galaxy#24396 and #24323 merged forward)
+- **created**: [[Component - Tool Data Tables]]
+- **updated**:
+  - [[Component - Dynamic Tool Manager and Toolbox Lifecycle]] — backlink
+  - [[Component - Tool Shed Data Model]] — backlink
+  - [[Component - Pulsar Input Staging]] — backlink
+  - [[Component - Tool Testing Infrastructure]] — backlink

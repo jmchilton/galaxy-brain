@@ -16,7 +16,7 @@ galaxy_areas:
 status: draft
 created: 2026-10-30
 revised: 2026-10-30
-revision: 1
+revision: 2
 ai_generated: true
 summary: "How Pulsar job files move between Galaxy and Pulsar: path rewrites, file actions, FileStager, the job files API, job_key, and the shared-disk assumption"
 sources:
@@ -34,6 +34,7 @@ related_notes:
   - "[[Component - Galaxy Pulsar Runner Code Sharing]]"
   - "[[Component - Job Completion Lifecycle]]"
   - "[[Component - Jobs API and Job Cache]]"
+  - "[[Component - Tool Data Tables]]"
 ---
 
 # Pulsar Input Staging

@@ -13,7 +13,7 @@ galaxy_areas: [tools, workflows, models, api]
 status: draft
 created: 2026-10-30
 revised: 2026-10-30
-revision: 1
+revision: 2
 ai_generated: true
 summary: "How DynamicToolManager creates, commits and deactivates dynamic tool rows, and when the toolbox caches them or loads them lazily by uuid"
 sources:
@@ -21,6 +21,7 @@ sources:
 related_notes:
   - "[[Component - User-Defined Tools]]"
   - "[[Component - Workflow Import]]"
+  - "[[Component - Tool Data Tables]]"
 ---
 
 # Dynamic Tool Manager and Toolbox Lifecycle

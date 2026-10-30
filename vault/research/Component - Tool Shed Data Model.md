@@ -10,8 +10,8 @@ galaxy_areas:
   - security
 status: draft
 created: 2026-09-09
-revised: 2026-09-10
-revision: 2
+revised: 2026-10-30
+revision: 3
 ai_generated: true
 summary: "Shed-side SQLAlchemy schema — 14 tables, hg-keyed RepositoryMetadata over a denormalized JSON blob, dead flags, two-revision alembic history"
 sources: ["/Users/jxc755/projects/repositories/galaxy-brain/.ingest-dossiers/Component-Tool-Shed-Data-Model.md"]
@@ -22,6 +22,7 @@ related_notes:
   - "[[Component - Tool Install YAML]]"
   - "[[Component - Galaxy Pulsar Runner Code Sharing]]"
   - "[[Component - User Password Management]]"
+  - "[[Component - Tool Data Tables]]"
 ---
 
 # Tool Shed Data Model
