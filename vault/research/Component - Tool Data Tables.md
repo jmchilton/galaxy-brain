@@ -14,7 +14,7 @@ galaxy_areas:
 status: draft
 created: 2026-10-30
 revised: 2026-10-30
-revision: 1
+revision: 2
 ai_generated: true
 summary: "How ToolDataTableManager orders config sources, resolves .loc files, merges same-named tables and propagates reloads across Galaxy processes"
 sources:
@@ -28,6 +28,7 @@ related_notes:
   - "[[Component - Tool Shed Data Model]]"
   - "[[Component - Pulsar Input Staging]]"
   - "[[Component - Tool Testing Infrastructure]]"
+  - "[[Component - Tool Linters]]"
 ---
 
 # Tool Data Tables

@@ -10,7 +10,7 @@ component: Tool Testing Infrastructure
 status: draft
 created: 2026-02-05
 revised: 2026-10-30
-revision: 6
+revision: 7
 ai_generated: true
 summary: "Framework for parsing, loading, executing tests in XML/YAML tool files via planemo"
 related_notes:
@@ -26,6 +26,7 @@ related_notes:
   - "[[Component - Galaxy Pulsar Runner Code Sharing]]"
   - "[[Component - Deployment Tests]]"
   - "[[Component - Tool Data Tables]]"
+  - "[[Component - Tool Linters]]"
 ---
 
 # Galaxy Tool Testing Infrastructure Overview

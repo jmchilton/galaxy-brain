@@ -403,3 +403,13 @@ Excluded from frontmatter validator and Astro site; Obsidian-visible.
   - [[Component - Tool Shed Data Model]] — backlink
   - [[Component - Pulsar Input Staging]] — backlink
   - [[Component - Tool Testing Infrastructure]] — backlink
+
+## 2026-10-30 ingest — Component - Tool Linters
+- **source**: vault/agents/gx_research/archive/tool_linters_and_reference_resolution.md (research request; Galaxy origin/dev @ 65e6daff; unmerged #23891/#23902 branches and draft #24524 described separately)
+- **created**: [[Component - Tool Linters]]
+- **updated**:
+  - [[Component - Collection Tool Execution Semantics]] — backlink
+  - [[Component - User-Defined Tool Source Validation]] — backlink
+  - [[Component - Tool Citations and External Metadata Fetch]] — backlink
+  - [[Component - Tool Data Tables]] — backlink
+  - [[Component - Tool Testing Infrastructure]] — backlink
