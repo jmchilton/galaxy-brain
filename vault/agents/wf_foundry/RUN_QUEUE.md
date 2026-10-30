@@ -34,5 +34,5 @@ Rows 7-10 (2026-10-30) need fixtures not on `origin/main`. They are pinned in lo
 
 - 2026-10-29: cloned `galaxyproject/foundry` to `~/projects/repositories/foundry` (`origin` upstream, `jmchilton` fork); `npm i -g pnpm@10.33.0` (no corepack on Node 26). planemo via `uvx --from planemo==0.75.47`; `gxwf` from each worktree's `node_modules/.bin`.
 - 2026-10-29: two concurrent planemo Galaxies (smrnaseq 68 steps + CalliNGS STAR) peaked at 13.3/14.6 GiB and the OOM killer took CalliNGS's STAR. Added a persistent 16 GiB `/swapfile`; drivers now wait before a planemo attempt when another runs and `MemAvailable` < 8 GiB (TEST_PIPELINE.md).
-- 2026-10-30: planemo master @ `2a815808` (0.75.48.dev0) in `~/.local/share/planemo-master-2a815808` (`uv venv` + `uv pip install git+…@<sha>`); drivers use it from chipseq on (TEST_PIPELINE.md). Earlier runs used 0.75.47.
+- 2026-10-30: planemo master @ `2a815808` (0.75.48.dev0) in `~/.local/share/planemo-master-2a815808` (`uv venv` + `uv pip install git+…@<sha>`); drivers use it from chipseq on (TEST_PIPELINE.md). Earlier runs used 0.75.47. Smoke test: demo v1 workflow green 1/1 on release_26.1.
 - 2026-10-29: GOLDEN_PLANS build step now copies `caller-request.md` and `summary-nextflow.json` from the seed run dir (the demo v1 driver had to find them itself).
