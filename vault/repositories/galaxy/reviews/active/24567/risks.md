@@ -1,0 +1,3 @@
+Profile: gx_risk_assessment, model claude-opus-5-5, effort low, reviewed commit 19e40ed7800c.
+
+Risks are minimal - this change doesn't lock Galaxy into particular difficult to change choices (a two-way door). It swaps the last `BFormCheckbox` (Tool Shed installation settings dependency checkboxes) for the existing `GCheckbox` and drops bootstrap-vue patch hunks for form-select, form-tags, and the form-radio-check mixin, which no client source still imports (no `BFormCheckbox`/`BFormRadio*`/`BFormSelect`/`BFormTags` references remain). Any regression would be a visual or binding issue in one admin dialog, reverted by restoring the component and patch hunks.

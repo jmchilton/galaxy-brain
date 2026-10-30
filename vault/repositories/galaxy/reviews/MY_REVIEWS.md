@@ -1,5 +1,9 @@
 ## PRs to review (`to_review`)
 
+- [#24586](https://github.com/galaxyproject/galaxy/pull/24586) — initial review in progress (round 0, c889c700361). [notes](active/24586/index.md)
+- [#24567](https://github.com/galaxyproject/galaxy/pull/24567) — initial review ready, unposted (three P3s; fixed on `pr_24567_review_0`). [notes](active/24567/index.md)
+- [#24565](https://github.com/galaxyproject/galaxy/pull/24565) — initial review in progress (round 0, fc477492afe). [notes](active/24565/index.md)
+- [#24563](https://github.com/galaxyproject/galaxy/pull/24563) — initial review in progress (round 0, f7db338ea74). [notes](active/24563/index.md)
 - [#24523](https://github.com/galaxyproject/galaxy/pull/24523) — approved with review (round 0, 55b681c1fa9); awaiting merge (one P2 + three P3s; fixed on `pr_24523_review_0`). [notes](active/24523/index.md)
 - [#24511](https://github.com/galaxyproject/galaxy/pull/24511) — initial review ready, unposted (two P2s + seven P3s; fixed on `pr_24511_review_0`); 25.1 quota policy-change risk. [notes](active/24511/index.md)
 - [#24538](https://github.com/galaxyproject/galaxy/pull/24538) — initial review ready, unposted (approve; one P3 fixed on `pr_24538_review_0`). [notes](active/24538/index.md)
