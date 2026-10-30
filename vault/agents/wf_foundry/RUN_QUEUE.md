@@ -11,7 +11,7 @@ Each new pipeline runs seed (step 0) then build (step 1) then fold, per [GOLDEN_
 | 3 | CRG-CNAG__CalliNGS-NF | seed v0, build v0 → v1 | `pipeline-run-callings` | seed `~/foundry-runs/prose-nf2wb-callings-2026-10-29/`; build `~/foundry-runs/prose-wb2g-callings-v0-2026-10-29/` | seed done (v0 `f8993830`); build green on attempt 5 (1 OOM from concurrency, 2 harness); folded to v1 (6 open / 13 decisions) |
 | 4 | nf-core__bacass--test-profile | seed v0, build v0 → v1 | `pipeline-run-bacass` | seed `~/foundry-runs/prose-nf2wb-bacass-test-2026-10-29/` | seed done (v0 `c0df6a03`); build waits on BUSCO decision; seed run dir not yet archived (needs John) |
 | 5 | nf-core__bacass | seed v0, build v0 → v1 | `pipeline-run-bacass-full` | seed `~/foundry-runs/prose-nf2wb-bacass-full-2026-10-29/` | seed done (v0 `7844e898` + fixes); build needs reference-DB decision |
-| 6 | nf-core__atacseq | seed v0, build v0 → v1 | `pipeline-run-atacseq` | seed `~/foundry-runs/prose-nf2wb-atacseq-2026-10-29/` | seed running |
+| 6 | nf-core__atacseq | seed v0, build v0 → v1 | `pipeline-run-atacseq` | seed `~/foundry-runs/prose-nf2wb-atacseq-2026-10-29/`; build `~/foundry-runs/prose-wb2g-atacseq-v0-2026-10-29/` | seed done (v0 `5c32c662`); build running |
 
 ## Seed objectives (John, 2026-10-29)
 
