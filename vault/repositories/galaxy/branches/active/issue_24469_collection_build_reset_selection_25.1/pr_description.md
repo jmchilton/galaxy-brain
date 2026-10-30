@@ -1,4 +1,4 @@
-Fix 🎯 #24469 — leave history selection mode when building a collection from selected datasets.
+Fix 🎯 #24469 and 🎯 #24601 — leave history selection mode after building a collection from selected datasets, and keep the selection if the builder is left without creating one.
 
 After Auto/Advanced Build List, the history panel can retain the old dataset selection even though those datasets are now hidden inside the new collection. The result is a stale selection count and checkboxes on the remaining history items.
 
@@ -6,17 +6,17 @@ After Auto/Advanced Build List, the history panel can retain the old dataset sel
 | ------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------- |
 | ![After building a list, selection mode remains with “2 of 1 selected”](https://raw.githubusercontent.com/jmchilton/galaxy/63a19b1a86ca44553ab84b3b798bf3afe069e28f/screenshots/02_before_fix_after_build.png) | ![After building a list, the history panel has left selection mode](https://raw.githubusercontent.com/jmchilton/galaxy/63a19b1a86ca44553ab84b3b798bf3afe069e28f/screenshots/03_after_fix_after_build.png) |
 
-***For Auto/Advanced Build List, selection clears when the wizard opens, so cancelling the wizard also leaves selection mode off.*** The selected datasets are handed to the builder before selection clears. The Build Dataset List modal used for an all-in-query selection clears selection when creation succeeds.
+***For Auto/Advanced Build List, selection clears only when the wizard creates a collection; leaving the wizard without creating keeps the selection.*** The wizard bumps a counter on the existing builder selection store (`useCollectionBuilderItemSelection`) on success, and `SelectionOperations` exits selection mode when it changes. The Build Dataset List modal used for an all-in-query selection already cleared selection on its `created-collection` event; both paths now behave the same.
 
 ***This changes selection controls in the history panel; it preserves the datasets passed to the collection builder.***
 
 ## Risks
 
-This is a reversible UI change with no API or stored-data changes. The main tradeoff is losing the history selection when cancelling Auto/Advanced Build List.
+This is a reversible UI change with no API or stored-data changes. The success signal goes through a pinia store shared across routes, so any history panel showing selection mode exits it when a wizard creates a collection.
 
 <details><summary>Risk Review Advice</summary>
 
-Check that clearing on wizard entry is the desired interaction, including cancellation. Clearing only after a successful wizard build would require communication back to the history panel across routes; this release-branch fix uses the existing selection-mode reset.
+Check that clearing on success (not on wizard entry) is the desired interaction. An earlier revision cleared on entry and lost the selection on cancel (raised in review, tracked as #24601); this revision replaces that with a store counter.
 
 </details>
 
@@ -30,7 +30,7 @@ Targets `release_25.1`. Developed with [John's Galaxy Brain Branch Factory](http
 
 <details><summary>Keep the fix focused on the wizard and all-in-query modal entry points.</summary>
 
-Restoring the modal handler alone would miss the issue's Auto/Advanced Build List reproduction. Clearing only on successful wizard creation requires broader cross-route plumbing; the cancellation tradeoff is stated above.
+Restoring the modal handler alone would miss the issue's Auto/Advanced Build List reproduction. Clearing only on successful wizard creation needed a small cross-route signal; it reuses the store that already hands the selection to the wizard, so #24601 is folded in rather than left as a follow-up.
 
 </details>
 
@@ -46,7 +46,7 @@ The leading baseline commit protects selection handoff and navigation. A modal u
 
 <details><summary>Static review reported no findings.</summary>
 
-Reviewed the selection component and its history, builder-store, wizard and Selenium interactions during hardening. Tests were verified separately.
+Reviewed the selection component and its history, builder-store, wizard and Selenium interactions during hardening. Tests were verified separately. The later clear-on-success commit for #24601 was not re-reviewed.
 
 </details>
 
@@ -54,7 +54,7 @@ Reviewed the selection component and its history, builder-store, wizard and Sele
 
 <details><summary>No independent baseline refactor was warranted.</summary>
 
-The production change adds selection-mode resets to the two relevant paths. The new selectors and test helper exist to check the resulting UI behavior.
+The production change adds selection-mode resets to the two relevant paths and a success counter to the existing builder selection store. The new selectors and test helper exist to check the resulting UI behavior.
 
 </details>
 
@@ -63,9 +63,9 @@ The production change adds selection-mode resets to the two relevant paths. The 
 - [x] Did a human read every test and every comment?
 - [x] What does the user see when it fails? Stale selection controls and counts after building a collection, as shown above.
 - [x] Is the diff free of unrelated or stale generated changes? Yes!
-- [x] Are unit tests not just testing the literal implementation? Yes: handoff/navigation and the modal event contract, with Selenium checking the visible result.
+- [x] Are unit tests not just testing the literal implementation? Yes: handoff/navigation, the wizard-success and modal event contracts, with Selenium checking the visible result.
 - [x] Are baseline tests in their own leading commits (if applicable)? Yes.
-- [x] Are the comments free of excess archeology? Yes; no comments added.
+- [x] Are the comments free of excess archeology? Yes; one-line doc comment on the store counter.
 - [x] If comments contain some description of previous implementation, bugs, etc. — what purpose do they serve? N/A.
 
 ## How to test the changes?
@@ -74,7 +74,7 @@ The production change adds selection-mode resets to the two relevant paths. The 
 
 <details><summary>Coverage</summary>
 
-`SelectionOperations.test.js` covers selected-dataset handoff and the all-in-query modal callback. `test_collection_builders.py` checks selection controls after Auto Build List and Advanced Build List.
+`SelectionOperations.test.js` covers selected-dataset handoff (selection kept on wizard open), the wizard success signal and the all-in-query modal callback. `test_collection_builders.py` checks selection controls after Auto Build List and Advanced Build List, and that selection survives opening the wizard (`test_build_list_open_keeps_selection`).
 
 </details>
 
