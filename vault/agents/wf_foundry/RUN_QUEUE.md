@@ -12,7 +12,7 @@ Each new pipeline runs seed (step 0) then build (step 1) then fold, per [GOLDEN_
 | 4 | nf-core__bacass--test-profile | seed v0, build v0 → v1 | `pipeline-run-bacass` | seed `~/foundry-runs/prose-nf2wb-bacass-test-2026-10-29/` | seed done (v0 `c0df6a03`); build waits on BUSCO decision; seed run dir not yet archived (needs John) |
 | 5 | nf-core__bacass | seed v0, build v0 → v1 | `pipeline-run-bacass-full` | seed `~/foundry-runs/prose-nf2wb-bacass-full-2026-10-29/` | seed done (v0 `7844e898` + fixes); build needs reference-DB decision |
 | 6 | nf-core__atacseq | seed v0, build v0 → v1 | `pipeline-run-atacseq` | seed `~/foundry-runs/prose-nf2wb-atacseq-2026-10-29/`; build `~/foundry-runs/prose-wb2g-atacseq-v0-2026-10-29/` | seed done (v0 `5c32c662`); build green on attempt 3 (149 steps, 16 cited drops, 0 surrendered); folded to v1 (9 open / 16 decisions); run dir not yet archived (needs John) |
-| 7 | nf-core__chipseq 2.1.0 | seed v0, build v0 → v1 | `pipeline-run-chipseq` | — | proposed: atacseq sibling, same test reference; IWC chipseq-pe/sr |
+| 7 | nf-core__chipseq 2.1.0 | seed v0, build v0 → v1 | `pipeline-run-chipseq` | seed `~/foundry-runs/prose-nf2wb-chipseq-2026-10-30/` | seed running (2026-10-30); John: rows 7-10 one at a time |
 | 8 | nf-core__cutandrun 3.2.2 | seed v0, build v0 → v1 | `pipeline-run-chipseq` | — | proposed: all refs explicit URLs + spike-in; IWC cutandrun |
 | 9 | nf-core__viralrecon 3.0.0 | seed v0, build v0 → v1 | `pipeline-run-chipseq` | — | proposed: ARTIC/ivar amplicon test; IWC sars-cov-2 workflows |
 | 10 | nf-core__hic 2.1.0 | seed v0, build v0 → v1 | `pipeline-run-chipseq` | — | proposed: yeast ref by URL; IWC hic-hicup-cooler |
@@ -34,4 +34,5 @@ Rows 7-10 (2026-10-30) need fixtures not on `origin/main`. They are pinned in lo
 
 - 2026-10-29: cloned `galaxyproject/foundry` to `~/projects/repositories/foundry` (`origin` upstream, `jmchilton` fork); `npm i -g pnpm@10.33.0` (no corepack on Node 26). planemo via `uvx --from planemo==0.75.47`; `gxwf` from each worktree's `node_modules/.bin`.
 - 2026-10-29: two concurrent planemo Galaxies (smrnaseq 68 steps + CalliNGS STAR) peaked at 13.3/14.6 GiB and the OOM killer took CalliNGS's STAR. Added a persistent 16 GiB `/swapfile`; drivers now wait before a planemo attempt when another runs and `MemAvailable` < 8 GiB (TEST_PIPELINE.md).
+- 2026-10-30: planemo master @ `2a815808` (0.75.48.dev0) in `~/.local/share/planemo-master-2a815808` (`uv venv` + `uv pip install git+…@<sha>`); drivers use it from chipseq on (TEST_PIPELINE.md). Earlier runs used 0.75.47.
 - 2026-10-29: GOLDEN_PLANS build step now copies `caller-request.md` and `summary-nextflow.json` from the seed run dir (the demo v1 driver had to find them itself).
