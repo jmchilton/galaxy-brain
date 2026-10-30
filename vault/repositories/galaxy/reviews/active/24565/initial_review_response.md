@@ -45,17 +45,16 @@ You're contributing to a repository John cares about and you deserve a human res
 
 <details><summary>Review Verification Branch Details</summary>
 
-This [review branch](https://github.com/jmchilton/galaxy/tree/pr_24565_review_0) contains work the verification agent did to help verify findings and make sure suggestions make sense and are actionable. This doesn't necessarily represent production ready code. Feel free to include any commits in the PR but they should be reviewed by a human.
+This [review branch](https://github.com/jmchilton/galaxy/tree/pr_24565_review_1) contains work the verification agent did to help verify findings and make sure suggestions make sense and are actionable. This doesn't necessarily represent production ready code. Feel free to include any commits in the PR but they should be reviewed by a human.
 
 <details><summary>Branch and Commit Details</summary>
 
-Branch [`pr_24565_review_0`](https://github.com/jmchilton/galaxy/tree/pr_24565_review_0) (from `fc477492afec`) builds on the PR's fix. It adds an API assertion that `Total_matches` excludes shared workflows with `show_shared=false`. It removes the client-side owner filter left over from #23777, but keeps the wait-for-user loading gate (with a corrected comment) because workflow cards still derive ownership from the current user. It makes each tab's `showShared` explicit. It also replaces the parameter-only and config-level unit tests with ones that pin behavior. The client tests for every edited file pass (`WorkflowList.test.ts`, `filterConversion.test.js`: 29 tests). The API test was written but not run, because no Galaxy virtualenv was available.
+Branch [`pr_24565_review_1`](https://github.com/jmchilton/galaxy/tree/pr_24565_review_1) (from `fc477492afec`) builds on the PR's fix. It adds an API assertion that `Total_matches` excludes shared workflows with `show_shared=false`. It removes the client-side owner filter left over from #23777, but keeps the wait-for-user loading gate (with a corrected comment) because workflow cards still derive ownership from the current user. It makes each tab's `showShared` explicit. It also drops the parameter-only unit tests. The client tests for every edited file pass (`WorkflowList.test.ts`). The API test was written but not run, because no Galaxy virtualenv was available.
 
 - [`9d3e07474fc`](https://github.com/jmchilton/galaxy/commit/9d3e07474fc) Assert Total_matches excludes shared workflows with show_shared=false: extends `test_index_total_matches` with a `show_shared=false` request that expects 3 matches and 3 rows, without the shared workflow (P2 1).
 - [`9cf73974989`](https://github.com/jmchilton/galaxy/commit/9cf73974989) Drop the My workflows client owner filter now that the server excludes shared workflows: `workflowsLoaded` becomes a plain ref, and the loading gate's comment now gives the card-ownership reason (P3 1).
 - [`516845d7e14`](https://github.com/jmchilton/galaxy/commit/516845d7e14) Drop the WorkflowList tests that only assert showShared is omitted: removes the duplicated published and Shared with me tests (P3 2).
 - [`609684d3409`](https://github.com/jmchilton/galaxy/commit/609684d3409) Pass showShared explicitly on the Shared with me workflows tab: sends `published ? undefined : sharedWithMe` and turns the My tab test into an `it.each` over My (`false`) and Shared with me (`true`) (P3 3).
-- [`3929d3f2a9d`](https://github.com/jmchilton/galaxy/commit/3929d3f2a9d) Test the invalid is:shared_with_me notice on My workflows instead of the filter config: adds a component test for the invalid-filter alert and the absence of a request, and drops the `filterConversion.test.js` case (P3 4).
 
 </details>
 
@@ -116,19 +115,5 @@ Fixed on the review branch in [`609684d3409`](https://github.com/jmchilton/galax
 <details><summary>Discovery & Verification Agent Details</summary>
 
 Discovered by [default](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/reviewers/default.md) via Claude Opus 5.5 at medium effort. Verified via Claude Opus 5.5 at medium effort.
-
-</details>
-
-### P3 4: Test the invalid-filter behavior on My workflows rather than the filter config (implementation verified)
-
-The new `filterConversion.test.js` case checks that the `my` filter config rejects `shared_with_me`. The PR description promises a behavior: typing `is:shared_with_me` on My workflows shows the "Invalid filters in query" notice and sends no request. Nothing tests that behavior.
-
-In `WorkflowList.test.ts`, emit `update:filterText` with `is:shared_with_me` from `FilterMenu` (the same approach as `CuratedWorkflowList.test.ts`). Expect `#no-workflow-found-invalid` to mention `shared_with_me` and `loadWorkflows` to receive no new call. Then drop the config-level case.
-
-Fixed on the review branch in [`3929d3f2a9d`](https://github.com/jmchilton/galaxy/commit/3929d3f2a9d).
-
-<details><summary>Discovery & Verification Agent Details</summary>
-
-Discovered by [gx_test_challenger](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/reviewers/gx_test_challenger.md) via Claude Opus 5.5 at medium effort. Verified via Claude Opus 5.5 at medium effort. The new test passes on the review branch and fails when `workflowFilters.ts` is restored to its pre-PR version.
 
 </details>

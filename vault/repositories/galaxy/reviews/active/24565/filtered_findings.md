@@ -1,1 +1,2 @@
 - Removing the My tab's wait-for-user `loading` gate (part of default P2 1 / perf P3 1): disproved. `WorkflowCard.vue` and `useWorkflowCardActions.ts` still compute `shared` from `matchesCurrentUsername(owner)`, so without the gate own workflows would briefly render as shared cards. Only the owner filter was removed. The merged finding is kept as P3 1, downgraded from P2 because only half of it held.
+- P3 4: Test the invalid-filter behavior on My workflows rather than the filter config: Trimmed by John.

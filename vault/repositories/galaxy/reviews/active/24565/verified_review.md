@@ -47,15 +47,3 @@ Pass `showShared: published.value ? undefined : sharedWithMe.value`, so My sends
 Discovered by [default](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/reviewers/default.md) via Claude Opus 5.5 at medium effort. Verified via Claude Opus 5.5 at medium effort.
 
 </details>
-
-### P3 4: Test the invalid-filter behavior on My workflows rather than the filter config (implementation verified)
-
-The new `filterConversion.test.js` case checks that the `my` filter config rejects `shared_with_me`. The PR description promises a behavior: typing `is:shared_with_me` on My workflows shows the "Invalid filters in query" notice and sends no request. Nothing tests that behavior.
-
-In `WorkflowList.test.ts`, emit `update:filterText` with `is:shared_with_me` from `FilterMenu` (the same approach as `CuratedWorkflowList.test.ts`). Expect `#no-workflow-found-invalid` to mention `shared_with_me` and `loadWorkflows` to receive no new call. Then drop the config-level case.
-
-<details><summary>Discovery & Verification Agent Details</summary>
-
-Discovered by [gx_test_challenger](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/reviewers/gx_test_challenger.md) via Claude Opus 5.5 at medium effort. Verified via Claude Opus 5.5 at medium effort. The new test passes on the review branch and fails when `workflowFilters.ts` is restored to its pre-PR version.
-
-</details>
