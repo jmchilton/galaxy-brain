@@ -353,3 +353,13 @@ Excluded from frontmatter validator and Astro site; Obsidian-visible.
 - **updated-target**: [[Component - Implicit Dataset Conversion]] — target-history resolution for `history=None`, full caller catalogue, which object is access-checked, refreshed line refs
 - **updated**:
   - [[PR 21842 - Tool Execution Migrated to api jobs]] — backlink; tool-request context carries the target history
+
+## 2026-10-30 ingest — Component - Job Completion Lifecycle
+- **source**: vault/agents/gx_research/archive/job_completion_lifecycle.md (research request; Galaxy origin/dev @ 65e6daff; PR #24465 merged, #24511 open)
+- **created**: [[Component - Job Completion Lifecycle]]
+- **updated**:
+  - [[Component - Post Job Actions]] — backlink; pointer from Related Components to where non-immediate PJAs run in finish()
+  - [[Component - Collection Models]] — backlink; pointer from Implicit Collections to completion update_time bumps
+  - [[Component - Collection Tool Execution Semantics]] — backlink
+  - [[Component - Galaxy Pulsar Runner Code Sharing]] — backlink
+  - [[Component - Private Object Stores]] — backlink

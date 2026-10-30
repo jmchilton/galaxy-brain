@@ -8,7 +8,7 @@ tags:
 status: draft
 created: 2026-02-09
 revised: 2026-10-30
-revision: 9
+revision: 10
 ai_generated: true
 galaxy_areas:
   - collections
@@ -31,6 +31,7 @@ related_notes:
   - "[[PR 21932 - History Graph API]]"
   - "[[PR 21935 - Workflow Extraction Vue Conversion]]"
   - "[[PR 22706 - Workflow Extraction by IDs]]"
+  - "[[Component - Job Completion Lifecycle]]"
 ---
 
 # Galaxy Dataset Collection Model Layer
@@ -864,7 +865,7 @@ Each adapter has a `to_adapter_model()` method that returns a Pydantic model des
 
 ## 9. Implicit Collections
 
-"Implicit collections" are output collections created automatically when mapping a collection over tool inputs. The system pre-creates these before jobs run and populates them as jobs complete.
+"Implicit collections" are output collections created automatically when mapping a collection over tool inputs. The system pre-creates these before jobs run and populates them as jobs complete. How job completion bumps the `update_time` of these collections and their invocation steps is covered in [[Component - Job Completion Lifecycle]].
 
 ### 9.1 ImplicitCollectionJobs
 

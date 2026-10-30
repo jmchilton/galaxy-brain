@@ -7,8 +7,8 @@ tags:
   - galaxy/api
 status: draft
 created: 2026-03-16
-revised: 2026-08-17
-revision: 3
+revised: 2026-10-30
+revision: 4
 ai_generated: true
 component: Post Job Actions
 galaxy_areas: [workflows, api]
@@ -17,6 +17,7 @@ related_notes:
   - "[[Component - Workflow API]]"
   - "[[Component - Workflow Format (.ga)]]"
   - "[[Component - Galaxy Pulsar Runner Code Sharing]]"
+  - "[[Component - Job Completion Lifecycle]]"
 ---
 
 # Post Job Actions (PJA) - Component Architecture & Design
@@ -575,6 +576,7 @@ CREATE TABLE post_job_action_association (
 
 - **Workflow Modules** (`lib/galaxy/workflow/modules.py`) - PJA parsing & execution context
 - **Job Handlers** (`lib/galaxy/jobs/__init__.py`) - Completion flow
+- [[Component - Job Completion Lifecycle]] - where non-immediate PJAs run inside `MinimalJobWrapper.finish()`, and which commit makes their effects visible
 - **Tool Actions** (`lib/galaxy/tools/actions/__init__.py`) - Job creation hooks
 - **Workflow Managers** (`lib/galaxy/managers/workflows.py`) - API layer
 - **Workflow Editor Frontend** (`client/src/components/Workflow/Editor/`) - UI layer

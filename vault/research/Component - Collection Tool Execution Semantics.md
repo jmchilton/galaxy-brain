@@ -8,8 +8,8 @@ tags:
   - galaxy/tools
 status: draft
 created: 2026-02-05
-revised: 2026-05-16
-revision: 6
+revised: 2026-10-30
+revision: 7
 ai_generated: true
 component: dataset_collections
 galaxy_areas:
@@ -29,6 +29,7 @@ related_notes:
   - "[[PR 21932 - History Graph API]]"
   - "[[PR 21935 - Workflow Extraction Vue Conversion]]"
   - "[[PR 22706 - Workflow Extraction by IDs]]"
+  - "[[Component - Job Completion Lifecycle]]"
 ---
 
 # Collection Tool Execution Semantics in Galaxy
