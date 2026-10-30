@@ -7,3 +7,7 @@
 - **Attribute-fallthrough test exercises Vue, not GPagination** (gx_test_challenger P3 2): the test guards a contract the component documents (`data-description`/`class` on the `<nav>`), and the grid's selectors rely on it. It is cheap and not trivial enough to act on.
 - **Rename "updates the bound page both ways through v-model"** (gx_test_challenger P3 3): a nit-picky test-name change. `modelValue` plus `onUpdate:modelValue` through `h()` is what `v-model` compiles to, so the name is accurate.
 - **thermo_review P2 1 downgraded to P3 3 rather than filtered**: this is a readability refactor inside a 426-line component with good DOM-level tests, so it is not a P2 risk.
+
+## Trimmed by John
+
+- **The single-pinned-end and `hideEllipsis` windows have no tests** (verified P3 1): Trimmed by John.

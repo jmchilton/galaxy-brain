@@ -49,36 +49,21 @@ You're contributing to a repository John cares about and you deserve a human res
 
 <details><summary>Review Verification Branch Details</summary>
 
-This [review branch](https://github.com/jmchilton/galaxy/compare/itisAliRH:galaxy:feat/g-pagination...jmchilton:galaxy:pr_24585_review_0) contains work the verification agent did to help verify findings and make sure suggestions make sense and are actionable. This doesn't necessarily represent production ready code. Feel free to include any commits in the PR but they should be reviewed by a human.
+This [review branch](https://github.com/jmchilton/galaxy/compare/itisAliRH:galaxy:feat/g-pagination...jmchilton:galaxy:pr_24585_review_1) contains work the verification agent did to help verify findings and make sure suggestions make sense and are actionable. This doesn't necessarily represent production ready code. Feel free to include any commits in the PR but they should be reviewed by a human.
 
 <details><summary>Branch and Commit Details</summary>
 
-[`pr_24585_review_0`](https://github.com/jmchilton/galaxy/tree/pr_24585_review_0) starts from the reviewed commit `71178a56e3b`. Its changes stay inside `client/packages/ui` and leave the component's rendered output and events as they were, except for invalid `limit`/`perPage` values. It adds layout tests for the single-pinned-end and `hideEllipsis` windows. It clamps out-of-range `limit` and `perPage` with one rule. It moves the page-window algorithm into a pure `utils/pageWindow.ts` helper that writes pinned ends one way. Finally, it routes both page writers through a single writable `requestedPage` computed and comments and tests BootstrapVue's rule for a page size that changes along with the row count. `GPagination.test.ts` grows from 26 to 31 tests, and all of them pass. `vue-tsc`, ESLint, and Prettier are clean on the touched files.
+[`pr_24585_review_1`](https://github.com/jmchilton/galaxy/tree/pr_24585_review_1) starts from the reviewed commit `71178a56e3b`. Its changes stay inside `client/packages/ui` and leave the component's rendered output and events as they were, except for invalid `limit`/`perPage` values. It clamps out-of-range `limit` and `perPage` with one rule. It moves the page-window algorithm into a pure `utils/pageWindow.ts` helper that writes pinned ends one way. Finally, it routes both page writers through a single writable `requestedPage` computed and comments and tests BootstrapVue's rule for a page size that changes along with the row count. `GPagination.test.ts` grows from 26 to 28 tests. `vue-tsc`, ESLint, and Prettier were clean on the touched files when the commits were first verified.
 
-- [`c7bb60a8865`](https://github.com/jmchilton/galaxy/commit/c7bb60a8865) Test GPagination's single pinned end and hideEllipsis windows: adds layout tests for `firstNumber` alone, `lastNumber` alone, and `hideEllipsis` (P3 1).
-- [`131638c0e14`](https://github.com/jmchilton/galaxy/commit/131638c0e14) Clamp GPagination's limit and perPage the same way: replaces the two different fallback rules with one `atLeastOne` clamp and adds a test for `limit` 0 and -1 (P3 2).
-- [`c9132235789`](https://github.com/jmchilton/galaxy/commit/c9132235789) Move GPagination's page window into a pure pageWindow helper: moves the `items` algorithm to `utils/pageWindow.ts` with `firstPage(show)`/`lastPage(show)` in both regimes (P3 3).
-- [`1bfb632d00c`](https://github.com/jmchilton/galaxy/commit/1bfb632d00c) Write GPagination's page through one writable computed: adds the `requestedPage` getter/setter used by `goTo` and the reset watcher, comments the simultaneous-change rule, and tests it (P3 4).
-
-</details>
+- [`ec5b99a9be5`](https://github.com/jmchilton/galaxy/commit/ec5b99a9be5) Clamp GPagination's limit and perPage the same way: replaces the two different fallback rules with one `atLeastOne` clamp and adds a test for `limit` 0 and -1 (P3 1).
+- [`275eaa00c29`](https://github.com/jmchilton/galaxy/commit/275eaa00c29) Move GPagination's page window into a pure pageWindow helper: moves the `items` algorithm to `utils/pageWindow.ts` with `firstPage(show)`/`lastPage(show)` in both regimes (P3 2).
+- [`e20f5281fd3`](https://github.com/jmchilton/galaxy/commit/e20f5281fd3) Write GPagination's page through one writable computed: adds the `requestedPage` getter/setter used by `goTo` and the reset watcher, comments the simultaneous-change rule, and tests it (P3 3).
 
 </details>
 
-### P3 1: The single-pinned-end and `hideEllipsis` windows have no tests (implementation verified)
-
-The window code branches on `firstNumber` and `lastNumber` separately (`lead` and `tail`), but only the layout with both pinned is tested. `hideEllipsis` has no test either, and it is the one prop that changes the item count the window otherwise keeps constant: with it, page 1 shows four page buttons and page 5 shows three.
-
-Add layout tests for `firstNumber` alone, `lastNumber` alone, and `hideEllipsis`, at the start, middle, and end of a 10-page list.
-
-Fixed on the review branch in [`c7bb60a8865`](https://github.com/jmchilton/galaxy/commit/c7bb60a8865).
-
-<details><summary>Discovery & Verification Agent Details</summary>
-
-Discovered by [default](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/reviewers/default.md) and [gx_test_challenger](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/reviewers/gx_test_challenger.md) via Claude Opus 5.5 at medium effort. Verified via Claude Opus 5.5 at medium effort: the review branch adds the three tests, which pass against the PR's window code with hand-derived expectations.
-
 </details>
 
-### P3 2: Out-of-range `limit` and `perPage` are coerced by inconsistent rules (implementation verified)
+### P3 1: Out-of-range `limit` and `perPage` are coerced by inconsistent rules (implementation verified)
 
 `safeLimit` turns a `limit` of 0 into one page button and a negative `limit` into the default of 5. `safePerPage` turns a `perPage` of 0 into 20 and a negative one into 1. Both props are typed `number`, and every `BPagination` call site passes a positive bound value, so nothing can depend on these rules. The API parity decision covers the props, not BootstrapVue's handling of invalid values. Two different fallback rules for nonsensical input only add code that has to be explained in a comment.
 
@@ -95,7 +80,7 @@ const safeLimit = computed(() => atLeastOne(props.limit));
 
 </details>
 
-Fixed on the review branch in [`131638c0e14`](https://github.com/jmchilton/galaxy/commit/131638c0e14).
+Fixed on the review branch in [`ec5b99a9be5`](https://github.com/jmchilton/galaxy/commit/ec5b99a9be5).
 
 <details><summary>Discovery & Verification Agent Details</summary>
 
@@ -103,13 +88,13 @@ Discovered by [default](https://github.com/jmchilton/galaxy-brain/blob/main/vaul
 
 </details>
 
-### P3 3: Extract the page-window algorithm from the `items` computed into a pure helper (implementation verified)
+### P3 2: Extract the page-window algorithm from the `items` computed into a pure helper (implementation verified)
 
 `items` holds the whole windowing algorithm: two local closures, a `limit <= 3` regime with `let start/end` adjustments, and an ellipsis regime with three early returns. Inside it, a pinned first or last page is written two ways. The compact regime uses `...(lead && start > 1 ? pages(1, 1) : [])`, and the ellipsis regime uses `...pages(1, 1).slice(0, lead)`, which relies on a 0/1 number serving as both a flag and a slice length. This is the component's only non-trivial logic, and it depends only on the page count, the current page, `limit`, and the pinning and ellipsis flags.
 
 Move it to `client/packages/ui/src/utils/pageWindow.ts`, next to `focusOrder.ts` and `escapeStack.ts`. Write pinned ends one way in both regimes, e.g. `firstPage(show)` / `lastPage(show)`, and keep the 0/1 slot counts only for arithmetic. The component then keeps a single `computed(() => pageWindow({...}))`, and the existing DOM-level layout tests cover the helper unchanged.
 
-Fixed on the review branch in [`c9132235789`](https://github.com/jmchilton/galaxy/commit/c9132235789).
+Fixed on the review branch in [`275eaa00c29`](https://github.com/jmchilton/galaxy/commit/275eaa00c29).
 
 <details><summary>Discovery & Verification Agent Details</summary>
 
@@ -117,7 +102,7 @@ Discovered by [thermo_review](https://github.com/jmchilton/galaxy-brain/blob/mai
 
 </details>
 
-### P3 4: The page is set in two places and derived twice, and the reset watcher's page-size exception has no comment (implementation verified)
+### P3 3: The page is set in two places and derived twice, and the reset watcher's page-size exception has no comment (implementation verified)
 
 Both `goTo` and the reset watcher open-code "set `internalPage` and emit `update:modelValue`". `Math.floor(props.modelValue ?? internalPage.value) || 1` appears in `currentPage` and again as `requested` in the watcher. `GTabs` already handles this with a writable `activeIndex` computed that reads the prop or the internal value and whose setter emits. The same pattern fits here.
 
@@ -125,7 +110,7 @@ The watcher's `rows === oldRows` clause means that a page size changing together
 
 Add a `requestedPage` writable computed (getter: bound page or internal page, setter: internal page plus `update:modelValue`), clamp it in `currentPage`, and assign to it from both writers. Comment the simultaneous-change rule and add a test that pins it.
 
-Fixed on the review branch in [`1bfb632d00c`](https://github.com/jmchilton/galaxy/commit/1bfb632d00c).
+Fixed on the review branch in [`e20f5281fd3`](https://github.com/jmchilton/galaxy/commit/e20f5281fd3).
 
 <details><summary>Discovery & Verification Agent Details</summary>
 
