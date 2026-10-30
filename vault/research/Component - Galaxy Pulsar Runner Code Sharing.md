@@ -7,7 +7,7 @@ galaxy_areas: [lib, admin, tools/runtime, testing]
 status: draft
 created: 2026-08-17
 revised: 2026-10-30
-revision: 3
+revision: 4
 ai_generated: true
 summary: "Four code-sharing channels between Galaxy and Pulsar, a manually synced util mirror with 20 of 23 files drifted, and stringly-typed job status mapping"
 sources: ["/Users/jxc755/projects/repositories/galaxy-brain/.ingest-dossiers/Component-Galaxy-Pulsar-Runner-Code-Sharing.md"]
@@ -21,6 +21,7 @@ related_notes:
   - "[[Component - YAML Tool Runtime]]"
   - "[[PR 20936 - Resource Requirements via TPV]]"
   - "[[Component - Job Completion Lifecycle]]"
+  - "[[Component - Pulsar Input Staging]]"
 ---
 
 # Galaxy Pulsar Runner Code Sharing
@@ -176,6 +177,6 @@ Ordered by cost, honest where there is no clean answer:
 
 ## Notes
 
-Job destination routing that selects the Pulsar destinations this runner services is covered in [[PR 20936 - Resource Requirements via TPV]]. Post-job processing on the Galaxy side of the same lifecycle is [[Component - Post Job Actions]].
+Job destination routing that selects the Pulsar destinations this runner services is covered in [[PR 20936 - Resource Requirements via TPV]]. Post-job processing on the Galaxy side of the same lifecycle is [[Component - Post Job Actions]]. Staging, which this note scopes out, is covered in [[Component - Pulsar Input Staging]].
 
 The relevant PRs for the sync history are Pulsar PRs (177, 297, 303), not Galaxy PRs, so `related_prs` is left empty rather than polluted with numbers that would resolve against the wrong repository.

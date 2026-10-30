@@ -11,7 +11,7 @@ tags:
 status: draft
 created: 2026-10-30
 revised: 2026-10-30
-revision: 1
+revision: 2
 ai_generated: true
 component: Jobs API and Job Cache
 galaxy_areas:
@@ -35,6 +35,7 @@ related_notes:
   - "[[Component - Workflow API]]"
   - "[[PR 20935 - Tool Request API]]"
   - "[[PR 21842 - Tool Execution Migrated to api jobs]]"
+  - "[[Component - Pulsar Input Staging]]"
 ---
 
 # Jobs API and Job Cache
@@ -310,4 +311,5 @@ For an API-submitted map-over, the ToolRequest and the ICJ group the same jobs. 
 - [[Component - Collection Models]]: ICJ, HDCA, `job_source_type`.
 - [[Component - Job Completion Lifecycle]]: what happens to jobs that do run.
 - [[Component - Workflow API]]: invocation step job listings.
+- [[Component - Pulsar Input Staging]]: the runner-only `/api/jobs/{id}/files` routes, authorized by `job_key`.
 - [[PR 20935 - Tool Request API]] and [[PR 21842 - Tool Execution Migrated to api jobs]]: where `ToolRequest` and `tool_request_id` come from.

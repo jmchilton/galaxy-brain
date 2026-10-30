@@ -374,3 +374,11 @@ Excluded from frontmatter validator and Astro site; Obsidian-visible.
   - [[Component - Workflow API]] — backlink
   - [[PR 20935 - Tool Request API]] — backlink
   - [[PR 21842 - Tool Execution Migrated to api jobs]] — backlink
+
+## 2026-10-30 ingest — Component - Pulsar Input Staging
+- **source**: vault/agents/gx_research/archive/pulsar_input_staging.md (research request; Galaxy origin/dev @ 65e6daff; pulsar-galaxy-lib 0.16.0; PRs #24484 and #22781 open)
+- **created**: [[Component - Pulsar Input Staging]]
+- **updated**:
+  - [[Component - Galaxy Pulsar Runner Code Sharing]] — backlink; pointer from Notes to the staging it scopes out
+  - [[Component - Job Completion Lifecycle]] — backlink
+  - [[Component - Jobs API and Job Cache]] — backlink

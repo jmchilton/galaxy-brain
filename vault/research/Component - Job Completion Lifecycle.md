@@ -10,7 +10,7 @@ tags:
 status: draft
 created: 2026-10-30
 revised: 2026-10-30
-revision: 2
+revision: 3
 ai_generated: true
 component: Job Completion Lifecycle
 galaxy_areas:
@@ -32,6 +32,7 @@ related_notes:
   - "[[Component - Galaxy Pulsar Runner Code Sharing]]"
   - "[[Component - Private Object Stores]]"
   - "[[Component - Jobs API and Job Cache]]"
+  - "[[Component - Pulsar Input Staging]]"
 ---
 
 # Job Completion Lifecycle
@@ -239,5 +240,6 @@ There are no unit tests for exceptions from `task_wrapper.delay()` or `_report_e
 - [[Component - Collection Models]]: the HDCAs and implicit collections whose `update_time` the completion path bumps.
 - [[Component - Collection Tool Execution Semantics]]: map-over jobs that share one `workflow_invocation_step` row through `implicit_collection_jobs`.
 - [[Component - Galaxy Pulsar Runner Code Sharing]]: Pulsar's staged finish and metadata hand-off into `finish()`.
+- [[Component - Pulsar Input Staging]]: how a Pulsar job's outputs are posted back through the job files API before `finish()`.
 - [[Component - Private Object Stores]]: quota sources and which stores count toward usage.
 - Review records: `vault/repositories/galaxy/reviews/archived/24465/`, `vault/repositories/galaxy/reviews/active/24511/`.

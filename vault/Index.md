@@ -1,6 +1,6 @@
 # Galaxy Brain Index
 
-*132 notes. Auto-generated — run `make index` to refresh.*
+*133 notes. Auto-generated — run `make index` to refresh.*
 
 ## Plans
 
@@ -90,6 +90,7 @@
 - [[Component - Jobs API and Job Cache]] — Job read path (index_query, response models, inputs/outputs/parameters_display) and job cache reuse (JobSearch, copied_from_job_id)
 - [[Component - Post Job Actions]] — Declarative post-processing operations on job outputs, transformations without explicit tools
 - [[Component - Private Object Stores]] — Storage-layer private flag vs permission-layer private roles, and why user-defined stores are private only by report
+- [[Component - Pulsar Input Staging]] — How Pulsar job files move between Galaxy and Pulsar: path rewrites, file actions, FileStager, the job files API, job_key, and the shared-disk assumption
 - [[Component - Collections - Sample Sheets Backend]] — Tabular metadata per collection element: column_definitions, columns row on elements, typed validation, cross-refs
 - [[Component - Collections - Paired or Unpaired]] — Discriminated union type of 1 or 2 elements with asymmetric subtyping where paired IS-A paired_or_unpaired
 - [[Component - Collections - Records]] — Heterogeneous fixed-shape collection: CWL-derived `fields` schema of named typed slots; no implicit mapping
