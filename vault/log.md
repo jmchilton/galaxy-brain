@@ -323,3 +323,13 @@ Excluded from frontmatter validator and Astro site; Obsidian-visible.
 - **updated**:
   - [[Component - E2E Tests - Writing]] — backlink; `clear_tooltips()` row now says it only clears `v-g-tooltip` balloons
   - [[Component - E2E Tests Smart Components]] — backlink
+
+## 2026-10-30 ingest — Component - Dataset and Collection Access Checks
+- **source**: vault/agents/gx_research/archive/dataset_collection_access_checks.md (research request; Galaxy origin/dev @ 65e6daff)
+- **created**: [[Component - Dataset and Collection Access Checks]]
+- **updated**:
+  - [[Component - Private Object Stores]] — backlink
+  - [[Component - Collection Models]] — backlink
+  - [[Component - Collection API]] — backlink
+  - [[Component - Implicit Dataset Conversion]] — backlink
+  - [[Component - API Tests]] — backlink

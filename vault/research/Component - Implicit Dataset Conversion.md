@@ -10,8 +10,8 @@ tags:
   - galaxy/lib
 status: draft
 created: 2026-02-05
-revised: 2026-10-14
-revision: 2
+revised: 2026-10-30
+revision: 3
 ai_generated: true
 component: Implicit Dataset Conversion
 galaxy_areas:
@@ -23,6 +23,7 @@ galaxy_areas:
 summary: "Transparent datatype conversion mechanism via ImplicitlyConvertedDatasetAssociation, invisible HDAs"
 related_notes:
   - "[[Component - Dataset Display]]"
+  - "[[Component - Dataset and Collection Access Checks]]"
 ---
 
 # Galaxy Implicit Dataset Conversion - Research Findings

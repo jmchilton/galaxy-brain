@@ -1,6 +1,6 @@
 # Galaxy Brain Index
 
-*127 notes. Auto-generated — run `make index` to refresh.*
+*128 notes. Auto-generated — run `make index` to refresh.*
 
 ## Plans
 
@@ -50,6 +50,7 @@
 - [[Component - CORS Handling]] — Five CORS mechanisms — global origin-validated middleware, per-route reflected-origin landings, OPTIONS catch-all, legacy WSGI path, display-app proxy
 - [[Component - CWL Ephemeral Collections]] — Lightweight non-persisted collections created during CWL execution for MultipleInputFeatureRequirement merge strategies
 - [[Component - CWL Workflow State]] — CWL workflow import to persistence to execution: parsed via WorkflowProxy, state encoded/decoded, tool_inputs dict
+- [[Component - Dataset and Collection Access Checks]] — Which helper decides read access to datasets, HDAs, LDDAs, HDCAs, collection elements and jobs, how they agree, and which ones batch
 - [[Component - Collection Creation API]] — Two-path collection creation: direct POST with element identifiers or fetch API uploading new data atomically
 - [[Component - Dataset Display]] — Catalog of the eight ways the UI renders dataset contents, from datatype display_data and viz plugins to display apps, peek and Markdown embeds
 - [[Component - Deployment Tests]] — Running API and Selenium suites against usegalaxy servers via GALAXY_TEST_EXTERNAL, requirement markers, and a manual GH workflow

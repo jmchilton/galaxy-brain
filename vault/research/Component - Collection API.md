@@ -7,13 +7,14 @@ tags:
   - galaxy/api
 status: draft
 created: 2026-02-09
-revised: 2026-05-09
-revision: 4
+revised: 2026-10-30
+revision: 5
 ai_generated: true
 galaxy_areas:
   - collections
   - api
 related_notes:
+  - "[[Component - Dataset and Collection Access Checks]]"
   - "[[Component - Collection Models]]"
   - "[[Component - Collections - Paired or Unpaired]]"
   - "[[Component - Collections - Sample Sheets Backend]]"

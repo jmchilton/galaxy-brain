@@ -6,12 +6,13 @@ component: "Private Object Stores"
 galaxy_areas: [datasets, security, admin, models]
 status: draft
 created: 2026-08-08
-revised: 2026-08-17
-revision: 2
+revised: 2026-10-30
+revision: 3
 ai_generated: true
 summary: "Storage-layer private flag vs permission-layer private roles, and why user-defined stores are private only by report"
 sources: ["/Users/jxc755/projects/repositories/galaxy-brain/.ingest-dossiers/Component-private-object-stores.md"]
 related_notes:
+  - "[[Component - Dataset and Collection Access Checks]]"
   - "[[Component - Data Fetch]]"
   - "[[Component - UI Error Handling]]"
   - "[[Component - User-Defined Tools]]"
