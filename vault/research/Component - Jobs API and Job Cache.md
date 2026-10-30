@@ -11,7 +11,7 @@ tags:
 status: draft
 created: 2026-10-30
 revised: 2026-10-30
-revision: 2
+revision: 3
 ai_generated: true
 component: Jobs API and Job Cache
 galaxy_areas:
@@ -36,6 +36,7 @@ related_notes:
   - "[[PR 20935 - Tool Request API]]"
   - "[[PR 21842 - Tool Execution Migrated to api jobs]]"
   - "[[Component - Pulsar Input Staging]]"
+  - "[[Component - User Disk Usage Accounting]]"
 ---
 
 # Jobs API and Job Cache
@@ -312,4 +313,5 @@ For an API-submitted map-over, the ToolRequest and the ICJ group the same jobs. 
 - [[Component - Job Completion Lifecycle]]: what happens to jobs that do run.
 - [[Component - Workflow API]]: invocation step job listings.
 - [[Component - Pulsar Input Staging]]: the runner-only `/api/jobs/{id}/files` routes, authorized by `job_key`.
+- [[Component - User Disk Usage Accounting]]: cache hits share the cached job's datasets and skip `finish()`, so they aren't charged at this SHA (#24511 would charge them).
 - [[PR 20935 - Tool Request API]] and [[PR 21842 - Tool Execution Migrated to api jobs]]: where `ToolRequest` and `tool_request_id` come from.

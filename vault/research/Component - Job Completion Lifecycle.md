@@ -10,7 +10,7 @@ tags:
 status: draft
 created: 2026-10-30
 revised: 2026-10-30
-revision: 3
+revision: 4
 ai_generated: true
 component: Job Completion Lifecycle
 galaxy_areas:
@@ -33,6 +33,7 @@ related_notes:
   - "[[Component - Private Object Stores]]"
   - "[[Component - Jobs API and Job Cache]]"
   - "[[Component - Pulsar Input Staging]]"
+  - "[[Component - User Disk Usage Accounting]]"
 ---
 
 # Job Completion Lifecycle
@@ -186,7 +187,7 @@ PR #24511 (open on `release_25.1`) would change this. It is not merged and not d
 - `fail()` charges partial outputs too. Before refreshing outputs it collects those with `total_size is None`, then charges them. `total_size is None` therefore becomes the "not yet charged" marker, which constrains any reordering of `finish()`: `set_total_size()` and the charge have to move together.
 - Default-source writes become SQL increments (`coalesce(disk_usage, 0) + delta`) instead of overwrites.
 
-Refresh this section once #24511 merges forward to `dev`. A broader quota note is queued as `user_disk_usage_accounting`.
+Refresh this section once #24511 merges forward to `dev`. The rest of the accounting (other chargers, purges, recalculation and its races) is in [[Component - User Disk Usage Accounting]].
 
 ## Celery hand-offs
 
@@ -242,4 +243,5 @@ There are no unit tests for exceptions from `task_wrapper.delay()` or `_report_e
 - [[Component - Galaxy Pulsar Runner Code Sharing]]: Pulsar's staged finish and metadata hand-off into `finish()`.
 - [[Component - Pulsar Input Staging]]: how a Pulsar job's outputs are posted back through the job files API before `finish()`.
 - [[Component - Private Object Stores]]: quota sources and which stores count toward usage.
+- [[Component - User Disk Usage Accounting]]: the charging rule, every charger and freer, and recalculation.
 - Review records: `vault/repositories/galaxy/reviews/archived/24465/`, `vault/repositories/galaxy/reviews/active/24511/`.

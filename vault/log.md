@@ -422,3 +422,11 @@ Excluded from frontmatter validator and Astro site; Obsidian-visible.
   - [[Component - Collection Tool Execution Semantics]] — backlink
   - [[Component - Tool Citations and External Metadata Fetch]] — backlink
   - [[Component - Tool Testing Infrastructure]] — backlink
+
+## 2026-10-30 ingest — Component - User Disk Usage Accounting
+- **source**: vault/agents/gx_research/archive/user_disk_usage_accounting.md (research request; Galaxy origin/dev @ 65e6daff; open #24511 described separately from the baseline)
+- **created**: [[Component - User Disk Usage Accounting]]
+- **updated**:
+  - [[Component - Job Completion Lifecycle]] — backlink; queued-note pointer now links the new note
+  - [[Component - Private Object Stores]] — backlink; quota section points to the new note
+  - [[Component - Jobs API and Job Cache]] — backlink

@@ -7,7 +7,7 @@ galaxy_areas: [datasets, security, admin, models]
 status: draft
 created: 2026-08-08
 revised: 2026-10-30
-revision: 4
+revision: 5
 ai_generated: true
 summary: "Storage-layer private flag vs permission-layer private roles, and why user-defined stores are private only by report"
 sources: ["/Users/jxc755/projects/repositories/galaxy-brain/.ingest-dossiers/Component-private-object-stores.md"]
@@ -23,6 +23,7 @@ related_notes:
   - "[[Component - Workflow API]]"
   - "[[Component - Galaxy Pulsar Runner Code Sharing]]"
   - "[[Component - Job Completion Lifecycle]]"
+  - "[[Component - User Disk Usage Accounting]]"
 ---
 
 # Private Object Stores
@@ -270,6 +271,8 @@ Job-directory serialisation runs through `serialize_static_object_store_config` 
 BYOS is quota-exempt: `lib/galaxy/quota/__init__.py:365-367` returns `False` from `is_over_quota`
 for a `user_objects://` job, complemented by `QuotaSourceMap.get_quota_source_info`
 (`objectstore/__init__.py:2091-2097`) and `QuotaModel(source=None, enabled=False)` in `_to_model`.
+How usage is charged, freed and recalculated, including the recalculation's `user_objects://`
+exclusion, is in [[Component - User Disk Usage Accounting]].
 
 ### API and UI
 
@@ -419,3 +422,4 @@ or the current catalog wins when an admin has changed templates; it is shared wi
 - [[Component - UI Error Handling]] — `CANNOT_SHARE_PRIVATE_DATASET_MESSAGE` and error code `400008`
 - [[Component - API Tests]] — `DatasetPopulator.selectable_object_stores()` / `create_object_store()`
 - [[Component - E2E Tests - Writing]] — the BYOS preferences UI surface
+- [[Component - User Disk Usage Accounting]] — per-user and per-quota-source usage, which BYOS data never counts toward
