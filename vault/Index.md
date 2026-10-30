@@ -78,7 +78,7 @@
 - [[Component - Workflow API]] — REST API for workflow CRUD, execution, invocation monitoring via FastAPI controllers
 - [[Component - Galaxy Workflow Expression Context]] — CWL-based workflow expressions evaluated as JavaScript with $job, $self, $runtime variables
 - [[Component - Workflow Format Differences]] — Native .ga vs Format2 .gxwf.yml serialization, machine vs human-authored designs and structural trade-offs
-- [[Component - Workflow Import]] — HTTP to database stack for workflow import spanning API controller, manager, and service layers
+- [[Component - Workflow Import]] — HTTP to database stack for workflow import, including embedded tool creation, session ordering and commit points
 - [[Component - Workflow Format (.ga)]] — Galaxy JSON workflow format, steps/connections/comments/metadata, canonical serialization
 - [[Component - Workflow Refactoring API]] — PUT endpoint for refactoring workflows, routes through service layer with validation
 - [[Component - Workflow Testing]] — YAML declarative and Python procedural testing frameworks for workflow execution validation

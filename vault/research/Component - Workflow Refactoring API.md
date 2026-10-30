@@ -8,8 +8,8 @@ tags:
   - galaxy/workflows
 status: draft
 created: 2026-02-17
-revised: 2026-04-22
-revision: 2
+revised: 2026-10-30
+revision: 3
 ai_generated: true
 galaxy_areas:
   - api
@@ -18,6 +18,7 @@ summary: "PUT endpoint for refactoring workflows, routes through service layer w
 related_notes:
   - "[[Component - Workflow API]]"
   - "[[Component - Workflow Format (.ga)]]"
+  - "[[Component - Workflow Import]]"
 ---
 
 # Galaxy Workflow Refactoring API
@@ -226,6 +227,7 @@ Key handlers:
 - Changes computed but NOT persisted to database
 - Response returns what workflow WOULD look like
 - Implementation: `WorkflowUpdateOptions.dry_run` flag (managers/workflows.py:2037)
+- Caveat (Galaxy `65e6daff`): the workflow version is not saved, but the detached build still runs embedded-tool resolution and any top-level `subworkflows` preload, and both can commit new rows. On current dev, `do_refactor` builds the workflow detached twice per call, even when `dry_run` is set. See [[Component - Workflow Import]] (Session Ordering and Commit Points).
 
 ## Test Coverage
 

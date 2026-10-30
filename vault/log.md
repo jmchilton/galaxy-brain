@@ -430,3 +430,10 @@ Excluded from frontmatter validator and Astro site; Obsidian-visible.
   - [[Component - Job Completion Lifecycle]] — backlink; queued-note pointer now links the new note
   - [[Component - Private Object Stores]] — backlink; quota section points to the new note
   - [[Component - Jobs API and Job Cache]] — backlink
+
+## 2026-10-30 ingest — Component - Workflow Import
+- **source**: vault/agents/gx_research/archive/workflow_import_embedded_tools.md (research request; Galaxy origin/dev @ 65e6daff; #24475 merged to release_26.1 and forward to dev)
+- **updated-target**: [[Component - Workflow Import]] — embedded tool carriage, `resolve_tool_uuid` resolution and permissions, session ordering and commit points, recursion, dry-run/refactor behavior
+- **updated**:
+  - [[Component - User-Defined Tools]] — backlink; workflow-embedded motivation points to import note
+  - [[Component - Workflow Refactoring API]] — backlink; dry-run caveat about committing side effects

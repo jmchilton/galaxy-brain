@@ -10,12 +10,18 @@ tags:
 status: draft
 created: 2026-02-19
 revised: 2026-10-30
-revision: 4
+revision: 5
 ai_generated: true
 component: Workflow Import
 galaxy_areas: [api, workflows, lib, models]
-summary: "HTTP to database stack for workflow import spanning API controller, manager, and service layers"
+summary: "HTTP to database stack for workflow import, including embedded tool creation, session ordering and commit points"
+sources:
+  - "vault/agents/gx_research/archive/workflow_import_embedded_tools.md"
+related_prs:
+  - 24475
 related_notes:
+  - "[[Component - User-Defined Tools]]"
+  - "[[Component - Workflow Refactoring API]]"
   - "[[Component - CWL Workflow State]]"
   - "[[Component - Format2 Workflows (gxformat2)]]"
   - "[[Component - Workflow API]]"
@@ -28,6 +34,8 @@ related_notes:
 # Galaxy Workflow Import: Component Architecture
 
 A deep-dive into the full request-to-database stack for importing workflows into Galaxy.
+
+Revision 5 adds [Embedded Tools](#embedded-tools-tool_representation) and [Session Ordering and Commit Points](#session-ordering-and-commit-points), and rewrites the construction phases and ToolModule resolution. These parts are verified against Galaxy `origin/dev` @ `65e6daff2334c8cfd4971682eecfb87f38a224be`, and all `file:line` references in them are at that SHA. `release_26.1` behaves the same, because [#24475](https://github.com/galaxyproject/galaxy/pull/24475) merged there and forward to dev. Line numbers in the other sections come from an earlier revision and may have drifted.
 
 ## Architectural Overview
 
@@ -244,18 +252,18 @@ as_dict = python_to_workflow(as_dict, galaxy_interface,
 
 ### Workflow Construction
 
-**`build_workflow_from_raw_description()`** (line 653):
+**`build_workflow_from_raw_description()`** (`lib/galaxy/managers/workflows.py:895-960`):
 
 This is the primary public entry point. It:
 1. Sets `trans.workflow_building_mode = ENABLED`
 2. Appends `(imported from <source>)` to the workflow name
 3. Calls `_workflow_from_raw_description()` to build the transient model
 4. Creates and wires up `StoredWorkflow` ↔ `Workflow`
-5. Applies annotations and tags
-6. Persists to database via `trans.sa_session.add()` + `commit()`
+5. Applies annotations and tags. `set_tags_from_list` uses its default `flush=True`, so tagging commits (`:946`)
+6. Persists to database via `trans.sa_session.add()` + `commit()` (`:958`)
 7. Returns `CreatedWorkflow(stored_workflow, workflow, missing_tools)`
 
-**`_workflow_from_raw_description()`** (line 784):
+**`_workflow_from_raw_description()`** (`:1042-1187`):
 
 The core construction method. This is ~130 lines of orchestration:
 
@@ -285,24 +293,31 @@ workflow.source_metadata = {
 workflow.source_metadata = {"url": archive_source}
 ```
 
-**Phase 3 — Subworkflow preloading:**
-If the workflow dict contains a top-level `"subworkflows"` map, these are recursively built first and stored in `subworkflow_id_map` for later reference by steps.
+**Phase 3 — Subworkflow preloading (`:1108-1116`):**
+If the workflow dict contains a top-level `"subworkflows"` map, these are recursively built first and stored in `subworkflow_id_map` for later reference by steps. Each build is a full `build_workflow_from_raw_description(..., hidden=True, is_subworkflow=True)` and commits. The preload does not check `dry_run`.
 
 **Phase 4 — Step iteration (two passes):**
 
-*First pass* — subworkflow resolution:
+*First pass (`:1122-1135`)* resolves everything that commits, before any step object exists:
 ```python
 for step_dict in self.__walk_step_dicts(data):
-    self.__load_subworkflows(trans, step_dict, subworkflow_id_map, ...)
+    if not dry_run:
+        self.__load_subworkflows(trans, step_dict, subworkflow_id_map, ...)
+    if step_dict.get("type") == "tool" and step_dict.get("tool_representation"):
+        # Creating embedded tools commits the session. Resolve them before
+        # outputs or post-job actions add partially built steps to it.
+        step_dict["tool_uuid"] = ToolModule.resolve_tool_uuid(trans, step_dict)
 ```
 
-*Second pass* — module and step creation:
+*Second pass (`:1137-1146`)* creates modules and steps:
 ```python
 for step_dict in self.__walk_step_dicts(data):
     module, step = self.__module_from_dict(trans, steps, steps_by_external_id, step_dict, **module_kwds)
     if isinstance(module, ToolModule) and module.tool is None:
         missing_tool_tups.append(...)
 ```
+
+See [Session Ordering and Commit Points](#session-ordering-and-commit-points) for why the first pass must finish before the second starts.
 
 **Phase 5 — Connection wiring:**
 ```python
@@ -320,10 +335,10 @@ if not is_subworkflow:
 
 ### Key Helper Methods
 
-**`__walk_step_dicts()`** (line 1781):
+**`__walk_step_dicts()`** (`:2148-2207`):
 Iterates through `data["steps"]` in order. Handles both dict-keyed and list-keyed step formats. Assigns discovery output UUIDs.
 
-**`__module_from_dict()`** (line 1852):
+**`__module_from_dict()`** (`:2230-2325`):
 Creates a `WorkflowStep` model and its corresponding `WorkflowModule`:
 ```python
 step = model.WorkflowStep()
@@ -334,9 +349,9 @@ step.label = step_dict.get("label")
 module = module_factory.from_dict(trans, step_dict, **kwds)
 module.save_to_step(step)
 ```
-Also processes: annotations, when-expressions, workflow outputs, and stores `temp_input_connections` on the step for the connection pass.
+Also processes: annotations, when-expressions, workflow outputs, and stores `temp_input_connections` on the step for the connection pass. Outside a dry run, each `WorkflowOutput` is added to the session (`:2299-2300`), and `ToolModule.save_to_step` adds each PJA (`lib/galaxy/workflow/modules.py:2839-2842`). Either one cascades the still-unattached step into the session. In a dry run the step and its children are expunged instead (`:2318-2323`).
 
-**`__connect_workflow_steps()`** (line 1978):
+**`__connect_workflow_steps()`** (`:2498-2533`):
 Second pass — creates `WorkflowStepConnection` objects linking steps:
 ```python
 for input_name, conn_list in step.temp_input_connections.items():
@@ -345,13 +360,16 @@ for input_name, conn_list in step.temp_input_connections.items():
         step.add_connection(input_name, conn_dict["output_name"], output_step, ...)
 ```
 
-**`__load_subworkflow_from_step_dict()`** (line 1938):
-Resolves subworkflow for a step from one of three sources:
-1. Embedded `"subworkflow"` dict in the step → recursively built
-2. `"content_id"` referencing `subworkflow_id_map` → locally resolved
-3. `"content_id"` as a stored workflow ID → loaded from database
+**`__load_subworkflow_from_step_dict()`** (`:2327-2381`):
+Resolves the subworkflow for a step from one of these sources:
+1. Embedded `"subworkflow"` dict in the step → recursively built (commits)
+2. `content_source: url` / `trs_url` / `trs_id`, or a bare URL `content_id` → fetched and recursively built (commits)
+3. `"content_id"` starting `#` or `$` and referencing `subworkflow_id_map` → locally resolved
+4. `"content_id"` as a stored workflow ID → `get_owned_workflow`, no commit
 
-**`__build_embedded_subworkflow()`** (line 1967):
+Sources 1-3 `assert not dry_run`. The caller skips this whole method in dry runs, so the asserts never fire.
+
+**`__build_embedded_subworkflow()`** (`:2472-2496`):
 Recursive call back to `build_workflow_from_raw_description()` with `hidden=True, is_subworkflow=True`.
 
 ### TRS Integration
@@ -395,18 +413,86 @@ Each module class implements:
 
 ### ToolModule Resolution
 
-When `ToolModule.from_dict()` processes a step dict:
-1. Extracts `content_id` / `tool_id`, `tool_version`, `tool_uuid`
-2. If no tool_id/uuid but a `tool_representation` exists → creates a dynamic tool (admin only). Since #24475 this is `ToolModule.resolve_tool_uuid`, which also creates private copies of embedded `GalaxyUserTool` steps and runs as a pre-pass that commits before steps are built; see [[Component - Dynamic Tool Manager and Toolbox Lifecycle]]
-3. Attempts to resolve the tool from the local toolbox
+When `ToolModule.from_dict()` (`lib/galaxy/workflow/modules.py:2731-2775`) processes a step dict:
+1. Extracts `content_id` / `tool_id` and `tool_version`. `tool_version: latest` drops the version and switches to non-exact lookup.
+2. Gets the uuid from `ToolModule.resolve_tool_uuid` (`:2708-2730`), which may create an embedded tool. During import the first pass has already called it and written the uuid back into `step_dict`, so this second call only resolves. See [Embedded Tools](#embedded-tools-tool_representation).
+3. Builds the module. `ToolModule.__init__` (`:2664-2700`) looks up `get_unprivileged_tool_or_none(user, tool_uuid)` first, then `toolbox.get_tool(tool_id, tool_version, exact, tool_uuid)`.
 4. If tool not found → `module.tool = None`, tracked as missing
-5. If version mismatch → records version_changes message
+5. A step without `tool_representation` that names a user-defined tool by `tool_uuid` must not carry a different `tool_id` (`:2747-2761`). With a representation, any `tool_id` is accepted, because exports carry the original id.
+6. If version mismatch → records version_changes message
+
+`ToolModule.save_to_step` (`:2821-2843`) sets the `step.dynamic_tool` relationship whenever the resolved tool is a dynamic tool. For a user-defined tool it clears `step.tool_id`, because `WorkflowStep.effective_tool_id` (`lib/galaxy/model/__init__.py:9468-9474`) takes the id from the tool definition.
 
 ### SubWorkflowModule Resolution
 
 `SubWorkflowModule.from_dict()` resolves from:
 - `"subworkflow"` key in dict → already-built model object (set by `__load_subworkflows`)
 - `"content_id"` → fetches owned workflow from database
+
+## Embedded Tools (`tool_representation`)
+
+A workflow description can carry a tool definition in a tool step, not just a reference. On import Galaxy resolves that definition to a `DynamicTool` row, or creates one, and the step stores it as `step.dynamic_tool`. The row lifecycle, toolbox caching and rollback behavior are in [[Component - Dynamic Tool Manager and Toolbox Lifecycle]]. The user-defined tool (UDT) model and its security rationale are in [[Component - User-Defined Tools]].
+
+### How descriptions carry a tool
+
+- **Native (`.ga`).** A `type: tool` step has `tool_representation` (the tool's YAML source as a dict), optionally alongside `content_id` / `tool_id` and `tool_uuid`. Galaxy's own export writes it from `step.dynamic_tool.value` (`_workflow_to_dict_export`, `lib/galaxy/managers/workflows.py:1923-1935`):
+  - If `content_id` is a uuid, the step uses an admin tool created without an `id` (`create_tool` falls back to `str(uuid)`). The export then nulls `content_id`, `tool_id` and `tool_uuid`, so a reimport creates a fresh tool.
+  - For a UDT step, non-internal exports null `tool_uuid`, which only resolves for the owner on this server. `tool_id` stays. Internal exports, as used by refactoring, keep the uuid.
+  - An admin tool with an `id` keeps both `tool_id` and `tool_uuid`.
+- **Format2.** A step whose `run:` is a dict with `class: GalaxyUserTool` is a tool step. Any other `run:` dict is a subworkflow (`_resolve_step_type` in gxformat2). gxformat2 0.28.0, Galaxy's pinned version, copies that dict into the native `tool_representation` in `_build_tool_step`, without a `tool_uuid`. Embedding an admin `GalaxyTool` is therefore native-only. Galaxy's format2 export writes UDT steps back as `run: {class: GalaxyUserTool, ...}`. Conversion runs in `normalize_workflow_format` (`:862`) before any of the logic below. See [[Component - Format2 Workflows (gxformat2)]].
+
+### Resolution: `ToolModule.resolve_tool_uuid`
+
+`lib/galaxy/workflow/modules.py:2708-2730`. The input is the step dict, and the output is the uuid the step will use.
+
+| Representation `class` | Step also has | Action | Checks |
+|---|---|---|---|
+| `GalaxyUserTool` | a `tool_uuid` the importing user owns | Reuse that tool. The embedded definition is ignored | Anonymous user → `InsufficientPermissionsException` |
+| `GalaxyUserTool` | no uuid, or one the user does not own | `DynamicToolManager.create_unprivileged_tool` → a new private copy owned by the importer, with a new uuid | `USER_TOOL_EXECUTE` role (`ensure_can_use_unprivileged_tool`, `lib/galaxy/managers/tools.py:97-99`), `enable_beta_tool_formats`, lint, and template validation (`:202-223`) |
+| anything else (`GalaxyTool`, CWL) | neither `tool_id`/`content_id` nor `tool_uuid` | `DynamicToolManager.create_tool` → a new public tool with a new uuid, loaded into the toolbox | `trans.user_is_admin`, otherwise `AdminRequiredException`. `enable_beta_tool_formats`. `create_tool` rejects `GalaxyUserTool` (`:143-200`) |
+| anything else | a `tool_id` or `tool_uuid` | Nothing is created. The uuid passes through and the toolbox resolves the tool | normal tool access |
+
+Ownership:
+
+- `get_unprivileged_tool_or_none` (`lib/galaxy/tools/__init__.py:849-853`) goes through `owned_unprivileged_statement`, which joins the user's `UserDynamicToolAssociation` (`lib/galaxy/managers/tools.py:240-249`). A uuid copied from another user's workflow never resolves to their tool, so it is always copied. A user without the role gets `None` here, and then a 403 from `create_unprivileged_tool`.
+- Creation does no deduplication by representation. Each import of a definition the user does not already own by uuid adds a new UDT row, and each admin import without an id adds a new public tool.
+- Importing a *shared* workflow (`_import_shared_workflow` → `WorkflowsManager.copy_workflow_for_user`, `lib/galaxy/managers/workflows.py:217-238`) applies the same reuse-or-copy rule. It works on model objects, not descriptions, and recurses into subworkflow steps through `_tool_steps` (`:178-185`).
+- `POST /api/workflows/build_module` (`lib/galaxy/webapps/galaxy/api/workflows.py:542-557`) also calls `ToolModule.from_dict`. If a `tool_representation` is posted there, the tool is created as well. The client never sends one.
+
+Tests: `test_import_workflow_with_user_defined_tool_representation*`, `test_import_embedded_user_tools_after_step_metadata` (parametrized over outputs, PJAs, annotations, a stock first step, and nesting), and the `test_user_defined_tool_workflow_*` export and shared-import tests in `lib/galaxy_test/api/test_workflows.py:11907-12190`. Also `TestAdminWorkflowsApi.test_import_embedded_admin_tool_after_step_metadata` (`:12562`).
+
+## Session Ordering and Commit Points
+
+Construction happens in the request's scoped session (`trans.sa_session`). Several helpers commit that session mid-build, so their order relative to step construction matters.
+
+### Commit points in one create
+
+In order, for `POST /api/workflows` reaching `_workflow_from_dict` (`lib/galaxy/webapps/galaxy/api/workflows.py:693-716`):
+
+| # | Where | What commits | Skipped when `dry_run`? |
+|---|---|---|---|
+| 1 | `subworkflows` preload (`managers/workflows.py:1108-1116`) | each nested `build_workflow_from_raw_description`: tag commit (`:946`) and final commit (`:958`), recursively including everything that nested build commits | **no** |
+| 2 | first pass, `__load_subworkflows` (`:1123-1130`) | embedded, URL, and TRS subworkflow steps, built the same way | yes |
+| 3 | first pass, `resolve_tool_uuid` (`:1132-1135`) | `create_unprivileged_tool`: the row via `ModelManager.create(flush=True)`, then the association (`tools.py:210-222`). `create_tool`: the row, then `toolbox.load_dynamic_tool` | **no** |
+| 4 | second pass, `__module_from_dict` | nothing. Annotations, workflow outputs and PJAs are only added | n/a |
+| 5 | `build_workflow_from_raw_description` after the build | `set_tags_from_list` (`:946`), then `add(stored)` + commit (`:958`) | n/a (create only) |
+| 6 | controller | `_make_item_accessible` + commit if importable (`:711-713`), then `_import_tools_if_needed` | n/a |
+
+`update_workflow_from_raw_description` (`managers/workflows.py:962-1040`) shares rows 1-4. Its own tag and annotation calls do not commit (`flush=False`), and it commits once at `:1031`, only when not a dry run. Embedded subworkflows built during an update get `WorkflowCreateOptions` derived from the update options (`__build_embedded_subworkflow`, `:2472-2496`).
+
+### The invariant: nothing commits once steps exist
+
+At every nesting level, the first pass finishes every committing operation (subworkflow builds and embedded-tool creation) before the second pass creates the first `WorkflowStep`. Workflow outputs and PJAs pull a step into the session before it is attached to its `Workflow`. A commit at that point would flush a `workflow_step` row with no `workflow_id`, which violates its NOT NULL constraint. Steps are only attached at `workflow.steps = steps` and `ensure_object_added_to_session` (`:1152-1157`), after the second pass.
+
+Recursion keeps the invariant. A nested subworkflow is built and committed during its parent's first pass, before the parent creates any steps. Its own embedded tools are resolved in its own first pass. Embedded subworkflows are separate hidden `StoredWorkflow`s, committed independently of the parent.
+
+Any new import-time work that commits, or that calls a manager whose `create`/`update` defaults to `flush=True`, has to run in the first pass or after the workflow is attached.
+
+### Consequences
+
+- **Import is not atomic.** Tools and subworkflows committed in rows 1-3 persist if a later step fails, for example on lint, state validation, or a permission error. See the rollback section of [[Component - Dynamic Tool Manager and Toolbox Lifecycle]] for what changes if creation becomes flush-only.
+- **Dry runs are not side-effect free.** `dry_run` (set by refactoring and accepted by `PUT /api/workflows/{id}` through `WorkflowUpdateOptions(**payload)`) builds a detached model. It skips row 2 and expunges steps, but rows 1 and 3 still run and commit.
+- **Refactoring rebuilds embedded tools.** `do_refactor` (`managers/workflows.py:2547-2600`) exports the version internally with `allow_upgrade=True` and builds it detached twice (`_build_detached`, `:2602-2621`). A real refactor builds it a third time through the update. An owned UDT keeps its uuid and is reused. An id-less admin tool's export carries no uuid, so every build reaches the create branch. Recorded in `vault/agents/gx_research/research_issues/workflow-dry-run-build-persists-embedded-tools.md`. See [[Component - Workflow Refactoring API]].
 
 ## Layer 4: ORM Models
 
@@ -541,9 +627,10 @@ Packed CWL documents with a `$graph` key. The `artifact_class()` function resolv
    │  │     ├── _workflow_from_raw_description()
    │  │     │     ├── Create Workflow() model, set metadata
    │  │     │     ├── Record source_metadata (TRS/URL provenance)
-   │  │     │     ├── Preload subworkflows (recursive)
-   │  │     │     ├── Pass 1: Load subworkflows for each step
-   │  │     │     ├── Pass 2: Create modules and steps
+   │  │     │     ├── Preload subworkflows (recursive, COMMITS)
+   │  │     │     ├── Pass 1: per step, load subworkflows (recursive, COMMITS)
+   │  │     │     │     and resolve embedded tools (resolve_tool_uuid, may COMMIT)
+   │  │     │     ├── Pass 2: Create modules and steps (no commits)
    │  │     │     │     └── module_factory.from_dict() → type-specific Module
    │  │     │     │         └── Module.save_to_step(step)
    │  │     │     ├── Pass 3: Connect steps (WorkflowStepConnection)
@@ -551,7 +638,7 @@ Packed CWL documents with a `$graph` key. The `artifact_class()` function resolv
    │  │     │     └── attach_ordered_steps()
    │  │     │
    │  │     ├── Create StoredWorkflow(), wire to Workflow
-   │  │     ├── Set annotations and tags
+   │  │     ├── Set annotations and tags (tags COMMIT)
    │  │     ├── sa_session.add() + commit()
    │  │     └── Return CreatedWorkflow
    │  │
@@ -573,7 +660,8 @@ Packed CWL documents with a `$graph` key. The `artifact_class()` function resolv
 | Options Models | `lib/galaxy/managers/workflows.py` | 2197-2259 |
 | Format Detection | `lib/galaxy/managers/executables.py` | 14-46 |
 | Module Factory | `lib/galaxy/workflow/modules.py` | 2635-2666 |
-| ToolModule | `lib/galaxy/workflow/modules.py` | ~1917-1985 |
+| ToolModule (`resolve_tool_uuid`, `from_dict`, `save_to_step`) | `lib/galaxy/workflow/modules.py` | 2661-2843 |
+| Embedded tool creation | `lib/galaxy/managers/tools.py` | 143-223 |
 | SubWorkflowModule | `lib/galaxy/workflow/modules.py` | ~670-700 |
 | TRS Proxy | `lib/galaxy/workflow/trs_proxy.py` | 61-100 |
 | Workflow Extraction | `lib/galaxy/workflow/extract.py` | 34+ |
@@ -603,3 +691,5 @@ Packed CWL documents with a `$graph` key. The `artifact_class()` function resolv
 6. **Format normalization as gateway.** All format diversity is collapsed to Galaxy native JSON before the construction pipeline. The `gxformat2` library handles Format2→native conversion. CWL `$graph` documents are resolved to their target object. After normalization, the rest of the stack works with a single format.
 
 7. **Missing tools are warnings, not errors.** Workflows can be imported even when referenced tools aren't installed locally. Missing tools are tracked as tuples `(tool_id, name, version, step_id)` and optionally trigger Tool Shed installation if `import_tools=True` (admin-only).
+
+8. **Embedded tools are created, not just resolved.** A `tool_representation` in a step can create a `DynamicTool` row: a private UDT copy for users with the `USER_TOOL_EXECUTE` role, or a public tool for admins. That creation commits. The two-pass construction exists so that this, and every recursive subworkflow build, finishes before any step joins the session. See [Session Ordering and Commit Points](#session-ordering-and-commit-points).

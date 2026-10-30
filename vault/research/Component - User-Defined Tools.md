@@ -13,7 +13,7 @@ component: User-Defined Tools
 status: draft
 created: 2026-05-07
 revised: 2026-10-30
-revision: 6
+revision: 7
 ai_generated: true
 sources:
   - https://github.com/galaxyproject/galaxy/pull/19434
@@ -54,6 +54,7 @@ related_notes:
   - "[[Component - Private Object Stores]]"
   - "[[Component - Dynamic Tool Manager and Toolbox Lifecycle]]"
   - "[[Component - Tool Citations and External Metadata Fetch]]"
+  - "[[Component - Workflow Import]]"
 ---
 
 # User-Defined Tools in Galaxy
@@ -76,7 +77,8 @@ catalog well but blocks several increasingly important use cases:
 2. **Agent-authored tools** — LLM agents (cf. Galaxy's MCP / agent-operations
    layer, #22625) generating tools on the fly during a session.
 3. **Workflow-embedded scripts** — workflows that bundle a small custom step
-   without pretending it is a published tool.
+   without pretending it is a published tool. Import creates a private copy for
+   the importer. See [[Component - Workflow Import]].
 4. **Portability / reproducibility** — shipping the tool definition *with* the
    workflow rather than depending on a remote Tool Shed installation matching
    in name and version.
