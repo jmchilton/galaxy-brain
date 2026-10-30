@@ -333,3 +333,10 @@ Excluded from frontmatter validator and Astro site; Obsidian-visible.
   - [[Component - Collection API]] — backlink
   - [[Component - Implicit Dataset Conversion]] — backlink
   - [[Component - API Tests]] — backlink
+
+## 2026-10-30 ingest — Component - Dynamic Tool Manager and Toolbox Lifecycle
+- **source**: vault/agents/gx_research/archive/dynamic_tool_manager_toolbox_lifecycle.md (research request; Galaxy origin/dev @ 65e6daff)
+- **created**: [[Component - Dynamic Tool Manager and Toolbox Lifecycle]]
+- **updated**:
+  - [[Component - User-Defined Tools]] — backlink
+  - [[Component - Workflow Import]] — backlink; ToolModule resolution step now names `resolve_tool_uuid` and UDT copies

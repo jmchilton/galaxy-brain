@@ -9,8 +9,8 @@ tags:
   - galaxy/lib
 status: draft
 created: 2026-02-19
-revised: 2026-06-06
-revision: 3
+revised: 2026-10-30
+revision: 4
 ai_generated: true
 component: Workflow Import
 galaxy_areas: [api, workflows, lib, models]
@@ -22,6 +22,7 @@ related_notes:
   - "[[Component - Workflow Format (.ga)]]"
   - "[[Component - gxformat2 Parsing and Syntax]]"
   - "[[PR 21335 - GA4GH WES API]]"
+  - "[[Component - Dynamic Tool Manager and Toolbox Lifecycle]]"
 ---
 
 # Galaxy Workflow Import: Component Architecture
@@ -396,7 +397,7 @@ Each module class implements:
 
 When `ToolModule.from_dict()` processes a step dict:
 1. Extracts `content_id` / `tool_id`, `tool_version`, `tool_uuid`
-2. If no tool_id/uuid but a `tool_representation` exists → creates a dynamic tool (admin only)
+2. If no tool_id/uuid but a `tool_representation` exists → creates a dynamic tool (admin only). Since #24475 this is `ToolModule.resolve_tool_uuid`, which also creates private copies of embedded `GalaxyUserTool` steps and runs as a pre-pass that commits before steps are built; see [[Component - Dynamic Tool Manager and Toolbox Lifecycle]]
 3. Attempts to resolve the tool from the local toolbox
 4. If tool not found → `module.tool = None`, tracked as missing
 5. If version mismatch → records version_changes message

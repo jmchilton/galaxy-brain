@@ -1,6 +1,6 @@
 # Galaxy Brain Index
 
-*128 notes. Auto-generated — run `make index` to refresh.*
+*129 notes. Auto-generated — run `make index` to refresh.*
 
 ## Plans
 
@@ -55,6 +55,7 @@
 - [[Component - Dataset Display]] — Catalog of the eight ways the UI renders dataset contents, from datatype display_data and viz plugins to display apps, peek and Markdown embeds
 - [[Component - Deployment Tests]] — Running API and Selenium suites against usegalaxy servers via GALAXY_TEST_EXTERNAL, requirement markers, and a manual GH workflow
 - [[Component - DRS Support]] — Client and server for GA4GH DRS URIs — file-source plugin, identifiers.org compact-identifier resolution, OIDC bearer token attachment
+- [[Component - Dynamic Tool Manager and Toolbox Lifecycle]] — How DynamicToolManager creates, commits and deactivates dynamic tool rows, and when the toolbox caches them or loads them lazily by uuid
 - [[Component - Agents Backend]] — Multi-agent AI framework with pydantic-ai, five specialized agents, registry pattern, and async execution
 - [[Component - Agents UX]] — Four agent UX surfaces: ChatGXY full-page chat, GalaxyWizard error widget, tool generator, Jupyternaut proxy
 - [[Component - Backend Dependency Management]] — Python deps via uv: pyproject.toml, uv.lock, pinned-*.txt files, conditional dependency resolver, weekly updates
