@@ -347,3 +347,9 @@ Excluded from frontmatter validator and Astro site; Obsidian-visible.
 - **updated**:
   - [[PR 19377 - Collection Types and Wizard UI]] — backlink; pointer from the List Wizard summary item
   - [[Component - E2E Tests - Writing]] — backlink; pointer to the build-list Selenium helpers
+
+## 2026-10-30 ingest — Component - Implicit Dataset Conversion
+- **source**: vault/agents/gx_research/archive/implicit_conversion_history_resolution.md (research request; Galaxy origin/dev @ 65e6daff)
+- **updated-target**: [[Component - Implicit Dataset Conversion]] — target-history resolution for `history=None`, full caller catalogue, which object is access-checked, refreshed line refs
+- **updated**:
+  - [[PR 21842 - Tool Execution Migrated to api jobs]] — backlink; tool-request context carries the target history

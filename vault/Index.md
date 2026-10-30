@@ -64,7 +64,7 @@
 - [[Component - Collection API]] — Full collection API surface: POST/GET/PUT/DELETE endpoints, DatasetCollectionsService, fuzzy drill-down, export
 - [[Component - Collection Models]] — Core model classes: DatasetCollection, DatasetCollectionElement, HDCA/LDCA instances, implicit collections from mapping
 - [[Component - UI Error Handling]] — Backend MessageException serialization to JSON and frontend parsing via simple-error.ts
-- [[Component - Implicit Dataset Conversion]] — Transparent datatype conversion mechanism via ImplicitlyConvertedDatasetAssociation, invisible HDAs
+- [[Component - Implicit Dataset Conversion]] — Transparent datatype conversion via ImplicitlyConvertedDatasetAssociation, target-history resolution, and every caller
 - [[Component - Markdown Visualizations]] — Five fenced block types for galaxy directives, Vega charts, visualizations, Vitessce dashboards
 - [[Component - Workflow Extraction Models]] — ORM model relationships for reconstructing workflows from history via dataset ancestry
 - [[Component - Galaxy Pulsar Runner Code Sharing]] — Four code-sharing channels between Galaxy and Pulsar, a manually synced util mirror with 20 of 23 files drifted, and stringly-typed job status mapping

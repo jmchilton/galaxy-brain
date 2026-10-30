@@ -14,14 +14,15 @@ related_prs:
   - 21828
 status: draft
 created: 2026-04-28
-revised: 2026-05-21
-revision: 5
+revised: 2026-10-30
+revision: 6
 ai_generated: true
 summary: "Tool form submits via POST /api/jobs with client-side flat-to-nested state, polls tool_requests until terminal"
 sources:
   - "https://github.com/galaxyproject/galaxy/pull/21842"
 related_notes:
   - "[[Component - API Tests Tools]]"
+  - "[[Component - Implicit Dataset Conversion]]"
   - "[[Component - Tool State Dynamic Models]]"
   - "[[Component - Tool State Specification]]"
   - "[[Component - YAML Tool Runtime]]"
@@ -113,3 +114,4 @@ No files from this PR have moved post-merge.
 - `pollUntil` lives as a generic composable but currently has a single consumer (`services.js`); the "available for other long-running polls" framing is aspirational, not yet realized.
 - The legacy `POST /api/tools` controller is intact at `lib/galaxy/webapps/galaxy/api/tools.py` line 898; the in-tree client no longer calls it but external scripts still can. See [[Component - Tool State Specification]] for the full state-representation pipeline this lands in.
 - Form-state transformation lives in `Form/utilities.js`, deliberately separate from `ToolForm.vue` so the shaping logic is unit-testable without mounting the form.
+- Tool requests run in a `WorkRequestContext` that carries the target history (`JobManager._context`), so conversions triggered during them always have a history. Legacy `POST /api/tools` with an API key has no `trans` history, which matters for callers that omit `history=`. See [[Component - Implicit Dataset Conversion]].
