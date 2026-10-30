@@ -231,7 +231,7 @@ Key differences:
 - Built-in tooltip support via `tooltip` prop
 - Polymorphic: renders as `<button>`, `<a>`, or `<router-link>` based on props
 
-See: `client/src/components/BaseComponents/GButton.vue`
+See: `client/src/components/BaseComponents/GButton.vue` (a shim that re-exports `client/packages/ui/src/components/GButton.vue`). For disabled rendering (`aria-disabled`), `disabled-title`, and why `v-g-tooltip` stays silent on a disabled GButton, see [[Component - Galaxy UI Buttons and Tooltips]].
 
 ### GLink replaces BLink
 

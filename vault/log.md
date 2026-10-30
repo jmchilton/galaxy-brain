@@ -316,3 +316,10 @@ Excluded from frontmatter validator and Astro site; Obsidian-visible.
   - [[Component - Tool Testing Infrastructure]] — backlink
   - [[Component - DRS Support]] — backlink
   - [[Component - Worktree Bootstrapping]] — backlink; flipped stale E2E config mapping (`local_galaxy_url` → `GALAXY_TEST_EXTERNAL`, not `GALAXY_TEST_SELENIUM_URL`), added admin_email/admin_password rows
+
+## 2026-10-30 ingest — Component - Galaxy UI Buttons and Tooltips
+- **source**: vault/agents/gx_research/todo/client_galaxy_ui_components.md (research request; Galaxy origin/dev @ 65e6daff)
+- **created**: [[Component - Galaxy UI Buttons and Tooltips]]
+- **updated**:
+  - [[Component - E2E Tests - Writing]] — backlink; `clear_tooltips()` row now says it only clears `v-g-tooltip` balloons
+  - [[Component - E2E Tests Smart Components]] — backlink

@@ -1,6 +1,6 @@
 # Galaxy Brain Index
 
-*126 notes. Auto-generated — run `make index` to refresh.*
+*127 notes. Auto-generated — run `make index` to refresh.*
 
 ## Plans
 
@@ -71,6 +71,7 @@
 - [[Component - Tool State Dynamic Models]] — Pydantic dynamic models for validating tool parameter state across 12 representations
 - [[Component - Tool Testing Infrastructure]] — Framework for parsing, loading, executing tests in XML/YAML tool files via planemo
 - [[Component - Tool Install YAML]] — Declarative Tool Shed install-request YAML consumed by ephemeris shed-tools, ansible-galaxy-tools, and usegalaxy-tools; manifest-vs-lockfile curation
+- [[Component - Galaxy UI Buttons and Tooltips]] — GButton, GLink, GTooltip and the v-g-tooltip directive - disabled rendering, title vs tooltip vs disabled-title, and how E2E helpers see each tooltip
 - [[Component - Window Manager]] — Floating window system using WinBox.js, intercepting router.push to render iframe overlays
 - [[Component - Workflow API]] — REST API for workflow CRUD, execution, invocation monitoring via FastAPI controllers
 - [[Component - Galaxy Workflow Expression Context]] — CWL-based workflow expressions evaluated as JavaScript with $job, $self, $runtime variables

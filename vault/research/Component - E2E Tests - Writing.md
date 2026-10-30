@@ -4,8 +4,8 @@ subtype: component
 tags: [research/component, galaxy/testing, galaxy/client]
 status: draft
 created: 2026-02-11
-revised: 2026-10-26
-revision: 6
+revised: 2026-10-30
+revision: 7
 ai_generated: true
 component: E2E Testing
 galaxy_areas: [testing, client]
@@ -18,6 +18,7 @@ related_notes:
   - "[[Component - Private Object Stores]]"
   - "[[Component - User Password Management]]"
   - "[[Component - Deployment Tests]]"
+  - "[[Component - Galaxy UI Buttons and Tooltips]]"
 ---
 
 # Writing E2E Tests in Galaxy: A Comprehensive Guide
@@ -1288,5 +1289,5 @@ A selection of the most commonly used methods from `NavigatesGalaxy` (in `lib/ga
 | `api_delete(endpoint)` | DELETE Galaxy API as current user |
 | `assert_no_error_message()` | Assert no error alert visible |
 | `assert_error_message()` | Assert error alert is visible |
-| `clear_tooltips()` | Dismiss any open tooltips |
+| `clear_tooltips()` | Dismiss any open `v-g-tooltip` balloons (not GTooltip; see [[Component - Galaxy UI Buttons and Tooltips]]) |
 | `fill(form_element, info_dict)` | Fill form fields by name |
