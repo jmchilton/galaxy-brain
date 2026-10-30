@@ -12,6 +12,11 @@ Each new pipeline runs seed (step 0) then build (step 1) then fold, per [GOLDEN_
 | 4 | nf-core__bacass--test-profile | seed v0, build v0 → v1 | `pipeline-run-bacass` | seed `~/foundry-runs/prose-nf2wb-bacass-test-2026-10-29/` | seed done (v0 `c0df6a03`); build waits on BUSCO decision; seed run dir not yet archived (needs John) |
 | 5 | nf-core__bacass | seed v0, build v0 → v1 | `pipeline-run-bacass-full` | seed `~/foundry-runs/prose-nf2wb-bacass-full-2026-10-29/` | seed done (v0 `7844e898` + fixes); build needs reference-DB decision |
 | 6 | nf-core__atacseq | seed v0, build v0 → v1 | `pipeline-run-atacseq` | seed `~/foundry-runs/prose-nf2wb-atacseq-2026-10-29/`; build `~/foundry-runs/prose-wb2g-atacseq-v0-2026-10-29/` | seed done (v0 `5c32c662`); build running |
+| 7 | nf-core__chipseq 2.1.0 | seed v0, build v0 → v1 | `pipeline-run-chipseq` | — | proposed: atacseq sibling, same test reference; IWC chipseq-pe/sr |
+| 8 | nf-core__cutandrun 3.2.2 | seed v0, build v0 → v1 | `pipeline-run-chipseq` | — | proposed: all refs explicit URLs + spike-in; IWC cutandrun |
+| 9 | nf-core__viralrecon 3.0.0 | seed v0, build v0 → v1 | `pipeline-run-chipseq` | — | proposed: ARTIC/ivar amplicon test; IWC sars-cov-2 workflows |
+| 10 | nf-core__hic 2.1.0 | seed v0, build v0 → v1 | `pipeline-run-chipseq` | — | proposed: yeast ref by URL; IWC hic-hicup-cooler |
+| 11 | already pinned, never run: nf-core__hlatyping, nf-core__bamtofastq, nextflow-io__rnaseq-nf | seed v0, build v0 → v1 | new per run | — | proposed: small, light on references |
 
 ## Seed objectives (John, 2026-10-29)
 
@@ -22,6 +27,8 @@ Each new pipeline runs seed (step 0) then build (step 1) then fold, per [GOLDEN_
 - **BUSCO in bacass tests:** open; see the 2026-10-29 conversation. The IUC wrapper (6.1.0) is `--offline` only and reads the `busco_database` data table.
 
 Worktrees are on `origin/main` @ `9f83fd55` with packages and Nextflow fixtures built.
+
+Rows 7-10 (2026-10-30) need fixtures not on `origin/main`. They are pinned in local commit `40fc911d` on worktree `pipeline-run-chipseq` (unpushed; a fixtures.yaml PR is John's call), and fetched and SHA-verified there. Each has a close IWC workflow, so the IWC compare phase gets a real reference and the build can be diffed against it. Skipped for now: ampliseq and mag (taxonomy/DB downloads, the same blocker as bacass), scrnaseq (large STARsolo indexes).
 
 ## Machine and process log
 
