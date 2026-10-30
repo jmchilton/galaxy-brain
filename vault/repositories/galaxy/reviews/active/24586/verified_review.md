@@ -51,28 +51,3 @@ Put the default height in its own `:where(.g-progress)` rule, as `GDropdown.vue`
 Discovered by [default](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/reviewers/default.md) via claude-opus-5-5 at medium effort. Verified via claude-opus-5-5 at medium effort.
 
 </details>
-
-### P3 3: Tests skip the variant, stripe, height, content-priority and fallback paths (implementation verified)
-
-`GProgress.test.ts` covers the value, range, labels, text, and `max` / `showProgress` inheritance well. It never checks these paths:
-
-- A single-bar `GProgress` passing `variant` to its inner bar through the context. This is the `SelectionChangeWarning` / `QuotaMeter` path, where `variant` sits on the outer component.
-- The `striped` / `animated` classes, including `animated` implying `striped`, and a bar's `:striped="false"` overriding an inherited `true`.
-- The `height` prop reaching the track's style.
-- `g-progress-bar-empty` on zero-width bars, which the seam rule depends on.
-- The documented content priority: `label` over `showProgress`, and `showProgress` over `showValue`.
-- The fallbacks: a stacked `GProgress` without `aria-label` / `aria-labelledby` staying ungrouped, a bar whose own `max` is `0` or not a number using the parent's, and a non-numeric `value` reading as 0.
-
-<details><summary>Evidence</summary>
-
-Seven added tests, which pass against the PR's implementation.
-
-</details>
-
-A few assertions in the existing mount-based style cover all of these.
-
-<details><summary>Discovery & Verification Agent Details</summary>
-
-Discovered by [default](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/reviewers/default.md) and [gx_test_challenger](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/reviewers/gx_test_challenger.md) via claude-opus-5-5 at medium effort. Verified via claude-opus-5-5 at medium effort.
-
-</details>

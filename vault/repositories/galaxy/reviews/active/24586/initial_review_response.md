@@ -30,18 +30,17 @@ You're contributing to a repository John cares about and you deserve a human res
 
 <details><summary>Review Verification Branch Details</summary>
 
-This [review branch](https://github.com/jmchilton/galaxy/tree/pr_24586_review_0) contains work the verification agent did to help verify findings and make sure suggestions make sense and are actionable. This doesn't necessarily represent production ready code. Feel free to include any commits in the PR but they should be reviewed by a human.
+This [review branch](https://github.com/jmchilton/galaxy/tree/pr_24586_review_1) contains work the verification agent did to help verify findings and make sure suggestions make sense and are actionable. This doesn't necessarily represent production ready code. Feel free to include any commits in the PR but they should be reviewed by a human.
 
 <details><summary>Branch and Commit Details</summary>
 
-# Review branch [`pr_24586_review_0`](https://github.com/jmchilton/galaxy/tree/pr_24586_review_0)
+# Review branch [`pr_24586_review_1`](https://github.com/jmchilton/galaxy/tree/pr_24586_review_1)
 
-Built on the PR head [`c889c700361`](https://github.com/jmchilton/galaxy/commit/c889c7003616e9f65b88ec88f79c35e703e51274). The branch makes GProgress check for stacked content on every render, so a conditional default slot updates the track's group role and label. It moves the track's default height into a zero-specificity `:where()` rule, so a consumer's height class wins whatever the stylesheet order. It also adds tests for prop and context reactivity and for the variant, stripe, height, content-priority and fallback paths. `GProgress.test.ts` passes with 26 tests, and the package's `vue-tsc --noEmit` passes.
+Built on the PR head [`c889c700361`](https://github.com/jmchilton/galaxy/commit/c889c7003616e9f65b88ec88f79c35e703e51274). The branch makes GProgress check for stacked content on every render, so a conditional default slot updates the track's group role and label. It moves the track's default height into a zero-specificity `:where()` rule, so a consumer's height class wins whatever the stylesheet order. It also adds tests for prop and context reactivity. Commits are unchanged from `pr_24586_review_0`, minus the variant/stripe/height test commit, and the package's `vue-tsc --noEmit` passes.
 
 - [`2426aa7ff6c`](https://github.com/jmchilton/galaxy/commit/2426aa7ff6c380cc7fc504e6930a5c9d340cc88d) Re-check GProgress's stacked slot on every render: replaces the `useSlots()` computed with `$slots.default` in the template, and adds a test that toggles a `<template v-if>` default slot (P3 1).
 - [`0060c3d2cc0`](https://github.com/jmchilton/galaxy/commit/0060c3d2cc06cea37ec04b17676be24629f05d00) Let consumers' classes set GProgress's height: moves `height: 1rem` into a scoped `:where(.g-progress)` rule (P3 2).
 - [`1f5ec4d1163`](https://github.com/jmchilton/galaxy/commit/1f5ec4d11634d88ca70761c413fa9c3b42c6c24b) Test that GProgress bars follow changing values and parent options: adds `setProps` and ref-driven tests for the value, the parent `max` and `show-progress` (P2 1).
-- [`6f0afddcce3`](https://github.com/jmchilton/galaxy/commit/6f0afddcce3e03418d836be5e0777cb99577a663) Test GProgress's variant, stripe, height, content-priority and fallback paths: adds seven tests covering the gaps listed in P3 3.
 
 </details>
 
@@ -104,32 +103,5 @@ Fixed on the review branch in [`0060c3d2cc0`](https://github.com/jmchilton/galax
 <details><summary>Discovery & Verification Agent Details</summary>
 
 Discovered by [default](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/reviewers/default.md) via claude-opus-5-5 at medium effort. Verified via claude-opus-5-5 at medium effort.
-
-</details>
-
-### P3 3: Tests skip the variant, stripe, height, content-priority and fallback paths (implementation verified)
-
-`GProgress.test.ts` covers the value, range, labels, text, and `max` / `showProgress` inheritance well. It never checks these paths:
-
-- A single-bar `GProgress` passing `variant` to its inner bar through the context. This is the `SelectionChangeWarning` / `QuotaMeter` path, where `variant` sits on the outer component.
-- The `striped` / `animated` classes, including `animated` implying `striped`, and a bar's `:striped="false"` overriding an inherited `true`.
-- The `height` prop reaching the track's style.
-- `g-progress-bar-empty` on zero-width bars, which the seam rule depends on.
-- The documented content priority: `label` over `showProgress`, and `showProgress` over `showValue`.
-- The fallbacks: a stacked `GProgress` without `aria-label` / `aria-labelledby` staying ungrouped, a bar whose own `max` is `0` or not a number using the parent's, and a non-numeric `value` reading as 0.
-
-<details><summary>Evidence</summary>
-
-Seven added tests, which pass against the PR's implementation.
-
-</details>
-
-A few assertions in the existing mount-based style cover all of these.
-
-Fixed on the review branch in [`6f0afddcce3`](https://github.com/jmchilton/galaxy/commit/6f0afddcce3e03418d836be5e0777cb99577a663).
-
-<details><summary>Discovery & Verification Agent Details</summary>
-
-Discovered by [default](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/reviewers/default.md) and [gx_test_challenger](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/reviewers/gx_test_challenger.md) via claude-opus-5-5 at medium effort. Verified via claude-opus-5-5 at medium effort.
 
 </details>
