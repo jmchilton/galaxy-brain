@@ -4,14 +4,15 @@ subtype: pr
 tags: [research/pr, galaxy/tools, galaxy/tools/yaml, galaxy/api]
 status: draft
 created: 2026-03-02
-revised: 2026-09-09
-revision: 3
+revised: 2026-10-30
+revision: 4
 ai_generated: true
 github_pr: 18524
 github_repo: galaxyproject/galaxy
 related_notes:
   - "[[Component - Tool Shed Data Model]]"
   - "[[Component - Tool Shed Search and Indexing]]"
+  - "[[Component - Tool Citations and External Metadata Fetch]]"
 summary: "Tool Shed 2.0 APIs expose parsed tool metadata and parameter schemas for external tooling without Galaxy internals"
 ---
 

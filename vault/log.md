@@ -382,3 +382,15 @@ Excluded from frontmatter validator and Astro site; Obsidian-visible.
   - [[Component - Galaxy Pulsar Runner Code Sharing]] — backlink; pointer from Notes to the staging it scopes out
   - [[Component - Job Completion Lifecycle]] — backlink
   - [[Component - Jobs API and Job Cache]] — backlink
+
+## 2026-10-30 ingest — Component - Tool Citations and External Metadata Fetch
+- **source**: vault/agents/gx_research/archive/tool_citations_and_external_metadata_fetch.md (research request; Galaxy origin/dev @ 65e6daff)
+- **created**: [[Component - Tool Citations and External Metadata Fetch]]
+- **updated**:
+  - [[Component - Data Fetch]] — backlink
+  - [[Component - DRS Support]] — backlink
+  - [[Component - User-Defined Tool Source Validation]] — backlink
+  - [[Component - User-Defined Tools]] — backlink
+  - [[Component - Agents Backend]] — backlink
+  - [[PR 22615 - UserToolSource Pydantic Semantic Validation]] — backlink
+  - [[PR 18524 - Add Tool-Centric APIs to Tool Shed 2.0]] — backlink

@@ -4,8 +4,8 @@ subtype: component
 tags: [research/component, galaxy/api, galaxy/client, galaxy/datasets]
 status: draft
 created: 2026-02-13
-revised: 2026-08-08
-revision: 5
+revised: 2026-10-30
+revision: 6
 ai_generated: true
 summary: "Import pipeline from URLs/paste/files/FTP via /api/tools/fetch wrapping __DATA_FETCH__ tool producing HDAs or HDCAs"
 related_notes:
@@ -16,6 +16,7 @@ related_notes:
   - "[[Component - CORS Handling]]"
   - "[[Component - DRS Support]]"
   - "[[Component - Private Object Stores]]"
+  - "[[Component - Tool Citations and External Metadata Fetch]]"
 ---
 
 # Galaxy Data Fetch API - Deep Dive

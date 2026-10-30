@@ -9,8 +9,8 @@ tags:
 component: User-Defined Tools - Source Validation
 status: draft
 created: 2026-05-07
-revised: 2026-05-22
-revision: 3
+revised: 2026-10-30
+revision: 4
 ai_generated: true
 sources:
   - https://github.com/galaxyproject/galaxy/pull/22507
@@ -39,6 +39,7 @@ related_notes:
   - "[[Component - YAML Tool Runtime]]"
   - "[[Component - Tool State Specification]]"
   - "[[PR 22615 - UserToolSource Pydantic Semantic Validation]]"
+  - "[[Component - Tool Citations and External Metadata Fetch]]"
 ---
 
 # Validating the User-Defined Tool Source

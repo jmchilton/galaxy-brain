@@ -11,8 +11,8 @@ github_repo: galaxyproject/galaxy
 component: User-Defined Tools - Source Validation
 status: draft
 created: 2026-05-22
-revised: 2026-05-22
-revision: 1
+revised: 2026-10-30
+revision: 2
 ai_generated: true
 sources:
   - https://github.com/galaxyproject/galaxy/pull/22615
@@ -30,6 +30,7 @@ related_notes:
   - "[[PR 21434 - AI Agent Framework and ChatGXY]]"
   - "[[Component - Agents Backend]]"
   - "[[Dependency - Pydantic Dynamic Models]]"
+  - "[[Component - Tool Citations and External Metadata Fetch]]"
 ---
 
 # PR 22615 - UserToolSource Pydantic Semantic Validation

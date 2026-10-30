@@ -13,7 +13,7 @@ component: User-Defined Tools
 status: draft
 created: 2026-05-07
 revised: 2026-10-30
-revision: 5
+revision: 6
 ai_generated: true
 sources:
   - https://github.com/galaxyproject/galaxy/pull/19434
@@ -53,6 +53,7 @@ related_notes:
   - "[[PR 22615 - UserToolSource Pydantic Semantic Validation]]"
   - "[[Component - Private Object Stores]]"
   - "[[Component - Dynamic Tool Manager and Toolbox Lifecycle]]"
+  - "[[Component - Tool Citations and External Metadata Fetch]]"
 ---
 
 # User-Defined Tools in Galaxy

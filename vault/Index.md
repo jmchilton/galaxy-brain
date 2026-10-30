@@ -1,6 +1,6 @@
 # Galaxy Brain Index
 
-*133 notes. Auto-generated — run `make index` to refresh.*
+*134 notes. Auto-generated — run `make index` to refresh.*
 
 ## Plans
 
@@ -94,6 +94,7 @@
 - [[Component - Collections - Sample Sheets Backend]] — Tabular metadata per collection element: column_definitions, columns row on elements, typed validation, cross-refs
 - [[Component - Collections - Paired or Unpaired]] — Discriminated union type of 1 or 2 elements with asymmetric subtyping where paired IS-A paired_or_unpaired
 - [[Component - Collections - Records]] — Heterogeneous fixed-shape collection: CWL-derived `fields` schema of named typed slots; no implicit mapping
+- [[Component - Tool Citations and External Metadata Fetch]] — Tool citations from XML parse to DOI-resolved BibTeX display, the bio.tools EDAM lookup, their beaker caches, config, consumers and tests
 - [[Component - Tool Shed Data Model]] — Shed-side SQLAlchemy schema — 14 tables, hg-keyed RepositoryMetadata over a denormalized JSON blob, dead flags, two-revision alembic history
 - [[Component - User Password Management]] — PBKDF2 storage, 24-hour reset tokens, five password entry flows, and the legacy controllers behind them
 - [[Component - Workflow Comments]] — Visual annotation system for workflows, text/markdown/frames/freehand without execution impact
