@@ -363,3 +363,14 @@ Excluded from frontmatter validator and Astro site; Obsidian-visible.
   - [[Component - Collection Tool Execution Semantics]] — backlink
   - [[Component - Galaxy Pulsar Runner Code Sharing]] — backlink
   - [[Component - Private Object Stores]] — backlink
+
+## 2026-10-30 ingest — Component - Jobs API and Job Cache
+- **source**: vault/agents/gx_research/archive/jobs_api_and_job_cache.md (research request; Galaxy origin/dev @ 65e6daff; PR #24436 merged, #24288 open)
+- **created**: [[Component - Jobs API and Job Cache]]
+- **updated**:
+  - [[Component - Dataset and Collection Access Checks]] — backlink
+  - [[Component - Collection Models]] — backlink
+  - [[Component - Job Completion Lifecycle]] — backlink
+  - [[Component - Workflow API]] — backlink
+  - [[PR 20935 - Tool Request API]] — backlink
+  - [[PR 21842 - Tool Execution Migrated to api jobs]] — backlink

@@ -1,6 +1,6 @@
 # Galaxy Brain Index
 
-*131 notes. Auto-generated — run `make index` to refresh.*
+*132 notes. Auto-generated — run `make index` to refresh.*
 
 ## Plans
 
@@ -87,6 +87,7 @@
 - [[Component - gxformat2 Parsing and Syntax]] — Format2 YAML detection, conversion pipeline to Galaxy JSON before import processing
 - [[Component - History Panel Selection and Collection Builders]] — How the history panel owns item selection and hands it to the Build Dataset List modal and the Auto/Advanced Build List wizard, and when selection resets
 - [[Component - Job Completion Lifecycle]] — How MinimalJobWrapper.finish() commits outputs, metrics and the terminal job state, then wakes collections, schedulers and Celery
+- [[Component - Jobs API and Job Cache]] — Job read path (index_query, response models, inputs/outputs/parameters_display) and job cache reuse (JobSearch, copied_from_job_id)
 - [[Component - Post Job Actions]] — Declarative post-processing operations on job outputs, transformations without explicit tools
 - [[Component - Private Object Stores]] — Storage-layer private flag vs permission-layer private roles, and why user-defined stores are private only by report
 - [[Component - Collections - Sample Sheets Backend]] — Tabular metadata per collection element: column_definitions, columns row on elements, typed validation, cross-refs

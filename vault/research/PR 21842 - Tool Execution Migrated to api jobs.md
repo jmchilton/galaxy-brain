@@ -15,7 +15,7 @@ related_prs:
 status: draft
 created: 2026-04-28
 revised: 2026-10-30
-revision: 6
+revision: 7
 ai_generated: true
 summary: "Tool form submits via POST /api/jobs with client-side flat-to-nested state, polls tool_requests until terminal"
 sources:
@@ -23,6 +23,7 @@ sources:
 related_notes:
   - "[[Component - API Tests Tools]]"
   - "[[Component - Implicit Dataset Conversion]]"
+  - "[[Component - Jobs API and Job Cache]]"
   - "[[Component - Tool State Dynamic Models]]"
   - "[[Component - Tool State Specification]]"
   - "[[Component - YAML Tool Runtime]]"

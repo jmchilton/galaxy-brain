@@ -10,7 +10,7 @@ tags:
 status: draft
 created: 2026-10-30
 revised: 2026-10-30
-revision: 1
+revision: 2
 ai_generated: true
 component: Job Completion Lifecycle
 galaxy_areas:
@@ -31,6 +31,7 @@ related_notes:
   - "[[Component - Collection Tool Execution Semantics]]"
   - "[[Component - Galaxy Pulsar Runner Code Sharing]]"
   - "[[Component - Private Object Stores]]"
+  - "[[Component - Jobs API and Job Cache]]"
 ---
 
 # Job Completion Lifecycle

@@ -8,7 +8,7 @@ tags:
 status: draft
 created: 2026-02-09
 revised: 2026-10-30
-revision: 10
+revision: 11
 ai_generated: true
 galaxy_areas:
   - collections
@@ -32,6 +32,7 @@ related_notes:
   - "[[PR 21935 - Workflow Extraction Vue Conversion]]"
   - "[[PR 22706 - Workflow Extraction by IDs]]"
   - "[[Component - Job Completion Lifecycle]]"
+  - "[[Component - Jobs API and Job Cache]]"
 ---
 
 # Galaxy Dataset Collection Model Layer

@@ -11,12 +11,13 @@ github_repo: galaxyproject/galaxy
 component: Tool Request API
 status: draft
 created: 2026-02-05
-revised: 2026-06-06
-revision: 8
+revised: 2026-10-30
+revision: 9
 ai_generated: true
 summary: "Asynchronous job submission via POST /api/jobs with Pydantic-validated state transformations"
 related_notes:
   - "[[Component - API Tests Tools]]"
+  - "[[Component - Jobs API and Job Cache]]"
   - "[[Component - Tool State Dynamic Models]]"
   - "[[Component - Tool State Specification]]"
   - "[[Component - YAML Tool Runtime]]"

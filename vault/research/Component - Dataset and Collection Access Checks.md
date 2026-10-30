@@ -12,7 +12,7 @@ galaxy_areas: [security, datasets, collections, api]
 status: draft
 created: 2026-10-30
 revised: 2026-10-30
-revision: 1
+revision: 2
 ai_generated: true
 summary: "Which helper decides read access to datasets, HDAs, LDDAs, HDCAs, collection elements and jobs, how they agree, and which ones batch"
 sources:
@@ -23,6 +23,7 @@ related_notes:
   - "[[Component - Collection API]]"
   - "[[Component - Implicit Dataset Conversion]]"
   - "[[Component - API Tests]]"
+  - "[[Component - Jobs API and Job Cache]]"
 ---
 
 # Dataset and Collection Access Checks
