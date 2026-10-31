@@ -1,6 +1,6 @@
 ## PRs to review (`to_review`)
 
-- [#24614](https://github.com/galaxyproject/galaxy/pull/24614) — initial review ready, unposted (approve-worthy; two P3s fixed on `pr_24614_review_0`). [notes](active/24614/index.md)
+- [#24614](https://github.com/galaxyproject/galaxy/pull/24614) — approved with response (two P3s fixed on `pr_24614_review_0`, not pushed to PR); awaiting merge. [notes](active/24614/index.md)
 
 
 - [#24586](https://github.com/galaxyproject/galaxy/pull/24586) — initial review ready, unposted (one P2 + three P3s; fixed on `pr_24586_review_0`). [notes](active/24586/index.md)
