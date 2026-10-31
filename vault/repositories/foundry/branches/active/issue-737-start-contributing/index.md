@@ -9,7 +9,7 @@ upstream_base_branch: main
 
 ## Status
 
-Skeleton `content/meta/start-contributing.md` (TODO bodies) plus `good first issue` note in issue-labels, commit `d85354c9` pushed to `jmchilton`; John fills in the content. Worktree `~/projects/worktrees/foundry/branch/issue-737-start-contributing`.
+Skeleton `content/meta/start-contributing.md` (TODO bodies) plus `good first issue` note in issue-labels, head `4e3d2a95` pushed to `jmchilton`; John fills in the content. Worktree `~/projects/worktrees/foundry/branch/issue-737-start-contributing`.
 
 No PR yet.
 
