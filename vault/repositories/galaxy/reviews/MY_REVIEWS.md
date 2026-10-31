@@ -2,6 +2,8 @@
 
 - [#24614](https://github.com/galaxyproject/galaxy/pull/24614) — approved with response (two P3s fixed on `pr_24614_review_0`, not pushed to PR); awaiting merge. [notes](active/24614/index.md)
 
+- [#24610](https://github.com/galaxyproject/galaxy/pull/24610) — initial review ready, unposted (approve; one P3 fixed on `pr_24610_review_0`). [notes](active/24610/index.md)
+- [#24607](https://github.com/galaxyproject/galaxy/pull/24607) — initial review in progress. [notes](active/24607/index.md)
 
 - [#24586](https://github.com/galaxyproject/galaxy/pull/24586) — initial review ready, unposted (one P2 + three P3s; fixed on `pr_24586_review_0`). [notes](active/24586/index.md)
 - [#24567](https://github.com/galaxyproject/galaxy/pull/24567) — approved with initial review response; awaiting merge (three P3s; fixed on `pr_24567_review_0`). [notes](active/24567/index.md)
