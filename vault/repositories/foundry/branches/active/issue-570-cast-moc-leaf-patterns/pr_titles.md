@@ -1,0 +1,4 @@
+- Cast pattern maps of content with the leaf pages they list
+- Ship a pattern map's leaf pages in every cast that declares the map
+- Casts: package MOC leaf patterns beside the map (#570)
+- Make Galaxy pattern maps resolvable inside cast skills

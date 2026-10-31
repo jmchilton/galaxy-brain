@@ -1,0 +1,1 @@
+`bug`. The PR fixes a packaging defect in casts. Foundry's other labels are issue-triage labels (`content/meta/issue-labels.md`), and #570 already carries `priority/mvp`, `agent/implement` and `roadmap/off`.
