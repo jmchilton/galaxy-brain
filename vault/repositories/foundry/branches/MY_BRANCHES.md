@@ -32,7 +32,7 @@ None yet.
 
 ## Foundry branches — implemented, work left (`branches_implemented_needs_ci`)
 
-None yet.
+- [`issue-570-cast-moc-leaf-patterns`](active/issue-570-cast-moc-leaf-patterns/index.md) — Cast pattern maps of content with the leaf pattern pages they list (#570); needs foundry-lib cast 0.13.0. [Open PR](https://github.com/galaxyproject/foundry/compare/main...jmchilton:foundry:issue-570-cast-moc-leaf-patterns?expand=1).
 
 ## Foundry branches — implemented, work left, green (`branches_implemented`)
 

@@ -42,7 +42,7 @@ GitHub state last refreshed: 2026-10-28. Issues here are unassigned by default a
 - (mvp) [#726](https://github.com/galaxyproject/foundry/issues/726) — debug-galaxy-workflow-output has no surface for a pre-invocation workflow import rejection; PR [#732](https://github.com/galaxyproject/foundry/pull/732). [notes](wip/726/index.md)
 - (mvp) [#730](https://github.com/galaxyproject/foundry/issues/730) — run-workflow-test: no guidance for UDT-embedding workflows (external_galaxy recipe) or empty data tables; PR [#733](https://github.com/galaxyproject/foundry/pull/733). [notes](wip/730/index.md)
 - (mvp) [#731](https://github.com/galaxyproject/foundry/issues/731) — implement-galaxy-workflow-test cross-check overclaims shape/datatype; output cardinality not traced; PR [#734](https://github.com/galaxyproject/foundry/pull/734). [notes](wip/731/index.md)
-- (mvp) [#570](https://github.com/galaxyproject/foundry/issues/570) — Pattern MOCs are cast without the leaf pattern pages they link; branch `issue-570-cast-moc-leaf-patterns` (paused: John to pick lib hook vs Foundry-only). [notes](wip/570/index.md)
+- (mvp) [#570](https://github.com/galaxyproject/foundry/issues/570) — Pattern MOCs are cast without the leaf pattern pages they link; branch `issue-570-cast-moc-leaf-patterns` + foundry-lib `cast-expand-refs`. [notes](wip/570/index.md)
 
 ## Queued (`queued`)
 
