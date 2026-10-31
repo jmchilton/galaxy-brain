@@ -39,6 +39,7 @@ None yet.
 - [`fix/advance-draft-needs-tool`](active/fix-advance-draft-needs-tool/index.md) — Draft loop records a step that needs a tool instead of improvising one; close-enough rule. Stacked on #686. [Open PR](https://github.com/galaxyproject/foundry/compare/feat/test-pipeline-draft-loop...fix/advance-draft-needs-tool).
 - [`docs/issue-labels`](active/docs-issue-labels/index.md) — Documents GitHub issue labels and triage rules (`content/meta/issue-labels.md`). [Open PR](https://github.com/galaxyproject/foundry/compare/main...docs/issue-labels).
 - [`issue-534-concrete-nextflow-scenarios`](active/issue-534-concrete-nextflow-scenarios/index.md) — Replaces abstract summarize-nextflow scenarios with concrete pinned fixtures (#534). [Open PR](https://github.com/galaxyproject/foundry/compare/main...issue-534-concrete-nextflow-scenarios).
+- [`issue-737-start-contributing`](active/issue-737-start-contributing/index.md) — Start Contributing page skeleton + `good first issue` label docs; John fills in content (#737). [Open PR](https://github.com/galaxyproject/foundry/compare/main...jmchilton:foundry:issue-737-start-contributing).
 
 ## Foundry branches — needs polish (`branches_need_polish`)
 
