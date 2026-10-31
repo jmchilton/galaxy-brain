@@ -1,0 +1,20 @@
+# Three tool limits the cutandrun build hit that no upstream fix will remove: UpSet with one set, preseq on small libraries, bowtie2 prebuilt indexes
+
+- Target: galaxyproject/foundry (tool notes / data-flow knowledge; test-plan guidance). Each was checked upstream and none is a wrapper bug worth filing (reasons below). Foundry tracking needed: no (this is the Foundry issue).
+- Seen in: /home/ubuntu/foundry-runs/prose-wb2g-cutandrun-v0-2026-10-31, phase 1 (interface: prebuilt index), phase 7 (test plan: preseq), phase 10 attempt 3 (44 min: UpSet), Galaxy release_26.1, 2026-10-31. open-requirements: `repair-r3-upset-min-two-sets`, `accept-no-single-set-upset`, `preseq-fails-on-small-libraries`, `accept-preseq-skip-on-small-libraries`, `prebuilt-bowtie2-index-dropped`, `bowtie2-index-rebuilt-per-job`, `accept-prebuilt-index-drop`.
+- Existing issues/PRs: none in tools-iuc, devteam or Foundry. UpSetR (hms-dbmi/UpSetR, last push 2026-05) has no issue for one set. The MultiQC sample-name item from the same run is added to finding [14](14-collection-assertion-idioms.md).
+
+## Symptom and cause
+1. **iuc rcx_upsetplot 1.4.1+galaxy0 fails on a one-column membership matrix** ("colSums(temp_data): x must be an array of at least two dimensions", in `FindMostFreq`) for a single-replicate group; the source's Python `upsetplot` draws a one-set plot. The wrapper (`tools/upsetr/rcx_upsetplot.xml:26-60`) passes the table straight to `UpSetR::upset`; the error is in UpSetR's 1-column subsetting. A one-set UpSet carries no intersection information, so a wrapper guard would only change the error. Repair R3 drops matrices with fewer than 2 sets (`__FILTER_EMPTY_DATASETS__`).
+2. **preseq lc_extrap 3.2.0 exits 1 on the 10k-pair test libraries** ("max count before zero is less than min required count (4)"; 668 and 442 reads after filtering). That is preseq's data-sufficiency check, not a wrapper bug; the iuc wrapper (`tools/preseq/preseq_lc_extrap.xml`) has no option that bypasses it. nf-core tolerates it with `errorStrategy 'ignore'` (`conf/base.config:52-53`); a Galaxy workflow has no per-step "ignore failure", so the failed job fails the invocation. Every case sets `skip_preseq: true`, leaving the default branch untested.
+3. **devteam bowtie2 2.5.4+galaxy0 can't take a prebuilt index** (nf-core `--bowtie2` tarball or directory). `reference_genome.source` offers `indexed` (admin data table) or `history` (a FASTA, indexed inside every mapping job); Galaxy has no bowtie2-index history datatype, and the Tool Shed has only a data manager and a QIIME 2 artifact builder. This is Galaxy's reference-data design, not a gap to file. Cost: chr20 index rebuilt per job (~50 s), E. coli 4 s.
+
+## Proposed fix
+1. A tool-limits list in the Foundry tool notes (or tool-pin cache), with the workaround for each: UpSet needs ≥ 2 sets (filter first); preseq needs deeper libraries than nf-core test data (plan `skip_preseq` in tests and record the untested branch); prebuilt aligner indexes map to a data-table selection or a history FASTA.
+2. Data-flow / interface Molds: nf-core `errorStrategy 'ignore'` / `error_ignore` steps have no Galaxy equivalent; flag them as a test-data risk at interface time, not after a failed run.
+3. Test-plan Mold: when a step is skipped in every case because of fixture size, list the untested branch in `omissions[]`.
+
+## Draft issue
+**Title:** Tool notes: record known tool limits (UpSet one set, preseq small libraries, bowtie2 prebuilt index) and nf-core `error_ignore` steps
+
+The nf-core/cutandrun wb2g run (2026-10-31) lost a 44-minute planemo attempt to iuc rcx_upsetplot failing on a single set (UpSetR limitation), set `skip_preseq` in every case because preseq 3.2.0 rejects 10k-pair libraries (nf-core ignores that error, Galaxy can't), and dropped the prebuilt bowtie2 index parameters because devteam bowtie2 takes only a data-table index or a history FASTA. None is a wrapper bug; all three were discovered late. Proposal: a tool-limits section with workarounds, an interface/data-flow check for nf-core `error_ignore` steps, and test-plan omissions for branches skipped in every case.
