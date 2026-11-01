@@ -2,9 +2,9 @@
 
 - PR: https://github.com/galaxyproject/galaxy/pull/24586 (author itisAliRH, base `dev`)
 - Worktree: `~/projects/worktrees/galaxy/pr/24586`
-- Status: initial review ready, unposted (round 0, c889c700361); P3 3 trimmed, branch `pr_24586_review_1`.
+- Status: approved with response posted (round 0, c889c700361); awaiting merge. Review branch `pr_24586_review_1` not pushed into PR.
 
-## Latest review (round 0, c889c700361) — ready, unposted
+## Latest review (round 0, c889c700361) — approved, delivered
 
 - Response: [initial_review_response.md](initial_review_response.md); actions: [initial_response_action.md](initial_response_action.md); checklist: [verified_findings_checklist.md](verified_findings_checklist.md)
 - Verified: [verified_review.md](verified_review.md) (one P2 + two P3s after trim, all fixed on `pr_24586_review_1`, pushed to jmchilton/galaxy); [review_1_branch_details.md](review_1_branch_details.md) (prev [review_0](review_0_branch_details.md)); [filtered_findings.md](filtered_findings.md)

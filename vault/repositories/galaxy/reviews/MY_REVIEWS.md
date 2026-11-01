@@ -4,7 +4,7 @@
 - [#24561](https://github.com/galaxyproject/galaxy/pull/24561) — approved 2026-11-01; awaiting merge (P1 + P2 + five P3s fixed on fork `pr_24561_review_0`, not pushed to PR). [notes](active/24561/index.md)
 
 
-- [#24586](https://github.com/galaxyproject/galaxy/pull/24586) — initial review ready, unposted (one P2 + three P3s; fixed on `pr_24586_review_0`). [notes](active/24586/index.md)
+- [#24586](https://github.com/galaxyproject/galaxy/pull/24586) — approved; awaiting merge (one P2 + two P3s; fixes on `pr_24586_review_1`, not pushed to PR). [notes](active/24586/index.md)
 - [#24567](https://github.com/galaxyproject/galaxy/pull/24567) — approved with initial review response; awaiting merge (three P3s; fixed on `pr_24567_review_0`). [notes](active/24567/index.md)
 - [#24565](https://github.com/galaxyproject/galaxy/pull/24565) — initial review ready, unposted (one P2 + four P3s; fixed on `pr_24565_review_0`). [notes](active/24565/index.md)
 - [#24563](https://github.com/galaxyproject/galaxy/pull/24563) — approved with initial review response; awaiting merge (one P2 + three P3s; fixed on `pr_24563_review_0`). [notes](active/24563/index.md)

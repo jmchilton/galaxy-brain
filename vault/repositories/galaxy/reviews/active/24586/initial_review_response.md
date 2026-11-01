@@ -1,4 +1,4 @@
-(space for John's free style comments - just keep empty)
+Seems odd to do the migration without any consumers included but I think it is fine. Maybe just one test consumer in the future though so we can see the component? -John
 
 <details><summary>Automated Review Details</summary>
 
