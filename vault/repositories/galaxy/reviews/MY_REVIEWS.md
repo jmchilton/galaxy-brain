@@ -10,7 +10,7 @@
 - [#24563](https://github.com/galaxyproject/galaxy/pull/24563) — approved with initial review response; awaiting merge (one P2 + three P3s; fixed on `pr_24563_review_0`). [notes](active/24563/index.md)
 - [#24523](https://github.com/galaxyproject/galaxy/pull/24523) — approved with review (round 0, 55b681c1fa9); awaiting merge (one P2 + three P3s; fixed on `pr_24523_review_0`). [notes](active/24523/index.md)
 - [#24511](https://github.com/galaxyproject/galaxy/pull/24511) — review delivered as comment 2026-11-01 (asks if 26.2 target; two P2s + seven P3s; fixed on `pr_24511_review_0`); 25.1 quota policy-change risk. [notes](active/24511/index.md)
-- [#24509](https://github.com/galaxyproject/galaxy/pull/24509) — initial review ready, unposted (two P2s + five P3s; six fixed on `pr_24509_review_0`). [notes](active/24509/index.md)
+- [#24509](https://github.com/galaxyproject/galaxy/pull/24509) — approved + review branch `7c10754f4f9` pushed into PR; awaiting merge. [notes](active/24509/index.md)
 
 - [#24543](https://github.com/galaxyproject/galaxy/pull/24543) — review comment posted 2026-10-28 (P2 + P3; fixes on `pr_24543_review_0`, not pushed to PR); awaiting author. [notes](active/24543/index.md)
 - [#24534](https://github.com/galaxyproject/galaxy/pull/24534) — review comment posted + review branch pushed into PR (head 04dad6322cf) 2026-10-28; awaiting author (four P2s + three P3s; fixed on `pr_24534_review_0`). [notes](active/24534/index.md)

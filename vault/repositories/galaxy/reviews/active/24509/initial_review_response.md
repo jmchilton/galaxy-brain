@@ -1,4 +1,4 @@
-
+Seems fair to me. -John
 
 <details><summary>Automated Review Details</summary>
 
@@ -179,17 +179,5 @@ Fixed on the review branch in [`d3de4e3c7a0`](https://github.com/jmchilton/galax
 <details><summary>Discovery & Verification Agent Details</summary>
 
 Discovered by [gx_test_challenger](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/reviewers/gx_test_challenger.md) via Opus 5.5 at medium effort. Verified via Opus 5.5 at medium effort.
-
-</details>
-
-### P3 5: The PR body's `--dry-run` "inspect first" recipe under-reports
-
-`--dry-run` rolls back after each action (`Cleanup._update` → `_flush` → `rollback()`). In `--dry-run -o 0 delete_library_datasets delete_datasets purge_datasets`, the later actions never see the LDDA changes. So `delete_datasets` and `purge_datasets` report none of the library-only datasets that the real run will delete. The behaviour is pre-existing, but the PR suggests this exact command for the #19766 backlog, and admins will copy it.
-
-Note in the PR body's Usage section, or in the action docstring, that a dry run only shows the `delete_library_datasets` step.
-
-<details><summary>Discovery & Verification Agent Details</summary>
-
-Discovered by [default](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/reviewers/default.md) via Opus 5.5 at medium effort.
 
 </details>
