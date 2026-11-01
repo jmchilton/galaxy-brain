@@ -101,10 +101,21 @@ export function removeTask(
 	parse: (source: string) => unknown,
 	stringify: (data: unknown) => string,
 ): string | undefined {
-	for (const block of taskBlocks(note)) {
+	return removeBlockEntry(note, "gb-tasks", (entry) => entry?.prompt === task.prompt && entry?.agent_dir === task.agentDir, parse, stringify);
+}
+
+/** The note without the first entry matching across its ```<language> YAML-list blocks, or undefined if none does. */
+export function removeBlockEntry(
+	note: string,
+	language: string,
+	matches: (entry: Record<string, unknown> | undefined) => boolean,
+	parse: (source: string) => unknown,
+	stringify: (data: unknown) => string,
+): string | undefined {
+	for (const block of fencedBlocks(note, language)) {
 		const entries = parse(block.source);
 		if (!Array.isArray(entries)) continue;
-		const index = entries.findIndex((entry) => entry?.prompt === task.prompt && entry?.agent_dir === task.agentDir);
+		const index = entries.findIndex(matches);
 		if (index < 0) continue;
 		const rest = entries.filter((_, i) => i !== index);
 		return replaceBlockBody(note, block.start, block.end, rest.length ? stringify(rest) : "");

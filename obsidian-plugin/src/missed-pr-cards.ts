@@ -1,14 +1,26 @@
 import type { MissedPr } from "./missed-prs";
 
-/** Missed PR cards: linked number and title, author / merger / approvers, summaries, collapsed details and discussion. */
-export function renderMissedPrCards(el: HTMLElement, prs: MissedPr[]) {
+/** ✔ marks pr reviewed; resolves true once its entry is gone from the file. */
+export type ReviewMissedPr = (pr: MissedPr) => Promise<boolean>;
+
+/** Missed PR cards: linked number and title, ✔, author / merger / approvers, summaries, collapsed details and discussion. */
+export function renderMissedPrCards(el: HTMLElement, prs: MissedPr[], review?: ReviewMissedPr) {
 	const list = el.createDiv({ cls: "gb-missed-prs" });
-	if (prs.length === 0) list.createDiv({ cls: "gb-missed-prs-empty", text: "No missed PRs." });
+	const empty = (text: string) => list.createDiv({ cls: "gb-missed-prs-empty", text });
+	if (prs.length === 0) empty("No missed PRs.");
 	for (const pr of prs) {
 		const card = list.createDiv({ cls: "gb-missed-pr" });
 		const head = card.createDiv({ cls: "gb-missed-pr-head" });
 		head.createEl("a", { text: `#${pr.pr}`, href: pr.url, cls: "external-link", attr: { target: "_blank", rel: "noopener" } });
 		head.createSpan({ cls: "gb-missed-pr-title", text: pr.title });
+		if (review) {
+			head.createEl("button", { text: "✔", attr: { "aria-label": "Reviewed: remove and log in REVIEWED.md" } }).onclick = async () => {
+				card.addClass("gb-missed-pr-pending");
+				if (!(await review(pr))) return void card.removeClass("gb-missed-pr-pending");
+				card.remove();
+				if (!list.querySelector(".gb-missed-pr")) empty("All reviewed.");
+			};
+		}
 		const meta = [
 			pr.author && `by ${pr.author}`,
 			pr.mergedBy && `merged by ${pr.mergedBy}`,

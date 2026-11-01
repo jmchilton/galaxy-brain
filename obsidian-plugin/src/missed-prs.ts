@@ -1,5 +1,11 @@
 // ```gb-missed-prs blocks of merged PRs John missed; format in vault/agents/gx_reviews/the_cracks/FELL_THROUGH_THE_CRACKS_NOTE_FORMAT.md.
 
+import { fencedBlocks, removeBlockEntry } from "./task-list";
+
+const LANGUAGE = "gb-missed-prs";
+const REVIEWED_FILE = "REVIEWED.md";
+const REVIEWED_INTRO = "PRs John checked off in the gb-missed-prs view.\n\n";
+
 export interface MissedPr {
 	pr: number;
 	title: string;
@@ -47,6 +53,31 @@ export function parseMissedPrs(data: unknown): MissedPr[] {
 		else if (mergedAt !== undefined && mergedAt !== null) throw fail("merged_at must be a timestamp");
 		return result;
 	});
+}
+
+/** The note without PR number pr's entry, or undefined if no block lists it. */
+export function removeMissedPr(note: string, pr: number, parse: (source: string) => unknown, stringify: (data: unknown) => string): string | undefined {
+	return removeBlockEntry(note, LANGUAGE, (entry) => entry?.pr === pr, parse, stringify);
+}
+
+/** Entries across the note's ```gb-missed-prs blocks. */
+export function missedPrsLeft(note: string, parse: (source: string) => unknown): number {
+	return fencedBlocks(note, LANGUAGE).reduce((count, block) => {
+		const entries = parse(block.source);
+		return count + (Array.isArray(entries) ? entries.length : 0);
+	}, 0);
+}
+
+/** The reviewed ledger beside a merge-date file; listing a PR there keeps rescans from re-adding it. */
+export function reviewedPath(datePath: string): string {
+	return `${datePath.slice(0, datePath.lastIndexOf("/") + 1)}${REVIEWED_FILE}`;
+}
+
+/** The ledger with pr appended, unchanged if already listed. */
+export function appendReviewed(ledger: string, pr: Pick<MissedPr, "pr" | "title" | "url">): string {
+	if (ledger.includes(`[#${pr.pr}]`)) return ledger;
+	const base = ledger ? ledger.replace(/\n?$/, "\n") : REVIEWED_INTRO;
+	return `${base}- [#${pr.pr}](${pr.url}) ${pr.title}\n`;
 }
 
 /** Merge-date files (`YYYY-MM-DD.md`) directly in dir, newest first. */

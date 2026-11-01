@@ -27,8 +27,9 @@ import { openDifferentialReview, registerDifferentialReview } from "./diff-revie
 import { compareUrl, githubUrl, worktreeCandidates } from "./record-links";
 import { parseRecordAgents, SYNC_PROCESSES, SYNC_PROFILE } from "./record-agents";
 import { repositoryNames } from "./repository";
+import { ConfirmModal } from "./confirm-modal";
 import { renderMissedPrCards } from "./missed-pr-cards";
-import { CRACKS_DIR, crackFiles, parseMissedPrs } from "./missed-prs";
+import { appendReviewed, CRACKS_DIR, crackFiles, type MissedPr, missedPrsLeft, parseMissedPrs, removeMissedPr, reviewedPath } from "./missed-prs";
 import { renderTaskCards } from "./task-cards";
 import { fencedBlocks, parseTasks, recordIndexPath, refinementPrompt, replaceBlockBody, type Task, type TaskRecord } from "./task-list";
 import { ALL_REPOS, REPOSITORY_VIEW, RepositoryView } from "./repository-view";
@@ -91,7 +92,7 @@ export default class GalaxyBrainPlugin extends Plugin {
 		});
 
 		this.registerMarkdownCodeBlockProcessor("gb-tasks", (source, el, ctx) => this.renderTasks(source, el, ctx));
-		this.registerMarkdownCodeBlockProcessor("gb-missed-prs", (source, el) => this.renderMissedPrs(source, el));
+		this.registerMarkdownCodeBlockProcessor("gb-missed-prs", (source, el, ctx) => this.renderMissedPrs(source, el, ctx.sourcePath));
 		this.registerMarkdownCodeBlockProcessor("gb-missed-prs-feed", (source, el, ctx) => this.renderMissedPrsFeed(source, el, ctx));
 
 		if (!Platform.isDesktopApp) return;
@@ -414,13 +415,42 @@ export default class GalaxyBrainPlugin extends Plugin {
 		});
 	}
 
-	/** Cards for a ```gb-missed-prs block. */
-	private renderMissedPrs(source: string, el: HTMLElement) {
+	/** Cards for a ```gb-missed-prs block in the note at path; ✔ reviews. */
+	private renderMissedPrs(source: string, el: HTMLElement, path: string) {
 		try {
-			renderMissedPrCards(el, parseMissedPrs(parseYaml(source)));
+			renderMissedPrCards(el, parseMissedPrs(parseYaml(source)), (pr) => this.reviewMissedPr(path, pr));
 		} catch (error) {
 			el.createDiv({ cls: "gb-missed-prs-error", text: `gb-missed-prs: ${error instanceof Error ? error.message : error}` });
 		}
+	}
+
+	/** Logs pr in REVIEWED.md, removes it from path, and offers to delete path once it lists no PRs. */
+	private async reviewMissedPr(path: string, pr: MissedPr): Promise<boolean> {
+		const file = this.app.vault.getFileByPath(path);
+		if (!file) {
+			new Notice(`${path} not found`);
+			return false;
+		}
+		const ledgerPath = reviewedPath(path);
+		const ledger = this.app.vault.getFileByPath(ledgerPath);
+		if (ledger) await this.app.vault.process(ledger, (text) => appendReviewed(text, pr));
+		else await this.app.vault.create(ledgerPath, appendReviewed("", pr));
+		let removed = false;
+		let left = 0;
+		await this.app.vault.process(file, (note) => {
+			const updated = removeMissedPr(note, pr.pr, parseYaml, stringifyYaml);
+			removed = updated !== undefined;
+			left = missedPrsLeft(updated ?? note, parseYaml);
+			return updated ?? note;
+		});
+		if (!removed) {
+			new Notice(`#${pr.pr} not found in ${path}`);
+			return false;
+		}
+		if (left === 0) {
+			new ConfirmModal(this.app, "All reviewed", `Every PR in ${file.name} is reviewed and logged in ${ledgerPath}. Delete ${file.name}?`, "Delete", () => void this.app.fileManager.trashFile(file)).open();
+		}
+		return true;
 	}
 
 	/** Every merge-date file's ```gb-missed-prs blocks in a directory (body, default the_cracks), newest first. */
@@ -438,7 +468,7 @@ export default class GalaxyBrainPlugin extends Plugin {
 				event.preventDefault();
 				void this.app.workspace.openLinkText(path, ctx.sourcePath, event.metaKey || event.ctrlKey);
 			};
-			for (const block of blocks) this.renderMissedPrs(block.source, day);
+			for (const block of blocks) this.renderMissedPrs(block.source, day, path);
 		}
 	}
 
