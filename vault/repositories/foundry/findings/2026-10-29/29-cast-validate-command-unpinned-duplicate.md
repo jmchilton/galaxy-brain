@@ -21,6 +21,7 @@ Each cast also has the generated pinned rows (e.g. summarize-nextflow `:49-50`, 
 - `grep -n 'foundry validate-' casts/claude/skills/*/SKILL.md` in the chipseq worktree shows the pinned generated row and the unpinned body line in all five.
 - Run: `foundry-feedback.ledger.yml` entry above; `check-workflow-brief.json` (exit 0).
 - viralrecon (/home/ubuntu/foundry-runs/prose-nf2wb-viralrecon-2026-10-31, phase 2, ledger `brief-viralrecon-recurs-findings-09-10-29`): same two commands in the rev 2 Procedure; the writer again ran the pinned form (`phase2-notes.md`, exit 0).
+- hic (/home/ubuntu/foundry-runs/prose-nf2wb-hic-2026-11-01, phase 2, ledger `brief-hic-recurs-findings-09-10-29`): same two commands (cast `SKILL.md:43` pinned, `:67` unpinned); the writer ran the pinned form, exit 0. Third recurrence. On `pipeline-run-chipseq` the summarize-nextflow body line is now `index.md:406` (rev 22 stack).
 
 ## Proposed fix
 1. In the five Mold bodies, replace the literal command with "Validate as in the Validation section" (keep the brief Molds' `check-workflow-brief` instruction and exit-4 handling, which the generated rows don't cover).

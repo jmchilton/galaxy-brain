@@ -25,6 +25,7 @@ Nothing in the Mold tells the author how to verify a `file:line` cite, how to pa
 - `phase1-notes.md:17` (201, correct) and `:72` (ambiguous AF wording). `environment-probes.txt:12-13` (`conda: ABSENT`, `mamba: ABSENT`, nothing more).
 - Mold: `content/molds/nextflow-summary-to-workflow-brief/index.md:83` ("distinguish source facts from expert requirements") and `:89` (environment). There is no rule on citations or paraphrase. `content/research/workflow-brief-design/index.md:46,50` covers evidence for open questions, not its accuracy.
 - viralrecon (/home/ubuntu/foundry-runs/prose-nf2wb-viralrecon-2026-10-31, phase 2, ledger `brief-viralrecon-recurs-findings-09-10-29`): no wrong cite this time, but only because the driver supplied `.scratch/check_cites.py` (186 cites, 0 failures; it misses `tests/.nftignore`, cited by hand). The Mold still has no citation rule; the deterministic check came from the harness, not Foundry.
+- hic (/home/ubuntu/foundry-runs/prose-nf2wb-hic-2026-11-01, phase 2, ledger `brief-hic-recurs-findings-09-10-29`): same as viralrecon. 167/167 cites token-checked by a `check_cites.py` the driver copied from the viralrecon run's `.scratch/` and adapted (`.cpp`/`.sh` extensions); two nested-backtick cites had to be rewritten before it passed. Still no Mold rule or Foundry checker.
 
 ## Proposed fix
 

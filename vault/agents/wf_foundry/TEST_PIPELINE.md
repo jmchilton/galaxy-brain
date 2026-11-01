@@ -10,6 +10,7 @@ Foundry's `/test-pipeline` is a slash command in the checkout's `.claude/command
 - New worktree: `pnpm install --frozen-lockfile && npm run packages-build`.
 - Fixtures the case names: `make fixtures-nextflow`, `make fixtures-iwc fixtures-skeletons`, etc. One at a time; parallel runs collide on a git lock. For parallel journeys, build all fixtures before launching any driver.
 - Parallel journeys are fine, with no cap here; John picks how many. Give each its own worktree (drivers commit Mold fixes locally) and check free disk first.
+- Seed runs get a `caller-request.md` in the run dir. Put each line under its own source's heading (`## Objective (John)` holds only John's quoted words; coordinator lines go under `## Context (coordinator, not John)`). A coordinator line under John's heading was read as John's in the hic seed.
 - Run dir: `~/foundry-runs/prose-<pipeline-short>-<case-short>-<YYYY-MM-DD>/`. `~/foundry-runs` is a clone of the private [jmchilton/foundry-runs](https://github.com/jmchilton/foundry-runs); `git pull` it first. Not `casts/claude/_emulated-runs/`: upstream tracks files there, so new runs dirty the worktree and block cleanup.
 
 ## 2. Drive (a background subagent)
@@ -46,6 +47,8 @@ Overrides:
   - Put special characters in `map_param_value` mappings, not `default_value`, which is sanitized.
   - User tools run under `/bin/sh`; write `\$(` and `\${` in shell, since `$(`/`${` are parsed as JS; collection inputs arrive in `to_cwl` shape and a mapped `paired` input loses its outer identifier.
 - A workflow over ~250 steps can need ~12 GB free while Galaxy builds its run form (viralrecon Illumina, 385 native steps). Run such a case in its own planemo invocation, one case at a time, with nothing else heavy on the host; Claude Code's low-memory guard kills background planemo near 2 GB free. Record a guard kill or a Galaxy that dies before invocation as `not-run` with its cause, not a workflow failure.
+- A Mold fix's new eval property is `check: llm` unless the current CLI already passes it, and every Mold fix adds a `scenarios.md` case and a `changes.md` entry (finding 08).
+- Brief-producing runs: validate with the pinned command from the Mold's Validation section, not the unpinned one in its procedure (finding 29). Before handing back, check every statement the brief attributes to John against a line under a John heading in `caller-request.md` (finding 10).
 - Never give a child a step budget or other size cap that narrows the brief's scope. If a phase can't carry everything the brief scopes, it records each unit it leaves out as a brief-change recommendation in the ledger, not just a `dropped` entry.
 - Before each planemo attempt, if another `planemo test` is running on the host and `MemAvailable` is under 8 GiB, wait for it to finish (poll every few minutes). An attempt killed by the host OOM killer counts as an attempt with cause "host OOM", not a workflow defect.
 - Other planemo Galaxies may be running; run yours anyway. If a failure looks caused by them (port, ~/.planemo cache, locks), report it as a suspected planemo bug with the error text and the other runs' PIDs, then retry once.
