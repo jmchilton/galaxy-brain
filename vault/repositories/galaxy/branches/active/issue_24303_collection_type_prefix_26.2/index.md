@@ -13,6 +13,8 @@ Implements [#24303](https://github.com/galaxyproject/galaxy/issues/24303): tools
 
 [Implementation](implementation_debrief.md) · [Initial implementation](initial_implementation_debrief.md) · [Re-scope](implementation_rescope_debrief.md) · [Plan](plan.md) · [Research](research.md) · Reviews: [subagents/](subagents/) · [Test challenges](test_challenges_debrief.md) · [Codex](codex_review.md) · [Thermo-nuclear](thermo_nuclear_review.md) · [Baseline refactor](baseline_refactor.md) · [Scope evaluation](scope_evaluation.md) · [Screenshots](screenshot_debrief.md) · [E2E polish](polish_e2e_tests_debrief.md) · Alt: [original scope](alts/original_scope.md) · Round 1 hardening: [earlier_drafts/1/](earlier_drafts/1/)
 
+Fork CI on `e0239d8d74b` (2026-11-01): all reds are client-cache restore failures (infra, Playwright/Selenium jobs never ran); promoted.
+
 ## Decisions
 
 - Base `release_26.2`: John's call (new tool-spec feature; #24190 Nest fix targets `release_26.0` and is unmerged).

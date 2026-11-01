@@ -9,9 +9,9 @@ Status: `ready_for_final_review` — polished; see [polish debrief](polish_debri
 
 No PR yet.
 
-Fork CI on `fac396515e4` queued at polish time.
-
 Base: `release_25.1` (`74f52289d82`), head `fac396515e4`. Fork: `jmchilton/workflow_fetch_abstractions_25.1`. Worktree: `~/projects/worktrees/galaxy/branch/workflow_fetch_abstractions_25.1`. Alt: `workflow_fetch_abstractions_25.1_alt_original_scope` ([alts/original_scope.md](alts/original_scope.md)).
+
+CI on `fac396515e4` reds diagnosed unrelated 2026-11-01: external-WorkflowHub `test_trs_import` and flaky `test_permanently_delete_history` Selenium; failed jobs rerun.
 
 ## Scope
 

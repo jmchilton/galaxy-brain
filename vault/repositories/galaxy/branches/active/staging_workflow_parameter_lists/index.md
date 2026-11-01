@@ -14,9 +14,9 @@ pr: 24552
 
 Approved at `a812cad3` on `release_26.2` (`0902830b`) on 2026-10-28 via launch.
 
-Draft [#24552](https://github.com/galaxyproject/galaxy/pull/24552) opened 2026-10-28, waiting on CI.
+PR [#24552](https://github.com/galaxyproject/galaxy/pull/24552) opened 2026-10-28, since out of draft.
 
-CI on `a812cad3` queued.
+PR [#24552](https://github.com/galaxyproject/galaxy/pull/24552) out of draft; CI on `a812cad3` green as of 2026-11-01.
 
 ## Context
 

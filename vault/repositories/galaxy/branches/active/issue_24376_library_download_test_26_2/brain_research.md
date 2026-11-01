@@ -16,7 +16,7 @@ documents:
   - path: vault/repositories/galaxy/branches/active/selenium_history_datatype_citations/index.md
     why: Prior Selenium test branch that adds a `data-description` hook plus a navigation.yml component and helper for a UI action.
     load_when: Following the established pattern for the hook and selector.
-  - path: vault/repositories/galaxy/branches/active/selenium_multiview_copy/index.md
+  - path: vault/repositories/galaxy/branches/merged/selenium_multiview_copy/index.md
     why: Prior branch that replaced dead navigation.yml selectors with real `data-*` hooks and added E2E tests, including a client-side fix found along the way.
     load_when: Replacing a stale selector with a hook in a Vue component.
   - path: vault/research/Component - Deployment Tests.md

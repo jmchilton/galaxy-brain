@@ -7,7 +7,7 @@
 
 Head `ed7aee4d160`; rebased onto `release_26.2` 2026-10-28 (one trivial conflict in `navigates_galaxy.py`, kept both helpers); undrafted 2026-10-22 on John's request (`ready`). See [PR description](pr_description.md), [titles](pr_titles.md), [tags](pr_tags.md), [polish debrief](polish_debrief.md), [implementation debrief](implementation_debrief.md), [rescope debrief](implementation_rescope_debrief.md), original scope [alt](alts/original_scope.md).
 
-PR CI reds diagnosed unrelated 2026-10-22: API tests `test_libraries.py::test_update_dataset_in_folder` (403 dataset in use) also fails on `release_26.2` push CI; Mulled/Integration exit 100: apptainer PPA 503 in apt setup, tests never ran; failed jobs rerun. Playwright, Integration Selenium, tool-form harness and linting green.
+CI on `ed7aee4d160` reds diagnosed unrelated 2026-11-01: client-cache restore failures (infra); failed jobs rerun.
 
 ## Scope
 

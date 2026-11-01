@@ -9,7 +9,7 @@ Polished; John read it through. Rebased onto `release_26.2` 2026-10-27 (conflict
 
 [#24347](https://github.com/galaxyproject/galaxy/pull/24347) opened 2026-10-21, approved by mvdbeek; title is pr_titles.md option 1. [Description](pr_description.md), [titles](pr_titles.md), [tags](pr_tags.md).
 
-CI pending on rebased head (2026-10-27).
+CI on `29f5d9c46ce` reds diagnosed unrelated 2026-11-01: `test_import_dataset_from_history` also fails on `release_26.2`, flaky `test_cached_tool` unit and macOS cache restore; failed jobs rerun.
 
 ## Scope
 

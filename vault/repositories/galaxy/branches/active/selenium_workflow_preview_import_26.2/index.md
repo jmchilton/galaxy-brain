@@ -12,7 +12,7 @@ READY: hardened and pushed at `ef7bf72fdea9` on `release_26.2` (base `7a7c1576f9
 
 PR not opened.
 
-CI has not been assessed.
+Fork CI on `ef7bf72fdea9` (2026-11-01): only failed job is flaky unit `test_cached_tool::test_edited_tool_files_sees_edit_made_while_populating` (unrelated, also red on other branches); promoted.
 
 ## Handoff
 

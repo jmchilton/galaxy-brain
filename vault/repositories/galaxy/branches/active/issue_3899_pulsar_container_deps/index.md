@@ -11,11 +11,13 @@ pr: 24555
 
 Status: `branches_ready_for_final_review`. Polished 2026-10-28: [description](pr_description.md) · [titles](pr_titles.md) · [tags](pr_tags.md) · [checklist](pr_checklist.md) · [polish debrief](polish_debrief.md). Retargeted 2026-10-28 from `dev` to `release_26.2` (clean rebase, head `d9a8abb4ca9`, 42 runner unit tests pass).
 
-Draft PR [#24555](https://github.com/galaxyproject/galaxy/pull/24555) opened 2026-10-28 at `d9a8abb4ca9` (title 1, human review at that SHA); upstream CI queued, undraft when green.
+PR [#24555](https://github.com/galaxyproject/galaxy/pull/24555) opened 2026-10-28 at `d9a8abb4ca9` (title 1, human review at that SHA).
 
 Respects a Pulsar container job’s dependency-resolution opt-in (#3899).
 
 [Implementation](implementation_debrief.md) · [test challenges](test_challenges_debrief.md) · [codex](codex_review.md) · [thermo-nuclear](thermo_nuclear_review.md) · [baseline refactor](baseline_refactor.md) · [scope](scope_evaluation.md) · [earlier drafts](earlier_drafts/1/implementation_debrief.md) · [Tracking history](tracking_history.md)
+
+PR [#24555](https://github.com/galaxyproject/galaxy/pull/24555) out of draft; CI on `d9a8abb4ca9`: only red is external-WorkflowHub `test_trs_import` Selenium (unrelated), failed job rerun 2026-11-01.
 
 ## TICK — 2026-10-11
 

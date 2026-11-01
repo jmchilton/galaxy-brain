@@ -11,6 +11,8 @@ No PR.
 
 No CI yet.
 
+Fork CI on `c1dc296ac86` (2026-11-01): reds are Apptainer install failures (infra) and unrelated `test_user_file_source_ftp` Playwright timeout; promoted.
+
 ## Scope
 
 E2E coverage for Apply rules driven through the rule builder menus, framed as a missing test for 26.2. Three commits:

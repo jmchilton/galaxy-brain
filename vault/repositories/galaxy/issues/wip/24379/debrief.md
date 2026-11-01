@@ -1,6 +1,6 @@
 # Debrief: untyped_param_lint_declared_labels
 
-Source: [research.md](../../../repositories/galaxy/branches/active/untyped_param_lint_declared_labels/research.md). Fix branch: `untyped_param_lint_declared_labels` (6bb6d2cab4d).
+Source: [research.md](../../../repositories/galaxy/branches/merged/untyped_param_lint_declared_labels/research.md). Fix branch: `untyped_param_lint_declared_labels` (6bb6d2cab4d).
 
 ## Research
 

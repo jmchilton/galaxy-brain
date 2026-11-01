@@ -8,11 +8,11 @@ upstream_base_branch: release_26.1
 
 ## Status
 
-Draft PR open (`ci_wait`) for [#24476](https://github.com/galaxyproject/galaxy/issues/24476), targeting release_26.1 at pushed head `ee6cad444fb`.
+PR open (`ready`) for [#24476](https://github.com/galaxyproject/galaxy/issues/24476), targeting release_26.1 at pushed head `ee6cad444fb`.
 
-[#24483](https://github.com/galaxyproject/galaxy/pull/24483) opened as draft 2026-10-26 on John's launch approval; undraft when CI green.
+[#24483](https://github.com/galaxyproject/galaxy/pull/24483) opened as draft 2026-10-26 on John's launch approval.
 
-Fork CI queued on `ee6cad444fb`; 124 focused tests pass, formatting is clean, and mypy matches the refreshed base's 14 existing errors.
+PR [#24483](https://github.com/galaxyproject/galaxy/pull/24483) undrafted 2026-11-01; CI on `ee6cad444fb`: only red is flaky `test_library_contents::test_import_dataset_from_history` Selenium (unrelated), failed job rerun.
 
 ## Review materials
 

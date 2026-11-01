@@ -1,12 +1,12 @@
 ```yaml
 documents:
-  - path: vault/repositories/galaxy/branches/active/workflow_import_embedded_tools/implementation_debrief.md
+  - path: vault/repositories/galaxy/branches/merged/workflow_import_embedded_tools/implementation_debrief.md
     why: Parent branch (#24475) debrief; it moved embedded-tool creation into the `ToolModule.resolve_tool_uuid` prepass this fix changes, and records the commit/session side effects.
     load_when: Starting; understanding why creation commits before step building.
-  - path: vault/repositories/galaxy/branches/active/workflow_import_embedded_tools/review_pushback_dannon_1.md
+  - path: vault/repositories/galaxy/branches/merged/workflow_import_embedded_tools/review_pushback_dannon_1.md
     why: Records that non-atomic import is pre-existing and was deliberately deferred to this follow-up.
     load_when: Framing scope and PR description.
-  - path: vault/repositories/galaxy/branches/active/workflow_import_embedded_tools/test_challenges_debrief.md
+  - path: vault/repositories/galaxy/branches/merged/workflow_import_embedded_tools/test_challenges_debrief.md
     why: Existing embedded-tool API test coverage and helpers to extend with the red-first rollback tests.
     load_when: Writing the API tests.
   - path: vault/research/Component - Workflow Import.md

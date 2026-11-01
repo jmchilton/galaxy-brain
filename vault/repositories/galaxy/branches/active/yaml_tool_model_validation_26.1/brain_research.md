@@ -4,10 +4,10 @@ documents:
     why: Umbrella pitch; slices 3-5 (convert fixtures, one construction path, strict authoring/scalar outputs) are this branch; parser-site table, fixture inventory, stored-row policy (lift_user_tool_source for user rows, nothing for GalaxyTool rows).
   - path: vault/repositories/galaxy/issues/wip/23888/reject_unknown_yaml_dataset_output_fields.md
     why: Spec for the IncomingToolOutputDataset extra="forbid" change; acceptance list (typo rejected, format_source/metadata_source survive dump/reload, collection outputs stay strict) and the warning to inventory incoming vs internal models before forbidding globally.
-  - path: vault/repositories/galaxy/branches/active/yaml_boolean_defaults/implementation_debrief.md
+  - path: vault/repositories/galaxy/branches/merged/yaml_boolean_defaults/implementation_debrief.md
     why: Prior merged slice (#24365) on the same parser; canonical vs legacy dialect via is_yaml_origin/CanonicalYaml* sources, fixtures already touched, and contract-test module/helpers to reuse for red-first tests.
     load_when: Writing tests or deciding what the parser may still accept for class-less YAML.
-  - path: vault/repositories/galaxy/branches/active/yaml_boolean_defaults/implementation_rescope_debrief.md
+  - path: vault/repositories/galaxy/branches/merged/yaml_boolean_defaults/implementation_rescope_debrief.md
     why: Repeat/section canonical loading and strictify decisions; tells you which model-vs-loader mismatches are already closed so validation does not re-open them.
     load_when: Seeing failures from newly strict validation on repeat/section fixtures.
   - path: vault/research/Component - User-Defined Tool Source Validation.md

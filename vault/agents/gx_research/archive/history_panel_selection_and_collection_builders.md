@@ -8,7 +8,7 @@ Three recent branches (#24469 selection reset, library_collection_selected_histo
 
 ## Requested by
 
-- vault/repositories/galaxy/branches/active/issue_24469_collection_build_reset_selection_25.1/brain_research.md: needed the selection-reset event flow across HistoryPanel, SelectionOperations and ListWizard.
+- vault/repositories/galaxy/branches/merged/issue_24469_collection_build_reset_selection_25.1/brain_research.md: needed the selection-reset event flow across HistoryPanel, SelectionOperations and ListWizard.
 
 ## Debrief
 

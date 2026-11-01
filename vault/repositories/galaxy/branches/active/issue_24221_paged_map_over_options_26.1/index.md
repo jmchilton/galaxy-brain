@@ -11,13 +11,13 @@ mvdbeek's second review (2026-10-21) addressed 2026-10-22: rebased, suffix/hint 
 
 Draft [#24228](https://github.com/galaxyproject/galaxy/pull/24228) opened 2026-10-17 at John's request; title "[26.1] Fix paged collection options dropping a collection's map-over entry". Screenshots hosted on `pr-assets-issue_24221_paged_map_over_options_26.1`.
 
-PR CI running on `2ab8f4493c8`.
-
 Fixes [#24221](https://github.com/galaxyproject/galaxy/issues/24221): paged collection options drop a collection's "map over" entry. On 26.1 that entry also couldn't be selected on its own.
 
 [PR description](pr_description.md) · [PR titles](pr_titles.md) · [PR tags](pr_tags.md) · [Polish debrief](polish_debrief.md)
 
 [Implementation](implementation_debrief.md) · [Initial implementation](initial_implementation_debrief.md) · [Re-scope](implementation_rescope_debrief.md) · [Scope evaluation](scope_evaluation.md) · [Test challenges](test_challenges_debrief.md) · [Codex review](codex_review.md) · [Thermo-nuclear review](thermo_nuclear_review.md) · [Baseline refactor](baseline_refactor.md) · [Screenshots](screenshot_debrief.md) · [Alt: original scope](alts/original_scope.md)
+
+CI on `2ab8f4493c8` reds diagnosed unrelated 2026-11-01: runner disk quota/apt/Playwright-install failures (infra); `Main tool tests` rerun.
 
 ## Decisions
 

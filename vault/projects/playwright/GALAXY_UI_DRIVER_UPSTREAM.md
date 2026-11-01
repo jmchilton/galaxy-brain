@@ -58,7 +58,7 @@ green under both backends and red without their change. Queued in `MY_BRANCHES.m
 | Branch | Commits | Tests |
 |---|---|---|
 | [`selenium_tool_form_helpers`](../../repositories/galaxy/branches/active/selenium_tool_form_helpers/index.md) | 6a, 6a′, 6b, 6c, 7a, 7e, 7f | new E2E: fill an editor step's form (7a), describe a rerun form (6c); `test_tool_form.py` 29/29 |
-| [`selenium_multiview_copy`](../../repositories/galaxy/branches/active/selenium_multiview_copy/index.md) | 4c, 5e | 5e's copy E2E, red without 4c's hooks; Multiview file green |
+| [`selenium_multiview_copy`](../../repositories/galaxy/branches/merged/selenium_multiview_copy/index.md) | 4c, 5e | 5e's copy E2E, red without 4c's hooks; Multiview file green |
 | [`selenium_standalone_package`](../../repositories/galaxy/branches/active/selenium_standalone_package/index.md) | 5a, 5b, 5c, 5d, 7k, 7l, 7n + consumer | `GalaxySeleniumContext` includes `UsesUploadActivity`; new E2E uploads through a standalone context; upload/extraction spot checks |
 
 - The consumer commit drops every test class's own `UsesUploadActivity` mixin (MRO), and 7k

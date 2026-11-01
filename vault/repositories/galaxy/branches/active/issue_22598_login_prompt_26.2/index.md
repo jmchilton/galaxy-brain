@@ -12,9 +12,9 @@ pr: 24549
 
 Polished 2026-10-28 with scope B (John’s choice), approved at `3a3d5771d30` by launching the PR open. Base `release_26.2` (`0902830bfa6`). Worktree: `~/projects/worktrees/galaxy/branch/issue_22598_login_prompt_26.2`.
 
-[#24549](https://github.com/galaxyproject/galaxy/pull/24549) opened as draft 2026-10-28 (CI not finished).
+[#24549](https://github.com/galaxyproject/galaxy/pull/24549) opened as draft 2026-10-28.
 
-Fork CI on `3a3d5771d30`: most green; Playwright, Integration Selenium, first startup, tool form harness, OpenAPI lint and DB indexes queued; "Test Galaxy release script" red, not yet diagnosed.
+PR [#24549](https://github.com/galaxyproject/galaxy/pull/24549) out of draft; CI on `3a3d5771d30` green as of 2026-11-01.
 
 ## Hardening
 
