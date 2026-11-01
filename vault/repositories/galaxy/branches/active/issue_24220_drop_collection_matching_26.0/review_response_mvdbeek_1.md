@@ -26,6 +26,8 @@ Side effect to note in follow-up: server/client pick deepest map-over first (`Hi
 
 Follow-up draft: [followup_issue_split_paired_or_unpaired.md](followup_issue_split_paired_or_unpaired.md). Not posted.
 
+Update 2026-11-01: folded into the PR instead. Narrower than the posted comment's plan: the split learned compound types instead of the listing rewriting them, so no shared helper/TS mirror. The deepest-first side effect above is gone, since `list:list` on `["list:paired_or_unpaired", "paired_or_unpaired"]` now runs.
+
 ## Not acting on
 
 Nothing pushed back. Server fix kept out of this 26.0 PR (scope; John's call where it lands).

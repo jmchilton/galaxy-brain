@@ -1,5 +1,7 @@
 # Draft issue (not posted; galaxyproject/galaxy not greenlisted)
 
+**Superseded:** folded into #24453 (commits `758e4e6a397`..`340e7139d0b`). Kept for reference.
+
 Title: Tool form lists `list:paired_or_unpaired` and `sample_sheet` map-overs that fail with "Cannot split collection in desired fashion."
 
 ## Body

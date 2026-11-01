@@ -1,16 +1,11 @@
 # Tasks
 
 ```gb-tasks
-- prompt: Review mvdbeek's commit 93ee487fbe5 on issue_24220_drop_collection_matching_26.0 in the differential review. The PR is in draft while the expanded server fix is built in-branch.
+- prompt: Review mvdbeek's commit 93ee487fbe5 and the expanded server fix (758e4e6a397..340e7139d0b) on issue_24220_drop_collection_matching_26.0 in the differential review, re-check the "human read every test" box, approve updating the live PR body from pr_description.md, decide on a PR comment noting the fix is narrower than promised, then undraft once CI is green.
   agent_dir: gx_branches
   kind: human
   link: https://github.com/galaxyproject/galaxy/pull/24453
   record: galaxy/branches/issue_24220_drop_collection_matching_26.0
-- prompt: Review dannon-response changes (rebase + tool-count assertion) in the differential review, open the follow-up issue from followup_atomic_import_issue.md (galaxyproject/galaxy, dev), then post the suggested comment from review_pushback_dannon_1.md with the issue number filled in.
-  agent_dir: gx_branches
-  kind: human
-  link: https://github.com/galaxyproject/galaxy/pull/24475
-  record: galaxy/branches/workflow_import_embedded_tools
 - prompt: Review dannon-response changes (rebase, app-path startup test, shed-first error message) in the differential review, update the PR body from pr_description.md, then post the suggested reply in review_pushback_dannon_1.md.
   agent_dir: gx_branches
   kind: human
@@ -133,51 +128,6 @@
     🤔 Conflicting duplicate tool-test params raise "Ambiguous" instead of silently keeping one; `<edit_attributes>` stored as dicts (#24389). Base `release_26.1`. Closed: split into the `_lint_` 26.1 and `_reject_` 26.2 branches. Decision: abandon or keep as reference.
   status: idea
   suggested_by: gx_branches/SUGGESTED_TASKS.md#Decide Branches
-- prompt: |
-    Let's talk about branch untyped_param_lint_declared_labels. The branch record is vault/repositories/galaxy/branches/active/untyped_param_lint_declared_labels/.
-  agent_dir: gx_branches
-  link: https://github.com/galaxyproject/galaxy/pull/24381
-  record: galaxy/branches/untyped_param_lint_declared_labels
-  description: |
-    🔀 Editor lint and run form only treat rename `${...}` as replacement params; lint skips input-backed names (#24379). Base `release_26.1`.
-  status: recommended
-  suggested_by: gx_branches/SUGGESTED_TASKS.md#Merge Branches
-- prompt: |
-    Let's talk about branch extract_next_followups_baseline. The branch record is vault/repositories/galaxy/branches/active/extract_next_followups_baseline/.
-  agent_dir: gx_branches
-  link: https://github.com/galaxyproject/galaxy/pull/24368
-  record: galaxy/branches/extract_next_followups_baseline
-  description: |
-    🔀 Baseline tests, PageManager notebook access check and public extraction helpers ahead of #24225. Base `release_26.2`.
-  status: recommended
-  suggested_by: gx_branches/SUGGESTED_TASKS.md#Merge Branches
-- prompt: |
-    Let's talk about branch yaml_boolean_defaults. The branch record is vault/repositories/galaxy/branches/active/yaml_boolean_defaults/.
-  agent_dir: gx_branches
-  link: https://github.com/galaxyproject/galaxy/pull/24365
-  record: galaxy/branches/yaml_boolean_defaults
-  description: |
-    🔀 YAML tools load Boolean `value`, optionality and canonical repeats/sections as the tool models define (#23888). Base `release_26.1`. Draft requested by John.
-  status: recommended
-  suggested_by: gx_branches/SUGGESTED_TASKS.md#Merge Branches
-- prompt: |
-    Let's talk about branch selenium_multiview_copy. The branch record is vault/repositories/galaxy/branches/active/selenium_multiview_copy/.
-  agent_dir: gx_branches
-  link: https://github.com/galaxyproject/galaxy/pull/24334
-  record: galaxy/branches/selenium_multiview_copy
-  description: |
-    🔀 Multiview column test hooks, copy-between-columns helper + E2E tests; fixes target column not refreshing after single-type drops (26.2).
-  status: recommended
-  suggested_by: gx_branches/SUGGESTED_TASKS.md#Merge Branches
-- prompt: |
-    Let's talk about branch workflow_editor_run_cancel. The branch record is vault/repositories/galaxy/branches/active/workflow_editor_run_cancel/.
-  agent_dir: gx_branches
-  link: https://github.com/galaxyproject/galaxy/pull/24318
-  record: galaxy/branches/workflow_editor_run_cancel
-  description: |
-    🔀 Editor no longer marks a just-opened workflow unsaved; run-from-editor + cancel E2E test; File-input helper fix. Base `release_26.2`.
-  status: recommended
-  suggested_by: gx_branches/SUGGESTED_TASKS.md#Merge Branches
 - prompt: |
     Let's talk about branch issue_24061_24062_repository_details. The branch record is vault/repositories/galaxy/branches/active/issue_24061_24062_repository_details/.
   agent_dir: gx_branches
