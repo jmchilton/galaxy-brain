@@ -258,6 +258,7 @@
 .gb-missed-pr-head { display: flex; align-items: baseline; gap: 6px; font-weight: 600; }
 .gb-missed-pr-title { flex: 1; }
 .gb-missed-pr-pending { opacity: 0.4; pointer-events: none; }
+.gb-missed-pr-reviewed { opacity: 0.5; border-style: dashed; }
 .gb-missed-pr-meta { color: var(--text-muted); font-size: var(--font-ui-smaller); }
 .gb-missed-pr-summary { white-space: pre-wrap; margin-top: 4px; }
 .gb-missed-pr-discussion-summary { white-space: pre-wrap; margin-top: 2px; font-size: var(--font-ui-small); color: var(--text-muted); }

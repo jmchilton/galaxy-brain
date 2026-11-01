@@ -27,9 +27,8 @@ import { openDifferentialReview, registerDifferentialReview } from "./diff-revie
 import { compareUrl, githubUrl, worktreeCandidates } from "./record-links";
 import { parseRecordAgents, SYNC_PROCESSES, SYNC_PROFILE } from "./record-agents";
 import { repositoryNames } from "./repository";
-import { ConfirmModal } from "./confirm-modal";
 import { renderMissedPrCards } from "./missed-pr-cards";
-import { appendReviewed, CRACKS_DIR, crackFiles, type MissedPr, missedPrsLeft, parseMissedPrs, removeMissedPr, reviewedPath } from "./missed-prs";
+import { CRACKS_DIR, crackFiles, type MissedPr, parseMissedPrs, setMissedPrReviewed } from "./missed-prs";
 import { renderTaskCards } from "./task-cards";
 import { fencedBlocks, parseTasks, recordIndexPath, refinementPrompt, replaceBlockBody, type Task, type TaskRecord } from "./task-list";
 import { ALL_REPOS, REPOSITORY_VIEW, RepositoryView } from "./repository-view";
@@ -415,61 +414,60 @@ export default class GalaxyBrainPlugin extends Plugin {
 		});
 	}
 
-	/** Cards for a ```gb-missed-prs block in the note at path; ✔ reviews. */
+	/** Cards for a ```gb-missed-prs block in the note at path; ✔ / ↺ toggle `reviewed`. */
 	private renderMissedPrs(source: string, el: HTMLElement, path: string) {
 		try {
-			renderMissedPrCards(el, parseMissedPrs(parseYaml(source)), (pr) => this.reviewMissedPr(path, pr));
+			renderMissedPrCards(el, parseMissedPrs(parseYaml(source)), { setReviewed: (pr, reviewed) => this.setMissedPrReviewed(path, pr, reviewed) });
 		} catch (error) {
-			el.createDiv({ cls: "gb-missed-prs-error", text: `gb-missed-prs: ${error instanceof Error ? error.message : error}` });
+			this.missedPrsError(el, error);
 		}
 	}
 
-	/** Logs pr in REVIEWED.md, removes it from path, and offers to delete path once it lists no PRs. */
-	private async reviewMissedPr(path: string, pr: MissedPr): Promise<boolean> {
+	private missedPrsError(el: HTMLElement, error: unknown) {
+		el.createDiv({ cls: "gb-missed-prs-error", text: `gb-missed-prs: ${error instanceof Error ? error.message : error}` });
+	}
+
+	/** Sets pr's `reviewed` in the note at path; false if the note or entry is gone. */
+	private async setMissedPrReviewed(path: string, pr: MissedPr, reviewed: boolean): Promise<boolean> {
 		const file = this.app.vault.getFileByPath(path);
-		if (!file) {
-			new Notice(`${path} not found`);
-			return false;
+		let found = false;
+		if (file) {
+			await this.app.vault.process(file, (note) => {
+				const updated = setMissedPrReviewed(note, pr.pr, reviewed, parseYaml, stringifyYaml);
+				found = updated !== undefined;
+				return updated ?? note;
+			});
 		}
-		const ledgerPath = reviewedPath(path);
-		const ledger = this.app.vault.getFileByPath(ledgerPath);
-		if (ledger) await this.app.vault.process(ledger, (text) => appendReviewed(text, pr));
-		else await this.app.vault.create(ledgerPath, appendReviewed("", pr));
-		let removed = false;
-		let left = 0;
-		await this.app.vault.process(file, (note) => {
-			const updated = removeMissedPr(note, pr.pr, parseYaml, stringifyYaml);
-			removed = updated !== undefined;
-			left = missedPrsLeft(updated ?? note, parseYaml);
-			return updated ?? note;
-		});
-		if (!removed) {
-			new Notice(`#${pr.pr} not found in ${path}`);
-			return false;
-		}
-		if (left === 0) {
-			new ConfirmModal(this.app, "All reviewed", `Every PR in ${file.name} is reviewed and logged in ${ledgerPath}. Delete ${file.name}?`, "Delete", () => void this.app.fileManager.trashFile(file)).open();
-		}
-		return true;
+		if (!found) new Notice(`#${pr.pr} not found in ${path}`);
+		return found;
 	}
 
-	/** Every merge-date file's ```gb-missed-prs blocks in a directory (body, default the_cracks), newest first. */
+	/** Unreviewed PRs from every merge-date file in a directory (body, default the_cracks), newest first; fully reviewed days are skipped. */
 	private async renderMissedPrsFeed(source: string, el: HTMLElement, ctx: MarkdownPostProcessorContext) {
 		const dir = source.trim() || CRACKS_DIR;
-		const files = crackFiles(this.app.vault.getMarkdownFiles().map((file) => file.path), dir);
-		if (files.length === 0) return void el.createDiv({ cls: "gb-missed-prs-empty", text: `No merge-date files in ${dir}.` });
-		for (const { path, date } of files) {
+		let shown = 0;
+		for (const { path, date } of crackFiles(this.app.vault.getMarkdownFiles().map((file) => file.path), dir)) {
 			const file = this.app.vault.getFileByPath(path);
 			if (!file) continue;
-			const blocks = fencedBlocks(await this.app.vault.cachedRead(file), "gb-missed-prs");
+			let prs: MissedPr[];
+			let error: unknown;
+			try {
+				prs = fencedBlocks(await this.app.vault.cachedRead(file), "gb-missed-prs").flatMap((block) => parseMissedPrs(parseYaml(block.source)));
+			} catch (caught) {
+				[prs, error] = [[], caught];
+			}
+			if (!error && prs.every((pr) => pr.reviewed)) continue;
+			shown++;
 			const day = el.createDiv({ cls: "gb-missed-prs-day" });
 			const link = day.createEl("h3").createEl("a", { text: date, cls: "internal-link", href: "#" });
 			link.onclick = (event) => {
 				event.preventDefault();
 				void this.app.workspace.openLinkText(path, ctx.sourcePath, event.metaKey || event.ctrlKey);
 			};
-			for (const block of blocks) this.renderMissedPrs(block.source, day, path);
+			if (error) this.missedPrsError(day, error);
+			else renderMissedPrCards(day, prs, { hideReviewed: true, setReviewed: (pr, reviewed) => this.setMissedPrReviewed(path, pr, reviewed) });
 		}
+		if (shown === 0) el.createDiv({ cls: "gb-missed-prs-empty", text: `Nothing unreviewed in ${dir}.` });
 	}
 
 	/** Opens a task's record index.md, wherever its status puts it. */

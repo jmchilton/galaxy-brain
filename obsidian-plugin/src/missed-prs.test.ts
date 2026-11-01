@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { parse, stringify } from "yaml";
-import { appendReviewed, crackFiles, missedPrsLeft, parseMissedPrs, removeMissedPr, reviewedPath } from "./missed-prs";
+import { crackFiles, parseMissedPrs, setMissedPrReviewed } from "./missed-prs";
 
 const url = "https://github.com/galaxyproject/galaxy/pull/24561";
 
@@ -20,6 +20,7 @@ describe("parseMissedPrs", () => {
 
     Paragraph two.
   discussion: Reviewer asked for a test; author added one.
+  reviewed: true
 `);
 		expect(parseMissedPrs(data)).toEqual([
 			{
@@ -34,16 +35,17 @@ describe("parseMissedPrs", () => {
 				discussionSummary: "One round of review on naming.",
 				details: "Paragraph one.\n\nParagraph two.\n",
 				discussion: "Reviewer asked for a test; author added one.",
+				reviewed: true,
 			},
 		]);
 	});
 
 	it("reads an entry with only pr, title and url", () => {
-		expect(parseMissedPrs([{ pr: 1, title: "x", url }])).toEqual([{ pr: 1, title: "x", url, approvers: [] }]);
+		expect(parseMissedPrs([{ pr: 1, title: "x", url }])).toEqual([{ pr: 1, title: "x", url, approvers: [], reviewed: false }]);
 	});
 
 	it("reads empty approvers", () => {
-		expect(parseMissedPrs([{ pr: 1, title: "x", url, approvers: [] }])).toEqual([{ pr: 1, title: "x", url, approvers: [] }]);
+		expect(parseMissedPrs([{ pr: 1, title: "x", url, approvers: [] }])).toEqual([{ pr: 1, title: "x", url, approvers: [], reviewed: false }]);
 	});
 
 	it("normalizes a Date merged_at to ISO", () => {
@@ -72,6 +74,7 @@ describe("parseMissedPrs", () => {
 		[{ pr: 1, title: "x", url, approvers: "mvdbeek" }, "approvers must be a list of logins"],
 		[{ pr: 1, title: "x", url, author: 7 }, "author must be text"],
 		[{ pr: 1, title: "x", url, merged_at: 7 }, "merged_at must be a timestamp"],
+		[{ pr: 1, title: "x", url, reviewed: "yes" }, "reviewed must be true or false"],
 	])("rejects %o", (entry, message) => {
 		expect(() => parseMissedPrs([entry])).toThrow(message);
 	});
@@ -79,48 +82,18 @@ describe("parseMissedPrs", () => {
 
 const day = "# 2026-10-27\n```gb-missed-prs\n- pr: 1\n  title: a\n- pr: 2\n  title: b\n```\n";
 
-describe("removeMissedPr", () => {
-	it("drops the entry with that number", () => {
-		expect(removeMissedPr(day, 1, parse, stringify)).toBe(day.replace("- pr: 1\n  title: a\n", ""));
+describe("setMissedPrReviewed", () => {
+	it("marks the entry with that number reviewed", () => {
+		expect(setMissedPrReviewed(day, 2, true, parse, stringify)).toBe(day.replace("  title: b\n", "  title: b\n  reviewed: true\n"));
+	});
+
+	it("drops the field when unmarking", () => {
+		const marked = setMissedPrReviewed(day, 2, true, parse, stringify)!;
+		expect(setMissedPrReviewed(marked, 2, false, parse, stringify)).toBe(day);
 	});
 
 	it("returns undefined when no entry has that number", () => {
-		expect(removeMissedPr(day, 3, parse, stringify)).toBeUndefined();
-	});
-});
-
-describe("missedPrsLeft", () => {
-	it("counts entries across blocks", () => {
-		expect(missedPrsLeft(`${day}\n\`\`\`gb-missed-prs\n- pr: 3\n  title: c\n\`\`\`\n`, parse)).toBe(3);
-	});
-
-	it("is zero once every block is empty", () => {
-		expect(missedPrsLeft("```gb-missed-prs\n```\n", parse)).toBe(0);
-	});
-});
-
-describe("appendReviewed", () => {
-	const pr = { pr: 24425, title: "Document state", url: "https://github.com/galaxyproject/galaxy/pull/24425", approvers: [] };
-
-	it("starts a ledger", () => {
-		expect(appendReviewed("", pr)).toBe(
-			"PRs John checked off in the gb-missed-prs view.\n\n- [#24425](https://github.com/galaxyproject/galaxy/pull/24425) Document state\n",
-		);
-	});
-
-	it("appends to a ledger missing its final newline", () => {
-		expect(appendReviewed("intro\n\n- [#1](u) x", pr)).toBe("intro\n\n- [#1](u) x\n- [#24425](https://github.com/galaxyproject/galaxy/pull/24425) Document state\n");
-	});
-
-	it("leaves a ledger already listing the PR alone", () => {
-		const ledger = appendReviewed("", pr);
-		expect(appendReviewed(ledger, pr)).toBe(ledger);
-	});
-});
-
-describe("reviewedPath", () => {
-	it("puts the ledger beside the date file", () => {
-		expect(reviewedPath("agents/gx_reviews/the_cracks/2026-10-27.md")).toBe("agents/gx_reviews/the_cracks/REVIEWED.md");
+		expect(setMissedPrReviewed(day, 3, true, parse, stringify)).toBeUndefined();
 	});
 });
 

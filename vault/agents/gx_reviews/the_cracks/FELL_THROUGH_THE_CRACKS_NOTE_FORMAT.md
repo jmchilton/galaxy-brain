@@ -3,7 +3,7 @@ Each file in this directory is named for a merge date (`YYYY-MM-DD.md`) and list
 A merged PR (not one closed without merging) fell through the cracks if:
 - John didn't author/comment/approve/merge it.
 - There is no existing review record (`vault/repositories/galaxy/reviews/active/<N>/` or `archived/<N>/`).
-- No file in this directory already lists it, including `REVIEWED.md`, the log of PRs John checked off in Obsidian.
+- No file in this directory already lists it.
 
 The file is a YAML list embedded in Markdown - use `gb-missed-prs` after the backticks to indicate how it should be rendered.
 
@@ -22,3 +22,5 @@ The file is a YAML list embedded in Markdown - use `gb-missed-prs` after the bac
   discussion: {up to three paragraphs}
 ```
 ````
+
+John's Obsidian ✔ adds `reviewed: true` to an entry. Agents don't write or remove it.

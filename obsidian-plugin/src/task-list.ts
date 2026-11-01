@@ -101,14 +101,17 @@ export function removeTask(
 	parse: (source: string) => unknown,
 	stringify: (data: unknown) => string,
 ): string | undefined {
-	return removeBlockEntry(note, "gb-tasks", (entry) => entry?.prompt === task.prompt && entry?.agent_dir === task.agentDir, parse, stringify);
+	return editBlockEntry(note, "gb-tasks", (entry) => entry?.prompt === task.prompt && entry?.agent_dir === task.agentDir, () => undefined, parse, stringify);
 }
 
-/** The note without the first entry matching across its ```<language> YAML-list blocks, or undefined if none does. */
-export function removeBlockEntry(
+type Entry = Record<string, unknown> | undefined;
+
+/** The note with the first matching entry across its ```<language> YAML-list blocks replaced by edit(entry), or dropped if edit returns undefined; undefined if none matches. */
+export function editBlockEntry(
 	note: string,
 	language: string,
-	matches: (entry: Record<string, unknown> | undefined) => boolean,
+	matches: (entry: Entry) => boolean,
+	edit: (entry: Entry) => Entry,
 	parse: (source: string) => unknown,
 	stringify: (data: unknown) => string,
 ): string | undefined {
@@ -117,7 +120,8 @@ export function removeBlockEntry(
 		if (!Array.isArray(entries)) continue;
 		const index = entries.findIndex(matches);
 		if (index < 0) continue;
-		const rest = entries.filter((_, i) => i !== index);
+		const edited = edit(entries[index]);
+		const rest = edited === undefined ? entries.filter((_, i) => i !== index) : entries.map((entry, i) => (i === index ? edited : entry));
 		return replaceBlockBody(note, block.start, block.end, rest.length ? stringify(rest) : "");
 	}
 	return undefined;

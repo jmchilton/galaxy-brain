@@ -1,10 +1,6 @@
 // ```gb-missed-prs blocks of merged PRs John missed; format in vault/agents/gx_reviews/the_cracks/FELL_THROUGH_THE_CRACKS_NOTE_FORMAT.md.
 
-import { fencedBlocks, removeBlockEntry } from "./task-list";
-
-const LANGUAGE = "gb-missed-prs";
-const REVIEWED_FILE = "REVIEWED.md";
-const REVIEWED_INTRO = "PRs John checked off in the gb-missed-prs view.\n\n";
+import { editBlockEntry } from "./task-list";
 
 export interface MissedPr {
 	pr: number;
@@ -19,12 +15,13 @@ export interface MissedPr {
 	discussionSummary?: string;
 	details?: string;
 	discussion?: string;
+	reviewed: boolean;
 }
 
 export const CRACKS_DIR = "agents/gx_reviews/the_cracks";
 
 const TEXT_FIELDS = { author: "author", merged_by: "mergedBy", summary: "summary", discussion_summary: "discussionSummary", details: "details", discussion: "discussion" } as const;
-const FIELDS = ["pr", "title", "url", "merged_at", "approvers", ...Object.keys(TEXT_FIELDS)];
+const FIELDS = ["pr", "title", "url", "merged_at", "approvers", "reviewed", ...Object.keys(TEXT_FIELDS)];
 
 /** PRs from a block's parsed YAML; throws on anything the format rejects. */
 export function parseMissedPrs(data: unknown): MissedPr[] {
@@ -35,12 +32,13 @@ export function parseMissedPrs(data: unknown): MissedPr[] {
 		if (!entry || typeof entry !== "object") throw fail("not a mapping");
 		const extra = Object.keys(entry).find((key) => !FIELDS.includes(key));
 		if (extra) throw fail(`unknown field ${extra}`);
-		const { pr, title, url, merged_at: mergedAt, approvers = [] } = entry;
+		const { pr, title, url, merged_at: mergedAt, approvers = [], reviewed = false } = entry;
 		if (typeof pr !== "number" || !Number.isInteger(pr)) throw fail("missing pr");
 		if (typeof title !== "string" || !title.trim()) throw fail("missing title");
 		if (typeof url !== "string" || !/^https?:\/\/\S+$/.test(url)) throw fail("url must be an http(s) URL");
 		if (!Array.isArray(approvers) || approvers.some((login) => typeof login !== "string")) throw fail("approvers must be a list of logins");
-		const result: MissedPr = { pr, title, url, approvers };
+		if (typeof reviewed !== "boolean") throw fail("reviewed must be true or false");
+		const result: MissedPr = { pr, title, url, approvers, reviewed };
 		for (const [key, field] of Object.entries(TEXT_FIELDS)) {
 			const value = entry[key];
 			if (value === undefined || value === null) continue;
@@ -55,29 +53,25 @@ export function parseMissedPrs(data: unknown): MissedPr[] {
 	});
 }
 
-/** The note without PR number pr's entry, or undefined if no block lists it. */
-export function removeMissedPr(note: string, pr: number, parse: (source: string) => unknown, stringify: (data: unknown) => string): string | undefined {
-	return removeBlockEntry(note, LANGUAGE, (entry) => entry?.pr === pr, parse, stringify);
-}
-
-/** Entries across the note's ```gb-missed-prs blocks. */
-export function missedPrsLeft(note: string, parse: (source: string) => unknown): number {
-	return fencedBlocks(note, LANGUAGE).reduce((count, block) => {
-		const entries = parse(block.source);
-		return count + (Array.isArray(entries) ? entries.length : 0);
-	}, 0);
-}
-
-/** The reviewed ledger beside a merge-date file; listing a PR there keeps rescans from re-adding it. */
-export function reviewedPath(datePath: string): string {
-	return `${datePath.slice(0, datePath.lastIndexOf("/") + 1)}${REVIEWED_FILE}`;
-}
-
-/** The ledger with pr appended, unchanged if already listed. */
-export function appendReviewed(ledger: string, pr: Pick<MissedPr, "pr" | "title" | "url">): string {
-	if (ledger.includes(`[#${pr.pr}]`)) return ledger;
-	const base = ledger ? ledger.replace(/\n?$/, "\n") : REVIEWED_INTRO;
-	return `${base}- [#${pr.pr}](${pr.url}) ${pr.title}\n`;
+/** The note with PR number pr's `reviewed` set (dropped when false), or undefined if no block lists it. */
+export function setMissedPrReviewed(
+	note: string,
+	pr: number,
+	reviewed: boolean,
+	parse: (source: string) => unknown,
+	stringify: (data: unknown) => string,
+): string | undefined {
+	return editBlockEntry(
+		note,
+		"gb-missed-prs",
+		(entry) => entry?.pr === pr,
+		(entry) => {
+			const { reviewed: _, ...rest } = entry ?? {};
+			return reviewed ? { ...rest, reviewed: true } : rest;
+		},
+		parse,
+		stringify,
+	);
 }
 
 /** Merge-date files (`YYYY-MM-DD.md`) directly in dir, newest first. */

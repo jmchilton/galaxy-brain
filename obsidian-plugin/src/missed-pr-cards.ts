@@ -1,24 +1,47 @@
 import type { MissedPr } from "./missed-prs";
 
-/** ✔ marks pr reviewed; resolves true once its entry is gone from the file. */
-export type ReviewMissedPr = (pr: MissedPr) => Promise<boolean>;
+export interface MissedPrCardOptions {
+	/** ✔ / ↺; resolves true once the file is updated. */
+	setReviewed?: (pr: MissedPr, reviewed: boolean) => Promise<boolean>;
+	/** Skip reviewed PRs, and drop cards once marked. */
+	hideReviewed?: boolean;
+}
 
-/** Missed PR cards: linked number and title, ✔, author / merger / approvers, summaries, collapsed details and discussion. */
-export function renderMissedPrCards(el: HTMLElement, prs: MissedPr[], review?: ReviewMissedPr) {
+/** Missed PR cards: linked number and title, ✔ / ↺, author / merger / approvers, summaries, collapsed details and discussion. */
+export function renderMissedPrCards(el: HTMLElement, prs: MissedPr[], options: MissedPrCardOptions = {}) {
 	const list = el.createDiv({ cls: "gb-missed-prs" });
 	const empty = (text: string) => list.createDiv({ cls: "gb-missed-prs-empty", text });
+	const shown = options.hideReviewed ? prs.filter((pr) => !pr.reviewed) : prs;
 	if (prs.length === 0) empty("No missed PRs.");
-	for (const pr of prs) {
+	else if (shown.length === 0) empty("All reviewed.");
+	for (const pr of shown) {
+		let reviewed = pr.reviewed;
 		const card = list.createDiv({ cls: "gb-missed-pr" });
+		card.toggleClass("gb-missed-pr-reviewed", reviewed);
 		const head = card.createDiv({ cls: "gb-missed-pr-head" });
 		head.createEl("a", { text: `#${pr.pr}`, href: pr.url, cls: "external-link", attr: { target: "_blank", rel: "noopener" } });
 		head.createSpan({ cls: "gb-missed-pr-title", text: pr.title });
-		if (review) {
-			head.createEl("button", { text: "✔", attr: { "aria-label": "Reviewed: remove and log in REVIEWED.md" } }).onclick = async () => {
+		const { setReviewed } = options;
+		if (setReviewed) {
+			const button = head.createEl("button");
+			const label = () => {
+				button.setText(reviewed ? "↺" : "✔");
+				button.setAttr("aria-label", reviewed ? "Mark unreviewed" : "Mark reviewed");
+			};
+			label();
+			button.onclick = async () => {
 				card.addClass("gb-missed-pr-pending");
-				if (!(await review(pr))) return void card.removeClass("gb-missed-pr-pending");
-				card.remove();
-				if (!list.querySelector(".gb-missed-pr")) empty("All reviewed.");
+				const ok = await setReviewed(pr, !reviewed);
+				card.removeClass("gb-missed-pr-pending");
+				if (!ok) return;
+				reviewed = !reviewed;
+				if (options.hideReviewed && reviewed) {
+					card.remove();
+					if (!list.querySelector(".gb-missed-pr")) empty("All reviewed.");
+					return;
+				}
+				card.toggleClass("gb-missed-pr-reviewed", reviewed);
+				label();
 			};
 		}
 		const meta = [
