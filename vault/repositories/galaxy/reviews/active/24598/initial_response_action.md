@@ -1,7 +1,9 @@
-- [ ] Approve the PR with the response
+- [x] Approve the PR with the response
 - [ ] Approve and merge the PR with the response
 - [ ] Comment with the response
 - [ ] Review comment with the response
 - [ ] Request changes with the response
 - [ ] Pull request: open a PR from the review branch
-- [ ] Push: push the review branch into the PR
+- [x] Push: push the review branch into the PR
+
+Delivered 2026-11-01: approved with response; review branch pushed into PR (`ec57ee1b020..e278e8edcea`).
