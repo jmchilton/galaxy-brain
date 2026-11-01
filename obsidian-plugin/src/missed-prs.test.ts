@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { parse, stringify } from "yaml";
-import { crackFiles, parseMissedPrs, setMissedPrReviewed } from "./missed-prs";
+import { crackFiles, cracksPath, isCrackFile, parseMissedPrs, setMissedPrReviewed } from "./missed-prs";
 
 const url = "https://github.com/galaxyproject/galaxy/pull/24561";
 
@@ -111,5 +111,22 @@ describe("crackFiles", () => {
 			{ path: `${dir}/2026-10-31.md`, date: "2026-10-31" },
 			{ path: `${dir}/2026-10-29.md`, date: "2026-10-29" },
 		]);
+	});
+});
+
+describe("cracksPath", () => {
+	it("is the agent dir's the_cracks", () => {
+		expect(cracksPath("gx_reviews")).toBe("agents/gx_reviews/the_cracks");
+	});
+});
+
+describe("isCrackFile", () => {
+	it.each([
+		["agents/gx_reviews/the_cracks/2026-10-27.md", true],
+		["agents/gx_reviews/the_cracks/FELL_THROUGH_THE_CRACKS_NOTE_FORMAT.md", false],
+		["agents/gx_reviews/the_cracks/sub/2026-10-27.md", false],
+		["agents/gx_reviews/2026-10-27.md", false],
+	])("%s → %s", (path, expected) => {
+		expect(isCrackFile(path)).toBe(expected);
 	});
 });

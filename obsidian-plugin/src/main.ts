@@ -28,9 +28,10 @@ import { compareUrl, githubUrl, worktreeCandidates } from "./record-links";
 import { parseRecordAgents, SYNC_PROCESSES, SYNC_PROFILE } from "./record-agents";
 import { repositoryNames } from "./repository";
 import { renderMissedPrCards } from "./missed-pr-cards";
-import { CRACKS_DIR, crackFiles, type MissedPr, parseMissedPrs, setMissedPrReviewed } from "./missed-prs";
+import { readCrackDays, renderCrackDays, renderMissedPrsError, setReviewedInFile } from "./cracks-feed";
+import { cracksPath, parseMissedPrs } from "./missed-prs";
 import { renderTaskCards } from "./task-cards";
-import { fencedBlocks, parseTasks, recordIndexPath, refinementPrompt, replaceBlockBody, type Task, type TaskRecord } from "./task-list";
+import { parseTasks, recordIndexPath, refinementPrompt, replaceBlockBody, type Task, type TaskRecord } from "./task-list";
 import { ALL_REPOS, REPOSITORY_VIEW, RepositoryView } from "./repository-view";
 
 const PROFILES_PATH = "agents/_shared/AGENT_PROFILES.yml";
@@ -417,57 +418,16 @@ export default class GalaxyBrainPlugin extends Plugin {
 	/** Cards for a ```gb-missed-prs block in the note at path; ✔ / ↺ toggle `reviewed`. */
 	private renderMissedPrs(source: string, el: HTMLElement, path: string) {
 		try {
-			renderMissedPrCards(el, parseMissedPrs(parseYaml(source)), { setReviewed: (pr, reviewed) => this.setMissedPrReviewed(path, pr, reviewed) });
+			renderMissedPrCards(el, parseMissedPrs(parseYaml(source)), { setReviewed: (pr, reviewed) => setReviewedInFile(this.app, path, pr, reviewed) });
 		} catch (error) {
-			this.missedPrsError(el, error);
+			renderMissedPrsError(el, error);
 		}
 	}
 
-	private missedPrsError(el: HTMLElement, error: unknown) {
-		el.createDiv({ cls: "gb-missed-prs-error", text: `gb-missed-prs: ${error instanceof Error ? error.message : error}` });
-	}
-
-	/** Sets pr's `reviewed` in the note at path; false if the note or entry is gone. */
-	private async setMissedPrReviewed(path: string, pr: MissedPr, reviewed: boolean): Promise<boolean> {
-		const file = this.app.vault.getFileByPath(path);
-		let found = false;
-		if (file) {
-			await this.app.vault.process(file, (note) => {
-				const updated = setMissedPrReviewed(note, pr.pr, reviewed, parseYaml, stringifyYaml);
-				found = updated !== undefined;
-				return updated ?? note;
-			});
-		}
-		if (!found) new Notice(`#${pr.pr} not found in ${path}`);
-		return found;
-	}
-
-	/** Unreviewed PRs from every merge-date file in a directory (body, default the_cracks), newest first; fully reviewed days are skipped. */
+	/** Unreviewed PRs from a directory's merge-date files (body, default gx_reviews' the_cracks), newest first. */
 	private async renderMissedPrsFeed(source: string, el: HTMLElement, ctx: MarkdownPostProcessorContext) {
-		const dir = source.trim() || CRACKS_DIR;
-		let shown = 0;
-		for (const { path, date } of crackFiles(this.app.vault.getMarkdownFiles().map((file) => file.path), dir)) {
-			const file = this.app.vault.getFileByPath(path);
-			if (!file) continue;
-			let prs: MissedPr[];
-			let error: unknown;
-			try {
-				prs = fencedBlocks(await this.app.vault.cachedRead(file), "gb-missed-prs").flatMap((block) => parseMissedPrs(parseYaml(block.source)));
-			} catch (caught) {
-				[prs, error] = [[], caught];
-			}
-			if (!error && prs.every((pr) => pr.reviewed)) continue;
-			shown++;
-			const day = el.createDiv({ cls: "gb-missed-prs-day" });
-			const link = day.createEl("h3").createEl("a", { text: date, cls: "internal-link", href: "#" });
-			link.onclick = (event) => {
-				event.preventDefault();
-				void this.app.workspace.openLinkText(path, ctx.sourcePath, event.metaKey || event.ctrlKey);
-			};
-			if (error) this.missedPrsError(day, error);
-			else renderMissedPrCards(day, prs, { hideReviewed: true, setReviewed: (pr, reviewed) => this.setMissedPrReviewed(path, pr, reviewed) });
-		}
-		if (shown === 0) el.createDiv({ cls: "gb-missed-prs-empty", text: `Nothing unreviewed in ${dir}.` });
+		const dir = source.trim() || cracksPath("gx_reviews");
+		renderCrackDays(this.app, el, await readCrackDays(this.app, dir), ctx.sourcePath);
 	}
 
 	/** Opens a task's record index.md, wherever its status puts it. */

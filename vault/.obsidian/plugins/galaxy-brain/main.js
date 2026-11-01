@@ -640,7 +640,7 @@ __export(main_exports, {
   default: () => GalaxyBrainPlugin
 });
 module.exports = __toCommonJS(main_exports);
-var import_obsidian6 = require("obsidian");
+var import_obsidian7 = require("obsidian");
 
 // ../site/src/lib/repository-tabs.ts
 var REPOSITORY_TABS = [
@@ -813,7 +813,7 @@ function checkList(el3, checks, cls) {
 }
 
 // src/agents-view.ts
-var import_obsidian2 = require("obsidian");
+var import_obsidian3 = require("obsidian");
 
 // src/agent-routines.ts
 var ROUTINES = [
@@ -840,43 +840,62 @@ function recordBlocker(body) {
   return m ? { agentDir: m[1], name: m[2] } : null;
 }
 
-// src/task-cards.ts
-function renderTaskCards(el3, tasks, actions) {
-  const list2 = el3.createDiv({ cls: "gb-tasks" });
-  if (tasks.length === 0) list2.createDiv({ cls: "gb-tasks-empty", text: "No tasks." });
-  tasks.forEach((task, index) => {
-    const human = task.kind === "human";
-    const cls = ["gb-task", task.status && `gb-task-${task.status}`, task.priority && `gb-task-${task.priority}`, human && "gb-task-human"];
-    const card = list2.createDiv({ cls: cls.filter(Boolean).join(" ") });
-    const head = card.createDiv({ cls: "gb-task-head" });
-    if (task.priority) head.createSpan({ cls: "gb-task-priority", text: task.priority });
-    if (task.status) head.createSpan({ cls: "gb-task-status", text: task.status });
-    head.createSpan({ cls: "gb-task-meta", text: `${task.agentDir} \xB7 ${human ? "for John" : task.profile ?? actions.defaultProfile}` });
-    if (actions.launch && !human) {
-      const launch = actions.launch;
-      head.createEl("button", { text: "\u{1F680}", attr: { "aria-label": "Launch" } }).onclick = () => launch(task, index, (on) => card.toggleClass("gb-task-pending", on));
-    }
-    if (actions.refine) {
-      const refine = actions.refine;
-      head.createEl("button", { text: "\u{1FA84}", attr: { "aria-label": "Discuss task refinement" } }).onclick = () => refine(task);
-    }
-    const [text2, label] = human ? ["\u2714", "Done"] : ["\u2716", "Remove"];
-    head.createEl("button", { text: text2, attr: { "aria-label": label } }).onclick = () => actions.remove(task, index);
-    if (task.description) card.createDiv({ cls: "gb-task-description", text: task.description.trim() });
-    const { record } = task;
-    if (record) {
-      const open = card.createDiv({ cls: "gb-task-link" }).createEl("a", { text: `\u{1F4D3} ${record.repo} ${record.kind} ${record.name}`, cls: "internal-link", href: "#" });
-      open.onclick = (event) => {
-        event.preventDefault();
-        actions.openRecord(record, event.metaKey || event.ctrlKey);
+// src/cracks-feed.ts
+var import_obsidian2 = require("obsidian");
+
+// src/missed-pr-cards.ts
+function renderMissedPrCards(el3, prs, options = {}) {
+  const list2 = el3.createDiv({ cls: "gb-missed-prs" });
+  const empty2 = (text2) => list2.createDiv({ cls: "gb-missed-prs-empty", text: text2 });
+  const shown = options.hideReviewed ? prs.filter((pr) => !pr.reviewed) : prs;
+  if (prs.length === 0) empty2("No missed PRs.");
+  else if (shown.length === 0) empty2("All reviewed.");
+  for (const pr of shown) {
+    let reviewed = pr.reviewed;
+    const card = list2.createDiv({ cls: "gb-missed-pr" });
+    card.toggleClass("gb-missed-pr-reviewed", reviewed);
+    const head = card.createDiv({ cls: "gb-missed-pr-head" });
+    head.createEl("a", { text: `#${pr.pr}`, href: pr.url, cls: "external-link", attr: { target: "_blank", rel: "noopener" } });
+    head.createSpan({ cls: "gb-missed-pr-title", text: pr.title });
+    const { setReviewed } = options;
+    if (setReviewed) {
+      const button2 = head.createEl("button");
+      const label = () => {
+        button2.setText(reviewed ? "\u21BA" : "\u2714");
+        button2.setAttr("aria-label", reviewed ? "Mark unreviewed" : "Mark reviewed");
+      };
+      label();
+      button2.onclick = async () => {
+        card.addClass("gb-missed-pr-pending");
+        const ok = await setReviewed(pr, !reviewed);
+        card.removeClass("gb-missed-pr-pending");
+        if (!ok) return;
+        reviewed = !reviewed;
+        if (options.hideReviewed && reviewed) {
+          card.remove();
+          if (!list2.querySelector(".gb-missed-pr")) empty2("All reviewed.");
+          return;
+        }
+        card.toggleClass("gb-missed-pr-reviewed", reviewed);
+        label();
       };
     }
-    if (task.link) {
-      const text3 = task.link.replace(/^https?:\/\//, "");
-      card.createDiv({ cls: "gb-task-link" }).createEl("a", { text: text3, href: task.link, cls: "external-link", attr: { target: "_blank", rel: "noopener" } });
+    const meta = [
+      pr.author && `by ${pr.author}`,
+      pr.mergedBy && `merged by ${pr.mergedBy}`,
+      pr.approvers.length ? `approved by ${pr.approvers.join(", ")}` : "no approvals",
+      pr.mergedAt?.slice(0, 10)
+    ];
+    card.createDiv({ cls: "gb-missed-pr-meta", text: meta.filter(Boolean).join(" \xB7 ") });
+    if (pr.summary) card.createDiv({ cls: "gb-missed-pr-summary", text: pr.summary.trim() });
+    if (pr.discussionSummary) card.createDiv({ cls: "gb-missed-pr-discussion-summary", text: `\u{1F4AC} ${pr.discussionSummary.trim()}` });
+    for (const [label, text2] of [["Details", pr.details], ["Discussion", pr.discussion]]) {
+      if (!text2) continue;
+      const details = card.createEl("details", { cls: "gb-missed-pr-more" });
+      details.createEl("summary", { text: label });
+      details.createDiv({ cls: "gb-missed-pr-text", text: text2.trim() });
     }
-    card.createDiv({ cls: "gb-task-prompt", text: task.prompt.trim() });
-  });
+  }
 }
 
 // ../site/src/lib/records.ts
@@ -1096,16 +1115,159 @@ function refinementPrompt(task) {
   return lines.join("\n");
 }
 
+// src/missed-prs.ts
+var cracksPath = (agentDir) => `agents/${agentDir}/the_cracks`;
+var DATE_FILE = /^(\d{4}-\d{2}-\d{2})\.md$/;
+function isCrackFile(path) {
+  const m = /^agents\/[^/]+\/the_cracks\/([^/]+)$/.exec(path);
+  return !!m && DATE_FILE.test(m[1]);
+}
+var TEXT_FIELDS = { author: "author", merged_by: "mergedBy", summary: "summary", discussion_summary: "discussionSummary", details: "details", discussion: "discussion" };
+var FIELDS2 = ["pr", "title", "url", "merged_at", "approvers", "reviewed", ...Object.keys(TEXT_FIELDS)];
+function parseMissedPrs(data) {
+  if (data === null || data === void 0) return [];
+  if (!Array.isArray(data)) throw new Error("gb-missed-prs block must be a list of PRs");
+  return data.map((entry, i) => {
+    const fail = (message) => new Error(`entry ${i + 1}: ${message}`);
+    if (!entry || typeof entry !== "object") throw fail("not a mapping");
+    const extra = Object.keys(entry).find((key2) => !FIELDS2.includes(key2));
+    if (extra) throw fail(`unknown field ${extra}`);
+    const { pr, title, url, merged_at: mergedAt, approvers = [], reviewed = false } = entry;
+    if (typeof pr !== "number" || !Number.isInteger(pr)) throw fail("missing pr");
+    if (typeof title !== "string" || !title.trim()) throw fail("missing title");
+    if (typeof url !== "string" || !/^https?:\/\/\S+$/.test(url)) throw fail("url must be an http(s) URL");
+    if (!Array.isArray(approvers) || approvers.some((login) => typeof login !== "string")) throw fail("approvers must be a list of logins");
+    if (typeof reviewed !== "boolean") throw fail("reviewed must be true or false");
+    const result = { pr, title, url, approvers, reviewed };
+    for (const [key2, field] of Object.entries(TEXT_FIELDS)) {
+      const value = entry[key2];
+      if (value === void 0 || value === null) continue;
+      if (typeof value !== "string") throw fail(`${key2} must be text`);
+      result[field] = value;
+    }
+    if (mergedAt instanceof Date) result.mergedAt = mergedAt.toISOString();
+    else if (typeof mergedAt === "string") result.mergedAt = mergedAt;
+    else if (mergedAt !== void 0 && mergedAt !== null) throw fail("merged_at must be a timestamp");
+    return result;
+  });
+}
+function setMissedPrReviewed(note, pr, reviewed, parse2, stringify) {
+  return editBlockEntry(
+    note,
+    "gb-missed-prs",
+    (entry) => entry?.pr === pr,
+    (entry) => {
+      const { reviewed: _, ...rest } = entry ?? {};
+      return reviewed ? { ...rest, reviewed: true } : rest;
+    },
+    parse2,
+    stringify
+  );
+}
+function crackFiles(paths, dir) {
+  return paths.filter((path) => path.startsWith(`${dir}/`)).map((path) => ({ path, match: DATE_FILE.exec(path.slice(dir.length + 1)) })).filter((file) => file.match).map(({ path, match }) => ({ path, date: match[1] })).sort((a, b) => b.date.localeCompare(a.date));
+}
+
+// src/cracks-feed.ts
+async function readCrackDays(app, dir, agentDir) {
+  const files = crackFiles(app.vault.getMarkdownFiles().map((file) => file.path), dir);
+  return Promise.all(
+    files.map(async ({ path, date }) => {
+      const day = { path, date, prs: [], ...agentDir ? { agentDir } : {} };
+      const file = app.vault.getFileByPath(path);
+      if (!file) return day;
+      try {
+        day.prs = fencedBlocks(await app.vault.cachedRead(file), "gb-missed-prs").flatMap((block) => parseMissedPrs((0, import_obsidian2.parseYaml)(block.source)));
+      } catch (error) {
+        day.error = error instanceof Error ? error.message : String(error);
+      }
+      return day;
+    })
+  );
+}
+var unreviewedCount = (days) => days.reduce((count, day) => count + day.prs.filter((pr) => !pr.reviewed).length, 0);
+async function setReviewedInFile(app, path, pr, reviewed) {
+  const file = app.vault.getFileByPath(path);
+  let found = false;
+  if (file) {
+    await app.vault.process(file, (note) => {
+      const updated = setMissedPrReviewed(note, pr.pr, reviewed, import_obsidian2.parseYaml, import_obsidian2.stringifyYaml);
+      found = updated !== void 0;
+      return updated ?? note;
+    });
+  }
+  if (!found) new import_obsidian2.Notice(`#${pr.pr} not found in ${path}`);
+  return found;
+}
+function renderMissedPrsError(el3, error) {
+  el3.createDiv({ cls: "gb-missed-prs-error", text: `gb-missed-prs: ${error instanceof Error ? error.message : error}` });
+}
+function renderCrackDays(app, el3, days, sourcePath) {
+  const pending = days.filter((day) => day.error || day.prs.some((pr) => !pr.reviewed));
+  if (!pending.length) return void el3.createDiv({ cls: "gb-missed-prs-empty", text: "Nothing unreviewed." });
+  for (const { path, date, agentDir, prs, error } of pending) {
+    const section2 = el3.createDiv({ cls: "gb-missed-prs-day" });
+    const heading = section2.createEl("h3");
+    const link = heading.createEl("a", { text: date, cls: "internal-link", href: "#" });
+    link.onclick = (event) => {
+      event.preventDefault();
+      void app.workspace.openLinkText(path, sourcePath, event.metaKey || event.ctrlKey);
+    };
+    if (agentDir) heading.createSpan({ text: agentDir, cls: "gbr-tag" });
+    if (error) renderMissedPrsError(section2, error);
+    else renderMissedPrCards(section2, prs, { hideReviewed: true, setReviewed: (pr, reviewed) => setReviewedInFile(app, path, pr, reviewed) });
+  }
+}
+
+// src/task-cards.ts
+function renderTaskCards(el3, tasks, actions) {
+  const list2 = el3.createDiv({ cls: "gb-tasks" });
+  if (tasks.length === 0) list2.createDiv({ cls: "gb-tasks-empty", text: "No tasks." });
+  tasks.forEach((task, index) => {
+    const human = task.kind === "human";
+    const cls = ["gb-task", task.status && `gb-task-${task.status}`, task.priority && `gb-task-${task.priority}`, human && "gb-task-human"];
+    const card = list2.createDiv({ cls: cls.filter(Boolean).join(" ") });
+    const head = card.createDiv({ cls: "gb-task-head" });
+    if (task.priority) head.createSpan({ cls: "gb-task-priority", text: task.priority });
+    if (task.status) head.createSpan({ cls: "gb-task-status", text: task.status });
+    head.createSpan({ cls: "gb-task-meta", text: `${task.agentDir} \xB7 ${human ? "for John" : task.profile ?? actions.defaultProfile}` });
+    if (actions.launch && !human) {
+      const launch = actions.launch;
+      head.createEl("button", { text: "\u{1F680}", attr: { "aria-label": "Launch" } }).onclick = () => launch(task, index, (on) => card.toggleClass("gb-task-pending", on));
+    }
+    if (actions.refine) {
+      const refine = actions.refine;
+      head.createEl("button", { text: "\u{1FA84}", attr: { "aria-label": "Discuss task refinement" } }).onclick = () => refine(task);
+    }
+    const [text2, label] = human ? ["\u2714", "Done"] : ["\u2716", "Remove"];
+    head.createEl("button", { text: text2, attr: { "aria-label": label } }).onclick = () => actions.remove(task, index);
+    if (task.description) card.createDiv({ cls: "gb-task-description", text: task.description.trim() });
+    const { record } = task;
+    if (record) {
+      const open = card.createDiv({ cls: "gb-task-link" }).createEl("a", { text: `\u{1F4D3} ${record.repo} ${record.kind} ${record.name}`, cls: "internal-link", href: "#" });
+      open.onclick = (event) => {
+        event.preventDefault();
+        actions.openRecord(record, event.metaKey || event.ctrlKey);
+      };
+    }
+    if (task.link) {
+      const text3 = task.link.replace(/^https?:\/\//, "");
+      card.createDiv({ cls: "gb-task-link" }).createEl("a", { text: text3, href: task.link, cls: "external-link", attr: { target: "_blank", rel: "noopener" } });
+    }
+    card.createDiv({ cls: "gb-task-prompt", text: task.prompt.trim() });
+  });
+}
+
 // src/agents-view.ts
 var AGENTS_VIEW = "galaxy-brain-agents";
 var ALL_AGENTS = "*";
-var AgentsView = class extends import_obsidian2.ItemView {
+var AgentsView = class extends import_obsidian3.ItemView {
   constructor(leaf, host) {
     super(leaf);
     this.host = host;
     this.agent = ALL_AGENTS;
     this.tab = "tasks";
-    this.scheduleRender = (0, import_obsidian2.debounce)(() => void this.render(), 300, true);
+    this.scheduleRender = (0, import_obsidian3.debounce)(() => void this.render(), 300, true);
   }
   getViewType() {
     return AGENTS_VIEW;
@@ -1121,13 +1283,13 @@ var AgentsView = class extends import_obsidian2.ItemView {
   }
   async setState(state, result) {
     if (typeof state.agent === "string") this.agent = state.agent;
-    if (state.tab === "tasks" || state.tab === "blockers") this.tab = state.tab;
+    if (state.tab === "tasks" || state.tab === "blockers" || state.tab === "cracks") this.tab = state.tab;
     await super.setState(state, result);
     await this.render();
   }
   async onOpen() {
     const onChange = (file) => {
-      if (file.path.startsWith("agents/") && file.path.endsWith("/TASKS.md") || blockerFromPath(file.path)) this.scheduleRender();
+      if (file.path.startsWith("agents/") && file.path.endsWith("/TASKS.md") || blockerFromPath(file.path) || isCrackFile(file.path)) this.scheduleRender();
     };
     this.registerEvent(this.app.vault.on("create", onChange));
     this.registerEvent(this.app.vault.on("modify", onChange));
@@ -1147,6 +1309,7 @@ var AgentsView = class extends import_obsidian2.ItemView {
     const lists = await Promise.all(shown.map((dir) => this.readTasks(dir, known)));
     const routines = await Promise.all(shown.map((dir) => this.routinesFor(dir)));
     const blockers = await Promise.all(shown.map((dir) => this.readBlockers(dir)));
+    const cracks = await Promise.all(shown.map((dir) => this.readCracks(dir, all)));
     const root = this.contentEl;
     root.empty();
     root.addClass("galaxy-brain-repository");
@@ -1170,6 +1333,8 @@ var AgentsView = class extends import_obsidian2.ItemView {
         if (count) row.createSpan({ text: `${count} task${count === 1 ? "" : "s"}`, cls: "gbr-tag" });
         const blocked = blockers[i].length;
         if (blocked) row.createSpan({ text: `${blocked} blocker${blocked === 1 ? "" : "s"}`, cls: "gbr-tag" });
+        const missed = cracks[i] && unreviewedCount(cracks[i]);
+        if (missed) row.createSpan({ text: `${missed} missed PR${missed === 1 ? "" : "s"}`, cls: "gbr-tag" });
       });
     } else {
       const bar2 = root.createDiv({ cls: "gbr-sync" });
@@ -1185,8 +1350,12 @@ var AgentsView = class extends import_obsidian2.ItemView {
     }
     const tasks = byPriority(lists.flatMap((list2) => list2.tasks));
     const allBlockers = blockers.flat();
+    const hasCracks = cracks.some((days) => days !== void 0);
+    const crackDays = cracks.flatMap((days) => days ?? []).sort((a, b) => b.date.localeCompare(a.date));
+    if (this.tab === "cracks" && !hasCracks) this.tab = "tasks";
     const bar = root.createDiv({ cls: "gbr-tabs" });
     const tabs = [["tasks", `Tasks (${tasks.length})`], ["blockers", `Blockers (${allBlockers.length})`]];
+    if (hasCracks) tabs.push(["cracks", `Fell Through the Cracks (${unreviewedCount(crackDays)})`]);
     for (const [id, label] of tabs) {
       const button2 = bar.createEl("button", { text: label, cls: id === this.tab ? "mod-cta" : "" });
       button2.onclick = () => {
@@ -1195,12 +1364,13 @@ var AgentsView = class extends import_obsidian2.ItemView {
       };
     }
     if (this.tab === "blockers") return this.renderBlockers(root, allBlockers, all);
+    if (this.tab === "cracks") return renderCrackDays(this.app, root, crackDays, "");
     for (const { source, error } of lists) {
       if (error) root.createDiv({ cls: "gb-tasks-error", text: `${tasksPath(source)}: ${error}` });
     }
     renderTaskCards(root, tasks, {
       defaultProfile: profiles[0]?.name ?? "",
-      ...import_obsidian2.Platform.isDesktopApp ? {
+      ...import_obsidian3.Platform.isDesktopApp ? {
         launch: (_task, i, pending) => void this.host.confirmTask(tasks[i], () => void this.remove(tasks[i]), tasks[i].agentDir, pending),
         refine: (task) => void this.host.refineTask(task)
       } : {},
@@ -1225,7 +1395,7 @@ var AgentsView = class extends import_obsidian2.ItemView {
   }
   /** 🌅 / ⏱️ buttons for the routine files the agent dir has; desktop only. */
   renderRoutineButtons(el3, dir, routines) {
-    if (!import_obsidian2.Platform.isDesktopApp) return;
+    if (!import_obsidian3.Platform.isDesktopApp) return;
     for (const routine of routines) {
       const { task, name } = routineLaunch(dir, routine);
       const button2 = el3.createEl("button", { text: routine.label, attr: { "aria-label": `Launch ${dir} with ./${routine.file}` } });
@@ -1239,7 +1409,7 @@ var AgentsView = class extends import_obsidian2.ItemView {
   }
   async readBlockers(dir) {
     const folder = this.app.vault.getFolderByPath(blockersPath(dir));
-    const names = (folder?.children ?? []).filter((child) => child instanceof import_obsidian2.TFolder).map((child) => child.name).sort();
+    const names = (folder?.children ?? []).filter((child) => child instanceof import_obsidian3.TFolder).map((child) => child.name).sort();
     return Promise.all(
       names.map(async (name) => {
         const file = this.app.vault.getFileByPath(`${blockersPath(dir)}/${name}/condition.md`);
@@ -1247,12 +1417,17 @@ var AgentsView = class extends import_obsidian2.ItemView {
       })
     );
   }
+  /** The agent dir's the_cracks/ days, tagged with the dir on the landing page; undefined without the directory. */
+  async readCracks(dir, tagged) {
+    if (!this.app.vault.getFolderByPath(cracksPath(dir))) return void 0;
+    return readCrackDays(this.app, cracksPath(dir), tagged ? dir : void 0);
+  }
   async readTasks(dir, known) {
     const file = this.app.vault.getFileByPath(tasksPath(dir));
     if (!file) return { source: dir, tasks: [] };
     try {
       const blocks = taskBlocks(await this.app.vault.cachedRead(file));
-      const tasks = blocks.flatMap((block) => parseTasks((0, import_obsidian2.parseYaml)(block.source), known));
+      const tasks = blocks.flatMap((block) => parseTasks((0, import_obsidian3.parseYaml)(block.source), known));
       return { source: dir, tasks: tasks.map((task) => ({ ...task, source: dir })) };
     } catch (error) {
       return { source: dir, tasks: [], error: error instanceof Error ? error.message : String(error) };
@@ -1260,14 +1435,14 @@ var AgentsView = class extends import_obsidian2.ItemView {
   }
   async remove(task) {
     const file = this.app.vault.getFileByPath(tasksPath(task.source));
-    if (!file) return void new import_obsidian2.Notice(`${tasksPath(task.source)} is gone`);
+    if (!file) return void new import_obsidian3.Notice(`${tasksPath(task.source)} is gone`);
     let found = false;
     await this.app.vault.process(file, (note) => {
-      const updated = removeTask(note, task, import_obsidian2.parseYaml, import_obsidian2.stringifyYaml);
+      const updated = removeTask(note, task, import_obsidian3.parseYaml, import_obsidian3.stringifyYaml);
       found = updated !== void 0;
       return updated ?? note;
     });
-    if (!found) new import_obsidian2.Notice("Task already removed");
+    if (!found) new import_obsidian3.Notice("Task already removed");
   }
 };
 
@@ -1420,7 +1595,7 @@ function launchArgv(environment, vaultRoot, args) {
 }
 
 // src/diff-review-view.ts
-var import_obsidian3 = require("obsidian");
+var import_obsidian4 = require("obsidian");
 
 // ../differential-review-lib/src/core/types.ts
 var SNAPSHOT_SCHEMA_VERSION = 1;
@@ -5578,7 +5753,7 @@ function registerDifferentialReview(plugin) {
     }
   });
 }
-var DiffReviewView = class extends import_obsidian3.ItemView {
+var DiffReviewView = class extends import_obsidian4.ItemView {
   constructor(leaf) {
     super(leaf);
     this.baseline = { kind: "review" };
@@ -5592,7 +5767,7 @@ var DiffReviewView = class extends import_obsidian3.ItemView {
     this.writes = Promise.resolve();
     this.expandedOnce = false;
     this.loadToken = 0;
-    this.scheduleLoad = (0, import_obsidian3.debounce)(() => void this.reload(), 300, true);
+    this.scheduleLoad = (0, import_obsidian4.debounce)(() => void this.reload(), 300, true);
     this.contentEl.tabIndex = 0;
   }
   getViewType() {
@@ -5777,7 +5952,7 @@ var DiffReviewView = class extends import_obsidian3.ItemView {
       this.rebuild();
       await this.writeHumanReviewStatus();
     }).catch((error) => {
-      new import_obsidian3.Notice(`Could not update review-state.json: ${error instanceof Error ? error.message : error}`, 1e4);
+      new import_obsidian4.Notice(`Could not update review-state.json: ${error instanceof Error ? error.message : error}`, 1e4);
       void this.reload();
     });
   }
@@ -5906,112 +6081,8 @@ function repositorySections(records) {
   })).filter((section2) => section2.groups.length > 0);
 }
 
-// src/missed-pr-cards.ts
-function renderMissedPrCards(el3, prs, options = {}) {
-  const list2 = el3.createDiv({ cls: "gb-missed-prs" });
-  const empty2 = (text2) => list2.createDiv({ cls: "gb-missed-prs-empty", text: text2 });
-  const shown = options.hideReviewed ? prs.filter((pr) => !pr.reviewed) : prs;
-  if (prs.length === 0) empty2("No missed PRs.");
-  else if (shown.length === 0) empty2("All reviewed.");
-  for (const pr of shown) {
-    let reviewed = pr.reviewed;
-    const card = list2.createDiv({ cls: "gb-missed-pr" });
-    card.toggleClass("gb-missed-pr-reviewed", reviewed);
-    const head = card.createDiv({ cls: "gb-missed-pr-head" });
-    head.createEl("a", { text: `#${pr.pr}`, href: pr.url, cls: "external-link", attr: { target: "_blank", rel: "noopener" } });
-    head.createSpan({ cls: "gb-missed-pr-title", text: pr.title });
-    const { setReviewed } = options;
-    if (setReviewed) {
-      const button2 = head.createEl("button");
-      const label = () => {
-        button2.setText(reviewed ? "\u21BA" : "\u2714");
-        button2.setAttr("aria-label", reviewed ? "Mark unreviewed" : "Mark reviewed");
-      };
-      label();
-      button2.onclick = async () => {
-        card.addClass("gb-missed-pr-pending");
-        const ok = await setReviewed(pr, !reviewed);
-        card.removeClass("gb-missed-pr-pending");
-        if (!ok) return;
-        reviewed = !reviewed;
-        if (options.hideReviewed && reviewed) {
-          card.remove();
-          if (!list2.querySelector(".gb-missed-pr")) empty2("All reviewed.");
-          return;
-        }
-        card.toggleClass("gb-missed-pr-reviewed", reviewed);
-        label();
-      };
-    }
-    const meta = [
-      pr.author && `by ${pr.author}`,
-      pr.mergedBy && `merged by ${pr.mergedBy}`,
-      pr.approvers.length ? `approved by ${pr.approvers.join(", ")}` : "no approvals",
-      pr.mergedAt?.slice(0, 10)
-    ];
-    card.createDiv({ cls: "gb-missed-pr-meta", text: meta.filter(Boolean).join(" \xB7 ") });
-    if (pr.summary) card.createDiv({ cls: "gb-missed-pr-summary", text: pr.summary.trim() });
-    if (pr.discussionSummary) card.createDiv({ cls: "gb-missed-pr-discussion-summary", text: `\u{1F4AC} ${pr.discussionSummary.trim()}` });
-    for (const [label, text2] of [["Details", pr.details], ["Discussion", pr.discussion]]) {
-      if (!text2) continue;
-      const details = card.createEl("details", { cls: "gb-missed-pr-more" });
-      details.createEl("summary", { text: label });
-      details.createDiv({ cls: "gb-missed-pr-text", text: text2.trim() });
-    }
-  }
-}
-
-// src/missed-prs.ts
-var CRACKS_DIR = "agents/gx_reviews/the_cracks";
-var TEXT_FIELDS = { author: "author", merged_by: "mergedBy", summary: "summary", discussion_summary: "discussionSummary", details: "details", discussion: "discussion" };
-var FIELDS2 = ["pr", "title", "url", "merged_at", "approvers", "reviewed", ...Object.keys(TEXT_FIELDS)];
-function parseMissedPrs(data) {
-  if (data === null || data === void 0) return [];
-  if (!Array.isArray(data)) throw new Error("gb-missed-prs block must be a list of PRs");
-  return data.map((entry, i) => {
-    const fail = (message) => new Error(`entry ${i + 1}: ${message}`);
-    if (!entry || typeof entry !== "object") throw fail("not a mapping");
-    const extra = Object.keys(entry).find((key2) => !FIELDS2.includes(key2));
-    if (extra) throw fail(`unknown field ${extra}`);
-    const { pr, title, url, merged_at: mergedAt, approvers = [], reviewed = false } = entry;
-    if (typeof pr !== "number" || !Number.isInteger(pr)) throw fail("missing pr");
-    if (typeof title !== "string" || !title.trim()) throw fail("missing title");
-    if (typeof url !== "string" || !/^https?:\/\/\S+$/.test(url)) throw fail("url must be an http(s) URL");
-    if (!Array.isArray(approvers) || approvers.some((login) => typeof login !== "string")) throw fail("approvers must be a list of logins");
-    if (typeof reviewed !== "boolean") throw fail("reviewed must be true or false");
-    const result = { pr, title, url, approvers, reviewed };
-    for (const [key2, field] of Object.entries(TEXT_FIELDS)) {
-      const value = entry[key2];
-      if (value === void 0 || value === null) continue;
-      if (typeof value !== "string") throw fail(`${key2} must be text`);
-      result[field] = value;
-    }
-    if (mergedAt instanceof Date) result.mergedAt = mergedAt.toISOString();
-    else if (typeof mergedAt === "string") result.mergedAt = mergedAt;
-    else if (mergedAt !== void 0 && mergedAt !== null) throw fail("merged_at must be a timestamp");
-    return result;
-  });
-}
-function setMissedPrReviewed(note, pr, reviewed, parse2, stringify) {
-  return editBlockEntry(
-    note,
-    "gb-missed-prs",
-    (entry) => entry?.pr === pr,
-    (entry) => {
-      const { reviewed: _, ...rest } = entry ?? {};
-      return reviewed ? { ...rest, reviewed: true } : rest;
-    },
-    parse2,
-    stringify
-  );
-}
-function crackFiles(paths, dir) {
-  const pattern = /^(\d{4}-\d{2}-\d{2})\.md$/;
-  return paths.filter((path) => path.startsWith(`${dir}/`)).map((path) => ({ path, match: pattern.exec(path.slice(dir.length + 1)) })).filter((file) => file.match).map(({ path, match }) => ({ path, date: match[1] })).sort((a, b) => b.date.localeCompare(a.date));
-}
-
 // src/repository-view.ts
-var import_obsidian5 = require("obsidian");
+var import_obsidian6 = require("obsidian");
 
 // src/github-feed.ts
 var FIELDS3 = "number title url createdAt author { login }";
@@ -6071,12 +6142,12 @@ function matchRecords(item2, isIssue, records, bodyOf) {
 }
 
 // src/blocker-modal.ts
-var import_obsidian4 = require("obsidian");
-var BlockerModal = class extends import_obsidian4.Modal {
+var import_obsidian5 = require("obsidian");
+var BlockerModal = class extends import_obsidian5.Modal {
   constructor(app, blocker) {
     super(app);
     this.blocker = blocker;
-    this.markdown = new import_obsidian4.Component();
+    this.markdown = new import_obsidian5.Component();
   }
   async onOpen() {
     const { agentDir, name } = this.blocker;
@@ -6095,7 +6166,7 @@ var BlockerModal = class extends import_obsidian4.Modal {
       const note = this.app.vault.getFileByPath(path);
       this.contentEl.createEl("h4", { text: heading });
       const body = this.contentEl.createDiv();
-      if (note) await import_obsidian4.MarkdownRenderer.render(this.app, await this.app.vault.cachedRead(note), body, path, this.markdown);
+      if (note) await import_obsidian5.MarkdownRenderer.render(this.app, await this.app.vault.cachedRead(note), body, path, this.markdown);
       else body.createEl("p", { text: `No ${file}.`, cls: "gbr-empty" });
     }
   }
@@ -6130,7 +6201,7 @@ var FEED_KEYS = {
   conflicting: "conflicting"
 };
 var RECHECK_MS = 5e3;
-var RepositoryView = class extends import_obsidian5.ItemView {
+var RepositoryView = class extends import_obsidian6.ItemView {
   constructor(leaf, host) {
     super(leaf);
     this.host = host;
@@ -6142,7 +6213,7 @@ var RepositoryView = class extends import_obsidian5.ItemView {
     this.launchers = [];
     /** Status groups toggled away from their default, kept across re-renders. */
     this.toggled = /* @__PURE__ */ new Set();
-    this.scheduleRender = (0, import_obsidian5.debounce)(() => void this.render(), 300, true);
+    this.scheduleRender = (0, import_obsidian6.debounce)(() => void this.render(), 300, true);
   }
   getViewType() {
     return REPOSITORY_VIEW;
@@ -6187,10 +6258,10 @@ var RepositoryView = class extends import_obsidian5.ItemView {
     const all = this.repo === ALL_REPOS;
     const bodies = all ? /* @__PURE__ */ new Map() : await this.readIndexes(files.map((file) => file.path));
     const records = collectRecords(files, all ? void 0 : this.repo, (path) => bodies.get(path));
-    this.launchers = import_obsidian5.Platform.isDesktopApp ? await this.host.loadLaunchers() : [];
+    this.launchers = import_obsidian6.Platform.isDesktopApp ? await this.host.loadLaunchers() : [];
     const launchable = new Set(records.filter((record) => this.canLaunch(record)).map((record) => record.dir));
     if (this.embed) this.removeChild(this.embed);
-    this.embed = this.addChild(new import_obsidian5.Component());
+    this.embed = this.addChild(new import_obsidian6.Component());
     const root = this.contentEl;
     root.empty();
     root.addClass("galaxy-brain-repository");
@@ -6203,7 +6274,7 @@ var RepositoryView = class extends import_obsidian5.ItemView {
     }
     select.onchange = () => void this.leaf.setViewState({ type: REPOSITORY_VIEW, state: { repo: select.value, tab: this.tab } });
     const recordTabs = REPOSITORY_TABS.filter((tab) => isRecordTab(tab.id));
-    const githubTabs = import_obsidian5.Platform.isDesktopApp ? REPOSITORY_TABS.filter((tab) => !isRecordTab(tab.id)) : [];
+    const githubTabs = import_obsidian6.Platform.isDesktopApp ? REPOSITORY_TABS.filter((tab) => !isRecordTab(tab.id)) : [];
     const tabs = all ? [RECENT_TAB] : [...recordTabs, RECENT_TAB, ...githubTabs];
     const current = tabs.some((tab) => tab.id === this.tab) ? this.tab : tabs[0].id;
     const bar = root.createDiv({ cls: "gbr-tabs" });
@@ -6275,7 +6346,7 @@ var RepositoryView = class extends import_obsidian5.ItemView {
   /** 🔄 Sync button and the last SYNC_REPORT.md, above an issues or reviews tab. */
   async renderSync(root, kind) {
     if (!SYNC_PROCESSES[kind]) return;
-    const agent = import_obsidian5.Platform.isDesktopApp ? await this.host.syncAgent(this.repo, kind) : void 0;
+    const agent = import_obsidian6.Platform.isDesktopApp ? await this.host.syncAgent(this.repo, kind) : void 0;
     if (agent) {
       const bar = root.createDiv({ cls: "gbr-sync" });
       const button2 = bar.createEl("button", { text: `\u{1F504} Sync ${kind}`, attr: { "aria-label": `Launch ${agent} to sync ${kind}` } });
@@ -6302,12 +6373,12 @@ var RepositoryView = class extends import_obsidian5.ItemView {
       const href = link?.getAttribute("data-href") ?? link?.getAttribute("href");
       if (href) openLink(event, href);
     };
-    await import_obsidian5.MarkdownRenderer.render(this.app, queue.text, body, queue.path, this.embed);
+    await import_obsidian6.MarkdownRenderer.render(this.app, queue.text, body, queue.path, this.embed);
   }
   renderFeed(root, tab, records, bodies, launchable, header) {
     const state = this.feedState();
     const refresh = header.createEl("button", { cls: "clickable-icon", attr: { "aria-label": "Refresh from GitHub" } });
-    (0, import_obsidian5.setIcon)(refresh, "refresh-cw");
+    (0, import_obsidian6.setIcon)(refresh, "refresh-cw");
     refresh.onclick = () => void this.fetchFeeds(true);
     if (state.fetchedAt) header.createSpan({ text: `fetched ${timeAgo(state.fetchedAt, Date.now())}`, cls: "gbr-time" });
     const owner = upstreamOwner(this.repo, [...bodies.values()]);
@@ -6345,7 +6416,7 @@ var RepositoryView = class extends import_obsidian5.ItemView {
     row.createSpan({ text: `${item2.author} \xB7 ${timeAgo(Date.parse(item2.at), Date.now())}`, cls: "gbr-time" });
     const action = (icon, label, onClick) => {
       const button2 = actions.createEl("button", { cls: "clickable-icon", attr: { "aria-label": label } });
-      (0, import_obsidian5.setIcon)(button2, icon);
+      (0, import_obsidian6.setIcon)(button2, icon);
       button2.onclick = onClick;
     };
     if (matched.length === 0) {
@@ -6437,7 +6508,7 @@ var RepositoryView = class extends import_obsidian5.ItemView {
     item2.createSpan({ text: timeAgo(time, Date.now()), cls: "gbr-time" });
     const action = (icon, label, onClick) => {
       const button2 = actions.createEl("button", { cls: "clickable-icon", attr: { "aria-label": label } });
-      (0, import_obsidian5.setIcon)(button2, icon);
+      (0, import_obsidian6.setIcon)(button2, icon);
       button2.onclick = onClick;
     };
     const blocker = recordBlocker(body);
@@ -6447,7 +6518,7 @@ var RepositoryView = class extends import_obsidian5.ItemView {
     if (github) action("github", "Open on GitHub", () => window.open(github));
     const compare = compareUrl(record, body);
     if (compare) action("git-compare-arrows", "Compare to upstream base", () => window.open(compare));
-    const worktree = import_obsidian5.Platform.isDesktopApp ? this.host.worktreeFor(record, body) : null;
+    const worktree = import_obsidian6.Platform.isDesktopApp ? this.host.worktreeFor(record, body) : null;
     if (worktree) action("code", "Open with Code", () => this.host.openInCode(worktree));
     if (isReviewableRecordKind(record.kind) && hasDifferentialReview(this.app, record.dir)) action("git-compare", "Differential review", () => void openDifferentialReview(this.app, record.dir));
   }
@@ -6462,7 +6533,7 @@ var ENVIRONMENTS_PATH = "agents/_shared/ENVIRONMENTS.yml";
 var RECORD_AGENTS_PATH = "agents/_shared/RECORD_AGENTS.yml";
 var FACTORY_AGENT_DIR = "factory";
 var CLI_BIN_DIRS = ["/usr/local/bin", "/opt/homebrew/bin", "/Applications/Visual Studio Code.app/Contents/Resources/app/bin"];
-var GalaxyBrainPlugin = class extends import_obsidian6.Plugin {
+var GalaxyBrainPlugin = class extends import_obsidian7.Plugin {
   constructor() {
     super(...arguments);
     this.recordActions = /* @__PURE__ */ new WeakMap();
@@ -6472,7 +6543,7 @@ var GalaxyBrainPlugin = class extends import_obsidian6.Plugin {
     registerDifferentialReview(this);
     this.registerEvent(
       this.app.workspace.on("file-menu", (menu, file) => {
-        if (!(file instanceof import_obsidian6.TFile)) return;
+        if (!(file instanceof import_obsidian7.TFile)) return;
         menu.addItem(
           (item2) => item2.setTitle("Copy contents").setIcon("copy").onClick(() => this.copyContents(file))
         );
@@ -6512,7 +6583,7 @@ var GalaxyBrainPlugin = class extends import_obsidian6.Plugin {
     this.registerMarkdownCodeBlockProcessor("gb-tasks", (source, el3, ctx) => this.renderTasks(source, el3, ctx));
     this.registerMarkdownCodeBlockProcessor("gb-missed-prs", (source, el3, ctx) => this.renderMissedPrs(source, el3, ctx.sourcePath));
     this.registerMarkdownCodeBlockProcessor("gb-missed-prs-feed", (source, el3, ctx) => this.renderMissedPrsFeed(source, el3, ctx));
-    if (!import_obsidian6.Platform.isDesktopApp) return;
+    if (!import_obsidian7.Platform.isDesktopApp) return;
     this.addCommand({
       id: "launch-agent",
       name: "Launch agent for this record",
@@ -6535,16 +6606,16 @@ var GalaxyBrainPlugin = class extends import_obsidian6.Plugin {
   async copyContents(file) {
     try {
       await navigator.clipboard.writeText(await this.app.vault.read(file));
-      new import_obsidian6.Notice(`Copied ${file.name}`);
+      new import_obsidian7.Notice(`Copied ${file.name}`);
     } catch (error) {
-      new import_obsidian6.Notice(`Could not copy ${file.name}: ${error}`);
+      new import_obsidian7.Notice(`Could not copy ${file.name}: ${error}`);
     }
   }
   /** Code, GitHub (not issue incubator), agent, (branches/reviews) differential review and (branches) compare icons in the header of notes inside a repository record. */
   refreshRecordActions() {
     for (const leaf of this.app.workspace.getLeavesOfType("markdown")) {
       const view = leaf.view;
-      if (!(view instanceof import_obsidian6.MarkdownView)) continue;
+      if (!(view instanceof import_obsidian7.MarkdownView)) continue;
       const record = view.file && recordFromPath(view.file.path);
       const reviewable = !!record && isReviewableRecordKind(record.kind);
       const hasCi = record?.kind === "branches" || record?.kind === "reviews";
@@ -6575,7 +6646,7 @@ var GalaxyBrainPlugin = class extends import_obsidian6.Plugin {
   refreshAgentActions() {
     for (const leaf of this.app.workspace.getLeavesOfType("markdown")) {
       const view = leaf.view;
-      if (!(view instanceof import_obsidian6.MarkdownView)) continue;
+      if (!(view instanceof import_obsidian7.MarkdownView)) continue;
       const agent = view.file && agentFromPath(view.file.path);
       const existing = this.agentActions.get(view);
       if (existing && existing.agent !== agent) {
@@ -6597,7 +6668,7 @@ var GalaxyBrainPlugin = class extends import_obsidian6.Plugin {
     if (!vaultRoot) return;
     const file = this.app.vault.getFileByPath(agentLaunchersPath(agent));
     const launchers = file ? parseAgentLaunchers(await this.app.vault.cachedRead(file), agent) : [];
-    if (launchers.length === 0) return void new import_obsidian6.Notice(`No launchers in ${agentLaunchersPath(agent)}`);
+    if (launchers.length === 0) return void new import_obsidian7.Notice(`No launchers in ${agentLaunchersPath(agent)}`);
     const absolute = path ? `${vaultRoot}/${path}` : "";
     new LauncherSuggest(this.app, launchers, (launcher) => {
       const name = fillAgentTemplate(launcher.name, agent, absolute);
@@ -6620,7 +6691,7 @@ var GalaxyBrainPlugin = class extends import_obsidian6.Plugin {
     const { execFile } = require("child_process");
     const PATH = [...CLI_BIN_DIRS, process.env.PATH].join(":");
     execFile("code", [path], { env: { ...process.env, PATH } }, (error) => {
-      if (error) new import_obsidian6.Notice(`Could not run the VS Code \`code\` CLI: ${error.message}`, 1e4);
+      if (error) new import_obsidian7.Notice(`Could not run the VS Code \`code\` CLI: ${error.message}`, 1e4);
     });
   }
   /** okWithOutput: resolve with stdout despite a nonzero exit, as `gh pr checks` exits 1/8 for failed/pending checks. */
@@ -6637,7 +6708,7 @@ var GalaxyBrainPlugin = class extends import_obsidian6.Plugin {
   async openRecordInCode(record) {
     const worktree = this.worktreeFor(record, await this.indexBody(record));
     if (worktree) this.openInCode(worktree);
-    else new import_obsidian6.Notice(`No worktree on disk for ${record.name}`);
+    else new import_obsidian7.Notice(`No worktree on disk for ${record.name}`);
   }
   async openCiStatus(record) {
     const sources = ciSources(record, await this.indexBody(record));
@@ -6655,7 +6726,7 @@ var GalaxyBrainPlugin = class extends import_obsidian6.Plugin {
   async openRecordCompare(record) {
     const url = compareUrl(record, await this.indexBody(record));
     if (url) window.open(url);
-    else new import_obsidian6.Notice(`No upstream_base_branch in ${record.name}'s index.md`);
+    else new import_obsidian7.Notice(`No upstream_base_branch in ${record.name}'s index.md`);
   }
   async loadLaunchers() {
     const files = this.app.vault.getMarkdownFiles().flatMap((file) => {
@@ -6685,7 +6756,7 @@ var GalaxyBrainPlugin = class extends import_obsidian6.Plugin {
     new ChoiceSuggest(this.app, repositoryNames(files), "Open repository\u2026", (repo) => void this.openRepository(repo)).open();
   }
   async addLaunchItems(menu, file) {
-    if (!import_obsidian6.Platform.isDesktopApp) return;
+    if (!import_obsidian7.Platform.isDesktopApp) return;
     const record = recordFromPath(file.path);
     if (!record) return;
     for (const launcher of await this.launchersFor(record)) {
@@ -6697,23 +6768,23 @@ var GalaxyBrainPlugin = class extends import_obsidian6.Plugin {
   async pickLauncher(record) {
     const launchers = await this.launchersFor(record);
     if (launchers.length === 0) {
-      new import_obsidian6.Notice(`No launchers for ${record.repo}/${record.kind} (${record.status}) in repositories/${record.repo}/${record.kind}/LAUNCHERS.md`);
+      new import_obsidian7.Notice(`No launchers for ${record.repo}/${record.kind} (${record.status}) in repositories/${record.repo}/${record.kind}/LAUNCHERS.md`);
       return;
     }
     new LauncherSuggest(this.app, launchers, (launcher) => void this.confirmLaunch(launcher, record)).open();
   }
   async loadProfiles() {
     try {
-      const profiles = parseProfiles((0, import_obsidian6.parseYaml)(await this.app.vault.adapter.read(PROFILES_PATH)));
+      const profiles = parseProfiles((0, import_obsidian7.parseYaml)(await this.app.vault.adapter.read(PROFILES_PATH)));
       if (profiles.length > 0) return profiles;
     } catch (error) {
-      new import_obsidian6.Notice(`Could not read ${PROFILES_PATH}: ${error}`);
+      new import_obsidian7.Notice(`Could not read ${PROFILES_PATH}: ${error}`);
     }
     return FALLBACK_PROFILES;
   }
   async loadEnvironments() {
     try {
-      const environments = parseEnvironments((0, import_obsidian6.parseYaml)(await this.app.vault.adapter.read(ENVIRONMENTS_PATH)));
+      const environments = parseEnvironments((0, import_obsidian7.parseYaml)(await this.app.vault.adapter.read(ENVIRONMENTS_PATH)));
       if (environments.length > 0) return environments;
     } catch {
     }
@@ -6741,13 +6812,13 @@ var GalaxyBrainPlugin = class extends import_obsidian6.Plugin {
   }
   vaultRoot() {
     const adapter = this.app.vault.adapter;
-    if (adapter instanceof import_obsidian6.FileSystemAdapter) return adapter.getBasePath();
-    new import_obsidian6.Notice("Launching agents needs the desktop app");
+    if (adapter instanceof import_obsidian7.FileSystemAdapter) return adapter.getBasePath();
+    new import_obsidian7.Notice("Launching agents needs the desktop app");
     return null;
   }
   async syncAgent(repo, kind) {
     try {
-      return parseRecordAgents((0, import_obsidian6.parseYaml)(await this.app.vault.adapter.read(RECORD_AGENTS_PATH)))[repo]?.[kind];
+      return parseRecordAgents((0, import_obsidian7.parseYaml)(await this.app.vault.adapter.read(RECORD_AGENTS_PATH)))[repo]?.[kind];
     } catch {
       return void 0;
     }
@@ -6770,7 +6841,7 @@ var GalaxyBrainPlugin = class extends import_obsidian6.Plugin {
     let raw;
     let tasks;
     try {
-      raw = (0, import_obsidian6.parseYaml)(source);
+      raw = (0, import_obsidian7.parseYaml)(source);
       tasks = parseTasks(raw, { profiles: profiles.map((p) => p.name), agentDirs: await this.agentDirs() });
     } catch (error) {
       el3.createDiv({ cls: "gb-tasks-error", text: `gb-tasks: ${error instanceof Error ? error.message : error}` });
@@ -6779,16 +6850,16 @@ var GalaxyBrainPlugin = class extends import_obsidian6.Plugin {
     const remove = async (index) => {
       const file = this.app.vault.getFileByPath(ctx.sourcePath);
       const section2 = ctx.getSectionInfo(el3);
-      if (!file || !section2) return void new import_obsidian6.Notice("Could not locate this gb-tasks block");
+      if (!file || !section2) return void new import_obsidian7.Notice("Could not locate this gb-tasks block");
       const rest = raw.filter((_, i) => i !== index);
       await this.app.vault.process(
         file,
-        (note) => replaceBlockBody(note, section2.lineStart, section2.lineEnd, rest.length ? (0, import_obsidian6.stringifyYaml)(rest) : "")
+        (note) => replaceBlockBody(note, section2.lineStart, section2.lineEnd, rest.length ? (0, import_obsidian7.stringifyYaml)(rest) : "")
       );
     };
     renderTaskCards(el3, tasks, {
       defaultProfile: profiles[0]?.name ?? "",
-      ...import_obsidian6.Platform.isDesktopApp ? {
+      ...import_obsidian7.Platform.isDesktopApp ? {
         launch: (task, index, pending) => void this.confirmTask(task, () => void remove(index), task.agentDir, pending),
         refine: (task) => void this.refineTask(task)
       } : {},
@@ -6799,59 +6870,20 @@ var GalaxyBrainPlugin = class extends import_obsidian6.Plugin {
   /** Cards for a ```gb-missed-prs block in the note at path; ✔ / ↺ toggle `reviewed`. */
   renderMissedPrs(source, el3, path) {
     try {
-      renderMissedPrCards(el3, parseMissedPrs((0, import_obsidian6.parseYaml)(source)), { setReviewed: (pr, reviewed) => this.setMissedPrReviewed(path, pr, reviewed) });
+      renderMissedPrCards(el3, parseMissedPrs((0, import_obsidian7.parseYaml)(source)), { setReviewed: (pr, reviewed) => setReviewedInFile(this.app, path, pr, reviewed) });
     } catch (error) {
-      this.missedPrsError(el3, error);
+      renderMissedPrsError(el3, error);
     }
   }
-  missedPrsError(el3, error) {
-    el3.createDiv({ cls: "gb-missed-prs-error", text: `gb-missed-prs: ${error instanceof Error ? error.message : error}` });
-  }
-  /** Sets pr's `reviewed` in the note at path; false if the note or entry is gone. */
-  async setMissedPrReviewed(path, pr, reviewed) {
-    const file = this.app.vault.getFileByPath(path);
-    let found = false;
-    if (file) {
-      await this.app.vault.process(file, (note) => {
-        const updated = setMissedPrReviewed(note, pr.pr, reviewed, import_obsidian6.parseYaml, import_obsidian6.stringifyYaml);
-        found = updated !== void 0;
-        return updated ?? note;
-      });
-    }
-    if (!found) new import_obsidian6.Notice(`#${pr.pr} not found in ${path}`);
-    return found;
-  }
-  /** Unreviewed PRs from every merge-date file in a directory (body, default the_cracks), newest first; fully reviewed days are skipped. */
+  /** Unreviewed PRs from a directory's merge-date files (body, default gx_reviews' the_cracks), newest first. */
   async renderMissedPrsFeed(source, el3, ctx) {
-    const dir = source.trim() || CRACKS_DIR;
-    let shown = 0;
-    for (const { path, date } of crackFiles(this.app.vault.getMarkdownFiles().map((file) => file.path), dir)) {
-      const file = this.app.vault.getFileByPath(path);
-      if (!file) continue;
-      let prs;
-      let error;
-      try {
-        prs = fencedBlocks(await this.app.vault.cachedRead(file), "gb-missed-prs").flatMap((block) => parseMissedPrs((0, import_obsidian6.parseYaml)(block.source)));
-      } catch (caught) {
-        [prs, error] = [[], caught];
-      }
-      if (!error && prs.every((pr) => pr.reviewed)) continue;
-      shown++;
-      const day = el3.createDiv({ cls: "gb-missed-prs-day" });
-      const link = day.createEl("h3").createEl("a", { text: date, cls: "internal-link", href: "#" });
-      link.onclick = (event) => {
-        event.preventDefault();
-        void this.app.workspace.openLinkText(path, ctx.sourcePath, event.metaKey || event.ctrlKey);
-      };
-      if (error) this.missedPrsError(day, error);
-      else renderMissedPrCards(day, prs, { hideReviewed: true, setReviewed: (pr, reviewed) => this.setMissedPrReviewed(path, pr, reviewed) });
-    }
-    if (shown === 0) el3.createDiv({ cls: "gb-missed-prs-empty", text: `Nothing unreviewed in ${dir}.` });
+    const dir = source.trim() || cracksPath("gx_reviews");
+    renderCrackDays(this.app, el3, await readCrackDays(this.app, dir), ctx.sourcePath);
   }
   /** Opens a task's record index.md, wherever its status puts it. */
   openTaskRecord(record, newLeaf) {
     const path = recordIndexPath(record, this.app.vault.getMarkdownFiles().map((file) => file.path));
-    if (!path) return void new import_obsidian6.Notice(`No record ${record.repo}/${record.kind}/${record.name}`);
+    if (!path) return void new import_obsidian7.Notice(`No record ${record.repo}/${record.kind}/${record.name}`);
     void this.app.workspace.openLinkText(path, "", newLeaf);
   }
   /** Launch dialog for the factory agent to discuss refining task. */
@@ -6880,17 +6912,17 @@ var GalaxyBrainPlugin = class extends import_obsidian6.Plugin {
     const { execFile } = require("child_process");
     const { homedir } = require("os");
     const PATH = [`${homedir()}/.local/bin`, ...CLI_BIN_DIRS, process.env.PATH].join(":");
-    const started = new import_obsidian6.Notice(`Running ${label}\u2026`, 0);
+    const started = new import_obsidian7.Notice(`Running ${label}\u2026`, 0);
     execFile(executable, args, { env: { ...process.env, PATH }, timeout: 18e4 }, (error, stdout, stderr) => {
       started.hide();
-      if (error) new import_obsidian6.Notice(`${label} failed: ${(stderr || error.message).trim()}`, 0);
-      else new import_obsidian6.Notice(stdout.trim() || `${label} done`, 15e3);
+      if (error) new import_obsidian7.Notice(`${label} failed: ${(stderr || error.message).trim()}`, 0);
+      else new import_obsidian7.Notice(stdout.trim() || `${label} done`, 15e3);
     });
   }
   launch(vaultRoot, launcher, profile, environment, name, prompt, launched, pending) {
     const { execFile } = require("child_process");
     const where = environment.host ? ` on ${environment.name}` : "";
-    const started = new import_obsidian6.Notice(`Launching ${profile.name} in ${launcher.agentDir}${where}\u2026`, 0);
+    const started = new import_obsidian7.Notice(`Launching ${profile.name} in ${launcher.agentDir}${where}\u2026`, 0);
     pending?.(true);
     const [executable, ...args] = launchArgv(environment, vaultRoot, [launcher.agentDir, profile.agent, name, prompt, ...profileArgs(profile)]);
     execFile(
@@ -6901,16 +6933,16 @@ var GalaxyBrainPlugin = class extends import_obsidian6.Plugin {
         started.hide();
         if (error) {
           pending?.(false);
-          new import_obsidian6.Notice(`Launch failed: ${(stderr || error.message).trim()}`, 15e3);
+          new import_obsidian7.Notice(`Launch failed: ${(stderr || error.message).trim()}`, 15e3);
         } else {
-          new import_obsidian6.Notice(stdout.trim(), 1e4);
+          new import_obsidian7.Notice(stdout.trim(), 1e4);
           launched?.();
         }
       }
     );
   }
 };
-var CommandModal = class extends import_obsidian6.Modal {
+var CommandModal = class extends import_obsidian7.Modal {
   constructor(app, label, args, run) {
     super(app);
     this.label = label;
@@ -6920,7 +6952,7 @@ var CommandModal = class extends import_obsidian6.Modal {
   onOpen() {
     this.setTitle(this.label);
     this.contentEl.createEl("pre", { text: this.args.join(" \\\n  ") });
-    new import_obsidian6.Setting(this.contentEl).addButton(
+    new import_obsidian7.Setting(this.contentEl).addButton(
       (button2) => button2.setButtonText("Run").setCta().onClick(() => {
         this.close();
         this.run();
@@ -6931,7 +6963,7 @@ var CommandModal = class extends import_obsidian6.Modal {
     this.contentEl.empty();
   }
 };
-var LauncherSuggest = class extends import_obsidian6.FuzzySuggestModal {
+var LauncherSuggest = class extends import_obsidian7.FuzzySuggestModal {
   constructor(app, launchers, choose) {
     super(app);
     this.launchers = launchers;
@@ -6948,7 +6980,7 @@ var LauncherSuggest = class extends import_obsidian6.FuzzySuggestModal {
     this.choose(launcher);
   }
 };
-var ChoiceSuggest = class extends import_obsidian6.FuzzySuggestModal {
+var ChoiceSuggest = class extends import_obsidian7.FuzzySuggestModal {
   constructor(app, choices, placeholder, choose) {
     super(app);
     this.choices = choices;
@@ -6965,7 +6997,7 @@ var ChoiceSuggest = class extends import_obsidian6.FuzzySuggestModal {
     this.choose(choice);
   }
 };
-var LaunchModal = class extends import_obsidian6.Modal {
+var LaunchModal = class extends import_obsidian7.Modal {
   constructor(app, launcher, details) {
     super(app);
     this.launcher = launcher;
@@ -6975,14 +7007,14 @@ var LaunchModal = class extends import_obsidian6.Modal {
     const { launcher } = this;
     let { name, prompt, profile, environment } = this.details;
     this.setTitle(`${launcher.label} in ${launcher.agentDir}`);
-    new import_obsidian6.Setting(this.contentEl).setName("Agent name").addText(
+    new import_obsidian7.Setting(this.contentEl).setName("Agent name").addText(
       (text2) => text2.setValue(name).onChange((value) => name = value)
     );
-    new import_obsidian6.Setting(this.contentEl).setName("Prompt").addTextArea((area) => {
+    new import_obsidian7.Setting(this.contentEl).setName("Prompt").addTextArea((area) => {
       area.setValue(prompt).onChange((value) => prompt = value);
       area.inputEl.rows = 6;
     }).settingEl.addClass("galaxy-brain-launch-prompt");
-    new import_obsidian6.Setting(this.contentEl).addDropdown((dropdown) => {
+    new import_obsidian7.Setting(this.contentEl).addDropdown((dropdown) => {
       for (const option of this.details.profiles) dropdown.addOption(option.name, option.name);
       dropdown.setValue(profile.name).onChange((value) => {
         profile = this.details.profiles.find((option) => option.name === value) ?? profile;

@@ -18,7 +18,15 @@ export interface MissedPr {
 	reviewed: boolean;
 }
 
-export const CRACKS_DIR = "agents/gx_reviews/the_cracks";
+export const cracksPath = (agentDir: string) => `agents/${agentDir}/the_cracks`;
+
+const DATE_FILE = /^(\d{4}-\d{2}-\d{2})\.md$/;
+
+/** Whether path is a merge-date file in some agent dir's the_cracks/. */
+export function isCrackFile(path: string): boolean {
+	const m = /^agents\/[^/]+\/the_cracks\/([^/]+)$/.exec(path);
+	return !!m && DATE_FILE.test(m[1]!);
+}
 
 const TEXT_FIELDS = { author: "author", merged_by: "mergedBy", summary: "summary", discussion_summary: "discussionSummary", details: "details", discussion: "discussion" } as const;
 const FIELDS = ["pr", "title", "url", "merged_at", "approvers", "reviewed", ...Object.keys(TEXT_FIELDS)];
@@ -76,10 +84,9 @@ export function setMissedPrReviewed(
 
 /** Merge-date files (`YYYY-MM-DD.md`) directly in dir, newest first. */
 export function crackFiles(paths: string[], dir: string): Array<{ path: string; date: string }> {
-	const pattern = /^(\d{4}-\d{2}-\d{2})\.md$/;
 	return paths
 		.filter((path) => path.startsWith(`${dir}/`))
-		.map((path) => ({ path, match: pattern.exec(path.slice(dir.length + 1)) }))
+		.map((path) => ({ path, match: DATE_FILE.exec(path.slice(dir.length + 1)) }))
 		.filter((file) => file.match)
 		.map(({ path, match }) => ({ path, date: match![1]! }))
 		.sort((a, b) => b.date.localeCompare(a.date));

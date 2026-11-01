@@ -1,6 +1,8 @@
 import { debounce, ItemView, Notice, parseYaml, Platform, stringifyYaml, TFolder, type ViewStateResult, type WorkspaceLeaf } from "obsidian";
 import { ROUTINES, routineLaunch, tasksPath } from "./agent-routines";
 import { type Blocker, blockerFromPath, blockersPath } from "./blockers";
+import { type CrackDay, readCrackDays, renderCrackDays, unreviewedCount } from "./cracks-feed";
+import { cracksPath, isCrackFile } from "./missed-prs";
 import type { Profile } from "./profiles";
 import { renderTaskCards } from "./task-cards";
 import { byPriority, parseTasks, removeTask, type Task, type TaskRecord, taskBlocks } from "./task-list";
@@ -20,14 +22,14 @@ export interface AgentHost {
 /** A task and the agent dir whose TASKS.md holds it (not necessarily its `agent_dir`). */
 type ListedTask = Task & { source: string };
 
-type AgentsTab = "tasks" | "blockers";
+type AgentsTab = "tasks" | "blockers" | "cracks";
 
 interface AgentsViewState extends Record<string, unknown> {
 	agent?: string;
 	tab?: AgentsTab;
 }
 
-/** Agent dirs' routines (good morning, tick), TASKS.md task lists and blockers: merged on the landing page, or one agent's. */
+/** Agent dirs' routines (good morning, tick), TASKS.md task lists, blockers and the_cracks/ unreviewed PRs: merged on the landing page, or one agent's. */
 export class AgentsView extends ItemView {
 	private agent = ALL_AGENTS;
 	private tab: AgentsTab = "tasks";
@@ -58,14 +60,14 @@ export class AgentsView extends ItemView {
 
 	async setState(state: AgentsViewState, result: ViewStateResult) {
 		if (typeof state.agent === "string") this.agent = state.agent;
-		if (state.tab === "tasks" || state.tab === "blockers") this.tab = state.tab;
+		if (state.tab === "tasks" || state.tab === "blockers" || state.tab === "cracks") this.tab = state.tab;
 		await super.setState(state, result);
 		await this.render();
 	}
 
 	async onOpen() {
 		const onChange = (file: { path: string }) => {
-			if ((file.path.startsWith("agents/") && file.path.endsWith("/TASKS.md")) || blockerFromPath(file.path)) this.scheduleRender();
+			if ((file.path.startsWith("agents/") && file.path.endsWith("/TASKS.md")) || blockerFromPath(file.path) || isCrackFile(file.path)) this.scheduleRender();
 		};
 		this.registerEvent(this.app.vault.on("create", onChange));
 		this.registerEvent(this.app.vault.on("modify", onChange));
@@ -86,6 +88,7 @@ export class AgentsView extends ItemView {
 		const lists = await Promise.all(shown.map((dir) => this.readTasks(dir, known)));
 		const routines = await Promise.all(shown.map((dir) => this.routinesFor(dir)));
 		const blockers = await Promise.all(shown.map((dir) => this.readBlockers(dir)));
+		const cracks = await Promise.all(shown.map((dir) => this.readCracks(dir, all)));
 
 		const root = this.contentEl;
 		root.empty();
@@ -112,6 +115,8 @@ export class AgentsView extends ItemView {
 				if (count) row.createSpan({ text: `${count} task${count === 1 ? "" : "s"}`, cls: "gbr-tag" });
 				const blocked = blockers[i]!.length;
 				if (blocked) row.createSpan({ text: `${blocked} blocker${blocked === 1 ? "" : "s"}`, cls: "gbr-tag" });
+				const missed = cracks[i] && unreviewedCount(cracks[i]);
+				if (missed) row.createSpan({ text: `${missed} missed PR${missed === 1 ? "" : "s"}`, cls: "gbr-tag" });
 			});
 		} else {
 			const bar = root.createDiv({ cls: "gbr-sync" });
@@ -128,8 +133,12 @@ export class AgentsView extends ItemView {
 
 		const tasks = byPriority(lists.flatMap((list) => list.tasks));
 		const allBlockers = blockers.flat();
+		const hasCracks = cracks.some((days) => days !== undefined);
+		const crackDays = cracks.flatMap((days) => days ?? []).sort((a, b) => b.date.localeCompare(a.date));
+		if (this.tab === "cracks" && !hasCracks) this.tab = "tasks";
 		const bar = root.createDiv({ cls: "gbr-tabs" });
 		const tabs: Array<[AgentsTab, string]> = [["tasks", `Tasks (${tasks.length})`], ["blockers", `Blockers (${allBlockers.length})`]];
+		if (hasCracks) tabs.push(["cracks", `Fell Through the Cracks (${unreviewedCount(crackDays)})`]);
 		for (const [id, label] of tabs) {
 			const button = bar.createEl("button", { text: label, cls: id === this.tab ? "mod-cta" : "" });
 			button.onclick = () => {
@@ -138,6 +147,7 @@ export class AgentsView extends ItemView {
 			};
 		}
 		if (this.tab === "blockers") return this.renderBlockers(root, allBlockers, all);
+		if (this.tab === "cracks") return renderCrackDays(this.app, root, crackDays, "");
 
 		for (const { source, error } of lists) {
 			if (error) root.createDiv({ cls: "gb-tasks-error", text: `${tasksPath(source)}: ${error}` });
@@ -196,6 +206,12 @@ export class AgentsView extends ItemView {
 				return { agentDir: dir, name, condition: file ? (await this.app.vault.cachedRead(file)).trim() : "" };
 			}),
 		);
+	}
+
+	/** The agent dir's the_cracks/ days, tagged with the dir on the landing page; undefined without the directory. */
+	private async readCracks(dir: string, tagged: boolean): Promise<CrackDay[] | undefined> {
+		if (!this.app.vault.getFolderByPath(cracksPath(dir))) return undefined;
+		return readCrackDays(this.app, cracksPath(dir), tagged ? dir : undefined);
 	}
 
 	private async readTasks(dir: string, known: { profiles: string[]; agentDirs: string[] }): Promise<{ source: string; tasks: ListedTask[]; error?: string }> {
