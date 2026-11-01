@@ -1,7 +1,7 @@
 # Tasks
 
 ```gb-tasks
-- prompt: Review the dannon review-response revision of selenium_history_filters_ftp_notice in the differential review (rebase, visible:false, remote-files search settle signal), then post or edit the drafted reply in review_response_dannon_1.md.
+- prompt: Review the dannon review-response revision of selenium_history_filters_ftp_notice in the differential review (rebase, visible:false, remote-files search settle signal) (reply already posted).
   agent_dir: gx_branches
   kind: human
   link: https://github.com/galaxyproject/galaxy/pull/24458
