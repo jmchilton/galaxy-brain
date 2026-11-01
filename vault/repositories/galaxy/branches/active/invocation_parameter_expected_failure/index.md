@@ -6,12 +6,16 @@ Fix invalid subworkflow parameters failing as `unexpected_failure` (regression f
 
 **[PR description](pr_description.md) · [PR titles](pr_titles.md) · [Polish debrief](polish_debrief.md)** · [Checklist evaluation](checklist_evaluation.md) · [Implementation](implementation_debrief.md) · [Initial implementation](initial_implementation_debrief.md) · [Normal review](subagents/normal_review.md) · [Scope evaluation](scope_evaluation.md)
 
-Head: `eef6efec978`.
+Head: `33d3a5fa8d2`.
 
 - `fa256d12a13` — tuple entry (rebase of `2bbeefcc889` via `e6f7bb114c4`, no conflicts).
 - `eef6efec978` (was `3e2bc827a99` → `1f3a2434e97`; 2026-10-19 the test switched to plain format2 `validators:` after #24215 bumped gxformat2 to 0.28.0) — added while polishing. A reproducer (parent text → subworkflow text parameter with a regex validator) showed that `InputParameterModule.execute` passed `invocation_step.workflow_step_id`, which is still `None` before flush. Building the pydantic failure model raised, so the invocation failed as `unexpected_failure` with no details and an ERROR traceback; the tuple entry never took effect on this path. #20980 (`656d5a1051c`) introduced this by replacing #19092's `step.id`. The fix uses `invocation_step.workflow_step.id`. The new API test `test_subworkflow_parameter_validator_failure` is red on the unfixed code (`unexpected_failure`) and green with the fix, which logs at INFO.
 
 Tests: workflow unit suite 120 passed, 2 skipped; new API test red→green; ruff passes, and so does the pinned black 26.1.0 pre-commit hook.
+
+## Review — mvdbeek 2026-10-21
+
+Approved; optional suggestion applied in `33d3a5fa8d2` (step name in details). Milestone question open. See [review_response_mvdbeek_1.md](review_response_mvdbeek_1.md).
 
 ## Known limitation / open questions for John
 
