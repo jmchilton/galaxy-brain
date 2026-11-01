@@ -4,4 +4,6 @@ If any of the PR's we're reviewing has jmchilton as the last commit (we've pushe
 
 Collect suggested tasks per `../_shared/PROCESS_COLLECT_SUGGESTED_TASKS.md` with WHEN `daily`.
 
+Run through the @./PROCESS_WHAT_DID_WE_MISS.md process.
+
 Resist creating a GOOD_MORNING log file.
