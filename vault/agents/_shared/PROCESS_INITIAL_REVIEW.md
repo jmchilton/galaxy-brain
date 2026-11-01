@@ -12,7 +12,7 @@ Security findings and sensitive evidence instead follow [SECURITY_REPORTS.md](SE
 
 First take a `review` snapshot of the PR head per [PROCESS_DIFFERENTIAL_REVIEW_SNAPSHOT.md](PROCESS_DIFFERENTIAL_REVIEW_SNAPSHOT.md), on every round.
 
-Reading a PROJECT PR's diff plus surrounding code burns a lot of context; keep the main session as a coordinator. Pick every applicable profile from the [reviewer registry](reviewers/index.md) and run each in its own subagent, given the profile, the PR and its worktree, the PR's review directory, its private security output destination, and the agent's own review guidance.
+Reading a PROJECT PR's diff plus surrounding code burns a lot of context; keep the main session as a coordinator. Pick every applicable profile from the [shared reviewer registry](reviewers/index.md) and the agent directory's own `reviewers/index.md`, when present, and run each in its own subagent, given the profile, the PR and its worktree, the PR's review directory, its private security output destination, and the agent's own review guidance. Below, `<profile_path>` is a profile's path under `vault/agents/`, e.g. `_shared/reviewers/default.md`.
 
 ### Effort
 
@@ -57,7 +57,7 @@ Slow test layers (Selenium, API, integration) are no reason to skip a fix; write
 
 <details><summary>Discovery & Verification Agent Details</summary>
 
-Discovered by [<profile>](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/reviewers/<profile>.md) via <model> at <effort> effort. Verified via <model> at <effort> effort.
+Discovered by [<profile>](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/<profile_path>) via <model> at <effort> effort. Verified via <model> at <effort> effort.
 
 </details>
 ```
@@ -84,7 +84,7 @@ The coordinator, which launched every subagent and knows their models and effort
 
 Reviewed with [John's Galaxy Brain Review Factory](https://galaxy-brain.jmchilton.net/factory/galaxy-reviews/).
 
-- Review profile [<profile>](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/reviewers/<profile>.md) was run via <model> at <effort> effort.
+- Review profile [<profile>](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/<profile_path>) was run via <model> at <effort> effort.
 - Verification was run as documented [here](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/PROCESS_INITIAL_REVIEW.md) via <model> at <effort> effort.
 
 </details>

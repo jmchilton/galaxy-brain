@@ -9,3 +9,11 @@ Keep it minimal, like branch indexes. Start with `# #<pr_number> — <PR title>`
 Next comes `## Status`: at most one sentence each for the review (latest round, reviewed commit, delivered or not) and the PR (state, CI), each its own paragraph. Don't keep older status updates.
 
 Further sections hold only explicit decisions, dependencies, and standing instructions.
+
+## learning_galaxy.md
+
+The [learning_galaxy](../../../agents/gx_reviews/reviewers/learning_galaxy.md) profile's notes on what the PR teaches about Galaxy's architecture, for John. No findings; it may only say the PR isn't architecturally interesting.
+
+## learning_galaxy_followup_issue.md
+
+Draft galaxy-brain issue listing research notes the PR makes stale, including post-merge updates.

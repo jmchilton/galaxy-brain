@@ -14,17 +14,9 @@ Further sections hold only explicit decisions, dependencies, and standing instru
 
 Findings aggregated across all review reports, and renumbered `P<priority> <n>`, with confirmed findings flagged `(implementation verified)`. Sharpened by any review branch (`pr_<pr_number>_review_<n>`); filtered findings go to `filtered_findings.md`. Each finding names the reviews that discovered it and, when flagged, the model and effort that verified it.
 
-## learning_galaxy.md
-
-The learning_galaxy profile's notes on what the PR teaches about Galaxy's architecture, for John. No findings; it may only say the PR isn't architecturally interesting.
-
-## learning_galaxy_followup_issue.md
-
-Draft galaxy-brain issue listing research notes the PR makes stale, including post-merge updates.
-
 ## *_review.md
 
-A review profile's report, named by the [reviewer registry](../../../agents/_shared/reviewers/index.md). Opens with the profile, model, effort level, and reviewed commit, then findings, each labeled P1 (must fix before merge), P2 (should fix), or P3 (minor or nit).
+A review profile's report, named by the [shared reviewer registry](../../../agents/_shared/reviewers/index.md) or the reviewing agent's own `reviewers/index.md`. Opens with the profile, model, effort level, and reviewed commit, then findings, each labeled P1 (must fix before merge), P2 (should fix), or P3 (minor or nit).
 
 ## review_*_branch_details.md
 

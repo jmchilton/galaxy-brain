@@ -1,4 +1,4 @@
-@shared.md
+@../../_shared/reviewers/shared.md
 
 This profile produces no P-labeled findings; ignore that part of shared.md. Still open the report with the profile, model, effort, and commit header.
 
@@ -25,8 +25,8 @@ If the code is architecturally interesting you're responsible for two files in `
 
 For architecture points - use Mermaid diagrams. Keep language high-level and readable. Avoid the weeds or excessive setup please.
 
-Review galaxy-brain's research in ../../research/ for relevant documentation on touched pieces of code. Do our existing research findings conflict with the baseline knowledge above (missing research is not a conflict)? If so, spell out the stale documentation point by point in `learning_galaxy_followup_issue.md`.
+Review galaxy-brain's research in `vault/research/` for relevant documentation on touched pieces of code. Do our existing research findings conflict with the baseline knowledge above (missing research is not a conflict)? If so, spell out the stale documentation point by point in `learning_galaxy_followup_issue.md`.
 
-Missing research isn't a conflict, but if this PR introduces or substantially reshapes an area with no research note, queue at most two research requests per [GX_QUEUING_RESEARCH.md](../GX_QUEUING_RESEARCH.md), with REVIEW_DIRECTORY as the requester, and list their paths at the end of `learning_galaxy.md`.
+Missing research isn't a conflict, but if this PR introduces or substantially reshapes an area with no research note, queue at most two research requests per [GX_QUEUING_RESEARCH.md](../../_shared/GX_QUEUING_RESEARCH.md), with REVIEW_DIRECTORY as the requester, and list their paths at the end of `learning_galaxy.md`.
 
 Should any of the documents be updated if and after the PR is merged - if so include pointers to this in `learning_galaxy_followup_issue.md` as post merge activities.

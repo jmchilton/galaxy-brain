@@ -24,7 +24,7 @@ flowchart TD
 
 ## Profiles
 
-Each profile is a short instruction file. The coordinator picks every profile that applies to the PR from the [reviewer registry](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/reviewers/index.md).
+Each profile is a short instruction file. The coordinator picks every profile that applies to the PR from the [shared reviewer registry](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/reviewers/index.md) and the reviewing agent's own registry; for Galaxy that is [gx_reviews](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/gx_reviews/reviewers/index.md), which adds learning_galaxy.
 
 ```mermaid
 flowchart TD
@@ -51,7 +51,7 @@ flowchart TD
 | [gx_performance_challenger](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/reviewers/gx_performance_challenger.md) | The same [performance challenges](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/GX_PROCESS_CHALLENGE_PERFORMANCE.md) John's own branches go through: Galaxy-scale behavior of queries, endpoints and client fetching, backed by measurements where possible. |
 | [thermo_review](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/reviewers/thermo_review.md) | Maintainability: abstraction quality, oversized files, growing tangles of conditionals. |
 | [gx_risk_assessment](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/reviewers/gx_risk_assessment.md) | One-way versus two-way doors: what the change would lock Galaxy into. |
-| [learning_galaxy](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/reviewers/learning_galaxy.md) | What a Galaxy developer should learn from architecturally interesting changes. Feeds John's notes, not your review. |
+| [learning_galaxy](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/gx_reviews/reviewers/learning_galaxy.md) | What a Galaxy developer should learn from architecturally interesting changes. Feeds John's notes, not your review. |
 
 > [!TIP]
 > **💭 John's Dev Philosophy:** don't keep broken input alive. If code supports input that never worked and nothing could have relied on, the review asks for it to be rejected with a load-time, lint or validation error instead.
