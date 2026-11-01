@@ -1,0 +1,10 @@
+`pr_24635_review_0` starts from the reviewed commit `64dad7223ea`. It moves the allowlist's rejection message into `ContainerAllowlist`, so the manager and the job runner share one message and the manager no longer parses twice. It also tidies the allowlist's attribute names and the biocontainers constants. The linter now rejects whitespace-padded identifiers instead of hiding them. On the test side, the branch replaces two of the three mocked `BaseJobRunner` unit cases with integration tests and adds a Pulsar integration test that is red without the PR's Pulsar arm. It also tests workflow import of a disallowed user tool and shares one stored-tool-row helper between the integration files. The branch has not been pushed.
+
+- `c76b1bc6386` Share container allowlist rejection message between manager and runner: adds `ContainerAllowlist.rejection()`, which both callers raise from, with a unit test of both messages.
+- `7978ee18a5a` Distinguish raw and parsed container allowlist entries by name: renames them to `raw_entries` and `_rules`.
+- `6d9f69ff3ab` Define the biocontainers registry location once in recommend: adds `QUAY_REGISTRY` and derives `QUAY_BIOCONTAINERS_PREFIX` from it.
+- `1ae29de788a` Lint container identifiers without stripping whitespace: retargets the malformed-container manager test to `oras://` and adds whitespace lint and manager cases.
+- `c370acf590f` Share stored user tool row helper between integration tests: adds `integration_util.store_user_tool_row`, used by both user-tool integration files.
+- `ededf3cc033` Cover user tool container job checks with integration tests: adds an allowed-container run and an admin-tool-not-checked run, and trims `test/unit/app/jobs/test_user_defined_tool_container_allowlist.py` to its resolver-mapping case.
+- `c8239cf7070` Test the Pulsar refusal of a disallowed user tool container end to end: adds a shared base class and an embedded-Pulsar variant of the disallowed-job test.
+- `ceacd52eba8` Test workflow import of a user tool with a disallowed container: asserts a 400 with the allowlist message, with no workflow or user tool created.

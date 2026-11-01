@@ -6,7 +6,7 @@ Cover:
 
 - **Classes.** `ContainerFinder` and the `ToolInfo` / `JobInfo` inputs (`job_directory_type` galaxy vs pulsar, `job_type` tool vs epilog), and `DockerContainer` / `SingularityContainer` in `lib/galaxy/tool_util/deps/container_classes.py`.
 - **Volumes.** `$defaults` expansion in `HasDockerLikeVolumes`, broken down for local vs Pulsar job directories and tool vs metadata (epilog) containers. Include `docker_volumes` / `singularity_volumes` substitution variables, the profile <= 19.09 `configs:rw` carve-out, and which job-directory files are deliberately not mounted.
-- **Enforcement.** `require_container` / `requires_containerization` enforcement in `BaseJobRunner._find_container`, including the user-defined-tool override (`require_container_for_user_defined_tools`).
+- **Enforcement.** `require_container` / `requires_containerization` enforcement in `BaseJobRunner._find_container`, including the user-defined-tool override (`require_container_for_user_defined_tools`). Also the user-defined-tool image allowlist (`user_defined_tool_allowed_containers`, #24635): its creation-time check in `DynamicToolManager`, its job-time check on declared (not resolved) containers in `_find_container`, and the `tool_util/deps/image_references.py` reference parser it and the containers linter share.
 - **Runners.** How runners (local/DRMAA via `build_command_line`, Pulsar incl. remote container handling, kubernetes, condor, ...) call into it.
 - **Metadata.** Metadata containers (`_get_metadata_container`).
 
@@ -19,3 +19,4 @@ Leave out container resolvers' image lookup details (mulled/biocontainers), inte
 ## Requested by
 
 - vault/repositories/galaxy/reviews/active/24561: learning review needed a baseline of container volume defaults and `require_container` enforcement.
+- vault/repositories/galaxy/reviews/active/24635: learning review needed where UDT image policy is enforced (create vs job prep, Pulsar refusal path) and how image references are canonicalized.
