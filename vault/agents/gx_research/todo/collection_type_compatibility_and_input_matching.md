@@ -1,0 +1,11 @@
+# Component - Collection Type Compatibility and Input Matching
+
+How Galaxy decides whether a collection can feed a `data_collection` input, and where that decision is (and is not) enforced. Cover: `CollectionTypeDescription` (`accepts`, `compatible`, `can_map_over`, `_normalize_collection_type`, `sample_sheet` asymmetry, `paired_or_unpaired` rewrites) in `lib/galaxy/model/dataset_collections/type_description.py`; `HistoryQuery` (`direct_match`, `can_map_over`, higher-dimension-first ordering) in `query.py`; `DataCollectionToolParameter` (`collection_types`, `to_dict` / `_classify_hdca` direct vs multirun listing, `from_json`, `validate`, accepted value shapes HDCA/DCE/`CollectionAdapter`/`src` dicts/`map_over_type`); the tool-run expansion path (`parameters/meta.py` `__expand_collection_parameter`, `subcollections._split_dataset_collection`, `check_param` in `parameters/__init__.py`); the workflow path (`workflow/map_over.py`, `workflow/modules.py`); the TS mirrors (`collectionTypeDescription.ts`, `collectionMatch.ts`); and the `doc/source/dev/collection_semantics.md` "Type Compatibility Algebra" plus its `collection_semantics.yml` test cases. Include a table of enforcement points (dropdown listing, drag-and-drop, workflow editor edge validation, workflow invocation, API tool execution, parameter validation) and known gaps (for example, direct values are not type-checked server-side; compound `X:paired_or_unpaired` and `sample_sheet` map-over listings that fail at split time). Leave out collection models, element identifiers and output construction (covered by `Component - Collection Models` and `Component - Collection Tool Execution Semantics`).
+
+## Why
+
+The #24474 fix has to add a server-side type check to `from_json`/`validate` without breaking map-over, adapters, or `sample_sheet` handling, and no note describes the compatibility functions or the places they are applied. `Component - Collection Tool Execution Semantics` covers mapping semantics conceptually but not `accepts`/`direct_match` or the parameter parsing path.
+
+## Requested by
+
+- vault/repositories/galaxy/branches/active/issue_24474_collection_input_type_26.2/brain_research.md: needs the matching and enforcement map before changing `DataCollectionToolParameter` validation.
