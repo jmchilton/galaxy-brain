@@ -1,7 +1,7 @@
 # Tasks
 
 ```gb-tasks
-- prompt: "Review the dannon review-response revision of selenium_history_filters_ftp_notice in the differential review (visible:false fix + rebase), then post or edit the drafted reply in review_response_dannon_1.md and decide whether to open the dev follow-up issue draft."
+- prompt: Review the dannon review-response revision of selenium_history_filters_ftp_notice in the differential review (rebase, visible:false, remote-files search settle signal), then post or edit the drafted reply in review_response_dannon_1.md.
   agent_dir: gx_branches
   kind: human
   link: https://github.com/galaxyproject/galaxy/pull/24458
@@ -16,34 +16,6 @@
   kind: human
   link: https://github.com/galaxyproject/galaxy/pull/24265
   record: galaxy/branches/invocation_parameter_expected_failure
-- prompt: Run ./POLISH_BRANCH.md compare_runs
-  agent_dir: gx_branches
-  record: galaxy/branches/compare_runs
-  description: |
-    ✨ Compare runs of a workflow step, workflow outputs or a tool in one table (3 GET endpoints, All runs tab, `/comparisons`, 5 entry points, diff/export/highlights); baselines + 10 base refactors first; hardened ×3, READY. Decisions: PR split, [design questions](active/compare_runs/design_questions.md). Base `dev`, head `be7415d94dd`.
-  status: recommended
-  suggested_by: gx_branches/SUGGESTED_TASKS.md#Polish Branches
-- prompt: Run ./POLISH_BRANCH.md issue_23902_qualified_output_references
-  agent_dir: gx_branches
-  record: galaxy/branches/issue_23902_qualified_output_references
-  description: |
-    ✨ From 26.2, unqualified `format_source`/`metadata_source` fail tool load; runtime skips legacy aliases (fixes #23902).
-  status: recommended
-  suggested_by: gx_branches/SUGGESTED_TASKS.md#Polish Branches
-- prompt: Run ./POLISH_BRANCH.md resubmit_static_chain_test_26.1
-  agent_dir: gx_branches
-  record: galaxy/branches/resubmit_static_chain_test_26.1
-  description: |
-    ✨ Tests repeated resubmission through static destinations with per-hop environment values.
-  status: recommended
-  suggested_by: gx_branches/SUGGESTED_TASKS.md#Polish Branches
-- prompt: Run ./POLISH_BRANCH.md api_gotchas
-  agent_dir: gx_branches
-  record: galaxy/branches/api_gotchas
-  description: |
-    ✨ Documents API client best practices for external projects, plus a review rubric for API-driven work.
-  status: recommended
-  suggested_by: gx_branches/SUGGESTED_TASKS.md#Polish Branches
 - prompt: Run ./POLISH_BRANCH.md selenium_workflow_preview_import_26.2
   agent_dir: gx_branches
   record: galaxy/branches/selenium_workflow_preview_import_26.2

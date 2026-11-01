@@ -5,11 +5,11 @@
 
 ## Status
 
-PR #24458 approved by dannon; review addressed per [review_response_dannon_1.md](review_response_dannon_1.md). Base: `release_26.2` (`f03ab3f7a35`). Head: `e7d15e3cca8`.
+PR #24458 approved by dannon; review addressed per [review_response_dannon_1.md](review_response_dannon_1.md). Base: `release_26.2` (`f03ab3f7a35`). Head: `4df4bd8d160`.
 
 PR #24458 open, not draft, approved by dannon.
 
-Fork CI pending on `e7d15e3cca8`; FilesDialog vitest (28) and `test_hide_and_unhide_items` Selenium passed locally after rebase.
+Fork CI pending on `4df4bd8d160`; FilesDialog vitest (28), `test_hide_and_unhide_items` and remote-files/FTP/file-source Selenium (8) passed locally.
 
 ## Base
 
