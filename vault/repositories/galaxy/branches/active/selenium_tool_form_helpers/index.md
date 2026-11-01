@@ -10,11 +10,11 @@ upstream_base_branch: dev
 
 ## Status
 
-`attention`: all eight review points fixed at `38c2ac06b3c` and [replies posted](review_response_mvdbeek_1.md) with John's approval; CI failures remain to be diagnosed.
+`attention`: review points fixed at `38c2ac06b3c` ([replies posted](review_response_mvdbeek_1.md)); the two CI regressions they caused are fixed at `be0eec1ac9b`.
 
 [#24331](https://github.com/galaxyproject/galaxy/pull/24331) open, not draft.
 
-CI has three failed checks and others still running on the revision; local checks and snapshot details are in [the review debrief](review_response_debrief_mvdbeek_1.md).
+CI is pending on `be0eec1ac9b`; the `38c2ac06b3c` reds are diagnosed in [ci_diagnosis.md](ci_diagnosis.md).
 
 ## Scope
 
