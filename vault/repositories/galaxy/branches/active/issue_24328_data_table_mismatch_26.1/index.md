@@ -8,11 +8,11 @@ upstream_base_branch: release_26.1
 
 ## Status
 
-Rebased onto `release_26.1` (`1bb6a59dd7d`) and dannon review 1 addressed; head `950b374198a`. Alts: `issue_24328_data_table_mismatch_26.1_alt_original_scope`, `issue_24328_data_table_mismatch_26.1_alt_skip_at_startup`. Worktree: `~/projects/worktrees/galaxy/branch/issue_24328_data_table_mismatch_26.1`.
+Rebased onto `release_26.1` (`1bb6a59dd7d`) and dannon review 1 addressed; head `89ceb312242` (mypy cast fix). Alts: `issue_24328_data_table_mismatch_26.1_alt_original_scope`, `issue_24328_data_table_mismatch_26.1_alt_skip_at_startup`. Worktree: `~/projects/worktrees/galaxy/branch/issue_24328_data_table_mismatch_26.1`.
 
 [#24349](https://github.com/galaxyproject/galaxy/pull/24349) approved by dannon at `7811fe4b0ca`; reply in [review_pushback_dannon_1.md](review_pushback_dannon_1.md) awaits John.
 
-CI on `950b374198a` running.
+CI on `89ceb312242` running.
 
 Fixes [#24328](https://github.com/galaxyproject/galaxy/issues/24328): installing IUC `data_manager_fetch_index_maf` leaves Galaxy unable to start (`indexed_maf_files` column mismatch with core).
 
@@ -24,3 +24,10 @@ Fixes [#24328](https://github.com/galaxyproject/galaxy/issues/24328): installing
 - Startup halts with an actionable `ConfigurationError` rather than skipping the conflicting shed table (John); skip version kept as alt.
 - Galaxy pieces only: startup error, stop `reset_tool_data_tables` wiping the live registry, typed merge error. The core vs IUC `indexed_maf_files` name collision is tools-iuc's to resolve; not filed.
 - Re-scope took round 1 items (2)+(3); declined (1) moving `reset_tool_data_tables` on a release branch.
+
+## CI Diagnosis (`950b374198a`, 2026-11-01)
+
+- Related, fixed in `89ceb312242`: mypy `arg-type` on `StubApp` in `test/unit/app/test_tool_data_table_startup.py` (Python linting, Test Galaxy packages 3.10/3.14).
+- Unrelated: `CONVERTER_archive_to_directory` (Converter tests 3.10), no traceback, far from data tables; not rerun, new push retriggers CI.
+- Unrelated (on base): Selenium `test_library_contents.py::test_import_dataset_from_history` timeout; fails on `release_26.1`.
+- CWL conformance: setup/skip failure, no failed job.
