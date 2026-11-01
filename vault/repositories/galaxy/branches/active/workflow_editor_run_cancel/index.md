@@ -5,11 +5,11 @@
 
 ## Status
 
-Polished. Base `release_26.2` @ `e2649e52818`, head `3437fa198b4`.
+Polished. Base `release_26.2` @ `f03ab3f7a35`, head `2b863f09cc8`.
 
-Draft PR [#24318](https://github.com/galaxyproject/galaxy/pull/24318) opened 2026-10-21 on John's request, title "[26.2] Don't mark a just-opened workflow as unsaved in the editor; test run-from-editor and cancel".
+PR [#24318](https://github.com/galaxyproject/galaxy/pull/24318) opened 2026-10-21 on John's request, title "[26.2] Don't mark a just-opened workflow as unsaved in the editor; test run-from-editor and cancel".
 
-PR CI on `3437fa198b4` pending; screenshots hosted on `pr-assets-workflow_editor_run_cancel`.
+PR CI on `2b863f09cc8` pending (post-rebase); screenshots hosted on `pr-assets-workflow_editor_run_cancel`.
 
 ## Scope
 
@@ -18,6 +18,10 @@ New E2E test: run a workflow from the editor's Run activity, select a non-defaul
 Expanded scope: `workflow_run_setup_inputs` now really selects `type: File` inputs, plus a fixture key fix. Also a client fix: the editor no longer marks a loading workflow dirty, which was the source of the new test's cold-start flake. Original scope: alt `workflow_editor_run_cancel_alt_original_scope`.
 
 Pulled out of [`galaxy_ui_driver`](../galaxy_ui_driver/index.md) per [the upstreaming plan](../../../../../projects/playwright/GALAXY_UI_DRIVER_UPSTREAM.md). Once this merges, restack `galaxy_ui_driver` on it. The commits diverged, and the fixture key fix is needed there.
+
+## Rebases
+
+- 2026-11-01: rebased `e2649e52818` → `f03ab3f7a35` (`release_26.2`), force-pushed `3437fa198b4` → `2b863f09cc8`. Conflicts in `navigates_galaxy.py` (`workflow_run_specify_inputs`: upstream `css_attribute_value` + `pop("hid")` merged with simplified-form branch and `value["hid"]`) and `test_workflow_run.py` (kept upstream `test_execution_with_input_label_needing_css_escape` plus new test; report test uses upstream `_wait_for_single_invocation` with our name assertions). Mechanical; ruff check clean, tests not re-run (CI). PR was CONFLICTING and live non-draft before the push.
 
 ## Decisions
 
