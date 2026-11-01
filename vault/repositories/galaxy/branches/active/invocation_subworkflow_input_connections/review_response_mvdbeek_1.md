@@ -12,7 +12,7 @@ Caveat: modern input steps drop `tool_inputs["name"]` on save, so the fallback o
 
 Validation: ruff/black/isort clean; workflow units 197 passed, 1 skipped; 16 API cases passed (10 PR cases + `test_run_with_invalid_legacy_parameter_input` + `test_run_with_nonexistent_input`). mypy only flags unrelated `managers/notification.py` (borrowed venv). Fork/PR CI on new head pending.
 
-## Draft inline replies (not posted)
+## Inline replies (posted 2026-11-01: [r4437314429](https://github.com/galaxyproject/galaxy/pull/24203#discussion_r4437314429), [r4437314514](https://github.com/galaxyproject/galaxy/pull/24203#discussion_r4437314514))
 
 On `lib/galaxy/workflow/run.py:815`:
 
