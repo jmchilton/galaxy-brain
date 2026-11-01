@@ -28,7 +28,7 @@ None yet.
 
 ## Draft Foundry PRs — needs author work (`author_work`)
 
-None yet.
+- [`issue-570-cast-moc-leaf-patterns`](active/issue-570-cast-moc-leaf-patterns/index.md) — Cast pattern maps of content with the leaf pattern pages they list (#570); needs foundry-lib#139 released. [#738](https://github.com/galaxyproject/foundry/pull/738).
 
 ## Foundry branches — implemented, work left (`branches_implemented_needs_ci`)
 
@@ -47,7 +47,6 @@ None yet.
 ## Foundry branches — ready for final review (`branches_ready_for_final_review`)
 
 - [`issue-672-udt-authoring-note`](active/issue-672-udt-authoring-note/index.md) — UDT authoring note: collection inputs/outputs, vendoring recipes, `inputs.x` shape (#672). Draft [#710](https://github.com/galaxyproject/foundry/pull/710). [Open PR](https://github.com/galaxyproject/foundry/compare/main...issue-672-udt-authoring-note).
-- [`issue-570-cast-moc-leaf-patterns`](active/issue-570-cast-moc-leaf-patterns/index.md) — Cast pattern maps of content with the leaf pattern pages they list (#570); needs foundry-lib#139 released. [Open PR](https://github.com/galaxyproject/foundry/compare/main...jmchilton:foundry:issue-570-cast-moc-leaf-patterns?expand=1).
 
 ## Foundry branches — approved, opens when green (`branches_need_pr`)
 
