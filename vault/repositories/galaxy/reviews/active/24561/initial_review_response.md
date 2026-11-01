@@ -1,4 +1,4 @@
-(space for John's free style comments - just keep empty)
+Laying another configuration option that controls containerization across a different axis than the other ones feels conceptually... intricate to me? The actual implementation though looks solid to me so probably this unease is not actionable - and certainly the unease of allowing UDT to run outside of containers feels worse. -John
 
 <details><summary>Automated Review Details</summary>
 

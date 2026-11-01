@@ -4,6 +4,6 @@
 
 ## Status
 
-Round 0 initial review ready on `e43b2db63a4`, unposted (P1 1 + P2 1 + five P3s, all fixed on `pr_24561_review_0`, pushed to fork only; Docker-dependent tests unrun locally).
+Round 0 review on `e43b2db63a4` delivered as APPROVE 2026-11-01; review branch not pushed to PR (P1 1 + P2 1 + five P3s, all fixed on `pr_24561_review_0`, pushed to fork only; Docker-dependent tests unrun locally).
 
 PR open, out of draft (mvdbeek), base `release_26.2`.
