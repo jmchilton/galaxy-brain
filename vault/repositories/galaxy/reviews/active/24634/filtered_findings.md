@@ -1,0 +1,5 @@
+# Filtered findings — #24634 (reviewed c9ad46bdcc5)
+
+- default P2 1 (Celery metadata + Tool Shed datatypes calling `new_file()` without `metadata_tmp_files_dir` now rejected): disproved. The Celery worker's `GalaxyManagerApplication` (a `MinimalGalaxyApplication`) binds `Dataset.object_store` globally, and under `directory_celery` `get_object_store` raises before it would rebind it. So `FileParameter.new_file(dataset=...)` returns a real `MetadataFile`, never a `MetadataTempFile`, and the containment check never sees it. Reproduced: with the object store bound, `new_file` returns `MetadataFile`; unbound, it returns `MetadataTempFile`.
+- gx_test_challenger P3 1 (parametrized rejection test builds all five escape fixtures per case): not actionable. It's a test-structure preference that doesn't change coverage.
+- gx_risk_assessment symlink concern (only the file path is `realpath`-ed, not the directory): disproved. `galaxy.util.in_directory` calls `os.path.realpath(directory)` (`lib/galaxy/util/__init__.py:900`), so symlinked job or `metadata/` directories compare correctly.

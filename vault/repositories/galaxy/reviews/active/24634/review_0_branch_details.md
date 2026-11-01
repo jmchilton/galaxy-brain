@@ -1,0 +1,6 @@
+`pr_24634_review_0` is on `jmchilton/galaxy` and branches from `c9ad46bdcc5`. It types the new `metadata_tmp_files_dir` parameters, and adds one `galaxy.metadata.job_metadata_directory()` helper that the metadata writer, the `load_metadata` checker and the job wrapper's discovery call now share. It adds an API test, backed by a new legacy galaxy.json BAM tool, which shows the job handler accepts `bam_index` temp files that `set_metadata` wrote into `metadata/`. That test fails without the job-wrapper kwarg. The branch also changes job finish so a rejected temp file marks the output `failed_metadata` instead of failing the whole job.
+
+- `8bc98f9f8a3` Type new metadata_tmp_files_dir parameters: annotates `FileParameter.from_external_value` and `Tool.discover_outputs` as `str | None`.
+- `1c373fad912` Define job metadata directory in one helper: adds `job_metadata_directory()` and uses it in `metadata/__init__.py`, `set_metadata.py` and `jobs/__init__.py`.
+- `e02c8224db7` Test job handler accepts legacy galaxy.json bam_index temp files: adds `tool_provided_metadata_13` and `test_legacy_galaxy_json_discovered_bam_gets_index`.
+- `3cefdbb928c` Mark failed_metadata on rejected metadata temp files at job finish: catches `MetadataTempFilePathError` (now a `ValueError`) in `_finish_dataset`, with a unit test in `test_job_wrapper_finish.py`.
