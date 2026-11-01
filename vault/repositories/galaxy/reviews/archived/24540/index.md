@@ -7,3 +7,7 @@
 Delivered: approved with response; fixes PR https://github.com/davelopez/galaxy/pull/12 opened (awaiting author/merge). Reviewed at `613265a0d2f`: two P2 test gaps + four P3s, all fixed on `pr_24540_review_0` (pushed to fork); perf analysis (requested by John) found impact negligible — one added SELECT column, no new query/join.
 
 PR open, not draft, against `dev`; author davelopez; fixes #24293.
+
+## Archived
+
+GitHub state: MERGED 2026-10-29. Tracking ended on merge; archived 2026-11-01. Worktree removed.

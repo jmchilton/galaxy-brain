@@ -12,3 +12,7 @@
 - [verified_review.md](verified_review.md) — P2 1, P3 1–3 (all verified/fixed); [filtered_findings.md](filtered_findings.md)
 - Reports: [initial_review.md](initial_review.md), [test_challenges_review.md](test_challenges_review.md), [performance_challenges_review.md](performance_challenges_review.md), [risks.md](risks.md)
 - [initial_review_agents.md](initial_review_agents.md)
+
+## Archived
+
+GitHub state: MERGED 2026-11-01. Tracking ended on merge; archived 2026-11-01. Worktree removed.

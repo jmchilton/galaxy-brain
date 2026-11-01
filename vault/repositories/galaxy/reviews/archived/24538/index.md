@@ -5,3 +5,7 @@
 - Initial review: reviewed `4d4f6232533`; not yet delivered. Verdict: approve; one P3 (freeze cached sets), fixed on `pr_24538_review_0` (`7339a7f68fc`, pushed to jmchilton fork).
 - [Response](initial_review_response.md) · [Action](initial_response_action.md) · [Checklist](verified_findings_checklist.md) · [Verified review](verified_review.md) · [Branch details](review_0_branch_details.md)
 - Reports: [default](initial_review.md), [tests](test_challenges_review.md), [risks](risks.md), [perf](performance_challenges_review.md), [agents](initial_review_agents.md)
+
+## Archived
+
+GitHub state: MERGED 2026-10-29. Tracking ended on merge; archived 2026-11-01. Worktree removed.

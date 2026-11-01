@@ -8,3 +8,7 @@
 - Verified: [verified_review.md](verified_review.md) (two P2s + two P3s, all fixed); filtered: [filtered_findings.md](filtered_findings.md)
 - Review branch `pr_24518_review_0` (head `fc6cb14c2cd`) pushed to jmchilton fork: [details](review_0_branch_details.md)
 - Reports: [initial_review.md](initial_review.md), [test_challenges_review.md](test_challenges_review.md), [performance_challenges_review.md](performance_challenges_review.md), [risks.md](risks.md); agents: [initial_review_agents.md](initial_review_agents.md)
+
+## Archived
+
+GitHub state: MERGED 2026-10-29. Tracking ended on merge; archived 2026-11-01. Worktree removed.

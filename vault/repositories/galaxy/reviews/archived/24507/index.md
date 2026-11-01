@@ -5,3 +5,7 @@
 **Status — 2026-10-29:** approved with review posted at head `7c7538edb16`; awaiting merge. Review branch not pushed to PR.
 
 **Initial review — 2026-10-29:** round 0 on `7c7538edb16`; delivered (approve) 2026-10-29. [Response](initial_review_response.md) · [Verified review](verified_review.md) · [Branch details](review_0_branch_details.md) · [Action](initial_response_action.md) · [Findings checklist](verified_findings_checklist.md). 3 P2s + 7 P3s; 9 fixed on `pr_24507_review_0` (jmchilton fork, head `5022bcbfd8c`); new Selenium test unrun (no `.venv`).
+
+## Archived
+
+GitHub state: MERGED 2026-10-31. Tracking ended on merge; archived 2026-11-01. Worktree removed.
