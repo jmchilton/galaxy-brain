@@ -75,6 +75,8 @@ None yet.
 
 ## Galaxy branches — implemented, work left (`branches_implemented_needs_ci`)
 
+- [`issue_24600_pulsar_none_extra_files_25.1`](active/issue_24600_pulsar_none_extra_files_25.1/index.md) — Pulsar `default_file_action: none` no longer crashes tools that ask for extra-files paths (hooks fall back to `dataset.extra_files_path`); new `none` + local-metadata integration module; sample job conf file-action docs fixed (#24600). Hardened READY (re-scoped once). Base `release_25.1`; fold `4d18da26fee` into earlier commits before PR. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_25.1...jmchilton:galaxy:issue_24600_pulsar_none_extra_files_25.1?expand=1).
+
 - [`citation_fetch_hardening_26.1`](active/citation_fetch_hardening_26.1/index.md) — Bounded DOI/bio.tools lookups (`bounded_get`, per-hop `validate_non_local`), shared `cached_fetch` with short failure TTLs, per-request DOI fetch budget/deadline, per-tool citation cap (50, 32KB BibTeX), config options, Tool Shed `citation_cache_url` fix; unblocks `yaml_tool_model_validation_26.1` Scope 2. Base `release_26.1`, head `cda4733996f`, 19 commits splittable A–E. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.1...jmchilton:galaxy:citation_fetch_hardening_26.1?expand=1).
 - [`selenium_workflow_preview_import_26.2`](active/selenium_workflow_preview_import_26.2/index.md) — Public workflow preview/Run/Import tests + TRS launch-link auto-import and version-alias fixes; baseline first, hardened READY. Base `release_26.2`, head `ef7bf72fdea9`; both browser backends verified.
 
