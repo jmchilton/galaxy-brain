@@ -13,6 +13,7 @@ Illumina workflow: 328 format2 steps (385 native), 29 embedded user tools, one t
 
 ## Evidence
 `workflow-debug-report.md` §2 (memory timeline, `planemo.log` line refs), §4 (code path); attempt summaries in `run-summary.md`. Code: planemo master 2a815808 `activity.py`; `git show release_26.1:lib/galaxy/managers/workflows.py`.
+- Attempt 9 (Illumina `test` alone, quiet host): the run-form GET returned, then the invocation POST itself hit the 300 s worker timeout (1.58 GB free at worst; 161 sqlite "database is locked" errors meanwhile). So the invocation request is also too heavy here, not only the pre-check; sqlite contention in planemo's managed Galaxy may contribute.
 
 ## Proposed fix
 1. planemo: compute informal replacement parameters from the local workflow document (or from `style=editor`/`instance` download without a history), never `style=run`; make the pre-check a single attempt (no bioblend retry) and add a flag to skip it.
