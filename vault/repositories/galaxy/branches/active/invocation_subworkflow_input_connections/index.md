@@ -1,6 +1,6 @@
 # invocation_subworkflow_input_connections
 
-Status: `ready` — PR #24203 undrafted, rebased onto `release_26.2` 2026-10-19; PR CI all green (2026-10-23).
+Status: `ready` — PR #24203 approved by mvdbeek 2026-10-23; both optional nits addressed in `14f1310fe20` (2026-11-01), PR CI on new head pending. [Review response](review_response_mvdbeek_1.md).
 
 Reject disconnected required subworkflow inputs with HTTP 400 before creating histories or invocations, including nested step paths, while preserving optional and defaulted inputs.
 

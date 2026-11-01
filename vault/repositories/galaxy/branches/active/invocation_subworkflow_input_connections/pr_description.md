@@ -12,7 +12,7 @@ An invocation request can currently be accepted even though a nested subworkflow
 
 ***The runtime correction reports disconnected required inputs before resolving sibling outputs; genuine connected-output failures retain their existing handling.***
 
-The submission check and existing runtime backstop share the same required/connected/default predicate. The runtime backstop remains for paths that bypass ordinary invocation submission. It now reports partially disconnected required inputs before resolving connected sibling outputs, so an unrelated ready output is no longer blamed and a pending sibling no longer delays this structural error. The established wholly-disconnected failure shape is preserved.
+The submission check and existing runtime backstop share the same required/connected/default predicate. The runtime backstop remains for paths that bypass ordinary invocation submission. It now reports partially disconnected required inputs before resolving connected sibling outputs, so an unrelated ready output is no longer blamed and a pending sibling no longer delays this structural error. Runtime failure details now name the disconnected inputs, matching the submission error.
 
 ## Risks
 
