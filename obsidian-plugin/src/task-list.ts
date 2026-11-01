@@ -18,6 +18,8 @@ export interface Task {
 	record?: TaskRecord;
 	/** SUGGESTED_TASKS.md section that produced the task, as `<path under vault/agents>#<heading>`. */
 	suggestedBy?: string;
+	/** `YYYY-MM-DD`; the card is hidden before this day. */
+	snoozedUntil?: string;
 }
 
 export interface TaskRecord {
@@ -32,7 +34,8 @@ export type TaskStatus = "recommended" | "idea";
 export type TaskPriority = "high" | "low";
 export type TaskKind = "human";
 
-const FIELDS = ["prompt", "agent_dir", "profile", "description", "status", "priority", "kind", "link", "record", "suggested_by"];
+const FIELDS = ["prompt", "agent_dir", "profile", "description", "status", "priority", "kind", "link", "record", "suggested_by", "snoozed_until"];
+const DAY = /^\d{4}-\d{2}-\d{2}$/;
 const STATUSES: unknown[] = ["recommended", "idea"] satisfies TaskStatus[];
 const PRIORITIES: unknown[] = ["high", "low"] satisfies TaskPriority[];
 const KINDS: unknown[] = ["human"] satisfies TaskKind[];
@@ -46,7 +49,7 @@ export function parseTasks(data: unknown, known: { profiles: string[]; agentDirs
 		if (!entry || typeof entry !== "object") throw fail("not a mapping");
 		const extra = Object.keys(entry).find((key) => !FIELDS.includes(key));
 		if (extra) throw fail(`unknown field ${extra}`);
-		const { prompt, agent_dir: agentDir, profile, description, status, priority, kind, link, record, suggested_by: suggestedBy } = entry;
+		const { prompt, agent_dir: agentDir, profile, description, status, priority, kind, link, record, suggested_by: suggestedBy, snoozed_until: snoozedRaw } = entry;
 		if (typeof prompt !== "string" || !prompt.trim()) throw fail("missing prompt");
 		if (typeof agentDir !== "string" || !agentDir) throw fail("missing agent_dir");
 		if (!known.agentDirs.includes(agentDir)) throw fail(`unknown agent_dir ${agentDir}`);
@@ -60,6 +63,9 @@ export function parseTasks(data: unknown, known: { profiles: string[]; agentDirs
 		const recordMatch = record === undefined ? undefined : typeof record === "string" ? RECORD_REF.exec(record) : null;
 		if (recordMatch === null) throw fail(`record must be <repo>/<${RECORD_KINDS.join("|")}>/<name>`);
 		if (suggestedBy !== undefined && (typeof suggestedBy !== "string" || !/^[^\s#]+\.md(#.+)?$/.test(suggestedBy))) throw fail("suggested_by must be <path>.md#<heading>");
+		// A YAML parser may turn an unquoted date into a Date at UTC midnight.
+		const snoozedUntil = snoozedRaw instanceof Date ? snoozedRaw.toISOString().slice(0, 10) : snoozedRaw;
+		if (snoozedUntil !== undefined && (typeof snoozedUntil !== "string" || !DAY.test(snoozedUntil))) throw fail("snoozed_until must be YYYY-MM-DD");
 		return {
 			prompt,
 			agentDir,
@@ -71,8 +77,26 @@ export function parseTasks(data: unknown, known: { profiles: string[]; agentDirs
 			...(link ? { link } : {}),
 			...(recordMatch ? { record: { repo: recordMatch[1]!, kind: recordMatch[2] as RecordKind, name: recordMatch[3]! } } : {}),
 			...(suggestedBy ? { suggestedBy } : {}),
+			...(snoozedUntil ? { snoozedUntil } : {}),
 		};
 	});
+}
+
+/** Whether the task is hidden on day (`YYYY-MM-DD`). */
+export function isSnoozed(task: Task, day: string): boolean {
+	return task.snoozedUntil !== undefined && task.snoozedUntil > day;
+}
+
+/** The local calendar date as `YYYY-MM-DD`. */
+export function localDay(date: Date = new Date()): string {
+	return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
+}
+
+/** day (`YYYY-MM-DD`) plus days. */
+export function addDays(day: string, days: number): string {
+	const date = new Date(`${day}T00:00:00Z`);
+	date.setUTCDate(date.getUTCDate() + days);
+	return date.toISOString().slice(0, 10);
 }
 
 /** Each ```gb-tasks block's fence lines (0-based) and YAML source; unclosed blocks are skipped. */
@@ -102,6 +126,17 @@ export function removeTask(
 	stringify: (data: unknown) => string,
 ): string | undefined {
 	return editBlockEntry(note, "gb-tasks", (entry) => entry?.prompt === task.prompt && entry?.agent_dir === task.agentDir, () => undefined, parse, stringify);
+}
+
+/** The note with the first entry matching task's prompt and agent dir snoozed until day, or undefined if none does. */
+export function snoozeTask(
+	note: string,
+	task: Pick<Task, "prompt" | "agentDir">,
+	day: string,
+	parse: (source: string) => unknown,
+	stringify: (data: unknown) => string,
+): string | undefined {
+	return editBlockEntry(note, "gb-tasks", (entry) => entry?.prompt === task.prompt && entry?.agent_dir === task.agentDir, (entry) => ({ ...entry, snoozed_until: day }), parse, stringify);
 }
 
 type Entry = Record<string, unknown> | undefined;

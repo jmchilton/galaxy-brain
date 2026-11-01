@@ -1,8 +1,18 @@
-import type { Task, TaskRecord } from "./task-list";
+import { Menu } from "obsidian";
+import { addDays, isSnoozed, localDay, type Task, type TaskRecord } from "./task-list";
+
+const SNOOZES: Array<[string, number]> = [
+	["1 day", 1],
+	["3 days", 3],
+	["1 week", 7],
+	["2 weeks", 14],
+];
 
 export interface TaskCardActions {
 	/** Profile named on cards whose task sets none. */
 	defaultProfile: string;
+	/** 💤 hide the task until day (`YYYY-MM-DD`). */
+	snooze: (task: Task, index: number, day: string) => void;
 	/** 🚀; omitted where launching isn't possible (mobile). pending grays the card while the launch runs. */
 	launch?: (task: Task, index: number, pending: (on: boolean) => void) => void;
 	/** 🪄 discuss refining the task with the factory agent; omitted on mobile. */
@@ -13,11 +23,15 @@ export interface TaskCardActions {
 	openRecord: (record: TaskRecord, newLeaf: boolean) => void;
 }
 
-/** Task cards: priority and status badges, agent dir and profile, 🚀 / 🪄 / ✖ (✔ for human tasks), description, record and GitHub links, prompt. */
+/** Task cards, skipping snoozed tasks: priority and status badges, agent dir and profile, 🚀 / 🪄 / 💤 / ✖ (✔ for human tasks), description, record and GitHub links, prompt. index is the task's position in tasks. */
 export function renderTaskCards(el: HTMLElement, tasks: Task[], actions: TaskCardActions) {
+	const today = localDay();
 	const list = el.createDiv({ cls: "gb-tasks" });
-	if (tasks.length === 0) list.createDiv({ cls: "gb-tasks-empty", text: "No tasks." });
+	const snoozed = tasks.filter((task) => isSnoozed(task, today)).length;
+	if (tasks.length === snoozed) list.createDiv({ cls: "gb-tasks-empty", text: "No tasks." });
+	if (snoozed) list.createDiv({ cls: "gb-tasks-empty", text: `💤 ${snoozed} snoozed` });
 	tasks.forEach((task, index) => {
+		if (isSnoozed(task, today)) return;
 		const human = task.kind === "human";
 		const cls = ["gb-task", task.status && `gb-task-${task.status}`, task.priority && `gb-task-${task.priority}`, human && "gb-task-human"];
 		const card = list.createDiv({ cls: cls.filter(Boolean).join(" ") });
@@ -33,6 +47,11 @@ export function renderTaskCards(el: HTMLElement, tasks: Task[], actions: TaskCar
 			const refine = actions.refine;
 			head.createEl("button", { text: "🪄", attr: { "aria-label": "Discuss task refinement" } }).onclick = () => refine(task);
 		}
+		head.createEl("button", { text: "💤", attr: { "aria-label": "Snooze" } }).onclick = (event) => {
+			const menu = new Menu();
+			for (const [title, days] of SNOOZES) menu.addItem((item) => item.setTitle(title).onClick(() => actions.snooze(task, index, addDays(today, days))));
+			menu.showAtMouseEvent(event);
+		};
 		const [text, label] = human ? ["✔", "Done"] : ["✖", "Remove"];
 		head.createEl("button", { text, attr: { "aria-label": label } }).onclick = () => actions.remove(task, index);
 		if (task.description) card.createDiv({ cls: "gb-task-description", text: task.description.trim() });

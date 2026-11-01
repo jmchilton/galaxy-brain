@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { parse, stringify } from "yaml";
-import { byPriority, parseTasks, recordIndexPath, refinementPrompt, removeTask, replaceBlockBody, type Task, taskBlocks } from "./task-list";
+import { addDays, byPriority, isSnoozed, localDay, parseTasks, recordIndexPath, refinementPrompt, removeTask, replaceBlockBody, snoozeTask, type Task, taskBlocks } from "./task-list";
 
 const known = { profiles: ["Opus (high)", "Sonnet (medium)"], agentDirs: ["planemo", "wf_foundry"] };
 
@@ -54,6 +54,15 @@ describe("parseTasks", () => {
 		expect(parseTasks([{ prompt: "x", agent_dir: "planemo", suggested_by: suggestedBy }], known)).toEqual([{ prompt: "x", agentDir: "planemo", suggestedBy }]);
 	});
 
+	it("reads snoozed_until", () => {
+		expect(parseTasks([{ prompt: "x", agent_dir: "planemo", snoozed_until: "2026-11-08" }], known)).toEqual([{ prompt: "x", agentDir: "planemo", snoozedUntil: "2026-11-08" }]);
+	});
+
+	it("reads snoozed_until parsed as a date", () => {
+		const data = parse("- prompt: x\n  agent_dir: planemo\n  snoozed_until: 2026-11-08\n", { customTags: ["timestamp"] });
+		expect(parseTasks(data, known)).toEqual([{ prompt: "x", agentDir: "planemo", snoozedUntil: "2026-11-08" }]);
+	});
+
 	it("treats an empty block as no tasks", () => {
 		expect(parseTasks(null, known)).toEqual([]);
 	});
@@ -74,6 +83,8 @@ describe("parseTasks", () => {
 		[[{ prompt: "x", agent_dir: "planemo", record: "galaxy/pulls/24396" }], /task 1: record must be <repo>\/<branches\|issues\|issues_incubator\|reviews>\/<name>/],
 		[[{ prompt: "x", agent_dir: "planemo", record: "repositories/galaxy/reviews/active/24396" }], /task 1: record must be/],
 		[[{ prompt: "x", agent_dir: "planemo", suggested_by: "gx_reviews/SUGGESTED_TASKS" }], /task 1: suggested_by must be/],
+		[[{ prompt: "x", agent_dir: "planemo", snoozed_until: "next week" }], /task 1: snoozed_until must be YYYY-MM-DD/],
+		[[{ prompt: "x", agent_dir: "planemo", snoozed_until: 20261108 }], /task 1: snoozed_until must be YYYY-MM-DD/],
 	])("rejects %j", (data, error) => {
 		expect(() => parseTasks(data, known)).toThrow(error);
 	});
@@ -116,6 +127,46 @@ describe("removeTask", () => {
 
 	it("returns undefined when no entry matches", () => {
 		expect(removeTask(twoBlocks, { prompt: "a", agentDir: "wf_foundry" }, parse, stringify)).toBeUndefined();
+	});
+});
+
+describe("snoozeTask", () => {
+	it("sets snoozed_until on the first matching entry, keeping it in its block", () => {
+		expect(snoozeTask(twoBlocks, { prompt: "c", agentDir: "planemo" }, "2026-11-08", parse, stringify)).toBe(
+			twoBlocks.replace("- prompt: c\n  agent_dir: planemo\n", "- prompt: c\n  agent_dir: planemo\n  snoozed_until: 2026-11-08\n"),
+		);
+	});
+
+	it("returns undefined when no entry matches", () => {
+		expect(snoozeTask(twoBlocks, { prompt: "a", agentDir: "wf_foundry" }, "2026-11-08", parse, stringify)).toBeUndefined();
+	});
+});
+
+describe("isSnoozed", () => {
+	it.each([
+		[undefined, false],
+		["2026-11-02", true],
+		["2026-11-01", false],
+		["2026-10-31", false],
+	])("snoozed_until %s on 2026-11-01 is %s", (snoozedUntil, expected) => {
+		expect(isSnoozed({ prompt: "x", agentDir: "a", ...(snoozedUntil ? { snoozedUntil } : {}) }, "2026-11-01")).toBe(expected);
+	});
+});
+
+describe("addDays", () => {
+	it.each([
+		["2026-11-01", 1, "2026-11-02"],
+		["2026-11-01", 7, "2026-11-08"],
+		["2026-12-28", 7, "2027-01-04"],
+		["2026-03-07", 1, "2026-03-08"],
+	])("%s + %i is %s", (day, days, expected) => {
+		expect(addDays(day, days)).toBe(expected);
+	});
+});
+
+describe("localDay", () => {
+	it("formats the local calendar date", () => {
+		expect(localDay(new Date(2026, 0, 5, 23, 30))).toBe("2026-01-05");
 	});
 });
 

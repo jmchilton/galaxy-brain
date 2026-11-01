@@ -393,15 +393,17 @@ export default class GalaxyBrainPlugin extends Plugin {
 			el.createDiv({ cls: "gb-tasks-error", text: `gb-tasks: ${error instanceof Error ? error.message : error}` });
 			return;
 		}
-		const remove = async (index: number) => {
+		const rewrite = async (entries: unknown[]) => {
 			const file = this.app.vault.getFileByPath(ctx.sourcePath);
 			const section = ctx.getSectionInfo(el);
 			if (!file || !section) return void new Notice("Could not locate this gb-tasks block");
-			const rest = (raw as unknown[]).filter((_, i) => i !== index);
 			await this.app.vault.process(file, (note) =>
-				replaceBlockBody(note, section.lineStart, section.lineEnd, rest.length ? stringifyYaml(rest) : ""),
+				replaceBlockBody(note, section.lineStart, section.lineEnd, entries.length ? stringifyYaml(entries) : ""),
 			);
 		};
+		const entries = raw as Array<Record<string, unknown>>;
+		const remove = (index: number) => rewrite(entries.filter((_, i) => i !== index));
+		const snooze = (index: number, day: string) => rewrite(entries.map((entry, i) => (i === index ? { ...entry, snoozed_until: day } : entry)));
 		renderTaskCards(el, tasks, {
 			defaultProfile: profiles[0]?.name ?? "",
 			...(Platform.isDesktopApp
@@ -411,6 +413,7 @@ export default class GalaxyBrainPlugin extends Plugin {
 					}
 				: {}),
 			remove: (_task, index) => void remove(index),
+			snooze: (_task, index, day) => void snooze(index, day),
 			openRecord: (record, newLeaf) => this.openTaskRecord(record, newLeaf),
 		});
 	}

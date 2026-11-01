@@ -5,7 +5,7 @@ import { type CrackDay, readCrackDays, renderCrackDays, unreviewedCount } from "
 import { cracksPath, isCrackFile } from "./missed-prs";
 import type { Profile } from "./profiles";
 import { renderTaskCards } from "./task-cards";
-import { byPriority, parseTasks, removeTask, type Task, type TaskRecord, taskBlocks } from "./task-list";
+import { byPriority, isSnoozed, localDay, parseTasks, removeTask, snoozeTask, type Task, type TaskRecord, taskBlocks } from "./task-list";
 
 export const AGENTS_VIEW = "galaxy-brain-agents";
 /** `agent` state for the landing page across every agent dir. */
@@ -90,6 +90,7 @@ export class AgentsView extends ItemView {
 		const blockers = await Promise.all(shown.map((dir) => this.readBlockers(dir)));
 		const cracks = await Promise.all(shown.map((dir) => this.readCracks(dir, all)));
 
+		const today = localDay();
 		const root = this.contentEl;
 		root.empty();
 		root.addClass("galaxy-brain-repository");
@@ -111,7 +112,7 @@ export class AgentsView extends ItemView {
 					event.preventDefault();
 					void this.leaf.setViewState({ type: AGENTS_VIEW, state: { agent: dir, tab: this.tab } });
 				};
-				const count = lists[i]!.tasks.length;
+				const count = lists[i]!.tasks.filter((task) => !isSnoozed(task, today)).length;
 				if (count) row.createSpan({ text: `${count} task${count === 1 ? "" : "s"}`, cls: "gbr-tag" });
 				const blocked = blockers[i]!.length;
 				if (blocked) row.createSpan({ text: `${blocked} blocker${blocked === 1 ? "" : "s"}`, cls: "gbr-tag" });
@@ -137,7 +138,7 @@ export class AgentsView extends ItemView {
 		const crackDays = cracks.flatMap((days) => days ?? []).sort((a, b) => b.date.localeCompare(a.date));
 		if (this.tab === "cracks" && !hasCracks) this.tab = "tasks";
 		const bar = root.createDiv({ cls: "gbr-tabs" });
-		const tabs: Array<[AgentsTab, string]> = [["tasks", `Tasks (${tasks.length})`], ["blockers", `Blockers (${allBlockers.length})`]];
+		const tabs: Array<[AgentsTab, string]> = [["tasks", `Tasks (${tasks.filter((task) => !isSnoozed(task, today)).length})`],["blockers", `Blockers (${allBlockers.length})`]];
 		if (hasCracks) tabs.push(["cracks", `Fell Through the Cracks (${unreviewedCount(crackDays)})`]);
 		for (const [id, label] of tabs) {
 			const button = bar.createEl("button", { text: label, cls: id === this.tab ? "mod-cta" : "" });
@@ -162,6 +163,7 @@ export class AgentsView extends ItemView {
 					}
 				: {}),
 			remove: (_task, i) => void this.remove(tasks[i]!),
+			snooze: (_task, i, day) => void this.snooze(tasks[i]!, day),
 			openRecord: (record, newLeaf) => this.host.openTaskRecord(record, newLeaf),
 		});
 	}
@@ -232,6 +234,18 @@ export class AgentsView extends ItemView {
 		let found = false;
 		await this.app.vault.process(file, (note) => {
 			const updated = removeTask(note, task, parseYaml, stringifyYaml);
+			found = updated !== undefined;
+			return updated ?? note;
+		});
+		if (!found) new Notice("Task already removed");
+	}
+
+	private async snooze(task: ListedTask, day: string) {
+		const file = this.app.vault.getFileByPath(tasksPath(task.source));
+		if (!file) return void new Notice(`${tasksPath(task.source)} is gone`);
+		let found = false;
+		await this.app.vault.process(file, (note) => {
+			const updated = snoozeTask(note, task, day, parseYaml, stringifyYaml);
 			found = updated !== undefined;
 			return updated ?? note;
 		});
