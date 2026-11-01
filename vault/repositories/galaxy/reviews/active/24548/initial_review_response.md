@@ -1,3 +1,5 @@
+
+
 Thanks — the fix looks right. Swapping to `azure.core.exceptions.HttpResponseError` matches what the v12 SDK raises, and letting `_exists_remotely` errors propagate mirrors `s3_boto3`'s handling of non-404 `ClientError`s and avoids pushing a stale cache over a stored blob. No issues found.
 
 <details><summary>Automated Review Details</summary>

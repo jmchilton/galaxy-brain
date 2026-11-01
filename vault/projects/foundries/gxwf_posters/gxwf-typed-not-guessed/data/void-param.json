@@ -1,0 +1,1686 @@
+{
+  "workflow": "/private/tmp/claude-503/typed-not-guessed-receipt-r4-deps/work/void-param.ga",
+  "results": [
+    {
+      "step": "11",
+      "tool_id": "__FLATTEN__",
+      "version": "1.0.0",
+      "status": "ok",
+      "errors": []
+    },
+    {
+      "step": "12",
+      "tool_id": "toolshed.g2.bx.psu.edu/repos/iuc/fastp/fastp/1.4.0+galaxy0",
+      "version": "1.4.0+galaxy0",
+      "status": "ok",
+      "errors": []
+    },
+    {
+      "step": "13",
+      "tool_id": "toolshed.g2.bx.psu.edu/repos/iuc/map_param_value/map_param_value/0.2.0",
+      "version": "0.2.0",
+      "status": "ok",
+      "errors": []
+    },
+    {
+      "step": "14",
+      "tool_id": "toolshed.g2.bx.psu.edu/repos/iuc/compose_text_param/compose_text_param/0.1.1",
+      "version": "0.1.1",
+      "status": "ok",
+      "errors": []
+    },
+    {
+      "step": "15",
+      "tool_id": "toolshed.g2.bx.psu.edu/repos/iuc/map_param_value/map_param_value/0.2.0",
+      "version": "0.2.0",
+      "status": "ok",
+      "errors": []
+    },
+    {
+      "step": "16",
+      "tool_id": "toolshed.g2.bx.psu.edu/repos/iuc/map_param_value/map_param_value/0.2.0",
+      "version": "0.2.0",
+      "status": "ok",
+      "errors": []
+    },
+    {
+      "step": "17",
+      "tool_id": "toolshed.g2.bx.psu.edu/repos/iuc/map_param_value/map_param_value/0.2.0",
+      "version": "0.2.0",
+      "status": "ok",
+      "errors": []
+    },
+    {
+      "step": "18",
+      "tool_id": "toolshed.g2.bx.psu.edu/repos/iuc/rgrnastar/rna_star/2.7.11b+galaxy1",
+      "version": "2.7.11b+galaxy1",
+      "status": "ok",
+      "errors": []
+    },
+    {
+      "step": "19.2",
+      "tool_id": "toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_awk_tool/9.11+galaxy0",
+      "version": "9.11+galaxy0",
+      "status": "ok",
+      "errors": []
+    },
+    {
+      "step": "19.3",
+      "tool_id": "toolshed.g2.bx.psu.edu/repos/devteam/bamtools_filter/bamFilter/2.5.3+galaxy0",
+      "version": "2.5.3+galaxy0",
+      "status": "ok",
+      "errors": []
+    },
+    {
+      "step": "19.4",
+      "tool_id": "param_value_from_file",
+      "version": "0.1.0",
+      "status": "ok",
+      "errors": []
+    },
+    {
+      "step": "19.5",
+      "tool_id": "toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_genomecoveragebed/2.31.1+galaxy0",
+      "version": "2.31.1+galaxy0",
+      "status": "ok",
+      "errors": []
+    },
+    {
+      "step": "19.6",
+      "tool_id": "wig_to_bigWig",
+      "version": "1.1.1",
+      "status": "ok",
+      "errors": []
+    },
+    {
+      "step": "20.3",
+      "tool_id": "toolshed.g2.bx.psu.edu/repos/iuc/map_param_value/map_param_value/0.2.0",
+      "version": "0.2.0",
+      "status": "ok",
+      "errors": []
+    },
+    {
+      "step": "20.4",
+      "tool_id": "toolshed.g2.bx.psu.edu/repos/iuc/map_param_value/map_param_value/0.2.0",
+      "version": "0.2.0",
+      "status": "ok",
+      "errors": []
+    },
+    {
+      "step": "20.5",
+      "tool_id": "toolshed.g2.bx.psu.edu/repos/iuc/collection_element_identifiers/collection_element_identifiers/0.0.3",
+      "version": "0.0.3",
+      "status": "ok",
+      "errors": []
+    },
+    {
+      "step": "20.6",
+      "tool_id": "toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_find_and_replace/9.11+galaxy0",
+      "version": "9.11+galaxy0",
+      "status": "ok",
+      "errors": []
+    },
+    {
+      "step": "20.7",
+      "tool_id": "toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_find_and_replace/9.11+galaxy0",
+      "version": "9.11+galaxy0",
+      "status": "ok",
+      "errors": []
+    },
+    {
+      "step": "20.8",
+      "tool_id": "__RELABEL_FROM_FILE__",
+      "version": "1.1.0",
+      "status": "ok",
+      "errors": []
+    },
+    {
+      "step": "20.9",
+      "tool_id": "__RELABEL_FROM_FILE__",
+      "version": "1.1.0",
+      "status": "ok",
+      "errors": []
+    },
+    {
+      "step": "20.10",
+      "tool_id": "__MERGE_COLLECTION__",
+      "version": "1.0.0",
+      "status": "ok",
+      "errors": []
+    },
+    {
+      "step": "20.11",
+      "tool_id": "wig_to_bigWig",
+      "version": "1.1.1",
+      "status": "ok",
+      "errors": []
+    },
+    {
+      "step": "21",
+      "tool_id": "toolshed.g2.bx.psu.edu/repos/iuc/featurecounts/featurecounts/2.1.1+galaxy1",
+      "version": "2.1.1+galaxy1",
+      "status": "fail",
+      "errors": [
+        "pe_parameters.paired_end_status: Expected \"PE_individual\" | \"PE_fragments\", actual \"PE_fragment\"",
+        "pe_parameters.paired_end_status: Expected \"single_end\", actual \"PE_fragment\"",
+        "pe_parameters.paired_end_status: Expected undefined, actual \"PE_fragment\"",
+        "pe_parameters.__class__: is missing",
+        "pe_parameters: Expected undefined, actual {\"paired_end_status\":\"PE_fragment\",\"__current_case__\":2,\"check_distance_enabled\":{\"P\":\"false\",\"__current_case__\":1},\"only_both_ends\":false,\"exclude_chimerics\":true}"
+      ]
+    },
+    {
+      "step": "22",
+      "tool_id": "toolshed.g2.bx.psu.edu/repos/iuc/stringtie/stringtie/3.0.3+galaxy2",
+      "version": "3.0.3+galaxy2",
+      "status": "ok",
+      "errors": []
+    },
+    {
+      "step": "23",
+      "tool_id": "toolshed.g2.bx.psu.edu/repos/devteam/cufflinks/cufflinks/2.2.1.4",
+      "version": "2.2.1.4",
+      "status": "ok",
+      "errors": []
+    },
+    {
+      "step": "24.3",
+      "tool_id": "toolshed.g2.bx.psu.edu/repos/iuc/falco/falco/1.3.2+galaxy0",
+      "version": "1.3.2+galaxy0",
+      "status": "ok",
+      "errors": []
+    },
+    {
+      "step": "24.4",
+      "tool_id": "toolshed.g2.bx.psu.edu/repos/iuc/gtftobed12/gtftobed12/357",
+      "version": "357",
+      "status": "ok",
+      "errors": []
+    },
+    {
+      "step": "24.5",
+      "tool_id": "toolshed.g2.bx.psu.edu/repos/iuc/samtools_view/samtools_view/1.22+galaxy2",
+      "version": "1.22+galaxy2",
+      "status": "ok",
+      "errors": []
+    },
+    {
+      "step": "24.6",
+      "tool_id": "toolshed.g2.bx.psu.edu/repos/devteam/samtools_idxstats/samtools_idxstats/2.0.8",
+      "version": "2.0.8",
+      "status": "ok",
+      "errors": []
+    },
+    {
+      "step": "24.7",
+      "tool_id": "toolshed.g2.bx.psu.edu/repos/devteam/picard/picard_MarkDuplicates/3.1.1.0",
+      "version": "3.1.1.0",
+      "status": "ok",
+      "errors": []
+    },
+    {
+      "step": "24.8",
+      "tool_id": "toolshed.g2.bx.psu.edu/repos/nilesh/rseqc/rseqc_read_distribution/5.0.3+galaxy0",
+      "version": "5.0.3+galaxy0",
+      "status": "ok",
+      "errors": []
+    },
+    {
+      "step": "24.9",
+      "tool_id": "toolshed.g2.bx.psu.edu/repos/nilesh/rseqc/rseqc_geneBody_coverage/5.0.3+galaxy1",
+      "version": "5.0.3+galaxy1",
+      "status": "ok",
+      "errors": []
+    },
+    {
+      "step": "25.3",
+      "tool_id": "toolshed.g2.bx.psu.edu/repos/iuc/map_param_value/map_param_value/0.2.0",
+      "version": "0.2.0",
+      "status": "ok",
+      "errors": []
+    },
+    {
+      "step": "25.4",
+      "tool_id": "toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_awk_tool/9.11+galaxy0",
+      "version": "9.11+galaxy0",
+      "status": "ok",
+      "errors": []
+    },
+    {
+      "step": "25.5",
+      "tool_id": "toolshed.g2.bx.psu.edu/repos/iuc/pick_value/pick_value/0.2.0",
+      "version": "0.2.0",
+      "status": "ok",
+      "errors": []
+    },
+    {
+      "step": "26",
+      "tool_id": "toolshed.g2.bx.psu.edu/repos/iuc/multiqc/multiqc/1.35+galaxy5",
+      "version": "1.35+galaxy5",
+      "status": "ok",
+      "errors": []
+    },
+    {
+      "step": "27",
+      "tool_id": "toolshed.g2.bx.psu.edu/repos/iuc/multiqc/multiqc/1.35+galaxy5",
+      "version": "1.35+galaxy5",
+      "status": "ok",
+      "errors": []
+    },
+    {
+      "step": "28",
+      "tool_id": "toolshed.g2.bx.psu.edu/repos/iuc/pick_value/pick_value/0.2.0",
+      "version": "0.2.0",
+      "status": "ok",
+      "errors": []
+    },
+    {
+      "step": "29",
+      "tool_id": "toolshed.g2.bx.psu.edu/repos/iuc/pick_value/pick_value/0.2.0",
+      "version": "0.2.0",
+      "status": "ok",
+      "errors": []
+    }
+  ],
+  "connection_report": {
+    "valid": true,
+    "step_results": [
+      {
+        "step": "0",
+        "tool_id": null,
+        "version": null,
+        "step_type": "data_collection_input",
+        "map_over": null,
+        "connections": [],
+        "resolved_outputs": [
+          {
+            "name": "output",
+            "collection_type": "list:paired"
+          }
+        ],
+        "errors": [],
+        "label": "Collection paired FASTQ files"
+      },
+      {
+        "step": "1",
+        "tool_id": null,
+        "version": null,
+        "step_type": "parameter_input",
+        "map_over": null,
+        "connections": [],
+        "resolved_outputs": [
+          {
+            "name": "output",
+            "collection_type": null
+          }
+        ],
+        "errors": [],
+        "label": "Forward adapter"
+      },
+      {
+        "step": "2",
+        "tool_id": null,
+        "version": null,
+        "step_type": "parameter_input",
+        "map_over": null,
+        "connections": [],
+        "resolved_outputs": [
+          {
+            "name": "output",
+            "collection_type": null
+          }
+        ],
+        "errors": [],
+        "label": "Reverse adapter"
+      },
+      {
+        "step": "3",
+        "tool_id": null,
+        "version": null,
+        "step_type": "parameter_input",
+        "map_over": null,
+        "connections": [],
+        "resolved_outputs": [
+          {
+            "name": "output",
+            "collection_type": null
+          }
+        ],
+        "errors": [],
+        "label": "Generate additional QC reports"
+      },
+      {
+        "step": "4",
+        "tool_id": null,
+        "version": null,
+        "step_type": "parameter_input",
+        "map_over": null,
+        "connections": [],
+        "resolved_outputs": [
+          {
+            "name": "output",
+            "collection_type": null
+          }
+        ],
+        "errors": [],
+        "label": "Reference genome"
+      },
+      {
+        "step": "5",
+        "tool_id": null,
+        "version": null,
+        "step_type": "data_input",
+        "map_over": null,
+        "connections": [],
+        "resolved_outputs": [
+          {
+            "name": "output",
+            "collection_type": null
+          }
+        ],
+        "errors": [],
+        "label": "GTF file of annotation"
+      },
+      {
+        "step": "6",
+        "tool_id": null,
+        "version": null,
+        "step_type": "parameter_input",
+        "map_over": null,
+        "connections": [],
+        "resolved_outputs": [
+          {
+            "name": "output",
+            "collection_type": null
+          }
+        ],
+        "errors": [],
+        "label": "Strandedness"
+      },
+      {
+        "step": "7",
+        "tool_id": null,
+        "version": null,
+        "step_type": "parameter_input",
+        "map_over": null,
+        "connections": [],
+        "resolved_outputs": [
+          {
+            "name": "output",
+            "collection_type": null
+          }
+        ],
+        "errors": [],
+        "label": "Use featureCounts for generating count tables"
+      },
+      {
+        "step": "8",
+        "tool_id": null,
+        "version": null,
+        "step_type": "parameter_input",
+        "map_over": null,
+        "connections": [],
+        "resolved_outputs": [
+          {
+            "name": "output",
+            "collection_type": null
+          }
+        ],
+        "errors": [],
+        "label": "Compute Cufflinks FPKM"
+      },
+      {
+        "step": "9",
+        "tool_id": null,
+        "version": null,
+        "step_type": "data_input",
+        "map_over": null,
+        "connections": [],
+        "resolved_outputs": [
+          {
+            "name": "output",
+            "collection_type": null
+          }
+        ],
+        "errors": [],
+        "label": "GTF with regions to exclude from FPKM normalization with Cufflinks"
+      },
+      {
+        "step": "10",
+        "tool_id": null,
+        "version": null,
+        "step_type": "parameter_input",
+        "map_over": null,
+        "connections": [],
+        "resolved_outputs": [
+          {
+            "name": "output",
+            "collection_type": null
+          }
+        ],
+        "errors": [],
+        "label": "Compute StringTie FPKM"
+      },
+      {
+        "step": "11",
+        "tool_id": "__FLATTEN__",
+        "version": "1.0.0",
+        "step_type": "tool",
+        "map_over": null,
+        "connections": [
+          {
+            "source_step": "0",
+            "source_output": "output",
+            "target_step": "11",
+            "target_input": "input",
+            "status": "ok",
+            "mapping": null,
+            "errors": [],
+            "map_depth": 0,
+            "reduction": false
+          }
+        ],
+        "resolved_outputs": [
+          {
+            "name": "output",
+            "collection_type": "list"
+          }
+        ],
+        "errors": []
+      },
+      {
+        "step": "12",
+        "tool_id": "toolshed.g2.bx.psu.edu/repos/iuc/fastp/fastp/1.4.0+galaxy0",
+        "version": "1.4.0+galaxy0",
+        "step_type": "tool",
+        "map_over": "list",
+        "connections": [
+          {
+            "source_step": "1",
+            "source_output": "output",
+            "target_step": "12",
+            "target_input": "single_paired|adapter_trimming_options|adapter_sequence1",
+            "status": "ok",
+            "mapping": null,
+            "errors": [],
+            "map_depth": 0,
+            "reduction": false
+          },
+          {
+            "source_step": "2",
+            "source_output": "output",
+            "target_step": "12",
+            "target_input": "single_paired|adapter_trimming_options|adapter_sequence2",
+            "status": "ok",
+            "mapping": null,
+            "errors": [],
+            "map_depth": 0,
+            "reduction": false
+          },
+          {
+            "source_step": "0",
+            "source_output": "output",
+            "target_step": "12",
+            "target_input": "single_paired|paired_input",
+            "status": "ok",
+            "mapping": "list",
+            "errors": [],
+            "map_depth": 1,
+            "reduction": false
+          }
+        ],
+        "resolved_outputs": [
+          {
+            "name": "output_paired_coll",
+            "collection_type": "list:paired"
+          },
+          {
+            "name": "unmerged_out_coll",
+            "collection_type": "list:paired"
+          },
+          {
+            "name": "unpaired_out_coll",
+            "collection_type": "list:paired"
+          },
+          {
+            "name": "out1",
+            "collection_type": "list"
+          },
+          {
+            "name": "report_html",
+            "collection_type": "list"
+          },
+          {
+            "name": "report_json",
+            "collection_type": "list"
+          },
+          {
+            "name": "merged_reads",
+            "collection_type": "list"
+          }
+        ],
+        "errors": [],
+        "label": "remove adapters + bad quality bases"
+      },
+      {
+        "step": "13",
+        "tool_id": "toolshed.g2.bx.psu.edu/repos/iuc/map_param_value/map_param_value/0.2.0",
+        "version": "0.2.0",
+        "step_type": "tool",
+        "map_over": null,
+        "connections": [
+          {
+            "source_step": "3",
+            "source_output": "output",
+            "target_step": "13",
+            "target_input": "input_param_type|input_param",
+            "status": "ok",
+            "mapping": null,
+            "errors": [],
+            "map_depth": 0,
+            "reduction": false
+          }
+        ],
+        "resolved_outputs": [
+          {
+            "name": "output_param_text",
+            "collection_type": null
+          },
+          {
+            "name": "output_param_integer",
+            "collection_type": null
+          },
+          {
+            "name": "output_param_float",
+            "collection_type": null
+          },
+          {
+            "name": "output_param_boolean",
+            "collection_type": null
+          }
+        ],
+        "errors": [],
+        "label": "No extra QC"
+      },
+      {
+        "step": "14",
+        "tool_id": "toolshed.g2.bx.psu.edu/repos/iuc/compose_text_param/compose_text_param/0.1.1",
+        "version": "0.1.1",
+        "step_type": "tool",
+        "map_over": null,
+        "connections": [
+          {
+            "source_step": "4",
+            "source_output": "output",
+            "target_step": "14",
+            "target_input": "components_0|param_type|component_value",
+            "status": "ok",
+            "mapping": null,
+            "errors": [],
+            "map_depth": 0,
+            "reduction": false
+          }
+        ],
+        "resolved_outputs": [
+          {
+            "name": "out1",
+            "collection_type": null
+          }
+        ],
+        "errors": [],
+        "label": "get reference_genome as text parameter"
+      },
+      {
+        "step": "15",
+        "tool_id": "toolshed.g2.bx.psu.edu/repos/iuc/map_param_value/map_param_value/0.2.0",
+        "version": "0.2.0",
+        "step_type": "tool",
+        "map_over": null,
+        "connections": [
+          {
+            "source_step": "6",
+            "source_output": "output",
+            "target_step": "15",
+            "target_input": "input_param_type|input_param",
+            "status": "ok",
+            "mapping": null,
+            "errors": [],
+            "map_depth": 0,
+            "reduction": false
+          }
+        ],
+        "resolved_outputs": [
+          {
+            "name": "output_param_text",
+            "collection_type": null
+          },
+          {
+            "name": "output_param_integer",
+            "collection_type": null
+          },
+          {
+            "name": "output_param_float",
+            "collection_type": null
+          },
+          {
+            "name": "output_param_boolean",
+            "collection_type": null
+          }
+        ],
+        "errors": [],
+        "label": "Get featureCounts strandedness parameter"
+      },
+      {
+        "step": "16",
+        "tool_id": "toolshed.g2.bx.psu.edu/repos/iuc/map_param_value/map_param_value/0.2.0",
+        "version": "0.2.0",
+        "step_type": "tool",
+        "map_over": null,
+        "connections": [
+          {
+            "source_step": "6",
+            "source_output": "output",
+            "target_step": "16",
+            "target_input": "input_param_type|input_param",
+            "status": "ok",
+            "mapping": null,
+            "errors": [],
+            "map_depth": 0,
+            "reduction": false
+          }
+        ],
+        "resolved_outputs": [
+          {
+            "name": "output_param_text",
+            "collection_type": null
+          },
+          {
+            "name": "output_param_integer",
+            "collection_type": null
+          },
+          {
+            "name": "output_param_float",
+            "collection_type": null
+          },
+          {
+            "name": "output_param_boolean",
+            "collection_type": null
+          }
+        ],
+        "errors": [],
+        "label": "Get cufflinks strandedness parameter"
+      },
+      {
+        "step": "17",
+        "tool_id": "toolshed.g2.bx.psu.edu/repos/iuc/map_param_value/map_param_value/0.2.0",
+        "version": "0.2.0",
+        "step_type": "tool",
+        "map_over": null,
+        "connections": [
+          {
+            "source_step": "6",
+            "source_output": "output",
+            "target_step": "17",
+            "target_input": "input_param_type|input_param",
+            "status": "ok",
+            "mapping": null,
+            "errors": [],
+            "map_depth": 0,
+            "reduction": false
+          }
+        ],
+        "resolved_outputs": [
+          {
+            "name": "output_param_text",
+            "collection_type": null
+          },
+          {
+            "name": "output_param_integer",
+            "collection_type": null
+          },
+          {
+            "name": "output_param_float",
+            "collection_type": null
+          },
+          {
+            "name": "output_param_boolean",
+            "collection_type": null
+          }
+        ],
+        "errors": [],
+        "label": "Get Stringtie strandedness parameter"
+      },
+      {
+        "step": "18",
+        "tool_id": "toolshed.g2.bx.psu.edu/repos/iuc/rgrnastar/rna_star/2.7.11b+galaxy1",
+        "version": "2.7.11b+galaxy1",
+        "step_type": "tool",
+        "map_over": "list",
+        "connections": [
+          {
+            "source_step": "4",
+            "source_output": "output",
+            "target_step": "18",
+            "target_input": "refGenomeSource|GTFconditional|genomeDir",
+            "status": "ok",
+            "mapping": null,
+            "errors": [],
+            "map_depth": 0,
+            "reduction": false
+          },
+          {
+            "source_step": "5",
+            "source_output": "output",
+            "target_step": "18",
+            "target_input": "refGenomeSource|GTFconditional|sjdbGTFfile",
+            "status": "ok",
+            "mapping": null,
+            "errors": [],
+            "map_depth": 0,
+            "reduction": false
+          },
+          {
+            "source_step": "12",
+            "source_output": "output_paired_coll",
+            "target_step": "18",
+            "target_input": "singlePaired|input",
+            "status": "ok",
+            "mapping": "list",
+            "errors": [],
+            "map_depth": 1,
+            "reduction": false
+          }
+        ],
+        "resolved_outputs": [
+          {
+            "name": "output_log",
+            "collection_type": "list"
+          },
+          {
+            "name": "chimeric_junctions",
+            "collection_type": "list"
+          },
+          {
+            "name": "splice_junctions",
+            "collection_type": "list"
+          },
+          {
+            "name": "mapped_reads",
+            "collection_type": "list"
+          },
+          {
+            "name": "transcriptome_mapped_reads",
+            "collection_type": "list"
+          },
+          {
+            "name": "reads_per_gene",
+            "collection_type": "list"
+          },
+          {
+            "name": "signal_unique_str1",
+            "collection_type": "list"
+          },
+          {
+            "name": "signal_uniquemultiple_str1",
+            "collection_type": "list"
+          },
+          {
+            "name": "signal_unique_str2",
+            "collection_type": "list"
+          },
+          {
+            "name": "signal_uniquemultiple_str2",
+            "collection_type": "list"
+          }
+        ],
+        "errors": [],
+        "label": "STAR: map and count and coverage splitted"
+      },
+      {
+        "step": "19",
+        "tool_id": null,
+        "version": null,
+        "step_type": "subworkflow",
+        "map_over": null,
+        "connections": [
+          {
+            "source_step": "18",
+            "source_output": "mapped_reads",
+            "target_step": "19",
+            "target_input": "STAR BAM",
+            "status": "ok",
+            "mapping": null,
+            "errors": [],
+            "map_depth": 0,
+            "reduction": false
+          },
+          {
+            "source_step": "18",
+            "source_output": "output_log",
+            "target_step": "19",
+            "target_input": "STAR log",
+            "status": "ok",
+            "mapping": null,
+            "errors": [],
+            "map_depth": 0,
+            "reduction": false
+          }
+        ],
+        "resolved_outputs": [
+          {
+            "name": "Both Strands Coverage",
+            "collection_type": "list"
+          }
+        ],
+        "errors": [],
+        "label": "Generate Unstranded Coverage"
+      },
+      {
+        "step": "20",
+        "tool_id": null,
+        "version": null,
+        "step_type": "subworkflow",
+        "map_over": null,
+        "connections": [
+          {
+            "source_step": "18",
+            "source_output": "signal_unique_str1",
+            "target_step": "20",
+            "target_input": "Bedgraph strand 1",
+            "status": "ok",
+            "mapping": null,
+            "errors": [],
+            "map_depth": 0,
+            "reduction": false
+          },
+          {
+            "source_step": "18",
+            "source_output": "signal_unique_str2",
+            "target_step": "20",
+            "target_input": "Bedgraph strand 2",
+            "status": "ok",
+            "mapping": null,
+            "errors": [],
+            "map_depth": 0,
+            "reduction": false
+          },
+          {
+            "source_step": "6",
+            "source_output": "output",
+            "target_step": "20",
+            "target_input": "strandedness",
+            "status": "ok",
+            "mapping": null,
+            "errors": [],
+            "map_depth": 0,
+            "reduction": false
+          }
+        ],
+        "resolved_outputs": [
+          {
+            "name": "Uniquely Mapped Stranded Coverage",
+            "collection_type": "list"
+          }
+        ],
+        "errors": [],
+        "label": "Generate Stranded Coverage"
+      },
+      {
+        "step": "21",
+        "tool_id": "toolshed.g2.bx.psu.edu/repos/iuc/featurecounts/featurecounts/2.1.1+galaxy1",
+        "version": "2.1.1+galaxy1",
+        "step_type": "tool",
+        "map_over": "list",
+        "connections": [
+          {
+            "source_step": "18",
+            "source_output": "mapped_reads",
+            "target_step": "21",
+            "target_input": "alignment",
+            "status": "ok",
+            "mapping": "list",
+            "errors": [],
+            "map_depth": 1,
+            "reduction": false
+          },
+          {
+            "source_step": "5",
+            "source_output": "output",
+            "target_step": "21",
+            "target_input": "anno|reference_gene_sets",
+            "status": "ok",
+            "mapping": null,
+            "errors": [],
+            "map_depth": 0,
+            "reduction": false
+          },
+          {
+            "source_step": "15",
+            "source_output": "output_param_text",
+            "target_step": "21",
+            "target_input": "strand_specificity",
+            "status": "ok",
+            "mapping": null,
+            "errors": [],
+            "map_depth": 0,
+            "reduction": false
+          },
+          {
+            "source_step": "7",
+            "source_output": "output",
+            "target_step": "21",
+            "target_input": "when",
+            "status": "ok",
+            "mapping": null,
+            "errors": [],
+            "map_depth": 0,
+            "reduction": false
+          }
+        ],
+        "resolved_outputs": [
+          {
+            "name": "output_medium",
+            "collection_type": "list"
+          },
+          {
+            "name": "output_bam",
+            "collection_type": "list"
+          },
+          {
+            "name": "output_short",
+            "collection_type": "list"
+          },
+          {
+            "name": "output_full",
+            "collection_type": "list"
+          },
+          {
+            "name": "output_summary",
+            "collection_type": "list"
+          },
+          {
+            "name": "output_feature_lengths",
+            "collection_type": "list"
+          },
+          {
+            "name": "output_jcounts",
+            "collection_type": "list"
+          }
+        ],
+        "errors": []
+      },
+      {
+        "step": "22",
+        "tool_id": "toolshed.g2.bx.psu.edu/repos/iuc/stringtie/stringtie/3.0.3+galaxy2",
+        "version": "3.0.3+galaxy2",
+        "step_type": "tool",
+        "map_over": "list",
+        "connections": [
+          {
+            "source_step": "5",
+            "source_output": "output",
+            "target_step": "22",
+            "target_input": "guide|guide_source|ref_hist",
+            "status": "ok",
+            "mapping": null,
+            "errors": [],
+            "map_depth": 0,
+            "reduction": false
+          },
+          {
+            "source_step": "18",
+            "source_output": "mapped_reads",
+            "target_step": "22",
+            "target_input": "input_options|input_bam",
+            "status": "ok",
+            "mapping": "list",
+            "errors": [],
+            "map_depth": 1,
+            "reduction": false
+          },
+          {
+            "source_step": "17",
+            "source_output": "output_param_text",
+            "target_step": "22",
+            "target_input": "rna_strandness",
+            "status": "ok",
+            "mapping": null,
+            "errors": [],
+            "map_depth": 0,
+            "reduction": false
+          },
+          {
+            "source_step": "10",
+            "source_output": "output",
+            "target_step": "22",
+            "target_input": "when",
+            "status": "ok",
+            "mapping": null,
+            "errors": [],
+            "map_depth": 0,
+            "reduction": false
+          }
+        ],
+        "resolved_outputs": [
+          {
+            "name": "output_gtf",
+            "collection_type": "list"
+          },
+          {
+            "name": "gene_abundance_estimation",
+            "collection_type": "list"
+          },
+          {
+            "name": "coverage",
+            "collection_type": "list"
+          },
+          {
+            "name": "exon_expression",
+            "collection_type": "list"
+          },
+          {
+            "name": "intron_expression",
+            "collection_type": "list"
+          },
+          {
+            "name": "transcript_expression",
+            "collection_type": "list"
+          },
+          {
+            "name": "exon_transcript_mapping",
+            "collection_type": "list"
+          },
+          {
+            "name": "intron_transcript_mapping",
+            "collection_type": "list"
+          },
+          {
+            "name": "gene_counts",
+            "collection_type": "list"
+          },
+          {
+            "name": "transcript_counts",
+            "collection_type": "list"
+          },
+          {
+            "name": "legend",
+            "collection_type": "list"
+          }
+        ],
+        "errors": [],
+        "label": "Compute FPKM with StringTie"
+      },
+      {
+        "step": "23",
+        "tool_id": "toolshed.g2.bx.psu.edu/repos/devteam/cufflinks/cufflinks/2.2.1.4",
+        "version": "2.2.1.4",
+        "step_type": "tool",
+        "map_over": "list",
+        "connections": [
+          {
+            "source_step": "16",
+            "source_output": "output_param_text",
+            "target_step": "23",
+            "target_input": "advanced_settings|library_type",
+            "status": "ok",
+            "mapping": null,
+            "errors": [],
+            "map_depth": 0,
+            "reduction": false
+          },
+          {
+            "source_step": "9",
+            "source_output": "output",
+            "target_step": "23",
+            "target_input": "advanced_settings|mask_file",
+            "status": "ok",
+            "mapping": null,
+            "errors": [],
+            "map_depth": 0,
+            "reduction": false
+          },
+          {
+            "source_step": "14",
+            "source_output": "out1",
+            "target_step": "23",
+            "target_input": "bias_correction|seq_source|index",
+            "status": "ok",
+            "mapping": null,
+            "errors": [],
+            "map_depth": 0,
+            "reduction": false
+          },
+          {
+            "source_step": "18",
+            "source_output": "mapped_reads",
+            "target_step": "23",
+            "target_input": "input",
+            "status": "ok",
+            "mapping": "list",
+            "errors": [],
+            "map_depth": 1,
+            "reduction": false
+          },
+          {
+            "source_step": "5",
+            "source_output": "output",
+            "target_step": "23",
+            "target_input": "reference_annotation|reference_annotation_file",
+            "status": "ok",
+            "mapping": null,
+            "errors": [],
+            "map_depth": 0,
+            "reduction": false
+          },
+          {
+            "source_step": "8",
+            "source_output": "output",
+            "target_step": "23",
+            "target_input": "when",
+            "status": "ok",
+            "mapping": null,
+            "errors": [],
+            "map_depth": 0,
+            "reduction": false
+          }
+        ],
+        "resolved_outputs": [
+          {
+            "name": "genes_expression",
+            "collection_type": "list"
+          },
+          {
+            "name": "transcripts_expression",
+            "collection_type": "list"
+          },
+          {
+            "name": "assembled_isoforms",
+            "collection_type": "list"
+          },
+          {
+            "name": "total_map_mass",
+            "collection_type": "list"
+          },
+          {
+            "name": "skipped",
+            "collection_type": "list"
+          }
+        ],
+        "errors": [],
+        "label": "Compute FPKM with cufflinks"
+      },
+      {
+        "step": "24",
+        "tool_id": null,
+        "version": null,
+        "step_type": "subworkflow",
+        "map_over": null,
+        "connections": [
+          {
+            "source_step": "11",
+            "source_output": "output",
+            "target_step": "24",
+            "target_input": "FASTQ collection",
+            "status": "ok",
+            "mapping": null,
+            "errors": [],
+            "map_depth": 0,
+            "reduction": false
+          },
+          {
+            "source_step": "18",
+            "source_output": "mapped_reads",
+            "target_step": "24",
+            "target_input": "STAR BAM",
+            "status": "ok",
+            "mapping": null,
+            "errors": [],
+            "map_depth": 0,
+            "reduction": false
+          },
+          {
+            "source_step": "5",
+            "source_output": "output",
+            "target_step": "24",
+            "target_input": "reference_annotation_gtf",
+            "status": "ok",
+            "mapping": null,
+            "errors": [],
+            "map_depth": 0,
+            "reduction": false
+          },
+          {
+            "source_step": "3",
+            "source_output": "output",
+            "target_step": "24",
+            "target_input": "when",
+            "status": "ok",
+            "mapping": null,
+            "errors": [],
+            "map_depth": 0,
+            "reduction": false
+          }
+        ],
+        "resolved_outputs": [
+          {
+            "name": "Falco text output",
+            "collection_type": "list"
+          },
+          {
+            "name": "reads per chromosome text output",
+            "collection_type": "list"
+          },
+          {
+            "name": "read duplication text output",
+            "collection_type": "list"
+          },
+          {
+            "name": "rseqc read distribution output",
+            "collection_type": "list"
+          },
+          {
+            "name": "gene body coverage text output",
+            "collection_type": "list"
+          }
+        ],
+        "errors": [],
+        "label": "More QC"
+      },
+      {
+        "step": "25",
+        "tool_id": null,
+        "version": null,
+        "step_type": "subworkflow",
+        "map_over": null,
+        "connections": [
+          {
+            "source_step": "18",
+            "source_output": "reads_per_gene",
+            "target_step": "25",
+            "target_input": "RNA STAR count tables",
+            "status": "ok",
+            "mapping": null,
+            "errors": [],
+            "map_depth": 0,
+            "reduction": false
+          },
+          {
+            "source_step": "6",
+            "source_output": "output",
+            "target_step": "25",
+            "target_input": "Strandness param",
+            "status": "ok",
+            "mapping": null,
+            "errors": [],
+            "map_depth": 0,
+            "reduction": false
+          },
+          {
+            "source_step": "21",
+            "source_output": "output_short",
+            "target_step": "25",
+            "target_input": "featureCounts count table",
+            "status": "ok",
+            "mapping": null,
+            "errors": [],
+            "map_depth": 0,
+            "reduction": false
+          }
+        ],
+        "resolved_outputs": [
+          {
+            "name": "Counts Table",
+            "collection_type": "list"
+          }
+        ],
+        "errors": []
+      },
+      {
+        "step": "26",
+        "tool_id": "toolshed.g2.bx.psu.edu/repos/iuc/multiqc/multiqc/1.35+galaxy5",
+        "version": "1.35+galaxy5",
+        "step_type": "tool",
+        "map_over": null,
+        "connections": [
+          {
+            "source_step": "12",
+            "source_output": "report_json",
+            "target_step": "26",
+            "target_input": "results_0|software_cond|input",
+            "status": "ok",
+            "mapping": null,
+            "errors": [],
+            "map_depth": 0,
+            "reduction": true
+          },
+          {
+            "source_step": "18",
+            "source_output": "output_log",
+            "target_step": "26",
+            "target_input": "results_1|software_cond|output_0|type|input",
+            "status": "ok",
+            "mapping": null,
+            "errors": [],
+            "map_depth": 0,
+            "reduction": true
+          },
+          {
+            "source_step": "18",
+            "source_output": "reads_per_gene",
+            "target_step": "26",
+            "target_input": "results_1|software_cond|output_1|type|input",
+            "status": "ok",
+            "mapping": null,
+            "errors": [],
+            "map_depth": 0,
+            "reduction": true
+          },
+          {
+            "source_step": "21",
+            "source_output": "output_summary",
+            "target_step": "26",
+            "target_input": "results_2|software_cond|input",
+            "status": "ok",
+            "mapping": null,
+            "errors": [],
+            "map_depth": 0,
+            "reduction": true
+          },
+          {
+            "source_step": "13",
+            "source_output": "output_param_boolean",
+            "target_step": "26",
+            "target_input": "when",
+            "status": "ok",
+            "mapping": null,
+            "errors": [],
+            "map_depth": 0,
+            "reduction": false
+          }
+        ],
+        "resolved_outputs": [
+          {
+            "name": "plots",
+            "collection_type": "list"
+          },
+          {
+            "name": "png_plot",
+            "collection_type": "list"
+          },
+          {
+            "name": "html_report",
+            "collection_type": null
+          },
+          {
+            "name": "stats",
+            "collection_type": null
+          }
+        ],
+        "errors": [],
+        "label": "MultiQC without extra QC"
+      },
+      {
+        "step": "27",
+        "tool_id": "toolshed.g2.bx.psu.edu/repos/iuc/multiqc/multiqc/1.35+galaxy5",
+        "version": "1.35+galaxy5",
+        "step_type": "tool",
+        "map_over": null,
+        "connections": [
+          {
+            "source_step": "12",
+            "source_output": "report_json",
+            "target_step": "27",
+            "target_input": "results_0|software_cond|input",
+            "status": "ok",
+            "mapping": null,
+            "errors": [],
+            "map_depth": 0,
+            "reduction": true
+          },
+          {
+            "source_step": "18",
+            "source_output": "output_log",
+            "target_step": "27",
+            "target_input": "results_1|software_cond|output_0|type|input",
+            "status": "ok",
+            "mapping": null,
+            "errors": [],
+            "map_depth": 0,
+            "reduction": true
+          },
+          {
+            "source_step": "18",
+            "source_output": "reads_per_gene",
+            "target_step": "27",
+            "target_input": "results_1|software_cond|output_1|type|input",
+            "status": "ok",
+            "mapping": null,
+            "errors": [],
+            "map_depth": 0,
+            "reduction": true
+          },
+          {
+            "source_step": "21",
+            "source_output": "output_summary",
+            "target_step": "27",
+            "target_input": "results_2|software_cond|input",
+            "status": "ok",
+            "mapping": null,
+            "errors": [],
+            "map_depth": 0,
+            "reduction": true
+          },
+          {
+            "source_step": "24",
+            "source_output": "Falco text output",
+            "target_step": "27",
+            "target_input": "results_3|software_cond|output_0|input",
+            "status": "ok",
+            "mapping": null,
+            "errors": [],
+            "map_depth": 0,
+            "reduction": true
+          },
+          {
+            "source_step": "24",
+            "source_output": "reads per chromosome text output",
+            "target_step": "27",
+            "target_input": "results_4|software_cond|output_0|type|input",
+            "status": "ok",
+            "mapping": null,
+            "errors": [],
+            "map_depth": 0,
+            "reduction": true
+          },
+          {
+            "source_step": "24",
+            "source_output": "read duplication text output",
+            "target_step": "27",
+            "target_input": "results_5|software_cond|output_0|input",
+            "status": "ok",
+            "mapping": null,
+            "errors": [],
+            "map_depth": 0,
+            "reduction": true
+          },
+          {
+            "source_step": "24",
+            "source_output": "rseqc read distribution output",
+            "target_step": "27",
+            "target_input": "results_6|software_cond|output_0|type|input",
+            "status": "ok",
+            "mapping": null,
+            "errors": [],
+            "map_depth": 0,
+            "reduction": true
+          },
+          {
+            "source_step": "24",
+            "source_output": "gene body coverage text output",
+            "target_step": "27",
+            "target_input": "results_6|software_cond|output_1|type|input",
+            "status": "ok",
+            "mapping": null,
+            "errors": [],
+            "map_depth": 0,
+            "reduction": true
+          },
+          {
+            "source_step": "3",
+            "source_output": "output",
+            "target_step": "27",
+            "target_input": "when",
+            "status": "ok",
+            "mapping": null,
+            "errors": [],
+            "map_depth": 0,
+            "reduction": false
+          }
+        ],
+        "resolved_outputs": [
+          {
+            "name": "plots",
+            "collection_type": "list"
+          },
+          {
+            "name": "png_plot",
+            "collection_type": "list"
+          },
+          {
+            "name": "html_report",
+            "collection_type": null
+          },
+          {
+            "name": "stats",
+            "collection_type": null
+          }
+        ],
+        "errors": [],
+        "label": "MultiQC with extra QC"
+      },
+      {
+        "step": "28",
+        "tool_id": "toolshed.g2.bx.psu.edu/repos/iuc/pick_value/pick_value/0.2.0",
+        "version": "0.2.0",
+        "step_type": "tool",
+        "map_over": null,
+        "connections": [
+          {
+            "source_step": "26",
+            "source_output": "html_report",
+            "target_step": "28",
+            "target_input": "style_cond|type_cond|pick_from_0|value",
+            "status": "ok",
+            "mapping": null,
+            "errors": [],
+            "map_depth": 0,
+            "reduction": false
+          },
+          {
+            "source_step": "27",
+            "source_output": "html_report",
+            "target_step": "28",
+            "target_input": "style_cond|type_cond|pick_from_1|value",
+            "status": "ok",
+            "mapping": null,
+            "errors": [],
+            "map_depth": 0,
+            "reduction": false
+          }
+        ],
+        "resolved_outputs": [
+          {
+            "name": "data_param",
+            "collection_type": null
+          },
+          {
+            "name": "text_param",
+            "collection_type": null
+          },
+          {
+            "name": "integer_param",
+            "collection_type": null
+          },
+          {
+            "name": "float_param",
+            "collection_type": null
+          },
+          {
+            "name": "boolean_param",
+            "collection_type": null
+          }
+        ],
+        "errors": [],
+        "label": "MultiQC HTML report"
+      },
+      {
+        "step": "29",
+        "tool_id": "toolshed.g2.bx.psu.edu/repos/iuc/pick_value/pick_value/0.2.0",
+        "version": "0.2.0",
+        "step_type": "tool",
+        "map_over": null,
+        "connections": [
+          {
+            "source_step": "26",
+            "source_output": "stats",
+            "target_step": "29",
+            "target_input": "style_cond|type_cond|pick_from_0|value",
+            "status": "ok",
+            "mapping": null,
+            "errors": [],
+            "map_depth": 0,
+            "reduction": false
+          },
+          {
+            "source_step": "27",
+            "source_output": "stats",
+            "target_step": "29",
+            "target_input": "style_cond|type_cond|pick_from_1|value",
+            "status": "ok",
+            "mapping": null,
+            "errors": [],
+            "map_depth": 0,
+            "reduction": false
+          }
+        ],
+        "resolved_outputs": [
+          {
+            "name": "data_param",
+            "collection_type": null
+          },
+          {
+            "name": "text_param",
+            "collection_type": null
+          },
+          {
+            "name": "integer_param",
+            "collection_type": null
+          },
+          {
+            "name": "float_param",
+            "collection_type": null
+          },
+          {
+            "name": "boolean_param",
+            "collection_type": null
+          }
+        ],
+        "errors": [],
+        "label": "MultiQC stats"
+      }
+    ],
+    "summary": {
+      "ok": 57,
+      "invalid": 0,
+      "skip": 0
+    },
+    "has_details": true
+  },
+  "skipped_reason": null,
+  "structure_errors": [],
+  "encoding_errors": [],
+  "summary": {
+    "ok": 38,
+    "fail": 1,
+    "skip": 0
+  }
+}

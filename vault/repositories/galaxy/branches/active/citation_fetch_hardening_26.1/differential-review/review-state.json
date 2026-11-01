@@ -1,0 +1,228 @@
+{
+  "schemaVersion": 1,
+  "kind": "differential-review-state",
+  "updatedAt": "2026-10-29T18:19:24.261Z",
+  "hunks": {
+    "h1:7a805ead6ab5849f": {
+      "snapshotId": "20261029T154748Z-hardening-cda4733996f0",
+      "path": "doc/source/admin/galaxy_options.rst",
+      "reviewedAt": "2026-10-29T18:16:40.429Z"
+    },
+    "h1:f0cebce062268354": {
+      "snapshotId": "20261029T154748Z-hardening-cda4733996f0",
+      "path": "lib/galaxy/config/sample/galaxy.yml.sample",
+      "reviewedAt": "2026-10-29T18:16:45.283Z"
+    },
+    "h1:f9f800474c68dad4": {
+      "snapshotId": "20261029T154748Z-hardening-cda4733996f0",
+      "path": "lib/galaxy/config/schemas/config_schema.yml",
+      "reviewedAt": "2026-10-29T18:16:50.055Z"
+    },
+    "h1:a92857c7b1b84132": {
+      "snapshotId": "20261029T154748Z-hardening-cda4733996f0",
+      "path": "lib/galaxy/managers/citations.py",
+      "reviewedAt": "2026-10-29T18:17:07.735Z"
+    },
+    "h1:b6346dae43b8c64c": {
+      "snapshotId": "20261029T154748Z-hardening-cda4733996f0",
+      "path": "lib/galaxy/managers/citations.py",
+      "reviewedAt": "2026-10-29T18:17:07.735Z"
+    },
+    "h1:9e42400688b551c3": {
+      "snapshotId": "20261029T154748Z-hardening-cda4733996f0",
+      "path": "lib/galaxy/managers/citations.py",
+      "reviewedAt": "2026-10-29T18:17:07.735Z"
+    },
+    "h1:f4e4abd53916bf66": {
+      "snapshotId": "20261029T154748Z-hardening-cda4733996f0",
+      "path": "lib/galaxy/managers/citations.py",
+      "reviewedAt": "2026-10-29T18:17:07.735Z"
+    },
+    "h1:a1efdb3b82b16cb4": {
+      "snapshotId": "20261029T154748Z-hardening-cda4733996f0",
+      "path": "lib/galaxy/managers/citations.py",
+      "reviewedAt": "2026-10-29T18:17:07.735Z"
+    },
+    "h1:41f4bf3207201e72": {
+      "snapshotId": "20261029T154748Z-hardening-cda4733996f0",
+      "path": "lib/galaxy/managers/citations.py",
+      "reviewedAt": "2026-10-29T18:17:07.735Z"
+    },
+    "h1:ca67fba4a5887a07": {
+      "snapshotId": "20261029T154748Z-hardening-cda4733996f0",
+      "path": "lib/galaxy/managers/citations.py",
+      "reviewedAt": "2026-10-29T18:17:07.735Z"
+    },
+    "h1:2fedd0b52e24d631": {
+      "snapshotId": "20261029T154748Z-hardening-cda4733996f0",
+      "path": "lib/galaxy/managers/citations.py",
+      "reviewedAt": "2026-10-29T18:17:07.735Z"
+    },
+    "h1:a81efc5f5922d9fe": {
+      "snapshotId": "20261029T154748Z-hardening-cda4733996f0",
+      "path": "lib/galaxy/tool_util/biotools/source.py",
+      "reviewedAt": "2026-10-29T18:17:16.151Z"
+    },
+    "h1:06ad563b6100e898": {
+      "snapshotId": "20261029T154748Z-hardening-cda4733996f0",
+      "path": "lib/galaxy/tool_util/biotools/source.py",
+      "reviewedAt": "2026-10-29T18:17:16.151Z"
+    },
+    "h1:245f21c161d182f0": {
+      "snapshotId": "20261029T154748Z-hardening-cda4733996f0",
+      "path": "lib/galaxy/tool_util/biotools/source.py",
+      "reviewedAt": "2026-10-29T18:17:16.151Z"
+    },
+    "h1:11842389edd8f865": {
+      "snapshotId": "20261029T154748Z-hardening-cda4733996f0",
+      "path": "lib/galaxy/tool_util/biotools/source.py",
+      "reviewedAt": "2026-10-29T18:17:16.151Z"
+    },
+    "h1:b12c6e43fdee8a1c": {
+      "snapshotId": "20261029T154748Z-hardening-cda4733996f0",
+      "path": "lib/galaxy/tool_util_models/tool_source.py",
+      "reviewedAt": "2026-10-29T18:17:21.163Z"
+    },
+    "h1:f2f0ff734c5b22c4": {
+      "snapshotId": "20261029T154748Z-hardening-cda4733996f0",
+      "path": "lib/galaxy/tools/__init__.py",
+      "reviewedAt": "2026-10-29T18:17:24.143Z"
+    },
+    "h1:130d22e52e97743b": {
+      "snapshotId": "20261029T154748Z-hardening-cda4733996f0",
+      "path": "lib/galaxy/tools/biotools.py",
+      "reviewedAt": "2026-10-29T18:17:28.823Z"
+    },
+    "h1:28f3293d077a7603": {
+      "snapshotId": "20261029T154748Z-hardening-cda4733996f0",
+      "path": "lib/galaxy/tools/biotools.py",
+      "reviewedAt": "2026-10-29T18:17:28.823Z"
+    },
+    "h1:67f958d14196cecc": {
+      "snapshotId": "20261029T154748Z-hardening-cda4733996f0",
+      "path": "lib/galaxy/util/requests.py",
+      "reviewedAt": "2026-10-29T18:17:43.198Z"
+    },
+    "h1:9585c8b0dd018441": {
+      "snapshotId": "20261029T154748Z-hardening-cda4733996f0",
+      "path": "lib/galaxy/util/requests.py",
+      "reviewedAt": "2026-10-29T18:17:43.198Z"
+    },
+    "h1:d1bd91b326192af2": {
+      "snapshotId": "20261029T154748Z-hardening-cda4733996f0",
+      "path": "lib/galaxy/util/requests.py",
+      "reviewedAt": "2026-10-29T18:17:43.198Z"
+    },
+    "h1:fcf77547cc0465e2": {
+      "snapshotId": "20261029T154748Z-hardening-cda4733996f0",
+      "path": "lib/galaxy/util/unittest_utils/__init__.py",
+      "reviewedAt": "2026-10-29T18:17:45.810Z"
+    },
+    "h1:a1af07ff6380a74d": {
+      "snapshotId": "20261029T154748Z-hardening-cda4733996f0",
+      "path": "lib/galaxy/webapps/galaxy/api/tools.py",
+      "reviewedAt": "2026-10-29T18:17:49.572Z"
+    },
+    "h1:4252b4302c1a8c96": {
+      "snapshotId": "20261029T154748Z-hardening-cda4733996f0",
+      "path": "lib/galaxy/webapps/galaxy/services/histories.py",
+      "reviewedAt": "2026-10-29T18:17:52.115Z"
+    },
+    "h1:ac72c7fd14c21b48": {
+      "snapshotId": "20261029T154748Z-hardening-cda4733996f0",
+      "path": "lib/galaxy_test/api/test_histories.py",
+      "reviewedAt": "2026-10-29T18:17:55.502Z"
+    },
+    "h1:3b84fed0b8e2e8b6": {
+      "snapshotId": "20261029T154748Z-hardening-cda4733996f0",
+      "path": "lib/galaxy_test/api/test_tools.py",
+      "reviewedAt": "2026-10-29T18:18:02.342Z"
+    },
+    "h1:0bc1f45c1d7ca6a6": {
+      "snapshotId": "20261029T154748Z-hardening-cda4733996f0",
+      "path": "lib/tool_shed/webapp/config.py",
+      "reviewedAt": "2026-10-29T18:18:05.117Z"
+    },
+    "h1:eb5493e7033e6ca9": {
+      "snapshotId": "20261029T154748Z-hardening-cda4733996f0",
+      "path": "test/unit/app/managers/test_CitationsManager.py",
+      "reviewedAt": "2026-10-29T18:18:36.648Z"
+    },
+    "h1:f904712a95ea0678": {
+      "snapshotId": "20261029T154748Z-hardening-cda4733996f0",
+      "path": "test/unit/app/conftest.py",
+      "reviewedAt": "2026-10-29T18:18:37.740Z"
+    },
+    "h1:fd6e272247dc31bf": {
+      "snapshotId": "20261029T154748Z-hardening-cda4733996f0",
+      "path": "test/unit/app/managers/test_CitationsManager_db.py",
+      "reviewedAt": "2026-10-29T18:18:55.040Z"
+    },
+    "h1:41c2ef92c617e68b": {
+      "snapshotId": "20261029T154748Z-hardening-cda4733996f0",
+      "path": "test/unit/app/managers/test_CitationsManager_db.py",
+      "reviewedAt": "2026-10-29T18:18:55.040Z"
+    },
+    "h1:047d0a9d98a89c3a": {
+      "snapshotId": "20261029T154748Z-hardening-cda4733996f0",
+      "path": "test/unit/app/managers/test_sse_dispatch_cache.py",
+      "reviewedAt": "2026-10-29T18:18:59.176Z"
+    },
+    "h1:0953e9f057d1fd6f": {
+      "snapshotId": "20261029T154748Z-hardening-cda4733996f0",
+      "path": "test/unit/app/managers/test_sse_dispatch_cache.py",
+      "reviewedAt": "2026-10-29T18:18:59.176Z"
+    },
+    "h1:bf665a1447767c56": {
+      "snapshotId": "20261029T154748Z-hardening-cda4733996f0",
+      "path": "test/unit/app/tools/test_biotools.py",
+      "reviewedAt": "2026-10-29T18:19:02.571Z"
+    },
+    "h1:d37b8ed77371424d": {
+      "snapshotId": "20261029T154748Z-hardening-cda4733996f0",
+      "path": "test/unit/app/tools/test_citations.py",
+      "reviewedAt": "2026-10-29T18:19:08.692Z"
+    },
+    "h1:6cfe25b682fd73ca": {
+      "snapshotId": "20261029T154748Z-hardening-cda4733996f0",
+      "path": "test/unit/app/tools/test_citations.py",
+      "reviewedAt": "2026-10-29T18:19:08.692Z"
+    },
+    "h1:f24047d58009a8c7": {
+      "snapshotId": "20261029T154748Z-hardening-cda4733996f0",
+      "path": "test/unit/tool_shed/test_config.py",
+      "reviewedAt": "2026-10-29T18:19:11.028Z"
+    },
+    "h1:5c5d8eede20213ac": {
+      "snapshotId": "20261029T154748Z-hardening-cda4733996f0",
+      "path": "test/unit/tool_util/biotools/test_metadata_source.py",
+      "reviewedAt": "2026-10-29T18:19:15.172Z"
+    },
+    "h1:8ebe4e4d03250b45": {
+      "snapshotId": "20261029T154748Z-hardening-cda4733996f0",
+      "path": "test/unit/tool_util/biotools/test_metadata_source.py",
+      "reviewedAt": "2026-10-29T18:19:15.172Z"
+    },
+    "h1:f9c7fe40f2d8944e": {
+      "snapshotId": "20261029T154748Z-hardening-cda4733996f0",
+      "path": "test/unit/tool_util/test_parsing.py",
+      "reviewedAt": "2026-10-29T18:19:17.879Z"
+    },
+    "h1:251c8f956a89c6fe": {
+      "snapshotId": "20261029T154748Z-hardening-cda4733996f0",
+      "path": "test/unit/tool_util/test_parsing.py",
+      "reviewedAt": "2026-10-29T18:19:17.879Z"
+    },
+    "h1:df0c333f57599b64": {
+      "snapshotId": "20261029T154748Z-hardening-cda4733996f0",
+      "path": "test/unit/util/test_requests.py",
+      "reviewedAt": "2026-10-29T18:19:24.261Z"
+    },
+    "h1:05e7b4fabe45c201": {
+      "snapshotId": "20261029T154748Z-hardening-cda4733996f0",
+      "path": "test/unit/util/test_requests.py",
+      "reviewedAt": "2026-10-29T18:19:24.261Z"
+    }
+  },
+  "commits": {}
+}

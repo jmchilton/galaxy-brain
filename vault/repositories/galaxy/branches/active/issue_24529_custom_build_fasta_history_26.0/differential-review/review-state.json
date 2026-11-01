@@ -1,0 +1,161 @@
+{
+  "schemaVersion": 1,
+  "kind": "differential-review-state",
+  "updatedAt": "2026-10-29T16:23:05.988Z",
+  "hunks": {
+    "h1:7b51e2f938789aaf": {
+      "snapshotId": "20261028T160347Z-hardening-025d2d5450cf",
+      "path": "lib/galaxy/managers/histories.py",
+      "reviewedAt": "2026-10-29T00:54:21.702Z"
+    },
+    "h1:1006127b83a8cc85": {
+      "snapshotId": "20261028T160347Z-hardening-025d2d5450cf",
+      "path": "lib/galaxy/managers/histories.py",
+      "reviewedAt": "2026-10-29T00:54:28.173Z"
+    },
+    "h1:ae305bcb4a102967": {
+      "snapshotId": "20261028T160347Z-hardening-025d2d5450cf",
+      "path": "lib/galaxy/model/__init__.py",
+      "reviewedAt": "2026-10-29T00:54:29.881Z"
+    },
+    "h1:4ee2890f2130d4fb": {
+      "snapshotId": "20261028T160347Z-hardening-025d2d5450cf",
+      "path": "lib/galaxy/webapps/galaxy/api/users.py",
+      "reviewedAt": "2026-10-29T00:54:31.840Z"
+    },
+    "h1:6c048dc255c301ba": {
+      "snapshotId": "20261028T160347Z-hardening-025d2d5450cf",
+      "path": "lib/galaxy/webapps/galaxy/api/users.py",
+      "reviewedAt": "2026-10-29T00:54:32.764Z"
+    },
+    "h1:0da0ec58b0f5b2a8": {
+      "snapshotId": "20261028T160347Z-hardening-025d2d5450cf",
+      "path": "lib/galaxy/webapps/galaxy/api/users.py",
+      "reviewedAt": "2026-10-29T00:54:33.461Z"
+    },
+    "h1:5ced733fc9555fe2": {
+      "snapshotId": "20261028T160347Z-hardening-025d2d5450cf",
+      "path": "lib/galaxy/webapps/galaxy/api/users.py",
+      "reviewedAt": "2026-10-29T00:54:34.503Z"
+    },
+    "h1:126b09ab465f4808": {
+      "snapshotId": "20261028T160347Z-hardening-025d2d5450cf",
+      "path": "lib/galaxy/webapps/galaxy/services/datasets.py",
+      "reviewedAt": "2026-10-29T00:54:35.277Z"
+    },
+    "h1:e4222bf4adb9ad62": {
+      "snapshotId": "20261028T160347Z-hardening-025d2d5450cf",
+      "path": "lib/galaxy/webapps/galaxy/services/datasets.py",
+      "reviewedAt": "2026-10-29T00:54:35.940Z"
+    },
+    "h1:2cd85b78a1ada1ab": {
+      "snapshotId": "20261028T160347Z-hardening-025d2d5450cf",
+      "path": "lib/galaxy/webapps/galaxy/services/datasets.py",
+      "reviewedAt": "2026-10-29T00:54:36.910Z"
+    },
+    "h1:d3e604ed227e80b1": {
+      "snapshotId": "20261029T010814Z-polishing-3929a42f3472",
+      "path": "lib/galaxy_test/api/test_datasets.py",
+      "reviewedAt": "2026-10-29T16:22:57.353Z"
+    },
+    "h1:479518f9510767c3": {
+      "snapshotId": "20261029T010814Z-polishing-3929a42f3472",
+      "path": "lib/galaxy_test/api/test_datasets.py",
+      "reviewedAt": "2026-10-29T16:22:57.353Z"
+    },
+    "h1:dc386e7a07425a8c": {
+      "snapshotId": "20261028T160347Z-hardening-025d2d5450cf",
+      "path": "lib/galaxy_test/api/test_datasets.py",
+      "reviewedAt": "2026-10-29T00:54:40.876Z"
+    },
+    "h1:71d48eea34a5b486": {
+      "snapshotId": "20261028T160347Z-hardening-025d2d5450cf",
+      "path": "lib/galaxy_test/api/test_users.py",
+      "reviewedAt": "2026-10-29T00:54:41.801Z"
+    },
+    "h1:165cf10e6db0b9d0": {
+      "snapshotId": "20261028T160347Z-hardening-025d2d5450cf",
+      "path": "lib/galaxy_test/api/test_users.py",
+      "reviewedAt": "2026-10-29T00:54:42.547Z"
+    },
+    "h1:c0781aee007e8c84": {
+      "snapshotId": "20261028T160347Z-hardening-025d2d5450cf",
+      "path": "lib/galaxy_test/api/test_users.py",
+      "reviewedAt": "2026-10-29T00:54:43.209Z"
+    },
+    "h1:ca5b29e015273344": {
+      "snapshotId": "20261028T160347Z-hardening-025d2d5450cf",
+      "path": "lib/galaxy_test/api/test_users.py",
+      "reviewedAt": "2026-10-29T00:54:43.894Z"
+    },
+    "h1:beeb49a83271e943": {
+      "snapshotId": "20261028T160347Z-hardening-025d2d5450cf",
+      "path": "lib/galaxy_test/base/populators.py",
+      "reviewedAt": "2026-10-29T00:54:50.104Z"
+    },
+    "h1:c08d32ec897262ee": {
+      "snapshotId": "20261028T160347Z-hardening-025d2d5450cf",
+      "path": "test/unit/app/tools/test_actions.py",
+      "reviewedAt": "2026-10-29T00:54:50.894Z"
+    },
+    "h1:eceaabd2705a44d9": {
+      "snapshotId": "20261028T160347Z-hardening-025d2d5450cf",
+      "path": "test/unit/app/tools/test_actions.py",
+      "reviewedAt": "2026-10-29T00:54:50.894Z"
+    },
+    "h1:4027fcef31f8fed3": {
+      "snapshotId": "20261029T010814Z-polishing-3929a42f3472",
+      "path": "lib/galaxy_test/api/test_datasets.py",
+      "reviewedAt": "2026-10-29T16:22:57.353Z"
+    },
+    "h1:fc5146199a790d59": {
+      "snapshotId": "20261029T010814Z-polishing-3929a42f3472",
+      "path": "test/unit/app/managers/test_HistoryManager.py",
+      "reviewedAt": "2026-10-29T16:22:58.469Z"
+    }
+  },
+  "commits": {
+    "6cd71b4d1bcbbcc96a2b8b113b166af5c9a61ebc": {
+      "sha": "a5de02c79cf0320a50a5fe74c8ff68dd7fce9dd2",
+      "subject": "Add custom build populator helpers",
+      "snapshotId": "20261028T160347Z-hardening-025d2d5450cf",
+      "signedOffAt": "2026-10-29T00:54:52.397Z"
+    },
+    "6ab59a9ae8e2ab41735a48a296cca9f768ea65b3": {
+      "sha": "f7603faeb1fdecb844383951f11c5edc14897434",
+      "subject": "Route API dataset conversions through HistoryManager",
+      "snapshotId": "20261028T160347Z-hardening-025d2d5450cf",
+      "signedOffAt": "2026-10-29T00:54:52.656Z"
+    },
+    "30ebddf8abc4417b36af6c08f492c6586115aeae": {
+      "sha": "897eabb92b33a06bdc18127b97ddd2e1ec611a9a",
+      "subject": "Pass conversion context to dependency converters",
+      "snapshotId": "20261028T160347Z-hardening-025d2d5450cf",
+      "signedOffAt": "2026-10-29T00:54:52.898Z"
+    },
+    "20ad2a7fc6dcd21fc1bfb1912d3042d37570ff23": {
+      "sha": "bb3f23dc1c9243376e17ccedf52a586a7a10477c",
+      "subject": "Stop double-encoding ids in converted/{ext} response",
+      "snapshotId": "20261028T160347Z-hardening-025d2d5450cf",
+      "signedOffAt": "2026-10-29T00:54:53.073Z"
+    },
+    "9058a1f9e719b65e3ee8bac2d6595e263cce9c86": {
+      "sha": "814c879279f0f26032a48be27003599d4213de70",
+      "subject": "Run API conversions in an active history the user owns",
+      "snapshotId": "20261028T160347Z-hardening-025d2d5450cf",
+      "signedOffAt": "2026-10-29T00:54:53.748Z"
+    },
+    "494cb92d30dbc0f8faaf94eb1804c3ce06fa312d": {
+      "sha": "025d2d5450cf6681cc4ece7564fa58f8a490743c",
+      "subject": "Return 202 from converted/{ext} while conversion deps are pending",
+      "snapshotId": "20261028T160347Z-hardening-025d2d5450cf",
+      "signedOffAt": "2026-10-29T00:54:54.189Z"
+    },
+    "c485595eecde8d97f6192cb3d720b481cdde6397": {
+      "sha": "3929a42f3472575f3176a5e4c41161e6a9f28828",
+      "subject": "Pin conversion history ownership and first feature search status",
+      "snapshotId": "20261029T010814Z-polishing-3929a42f3472",
+      "signedOffAt": "2026-10-29T16:23:05.988Z"
+    }
+  }
+}

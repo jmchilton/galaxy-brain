@@ -1,0 +1,169 @@
+{
+  "cli": "1.15.0",
+  "iwc": "23ccd9915",
+  "node": "v25.6.1",
+  "tools": [
+    {
+      "tool": "__FLATTEN__",
+      "version": "1.0.0",
+      "qty": 1
+    },
+    {
+      "tool": "fastp",
+      "version": "1.4.0+galaxy0",
+      "qty": 1
+    },
+    {
+      "tool": "map_param_value",
+      "version": "0.2.0",
+      "qty": 4
+    },
+    {
+      "tool": "compose_text_param",
+      "version": "0.1.1",
+      "qty": 1
+    },
+    {
+      "tool": "rna_star",
+      "version": "2.7.11b+galaxy1",
+      "qty": 1
+    },
+    {
+      "tool": "featurecounts",
+      "version": "2.1.1+galaxy1",
+      "qty": 1
+    },
+    {
+      "tool": "stringtie",
+      "version": "3.0.3+galaxy2",
+      "qty": 1
+    },
+    {
+      "tool": "cufflinks",
+      "version": "2.2.1.4",
+      "qty": 1
+    },
+    {
+      "tool": "multiqc",
+      "version": "1.35+galaxy5",
+      "qty": 2
+    },
+    {
+      "tool": "pick_value",
+      "version": "0.2.0",
+      "qty": 2
+    }
+  ],
+  "subworkflows": [
+    {
+      "name": "Unstranded coverage",
+      "qty": 5
+    },
+    {
+      "name": "Stranded coverage",
+      "qty": 9
+    },
+    {
+      "name": "More QC",
+      "qty": 7
+    },
+    {
+      "name": "Process count files",
+      "qty": 3
+    }
+  ],
+  "tool_state": {
+    "ok": 39,
+    "fail": 0,
+    "skip": 0
+  },
+  "connections": {
+    "ok": 57,
+    "invalid": 0,
+    "skip": 0
+  },
+  "mapped": 5,
+  "map_example": {
+    "from": "list:paired",
+    "mapping": "list"
+  },
+  "reductions": 13,
+  "reduction_targets": [
+    "26",
+    "27"
+  ],
+  "wall_s": {
+    "min": 0.54,
+    "max": 0.68,
+    "n": 5
+  },
+  "void_param": {
+    "tool": "featurecounts",
+    "step": "21",
+    "path": "pe_parameters.paired_end_status",
+    "expected": "\"PE_individual\" | \"PE_fragments\"",
+    "actual": "\"PE_fragment\"",
+    "message": "pe_parameters.paired_end_status: Expected \"PE_individual\" | \"PE_fragments\", actual \"PE_fragment\"",
+    "summary": {
+      "ok": 38,
+      "fail": 1,
+      "skip": 0
+    }
+  },
+  "void_conn": {
+    "target": "singlePaired|input",
+    "source_output": "out1",
+    "out": "output is collection<list>",
+    "inp": "input expects collection<paired>",
+    "message": "Incompatible types: output is collection<list>, input expects collection<paired>",
+    "downstream": 7
+  },
+  "iwc_tree": {
+    "workflows": 133,
+    "ok": 3217,
+    "fail": 0,
+    "skip": 1,
+    "errors": 0
+  },
+  "repair": {
+    "tool": "featurecounts",
+    "status": "ok",
+    "summary": {
+      "ok": 39,
+      "fail": 0,
+      "skip": 0
+    },
+    "wall_s": {
+      "min": 0.6,
+      "max": 0.65,
+      "n": 3
+    }
+  },
+  "bamx": {
+    "tool": "macs2_callpeak",
+    "step": "3",
+    "named": [
+      "BAM",
+      "BAMPE",
+      "BED"
+    ],
+    "extra": 1,
+    "summary": {
+      "ok": 6,
+      "fail": 1,
+      "skip": 0
+    },
+    "fixed": {
+      "ok": 7,
+      "fail": 0,
+      "skip": 0
+    },
+    "fixed_conn": {
+      "ok": 14,
+      "invalid": 0,
+      "skip": 0
+    }
+  },
+  "raw_state_len": 1149,
+  "raw_state_head": "{\"alignment\": {\"__class__\": \"ConnectedValue\"}, \"anno\": {\"ann"
+}

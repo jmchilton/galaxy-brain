@@ -1,0 +1,145 @@
+# known-unknowns-receipt (round 4)
+
+Round-4 revision of `../known-unknowns-receipt/` (left untouched for before/after). Same identity: graph paper, the taped thesis slip, the burn-down receipt with BALANCE DUE 0 + PROMOTED, numbered pen notes that point at receipt lines, "Rails, not reminders". What changed is the scope: the receipt is now one stop on a drawn Foundry run.
+
+## Round 4 changes
+
+**Why:** John ranked this #1 ("what it does is very clear", "Rails, not reminders" still nice) but "too specific": it taught the draft format, not the Foundry. Round 4 also asks every poster to say what the Foundry *does* and how to *use* it, at higher density.
+
+**What changed**
+
+| Change | Why |
+| - | - |
+| Title is now **The Galaxy Workflow Foundry** (was "A Draft Format for Agent-Built Galaxy Workflows"). | The Foundry was named only in a QR caption. |
+| One-breath "what it is" + "In: a paper or a Nextflow pipeline. Out: a Galaxy workflow, its test, and a ledger of what is still open." under the thesis. | Advice §1 "one line under the thesis"; dossier §2. |
+| New **route band** "What a Foundry run does": PAPER (DengueSeq) and NEXTFLOW (bacass) lanes → human-reviewed BRIEF → the 11 shared stations of `workflow-brief-to-galaxy`. Red squares mark stations where a program checks the work (5 gxwf draft-validate, 9 gxwf validate, 10 Planemo). Station 5's tag is deliberately not "Tool Shed": only 5 of 7 DengueSeq pins pass VERIFY. Station 5 carries a loop mark "×7 for DengueSeq" and "you are here: station 5, below" with an arrow into the receipt. Top right: where both runs ended. | Advice change + ideas (a) and (b); round-4 general note asking for a paper/Nextflow → Galaxy pipeline diagram. Data from `route.json`. |
+| Machine line "knowledge base → Mold → cast → skill + provenance record. Each station below runs one cast skill." | Teaches what a station is. |
+| **Draft snapshot clipping** (vector): the real DengueSeq draft at `daf2928` (the `consensus` row): 4 steps solid (concrete), 3 dashed (`TODO_` ports), every edge already present. Pen arrow to that receipt row. | Advice "draft/extracted pair"; "valid at every resolution" from our own run. |
+| **Use it** slip: Claude Code install lines, `npm i -g @galaxy-tool-util/cli`, `gxwf draft-validate`, `gxwf draft-next-step`. QR to `/usage/`. | Advice "3-line use-it note"; round 4 "how to use". |
+| Note 4 now says how a pass works (pick step → find tool on the Tool Shed → pin a revision → fill the step). | More explanation of the loop. |
+| Note 6 rebuilt from Orbit's positive evidence: guidance not enforcement; `tximport` wiring caught before it ran; evidence gate refuses by default. **0/15 removed.** | Round-3 fix 1. |
+| Note 7 now has evidence: bacass passed every static check, then failed one test assertion; the band says debug blamed the assertion, not the workflow. | "Those take a run", made literal. |
+| bacass stub kept as the receipt tear-off ("from Nextflow" added), and bacass also rides the Nextflow lane. | Keeps "second run, same loop". |
+
+**Round-3 global fixes (all were missing; preview predated round 3)**
+- Scott Cain¹ added before Anton Nekrutenko (`meta.json`).
+- QR set is now: The Foundry (site), Install the skills (`/usage/`), Draft format docs, Preprint. The lightning-talk slides QR is gone (`make_qr.py`, `meta.json`, gate loop).
+- 0/15 is gone. No big zero leads: BALANCE DUE 0 stays as the paid-off balance.
+- Rumsfeld clipping and ref [4] removed. The triad stays only as note heads 1, 2 and 7.
+- Wall time before JOBS RUN: **not applicable**, the poster has no jobs row.
+- Highlighter: `hl()` starts at `top-edge: "x-height"`, and its bottom edge is −0.12 em (not `descender`), so it neither covers descenders above nor caps below. `hl-hero()` (thesis only) starts at cap-height. `todo()` in the YAML uses cap-height → baseline on caps-only tokens. All checked on 100 ppi crops (notes 2, 3, 4, 6, 7, the YAML, the thesis). The first crop showed `descender` bottoms touching the next line's caps in note 6, which led to the −0.12 em change.
+- DengueSeq tools: the poster says "pins a revision", never "verified", and station 5's red gate tag reads `gxwf` (the draft-validate check behind the receipt's squares), not "Tool Shed". Nothing implies all 7 pins pass `discover-shed-tool`'s VERIFY schema.
+
+**Word count:** **342 → 567** body words. The guard is now a band of 550–750 (`audit.py`: `WORD_MIN, WORD_MAX`), aiming for 550–700. The counting method is unchanged: page words minus `meta.json`.
+
+**Departures from the advice**
+1. **Draft/extracted pair → one snapshot of our own run.** The deck's MRSA PNGs are raster with text under 24 pt, and the PDF has no rasters. The "extracted" half is already the receipt's BALANCE DUE 0 + PROMOTED.
+2. **Machine drawn as a one-line chain**, not a pen sketch. No room for a sketch in the band.
+3. **No corpus counts** (420 notes, 56 Molds…). They aren't needed for the explanation and they date the poster.
+4. **No pipeline count**, as advised. The runs are labelled by their real pipelines' lanes: "PAPER" / "NEXTFLOW" into "BRIEF". Never `paper-to-galaxy`.
+5. **bacass is in both places** (receipt stub and Nextflow lane), not moved off the receipt.
+6. **"You are here" is a pen label + arrow**, not a pin glyph. Kalam and Plex lack a pin, and drawing one added clutter.
+7. **0/15 dropped entirely**, not kept small. Note 6 reads stronger without it.
+
+**`[[ASK]]` slots:** none. Anton's nf-core work is absent, so `SHOW_ASK=0` is **not applicable** and there is no no-ASK render.
+
+**Open questions**
+1. Title: "The Galaxy Workflow Foundry" alone, or add a subtitle?
+2. OK to print bacass's failed test assertion? It's the first pass/fail on this poster. DengueSeq's pass sits beside it.
+3. Should station 4 (template) be red too? `draft-validate` also passes on the template, but the run record doesn't show it as gated.
+4. Orbit wording: is "Orbit's evidence gate now refuses by default" exact enough?
+5. Is the 2026-10-30 gxwf 1.15.0 replay OK as the burn-down's evidence (carried from round 3)?
+6. Codex install lines were dropped for space (Codex uses `codex plugin marketplace add` / `codex plugin add`). Add them back?
+7. Shop: trim or `poster-bleed.pdf`?
+
+## Layout (top to bottom)
+
+1. **Header.** Title, authors, affiliations; `[[QR: live results]]` placeholder top right.
+2. **Thesis slip** (124 pt hero): "Make 'I don't know yet' a typed, checkable state. Then burn it down." + "31 → 0" pen note + the what-it-is lines.
+3. **Route band**, as above.
+4. **Three columns.**
+   - Left: notes 1, 3, the draft snapshot, Use it, note 5, QR (Foundry, Install).
+   - Centre: the receipt (opening balance + YAML, burn-down, BALANCE DUE 0, PROMOTED, bacass tear-off, footnote).
+   - Right: notes 2, 4, 6, 7, references, QR (Draft docs, Preprint).
+
+## Rebuild
+
+```sh
+./build.sh
+```
+
+1. **Replay** (`extract.py`): replays every draft commit of both runs through gxwf and writes `receipt.json`. Skipped, using the committed file, unless gxwf is at `$POSTER_DEPS/node_modules/.bin/gxwf` (default `/private/tmp/claude-503/known-unknowns-receipt-r4-deps`) or `$GXWF`. The round-4 build used the committed round-3 `receipt.json`, unchanged.
+2. **Route** (`extract_route.py`): reads both runs' `foundry-run.yml` (brief + galaxy), `workflow-test-result.json`, `galaxy-workflow-validation-result.json`, bacass's `workflow-debug-report.md` classification, and `git show` of the DengueSeq draft at `daf2928` and `b82fa5e`. Writes `route.json`, and asserts both runs share the same 11 phases. Without `~/projects/foundry-runs` (or `$FOUNDRY_RUNS`), it uses the committed `route.json`.
+3. **QR** (`make_qr.py`): vector SVGs.
+4. **Render** (`render.py`, Typst 0.15.0 via `uvx --from typst==0.15.0 python`): `poster.pdf`, `poster-bleed.pdf`, `preview.png`.
+5. **Audit + checks**: `audit.py` on both PDFs; `pdftoppm` writes `checks/` (1056 px 25%, greyscale 1500 px, 200 px thumb).
+
+The uv cache is under `/private/tmp/claude-503/known-unknowns-receipt-r4-deps/uvcache` (override with `UV_CACHE_DIR`). No `node_modules` or symlinks in the vault.
+
+**To edit copy:** title, authors, refs and QR captions are in `meta.json`. Everything else is in `poster.typ`, in these blocks: `thesis strip`, `route band`, `margin notes`, `draft snapshot clipping`, and the `Use it` clipping. `sys_inputs={"gates": "0"}` skips the layout gates for drafts.
+
+**Build gates (fail the build):**
+- `poster.typ`:
+  - margin blocks overlapping within a column (notes, clippings, references, QR rows), or a column past the bottom margin;
+  - receipt stub into the footnote, or the footnote off the slip;
+  - any QR code under 2.5 in.
+- `audit.py`:
+  - a non-vendored or unembedded font;
+  - any text under 24 pt;
+  - body words outside 550–750.
+- `extract.py`: YAML-diff unresolved steps disagree with gxwf's survey.
+- `extract_route.py`: the two runs' phase lists differ, or any phase is not `done`.
+
+**Checked by hand (round 4):**
+- All 4 QR codes decode to their URLs (OpenCV, 60 dpi render).
+- Both PDFs: 0 raster images. `poster.pdf` is 44.0 in; `poster-bleed.pdf` is 44.25 in.
+- Bleed vs trim at 72 dpi: same layout. Max per-channel difference 13/255, which is anti-aliasing noise in two small regions.
+- Text at 24–27 pt is labels only: station and lane names, gate tags, graph node names, the BRIEF box, references. All sentences are ≥ 28 pt.
+
+## Fonts
+
+All SIL OFL, vendored in `fonts/`, embedded: Archivo Black, IBM Plex Mono (Regular, SemiBold, Bold; Italic vendored, unused), Kalam (Regular, Bold).
+
+## Sources for every fact
+
+| On the poster | Source |
+| - | - |
+| Burn-down: DengueSeq TODO 31 → 27 → 24 → 19 → 13 → 9 → 4 → 0; concrete steps 0 → 7 of 7; "ok" at every commit | Replay of `~/projects/foundry-runs/dengueseq-denv3/dengueseq-denv3-galaxy` commits `bd40715 80de2f3 3556725 658af4e daf2928 d366ab3 07062a2 b82fa5e` through `gxwf draft-validate --json --concrete --connections` and `draft-next-step`. @galaxy-tool-util/cli 1.15.0, run 2026-10-30 (`receipt.json`). Not the run's own record. |
+| bacass stub 7 → 6 → 1 → 0; 3 steps resolved; valid at every commit; promoted `ad86a85` | Same replay over `bacass-sr-assembly-galaxy` commits `1da586d f2c80bc a0b8701 367fc33`; `ad86a85` writes `class: GalaxyWorkflow`. |
+| Per-row step, tool and version | YAML diff between commits (`extract.py: drafty()`), asserted against gxwf's survey. |
+| Promoted at `b82fa5e`; run window 18:44–19:39 (−04:00) | `galaxy-workflow.gxwf.yml` @ `b82fa5e`; commit times of `bd40715`, `b82fa5e`. |
+| YAML excerpt (`map_reads`) | `git show bd40715:./galaxy-workflow-draft.gxwf.yml`, abridged with "…". |
+| Route: PAPER lane = `summarize-paper` → `freeform-summary-to-workflow-brief`; NEXTFLOW lane = `summarize-nextflow` → `nextflow-summary-to-workflow-brief` | `dengueseq-denv3-brief/foundry-run.yml` (`paper-to-workflow-brief`), `bacass-sr-assembly-brief/foundry-run.yml` (`nextflow-to-workflow-brief`), via `route.json`. Station labels are plain-English short forms. |
+| BRIEF "human-reviewed" | `dengueseq-denv3/review.md` (John, 2026-10-20) and `bacass-sr-assembly/review.md` (John, 2026-10-16). |
+| 11 shared stations, in order | Both `*-galaxy/foundry-run.yml` (`workflow-brief-to-galaxy`; phases 1–11: interface, data-flow, compare-against-iwc-exemplar, template, advance-galaxy-draft-step, test-data-resolution, test-plan, implement-galaxy-workflow-test, validate-galaxy-workflow, run-workflow-test, debug-galaxy-workflow-output). |
+| "×7 for DengueSeq" | DengueSeq `foundry-run.yml` phase 5 `iterations: 7`, which matches the 7 burn-down rows. |
+| Red stations: 5 gxwf, 9 gxwf, 10 Planemo | Station 5: `advance-galaxy-draft-step` ends each pass with `gxwf draft-validate --concrete` (`../../research/r1-foundry-system.md` §2.1). Station 9: `galaxy-workflow-validation-result.json` `command: gxwf validate …`. Station 10: `workflow-test-result.json` `planemo`. |
+| "DengueSeq: test passed" | DengueSeq `workflow-test-result.json` `status: pass` (1 test selected; the optional secondary test was not run). |
+| "bacass: 1 assertion failed; debug blamed the assertion, not the workflow" | bacass `workflow-test-result.json` `status: fail`, `failed: 1`; `workflow-debug-report.md` `classification: assertion-mismatch (assertion-choice defect; not an output regression)`, `workflow_defect: false`. |
+| "bacass passed every static check" (note 7) | Replay `all_valid` (every draft commit); `galaxy-workflow-validation-result.json` `status: pass` (gxwf validate --strict --connections); `workflow-test-result.json` `static_validation.valid: true` (gxwf validate-tests). |
+| Draft snapshot: 7 steps, edges, 4 concrete / 3 `TODO_` at `daf2928` | `git show daf2928:./galaxy-workflow-draft.gxwf.yml` via `extract_route.py` (`route.json` `graphs.draft`). A step is concrete when no `TODO` appears outside its `_plan_*` keys; edges come from `in:` sources. |
+| "knowledge base → Mold → cast → skill + provenance record" | `foundry-pattern.mdx` machine (`/slides/foundry-pattern/foundry-machine.svg`); dossier §3.2–3.3. |
+| What-it-is line | Dossier §2 one-breath. "Out: … its test, and a ledger" = phase artifacts `galaxy-workflow.gxwf.yml`, `galaxy-workflow.gxwf-tests.yml`, `open-requirements.ledger.yml` (`foundry-run.yml`). |
+| Note 4: find tool on the Tool Shed, pin a revision | r1 §2.1 (leaf Molds of `advance-galaxy-draft-step`); `galaxy-tool-pin.json` written each iteration (`foundry-run.yml` phase 5). Says "pins", not "verified". |
+| Notes 1–3, 5 | `LT:32-72`, `LT:93`, `LT:101-114`, `GCC:962-1037`, `GCC:1002`. |
+| Note 6: "The model translates and repairs. The tools validate." | `FP:1092`, `FP:1046`. |
+| Note 6: guidance not enforcement; `tximport` caught before execution; evidence gate refuses by default | Baker et al. 2026 preprint p.16; p.4, pp.15–16, Fig S3A; pp.17–18 post-v0.8.0 (`../../research/r7-biorxiv-preprint.md` §5.3, §6; `../FEEDBACK_ROUND3.md` fix 1). |
+| Note 7 quote | `QA:466`. |
+| Use it: `/plugin marketplace add galaxyproject/foundry`, `/plugin install foundry-skills@galaxy-workflow-foundry` | r1 §8 (Foundry `README.md` @ `bc79096`). |
+| `npm i -g @galaxy-tool-util/cli` | `GCC:459` (`npm install -g @galaxy-tool-util/cli`). |
+| `gxwf draft-validate` / `gxwf draft-next-step wf.gxwf.yml` | `LT:93`, `LT:108`. |
+| QR: The Foundry | `https://galaxyproject.github.io/foundry/` (dossier §6) |
+| QR: Install the skills | `https://galaxyproject.github.io/foundry/usage/` (dossier §6; r1 §8) |
+| QR: Draft format docs | `https://jmchilton.github.io/galaxy-tool-util-ts/#/guide/draft-format` (`LT:132`) |
+| QR: Preprint | `https://doi.org/10.64898/2026.10.26.761864` |
+| Refs [2], [3] | `dengueseq-denv3/source-selection.md`; `bacass-sr-assembly-galaxy/workflow-brief.md` |
+
+`LT` = `gcc2026-lightning.mdx`, `GCC` = `gcc2026.mdx`, `FP` = `foundry-pattern.mdx`, `QA` = `foundry-qa.mdx`, all in `~/projects/repositories/jmchiltondotnet/src/content/slides/` @ `ac69980`. Run paths are under `~/projects/foundry-runs/`.
+
+## Placeholders
+
+- **`[[QR: live results]]`** sits top right. When its URL exists:
+  1. add it to `LINKS` in `make_qr.py`;
+  2. swap the `placeholder(...)` for `image("assets/qr-live.svg", …)`;
+  3. add it to the QR gate loop.
+- No `[[ASK]]` slots.

@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "kind": "differential-review-state",
+  "updatedAt": "2026-10-28T20:56:02.644Z",
+  "hunks": {
+    "h1:62f03b31af14690a": {
+      "snapshotId": "20261028T150450Z-review-1bf150cceb01",
+      "path": "lib/galaxy/webapps/galaxy/services/library_contents.py",
+      "reviewedAt": "2026-10-28T20:55:56.513Z"
+    },
+    "h1:84a3ea56bec376e5": {
+      "snapshotId": "20261028T150450Z-review-1bf150cceb01",
+      "path": "lib/galaxy_test/api/test_library_contents.py",
+      "reviewedAt": "2026-10-28T20:55:59.945Z"
+    },
+    "h1:6651909c94cc7a9c": {
+      "snapshotId": "20261028T150450Z-review-1bf150cceb01",
+      "path": "lib/galaxy_test/api/test_library_contents.py",
+      "reviewedAt": "2026-10-28T20:55:59.945Z"
+    }
+  },
+  "commits": {
+    "c27e7bf4a3b293c60fc55f436da3fe3fc05daaf7": {
+      "sha": "1bf150cceb0191dca6d5db555035b9dc1331a182",
+      "subject": "Mark all versions deleted when purging a library dataset",
+      "snapshotId": "20261028T150450Z-review-1bf150cceb01",
+      "signedOffAt": "2026-10-28T20:56:02.644Z"
+    }
+  }
+}

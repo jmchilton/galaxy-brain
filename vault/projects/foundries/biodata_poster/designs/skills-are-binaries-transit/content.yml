@@ -1,0 +1,79 @@
+# All poster copy. Markup: **bold**, *italic*, `mono`. Numbers marked {..} are filled from data/network.json.
+kicker: "Galaxy Workflow Foundry · skill network map"
+title: ["Agent Skills Are Binaries.", "Keep the Source."]
+authors: "John Chilton<sup>1</sup>, Marius van den Beek<sup>1</sup>, Dannon Baker<sup>2</sup>, Danielle Callan<sup>3</sup>, Anton Nekrutenko<sup>1</sup>"
+affiliations:
+  - "<sup>1</sup>The Pennsylvania State University, University Park, PA, USA"
+  - "<sup>2</sup>Johns Hopkins University, Baltimore, MD, USA"
+  - "<sup>3</sup>Temple University, Philadelphia, PA, USA"
+live: { title: "Live results", text: "Updated after print." }
+
+hero:
+  big: ["Don't hand-edit agent skills.", "Compile them from a knowledge base people read."]
+  sub: "“No serious engineering culture treats the compiled binary as the place you make changes.”"
+
+map:
+  source: { title: "The source", sub: "Notes written for people" }
+  fanout:
+    title: "One note, many skills"
+    sub:
+      - "Same note, same sha256, in every skill on its line."
+      - "Foundry-wide, {shared} of {total} references cite a source other skills share."
+  note_titles:
+    - ["Design a Galaxy workflow", "that can be tested"]
+    - ["IWC test data", "conventions"]
+    - ["Galaxy collection", "semantics"]
+    - ["Galaxy data-flow", "draft contract"]
+    - ["IWC test-suite shortcuts", "and anti-patterns"]
+  cast: { title: "Cast", sub: "the compiler" }
+  counts: "skills"
+  labels: ["workflow-brief-to-galaxy-test-plan", "validate-galaxy-workflow"]
+
+commodity:
+  tag: "Blind regeneration · two skills"
+  lead: "Restating the textbook is a commodity."
+  text: "Given only the topic and format, a frontier model rewrote two deleted science skills: spine and defaults verbatim, and the light page came out *better* [2]. It could not supply a traceable source or an enforced check."
+
+contract:
+  tag: "Cast · one Mold = one action"
+  lead: "Progressive disclosure is a compile-time contract."
+  yaml:
+    - "ref: \"[[galaxy-workflow-testability-design]]\""
+    - "load: on-demand"
+    - "evidence: corpus-observed"
+    - "trigger: \"When deciding which outputs…\""
+  text: "On-demand needs a `trigger`; a hypothesis needs a `verification`. The schema refuses the shortcut."
+  stat: "**{ondemand}** of {total} references load on demand. **{hypothesis}** are still labelled *hypothesis*."
+
+gates:
+  tag: "Gates"
+  lead: "Knowing is not gating."
+  stat: "0/15"
+  stat_text: "graded runs followed a rule given only in the prompt (companion Orbit study, open-weight models [1])."
+  text: "So checks live outside the prompt: `eval.md` oracles, plus gxwf and Planemo for the verdict. When a search missed the `integron_finder` wrapper, the fix was a new oracle property."
+
+ticket:
+  tag: "Build log · _provenance.json"
+  short: { "content/cli/gxwf/validate.md": "gxwf/validate.md", "content/research/galaxy-workflow-invocation-failure-reference/index.md": "invocation-failure-reference", "content/research/galaxy-workflow-testability-design/index.md": "testability-design" }
+  foot: "Hand edits to a skill are flagged as drift and overwritten at the next cast."
+
+key:
+  title: "Map key: the skill is the binary"
+  items:
+    - { sym: line, term: "Line = a note", text: "The source code. Fix it once, for every skill on the line." }
+    - { sym: stop, term: "Stop = compiled in", text: "Ringed: loads on demand. Solid: loads up front." }
+    - { sym: cast, term: "Cast = compiler", text: "Scoped to one action, isolated, frozen." }
+    - { sym: gate, term: "Gate = oracle", text: "The Mold's `eval.md`: properties every output must meet." }
+    - { sym: terminus, term: "Terminus = binary", text: "A compiled skill. Never the place to edit." }
+    - { sym: ticket, term: "Ticket = build log", text: "Which source, at which hash." }
+
+qrs:
+  - { id: foundry, url: "https://galaxyproject.github.io/foundry/", label: "Foundry" }
+  - { id: case, url: "https://galaxyproject.github.io/foundry-pattern/case/", label: "The case" }
+  - { id: slides, url: "https://jmchilton.net/slides/foundry-pattern/", label: "Slides" }
+  - { id: preprint, url: "https://doi.org/10.64898/2026.10.26.761864", label: "Preprint" }
+
+refs:
+  - "Baker D, …, Nekrutenko A. Verifiable Agentic Science on Public Infrastructure. *bioRxiv* (2026). doi:10.64898/2026.10.26.761864"
+  - "Blind Regeneration: Can a Frontier Model Rewrite Your Skill From Memory? The Foundry Pattern blog, June 2026."
+footnote: "Map: the five most-cited notes (excluding the requirements ledger and one package schema), each counted once per citing skill; all {skills} skills on these lines shown. sha256 = first 8 hex digits. galaxyproject/foundry main {commit}, {date}."

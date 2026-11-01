@@ -1,0 +1,290 @@
+class: GalaxyWorkflow
+label: Short-read bacterial assembly with per-sample QUAST (bacass-sr-assembly)
+doc: |
+  Per-sample short-read bacterial genome assembly. Paired-end Illumina reads are trimmed with fastp,
+  assembled de novo with Unicycler (short-read mode, defaults), failed/empty assemblies are dropped,
+  and each surviving assembly is assessed reference-free with QUAST. Derived from the short-read
+  Unicycler path of nf-core/bacass 2.5.0, with per-sample QUAST in place of a combined report.
+inputs:
+  - id: Paired-end reads
+    type: collection
+    collection_type: list:paired
+    format:
+      - fastqsanger.gz
+    optional: false
+    doc: One element per sample (identifier = sample ID), each a forward/reverse pair of gzipped FASTQ.
+outputs:
+  - id: fastp JSON report
+    outputSource: fastp trimming/report_json
+  - id: fastp HTML report
+    outputSource: fastp trimming/report_html
+  - id: Unicycler assembly
+    outputSource: Filter empty assemblies/output
+  - id: Unicycler assembly graph
+    outputSource: Filter failed assembly graphs/output
+  - id: QUAST report
+    outputSource: QUAST per assembly/report_tabular
+steps:
+  - id: fastp trimming
+    label: fastp trimming
+    doc: Adapter and quality trimming of each sample's read pair (N1).
+    tool_id: toolshed.g2.bx.psu.edu/repos/iuc/fastp/fastp/1.4.0+galaxy0
+    tool_version: 1.4.0+galaxy0
+    tool_shed_repository:
+      changeset_revision: 4990e6f1348f
+      name: fastp
+      owner: iuc
+      tool_shed: toolshed.g2.bx.psu.edu
+    in:
+      - id: single_paired|paired_input
+        source: Paired-end reads
+    out:
+      - id: output_paired_coll
+        hide: true
+      - id: report_json
+      - id: report_html
+    state:
+      single_paired:
+        single_paired_selector: paired_collection
+        merge_reads:
+          merge: ""
+        adapter_trimming_options:
+          disable_adapter_trimming: false
+          adapter_sequence1: null
+          adapter_sequence2: null
+          detect_adapter_for_pe: false
+        global_trimming_options:
+          trim_front1: null
+          trim_tail1: null
+          trim_front2: null
+          trim_tail2: null
+      overrepresented_sequence_analysis:
+        overrepresentation_analysis: false
+        overrepresentation_sampling: null
+      filter_options:
+        quality_filtering_options:
+          disable_quality_filtering: false
+          qualified_quality_phred: null
+          unqualified_percent_limit: null
+          n_base_limit: null
+        length_filtering_options:
+          disable_length_filtering: false
+          length_required: null
+          length_limit: null
+        low_complexity_filter:
+          enable_low_complexity_filter: false
+          complexity_threshold: null
+      duplicated_reads:
+        handling_options:
+          eval_dups: --dont_eval_duplication
+      read_mod_options:
+        polyg_tail_trimming:
+          trimming_select: ""
+          poly_g_min_len: null
+        polyx_tail_trimming:
+          polyx_trimming_select: ""
+        umi_processing:
+          umi: false
+          umi_loc: null
+          umi_len: null
+          umi_prefix: null
+        cutting_by_quality_options:
+          cut_front_select:
+            cut_front: ""
+          cut_tail_select:
+            cut_tail: ""
+          cut_right_select:
+            cut_right: ""
+        base_correction_options:
+          correction: false
+      output_options:
+        report_html: true
+        report_json: true
+  - id: Unicycler assembly (raw)
+    label: Unicycler assembly (raw)
+    doc: De novo short-read assembly per sample from trimmed reads (N2).
+    tool_id: toolshed.g2.bx.psu.edu/repos/iuc/unicycler/unicycler/0.5.1+galaxy0
+    tool_version: 0.5.1+galaxy0
+    tool_shed_repository:
+      changeset_revision: e022dff952df
+      name: unicycler
+      owner: iuc
+      tool_shed: toolshed.g2.bx.psu.edu
+    in:
+      - id: paired_unpaired|fastq_input1
+        source: fastp trimming/output_paired_coll
+    out:
+      - id: assembly
+        hide: true
+      - id: assembly_graph
+        hide: true
+    state:
+      paired_unpaired:
+        fastq_input_selector: paired_collection
+      mode: normal
+      min_fasta_length: 100
+      linear_seqs: 0
+      min_anchor_seg_len: null
+      spades:
+        min_kmer_frac: 0.2
+        max_kmer_frac: 0.95
+        kmers: ""
+        kmer_count: 10
+        depth_filter: 0.25
+        largest_component: false
+      rotation:
+        no_rotate: false
+        start_gene_id: 90
+        start_gene_cov: 95
+      graph_clean:
+        min_component_size: 1000
+        min_dead_end_size: 1000
+      lr_align:
+        scores: 3,-6,-5,-2
+        low_score: null
+        no_simple_bridges: false
+      keep: "1"
+      reuse: []
+  - id: Filter failed assemblies
+    label: Filter failed assemblies
+    doc: Drop samples whose Unicycler job failed (N3a; zero-read guard).
+    tool_id: __FILTER_FAILED_DATASETS__
+    tool_version: 1.1.0
+    in:
+      - id: input
+        source: Unicycler assembly (raw)/assembly
+    out:
+      - id: output
+        hide: true
+    state: {}
+  - id: Filter empty assemblies
+    label: Filter empty assemblies
+    doc: Drop samples whose Unicycler assembly is empty (N3b; zero-read guard).
+    tool_id: __FILTER_EMPTY_DATASETS__
+    tool_version: 1.1.0
+    in:
+      - id: input
+        source: Filter failed assemblies/output
+    out:
+      - id: output
+    state: {}
+  - id: Filter failed assembly graphs
+    label: Filter failed assembly graphs
+    doc: Drop samples whose Unicycler job failed from the graph collection (N3c).
+    tool_id: __FILTER_FAILED_DATASETS__
+    tool_version: 1.1.0
+    in:
+      - id: input
+        source: Unicycler assembly (raw)/assembly_graph
+    out:
+      - id: output
+    state: {}
+  - id: QUAST per assembly
+    label: QUAST per assembly
+    doc: Reference-free QUAST on each surviving assembly (N4; per-sample by expert decision).
+    tool_id: toolshed.g2.bx.psu.edu/repos/iuc/quast/quast/5.3.0+galaxy2
+    tool_version: 5.3.0+galaxy2
+    tool_shed_repository:
+      changeset_revision: cbc516cee202
+      name: quast
+      owner: iuc
+      tool_shed: toolshed.g2.bx.psu.edu
+    in:
+      - id: mode|in|inputs
+        source: Filter empty assemblies/output
+    out:
+      - id: report_tabular
+      - id: report_html
+        hide: true
+    state:
+      mode:
+        mode: individual
+        in:
+          custom: "false"
+        reads:
+          reads_option: disabled
+      assembly:
+        type: genome
+        ref:
+          use_ref: "false"
+          est_ref_size: null
+        orga_type: ""
+        min_identity: 95
+      min_contig: 500
+      split_scaffolds: false
+      large: false
+      genes:
+        gene_finding:
+          tool: none
+        rna_finding: false
+        conserved_genes_finding: false
+      alignments:
+        use_all_alignments: false
+        min_alignment: 65
+        ambiguity_usage: one
+        ambiguity_score: 0.99
+        fragmented: false
+        upper_bound_assembly: false
+        upper_bound_min_con: null
+        local_mis_size: 200
+      advanced:
+        contig_thresholds: 0,1000,5000,10000,25000,50000
+        strict_NA: false
+        extensive_mis_size: 1000
+        scaffold_gap_max_size: 10000
+        unaligned_part_size: 500
+        skip_unaligned_mis_contigs: true
+        fragmented_max_indent: null
+        report_all_metrics: false
+        x_for_Nx: 90
+      output_files:
+        - html
+        - tabular
+comments:
+  - type: frame
+    position:
+      - 0
+      - 0
+    size:
+      - 300
+      - 200
+    color: none
+    title: Inputs
+    contains_steps:
+      - Paired-end reads
+  - type: frame
+    position:
+      - 320
+      - 0
+    size:
+      - 300
+      - 260
+    color: blue
+    title: Read trimming and QC
+    contains_steps:
+      - fastp trimming
+  - type: frame
+    position:
+      - 640
+      - 0
+    size:
+      - 600
+      - 420
+    color: green
+    title: De novo assembly and failed/empty sample cleanup
+    contains_steps:
+      - Unicycler assembly (raw)
+      - Filter failed assemblies
+      - Filter empty assemblies
+      - Filter failed assembly graphs
+  - type: frame
+    position:
+      - 1260
+      - 0
+    size:
+      - 300
+      - 260
+    color: yellow
+    title: Assembly quality assessment
+    contains_steps:
+      - QUAST per assembly

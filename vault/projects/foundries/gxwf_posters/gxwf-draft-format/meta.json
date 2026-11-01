@@ -1,0 +1,8 @@
+{
+ "title": "The Galaxy Workflow Draft Format",
+ "subtitle": "class: GalaxyWorkflowDraft · gxformat2 that can say “not yet”, checked by gxwf",
+ "refs": [
+  "[1] Vogels CBF, Hill V, et al. DengueSeq. BMC Genomics 25:433 (2024).",
+  "[2] nf-core/bacass 2.5.0, github.com/nf-core/bacass"
+ ]
+}

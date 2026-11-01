@@ -1,0 +1,106 @@
+run_record_version: 1
+pipeline: paper-to-galaxy
+run_slug: dengueseq-denv3-direct
+harness_name: pipeline-paper-to-galaxy
+source_revision: 6
+assembly_sha256: "a73c8dfb7ce8575341b347990e5ff2b7a6c0550dd418b8e00cfed9d6f9d9c184"
+foundry_head: null
+started_at: '2026-10-20T15:14:37Z'
+finished_at: '2026-10-20T16:45:12Z'
+status: complete
+phases:
+- n: 1
+  kind: mold
+  skill: summarize-paper
+  status: done
+  artifacts:
+  - {id: freeform-summary, file: freeform-summary.md, at: '2026-10-20T15:20:09Z'}
+- n: 2
+  kind: mold
+  skill: freeform-summary-to-galaxy-interface
+  status: done
+  artifacts:
+  - {id: freeform-galaxy-interface, file: freeform-galaxy-interface.md, at: '2026-10-20T15:23:11Z'}
+  - {id: open-requirements-ledger, file: open-requirements.ledger.yml, at: '2026-10-20T15:23:11Z'}
+- n: 3
+  kind: mold
+  skill: freeform-summary-to-galaxy-data-flow
+  status: done
+  artifacts:
+  - {id: freeform-galaxy-data-flow, file: freeform-galaxy-data-flow.md, at: '2026-10-20T15:26:09Z'}
+  - {id: open-requirements-ledger, file: open-requirements.ledger.yml, at: '2026-10-20T15:26:09Z'}
+- n: 4
+  kind: mold
+  skill: compare-against-iwc-exemplar
+  status: done
+  artifacts:
+  - {id: iwc-comparison-notes, file: iwc-comparison-notes.md, at: '2026-10-20T15:34:57Z'}
+  - {id: iwc-exemplar-gxformat2, file: iwc-exemplar.gxwf.yml, at: '2026-10-20T15:34:57Z'}
+  - {id: open-requirements-ledger, file: open-requirements.ledger.yml, at: '2026-10-20T15:34:57Z'}
+- n: 5
+  kind: mold
+  skill: freeform-summary-to-galaxy-template
+  status: done
+  artifacts:
+  - {id: galaxy-workflow-draft, file: galaxy-workflow-draft.gxwf.yml, at: '2026-10-20T15:40:00Z'}
+  - {id: open-requirements-ledger, file: open-requirements.ledger.yml, at: '2026-10-20T15:40:00Z'}
+- n: 6
+  kind: mold
+  skill: advance-galaxy-draft-step
+  status: done
+  artifacts:
+  - {id: galaxy-workflow-draft, file: galaxy-workflow-draft.gxwf.yml, at: '2026-10-20T15:41:55Z', iteration: 1}
+  - {id: open-requirements-ledger, file: open-requirements.ledger.yml, at: '2026-10-20T15:41:55Z', iteration: 1}
+  - {id: galaxy-workflow-draft, file: galaxy-workflow-draft.gxwf.yml, at: '2026-10-20T15:44:30Z', iteration: 2}
+  - {id: open-requirements-ledger, file: open-requirements.ledger.yml, at: '2026-10-20T15:44:30Z', iteration: 2}
+  - {id: galaxy-workflow-draft, file: galaxy-workflow-draft.gxwf.yml, at: '2026-10-20T15:46:33Z', iteration: 3}
+  - {id: open-requirements-ledger, file: open-requirements.ledger.yml, at: '2026-10-20T15:46:33Z', iteration: 3}
+  - {id: galaxy-workflow-draft, file: galaxy-workflow-draft.gxwf.yml, at: '2026-10-20T15:49:30Z', iteration: 4}
+  - {id: open-requirements-ledger, file: open-requirements.ledger.yml, at: '2026-10-20T15:49:30Z', iteration: 4}
+  - {id: galaxy-workflow-draft, file: galaxy-workflow-draft.gxwf.yml, at: '2026-10-20T15:54:50Z', iteration: 5}
+  - {id: open-requirements-ledger, file: open-requirements.ledger.yml, at: '2026-10-20T15:54:50Z', iteration: 5}
+  - {id: galaxy-workflow-draft, file: galaxy-workflow-draft.gxwf.yml, at: '2026-10-20T15:57:52Z', iteration: 6}
+  - {id: open-requirements-ledger, file: open-requirements.ledger.yml, at: '2026-10-20T15:57:52Z', iteration: 6}
+  - {id: galaxy-workflow-draft, file: galaxy-workflow-draft.gxwf.yml, at: '2026-10-20T15:59:57Z', iteration: 7}
+  - {id: galaxy-workflow, file: galaxy-workflow.gxwf.yml, at: '2026-10-20T15:59:57Z', iteration: 7}
+  - {id: open-requirements-ledger, file: open-requirements.ledger.yml, at: '2026-10-20T15:59:57Z', iteration: 7}
+  iterations: 7
+- n: 7
+  kind: branch
+  pattern: test-data-resolution
+  status: done
+  artifacts:
+  - {id: test-data-refs, file: test-data-refs.json, at: '2026-10-20T16:05:36Z'}
+  selected: paper-to-test-data
+- n: 8
+  kind: mold
+  skill: freeform-summary-to-galaxy-test-plan
+  status: done
+  artifacts:
+  - {id: galaxy-test-plan, file: galaxy-test-plan.yml, at: '2026-10-20T16:07:56Z'}
+- n: 9
+  kind: mold
+  skill: implement-galaxy-workflow-test
+  status: done
+  artifacts:
+  - {id: galaxy-workflow-test, file: galaxy-workflow.gxwf-tests.yml, at: '2026-10-20T16:11:37Z'}
+- n: 10
+  kind: mold
+  skill: validate-galaxy-workflow
+  status: done
+  artifacts:
+  - {id: galaxy-workflow-validation-result, file: galaxy-workflow-validation-result.json, at: '2026-10-20T16:13:20Z'}
+- n: 11
+  kind: mold
+  skill: run-workflow-test
+  status: done
+  artifacts:
+  - {id: workflow-test-result, file: workflow-test-result.json, at: '2026-10-20T16:43:18Z'}
+  - {id: undeclared-planemo-test-output-json, file: tool_test_output.json, at: '2026-10-20T16:43:18Z'}
+  - {id: undeclared-planemo-test-output-html, file: tool_test_output.html, at: '2026-10-20T16:43:18Z'}
+- n: 12
+  kind: mold
+  skill: debug-galaxy-workflow-output
+  status: done
+  artifacts:
+  - {id: workflow-debug-report, file: workflow-debug-report.md, at: '2026-10-20T16:45:12Z'}

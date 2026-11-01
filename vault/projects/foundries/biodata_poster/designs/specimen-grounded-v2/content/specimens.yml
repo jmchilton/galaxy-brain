@@ -1,0 +1,49 @@
+# Specimen labels. Graphs, pins, marks and ledger counts come from ./data at build time.
+# Every open ledger entry needs a gloss here; a gloss for a missing or resolved id fails the build.
+# show_defects: how many glossed entries to print on the card (the rest are counted).
+
+specimens:
+  dengueseq-brief:
+    workflow: runs/dengueseq-brief/galaxy-workflow.gxwf.yml
+    run: dengueseq-brief
+    rankdir: LR
+    show_defects: 5
+    counts_in_heading: true
+    glosses:
+      low-coverage-and-empty-bam-behavior: "A zero-read sample gives an empty consensus; the source writes 10,707 Ns."
+      serotype-coverage-plane-not-carried: "Cut at review: serotype calling and the paper's genome-completeness metric."
+      filtered-variant-frequency-table-not-carried: "Cut at review: the filtered intrahost-variant table (the full iVar table is output)."
+      consensus-baq-deviation-check-on-test-sample: "Galaxy's iVar wrapper turns BAQ off: 1 of 10,707 consensus positions differs on the repo fixture. A later probe outside Galaxy found 0 on SRR25366733; entry still open."
+      variants-baq-deviation-check-on-test-sample: "Same for variants: 6 extra rows of 352 on the fixture; 484 vs 476 rows on SRR25366733 in the later probe; entry still open."
+
+  # Drawer row only (no graph): marks come from its run files.
+  dengueseq-direct:
+    workflow: runs/dengueseq-direct/galaxy-workflow.gxwf.yml
+    run: dengueseq-direct
+    rankdir: LR
+    show_defects: 0
+    glosses:
+      test-sample-primer-pool-unverified: "Not verified that the DENV3 primer BED fits the test sample's primer pools."
+      variants-frequency-filtered-view-not-carried: "Dropped by default, with no expert ruling: the filtered intrahost-variant view."
+      genome-completeness-qc-not-carried: "Dropped by default: the paper's genome-completeness metric."
+      ivar-pileup-settings-reproducible: "Neither Galaxy iVar wrapper reproduces the source's pileup flags (BAQ, -aa)."
+
+  bacass:
+    workflow: runs/bacass/galaxy-workflow.gxwf.yml
+    run: bacass
+    rankdir: TB
+    show_defects: 2
+    glosses:
+      graph-assertion-full-line-regex: "Planemo red: two graph assertions can't match, since has_line_matching needs a whole line. The outputs were right; the test was wrong."
+      tool-extra-args-not-exposed: "Dropped: free-form extra fastp and Unicycler arguments."
+      samplesheet-genomesize-not-carried: "Dropped: per-sample genome size, unused on the short-read path."
+
+  # Drawer row only (no graph): marks are hand-summarised from run-summary.md in render.js.
+  uc1-mrsa:
+    workflow: runs/uc1-mrsa/galaxy-workflow-draft.iter1.gxwf.yml
+    rankdir: LR
+
+qr:
+  repo: https://github.com/galaxyproject/foundry
+  install: https://galaxyproject.github.io/foundry/usage/
+  preprint: https://doi.org/10.64898/2026.10.26.761864

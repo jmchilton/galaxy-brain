@@ -1,0 +1,92 @@
+{
+  "schemaVersion": 1,
+  "kind": "differential-review-state",
+  "updatedAt": "2026-10-28T19:51:15.276Z",
+  "hunks": {
+    "h1:290933d3f6d0c738": {
+      "snapshotId": "20261028T170138Z-polishing-a812cad36b70",
+      "path": "lib/galaxy/tool_util/client/staging.py",
+      "reviewedAt": "2026-10-28T19:50:40.333Z"
+    },
+    "h1:613b418f29de59ff": {
+      "snapshotId": "20261028T170138Z-polishing-a812cad36b70",
+      "path": "lib/galaxy/tool_util/client/staging.py",
+      "reviewedAt": "2026-10-28T19:50:40.333Z"
+    },
+    "h1:9673c69981c4d30b": {
+      "snapshotId": "20261028T170138Z-polishing-a812cad36b70",
+      "path": "lib/galaxy/tool_util/client/staging.py",
+      "reviewedAt": "2026-10-28T19:50:40.333Z"
+    },
+    "h1:4be31528860a0ed9": {
+      "snapshotId": "20261028T170138Z-polishing-a812cad36b70",
+      "path": "lib/galaxy/tool_util/cwl/util.py",
+      "reviewedAt": "2026-10-28T19:50:45.867Z"
+    },
+    "h1:479c18e6c88d8835": {
+      "snapshotId": "20261028T170138Z-polishing-a812cad36b70",
+      "path": "lib/galaxy/tool_util/cwl/util.py",
+      "reviewedAt": "2026-10-28T19:50:45.867Z"
+    },
+    "h1:6663cde22f4f3c2f": {
+      "snapshotId": "20261028T170138Z-polishing-a812cad36b70",
+      "path": "lib/galaxy/tool_util/cwl/util.py",
+      "reviewedAt": "2026-10-28T19:50:45.867Z"
+    },
+    "h1:8107dd14ced63d6d": {
+      "snapshotId": "20261028T170138Z-polishing-a812cad36b70",
+      "path": "lib/galaxy/tool_util/cwl/util.py",
+      "reviewedAt": "2026-10-28T19:50:45.867Z"
+    },
+    "h1:f10bcd05aa67be25": {
+      "snapshotId": "20261028T170138Z-polishing-a812cad36b70",
+      "path": "test/unit/tool_util/test_cwl_util.py",
+      "reviewedAt": "2026-10-28T19:51:11.396Z"
+    },
+    "h1:f3cefce980ac3012": {
+      "snapshotId": "20261028T170138Z-polishing-a812cad36b70",
+      "path": "lib/galaxy_test/base/populators.py",
+      "reviewedAt": "2026-10-28T19:51:13.654Z"
+    },
+    "h1:96551c62c35e45fd": {
+      "snapshotId": "20261028T170138Z-polishing-a812cad36b70",
+      "path": "lib/galaxy_test/base/populators.py",
+      "reviewedAt": "2026-10-28T19:51:13.654Z"
+    },
+    "h1:b161f4fd163ef191": {
+      "snapshotId": "20261028T170138Z-polishing-a812cad36b70",
+      "path": "lib/galaxy_test/base/populators.py",
+      "reviewedAt": "2026-10-28T19:51:13.654Z"
+    },
+    "h1:de6acf27f736a4f2": {
+      "snapshotId": "20261028T170138Z-polishing-a812cad36b70",
+      "path": "lib/galaxy_test/base/populators.py",
+      "reviewedAt": "2026-10-28T19:51:13.654Z"
+    },
+    "h1:3ec6a4f6382487f6": {
+      "snapshotId": "20261028T170138Z-polishing-a812cad36b70",
+      "path": "lib/galaxy_test/base/populators.py",
+      "reviewedAt": "2026-10-28T19:51:13.654Z"
+    }
+  },
+  "commits": {
+    "804eae023c8f4090685de684cdb3b55003a68bc6": {
+      "sha": "8d8a842b631250ac8141b8597e24517862800502",
+      "subject": "Collapse cwl_style scalar and scalar-list branches into one predicate",
+      "snapshotId": "20261028T170138Z-polishing-a812cad36b70",
+      "signedOffAt": "2026-10-28T19:51:14.760Z"
+    },
+    "643275c623ff8cb95cbd86dc208f62edffc49826": {
+      "sha": "57c30924782f0e274262f4ed85892dbd54be25d9",
+      "subject": "Let staging leave parameter input values unstaged",
+      "snapshotId": "20261028T170138Z-polishing-a812cad36b70",
+      "signedOffAt": "2026-10-28T19:51:15.068Z"
+    },
+    "7cb6660d56132e421353f12e763fa4cd72796be6": {
+      "sha": "a812cad36b705af07b36ece903469d382be034fa",
+      "subject": "Use parameter_input_keys in WorkflowPopulator cwl_style staging",
+      "snapshotId": "20261028T170138Z-polishing-a812cad36b70",
+      "signedOffAt": "2026-10-28T19:51:15.276Z"
+    }
+  }
+}

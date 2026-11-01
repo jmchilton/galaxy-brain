@@ -4,78 +4,24 @@
     "type": "split",
     "children": [
       {
-        "id": "bf3dc2957f709ee1",
+        "id": "a86081ac33a74b33",
         "type": "tabs",
         "children": [
           {
-            "id": "68133f9ad03c989c",
+            "id": "c9be19a5bb871fa9",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "repositories/galaxy/branches/active/optional_input_gating/index.md",
+                "file": "agents/_shared/reviewers/index.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
               "title": "index"
             }
-          },
-          {
-            "id": "6d6585acdc3cd98e",
-            "type": "leaf",
-            "state": {
-              "type": "galaxy-brain-differential-review",
-              "state": {
-                "recordDir": "repositories/galaxy/branches/active/optional_input_gating",
-                "hideReviewed": true
-              },
-              "icon": "git-compare",
-              "title": "Review: optional_input_gating"
-            }
-          },
-          {
-            "id": "2dd0bd2c0e9797e8",
-            "type": "leaf",
-            "state": {
-              "type": "image",
-              "state": {
-                "file": "repositories/galaxy/branches/active/compare_runs/screenshots/comparisons_tool_runs_page.png"
-              },
-              "icon": "lucide-image",
-              "title": "comparisons_tool_runs_page"
-            }
-          },
-          {
-            "id": "809ce3847dd44107",
-            "type": "leaf",
-            "state": {
-              "type": "galaxy-brain-repository",
-              "state": {
-                "repo": "galaxy",
-                "tab": "new-prs",
-                "recentBy": "created"
-              },
-              "icon": "library",
-              "title": "galaxy records"
-            }
-          },
-          {
-            "id": "d1961de42c43c260",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "agents/workflow_libs/AGENTS.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "AGENTS"
-            }
           }
-        ],
-        "currentTab": 4
+        ]
       }
     ],
     "direction": "vertical"
@@ -254,54 +200,53 @@
       "templater-obsidian:Templater": false
     }
   },
-  "active": "d1961de42c43c260",
+  "active": "c9be19a5bb871fa9",
   "lastOpenFiles": [
-    "agents/gx_research/AGENTS.md",
-    "agents/_shared/TASK_LIST_YAML_FORMAT.md",
-    "agents/factory/TODO.md",
-    "repositories/galaxy/branches/active/issue_24529_custom_build_fasta_history_26.0/differential-review/snapshots/20261028T053851Z-implementation-dacb7d38dd6b.json",
-    "repositories/galaxy/branches/active/issue_24529_custom_build_fasta_history_26.0/implementation_rescope_debrief.md",
-    "repositories/galaxy/branches/active/issue_24529_custom_build_fasta_history_26.0/earlier_drafts/1/test_challenges_debrief.md",
-    "repositories/galaxy/branches/active/issue_24529_custom_build_fasta_history_26.0/earlier_drafts/1/scope_evaluation.md",
-    "repositories/galaxy/branches/active/issue_24529_custom_build_fasta_history_26.0/earlier_drafts/1",
-    "repositories/galaxy/branches/active/issue_24529_custom_build_fasta_history_26.0/earlier_drafts",
-    "repositories/galaxy/branches/active/issue_24529_custom_build_fasta_history_26.0/subagents/rescope_review_debrief.md",
-    "repositories/galaxy/branches/active/issue_24530_atomic_embedded_tool_import_26.1/implementation_debrief.md",
-    "repositories/galaxy/branches/active/issue_24530_atomic_embedded_tool_import_26.1/differential-review/snapshots/20261028T053619Z-hardening-dadc555490f8.json",
-    "repositories/galaxy/branches/active/issue_24530_atomic_embedded_tool_import_26.1/scope_evaluation.md",
-    "repositories/galaxy/branches/active/issue_24530_atomic_embedded_tool_import_26.1/baseline_refactor.md",
-    "repositories/galaxy/branches/active/issue_24530_atomic_embedded_tool_import_26.1/thermo_nuclear_review.md",
-    "repositories/galaxy/branches/active/issue_24530_atomic_embedded_tool_import_26.1/codex_review.md",
-    "repositories/galaxy/branches/active/issue_24485_collection_count_zero_26.0/index.md",
-    "repositories/galaxy/branches/active/issue_24485_collection_count_zero_26.0/polish_debrief.md",
-    "repositories/galaxy/branches/active/issue_24485_collection_count_zero_26.0/differential-review/snapshots/20261028T053219Z-polishing-8eb7779ec8aa.json",
-    "repositories/galaxy/branches/active/issue_24485_collection_count_zero_26.0/pr_tags.md",
-    "repositories/galaxy/branches/active/issue_24485_collection_count_zero_26.0/pr_titles.md",
-    "repositories/galaxy/branches/active/issue_24485_collection_count_zero_26.0/pr_description.md",
-    "repositories/galaxy/issues/queued/24532/index.md",
-    "repositories/galaxy/issues/queued/24532/debrief.md",
-    "repositories/galaxy/issues/queued/24532/proposal.md",
-    "repositories/galaxy/issues/queued/24532",
-    "repositories/galaxy/branches/active/issue_24485_collection_count_zero_26.0/human_review.md",
-    "repositories/galaxy/branches/active/issue_24485_collection_count_zero_26.0/differential-review/review-state.json",
-    "repositories/galaxy-tool-util-ts/reviews/MY_REVIEWS.md",
-    "repositories/gxformat2/issues/MY_ISSUES.md",
-    "repositories/galaxy/issues/queued/24531/raw.md",
-    "repositories/galaxy/issues/queued/24531/proposal.md",
-    "repositories/galaxy/issues/queued/24531/issue_tags.md",
-    "repositories/galaxy/issues/queued/24531",
-    "repositories/galaxy/issues_incubator/incubating/history_item_disabled_edit_tooltip/p.tmp",
-    "repositories/galaxy/branches/active/issue_24530_atomic_embedded_tool_import_26.1/earlier_drafts/1",
-    "repositories/galaxy/branches/active/compare_runs/screenshots/comparisons_tool_runs_page.png",
-    "repositories/galaxy/branches/active/compare_runs/screenshots/comparisons_subworkflow_all_runs_disabled.png",
-    "repositories/galaxy/branches/active/compare_runs/screenshots/comparisons_stored_workflow_invocations.png",
-    "repositories/galaxy/branches/active/compare_runs/screenshots/comparisons_step_all_runs_transposed.png",
-    "repositories/galaxy/branches/active/compare_runs/screenshots/comparisons_step_all_runs_row_detail.png",
-    "repositories/galaxy/branches/active/compare_runs/screenshots/comparisons_step_all_runs_diff.png",
-    "repositories/galaxy/branches/active/compare_runs/screenshots/comparisons_step_all_runs.png",
-    "repositories/galaxy/branches/active/compare_runs/screenshots/comparisons_state_filter_menu.png",
-    "repositories/galaxy/branches/active/compare_runs/screenshots/comparisons_mapped_step_reused_job.png",
-    "repositories/galaxy/branches/active/compare_runs/screenshots/comparisons_job_other_runs_action.png",
+    "repositories/galaxy/issues_incubator/incubating/pulsar_none_action_extra_files_crash/raw.md",
+    "repositories/galaxy/issues_incubator/incubating/pulsar_none_action_extra_files_crash/proposal.md",
+    "repositories/galaxy/issues_incubator/incubating/pulsar_none_action_extra_files_crash/issue_tags.md",
+    "repositories/galaxy/issues_incubator/incubating/pulsar_none_action_extra_files_crash/index.md",
+    "repositories/galaxy/issues_incubator/incubating/pulsar_none_action_extra_files_crash/debrief.md",
+    "repositories/galaxy/issues_incubator/incubating/pulsar_none_action_extra_files_crash",
+    "repositories/galaxy/reviews/active/24561/initial_review_response.md",
+    "repositories/galaxy/reviews/active/24561/verified_findings_checklist.md",
+    "repositories/galaxy/reviews/active/24561/initial_response_action.md",
+    "repositories/galaxy/reviews/active/24561/initial_review_agents.md",
+    "agents/wf_foundry/DOMAIN_REVIEW.md",
+    "repositories/galaxy/reviews/active/24561/review_0_branch_details.md",
+    "repositories/galaxy/reviews/active/24561/verified_review.md",
+    "agents/wf_foundry/DRIVING_PIPELINE_TESTS.md",
+    "agents/wf_foundry/REVIEW.md",
+    "repositories/galaxy/reviews/active/24511/initial_review_response.md",
+    "repositories/galaxy/reviews/active/24511/initial_response_action.md",
+    "repositories/galaxy/reviews/active/24511/initial_review.md",
+    "repositories/galaxy/reviews/active/24511/initial_review_agents.md",
+    "repositories/galaxy/reviews/active/24511/learning_galaxy.md",
+    "repositories/galaxy/reviews/active/24510/index.md",
+    "repositories/galaxy/reviews/active/24510",
+    "repositories/galaxy/reviews/active/24561/initial_review.md",
+    "repositories/galaxy/reviews/active/24511/filtered_findings.md",
+    "repositories/galaxy/reviews/active/24511/performance_challenges_debrief.md",
+    "repositories/galaxy/reviews/active/24511/performance_challenges_review.md",
+    "repositories/galaxy/reviews/active/24511/review_0_branch_details.md",
+    "repositories/galaxy/reviews/active/24561/learning_galaxy.md.tmp.28087.00dfbd711771",
+    "repositories/galaxy/reviews/active/24561/differential-review/snapshots/20261101T132341Z-review-e43b2db63a4d.json",
+    "repositories/galaxy/reviews/active/24561/differential-review/snapshots",
+    "repositories/galaxy/reviews/active/24561/differential-review",
+    "repositories/galaxy/reviews/active/24561",
+    "repositories/galaxy/reviews/active/24607/verified_review.md.tmp.91060.c741f0bfcdea",
+    "projects/foundries/biodata_poster/designs/receipts-trad-header-footer-galaxy-r8/data/tool-revisions/iuc~samtools_view~samtools_view.json",
+    "projects/foundries/biodata_poster/designs/receipts-trad-header-footer-galaxy-r8/data/tool-revisions/iuc~ivar_variants~ivar_variants.json",
+    "projects/foundries/biodata_poster/designs/receipts-trad-header-footer-galaxy-r8/checks/thumb-200.png",
+    "projects/foundries/biodata_poster/designs/receipts-trad-header-footer-galaxy-r8/checks/show-ask-1.png",
+    "projects/foundries/biodata_poster/designs/receipts-trad-header-footer-galaxy-r8/checks/preview-gray.png",
+    "projects/foundries/biodata_poster/designs/receipts-trad-header-footer-galaxy-r8/checks/preview-25.png",
+    "projects/foundries/biodata_poster/designs/receipts-trad-header-footer-galaxy-r8/assets/qr-usage.svg",
+    "projects/foundries/biodata_poster/designs/receipts-trad-header-footer-galaxy-r8/assets/qr-preprint.svg",
+    "projects/foundries/biodata_poster/designs/receipts-trad-header-footer-galaxy-r8/assets/qr-foundry.svg",
+    "projects/foundries/biodata_poster/designs/receipts-trad-header-footer-galaxy-r8/assets/galaxy_logo_white.svg",
+    "projects/foundries/biodata_poster/designs/receipts-trad-header-footer-galaxy-r8/preview.png",
+    "projects/foundries/biodata_poster/designs/receipts-trad-header-footer-galaxyplus-r8/assets/qr-usage.svg",
     "Untitled.canvas",
     "Untitled 1.canvas",
     "Untitled 2.canvas",

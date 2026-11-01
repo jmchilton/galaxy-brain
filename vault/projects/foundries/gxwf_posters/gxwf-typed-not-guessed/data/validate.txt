@@ -1,0 +1,45 @@
+Detected format: native, mode: effect
+Structural validation: OK
+  [11] tool_state: OK
+  [12] tool_state: OK
+  [13] tool_state: OK
+  [14] tool_state: OK
+  [15] tool_state: OK
+  [16] tool_state: OK
+  [17] tool_state: OK
+  [18] tool_state: OK
+  [19.2] tool_state: OK
+  [19.3] tool_state: OK
+  [19.4] tool_state: OK
+  [19.5] tool_state: OK
+  [19.6] tool_state: OK
+  [20.3] tool_state: OK
+  [20.4] tool_state: OK
+  [20.5] tool_state: OK
+  [20.6] tool_state: OK
+  [20.7] tool_state: OK
+  [20.8] tool_state: OK
+  [20.9] tool_state: OK
+  [20.10] tool_state: OK
+  [20.11] tool_state: OK
+  [21] tool_state: OK
+  [22] tool_state: OK
+  [23] tool_state: OK
+  [24.3] tool_state: OK
+  [24.4] tool_state: OK
+  [24.5] tool_state: OK
+  [24.6] tool_state: OK
+  [24.7] tool_state: OK
+  [24.8] tool_state: OK
+  [24.9] tool_state: OK
+  [25.3] tool_state: OK
+  [25.4] tool_state: OK
+  [25.5] tool_state: OK
+  [26] tool_state: OK
+  [27] tool_state: OK
+  [28] tool_state: OK
+  [29] tool_state: OK
+
+Tool state: 39 validated, 0 skipped
+
+Connections: OK — 57 ok, 0 invalid, 0 skip

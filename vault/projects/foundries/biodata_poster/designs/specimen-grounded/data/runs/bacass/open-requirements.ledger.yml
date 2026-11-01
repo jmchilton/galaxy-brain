@@ -1,0 +1,264 @@
+# open-requirements-ledger for bacass-sr-assembly-galaxy (workflow-brief-to-galaxy)
+# Initialized by workflow-brief-to-galaxy-interface (no ledger supplied; first design Mold).
+
+entries:
+- id: output-datatypes-pending-wrapper
+  status: resolved
+  raised_by: workflow-brief-to-galaxy-interface
+  step:
+  unmet: "exact Galaxy datatypes of public outputs (Unicycler assembly: fasta; graph: gfa1; QUAST report: tabular; fastp: json/html) and of the reads input (fastqsanger.gz)"
+  missing: "no Galaxy wrapper has been discovered yet; brief forbids inferring wrapper availability or behavior from the Nextflow source"
+  resolved_by: advance-galaxy-draft-step
+  note: "Interface lists expected datatypes; tool discovery / implement-galaxy-tool-step should confirm or adjust and keep labels unchanged. Partial (advance-galaxy-draft-step, fastp step): iuc/fastp 1.4.0+galaxy0
+    report_json=json, report_html=html confirmed; output_paired_coll is paired (format from input, list:paired after map-over); paired_input accepts any data ext. Partial (Unicycler step): iuc/unicycler
+    0.5.1+galaxy0 assembly=fasta, assembly_graph=gfa1 confirmed (uncompressed); fastq_input1 accepts any data ext. Closed (QUAST step): iuc/quast 5.3.0+galaxy2 report_tabular=tabular, report_html=html;
+    mode|in|inputs accepts fasta. All public output datatypes confirmed."
+- id: quast-html-output-optional
+  status: resolved
+  raised_by: workflow-brief-to-galaxy-interface
+  step:
+  unmet: "whether a per-sample QUAST HTML report is exposed alongside the required tabular 'QUAST report'"
+  missing: "depends on outputs the discovered QUAST wrapper emits; brief requires 'a QUAST report' without naming the form"
+  resolved_by: advance-galaxy-draft-step
+  note: "Tabular is required (testable stats). HTML optional user convenience; label 'QUAST HTML report' if added. Closed: not exposed - expert review lists one per-sample QUAST report among required outputs;
+    report_tabular satisfies it. Wrapper still emits report_html (output_files html,tabular) as a hidden step output, so it can be promoted later without re-running design."
+- id: zero-read-sample-guard
+  status: resolved
+  raised_by: workflow-brief-to-galaxy-interface
+  step:
+  unmet: "behavior for a sample whose reads are all removed by fastp"
+  missing: "brief: 'Whether the target should reproduce this guard is left to design'; source drops such samples before Unicycler"
+  resolved_by: workflow-brief-to-galaxy-data-flow
+  note: "Post-assembly collection cleanup: filter failed + filter empty on Unicycler assembly before QUAST; filter failed on graph. Zero-read sample keeps fastp reports, drops from assembly/graph/QUAST
+    lists. See decision zero-read-guard-post-assembly-cleanup."
+- id: tool-extra-args-not-exposed
+  status: open
+  kind: dropped
+  raised_by: workflow-brief-to-galaxy-interface
+  units: "2 source params: fastp_args, unicycler_args"
+  because: "brief Requirements: source extra args are 'informative, not binding' and default empty, so the source runs both tools with default settings; summary-nextflow params show no default for either"
+  unmet: "user ability to pass arbitrary extra fastp/Unicycler arguments"
+  missing: "no workflow parameter inputs exposed; tools run with defaults"
+  resolved_by:
+  note: ""
+- id: samplesheet-genomesize-not-carried
+  status: open
+  kind: dropped
+  raised_by: workflow-brief-to-galaxy-interface
+  units: "1 sample-sheet meta column: GenomeSize"
+  because: "brief Inputs: 'GenomeSize is read into sample metadata but is not used by the short-read Unicycler/QUAST path'"
+  unmet: "per-sample genome-size metadata"
+  missing: "input is list:paired, not sample_sheet:paired; no column metadata travels"
+  resolved_by:
+  note: ""
+
+- id: tool-need-fastp-paired
+  status: resolved
+  raised_by: workflow-brief-to-galaxy-data-flow
+  step: N1 trim paired reads
+  unmet: Galaxy wrapper for fastp paired-end trimming emitting trimmed paired reads, JSON report, HTML report
+  missing: no wrapper discovered; brief forbids inferring availability from source
+  resolved_by: advance-galaxy-draft-step
+  note: 'Default settings; source fastp 0.24.0 is provenance only. Closed: discover-shed-tool hit iuc/fastp 1.4.0+galaxy0 changeset 4990e6f1348f (tool-pins/fastp-trimming/galaxy-tool-pin.json); step "fastp
+    trimming" implemented paired_collection mode, wrapper defaults, report_html/report_json on; draft-validate --concrete --strict-state green.'
+- id: tool-need-unicycler-short
+  status: resolved
+  raised_by: workflow-brief-to-galaxy-data-flow
+  step: N2 short-read assembly
+  unmet: Galaxy wrapper for Unicycler short-read-only assembly from one paired element, emitting assembly FASTA and assembly graph GFA
+  missing: no wrapper discovered
+  resolved_by: advance-galaxy-draft-step
+  note: 'Default settings; no long reads; log not exposed. Closed: discover-shed-tool hit iuc/unicycler 0.5.1+galaxy0 changeset e022dff952df (tool-pins/unicycler-assembly-raw/galaxy-tool-pin.json; matches
+    source Unicycler 0.5.1); step "Unicycler assembly (raw)" implemented with wrapper defaults (mode normal, keep 1, no long reads); draft-validate --concrete --strict-state green.'
+- id: tool-need-quast-single
+  status: resolved
+  raised_by: workflow-brief-to-galaxy-data-flow
+  step: N4 reference-free QUAST
+  unmet: Galaxy wrapper for QUAST on one assembly without reference/GFF, emitting tabular report (HTML optional)
+  missing: no wrapper discovered
+  resolved_by: advance-galaxy-draft-step
+  note: 'One assembly per job (per-sample by expert decision). Closed: iuc/quast 5.3.0+galaxy2 (changeset cbc516cee202; IWC uses 5.3.0+galaxy1), mode individual, in.custom false, reads disabled, assembly.type
+    genome, ref.use_ref false; mode|in|inputs mapped over Filter empty assemblies/output (list); wrapper defaults otherwise (source runs QUAST with no extra args). Pin: tool-pins/quast-per-assembly/.'
+- id: fastp-paired-output-shape
+  status: resolved
+  raised_by: workflow-brief-to-galaxy-data-flow
+  step: N1 trim paired reads
+  unmet: trimmed reads reach Unicycler as list:paired
+  missing: unknown whether discovered fastp wrapper accepts a paired collection element and emits paired-shaped output
+  resolved_by: compare-against-iwc-exemplar
+  note: 'IWC read-preprocessing/short-read-qc-trimming: iuc fastp in single_paired_selector=paired_collection mode takes the list:paired input on single_paired|paired_input and emits output_paired_coll
+    (list:paired). Wire N2 from it; no zip/unzip placeholder. See decision no-zip-between-fastp-and-assembler.'
+- id: quast-report-sample-labelling
+  status: resolved
+  raised_by: workflow-brief-to-galaxy-data-flow
+  step: N4 reference-free QUAST
+  unmet: QUAST report column/assembly label identifies the sample
+  missing: Galaxy wrappers may label assemblies by dataset name, not element identifier; wrapper behavior unknown
+  resolved_by: advance-galaxy-draft-step
+  note: 'Non-critical: list element identifier already carries sample ID; set label from element identifier if wrapper allows. Closed: iuc/quast command in individual mode with in.custom=false sets --labels
+    from re.sub(non-word->_, inputs.element_identifier) (tools-iuc quast.xml, read at 5.3.0+galaxy1 local clone), so the report column names the sample; no label state needed.'
+- id: unicycler-paired-collection-input
+  status: resolved
+  raised_by: compare-against-iwc-exemplar
+  step: N2 short-read assembly
+  unmet: Unicycler step consumes one paired element of fastp output_paired_coll per job
+  missing: no IWC workflow uses Unicycler (corpus grep at e8cd4de3d); unknown whether the wrapper accepts a paired collection element or needs separate R1/R2 ports (Shovill precedent uses 
+    library|R1/R2 single datasets)
+  resolved_by: advance-galaxy-draft-step
+  note: 'Closed: iuc/unicycler 0.5.1+galaxy0 exposes paired_unpaired.fastq_input_selector=paired_collection with paired_unpaired|fastq_input1 (collection_type paired); wired directly from fastp output_paired_coll,
+    maps over list:paired. No __UNZIP_COLLECTION__ needed.'
+- id: test-assertion-bands-unmeasured
+  status: resolved
+  raised_by: workflow-brief-to-galaxy-test-plan
+  step: test
+  unmet: "QUAST/assembly numeric assertion bands (Total length 2.4-3.19 Mb, N50>=10kb, contigs<1000, assembly 2.8M+/-600K, fastp total_reads 2000000) confirmed against a real run"
+  missing: "no measured run; bands derived from bacass_short.tsv GenomeSize 2.8m and fixture read-count observation; source snapshot ignores QUAST/Unicycler content"
+  resolved_by: debug-galaxy-workflow-output
+  note: "implement-galaxy-workflow-test / run-workflow-test: keep tolerant, tighten after first green run. See galaxy-test-plan.yml unresolved[]. implement-galaxy-workflow-test: bands carried verbatim into
+    galaxy-workflow.gxwf-tests.yml (has_size size 2800000 delta 600000; QUAST regexes; fastp total_reads \"2000000\" any-depth match); still unmeasured, run-workflow-test to confirm/tighten. after_filtering
+    presence asserted via has_text (plan has_json_property_with_text could not express key presence). Closed (debug-galaxy-workflow-output, phase 10 run): measured ERR044595 Total length 2767321 / N50 107384
+    / 53 contigs / assembly 2818818 B; ERR064912 2897289 / 67831 / 102 / 2958168 B; fastp total_reads 2000000 both. All within bands; QUAST/assembly/fastp assertions pass. Bands kept tolerant (tightening
+    optional, see workflow-debug-report.md)."
+- id: graph-assertion-full-line-regex
+  status: open
+  raised_by: debug-galaxy-workflow-output
+  step: test
+  unmet: "green planemo test: 'Unicycler assembly graph' has_line_matching '^S\\t1\\t' and '^L\\t' never match (Galaxy wraps expression as ^...$ full-line)"
+  missing: test-only regex fix not applied; skill emits recommendation only
+  resolved_by:
+  note: Replace with 'S\t1\t[ACGTN]+(\t.*)?' and 'L\t\d+\t[+-]\t\d+\t[+-]\t.*' (verified offline against both run outputs), then rerun planemo test. Workflow itself correct. See 
+    workflow-debug-report.md.
+discoveries:
+- id: source-test-uses-reseq-samplesheet
+  raised_by: workflow-brief-to-galaxy-interface
+  evidence: "conf/test.config sets input to bacass/bacass_short_reseq.tsv (3 rows; ERR044595 appears twice, exercising CAT_FASTQ_SHORT). bacass_short.tsv (2 rows, ERR044595 + ERR064912, one *_1M_{1,2}.fastq.gz
+    pair each, GenomeSize 2.8m) verified reachable at raw.githubusercontent.com/nf-core/test-datasets/bacass on 2026-10-16."
+  impact: "summary-nextflow test_selection (tests/default.nf.test) uses a fixture incompatible with the no-merge interface; expert decision bacass_short.tsv governs test data and maps directly to a 2-element
+    list:paired job."
+- id: source-quast-cross-sample
+  raised_by: workflow-brief-to-galaxy-interface
+  evidence: "bacass runs one QUAST over all samples' assemblies; QUAST publishDir in conf/modules.config suppresses *.tsv and publishes the report directory."
+  impact: "Overridden by expert review (per-sample QUAST); source QUAST outputs are not a byte-level reference for the target's per-sample reports."
+- id: unicycler-outputs-gzipped-in-source
+  raised_by: workflow-brief-to-galaxy-interface
+  evidence: "UNICYCLER module emits *.scaffolds.fa.gz, *.assembly.gfa.gz, *.unicycler.log (module test snapshot in summary-nextflow)."
+  impact: "Compression is source packaging, not a requirement; Galaxy outputs may be uncompressed."
+
+- id: source-zero-read-filter-json-gate
+  raised_by: workflow-brief-to-galaxy-data-flow
+  evidence: "subworkflows/nf-core/fastq_trim_fastp_fastqc/main.nf parses fastp JSON summary.after_filtering.total_reads and keeps only samples with >0 reads in FASTQ_TRIM_FASTP_FASTQC.out.reads (comment:
+    so FastQC doesn't fail); workflows/bacass.nf feeds that filtered channel to UNICYCLER. fastp JSON/HTML are emitted for all samples."
+  impact: 'Observable source result for a zero-read sample: fastp reports, no assembly, no QUAST. Galaxy post-assembly cleanup reproduces this without a JSON-parsing gate.'
+- id: iwc-no-unicycler-precedent
+  raised_by: compare-against-iwc-exemplar
+  evidence: 'grep for unicycler across iwc/workflows at e8cd4de3d: no hits. Only short-read bacterial assembler in IWC is Shovill (genome-assembly/bacterial-genome-assembly, iuc/shovill 1.1.0+galaxy2).'
+  impact: Unicycler wiring/params have no corpus exemplar; per-step loop must rely on wrapper summary.
+- id: iwc-fastp-paired-collection-idiom
+  raised_by: compare-against-iwc-exemplar
+  evidence: 'read-preprocessing/short-read-qc-trimming: Raw reads list:paired -> iuc/fastp 1.3.5+galaxy0 single_paired|paired_input, paired_collection mode, outputs output_paired_coll, report_json, report_html
+    (hidden). IWC fastp pins range to 1.4.0+galaxy0; 1.3.7+galaxy0 most common.'
+  impact: N1 maps natively over list:paired and emits list:paired; fastp-paired-output-shape closed.
+- id: iwc-quast-individual-reference-free
+  raised_by: compare-against-iwc-exemplar
+  evidence: 'bacterial_genomics/bacterial-quality-and-contamination-control-post-assembly: iuc/quast 5.3.0+galaxy1 (changeset 1b1cf0c96501), mode individual, assembly.type genome, ref.use_ref false; outputs
+    report_tabular, report_html, report_pdf, log.'
+  impact: Per-sample reference-free QUAST is corpus-idiomatic; HTML report available if quast-html-output-optional chooses to expose it.
+- id: iwc-label-convention-title-case
+  raised_by: compare-against-iwc-exemplar
+  evidence: 'short-read-qc-trimming labels: "Raw reads", "fastp JSON report", "fastp trimmed reads", "MultiQC HTML report"; older bacterial-genome-assembly uses snake_case output ids.'
+  impact: Brief labels (incl. exact "fastp JSON report") match current IWC convention; keep them.
+- id: iwc-filter-builtins-version
+  raised_by: workflow-brief-to-galaxy-template
+  evidence: 'IWC e8cd4de3d: __FILTER_FAILED_DATASETS__ (sars-cov-2 pe-artic-variation) and __FILTER_EMPTY_DATASETS__ (PathoGFAIR aggregation) both tool_version 1.1.0, input port input, output port output,
+    optional replacement param left unset.'
+  impact: Cleanup steps can be emitted fully resolved in the template.
+- id: test-data-bacass-short-pinned
+  raised_by: find-test-data
+  evidence: "bacass_short.tsv rows ERR044595, ERR064912 -> nf-core/test-datasets commit 32853ba6db10b45dce00b3986b9be39f9aaab038 *_1M_{1,2}.fastq.gz; SHA-1 computed 2026-10-16 (see test-data-refs.json);
+    1M 75bp reads per file, ~227 MB total; no IWC fixture reuses these files."
+  impact: "Paired-end reads resolved as 2-element list:paired with remote locations + SHA-1; no user-supplied fallback needed. Runtime of Unicycler on ~1M pairs/sample on aarch64 Docker is a test-run concern."
+decisions:
+- id: reads-input-list-paired
+  decided_by: workflow-brief-to-galaxy-interface
+  decision: "Single workflow input 'Paired-end reads', collection_type list:paired, element identifiers = sample IDs, forward=R1, reverse=R2, expected fastqsanger.gz."
+  rationale: "Brief + expert review: paired-end only, one read pair per sample, no merging, single-end out of scope; sample-sheet shape is source evidence not a required interface; no per-row metadata has
+    a consumer."
+  evidence:
+  - samplesheet-genomesize-not-carried
+- id: per-sample-list-outputs
+  decided_by: workflow-brief-to-galaxy-interface
+  decision: "Public outputs, each a list keyed by sample ID: 'Unicycler assembly', 'Unicycler assembly graph', 'QUAST report', 'fastp JSON report', 'fastp HTML report'. Trimmed reads and Unicycler log not
+    exposed."
+  rationale: "Expert review fixes per-sample outputs (assembly, QUAST report, fastp JSON+HTML, Unicycler graph) and drops log + trimmed reads; per-sample QUAST replaces source's combined report."
+  evidence:
+  - source-quast-cross-sample
+- id: assembly-compression-not-required
+  decided_by: workflow-brief-to-galaxy-interface
+  decision: "Assembly and graph outputs need not be gzipped."
+  rationale: "Brief cites gzip only as source behavior."
+  evidence:
+  - unicycler-outputs-gzipped-in-source
+- id: no-parameter-inputs
+  decided_by: workflow-brief-to-galaxy-interface
+  decision: "Expose no parameter inputs and no QUAST reference input."
+  rationale: "Path fixed by brief; optional QUAST reference out by expert review; extra-args surfaces recorded as dropped."
+  evidence: []
+- id: quast-tabular-is-test-checkpoint
+  decided_by: workflow-brief-to-galaxy-interface
+  decision: "Use 'QUAST report' (tabular) and 'fastp JSON report' as primary test assertion surfaces; no additional checkpoint outputs promoted."
+  rationale: "Required outputs already carry stable, meaningful statistics (N50, total length, contigs; fastp filtering stats)."
+  evidence: []
+- id: per-sample-map-over-topology
+  decided_by: workflow-brief-to-galaxy-data-flow
+  decision: 'Linear per-sample map-over: Paired-end reads -> fastp (N1) -> Unicycler on trimmed reads (N2) -> cleanup (N3a-c) -> QUAST per assembly (N4). No reduction, fan-in, Apply Rules or tabular bridge.'
+  rationale: Brief requires trimming before assembly and assembly from trimmed reads; expert review requires per-sample QUAST; identifiers already correct.
+  evidence:
+  - source-quast-cross-sample
+- id: zero-read-guard-post-assembly-cleanup
+  decided_by: workflow-brief-to-galaxy-data-flow
+  decision: Do not reproduce source's pre-assembly fastp-JSON gate; instead filter failed and empty elements from Unicycler assembly (and failed from graph) before QUAST/publication.
+  rationale: 'Brief leaves guard to design; same observable outcome as source with built-in collection cleanup (galaxy-collection-patterns: empty or failed elements) and no JSON->boolean shim chain; happy-path
+    fixture unaffected.'
+  evidence:
+  - source-zero-read-filter-json-gate
+
+- id: no-zip-between-fastp-and-assembler
+  decided_by: compare-against-iwc-exemplar
+  decision: Template wires N1 fastp (paired_collection mode) output_paired_coll directly to N2; drop the conditional zip-to-paired placeholder.
+  rationale: IWC fastp wrapper emits list:paired from a list:paired input; data-flow brief made the zip conditional on this.
+  evidence:
+  - iwc-fastp-paired-collection-idiom
+- id: template-step-resolution-tiers
+  decided_by: workflow-brief-to-galaxy-template
+  decision: 'Draft tiers: fastp trimming identity-pinned (iuc/fastp, real ports single_paired|paired_input / output_paired_coll / report_json / report_html, tool_version TODO); Unicycler assembly (raw)
+    deferred (tool_id TODO, TODO_* ports); QUAST per assembly identity-pinned (iuc/quast 5.3.0+galaxy1, ports mode|in|inputs / report_tabular / report_html); three cleanup steps resolved built-ins (__FILTER_FAILED_DATASETS__
+    / __FILTER_EMPTY_DATASETS__ 1.1.0, input -> output).'
+  rationale: fastp and QUAST have IWC exemplars for the same operation and mode; Unicycler has no corpus precedent so its identity is left to discover-shed-tool; cleanup built-ins are corpus-confirmed
+    with no parameters needed.
+  evidence:
+  - iwc-fastp-paired-collection-idiom
+  - iwc-quast-individual-reference-free
+  - iwc-no-unicycler-precedent
+  - iwc-filter-builtins-version
+- id: fastp-version-newest-1-4-0
+  decided_by: advance-galaxy-draft-step
+  decision: 'Pin fastp trimming to iuc/fastp 1.4.0+galaxy0 (changeset 4990e6f1348f) instead of the template seed 1.3.5+galaxy0; state = wrapper defaults with single_paired_selector paired_collection, no
+    merge, report_html/report_json true.'
+  rationale: discover-shed-tool picks newest installable version; 1.4.0+galaxy0 is newest on the shed and the top of the IWC pin range; wrapper keeps the same paired_collection ports/outputs as the 
+    exemplar version.
+  evidence:
+  - iwc-fastp-paired-collection-idiom
+- id: graph-cleanup-failed-only-no-sync
+  decided_by: workflow-brief-to-galaxy-template
+  decision: 'Unicycler assembly graph published from Filter failed assembly graphs only (no filter-empty, no sibling sync with assembly survivors); QUAST HTML kept hidden pending quast-html-output-optional.'
+  rationale: Graph is terminal with no consumer; data-flow brief and IWC comparison (D6) found no sync precedent; keeps template minimal.
+  evidence: []
+- id: test-plan-single-happy-path-tolerant
+  decided_by: workflow-brief-to-galaxy-test-plan
+  decision: 'One test case (bacass_short.tsv, 2-sample list:paired); per-element assertions on all five outputs; QUAST report via regex bands + Assembly-label + no reference metrics; fastp JSON via read
+    count; assembly/graph via header/GFA line regex + size band; zero-read cleanup untested.'
+  rationale: Expert review fixes test data; Unicycler/SPAdes nondeterminism rules out exact values; source nf-test snapshot carries no stats.
+  evidence:
+  - test-data-bacass-short-pinned
+  - source-test-uses-reseq-samplesheet
+brief_change_recommendations: []

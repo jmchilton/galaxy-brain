@@ -1,4 +1,4 @@
-(space for John's free style comments - just keep empty)
+John-ified the tests - there were some anti-patterns in there - I hope that is okay. -John
 
 <details><summary>Automated Review Details</summary>
 

@@ -1,0 +1,247 @@
+class: GalaxyWorkflow
+label: Per-sample read QC and trimming (nf-core/demo 1.1.0)
+doc: |
+  For each sample in a sample sheet of gzip-compressed FASTQ runs, run FastQC on every
+  untrimmed read file and quality-trim every read file with seqtk trimfq (tool defaults,
+  not pair-aware). Rows sharing a `sample` value are grouped into one sample (runs kept as
+  separate files, never concatenated). A sample whose runs mix single-end and paired-end
+  data fails the invocation before any QC or trimming runs. `skip_trim` disables trimming.
+  Translated from nf-core/demo 1.1.0 (45904cb9); MultiQC, version collection and run
+  bookkeeping are out of scope.
+inputs:
+  samplesheet:
+    type: collection
+    collection_type: sample_sheet:paired_or_unpaired
+    format: fastqsanger.gz
+    optional: false
+    doc: |
+      One element per sample-sheet row (sequencing run). Element identifier = unique run id
+      (fixture convention <sample>_T<k>). Inner element is {forward, reverse} when the row has
+      fastq_2, {unpaired} otherwise. Column `sample` groups runs into samples.
+    column_definitions:
+      - name: sample
+        type: string
+        optional: false
+        validators:
+          - type: regex
+            expression: ^\S+$
+  skip_trim:
+    type: boolean
+    optional: false
+    default: false
+    doc: Skip read trimming (source params.skip_trim). When true, no trimmed reads are produced; QC reports are unchanged.
+outputs:
+  fastqc_html:
+    outputSource: fastqc/html_file
+    doc: FastQC HTML report per untrimmed read file, list:list:paired_or_unpaired keyed <sample>/<run id>/<forward|reverse|unpaired>.
+  trimmed_reads:
+    outputSource: trim_reads/default
+    doc: seqtk trimfq output per read file (fastqsanger.gz), same identifiers as fastqc_html. Skipped (null elements) when skip_trim is true.
+steps:
+  regroup_by_sample:
+    tool_id: __APPLY_RULES__
+    tool_version: 1.1.0
+    doc: Merge sample-sheet rows (runs) into per-sample groups keyed by the `sample` column; runs stay separate leaves, sheet order kept.
+    in:
+      input: samplesheet
+    out:
+      - id: output
+    state:
+      rules:
+        rules:
+          - type: add_column_metadata
+            value: identifier0
+          - type: add_column_metadata
+            value: identifier1
+          - type: add_column_from_sample_sheet_index
+            value: 0
+        mapping:
+          - type: list_identifiers
+            columns:
+              - 2
+              - 0
+          - type: paired_or_unpaired_identifier
+            columns:
+              - 1
+  flatten_for_guard:
+    tool_id: __FLATTEN__
+    tool_version: 1.0.0
+    doc: Flatten the per-sample groups so each read file's identifier spells sample:run:role for the endedness check.
+    in:
+      input: regroup_by_sample/output
+    out:
+      - id: output
+    state:
+      join_identifier: ":"
+  guard_identifiers:
+    tool_id: toolshed.g2.bx.psu.edu/repos/iuc/collection_element_identifiers/collection_element_identifiers/0.0.3
+    tool_version: 0.0.3
+    tool_shed_repository:
+      changeset_revision: 3e27acfa4830
+      name: collection_element_identifiers
+      owner: iuc
+      tool_shed: toolshed.g2.bx.psu.edu
+    doc: Write the flattened identifiers (one sample:run:role per line) to a text file.
+    in:
+      input_collection: flatten_for_guard/output
+    out:
+      - id: output
+    state: {}
+  validate_endedness:
+    tool_id: toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_awk_tool/9.11+galaxy0
+    tool_version: 9.11+galaxy0
+    tool_shed_repository:
+      changeset_revision: 30b60202d990
+      name: text_processing
+      owner: bgruening
+      tool_shed: toolshed.g2.bx.psu.edu
+    doc: |
+      Fail the job (exit 1) if any sample mixes single-end and paired-end runs, naming the sample with
+      the source validateInputSamplesheet message; also fail on any identifier that is not
+      sample:run:role. Otherwise print exactly `true`. Code uses no single quotes (wrapper sanitizer).
+    in:
+      infile: guard_identifiers/output
+    out:
+      - id: outfile
+    state:
+      code: |
+        {
+          n = split($0, f, ":")
+          if (n != 3) { print "Error: unexpected identifier (want sample:run:role): " $0; bad = 1; next }
+          s = f[1]; r = f[3]
+          if (r == "forward" || r == "reverse") pe[s] = 1
+          else if (r == "unpaired") se[s] = 1
+          else { print "Error: unexpected read role in identifier: " $0; bad = 1 }
+        }
+        END {
+          for (s in se) if (s in pe) { print "Error: Multiple runs of a sample must be of the same datatype i.e. single-end or paired-end: " s; bad = 1 }
+          if (bad) exit 1
+          print "true"
+        }
+      variables: []
+  guard_ok:
+    tool_id: param_value_from_file
+    tool_version: 0.1.0
+    doc: Turn the guard's `true` into a boolean that gates FastQC and the trim switch; a failed guard leaves nothing to schedule them on.
+    in:
+      input1: validate_endedness/outfile
+    out:
+      - id: boolean_param
+    state:
+      param_type: boolean
+      remove_newlines: true
+  invert_skip_trim:
+    tool_id: toolshed.g2.bx.psu.edu/repos/iuc/map_param_value/map_param_value/0.2.0
+    tool_version: 0.2.0
+    tool_shed_repository:
+      changeset_revision: 5ac8a4bf7a8d
+      name: map_param_value
+      owner: iuc
+      tool_shed: toolshed.g2.bx.psu.edu
+    doc: run_trim = NOT skip_trim. Gated on guard_ok so trimming also waits for the endedness guard.
+    in:
+      input_param_type|input_param: skip_trim
+      when: guard_ok/boolean_param
+    when: $(inputs.when)
+    out:
+      - id: output_param_boolean
+    state:
+      input_param_type:
+        type: boolean
+        mappings:
+          - from: true
+            to: "false"
+          - from: false
+            to: "true"
+      output_param_type: boolean
+      unmapped:
+        on_unmapped: fail
+  fastqc:
+    tool_id: toolshed.g2.bx.psu.edu/repos/devteam/fastqc/fastqc/0.74+galaxy1
+    tool_version: 0.74+galaxy1
+    tool_shed_repository:
+      changeset_revision: 2c64fded1286
+      name: fastqc
+      owner: devteam
+      tool_shed: toolshed.g2.bx.psu.edu
+    doc: FastQC (0.12.1, --quiet) on every untrimmed read file; zip/raw-data output not exposed.
+    in:
+      input_file: regroup_by_sample/output
+      when: guard_ok/boolean_param
+    when: $(inputs.when)
+    out:
+      - id: html_file
+      - id: text_file
+        hide: true
+    state:
+      nogroup: false
+      kmers: 7
+  trim_reads:
+    tool_id: toolshed.g2.bx.psu.edu/repos/iuc/seqtk/seqtk_trimfq/1.4+galaxy0
+    tool_version: 1.4+galaxy0
+    tool_shed_repository:
+      changeset_revision: a019807f4e67
+      name: seqtk
+      owner: iuc
+      tool_shed: toolshed.g2.bx.psu.edu
+    doc: seqtk trimfq with tool defaults (-q 0.05 -l 30) per read file, not pair-aware; gzip input gives gzip output.
+    in:
+      in_file: regroup_by_sample/output
+      when: invert_skip_trim/output_param_boolean
+    when: $(inputs.when)
+    out:
+      - id: default
+    state:
+      mode:
+        mode_select: quality
+        q: 0.05
+        l: 30
+comments:
+  - type: frame
+    position:
+      - 0
+      - 0
+    size:
+      - 320
+      - 240
+    color: none
+    title: Group sample-sheet runs by sample
+    contains_steps:
+      - regroup_by_sample
+  - type: frame
+    position:
+      - 340
+      - 0
+    size:
+      - 900
+      - 240
+    color: none
+    title: Reject samples mixing single- and paired-end runs
+    contains_steps:
+      - flatten_for_guard
+      - guard_identifiers
+      - validate_endedness
+      - guard_ok
+  - type: frame
+    position:
+      - 340
+      - 260
+    size:
+      - 320
+      - 200
+    color: none
+    title: Trim switch (run trimming unless skip_trim)
+    contains_steps:
+      - invert_skip_trim
+  - type: frame
+    position:
+      - 680
+      - 260
+    size:
+      - 560
+      - 320
+    color: none
+    title: Read QC on untrimmed reads and quality trimming
+    contains_steps:
+      - fastqc
+      - trim_reads

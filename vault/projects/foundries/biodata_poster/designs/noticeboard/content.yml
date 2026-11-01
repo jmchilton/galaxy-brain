@@ -1,0 +1,136 @@
+# All poster prose. Edit here and run ./build.sh.
+# Inline markup: **bold**, *italic*, `mono`, {->} arrow, {!=} not-equal, {x} times. [[...]] renders as a placeholder.
+# Numbers marked (run) are checked against data/run.json by build.mjs; edit both together.
+
+eyebrow: "Galaxy Workflow Foundry · CSHL Biological Data Science 2026 · Tools, Visualization, and Infrastructure"
+title: ["From Papers and Conversations", "to Runnable Galaxy Workflows"]
+authors: "John Chilton¹, Marius van den Beek¹, Dannon Baker², Danielle Callan³, Anton Nekrutenko¹"
+affiliations:
+  - "¹ The Pennsylvania State University, University Park, PA, USA"
+  - "² Johns Hopkins University, Baltimore, MD, USA"
+  - "³ Temple University, Philadelphia, PA, USA"
+
+hero: "Missing something? It’s on the board."
+hero_sub: "One agent-built Galaxy workflow, from a dengue sequencing paper. What it couldn’t match is posted here."
+
+# What the build expects from the run files (guarded).
+expect:
+  entries: 19
+  open: 5
+  dropped: 2
+  resolved: 14
+  phases: 11
+  draftIterations: 7
+  steps: 7
+  pinsHit: 7
+  proposals: 10
+  edited: 1
+
+# Every open ledger entry must be posted on a flyer (guarded).
+posted:
+  low-coverage-and-empty-bam-behavior: missing-n
+  consensus-baq-deviation-check-on-test-sample: missing-baq
+  variants-baq-deviation-check-on-test-sample: missing-baq
+  serotype-coverage-plane-not-carried: cut
+  filtered-variant-frequency-table-not-carried: cut
+
+notice:
+  genre: "Notice"
+  thesis: "A correct workflow is a ==knowledge problem==, not a syntax problem."
+  lead: "Galaxy changes faster than training data, so the Foundry keeps that knowledge in a wiki [3] and compiles it:"
+  chain:
+    - { n: "420", unit: "notes", text: "on current Galaxy practice" }
+    - { n: "56", unit: "Molds", text: "one per action, listing its needs" }
+    - { n: "69", unit: "skills", text: "each hashing its sources" }
+  foot: "Compiling runs no model. Methods sections omit result-changing choices, so gaps are expected: posting them is the output."
+
+free:
+  genre: "Free to a good home"
+  sub: "Agent-built, for dengue virus: DengueSeq DENV3 [2]"
+  input: "reads: list:paired"
+  layout:   # step label -> [row, column] in the node strip
+    map_reads: [0, 0]
+    filter_mapped_primary: [0, 1]
+    primer_trim: [0, 2]
+    consensus: [1, 0]
+    variants: [1, 1]
+    per_base_depth: [1, 2]
+    consensus_header: [2, 0]
+  names:    # display name per step (the Galaxy tool id, shortened only where noted)
+    per_base_depth: "genomecov"
+  lines:
+    - "**From** the paper and its linked code (DENV_pipeline v1.0)."
+    - "**Native:** Galaxy’s own tools, each pinned to a Tool Shed changeset. Not the paper’s pipeline in a container."
+    - "**Held out:** paper chosen 20 Oct, after the skills were built (`f275059e`, 19 Oct)."
+    - "**Brief reviewed** by an author (J.C.): 10 proposals, 1 edited."
+  catch: "Not included: a replication of the paper’s results."
+
+wanted:
+  genre: "Wanted"
+  sub: "7 tools from the Tool Shed"
+  stamp: "Found"
+  foot: "Pinned from the index of the Tool Shed, Galaxy’s tool registry, not from the model’s memory."
+
+inspected:
+  genre: "Inspected"
+  certs:
+    - { tool: "gxwf validate --strict", detail: "validator: tool state 7 of 7 · connections valid" }
+    - { tool: "planemo test", detail: "1 test, in a real Galaxy · 7/7 jobs ok · `b18269a1`" }
+  head: "The model drafts; the tools decide."
+  why: "In the companion Orbit study (open-weight models), a rule given only in the prompt was followed in 0 of 15 graded runs. Skills are guidance, not enforcement [1, pp. 16, 18]."
+  prov: "The Foundry records which knowledge built each skill; Galaxy records what ran."
+
+missing_n:
+  genre: "Missing"
+  big: "10,707 N"
+  what: "A zero-read sample’s all-N consensus."
+  photo_header: ">sample.DENV3"
+  photo_caption: "Last seen: **the paper’s code** (`mpileup -aa --reference`) writes the full genome, all N."
+  galaxy: "**Galaxy’s iVar consensus wrapper** (probed in its container) returns the header and an empty sequence."
+  galaxy_record: [">sample.DENV3", "(empty)"]
+  ledger: "low-coverage-and-empty-bam-behavior"
+
+missing_baq:
+  genre: "Missing"
+  big: "BAQ"
+  sub: "base alignment quality: on in the paper’s code"
+  body: "Galaxy’s iVar wrappers pile up with BAQ off; the consensus wrapper takes no reference at all. Two entries stay open until the expert rules."
+  probe: "A later probe of the wrapper chain, outside Galaxy and after the ledger was written (debug report): 0 consensus positions differ on SRR25366733; variant rows 484 vs 476."
+  ledger: ["consensus-baq-deviation-check-on-test-sample", "variants-baq-deviation-check-on-test-sample"]
+
+cut:
+  genre: "Cut"
+  items:
+    - "The paper’s genome-completeness metric."
+    - "The filtered variant table. The full iVar table ships instead."
+  foot: "Cut in the brief an author reviewed; still on the ledger as `kind: dropped`."
+
+lost:
+  genre: "Lost & found"
+  tag: "a different run"
+  reported: "**Reported missing** by an MRSA run (from an expert’s spec): the `integron_finder` wrapper. **Never lost:** `iuc/integron_finder` was on the Tool Shed."
+  fixed: "**So the knowledge was fixed:** Mold and its test updated, skill recompiled; commit"
+  again: "October, #701: a test-assertion defect in 3 runs; 1 note fixed, 8 skills recompiled. Learning happens in the wiki, not model weights."
+
+also:
+  genre: "Also posted"
+  items:
+    - "**Hokken et al., *A. fumigatus* RNA-seq** ([1], Fig. S4A): about 60 steps from methods text, on UseGalaxy.org; fold changes agree. The authors’ data surfaced a modelling choice the methods never stated."
+    - "**MRSA expert specification:** the draft validates in gxwf; full validation not reached; Planemo never ran."
+  ask: "[[ASK]] nf-core/rnaseq and nf-core/atacseq rebuilds, Foundry-validated (atacseq partial)."
+
+strip:
+  legend: "FREE, WANTED, INSPECTED, MISSING and CUT are one real run (DengueSeq DENV3, 20–21 Oct 2026), rendered from its files. **One run, not a sample.** Second test case not yet run."
+  install:
+    - { k: "Claude Code", v: "/plugin marketplace add galaxyproject/foundry" }
+    - { k: "Codex", v: "codex plugin marketplace add galaxyproject/foundry" }
+  tabs:
+    - { label: "Code", url: "https://github.com/galaxyproject/foundry" }
+    - { label: "Install", url: "https://galaxyproject.github.io/foundry/usage/" }
+    - { label: "Preprint [1]", url: "https://doi.org/10.64898/2026.10.26.761864",  }
+  live: { label: "Live results", url: null, placeholder: "[[QR: live results]]", note: "updates after print" }
+  refs:
+    - "Baker D, …, Nekrutenko A. Verifiable Agentic Science on Public Infrastructure. bioRxiv 2026.10.26.761864 (2026)."
+    - "Vogels CBF, Hill V, et al. DengueSeq. *BMC Genomics* 25:433 (2024)."
+    - "Karpathy A. llm-wiki.md, gist.github.com/karpathy (2026)."
+  counts: "Counts: galaxyproject/foundry `main`, 2026-10-24: 420 notes · 56 Molds (27 reviewed) · 13 pipelines (2 emit CWL, 2 review) · 69 skills · 51 eval oracles · 31 CI pattern workflows pass `planemo test` on Galaxy 26.1."

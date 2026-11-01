@@ -1,0 +1,17 @@
+Detected format: format2, mode: effect
+Structural validation: OK
+  [0] tool_state: OK
+  [1] tool_state: OK
+  [2] tool_state: OK
+  [3] tool_state errors (toolshed.g2.bx.psu.edu/repos/iuc/macs2/macs2_callpeak/2.2.9.1+galaxy0):
+    format: Expected "BAM", actual "BAMX"
+    format: Expected "BAMPE", actual "BAMX"
+    format: Expected "BED", actual "BAMX"
+    format: Expected undefined, actual "BAMX"
+  [4] tool_state: OK
+  [5] tool_state: OK
+  [6] tool_state: OK
+
+Tool state: 7 validated, 0 skipped
+
+Connections: OK — 14 ok, 0 invalid, 0 skip

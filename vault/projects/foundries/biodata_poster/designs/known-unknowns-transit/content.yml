@@ -1,0 +1,120 @@
+# All poster copy. Edit, then ./build.sh
+# Inline markup: **bold**, *italic*, `mono`; {arrow} draws an SVG arrow (Overpass lacks it).
+# Body word budget: 400 (build fails above it). Title, authors, affiliations, refs and QR captions don't count.
+
+kicker: Galaxy Workflow Foundry · known unknowns
+title:
+  - A Draft Format for
+  - Agent-Built Galaxy Workflows
+authors: John Chilton<sup>1</sup>, Marius van den Beek<sup>1</sup>, Dannon Baker<sup>2</sup>, Danielle Callan<sup>3</sup>, Anton Nekrutenko<sup>1</sup>
+affiliations:
+  - <sup>1</sup>The Pennsylvania State University, University Park, PA, USA
+  - <sup>2</sup>Johns Hopkins University, Baltimore, MD, USA
+  - <sup>3</sup>Temple University, Philadelphia, PA, USA
+
+live:
+  title: Live results
+  text: Keeps updating after print.
+
+hero:
+  big:
+    - Make “I don’t know yet” a typed,
+    - checkable state, then burn it down.
+  quote: “There are known knowns… We also know there are known unknowns.”
+  cite: Donald Rumsfeld, 2002 [1]
+
+# ---------- the draft (after the GCC 2026 lightning-talk example, corrected so it passes gxwf draft-validate) ----------
+# kinds: k = concrete (known known), u = TODO sentinel (known unknown), p = _plan_ intent
+# The build joins these segments into a .gxwf.yml and fails if `gxwf draft-validate` rejects it.
+draft:
+  tag: What the template writes
+  code:
+    - [[k, "class: GalaxyWorkflowDraft"]]
+    - [[k, "inputs:"]]
+    - [[k, "  reads:"]]
+    - [[k, "    type: collection"]]
+    - [[k, "    collection_type: list:paired"]]
+    - [[k, "  reference:"]]
+    - [[k, "    type: data"]]
+    - [[k, "outputs: {}"]]
+    - [[k, "steps:"]]
+    - [[k, "  align_reads:"]]
+    - [[k, "    tool_id: "], [u, "TODO_mapper"]]
+    - [[k, "    tool_version: "], [u, "TODO"]]
+    - [[k, "    "], [p, "_plan_context: \"map paired reads"]]
+    - [[k, "      "], [p, "to the reference\""]]
+    - [[k, "    in:"]]
+    - [[k, "      "], [u, "TODO_reads_port"], [k, ": reads"]]
+    - [[k, "      "], [u, "TODO_reference_port"], [k, ": reference"]]
+    - [[k, "    out: ["], [u, "TODO_bam_output"], [k, "]"]]
+  legend:
+    - [k, known]
+    - [u, unknown]
+    - [p, intent]
+
+# ---------- map ----------
+origin: [Reviewed, brief]
+stations:
+  interface: [Interface]
+  dataflow: [Data flow]
+  iwc: [IWC, exemplar]
+template: [Template]
+template_sub: declares the unknowns
+extract: extract
+runs:
+  dengueseq: { name: Dengue amplicon consensus, from: "from a paper [2]" }
+  bacass: { name: Bacterial assembly, from: from nf-core/bacass }
+  demo: { name: Read QC + trim, from: from nf-core/demo }
+axis: Height = known unknowns left (`TODO` sentinels). One stop per draft-loop iteration.
+
+board:
+  tag: Next stop
+  cmd: gxwf draft-next-step
+  max_work: 2
+
+valid:
+  head: Every stop validates.
+  text: "`gxwf draft-validate`, replayed on each committed draft: concrete steps pass against real tool schemas; deferred ones are skipped."
+  chips: tool states checked
+
+terminus:
+  name: Promoted
+  cls: "class: GalaxyWorkflow"
+  sub: no translation layer
+
+end:
+  head: The map ends here.
+  text: A validated workflow that nobody has run is a strong hypothesis about an analysis. It is not the analysis.
+
+# ---------- key ----------
+key:
+  title: How to read the map
+  items:
+    - sym: solid
+      term: Known knowns
+      text: Inputs, outputs, steps, edges and `when:` guards are concrete from the first draft.
+    - sym: dashed
+      term: Known unknowns
+      text: "`TODO_*` sentinels defer tool IDs, versions and ports. `_plan_*` notes carry the intent."
+    - sym: station
+      term: Valid at every resolution
+      text: "`gxwf draft-validate` checks what is concrete against real tool schemas and skips what is deferred."
+    - sym: board
+      term: The draft says what’s next
+      text: "`gxwf draft-next-step` picks the next unresolved step, so the format drives the loop."
+    - sym: terminus
+      term: Promotion
+      text: A fully resolved draft becomes ordinary gxformat2, with no translation layer.
+    - sym: rails
+      term: Rails, not reminders
+      text: Upstream schemas travel as contracts. The model translates and repairs; the tools validate.
+
+# ---------- footer ----------
+qrs:
+  - { id: format, url: "https://jmchilton.github.io/galaxy-tool-util-ts/#/guide/draft-format", label: Draft format }
+  - { id: foundry, url: "https://galaxyproject.github.io/foundry/research/galaxy-data-flow-draft-contract/", label: How agents use it }
+  - { id: slides, url: "https://jmchilton.net/slides/gcc2026-lightning/", label: Slides }
+refs:
+  - Rumsfeld D. U.S. Department of Defense news briefing, 12 Feb 2002.
+  - Vogels CBF, Hill V, et al. DengueSeq. *BMC Genomics* 25:433 (2024).
+footnote: "Three Galaxy Workflow Foundry runs, October 2026. Every committed draft replayed with gxwf 1.15.0 on {extracted}. One of us reviewed each run’s brief."

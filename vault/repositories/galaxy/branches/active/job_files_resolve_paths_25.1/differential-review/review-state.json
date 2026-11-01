@@ -1,0 +1,88 @@
+{
+  "schemaVersion": 1,
+  "kind": "differential-review-state",
+  "updatedAt": "2026-10-29T12:20:30.151Z",
+  "hunks": {
+    "h1:3ce77c960e2f8c12": {
+      "snapshotId": "20261029T121018Z-polishing-c7e144050f2f",
+      "path": "lib/galaxy/job_execution/ports/view.py",
+      "reviewedAt": "2026-10-29T12:19:52.061Z"
+    },
+    "h1:84312837f3035425": {
+      "snapshotId": "20261029T121018Z-polishing-c7e144050f2f",
+      "path": "lib/galaxy/webapps/galaxy/api/job_files.py",
+      "reviewedAt": "2026-10-29T12:20:09.409Z"
+    },
+    "h1:e7eae10817a7fb32": {
+      "snapshotId": "20261029T121018Z-polishing-c7e144050f2f",
+      "path": "lib/galaxy/webapps/galaxy/api/job_files.py",
+      "reviewedAt": "2026-10-29T12:20:09.409Z"
+    },
+    "h1:c0ece710e712798d": {
+      "snapshotId": "20261029T121018Z-polishing-c7e144050f2f",
+      "path": "test/integration/test_job_files.py",
+      "reviewedAt": "2026-10-29T12:20:26.513Z"
+    },
+    "h1:64d832cc00641435": {
+      "snapshotId": "20261029T121018Z-polishing-c7e144050f2f",
+      "path": "test/integration/test_job_files.py",
+      "reviewedAt": "2026-10-29T12:20:26.513Z"
+    },
+    "h1:086671a8fac7b553": {
+      "snapshotId": "20261029T121018Z-polishing-c7e144050f2f",
+      "path": "test/integration/test_job_files.py",
+      "reviewedAt": "2026-10-29T12:20:26.513Z"
+    },
+    "h1:079c747c1f920fc3": {
+      "snapshotId": "20261029T121018Z-polishing-c7e144050f2f",
+      "path": "test/integration/test_job_files.py",
+      "reviewedAt": "2026-10-29T12:20:26.513Z"
+    },
+    "h1:0646d6090c887079": {
+      "snapshotId": "20261029T121018Z-polishing-c7e144050f2f",
+      "path": "test/integration/test_job_files.py",
+      "reviewedAt": "2026-10-29T12:20:26.513Z"
+    },
+    "h1:7317e9f2fe8a6f05": {
+      "snapshotId": "20261029T121018Z-polishing-c7e144050f2f",
+      "path": "test/integration/test_job_files.py",
+      "reviewedAt": "2026-10-29T12:20:26.513Z"
+    },
+    "h1:13d0bd3a0ab65364": {
+      "snapshotId": "20261029T121018Z-polishing-c7e144050f2f",
+      "path": "test/integration/test_job_files.py",
+      "reviewedAt": "2026-10-29T12:20:26.513Z"
+    },
+    "h1:eaf9db3745bb4cac": {
+      "snapshotId": "20261029T121018Z-polishing-c7e144050f2f",
+      "path": "test/integration/test_job_files.py",
+      "reviewedAt": "2026-10-29T12:20:26.513Z"
+    }
+  },
+  "commits": {
+    "9db664ef23c6f572d463b65bd4b2b65368eb40b1": {
+      "sha": "f9c905af3453028ae6a036d781503ae6fdead399",
+      "subject": "Baseline tests for job files API nginx upload writes",
+      "snapshotId": "20261029T121018Z-polishing-c7e144050f2f",
+      "signedOffAt": "2026-10-29T12:20:28.885Z"
+    },
+    "0c4f629c6fd03d61da6e199b4ba1f7f3a430704e": {
+      "sha": "a4360b342fcfcc89afff3e8c521f79c26b82777f",
+      "subject": "Only accept absolute paths for job files API writes",
+      "snapshotId": "20261029T121018Z-polishing-c7e144050f2f",
+      "signedOffAt": "2026-10-29T12:20:29.316Z"
+    },
+    "ad55198438bf8db637da69854d16da5767c413fe": {
+      "sha": "6a208e78a38bd2b19d94c8abc251140a88705c0b",
+      "subject": "Log job ports registration without request kwargs",
+      "snapshotId": "20261029T121018Z-polishing-c7e144050f2f",
+      "signedOffAt": "2026-10-29T12:20:29.765Z"
+    },
+    "a10ab82f80ad787d92cc83781bec7e2fbd3ac91e": {
+      "sha": "c7e144050f2f744136a2a959ecf0f2caf75e9067",
+      "subject": "Return 4xx for invalid job files upload sources",
+      "snapshotId": "20261029T121018Z-polishing-c7e144050f2f",
+      "signedOffAt": "2026-10-29T12:20:30.151Z"
+    }
+  }
+}

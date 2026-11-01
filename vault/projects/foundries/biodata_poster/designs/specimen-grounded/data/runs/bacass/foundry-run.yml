@@ -1,0 +1,200 @@
+run_record_version: 1
+pipeline: workflow-brief-to-galaxy
+run_slug: bacass-sr-assembly-galaxy
+harness_name: pipeline-workflow-brief-to-galaxy
+source_revision: 5
+assembly_sha256: 63f975d7009d1de2096747d1c1baf1a469ef92a2a463e259cfe880192d83d96f
+foundry_head: null
+started_at: '2026-10-17T02:40:46Z'
+finished_at: '2026-10-17T03:38:40Z'
+status: complete
+brief_sha256: b27b7b50055ae061b31e12fb4293b4943c31fa3037ba983f116199ffdc79acec
+preflight:
+  expert_review: ../review.md
+  check_workflow_brief:
+    exit: 0
+    valid: true
+    ready: true
+    blockers: []
+  tools:
+    gxwf: npx @galaxy-tool-util/cli@1.13.1 (global 1.8.2 below ^1.13.1; shim ../_bin/gxwf)
+    galaxy-tool-cache: npx @galaxy-tool-util/cli@1.13.1 (shim ../_bin/galaxy-tool-cache)
+    planemo: uvx planemo==0.75.47 (global 0.75.44; shim ../_bin/planemo)
+    foundry: npx @galaxy-foundry/gxwf-foundry (shim ../_bin/foundry)
+    docker: 29.8.2, daemon reachable, aarch64
+phases:
+- n: 1
+  kind: mold
+  skill: workflow-brief-to-galaxy-interface
+  status: done
+  artifacts:
+  - id: workflow-brief-galaxy-interface
+    file: workflow-brief-galaxy-interface.md
+    at: '2026-10-17T02:43:44Z'
+  - id: open-requirements-ledger
+    file: open-requirements.ledger.yml
+    at: '2026-10-17T02:43:44Z'
+- n: 2
+  kind: mold
+  skill: workflow-brief-to-galaxy-data-flow
+  status: done
+  artifacts:
+  - id: workflow-brief-galaxy-data-flow
+    file: workflow-brief-galaxy-data-flow.md
+    at: '2026-10-17T02:46:13Z'
+  - id: open-requirements-ledger
+    file: open-requirements.ledger.yml
+    at: '2026-10-17T02:46:13Z'
+- n: 3
+  kind: mold
+  skill: compare-against-iwc-exemplar
+  status: done
+  artifacts:
+  - id: iwc-comparison-notes
+    file: iwc-comparison-notes.md
+    at: '2026-10-17T02:50:19Z'
+  - id: iwc-exemplar-gxformat2
+    file: iwc-exemplar.gxwf.yml
+    at: '2026-10-17T02:50:19Z'
+  - id: open-requirements-ledger
+    file: open-requirements.ledger.yml
+    at: '2026-10-17T02:50:19Z'
+- n: 4
+  kind: mold
+  skill: workflow-brief-to-galaxy-template
+  status: done
+  artifacts:
+  - id: galaxy-workflow-draft
+    file: galaxy-workflow-draft.gxwf.yml
+    at: '2026-10-17T02:52:41Z'
+  - id: open-requirements-ledger
+    file: open-requirements.ledger.yml
+    at: '2026-10-17T02:52:41Z'
+- n: 5
+  kind: mold
+  skill: advance-galaxy-draft-step
+  status: done
+  artifacts:
+  - id: galaxy-workflow-draft
+    file: galaxy-workflow-draft.gxwf.yml
+    at: '2026-10-17T02:55:22Z'
+    iteration: 1
+  - id: galaxy-tool-pin
+    file: tool-pins/fastp-trimming/galaxy-tool-pin.json
+    at: '2026-10-17T02:55:22Z'
+    iteration: 1
+  - id: galaxy-tool-summary
+    file: tool-pins/fastp-trimming/galaxy-tool-summary.json
+    at: '2026-10-17T02:55:22Z'
+    iteration: 1
+  - id: open-requirements-ledger
+    file: open-requirements.ledger.yml
+    at: '2026-10-17T02:55:22Z'
+    iteration: 1
+  - id: galaxy-workflow-draft
+    file: galaxy-workflow-draft.gxwf.yml
+    at: '2026-10-17T02:58:19Z'
+    iteration: 2
+  - id: galaxy-tool-pin
+    file: tool-pins/unicycler-assembly-raw/galaxy-tool-pin.json
+    at: '2026-10-17T02:58:19Z'
+    iteration: 2
+  - id: galaxy-tool-summary
+    file: tool-pins/unicycler-assembly-raw/galaxy-tool-summary.json
+    at: '2026-10-17T02:58:19Z'
+    iteration: 2
+  - id: open-requirements-ledger
+    file: open-requirements.ledger.yml
+    at: '2026-10-17T02:58:19Z'
+    iteration: 2
+  - id: galaxy-workflow-draft
+    file: galaxy-workflow-draft.gxwf.yml
+    at: '2026-10-17T03:01:54Z'
+    iteration: 3
+  - id: galaxy-tool-pin
+    file: tool-pins/quast-per-assembly/galaxy-tool-pin.json
+    at: '2026-10-17T03:01:54Z'
+    iteration: 3
+  - id: galaxy-tool-summary
+    file: tool-pins/quast-per-assembly/galaxy-tool-summary.json
+    at: '2026-10-17T03:01:54Z'
+    iteration: 3
+  - id: open-requirements-ledger
+    file: open-requirements.ledger.yml
+    at: '2026-10-17T03:01:54Z'
+    iteration: 3
+  - id: galaxy-workflow
+    file: galaxy-workflow.gxwf.yml
+    at: '2026-10-17T03:02:43Z'
+    iteration: 4
+  iterations: 4
+- n: 6
+  kind: branch
+  pattern: test-data-resolution
+  status: done
+  artifacts:
+  - id: test-data-refs
+    file: test-data-refs.json
+    at: '2026-10-17T03:04:25Z'
+  - id: open-requirements-ledger
+    file: open-requirements.ledger.yml
+    at: '2026-10-17T03:04:25Z'
+  selected: find-test-data
+- n: 7
+  kind: mold
+  skill: workflow-brief-to-galaxy-test-plan
+  status: done
+  artifacts:
+  - id: galaxy-test-plan
+    file: galaxy-test-plan.yml
+    at: '2026-10-17T03:06:42Z'
+  - id: open-requirements-ledger
+    file: open-requirements.ledger.yml
+    at: '2026-10-17T03:06:42Z'
+- n: 8
+  kind: mold
+  skill: implement-galaxy-workflow-test
+  status: done
+  artifacts:
+  - id: galaxy-workflow-test
+    file: galaxy-workflow.gxwf-tests.yml
+    at: '2026-10-17T03:09:06Z'
+  - id: open-requirements-ledger
+    file: open-requirements.ledger.yml
+    at: '2026-10-17T03:09:06Z'
+- n: 9
+  kind: mold
+  skill: validate-galaxy-workflow
+  status: done
+  artifacts:
+  - id: galaxy-workflow-validation-result
+    file: galaxy-workflow-validation-result.json
+    at: '2026-10-17T03:10:52Z'
+- n: 10
+  kind: mold
+  skill: run-workflow-test
+  status: done
+  artifacts:
+  - id: workflow-test-result
+    file: workflow-test-result.json
+    at: '2026-10-17T03:36:56Z'
+  - id: planemo-test-output
+    file: planemo-test-output.json
+    at: '2026-10-17T03:36:56Z'
+  - id: planemo-test-report-html
+    file: planemo-test-report.html
+    at: '2026-10-17T03:36:56Z'
+  - id: planemo-test-report-md
+    file: planemo-test-report.md
+    at: '2026-10-17T03:36:56Z'
+- n: 11
+  kind: mold
+  skill: debug-galaxy-workflow-output
+  status: done
+  artifacts:
+  - id: workflow-debug-report
+    file: workflow-debug-report.md
+    at: '2026-10-17T03:38:40Z'
+  - id: open-requirements-ledger
+    file: open-requirements.ledger.yml
+    at: '2026-10-17T03:38:40Z'

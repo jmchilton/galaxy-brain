@@ -1,6 +1,7 @@
 ---
 upstream_base_branch: release_26.2
 parent_branch: deployment_test_fixes_26_2
+blocker: gx_branches/deployment_test_fixes_merged
 ---
 # Deployment test documentation and decorator audit
 

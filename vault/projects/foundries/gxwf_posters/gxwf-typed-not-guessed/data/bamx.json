@@ -1,0 +1,535 @@
+{
+  "workflow": "/private/tmp/claude-503/typed-not-guessed-receipt-r4-deps/work/chipseq-sr-bamx.gxwf.yml",
+  "results": [
+    {
+      "step": "0",
+      "tool_id": "toolshed.g2.bx.psu.edu/repos/iuc/fastp/fastp/1.4.0+galaxy0",
+      "version": "1.4.0+galaxy0",
+      "status": "ok",
+      "errors": []
+    },
+    {
+      "step": "1",
+      "tool_id": "toolshed.g2.bx.psu.edu/repos/devteam/bowtie2/bowtie2/2.5.5+galaxy0",
+      "version": "2.5.5+galaxy0",
+      "status": "ok",
+      "errors": []
+    },
+    {
+      "step": "2",
+      "tool_id": "toolshed.g2.bx.psu.edu/repos/devteam/samtool_filter2/samtool_filter2/1.8+galaxy1",
+      "version": "1.8+galaxy1",
+      "status": "ok",
+      "errors": []
+    },
+    {
+      "step": "3",
+      "tool_id": "toolshed.g2.bx.psu.edu/repos/iuc/macs2/macs2_callpeak/2.2.9.1+galaxy0",
+      "version": "2.2.9.1+galaxy0",
+      "status": "fail",
+      "errors": [
+        "format: Expected \"BAM\", actual \"BAMX\"",
+        "format: Expected \"BAMPE\", actual \"BAMX\"",
+        "format: Expected \"BED\", actual \"BAMX\"",
+        "format: Expected undefined, actual \"BAMX\""
+      ]
+    },
+    {
+      "step": "4",
+      "tool_id": "toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_grep_tool/9.11+galaxy0",
+      "version": "9.11+galaxy0",
+      "status": "ok",
+      "errors": []
+    },
+    {
+      "step": "5",
+      "tool_id": "wig_to_bigWig",
+      "version": "1.1.1",
+      "status": "ok",
+      "errors": []
+    },
+    {
+      "step": "6",
+      "tool_id": "toolshed.g2.bx.psu.edu/repos/iuc/multiqc/multiqc/1.35+galaxy4",
+      "version": "1.35+galaxy4",
+      "status": "ok",
+      "errors": []
+    }
+  ],
+  "connection_report": {
+    "valid": true,
+    "step_results": [
+      {
+        "step": "0",
+        "tool_id": null,
+        "version": null,
+        "step_type": "data_collection_input",
+        "map_over": null,
+        "connections": [],
+        "resolved_outputs": [
+          {
+            "name": "output",
+            "collection_type": "list"
+          }
+        ],
+        "errors": [],
+        "label": "SR fastq input"
+      },
+      {
+        "step": "1",
+        "tool_id": null,
+        "version": null,
+        "step_type": "parameter_input",
+        "map_over": null,
+        "connections": [],
+        "resolved_outputs": [
+          {
+            "name": "output",
+            "collection_type": null
+          }
+        ],
+        "errors": [],
+        "label": "Adapter sequence"
+      },
+      {
+        "step": "2",
+        "tool_id": null,
+        "version": null,
+        "step_type": "parameter_input",
+        "map_over": null,
+        "connections": [],
+        "resolved_outputs": [
+          {
+            "name": "output",
+            "collection_type": null
+          }
+        ],
+        "errors": [],
+        "label": "Percentage of bad quality bases per read"
+      },
+      {
+        "step": "3",
+        "tool_id": null,
+        "version": null,
+        "step_type": "parameter_input",
+        "map_over": null,
+        "connections": [],
+        "resolved_outputs": [
+          {
+            "name": "output",
+            "collection_type": null
+          }
+        ],
+        "errors": [],
+        "label": "Reference genome"
+      },
+      {
+        "step": "4",
+        "tool_id": null,
+        "version": null,
+        "step_type": "parameter_input",
+        "map_over": null,
+        "connections": [],
+        "resolved_outputs": [
+          {
+            "name": "output",
+            "collection_type": null
+          }
+        ],
+        "errors": [],
+        "label": "Effective genome size"
+      },
+      {
+        "step": "5",
+        "tool_id": null,
+        "version": null,
+        "step_type": "parameter_input",
+        "map_over": null,
+        "connections": [],
+        "resolved_outputs": [
+          {
+            "name": "output",
+            "collection_type": null
+          }
+        ],
+        "errors": [],
+        "label": "Normalize profile"
+      },
+      {
+        "step": "6",
+        "tool_id": "toolshed.g2.bx.psu.edu/repos/iuc/fastp/fastp/1.4.0+galaxy0",
+        "version": "1.4.0+galaxy0",
+        "step_type": "tool",
+        "map_over": "list",
+        "connections": [
+          {
+            "source_step": "2",
+            "source_output": "output",
+            "target_step": "6",
+            "target_input": "filter_options|quality_filtering_options|unqualified_percent_limit",
+            "status": "ok",
+            "mapping": null,
+            "errors": [],
+            "map_depth": 0,
+            "reduction": false
+          },
+          {
+            "source_step": "1",
+            "source_output": "output",
+            "target_step": "6",
+            "target_input": "single_paired|adapter_trimming_options|adapter_sequence1",
+            "status": "ok",
+            "mapping": null,
+            "errors": [],
+            "map_depth": 0,
+            "reduction": false
+          },
+          {
+            "source_step": "0",
+            "source_output": "output",
+            "target_step": "6",
+            "target_input": "single_paired|in1",
+            "status": "ok",
+            "mapping": "list",
+            "errors": [],
+            "map_depth": 1,
+            "reduction": false
+          }
+        ],
+        "resolved_outputs": [
+          {
+            "name": "output_paired_coll",
+            "collection_type": "list:paired"
+          },
+          {
+            "name": "unmerged_out_coll",
+            "collection_type": "list:paired"
+          },
+          {
+            "name": "unpaired_out_coll",
+            "collection_type": "list:paired"
+          },
+          {
+            "name": "out1",
+            "collection_type": "list"
+          },
+          {
+            "name": "report_html",
+            "collection_type": "list"
+          },
+          {
+            "name": "report_json",
+            "collection_type": "list"
+          },
+          {
+            "name": "merged_reads",
+            "collection_type": "list"
+          }
+        ],
+        "errors": [],
+        "label": "Fastp (remove adapter and bad quality reads)"
+      },
+      {
+        "step": "7",
+        "tool_id": "toolshed.g2.bx.psu.edu/repos/devteam/bowtie2/bowtie2/2.5.5+galaxy0",
+        "version": "2.5.5+galaxy0",
+        "step_type": "tool",
+        "map_over": "list",
+        "connections": [
+          {
+            "source_step": "6",
+            "source_output": "out1",
+            "target_step": "7",
+            "target_input": "library|input_1",
+            "status": "ok",
+            "mapping": "list",
+            "errors": [],
+            "map_depth": 1,
+            "reduction": false
+          },
+          {
+            "source_step": "3",
+            "source_output": "output",
+            "target_step": "7",
+            "target_input": "reference_genome|index",
+            "status": "ok",
+            "mapping": null,
+            "errors": [],
+            "map_depth": 0,
+            "reduction": false
+          }
+        ],
+        "resolved_outputs": [
+          {
+            "name": "output_unaligned_read_pairs",
+            "collection_type": "list:paired"
+          },
+          {
+            "name": "output_aligned_read_pairs",
+            "collection_type": "list:paired"
+          },
+          {
+            "name": "output_unaligned_reads",
+            "collection_type": "list"
+          },
+          {
+            "name": "output_aligned_reads",
+            "collection_type": "list"
+          },
+          {
+            "name": "output",
+            "collection_type": "list"
+          },
+          {
+            "name": "mapping_stats",
+            "collection_type": "list"
+          }
+        ],
+        "errors": [],
+        "label": "Bowtie2 map on reference"
+      },
+      {
+        "step": "8",
+        "tool_id": "toolshed.g2.bx.psu.edu/repos/devteam/samtool_filter2/samtool_filter2/1.8+galaxy1",
+        "version": "1.8+galaxy1",
+        "step_type": "tool",
+        "map_over": "list",
+        "connections": [
+          {
+            "source_step": "7",
+            "source_output": "output",
+            "target_step": "8",
+            "target_input": "input1",
+            "status": "ok",
+            "mapping": "list",
+            "errors": [],
+            "map_depth": 1,
+            "reduction": false
+          }
+        ],
+        "resolved_outputs": [
+          {
+            "name": "output1",
+            "collection_type": "list"
+          }
+        ],
+        "errors": [],
+        "label": "filter MAPQ30"
+      },
+      {
+        "step": "9",
+        "tool_id": "toolshed.g2.bx.psu.edu/repos/iuc/macs2/macs2_callpeak/2.2.9.1+galaxy0",
+        "version": "2.2.9.1+galaxy0",
+        "step_type": "tool",
+        "map_over": "list",
+        "connections": [
+          {
+            "source_step": "5",
+            "source_output": "output",
+            "target_step": "9",
+            "target_input": "advanced_options|spmr",
+            "status": "ok",
+            "mapping": null,
+            "errors": [],
+            "map_depth": 0,
+            "reduction": false
+          },
+          {
+            "source_step": "4",
+            "source_output": "output",
+            "target_step": "9",
+            "target_input": "effective_genome_size_options|gsize",
+            "status": "ok",
+            "mapping": null,
+            "errors": [],
+            "map_depth": 0,
+            "reduction": false
+          },
+          {
+            "source_step": "8",
+            "source_output": "output1",
+            "target_step": "9",
+            "target_input": "treatment|input_treatment_file",
+            "status": "ok",
+            "mapping": "list",
+            "errors": [],
+            "map_depth": 1,
+            "reduction": false
+          }
+        ],
+        "resolved_outputs": [
+          {
+            "name": "output_tabular",
+            "collection_type": "list"
+          },
+          {
+            "name": "output_broadpeaks",
+            "collection_type": "list"
+          },
+          {
+            "name": "output_gappedpeaks",
+            "collection_type": "list"
+          },
+          {
+            "name": "output_narrowpeaks",
+            "collection_type": "list"
+          },
+          {
+            "name": "output_summits",
+            "collection_type": "list"
+          },
+          {
+            "name": "output_plot",
+            "collection_type": "list"
+          },
+          {
+            "name": "output_treat_pileup",
+            "collection_type": "list"
+          },
+          {
+            "name": "output_control_lambda",
+            "collection_type": "list"
+          },
+          {
+            "name": "output_extra_files",
+            "collection_type": "list"
+          }
+        ],
+        "errors": [],
+        "label": "Call Peaks with MACS2"
+      },
+      {
+        "step": "10",
+        "tool_id": "toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_grep_tool/9.11+galaxy0",
+        "version": "9.11+galaxy0",
+        "step_type": "tool",
+        "map_over": "list",
+        "connections": [
+          {
+            "source_step": "9",
+            "source_output": "output_tabular",
+            "target_step": "10",
+            "target_input": "infile",
+            "status": "ok",
+            "mapping": "list",
+            "errors": [],
+            "map_depth": 1,
+            "reduction": false
+          }
+        ],
+        "resolved_outputs": [
+          {
+            "name": "output",
+            "collection_type": "list"
+          }
+        ],
+        "errors": [],
+        "label": "summary of MACS2"
+      },
+      {
+        "step": "11",
+        "tool_id": "wig_to_bigWig",
+        "version": "1.1.1",
+        "step_type": "tool",
+        "map_over": "list",
+        "connections": [
+          {
+            "source_step": "9",
+            "source_output": "output_treat_pileup",
+            "target_step": "11",
+            "target_input": "input1",
+            "status": "ok",
+            "mapping": "list",
+            "errors": [],
+            "map_depth": 1,
+            "reduction": false
+          }
+        ],
+        "resolved_outputs": [
+          {
+            "name": "out_file1",
+            "collection_type": "list"
+          }
+        ],
+        "errors": [],
+        "label": "Bigwig from MACS2"
+      },
+      {
+        "step": "12",
+        "tool_id": "toolshed.g2.bx.psu.edu/repos/iuc/multiqc/multiqc/1.35+galaxy4",
+        "version": "1.35+galaxy4",
+        "step_type": "tool",
+        "map_over": null,
+        "connections": [
+          {
+            "source_step": "6",
+            "source_output": "report_json",
+            "target_step": "12",
+            "target_input": "results_0|software_cond|input",
+            "status": "ok",
+            "mapping": null,
+            "errors": [],
+            "map_depth": 0,
+            "reduction": true
+          },
+          {
+            "source_step": "7",
+            "source_output": "mapping_stats",
+            "target_step": "12",
+            "target_input": "results_1|software_cond|input",
+            "status": "ok",
+            "mapping": null,
+            "errors": [],
+            "map_depth": 0,
+            "reduction": true
+          },
+          {
+            "source_step": "9",
+            "source_output": "output_tabular",
+            "target_step": "12",
+            "target_input": "results_2|software_cond|input",
+            "status": "ok",
+            "mapping": null,
+            "errors": [],
+            "map_depth": 0,
+            "reduction": true
+          }
+        ],
+        "resolved_outputs": [
+          {
+            "name": "plots",
+            "collection_type": "list"
+          },
+          {
+            "name": "png_plot",
+            "collection_type": "list"
+          },
+          {
+            "name": "html_report",
+            "collection_type": null
+          },
+          {
+            "name": "stats",
+            "collection_type": null
+          }
+        ],
+        "errors": [],
+        "label": "MultiQC"
+      }
+    ],
+    "summary": {
+      "ok": 14,
+      "invalid": 0,
+      "skip": 0
+    },
+    "has_details": true
+  },
+  "skipped_reason": null,
+  "structure_errors": [],
+  "encoding_errors": [],
+  "summary": {
+    "ok": 6,
+    "fail": 1,
+    "skip": 0
+  }
+}

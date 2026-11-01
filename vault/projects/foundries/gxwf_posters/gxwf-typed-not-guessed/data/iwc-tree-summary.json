@@ -1,0 +1,22 @@
+{
+  "command": "gxwf validate-tree workflows/ --json (after galaxy-tool-cache populate-workflow on each .ga)",
+  "workflows": 133,
+  "errors": 0,
+  "summary": {
+    "ok": 3217,
+    "fail": 0,
+    "skip": 1,
+    "error": 0,
+    "skipped": 0
+  },
+  "skipped": [
+    {
+      "path": "computational-chemistry/fragment-based-docking-scoring/fragment-based-docking-scoring.ga",
+      "tool_id": "toolshed.g2.bx.psu.edu/repos/bgruening/rdock_sort_filter/rdock_sort_filter/2013.1-0+galaxy0",
+      "status": "skip_tool_not_found",
+      "errors": [
+        "toolshed.g2.bx.psu.edu/repos/bgruening/rdock_sort_filter/rdock_sort_filter/2013.1-0+galaxy0 not in cache"
+      ]
+    }
+  ]
+}

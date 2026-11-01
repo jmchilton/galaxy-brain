@@ -1,0 +1,278 @@
+{
+  "schemaVersion": 1,
+  "kind": "differential-review-state",
+  "updatedAt": "2026-10-28T19:47:46.007Z",
+  "hunks": {
+    "h1:e8adfee142d1189a": {
+      "snapshotId": "20261028T160102Z-polishing-3a3d5771d303",
+      "path": "lib/tool_shed/test/base/README.md",
+      "reviewedAt": "2026-10-28T19:46:45.068Z"
+    },
+    "h1:a7ed3a7a226e5384": {
+      "snapshotId": "20261028T160102Z-polishing-3a3d5771d303",
+      "path": "lib/tool_shed/test/base/playwrightbrowser.py",
+      "reviewedAt": "2026-10-28T19:46:47.281Z"
+    },
+    "h1:7e00cc986437412e": {
+      "snapshotId": "20261028T160102Z-polishing-3a3d5771d303",
+      "path": "lib/tool_shed/test/functional/test_frontend_login.py",
+      "reviewedAt": "2026-10-28T19:46:49.942Z"
+    },
+    "h1:3c1cc4a392d9e688": {
+      "snapshotId": "20261028T160102Z-polishing-3a3d5771d303",
+      "path": "lib/tool_shed/webapp/frontend/src/components/LoginForm.test.ts",
+      "reviewedAt": "2026-10-28T19:46:52.542Z"
+    },
+    "h1:4bf20a397e92d63d": {
+      "snapshotId": "20261028T160102Z-polishing-3a3d5771d303",
+      "path": "lib/tool_shed/webapp/frontend/src/components/LoginForm.vue",
+      "reviewedAt": "2026-10-28T19:46:56.626Z"
+    },
+    "h1:070f16246c736c2d": {
+      "snapshotId": "20261028T160102Z-polishing-3a3d5771d303",
+      "path": "lib/tool_shed/webapp/frontend/src/components/LoginForm.vue",
+      "reviewedAt": "2026-10-28T19:46:56.626Z"
+    },
+    "h1:52c4b6bcea5f5ef3": {
+      "snapshotId": "20261028T160102Z-polishing-3a3d5771d303",
+      "path": "lib/tool_shed/webapp/frontend/src/components/LoginPage.test.ts",
+      "reviewedAt": "2026-10-28T19:46:58.951Z"
+    },
+    "h1:5d18c321c83d4acf": {
+      "snapshotId": "20261028T160102Z-polishing-3a3d5771d303",
+      "path": "lib/tool_shed/webapp/frontend/src/components/LoginPage.vue",
+      "reviewedAt": "2026-10-28T19:47:02.232Z"
+    },
+    "h1:156403dfbd22d66f": {
+      "snapshotId": "20261028T160102Z-polishing-3a3d5771d303",
+      "path": "lib/tool_shed/webapp/frontend/src/components/PaginatedRepositoriesGrid.test.ts",
+      "reviewedAt": "2026-10-28T19:47:06.390Z"
+    },
+    "h1:7181b6026f4d1220": {
+      "snapshotId": "20261028T160102Z-polishing-3a3d5771d303",
+      "path": "lib/tool_shed/webapp/frontend/src/components/PaginatedRepositoriesGrid.test.ts",
+      "reviewedAt": "2026-10-28T19:47:06.390Z"
+    },
+    "h1:f12cdd39c665ee2e": {
+      "snapshotId": "20261028T160102Z-polishing-3a3d5771d303",
+      "path": "lib/tool_shed/webapp/frontend/src/components/PaginatedRepositoriesGrid.test.ts",
+      "reviewedAt": "2026-10-28T19:47:06.390Z"
+    },
+    "h1:9979f7cbcb10a48b": {
+      "snapshotId": "20261028T160102Z-polishing-3a3d5771d303",
+      "path": "lib/tool_shed/webapp/frontend/src/components/RegisterPage.test.ts",
+      "reviewedAt": "2026-10-28T19:47:09.950Z"
+    },
+    "h1:855ca7820aeee523": {
+      "snapshotId": "20261028T160102Z-polishing-3a3d5771d303",
+      "path": "lib/tool_shed/webapp/frontend/src/components/RegisterPage.test.ts",
+      "reviewedAt": "2026-10-28T19:47:09.950Z"
+    },
+    "h1:008e4237119c9f78": {
+      "snapshotId": "20261028T160102Z-polishing-3a3d5771d303",
+      "path": "lib/tool_shed/webapp/frontend/src/components/RegisterPage.vue",
+      "reviewedAt": "2026-10-28T19:47:11.804Z"
+    },
+    "h1:3b565e76186a1897": {
+      "snapshotId": "20261028T160102Z-polishing-3a3d5771d303",
+      "path": "lib/tool_shed/webapp/frontend/src/components/RegisterPage.vue",
+      "reviewedAt": "2026-10-28T19:47:11.804Z"
+    },
+    "h1:0669eed9cc9618cc": {
+      "snapshotId": "20261028T160102Z-polishing-3a3d5771d303",
+      "path": "lib/tool_shed/webapp/frontend/src/components/RepositoryExplore.vue",
+      "reviewedAt": "2026-10-28T19:47:16.806Z"
+    },
+    "h1:cbf68e357db8d79a": {
+      "snapshotId": "20261028T160102Z-polishing-3a3d5771d303",
+      "path": "lib/tool_shed/webapp/frontend/src/components/RepositoryExplore.vue",
+      "reviewedAt": "2026-10-28T19:47:16.806Z"
+    },
+    "h1:90c11282f693ab35": {
+      "snapshotId": "20261028T160102Z-polishing-3a3d5771d303",
+      "path": "lib/tool_shed/webapp/frontend/src/components/RepositoryExplore.vue",
+      "reviewedAt": "2026-10-28T19:47:16.806Z"
+    },
+    "h1:546c0aa0efad1f2d": {
+      "snapshotId": "20261028T160102Z-polishing-3a3d5771d303",
+      "path": "lib/tool_shed/webapp/frontend/src/components/RepositoryExplore.vue",
+      "reviewedAt": "2026-10-28T19:47:16.806Z"
+    },
+    "h1:4c9019a5e8c7999a": {
+      "snapshotId": "20261028T160102Z-polishing-3a3d5771d303",
+      "path": "lib/tool_shed/webapp/frontend/src/components/RepositoryMenus.test.ts",
+      "reviewedAt": "2026-10-28T19:47:20.031Z"
+    },
+    "h1:f5d892b6390b0d68": {
+      "snapshotId": "20261028T160102Z-polishing-3a3d5771d303",
+      "path": "lib/tool_shed/webapp/frontend/src/components/RepositoryMenus.test.ts",
+      "reviewedAt": "2026-10-28T19:47:20.031Z"
+    },
+    "h1:2b7df95ae9d15d2f": {
+      "snapshotId": "20261028T160102Z-polishing-3a3d5771d303",
+      "path": "lib/tool_shed/webapp/frontend/src/components/RepositoryMenus.test.ts",
+      "reviewedAt": "2026-10-28T19:47:20.031Z"
+    },
+    "h1:01d8877afaf6587f": {
+      "snapshotId": "20261028T160102Z-polishing-3a3d5771d303",
+      "path": "lib/tool_shed/webapp/frontend/src/components/RepositoryMenus.test.ts",
+      "reviewedAt": "2026-10-28T19:47:20.031Z"
+    },
+    "h1:09a9d9fc6733c13a": {
+      "snapshotId": "20261028T160102Z-polishing-3a3d5771d303",
+      "path": "lib/tool_shed/webapp/frontend/src/components/ShedToolbar.test.ts",
+      "reviewedAt": "2026-10-28T19:47:23.214Z"
+    },
+    "h1:51b530c029441f7f": {
+      "snapshotId": "20261028T160102Z-polishing-3a3d5771d303",
+      "path": "lib/tool_shed/webapp/frontend/src/components/ShedToolbar.test.ts",
+      "reviewedAt": "2026-10-28T19:47:23.214Z"
+    },
+    "h1:cdf8a848574fac45": {
+      "snapshotId": "20261028T160102Z-polishing-3a3d5771d303",
+      "path": "lib/tool_shed/webapp/frontend/src/components/ShedToolbar.test.ts",
+      "reviewedAt": "2026-10-28T19:47:23.214Z"
+    },
+    "h1:ad04ae63c98bb1d0": {
+      "snapshotId": "20261028T160102Z-polishing-3a3d5771d303",
+      "path": "lib/tool_shed/webapp/frontend/src/components/ShedToolbar.test.ts",
+      "reviewedAt": "2026-10-28T19:47:23.214Z"
+    },
+    "h1:b3f3281373a213e2": {
+      "snapshotId": "20261028T160102Z-polishing-3a3d5771d303",
+      "path": "lib/tool_shed/webapp/frontend/src/components/ShedToolbar.test.ts",
+      "reviewedAt": "2026-10-28T19:47:23.214Z"
+    },
+    "h1:d56a64e2ac09f31e": {
+      "snapshotId": "20261028T160102Z-polishing-3a3d5771d303",
+      "path": "lib/tool_shed/webapp/frontend/src/components/ShedToolbar.test.ts",
+      "reviewedAt": "2026-10-28T19:47:23.214Z"
+    },
+    "h1:66d434f36a864547": {
+      "snapshotId": "20261028T160102Z-polishing-3a3d5771d303",
+      "path": "lib/tool_shed/webapp/frontend/src/components/ShedToolbar.test.ts",
+      "reviewedAt": "2026-10-28T19:47:23.214Z"
+    },
+    "h1:10ea382ef50d8a5d": {
+      "snapshotId": "20261028T160102Z-polishing-3a3d5771d303",
+      "path": "lib/tool_shed/webapp/frontend/src/components/ShedToolbar.vue",
+      "reviewedAt": "2026-10-28T19:47:26.597Z"
+    },
+    "h1:baedbf51dc9cefda": {
+      "snapshotId": "20261028T160102Z-polishing-3a3d5771d303",
+      "path": "lib/tool_shed/webapp/frontend/src/components/ShedToolbar.vue",
+      "reviewedAt": "2026-10-28T19:47:26.597Z"
+    },
+    "h1:138323a5c68dc110": {
+      "snapshotId": "20261028T160102Z-polishing-3a3d5771d303",
+      "path": "lib/tool_shed/webapp/frontend/src/components/ShedToolbar.vue",
+      "reviewedAt": "2026-10-28T19:47:26.597Z"
+    },
+    "h1:fcd303bb432ebb18": {
+      "snapshotId": "20261028T160102Z-polishing-3a3d5771d303",
+      "path": "lib/tool_shed/webapp/frontend/src/routes.ts",
+      "reviewedAt": "2026-10-28T19:47:30.022Z"
+    },
+    "h1:ff0d9c36ce199b6e": {
+      "snapshotId": "20261028T160102Z-polishing-3a3d5771d303",
+      "path": "lib/tool_shed/webapp/frontend/src/routes.ts",
+      "reviewedAt": "2026-10-28T19:47:30.022Z"
+    },
+    "h1:acfdf4bc9b7672d4": {
+      "snapshotId": "20261028T160102Z-polishing-3a3d5771d303",
+      "path": "lib/tool_shed/webapp/frontend/src/stores/auth.store.test.ts",
+      "reviewedAt": "2026-10-28T19:47:32.972Z"
+    },
+    "h1:bccdcfb0f28cdde0": {
+      "snapshotId": "20261028T160102Z-polishing-3a3d5771d303",
+      "path": "lib/tool_shed/webapp/frontend/src/stores/auth.store.ts",
+      "reviewedAt": "2026-10-28T19:47:36.097Z"
+    },
+    "h1:e627ddb03bba4fc4": {
+      "snapshotId": "20261028T160102Z-polishing-3a3d5771d303",
+      "path": "lib/tool_shed/webapp/frontend/src/stores/auth.store.ts",
+      "reviewedAt": "2026-10-28T19:47:36.097Z"
+    },
+    "h1:f5425501c4045f18": {
+      "snapshotId": "20261028T160102Z-polishing-3a3d5771d303",
+      "path": "lib/tool_shed/webapp/frontend/src/stores/auth.store.ts",
+      "reviewedAt": "2026-10-28T19:47:36.097Z"
+    },
+    "h1:f46c0d8c3ba91454": {
+      "snapshotId": "20261028T160102Z-polishing-3a3d5771d303",
+      "path": "lib/tool_shed/webapp/frontend/src/stores/auth.store.ts",
+      "reviewedAt": "2026-10-28T19:47:36.097Z"
+    },
+    "h1:69b72914e760ea3a": {
+      "snapshotId": "20261028T160102Z-polishing-3a3d5771d303",
+      "path": "lib/tool_shed/webapp/frontend/src/util.test.ts",
+      "reviewedAt": "2026-10-28T19:47:39.263Z"
+    },
+    "h1:f45771dcf096e180": {
+      "snapshotId": "20261028T160102Z-polishing-3a3d5771d303",
+      "path": "lib/tool_shed/webapp/frontend/src/util.test.ts",
+      "reviewedAt": "2026-10-28T19:47:39.263Z"
+    },
+    "h1:74fd0ccdc9773dc5": {
+      "snapshotId": "20261028T160102Z-polishing-3a3d5771d303",
+      "path": "lib/tool_shed/webapp/frontend/src/util.ts",
+      "reviewedAt": "2026-10-28T19:47:42.628Z"
+    }
+  },
+  "commits": {
+    "0d95935f5f05655d209040d1e1dc0214454d991c": {
+      "sha": "f5cb365091d264a993b2a0cb79922d477925e0da",
+      "subject": "Render shed hgweb explore links from one model",
+      "snapshotId": "20261028T160102Z-polishing-3a3d5771d303",
+      "signedOffAt": "2026-10-28T19:47:43.786Z"
+    },
+    "1b415e5d190155dfce48d60c55ed9799c01441cc": {
+      "sha": "7d6886a6f74b62cac7b37133db72a89957d4bcae",
+      "subject": "Return to a same-site page after Tool Shed login",
+      "snapshotId": "20261028T160102Z-polishing-3a3d5771d303",
+      "signedOffAt": "2026-10-28T19:47:44.725Z"
+    },
+    "0940ad9dde8a1eeafb19cb87ba5a08c39bae7c06": {
+      "sha": "0b7c063848d0911d9035d3deedd831becdc551b8",
+      "subject": "Prompt anonymous users to log in for shed Changelog and Contents",
+      "snapshotId": "20261028T160102Z-polishing-3a3d5771d303",
+      "signedOffAt": "2026-10-28T19:47:45.032Z"
+    },
+    "5ab3879364e8f433a4ca199a361c370394b3d629": {
+      "sha": "db3105068ab58bc0cd1bc738e98e3b1be345af87",
+      "subject": "Check Tool Shed login return path by resolved origin",
+      "snapshotId": "20261028T160102Z-polishing-3a3d5771d303",
+      "signedOffAt": "2026-10-28T19:47:45.207Z"
+    },
+    "e1cf308fe25697554089b511f903104fbfa13f06": {
+      "sha": "39319e10d714e53aebb4bc4d620c1dab5ca77c32",
+      "subject": "Add Tool Shed E2E test for login ?redirect return path",
+      "snapshotId": "20261028T160102Z-polishing-3a3d5771d303",
+      "signedOffAt": "2026-10-28T19:47:45.358Z"
+    },
+    "be555a6300b230e24a6b242d379965d2f1117ba6": {
+      "sha": "4a95dd279d4967d16cec3cc53285949f351c3a96",
+      "subject": "Use Locators and screenshots in shed login redirect E2E test",
+      "snapshotId": "20261028T160102Z-polishing-3a3d5771d303",
+      "signedOffAt": "2026-10-28T19:47:45.508Z"
+    },
+    "9b5b0072012f430661b6913cff39cd775038734f": {
+      "sha": "5c373298339f079687479e41547b51e02366c6ef",
+      "subject": "Forget cached Tool Shed user when session check fails",
+      "snapshotId": "20261028T160102Z-polishing-3a3d5771d303",
+      "signedOffAt": "2026-10-28T19:47:45.658Z"
+    },
+    "cceb5b36f5165dfff7d39d9da705a508d2798262": {
+      "sha": "d910686da959b711614bcf750f5168137c1e2868",
+      "subject": "Drop unused returnUrl from Tool Shed auth store",
+      "snapshotId": "20261028T160102Z-polishing-3a3d5771d303",
+      "signedOffAt": "2026-10-28T19:47:45.807Z"
+    },
+    "e71d45f03e74763ba87d94a45f993abb8de2e6ef": {
+      "sha": "3a3d5771d3031c0e55c702c2984311b38f675a66",
+      "subject": "Return to the current page from every Tool Shed login link",
+      "snapshotId": "20261028T160102Z-polishing-3a3d5771d303",
+      "signedOffAt": "2026-10-28T19:47:46.007Z"
+    }
+  }
+}

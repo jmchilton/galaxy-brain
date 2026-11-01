@@ -1,4 +1,6 @@
+Well I went through this review and got it ready to publish yesterday so it is probably wrong now - agent pointed out you updated when I tried to push. -John from today.
 
+P2 2 and P3 2 are some heavy requests from the agent - feel free to just file them as follow up issues if you don't have a testing setup for them. I had testing setups before the GCC 2025 but that was a while ago. -John from yesterday
 
 <details><summary>Automated Review Details</summary>
 

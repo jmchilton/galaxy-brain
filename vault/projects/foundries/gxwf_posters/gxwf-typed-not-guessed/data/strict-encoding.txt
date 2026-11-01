@@ -1,0 +1,18 @@
+Detected format: native, mode: effect
+Encoding errors:
+  step 11: tool_state is a JSON string (legacy encoding), expected a dict
+  step 12: tool_state is a JSON string (legacy encoding), expected a dict
+  step 13: tool_state is a JSON string (legacy encoding), expected a dict
+  step 14: tool_state is a JSON string (legacy encoding), expected a dict
+  step 15: tool_state is a JSON string (legacy encoding), expected a dict
+  step 16: tool_state is a JSON string (legacy encoding), expected a dict
+  step 17: tool_state is a JSON string (legacy encoding), expected a dict
+  step 18: tool_state is a JSON string (legacy encoding), expected a dict
+  step 21: tool_state is a JSON string (legacy encoding), expected a dict
+  step 22: tool_state is a JSON string (legacy encoding), expected a dict
+  step 23: tool_state is a JSON string (legacy encoding), expected a dict
+  step 26: tool_state is a JSON string (legacy encoding), expected a dict
+  step 27: tool_state is a JSON string (legacy encoding), expected a dict
+  step 28: tool_state is a JSON string (legacy encoding), expected a dict
+  step 29: tool_state is a JSON string (legacy encoding), expected a dict
+exit=2

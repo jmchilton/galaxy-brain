@@ -1,0 +1,9 @@
+`pr_24561_review_0` is branched from the reviewed commit `e43b2db63a4`. Its main change moves `registry.xml` and `upload_params.json` from the job directory root into `configs/`, so containerized upload and data fetch tools can still read them under the narrowed mounts. It also gives Pulsar users a real error message when a required container is missing, and shares one constant for the mounted subdirectory list. The remaining commits add integration coverage: user-defined tools must fail without a container, on Pulsar and on the local runner, and the job-directory visibility check now also runs on local Docker, with an input-readability control. All of this is one commit per verified finding.
+
+- `6ef79da8253` Write registry.xml and upload_params.json under configs/. Uses `compute_environment.config_directory()` and `ensure_configs_directory`, with evaluator and job-wrapper unit tests (P1 1).
+- `966bb37e26f` Share container-mounted job subdirectory list. Adds `JOB_DIRECTORY_CONTAINER_SUBDIRECTORIES` in `container_classes`, used by job setup and tests (P3 3).
+- `b3d8f803b15` Quote Pulsar unstructured mkdir path with shlex.quote. Matches path quoting elsewhere in command assembly (P3 5).
+- `549093b943c` Assert job directory mount modes for both job directory types. Folds the Pulsar-only read-only test into the parametrized test and checks that outputs and working stay writable (P3 4).
+- `741fd47c713` Test user-defined tools fail without a container on Pulsar and local. Adds new integration classes that need no Docker (P2 1).
+- `1619a6a6715` Report missing required container on Pulsar job failures. Adds a `ContainerRequiredException` that Pulsar's prepare path turns into the job's fail message (P3 1).
+- `1f2579830ee` Cover local Docker job directory visibility, check inputs stay readable. Adds a mixin-shared visibility test with an input positive control; needs Docker and was not run locally (P3 2).

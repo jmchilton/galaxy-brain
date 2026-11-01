@@ -1,0 +1,164 @@
+# All poster copy. Edit, then `npm run render`.
+# Inline markup: **bold**, *italic*, `mono`; {arrow} {ne} {times} draw SVG glyphs (Overpass lacks them).
+# [[ASK]] slots hide with SHOW_ASK=0; the [[QR: live results]] slot always renders.
+
+kicker: Galaxy Workflow Foundry · network map
+title:
+  - From Papers and Conversations
+  - to Runnable Galaxy Workflows
+authors: John Chilton<sup>1</sup>, Marius van den Beek<sup>1</sup>, Dannon Baker<sup>2</sup>, Danielle Callan<sup>3</sup>, Anton Nekrutenko<sup>1</sup>
+affiliations:
+  - <sup>1</sup>The Pennsylvania State University, University Park, PA, USA
+  - <sup>2</sup>Johns Hopkins University, Baltimore, MD, USA
+  - <sup>3</sup>Temple University, Philadelphia, PA, USA
+
+live:
+  title: Live results
+  text: This page keeps updating after print.
+
+hero:
+  big:
+    - Writing a correct workflow is a knowledge problem,
+    - not a syntax problem.
+  sub: The model translates. The tools decide. The gaps are written down.
+
+# ---------- map ----------
+lines:
+  M: { name: [Methods text], sub: a published paper’s methods, station: [Summarize, the paper] }
+  E: { name: [Expert, specification], sub: a free-form written spec, station: [Summarize the spec] }
+  N: { name: [Nextflow], sub: ground truth to check against, station: [Summarize Nextflow] }
+
+trunk:
+  brief: [Workflow, brief]
+  interface: [Galaxy, interface]
+  dataflow: [Data, flow]
+  iwc: [Compare, with IWC]
+  template: [Template]
+  draft: [Build step, by step]
+  test: [Test data, + test plan]
+review: + human review
+ring:
+  toolshed: [Tool Shed, pin each tool]
+  gxwf: [gxwf, draft check]
+  write: write the step
+  rounds: rounds
+validators:
+  gxwf: [gxwf, validate]
+  planemo: [Planemo, test]
+terminal:
+  name: [Galaxy, workflow]
+  sub: ["native, runnable,", every tool pinned]
+
+ticket:
+  tag: Journey · DengueSeq DENV3 · 20–21 Oct 2026
+  text: >-
+    **Vogels et al. 2024 [3]:** dengue virus serotype-3 amplicon sequencing, from the paper
+    and its linked code. **Chosen after the skills were built,** so held out. The brief came back with
+    10 open questions; the expert reviewer (one of us) edited one answer.
+  earlier_tag: Earlier on this line
+  earlier: >-
+    A roughly 60-step *A. fumigatus* RNA-seq workflow (Hokken et al.), compiled from methods text and
+    run on UseGalaxy.org. Checking it against the authors’ data surfaced a modelling choice the
+    methods never stated ([1], Fig. S4A).
+  arrived_tag: Arrived
+  arrived_head: 7 tools, each pinned to a Tool Shed changeset
+
+why:
+  tag: Why methods text isn’t enough
+  stat: 30{arrow}18
+  text: >-
+    Companion Orbit study: 30 coding agents planning to replicate one RNA-seq paper proposed
+    **18 distinct pipelines**; 29 of 30 diverged from the published one [1].
+
+oracle:
+  tag: Why tools decide
+  stat: 0/15
+  text: >-
+    Companion Orbit study (open-weight models): a rule given only in the prompt was followed in
+    **0&nbsp;of&nbsp;15** graded runs [1].
+
+ask:
+  label: "[[ASK]]"
+  text: >-
+    **Nextflow-line journeys:** nf-core/rnaseq and nf-core/atacseq (A. Nekrutenko).
+    Foundry-validated rebuilds; atacseq partial.
+
+depot:
+  title: The depot
+  sub: = the wiki, where faults are fixed
+  items:
+    - when: 17 Jun 2026 · Tool Shed
+      line: E
+      text: >-
+        An expert-specification run missed an `integron_finder` wrapper that exists. Mold and eval
+        fixed; recompiled in `73af1f62`:
+      hash: true
+    - when: 22 Oct 2026 · Planemo
+      text: >-
+        One test-assertion mistake showed up in three runs. PR #701 fixed the note; 8 skills were
+        regenerated.
+
+notices:
+  title: Service notices
+  lead: "DengueSeq ledger: **{open} open** · {resolved} resolved"
+  # one gloss per open ledger entry (build fails if the ledger drifts)
+  gloss:
+    serotype-coverage-plane-not-carried: "Serotype coverage: dropped by design"
+    filtered-variant-frequency-table-not-carried: "Filtered variants: dropped by design"
+    low-coverage-and-empty-bam-behavior: "Zero-read sample: empty, not all-N"
+    consensus-baq-deviation-check-on-test-sample: "BAQ off, consensus: awaiting expert"
+    variants-baq-deviation-check-on-test-sample: "BAQ off, variants: awaiting expert"
+
+# ---------- key strip ----------
+key:
+  title: Map key = how the Foundry works
+  items:
+    - sym: line
+      term: Lines are routes
+      text: >-
+        A line is a pipeline of Molds; **13** are on `main`.* Routes share the downstream stations.
+        **Route {ne} journey:** the pale band is one real run, not a success rate.
+    - sym: station
+      term: Stations are compiled skills
+      text: >-
+        Karpathy’s LLM wiki [2], extended: **420** typed notes and **56** Molds compile into **69**
+        skills.* Casting runs no model and hashes every source note.
+      prov: true
+    - sym: interchange
+      term: Interchanges are tools that decide
+      text: >-
+        **Tool Shed** pins each tool, **gxwf** checks real tool schemas, **Planemo** runs the tests.
+        The model drafts and repairs. “Skills are guidance, not enforcement” [1].
+    - sym: notice
+      term: Notices are the gaps
+      text: >-
+        Every run writes an open-requirements ledger. Methods omit result-changing choices, so gaps
+        are expected. Writing them down is the output.
+    - sym: depot
+      term: The depot recompiles
+      text: >-
+        A failure is traced to a knowledge defect, fixed in the wiki, and recompiled. Learning happens
+        where anyone can read it, not in model weights.
+    - sym: terminal
+      term: The terminal is native Galaxy
+      text: >-
+        Galaxy’s own tools and collections, pinned to Tool Shed revisions. The Foundry records which
+        knowledge built each skill; Galaxy records what ran.
+
+# ---------- footer ----------
+board:
+  title: Board here
+  commands:
+    - { label: "Claude Code:", cmd: /plugin marketplace add galaxyproject/foundry }
+    - { label: "Codex:", cmd: codex plugin marketplace add galaxyproject/foundry }
+  note: One plugin, **foundry-skills**. Antigravity and full steps behind Install.
+qrs:
+  - { id: repo, label: Repo, url: "https://github.com/galaxyproject/foundry" }
+  - { id: install, label: Install, url: "https://galaxyproject.github.io/foundry/usage/" }
+  - { id: preprint, label: Preprint, url: "https://doi.org/10.64898/2026.10.26.761864" }
+refs:
+  - Baker D, …, Nekrutenko A. Verifiable Agentic Science on Public Infrastructure. *bioRxiv* (2026). doi:10.64898/2026.10.26.761864
+  - Karpathy A. LLM wiki (GitHub gist, 2026).
+  - Vogels CBF, Hill V, et al. DengueSeq. *BMC Genomics* 25:433 (2024).
+  - "Upstream fixes the runs forced: IUC #8808; galaxy-tool-util-ts #205 (gxwf 1.15.0)."
+footnote: "*foundry `main`, 2026-10-24; the 13 include CWL and review routes. Times UTC."

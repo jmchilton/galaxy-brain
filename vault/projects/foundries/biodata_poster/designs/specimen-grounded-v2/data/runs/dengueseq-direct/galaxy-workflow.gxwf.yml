@@ -1,0 +1,347 @@
+class: GalaxyWorkflow
+label: DengueSeq DENV3 Illumina amplicon consensus
+doc: |
+  Per-sample DENV3 DengueSeq Illumina paired-end amplicon body (Vogels et al. 2024, BMC Genomics 25:433;
+  DENV_pipeline v1.0 mapper.sh @ 8214cfbb, virustype fixed to DENV3): BWA-MEM mapping, drop unmapped and
+  supplementary reads, iVar primer trim, iVar majority consensus, iVar variants, per-base depth.
+  Mapped over a list:paired sample collection; no cross-sample reduction.
+inputs:
+  Paired reads:
+    type: collection
+    collection_type: list:paired
+    format:
+      - fastqsanger.gz
+      - fastqsanger
+    optional: false
+    doc: Illumina paired-end reads amplified with the DengueSeq DENV3 primer scheme, one list element per sample (element identifier = sample name).
+  DENV3 reference genome:
+    type: data
+    format: fasta
+    optional: false
+    doc: DENV3 reference FASTA (single record NC_001475.2, 10,707 bp). Indexed in-workflow by the mapper.
+  Primer scheme BED:
+    type: data
+    format: bed
+    optional: false
+    doc: DengueSeq DENV3 primer scheme BED6 (col 5 = pool) on NC_001475.2.
+  Consensus minimum depth:
+    type: int
+    default: 10
+    optional: false
+    doc: Minimum depth to call a consensus base; positions below it become N (ivar consensus -m).
+  Consensus frequency threshold:
+    type: float
+    default: 0.75
+    optional: false
+    doc: Minimum base frequency to call the consensus base (ivar consensus -t), between 0 and 1.
+outputs:
+  Primer-trimmed BAM:
+    outputSource: primer_trim/output_bam
+  Consensus genome:
+    outputSource: consensus_header/output
+  Variant calls:
+    outputSource: call_variants/output_variants_tabular
+  Per-base depth:
+    outputSource: depth_table_layout/outfile
+steps:
+  map_reads:
+    tool_id: toolshed.g2.bx.psu.edu/repos/devteam/bwa/bwa_mem/0.7.19
+    tool_version: 0.7.19
+    tool_shed_repository:
+      changeset_revision: 1dfc975b48d5
+      name: bwa
+      owner: devteam
+      tool_shed: toolshed.g2.bx.psu.edu
+    label: map_reads
+    doc: |
+      BWA-MEM paired-end mapping against the history DENV3 FASTA (index built on the fly, -a auto); default bwa mem
+      settings (source passes only -v 1 -t 2, neither scientific); coordinate-sorted output replaces the source's
+      post-filter samtools sort (filter preserves order). Paper used BWA 0.7.17; wrapper pins 0.7.19 (IWC exemplar pin).
+      Raw paired reads wired directly (no trimming in source; exemplar fastp not imported).
+    in:
+      fastq_input|fastq_input1: Paired reads
+      reference_source|ref_file: DENV3 reference genome
+    out:
+      - id: bam_output
+        hide: true
+    state:
+      reference_source:
+        reference_source_selector: history
+        index_a: auto
+      fastq_input:
+        fastq_input_selector: paired_collection
+        iset_stats: ""
+      rg:
+        rg_selector: do_not_set
+      analysis_type:
+        analysis_type_selector: illumina
+      output_sort: coordinate
+  filter_mapped:
+    tool_id: toolshed.g2.bx.psu.edu/repos/iuc/samtools_view/samtools_view/1.22+galaxy1
+    tool_version: 1.22+galaxy1
+    tool_shed_repository:
+      changeset_revision: 5ec526530725
+      name: samtools_view
+      owner: iuc
+      tool_shed: toolshed.g2.bx.psu.edu
+    label: filter_mapped
+    doc: |
+      Drop unmapped (0x4) and supplementary (0x800) alignments: exclusive_filter [4, 2048] -> wrapper sums
+      selected flags into a single `samtools view -F 2052` (source `-F 4 -F 2048`, intent = exclude both).
+      No MAPQ filter (quality 0 -> no -q), no inclusive/-G filters; BAM out, coordinate order preserved.
+      Exemplar MAPQ 20 + proper-pair inclusive filter deliberately not imported. Paper samtools 1.17; wrapper 1.22.
+    in:
+      input: map_reads/bam_output
+    out:
+      - id: outputsam
+        hide: true
+    state:
+      mode:
+        outtype: selected_reads
+        filter_config:
+          cond_region:
+            select_region: "no"
+          cond_rg:
+            select_rg: "no"
+          cond_expr:
+            select_expr: "no"
+          quality: 0
+          library: ""
+          inclusive_filter: null
+          exclusive_filter:
+            - "4"
+            - "2048"
+          exclusive_filter_all: null
+        subsample_config:
+          subsampling_mode:
+            select_subsample: fraction
+            factor: 1
+        output_options:
+          reads_report_type: retained
+          complementary_output: false
+          adv_output:
+            readtags: []
+            collapsecigar: false
+          output_format:
+            oformat: bam
+      addref_cond:
+        addref_select: "no"
+  primer_trim:
+    tool_id: toolshed.g2.bx.psu.edu/repos/iuc/ivar_trim/ivar_trim/1.4.4+galaxy1
+    tool_version: 1.4.4+galaxy1
+    tool_shed_repository:
+      changeset_revision: 6606a8c97889
+      name: ivar_trim
+      owner: iuc
+      tool_shed: toolshed.g2.bx.psu.edu
+    label: primer_trim
+    doc: |
+      iVar primer + quality trim with -e (include reads with no primer); history primer BED, no amplicon filter
+      (exemplar yes_compute / ivar trim -f not imported). min_qual 20, window_width 4, trimmed_length auto (-m -1),
+      primer_pos_wiggle 0 set explicitly = iVar 1.4 built-in defaults (source passes no -q/-s/-m/-x).
+      Wrapper pipes ivar trim through samtools sort, so output_bam is coordinate-sorted (folds data-flow N5 sort+index;
+      index is Galaxy bam metadata).
+    in:
+      input_bam: filter_mapped/outputsam
+      primer|input_bed: Primer scheme BED
+    out:
+      - id: output_bam
+    state:
+      primer:
+        source: history
+      amplicons:
+        filter_by: ""
+      primer_pos_wiggle: 0
+      inc_primers: true
+      min_qual: 20
+      window_width: 4
+      trimmed_length:
+        filter: auto
+  consensus:
+    tool_id: toolshed.g2.bx.psu.edu/repos/iuc/ivar_consensus/ivar_consensus/1.4.4+galaxy0
+    tool_version: 1.4.4+galaxy0
+    tool_shed_repository:
+      changeset_revision: 1c5448133894
+      name: ivar_consensus
+      owner: iuc
+      tool_shed: toolshed.g2.bx.psu.edu
+    label: consensus
+    doc: |
+      iVar majority consensus from the trimmed BAM (wrapper runs its own mpileup; folds data-flow N6a).
+      -t <- 'Consensus frequency threshold', -m <- 'Consensus minimum depth' (connected runtime params);
+      -q 20, -c 0.8, -n N set explicitly = iVar 1.4 consensus defaults (source passes neither -q nor -c).
+      PILEUP NOT SOURCE-EQUIVALENT (ledger ivar-pileup-settings-reproducible): wrapper runs
+      `samtools mpileup -A -a -d 0 -Q 0` (no --reference); source runs `-aa -A -d 10000 -Q 0 --reference ref`.
+      No reference -> no BAQ (source is BAQ-on), so qualities counted against -q 20 differ and base vs
+      ambiguity calls near the -t threshold may differ; N-masking (-m vs raw mpileup depth) is unaffected.
+      -d 0 vs 10000 matters only above 10k depth. Single -a == -aa for one contig with reads (zero-read sample
+      likely empty record vs all-N; unverified). Header: Consensus_<sanitized element id>_threshold_<t>_quality_20
+      (wrapper sed; non [A-Za-z0-9_-] chars -> _), consumed by consensus_header.
+    in:
+      input_bam: primer_trim/output_bam
+      min_freq: Consensus frequency threshold
+      min_depth: Consensus minimum depth
+    out:
+      - id: consensus
+        hide: true
+    state:
+      min_qual: 20
+      min_indel_freq: 0.8
+      depth_action: -n N
+  consensus_header:
+    tool_id: toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_sed_tool/9.5+galaxy3
+    tool_version: 9.5+galaxy3
+    tool_shed_repository:
+      changeset_revision: ab83aa685821
+      name: text_processing
+      owner: bgruening
+      tool_shed: toolshed.g2.bx.psu.edu
+    label: consensus_header
+    doc: |
+      Rename consensus record to '<element id>.DENV3' (source parity: repo test asserts 'denv3_test.DENV3').
+      Regex depends on the ivar_consensus 1.4.4 wrapper header form 'Consensus_<id>_threshold_...'; re-check if the consensus wrapper version changes.
+      Idiom and state copied from IWC pe-wgs-ivar-analysis 'Consensus genome (masked for depth)'.
+    in:
+      infile: consensus/consensus
+    out:
+      - id: output
+    state:
+      code: /^>/s/Consensus_(.*)_threshold_.*/\1.DENV3/
+      adv_opts:
+        adv_opts_selector: basic
+  call_variants:
+    tool_id: toolshed.g2.bx.psu.edu/repos/iuc/ivar_variants/ivar_variants/1.4.4+galaxy0
+    tool_version: 1.4.4+galaxy0
+    tool_shed_repository:
+      changeset_revision: 5e5dfc9e71e2
+      name: ivar_variants
+      owner: iuc
+      tool_shed: toolshed.g2.bx.psu.edu
+    label: call_variants
+    doc: |
+      iVar variants on the trimmed BAM, raw iVar TSV only (wrapper runs its own mpileup; folds data-flow N7a).
+      -q 20 -t 0.03 fixed (source values, not workflow params); no GFF, so no codon/AA columns.
+      PILEUP NOT SOURCE-EQUIVALENT (ledger ivar-pileup-settings-reproducible stays open): wrapper runs
+      `samtools mpileup -A -d 0 --reference ref.fa -B -Q 0`; source runs `-aa -A -d 0 -Q 0 --reference ref` (no -B).
+      -B disables BAQ, which samtools enables whenever a reference is given, so base qualities feeding -q 20
+      differ from source -> REF_DP/ALT_DP/ALT_FREQ and borderline calls may differ. Missing -aa and missing
+      `ivar -r` (wrapper passes -r only with a GFF) are expected output-neutral: zero-depth rows yield no
+      variants, and without -r iVar takes REF from the mpileup ref column (populated via --reference).
+    in:
+      input_bam: primer_trim/output_bam
+      ref: DENV3 reference genome
+    out:
+      - id: output_variants_tabular
+    state:
+      min_qual: 20
+      min_freq: 0.03
+      output_format:
+        choice: tabular
+  per_base_depth:
+    tool_id: toolshed.g2.bx.psu.edu/repos/iuc/bedtools/bedtools_genomecoveragebed/2.31.1+galaxy0
+    tool_version: 2.31.1+galaxy0
+    tool_shed_repository:
+      changeset_revision: d57471728f7b
+      name: bedtools
+      owner: iuc
+      tool_shed: toolshed.g2.bx.psu.edu
+    label: per_base_depth
+    doc: |
+      Per-base depth from the trimmed BAM, one row per reference position (bedtools genomecov -ibam <bam> -d):
+      `chrom pos depth`, 1-based, zero-depth positions included, no header. Wrapper quirk: -d must be set under
+      report_select "hist" with max unset; the default "bg" branch always emits -bg, which bedtools rejects together
+      with -d. In hist mode the wrapper's change_format types the output tabular (correct for the 3-col table).
+    in:
+      input_type|input: primer_trim/output_bam
+    out:
+      - id: output
+        hide: true
+    state:
+      input_type:
+        input_type_select: bam
+      report:
+        report_select: hist
+      split: false
+      strand: ""
+      d: true
+      dz: false
+      five: false
+      three: false
+  depth_table_layout:
+    tool_id: toolshed.g2.bx.psu.edu/repos/bgruening/text_processing/tp_awk_tool/9.5+galaxy3
+    tool_version: 9.5+galaxy3
+    tool_shed_repository:
+      changeset_revision: ab83aa685821
+      name: text_processing
+      owner: bgruening
+      tool_shed: toolshed.g2.bx.psu.edu
+    label: depth_table_layout
+    doc: |
+      Source-parity depth layout: drop chrom column, prepend 'position<TAB>depth' header (single awk step = cut + header).
+      Output is header + one row per reference position (10,708 lines for DENV3); datatype follows infile (tabular).
+    in:
+      infile: per_base_depth/output
+    out:
+      - id: outfile
+    state:
+      code: BEGIN { OFS="\t"; print "position", "depth" } { print $2, $3 }
+      variables: []
+comments:
+  - type: frame
+    position:
+      - 0
+      - 0
+    size:
+      - 600
+      - 400
+    color: blue
+    title: Mapping and read filtering
+    contains_steps:
+      - map_reads
+      - filter_mapped
+  - type: frame
+    position:
+      - 650
+      - 0
+    size:
+      - 300
+      - 400
+    color: green
+    title: Primer trimming
+    contains_steps:
+      - primer_trim
+  - type: frame
+    position:
+      - 1000
+      - 0
+    size:
+      - 600
+      - 250
+    color: yellow
+    title: Consensus genome
+    contains_steps:
+      - consensus
+      - consensus_header
+  - type: frame
+    position:
+      - 1000
+      - 300
+    size:
+      - 300
+      - 200
+    color: orange
+    title: Variant calling
+    contains_steps:
+      - call_variants
+  - type: frame
+    position:
+      - 1000
+      - 550
+    size:
+      - 600
+      - 200
+    color: turquoise
+    title: Per-base depth
+    contains_steps:
+      - per_base_depth
+      - depth_table_layout

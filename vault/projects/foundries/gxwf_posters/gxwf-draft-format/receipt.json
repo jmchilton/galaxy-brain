@@ -1,0 +1,291 @@
+{
+ "gxwf": "1.15.0",
+ "series": {
+  "denv": {
+   "run": "dengueseq-denv3-galaxy",
+   "commits": [
+    {
+     "sha": "bd40715",
+     "subject": "phase 4: workflow-brief-to-galaxy-template",
+     "todo": 31,
+     "open_steps": 7,
+     "n_steps": 7,
+     "ok": true,
+     "ts_ok": 0,
+     "ts_fail": 0,
+     "ts_skip": 0,
+     "connections_valid": true,
+     "concrete_ok": true,
+     "valid": true,
+     "next": "map_reads",
+     "resolved": []
+    },
+    {
+     "sha": "80de2f3",
+     "subject": "phase 5 step 1: advance-galaxy-draft-step",
+     "todo": 27,
+     "open_steps": 6,
+     "n_steps": 7,
+     "ok": true,
+     "ts_ok": 1,
+     "ts_fail": 0,
+     "ts_skip": 0,
+     "connections_valid": true,
+     "concrete_ok": true,
+     "valid": true,
+     "next": "filter_mapped_primary",
+     "resolved": [
+      {
+       "step": "map_reads",
+       "tool": "bwa_mem",
+       "version": "0.7.19+galaxy1",
+       "changeset": "c598cbb8b019"
+      }
+     ]
+    },
+    {
+     "sha": "3556725",
+     "subject": "phase 5 step 2: advance-galaxy-draft-step",
+     "todo": 24,
+     "open_steps": 5,
+     "n_steps": 7,
+     "ok": true,
+     "ts_ok": 2,
+     "ts_fail": 0,
+     "ts_skip": 0,
+     "connections_valid": true,
+     "concrete_ok": true,
+     "valid": true,
+     "next": "primer_trim",
+     "resolved": [
+      {
+       "step": "filter_mapped_primary",
+       "tool": "samtools_view",
+       "version": "1.22+galaxy2",
+       "changeset": "5cf9fcc93508"
+      }
+     ]
+    },
+    {
+     "sha": "658af4e",
+     "subject": "phase 5 step 3: advance-galaxy-draft-step",
+     "todo": 19,
+     "open_steps": 4,
+     "n_steps": 7,
+     "ok": true,
+     "ts_ok": 3,
+     "ts_fail": 0,
+     "ts_skip": 0,
+     "connections_valid": true,
+     "concrete_ok": true,
+     "valid": true,
+     "next": "consensus",
+     "resolved": [
+      {
+       "step": "primer_trim",
+       "tool": "ivar_trim",
+       "version": "1.4.4+galaxy1",
+       "changeset": "6606a8c97889"
+      }
+     ]
+    },
+    {
+     "sha": "daf2928",
+     "subject": "phase 5 step 4: advance-galaxy-draft-step",
+     "todo": 13,
+     "open_steps": 3,
+     "n_steps": 7,
+     "ok": true,
+     "ts_ok": 4,
+     "ts_fail": 0,
+     "ts_skip": 0,
+     "connections_valid": true,
+     "concrete_ok": true,
+     "valid": true,
+     "next": "per_base_depth",
+     "resolved": [
+      {
+       "step": "consensus",
+       "tool": "ivar_consensus",
+       "version": "1.4.4+galaxy0",
+       "changeset": "1c5448133894"
+      }
+     ]
+    },
+    {
+     "sha": "d366ab3",
+     "subject": "phase 5 step 5: advance-galaxy-draft-step",
+     "todo": 9,
+     "open_steps": 2,
+     "n_steps": 7,
+     "ok": true,
+     "ts_ok": 5,
+     "ts_fail": 0,
+     "ts_skip": 0,
+     "connections_valid": true,
+     "concrete_ok": true,
+     "valid": true,
+     "next": "variants",
+     "resolved": [
+      {
+       "step": "per_base_depth",
+       "tool": "bedtools_genomecoveragebed",
+       "version": "2.31.1+galaxy0",
+       "changeset": "d57471728f7b"
+      }
+     ]
+    },
+    {
+     "sha": "07062a2",
+     "subject": "phase 5 step 6: advance-galaxy-draft-step",
+     "todo": 4,
+     "open_steps": 1,
+     "n_steps": 7,
+     "ok": true,
+     "ts_ok": 6,
+     "ts_fail": 0,
+     "ts_skip": 0,
+     "connections_valid": true,
+     "concrete_ok": true,
+     "valid": true,
+     "next": "consensus_header",
+     "resolved": [
+      {
+       "step": "variants",
+       "tool": "ivar_variants",
+       "version": "1.4.4+galaxy0",
+       "changeset": "5e5dfc9e71e2"
+      }
+     ]
+    },
+    {
+     "sha": "b82fa5e",
+     "subject": "phase 5 step 7: advance-galaxy-draft-step (draft: false, extracted)",
+     "todo": 0,
+     "open_steps": 0,
+     "n_steps": 7,
+     "ok": true,
+     "ts_ok": 7,
+     "ts_fail": 0,
+     "ts_skip": 0,
+     "connections_valid": true,
+     "concrete_ok": true,
+     "valid": true,
+     "next": null,
+     "resolved": [
+      {
+       "step": "consensus_header",
+       "tool": "tp_sed_tool",
+       "version": "9.11+galaxy0",
+       "changeset": "30b60202d990"
+      }
+     ]
+    }
+   ],
+   "all_valid": true,
+   "promoted": {
+    "sha": "b82fa5e",
+    "from": "GalaxyWorkflowDraft",
+    "to": "GalaxyWorkflow",
+    "file": "galaxy-workflow.gxwf.yml"
+   }
+  },
+  "bacass": {
+   "run": "bacass-sr-assembly-galaxy",
+   "commits": [
+    {
+     "sha": "1da586d",
+     "subject": "phase 4: workflow-brief-to-galaxy-template",
+     "todo": 7,
+     "open_steps": 3,
+     "n_steps": 6,
+     "ok": true,
+     "ts_ok": 0,
+     "ts_fail": 0,
+     "ts_skip": 0,
+     "connections_valid": true,
+     "concrete_ok": true,
+     "valid": true,
+     "next": "fastp trimming",
+     "resolved": []
+    },
+    {
+     "sha": "f2c80bc",
+     "subject": "phase 5 step 1: advance-galaxy-draft-step (fastp trimming)",
+     "todo": 6,
+     "open_steps": 2,
+     "n_steps": 6,
+     "ok": true,
+     "ts_ok": 1,
+     "ts_fail": 0,
+     "ts_skip": 0,
+     "connections_valid": true,
+     "concrete_ok": true,
+     "valid": true,
+     "next": "Unicycler assembly (raw)",
+     "resolved": [
+      {
+       "step": "fastp trimming",
+       "tool": "fastp",
+       "version": "1.4.0+galaxy0",
+       "changeset": "4990e6f1348f"
+      }
+     ]
+    },
+    {
+     "sha": "a0b8701",
+     "subject": "phase 5 step 2: advance-galaxy-draft-step (Unicycler assembly)",
+     "todo": 1,
+     "open_steps": 1,
+     "n_steps": 6,
+     "ok": true,
+     "ts_ok": 5,
+     "ts_fail": 0,
+     "ts_skip": 0,
+     "connections_valid": true,
+     "concrete_ok": true,
+     "valid": true,
+     "next": "QUAST per assembly",
+     "resolved": [
+      {
+       "step": "Unicycler assembly (raw)",
+       "tool": "unicycler",
+       "version": "0.5.1+galaxy0",
+       "changeset": "e022dff952df"
+      }
+     ]
+    },
+    {
+     "sha": "367fc33",
+     "subject": "phase 5 step 3: advance-galaxy-draft-step (QUAST per assembly)",
+     "todo": 0,
+     "open_steps": 0,
+     "n_steps": 6,
+     "ok": true,
+     "ts_ok": 6,
+     "ts_fail": 0,
+     "ts_skip": 0,
+     "connections_valid": true,
+     "concrete_ok": true,
+     "valid": true,
+     "next": null,
+     "resolved": [
+      {
+       "step": "QUAST per assembly",
+       "tool": "quast",
+       "version": "5.3.0+galaxy2",
+       "changeset": "cbc516cee202"
+      }
+     ]
+    }
+   ],
+   "all_valid": true,
+   "promoted": {
+    "sha": "ad86a85",
+    "from": "GalaxyWorkflowDraft",
+    "to": "GalaxyWorkflow",
+    "file": "galaxy-workflow.gxwf.yml"
+   }
+  }
+ }
+}

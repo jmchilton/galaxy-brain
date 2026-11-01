@@ -33,5 +33,14 @@ Merge-base with `origin/release_26.0` is unchanged (`29d1801ad21`).
   - ruff/black/isort/mypy clean on the 6 changed Python files.
   - Unit `test_actions.py` + `test_HistoryManager.py`: 41 passed.
   - API `test_datasets.py -k "converted or search_features or raw_data_no_converter"`: 5 passed. The 202 test lands in the next commit.
-  - API `test_users.py -k custom_build`: PENDING
-- At head `025d2d5450c`: PENDING
+  - API `test_users.py -k custom_build`: 4 passed.
+    - The first run had 1 failure (`test_custom_build_from_unconvertible_dataset`): its upload `__DATA_FETCH__` job was still running after the 60s wait.
+    - Load average was 70–157 from other sessions' tests at the time.
+    - On rerun at the same commit, all 4 passed.
+- At head `025d2d5450c`:
+  - ruff/black/isort/mypy clean on all 8 changed Python files.
+  - Unit: 41 passed.
+  - API `test_datasets.py -k "converted or search_features or raw_data_no_converter"`: 6 passed.
+  - API `test_users.py -k custom_build`: 4 passed.
+  - API runs were one at a time.
+- `git ls-remote jmchilton` shows `025d2d5450c`.

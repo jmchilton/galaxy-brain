@@ -1,0 +1,267 @@
+{
+  "schemaVersion": 1,
+  "kind": "differential-review-state",
+  "updatedAt": "2026-10-29T18:49:44.469Z",
+  "hunks": {
+    "h1:d4c61fa6eeb3213e": {
+      "snapshotId": "20261029T022655Z-hardening-2f0cd1304462",
+      "path": "client/src/utils/navigation/navigation.yml",
+      "reviewedAt": "2026-10-29T18:27:59.763Z"
+    },
+    "h1:439846ad09cd79b2": {
+      "snapshotId": "20261029T022655Z-hardening-2f0cd1304462",
+      "path": "lib/galaxy/managers/markdown_util.py",
+      "reviewedAt": "2026-10-29T18:28:08.984Z"
+    },
+    "h1:909b6b8f4a1ab277": {
+      "snapshotId": "20261029T022655Z-hardening-2f0cd1304462",
+      "path": "lib/galaxy/managers/markdown_util.py",
+      "reviewedAt": "2026-10-29T18:28:08.984Z"
+    },
+    "h1:e018164c1d5af2d4": {
+      "snapshotId": "20261029T022655Z-hardening-2f0cd1304462",
+      "path": "lib/galaxy/webapps/galaxy/services/histories.py",
+      "reviewedAt": "2026-10-29T18:28:34.141Z"
+    },
+    "h1:25a69610675a6fac": {
+      "snapshotId": "20261029T022655Z-hardening-2f0cd1304462",
+      "path": "lib/galaxy/webapps/galaxy/services/histories.py",
+      "reviewedAt": "2026-10-29T18:28:34.141Z"
+    },
+    "h1:3531a117029bc868": {
+      "snapshotId": "20261029T022655Z-hardening-2f0cd1304462",
+      "path": "lib/galaxy/webapps/galaxy/services/histories.py",
+      "reviewedAt": "2026-10-29T18:28:34.141Z"
+    },
+    "h1:6820c8b66378000e": {
+      "snapshotId": "20261029T022655Z-hardening-2f0cd1304462",
+      "path": "lib/galaxy/webapps/galaxy/services/histories.py",
+      "reviewedAt": "2026-10-29T18:28:34.141Z"
+    },
+    "h1:d17003930e8a8233": {
+      "snapshotId": "20261029T022655Z-hardening-2f0cd1304462",
+      "path": "lib/galaxy/webapps/galaxy/services/histories.py",
+      "reviewedAt": "2026-10-29T18:28:34.141Z"
+    },
+    "h1:4980ddf63e6a37c6": {
+      "snapshotId": "20261029T022655Z-hardening-2f0cd1304462",
+      "path": "lib/galaxy/webapps/galaxy/services/workflows.py",
+      "reviewedAt": "2026-10-29T18:29:01.760Z"
+    },
+    "h1:a1b5e5a760b03c73": {
+      "snapshotId": "20261029T022655Z-hardening-2f0cd1304462",
+      "path": "lib/galaxy/webapps/galaxy/services/workflows.py",
+      "reviewedAt": "2026-10-29T18:29:01.760Z"
+    },
+    "h1:4dcd5a74ebdde235": {
+      "snapshotId": "20261029T022655Z-hardening-2f0cd1304462",
+      "path": "lib/galaxy/webapps/galaxy/services/workflows.py",
+      "reviewedAt": "2026-10-29T18:29:01.760Z"
+    },
+    "h1:defa78ba626a02d6": {
+      "snapshotId": "20261029T022655Z-hardening-2f0cd1304462",
+      "path": "lib/galaxy/workflow/extract.py",
+      "reviewedAt": "2026-10-29T18:29:20.341Z"
+    },
+    "h1:a775d05f8a1038b1": {
+      "snapshotId": "20261029T022655Z-hardening-2f0cd1304462",
+      "path": "lib/galaxy/workflow/extract.py",
+      "reviewedAt": "2026-10-29T18:29:20.341Z"
+    },
+    "h1:2b0d6878abc26272": {
+      "snapshotId": "20261029T022655Z-hardening-2f0cd1304462",
+      "path": "lib/galaxy/workflow/extract.py",
+      "reviewedAt": "2026-10-29T18:29:20.341Z"
+    },
+    "h1:32387a17e97bdc4c": {
+      "snapshotId": "20261029T022655Z-hardening-2f0cd1304462",
+      "path": "lib/galaxy/workflow/extract.py",
+      "reviewedAt": "2026-10-29T18:29:20.341Z"
+    },
+    "h1:fd49118baec4ed51": {
+      "snapshotId": "20261029T022655Z-hardening-2f0cd1304462",
+      "path": "lib/galaxy/workflow/extract.py",
+      "reviewedAt": "2026-10-29T18:29:20.341Z"
+    },
+    "h1:b05fc56afc6435d7": {
+      "snapshotId": "20261029T022655Z-hardening-2f0cd1304462",
+      "path": "lib/galaxy/workflow/extract.py",
+      "reviewedAt": "2026-10-29T18:29:20.341Z"
+    },
+    "h1:1cd1b956ca95cbdd": {
+      "snapshotId": "20261029T022655Z-hardening-2f0cd1304462",
+      "path": "lib/galaxy/workflow/extract.py",
+      "reviewedAt": "2026-10-29T18:29:20.341Z"
+    },
+    "h1:59631440fe41b297": {
+      "snapshotId": "20261029T022655Z-hardening-2f0cd1304462",
+      "path": "lib/galaxy/workflow/extract.py",
+      "reviewedAt": "2026-10-29T18:29:20.341Z"
+    },
+    "h1:8e9454183acaf1af": {
+      "snapshotId": "20261029T022655Z-hardening-2f0cd1304462",
+      "path": "lib/galaxy/workflow/extract.py",
+      "reviewedAt": "2026-10-29T18:29:20.341Z"
+    },
+    "h1:7dff4213d96900e3": {
+      "snapshotId": "20261029T022655Z-hardening-2f0cd1304462",
+      "path": "lib/galaxy/workflow/extract.py",
+      "reviewedAt": "2026-10-29T18:29:20.341Z"
+    },
+    "h1:54885fbcc93dc54d": {
+      "snapshotId": "20261029T022655Z-hardening-2f0cd1304462",
+      "path": "lib/galaxy/workflow/extract.py",
+      "reviewedAt": "2026-10-29T18:29:20.341Z"
+    },
+    "h1:a18b5feabbed3919": {
+      "snapshotId": "20261029T022655Z-hardening-2f0cd1304462",
+      "path": "lib/galaxy/workflow/extract.py",
+      "reviewedAt": "2026-10-29T18:29:20.341Z"
+    },
+    "h1:9e98fe187652f55f": {
+      "snapshotId": "20261029T022655Z-hardening-2f0cd1304462",
+      "path": "lib/galaxy/workflow/extract.py",
+      "reviewedAt": "2026-10-29T18:29:20.341Z"
+    },
+    "h1:ca4c86cad3626b61": {
+      "snapshotId": "20261029T022655Z-hardening-2f0cd1304462",
+      "path": "lib/galaxy/workflow/extract.py",
+      "reviewedAt": "2026-10-29T18:29:20.341Z"
+    },
+    "h1:802ff6454a101ce5": {
+      "snapshotId": "20261029T022655Z-hardening-2f0cd1304462",
+      "path": "lib/galaxy/workflow/extract.py",
+      "reviewedAt": "2026-10-29T18:29:20.341Z"
+    },
+    "h1:ca1258db9bd188c1": {
+      "snapshotId": "20261029T022655Z-hardening-2f0cd1304462",
+      "path": "lib/galaxy/workflow/extract.py",
+      "reviewedAt": "2026-10-29T18:29:20.341Z"
+    },
+    "h1:86fb4c67114370b1": {
+      "snapshotId": "20261029T022655Z-hardening-2f0cd1304462",
+      "path": "lib/galaxy_test/api/test_workflow_extraction.py",
+      "reviewedAt": "2026-10-29T18:29:28.907Z"
+    },
+    "h1:8e39ff0d83e350bf": {
+      "snapshotId": "20261029T022655Z-hardening-2f0cd1304462",
+      "path": "lib/galaxy_test/api/test_workflow_extraction.py",
+      "reviewedAt": "2026-10-29T18:29:28.907Z"
+    },
+    "h1:6397ff6216712f40": {
+      "snapshotId": "20261029T022655Z-hardening-2f0cd1304462",
+      "path": "lib/galaxy_test/api/test_workflow_extraction.py",
+      "reviewedAt": "2026-10-29T18:29:28.907Z"
+    },
+    "h1:0c1c75c0d4762fec": {
+      "snapshotId": "20261029T022655Z-hardening-2f0cd1304462",
+      "path": "lib/galaxy_test/api/test_workflow_extraction.py",
+      "reviewedAt": "2026-10-29T18:29:28.907Z"
+    },
+    "h1:55e64e16f7270146": {
+      "snapshotId": "20261029T022655Z-hardening-2f0cd1304462",
+      "path": "lib/galaxy_test/api/test_workflow_extraction.py",
+      "reviewedAt": "2026-10-29T18:29:28.907Z"
+    },
+    "h1:7035a3acc3b08658": {
+      "snapshotId": "20261029T022655Z-hardening-2f0cd1304462",
+      "path": "lib/galaxy_test/api/test_workflow_extraction.py",
+      "reviewedAt": "2026-10-29T18:29:28.907Z"
+    },
+    "h1:814a10a039f022af": {
+      "snapshotId": "20261029T022655Z-hardening-2f0cd1304462",
+      "path": "lib/galaxy_test/api/test_workflow_extraction.py",
+      "reviewedAt": "2026-10-29T18:29:28.907Z"
+    },
+    "h1:63d18654e4ec530e": {
+      "snapshotId": "20261029T022655Z-hardening-2f0cd1304462",
+      "path": "lib/galaxy_test/api/test_workflow_extraction.py",
+      "reviewedAt": "2026-10-29T18:29:28.907Z"
+    },
+    "h1:e224515079976d8d": {
+      "snapshotId": "20261029T022655Z-hardening-2f0cd1304462",
+      "path": "lib/galaxy_test/api/test_workflow_extraction.py",
+      "reviewedAt": "2026-10-29T18:29:28.907Z"
+    },
+    "h1:89b115b34790a8ff": {
+      "snapshotId": "20261029T022655Z-hardening-2f0cd1304462",
+      "path": "lib/galaxy_test/base/populators.py",
+      "reviewedAt": "2026-10-29T18:29:33.391Z"
+    },
+    "h1:009aa89e0a2ba40a": {
+      "snapshotId": "20261029T022655Z-hardening-2f0cd1304462",
+      "path": "lib/galaxy_test/selenium/test_workflow_extraction.py",
+      "reviewedAt": "2026-10-29T18:29:39.285Z"
+    },
+    "h1:05b2e0ad4283c2fd": {
+      "snapshotId": "20261029T022655Z-hardening-2f0cd1304462",
+      "path": "test/unit/app/managers/test_markdown_export.py",
+      "reviewedAt": "2026-10-29T18:29:58.072Z"
+    },
+    "h1:d0e98347f429cea7": {
+      "snapshotId": "20261029T022655Z-hardening-2f0cd1304462",
+      "path": "test/unit/workflows/test_workflow_markdown.py",
+      "reviewedAt": "2026-10-29T18:30:04.119Z"
+    },
+    "h1:1fa5a46b07e26269": {
+      "snapshotId": "20261029T022655Z-hardening-2f0cd1304462",
+      "path": "test/unit/workflows/test_workflow_markdown.py",
+      "reviewedAt": "2026-10-29T18:30:04.119Z"
+    },
+    "h1:4bf86f8b7f67f562": {
+      "snapshotId": "20261029T022655Z-hardening-2f0cd1304462",
+      "path": "test/unit/workflows/test_workflow_markdown.py",
+      "reviewedAt": "2026-10-29T18:30:04.119Z"
+    }
+  },
+  "commits": {
+    "e8c1a80b0b8560d4c259b29d3629154df5e8701b": {
+      "sha": "aa07cf68c2f83705e6245e83c82fb15cca14596d",
+      "subject": "Baseline tests: hid extraction connects an implicitly converted input",
+      "snapshotId": "20261029T183826Z-polishing-2f0cd1304462",
+      "signedOffAt": "2026-10-29T18:49:43.116Z"
+    },
+    "cf4db4680c5a6a2f54585a8560b9dc836790228a": {
+      "sha": "5c8c0d23489dfe5f30852a6fa125a66f35fc136a",
+      "subject": "Route by-ids extraction test helpers through _extract_by_ids[_raw]",
+      "snapshotId": "20261029T183826Z-polishing-2f0cd1304462",
+      "signedOffAt": "2026-10-29T18:49:43.304Z"
+    },
+    "1448c46e81403819dff28ec69e6af3d1c1a1d3a7": {
+      "sha": "d24ba1df1260a99af967c78c40af0fc88aa47ee5",
+      "subject": "Build extraction summary input rows in one input_row helper",
+      "snapshotId": "20261029T183826Z-polishing-2f0cd1304462",
+      "signedOffAt": "2026-10-29T18:49:43.498Z"
+    },
+    "d3aa0fe5f6cc635ddba68b29d553fc39c0c8f140": {
+      "sha": "4ffc90509f7d7f014693b9a666daf4aae380c082",
+      "subject": "Expand invocation_inputs/outputs to object ids so PDF export renders them",
+      "snapshotId": "20261029T183826Z-polishing-2f0cd1304462",
+      "signedOffAt": "2026-10-29T18:49:43.675Z"
+    },
+    "905a121b46262ec765c9f68a5992d6f29df8f62b": {
+      "sha": "96db02d899ea794ee5c716fcac20b086745e09d4",
+      "subject": "Extraction: copies of one original are one input; 400 for unparallel names",
+      "snapshotId": "20261029T183826Z-polishing-2f0cd1304462",
+      "signedOffAt": "2026-10-29T18:49:43.834Z"
+    },
+    "6bc029b814312739920987f6fcb346512ace6031": {
+      "sha": "d3e327d5dcd7603c202edbb67a28e46fe9f8acb2",
+      "subject": "Extraction summary: one input card per original, listing in-history copies",
+      "snapshotId": "20261029T183826Z-polishing-2f0cd1304462",
+      "signedOffAt": "2026-10-29T18:49:44.000Z"
+    },
+    "6086c3f28572a5b91e4d861fe85cab999aea320b": {
+      "sha": "3f571f849c55aeceb3df369673442cdd54554425",
+      "subject": "Test job-less collection copies share one extraction input card",
+      "snapshotId": "20261029T183826Z-polishing-2f0cd1304462",
+      "signedOffAt": "2026-10-29T18:49:44.237Z"
+    },
+    "4083f3bac11e952bb57c1c08eda8588df90b58af": {
+      "sha": "2f0cd1304462370561e169e67152b3278fc8ab70",
+      "subject": "E2E: extraction form extracts a list and its in-history copy as one input",
+      "snapshotId": "20261029T183826Z-polishing-2f0cd1304462",
+      "signedOffAt": "2026-10-29T18:49:44.469Z"
+    }
+  }
+}

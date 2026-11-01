@@ -1,0 +1,128 @@
+{
+  "schemaVersion": 1,
+  "kind": "differential-review-state",
+  "updatedAt": "2026-10-28T20:36:03.375Z",
+  "hunks": {
+    "h1:4d81029a8f147a33": {
+      "snapshotId": "20261028T194838Z-polishing-d9a8abb4ca91",
+      "path": "lib/galaxy/jobs/command_factory.py",
+      "reviewedAt": "2026-10-28T20:35:31.306Z"
+    },
+    "h1:018929a26d9987fb": {
+      "snapshotId": "20261028T194838Z-polishing-d9a8abb4ca91",
+      "path": "lib/galaxy/jobs/command_factory.py",
+      "reviewedAt": "2026-10-28T20:35:31.306Z"
+    },
+    "h1:d1f02f090b2825e1": {
+      "snapshotId": "20261028T194838Z-polishing-d9a8abb4ca91",
+      "path": "lib/galaxy/jobs/runners/pulsar.py",
+      "reviewedAt": "2026-10-28T20:35:37.874Z"
+    },
+    "h1:b828d616518beee1": {
+      "snapshotId": "20261028T194838Z-polishing-d9a8abb4ca91",
+      "path": "lib/galaxy/jobs/runners/pulsar.py",
+      "reviewedAt": "2026-10-28T20:35:37.874Z"
+    },
+    "h1:c5575e42d0520ad5": {
+      "snapshotId": "20261028T194838Z-polishing-d9a8abb4ca91",
+      "path": "lib/galaxy/jobs/runners/pulsar.py",
+      "reviewedAt": "2026-10-28T20:35:37.874Z"
+    },
+    "h1:0a4f9e796ebcc613": {
+      "snapshotId": "20261028T194838Z-polishing-d9a8abb4ca91",
+      "path": "lib/galaxy/jobs/runners/pulsar.py",
+      "reviewedAt": "2026-10-28T20:35:37.874Z"
+    },
+    "h1:e02608910f262abe": {
+      "snapshotId": "20261028T194838Z-polishing-d9a8abb4ca91",
+      "path": "lib/galaxy/jobs/runners/pulsar.py",
+      "reviewedAt": "2026-10-28T20:35:37.874Z"
+    },
+    "h1:2ba1fc91b84ada11": {
+      "snapshotId": "20261028T194838Z-polishing-d9a8abb4ca91",
+      "path": "lib/galaxy/jobs/runners/pulsar.py",
+      "reviewedAt": "2026-10-28T20:35:37.874Z"
+    },
+    "h1:3f19e0dadbcfad79": {
+      "snapshotId": "20261028T194838Z-polishing-d9a8abb4ca91",
+      "path": "lib/galaxy/jobs/runners/pulsar.py",
+      "reviewedAt": "2026-10-28T20:35:37.874Z"
+    },
+    "h1:c71e8644d5ab3a58": {
+      "snapshotId": "20261028T194838Z-polishing-d9a8abb4ca91",
+      "path": "lib/galaxy/jobs/runners/pulsar.py",
+      "reviewedAt": "2026-10-28T20:35:37.874Z"
+    },
+    "h1:86dce025061d6346": {
+      "snapshotId": "20261028T194838Z-polishing-d9a8abb4ca91",
+      "path": "lib/galaxy/jobs/runners/pulsar.py",
+      "reviewedAt": "2026-10-28T20:35:37.874Z"
+    },
+    "h1:ba0f540e871efbc5": {
+      "snapshotId": "20261028T194838Z-polishing-d9a8abb4ca91",
+      "path": "lib/galaxy/jobs/runners/pulsar.py",
+      "reviewedAt": "2026-10-28T20:35:37.874Z"
+    },
+    "h1:5aec1278fc0dae4e": {
+      "snapshotId": "20261028T194838Z-polishing-d9a8abb4ca91",
+      "path": "lib/galaxy/jobs/runners/pulsar.py",
+      "reviewedAt": "2026-10-28T20:35:37.874Z"
+    },
+    "h1:7d7fbc41a5d5d536": {
+      "snapshotId": "20261028T194838Z-polishing-d9a8abb4ca91",
+      "path": "lib/galaxy/tool_util/deps/container_classes.py",
+      "reviewedAt": "2026-10-28T20:35:39.903Z"
+    },
+    "h1:110815df24f7dcc8": {
+      "snapshotId": "20261028T194838Z-polishing-d9a8abb4ca91",
+      "path": "test/integration/test_pulsar_embedded_containers.py",
+      "reviewedAt": "2026-10-28T20:35:45.690Z"
+    },
+    "h1:2e999748b501e109": {
+      "snapshotId": "20261028T194838Z-polishing-d9a8abb4ca91",
+      "path": "test/integration/test_pulsar_embedded_containers.py",
+      "reviewedAt": "2026-10-28T20:35:45.690Z"
+    },
+    "h1:a3ea3ea098051a27": {
+      "snapshotId": "20261028T194838Z-polishing-d9a8abb4ca91",
+      "path": "test/integration/test_pulsar_embedded_containers.py",
+      "reviewedAt": "2026-10-28T20:35:45.690Z"
+    },
+    "h1:87b3458904d191ba": {
+      "snapshotId": "20261028T194838Z-polishing-d9a8abb4ca91",
+      "path": "test/unit/app/jobs/test_pulsar_runner.py",
+      "reviewedAt": "2026-10-28T20:36:03.375Z"
+    },
+    "h1:1d11616d924f7a5b": {
+      "snapshotId": "20261028T194838Z-polishing-d9a8abb4ca91",
+      "path": "test/unit/app/jobs/test_pulsar_runner.py",
+      "reviewedAt": "2026-10-28T20:36:03.375Z"
+    },
+    "h1:7b1954689828ce9f": {
+      "snapshotId": "20261028T194838Z-polishing-d9a8abb4ca91",
+      "path": "test/unit/app/jobs/test_pulsar_runner.py",
+      "reviewedAt": "2026-10-28T20:36:03.375Z"
+    },
+    "h1:00f489efbdcd08f9": {
+      "snapshotId": "20261028T194838Z-polishing-d9a8abb4ca91",
+      "path": "test/unit/app/jobs/test_pulsar_runner.py",
+      "reviewedAt": "2026-10-28T20:36:03.375Z"
+    },
+    "h1:4377feb704128e76": {
+      "snapshotId": "20261028T194838Z-polishing-d9a8abb4ca91",
+      "path": "test/unit/app/jobs/test_pulsar_runner.py",
+      "reviewedAt": "2026-10-28T20:36:03.375Z"
+    },
+    "h1:a968ab38c3ce22d8": {
+      "snapshotId": "20261028T194838Z-polishing-d9a8abb4ca91",
+      "path": "test/unit/app/jobs/test_pulsar_runner.py",
+      "reviewedAt": "2026-10-28T20:36:03.375Z"
+    },
+    "h1:1d161107efcd5f8a": {
+      "snapshotId": "20261028T194838Z-polishing-d9a8abb4ca91",
+      "path": "test/unit/app/jobs/test_pulsar_runner.py",
+      "reviewedAt": "2026-10-28T20:36:03.375Z"
+    }
+  },
+  "commits": {}
+}

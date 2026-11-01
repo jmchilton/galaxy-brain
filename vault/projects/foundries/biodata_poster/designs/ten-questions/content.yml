@@ -1,0 +1,157 @@
+# All poster prose. Strings are Typst markup: *bold*, _italic_, `code`, and these helpers:
+#   #arr (arrow), #times (multiplication sign), #h8("hash") (8-char hash in mono), #q(n) (question pill)
+# Escape a literal hash sign as \# (use single YAML quotes then).
+# Word budget (build.py): 550 words, not counting `meta`, `board` and the non-printed keys mark/kind/ref.
+# Run facts that also live in data/run.json are cross-checked by build.py (ledger counts, hashes, LOW count).
+
+meta:
+  eyebrow: "Galaxy Workflow Foundry · CSHL Biological Data Science 2026 · Tools, Visualization, and Infrastructure"
+  title: ["From Papers and Conversations", "to Runnable Galaxy Workflows"]
+  authors:
+    - [["John Chilton", "1"], ["Marius van den Beek", "1"]]
+    - [["Dannon Baker", "2"], ["Danielle Callan", "3"], ["Anton Nekrutenko", "1"]]
+  affiliations:
+    - "The Pennsylvania State University, University Park, PA, USA"
+    - "Johns Hopkins University, Baltimore, MD, USA"
+    - "Temple University, Philadelphia, PA, USA"
+  refs:
+    - >-
+      [1] Baker D, …, Nekrutenko A. Verifiable Agentic Science on Public Infrastructure. bioRxiv (2026),
+      doi:10.64898/2026.10.26.761864. An earlier methods-text workflow (Hokken et al., _A. fumigatus_ RNA-seq) is published there, Fig. S4A.
+    - >-
+      [2] Vogels CBF, Hill V, et al. DengueSeq. _BMC Genomics_ 25:433 (2024).
+      [3] Karpathy A. LLM wiki. gist.github.com/karpathy/442a6bf555914893e9891c11519de94f
+    - >-
+      Counts: galaxyproject/foundry `main`, 2026-10-24: 420 notes · 56 Molds (27 reviewed) · 13 pipelines · 69 skills ·
+      31 CI pattern workflows green on Galaxy 26.1. Run: local run directories, 2026-10-20/21.
+
+hero: ["Before it built anything,", "it asked you #underline(stroke: 12pt + pen, offset: 22pt)[#text(fill: pen)[ten]] questions."]
+thesis:
+  - "A correct workflow is a knowledge problem, not a syntax problem."
+  - "#underline(stroke: 5pt + pen, offset: 12pt)[#text(fill: pen)[Some of that knowledge is yours.]] The rest lives in a wiki."
+
+live:
+  caption: "Live results"
+  sub: "keeps updating"
+
+form:
+  label: "Workflow brief · open questions, low confidence first"
+  cols: ["No.", "Question · what it proposed", "You"]
+  source: "DengueSeq DENV3 (dengue virus) [2]: the paper and its linked code (DENV_pipeline v1.0), chosen after the skills were built."
+  low_key: "thin evidence"
+  footer: >-
+    *9 accepted as proposed · 1 corrected* · 5 LOW · brief as proposed #h8("560f0bfa") #arr as reviewed #h8("e52aca4e")
+  legend: "“You” was one of us, an author (J.C.), on one paper. One run, not a sample."
+
+# Shortened questions (≤ 70 characters). Originals: data/run.json `questions[].question`; table in README.
+questions:
+  1:
+    q: "Which primer scheme amplified the test sample?"
+    p: "DENV3 only: trim with the DENV3 primer BED, as the pipeline does."
+    e: "You said “DENV3 DengueSeq primer scheme”; the paper says Florida validated pan-serotype."
+  2:
+    q: "Is the test sample's metadata correct?"
+    p: "Take your word for it; check SRA when fetching data."
+    fix: "yes. You checked ENA: MiSeq, paired, 183,398 read pairs."
+  3:
+    q: "Compare the consensus with a published genome?"
+    p: "Yes, if one exists; else structural checks only."
+  4:
+    q: "Which primer BED and reference are authoritative?"
+    p: "The pinned DENV_pipeline v1.0 files."
+  5:
+    q: "Produce a genome-completeness metric?"
+    p: "No; consensus and depth already show it."
+    mark: cut
+  6:
+    q: "Consensus minimum depth: 10 or 20?"
+    p: "10, adjustable."
+    e: "Methods, code and Fig. S1: 10. Results report coverage at 20#times."
+    tag: "Which applies is your call, not a model's."
+  7:
+    q: "Full iVar variant table, or the pipeline's filtered one?"
+    p: "The full table (minimum quality 20, frequency 0.03)."
+    mark: cut
+  8:
+    q: "Emit outputs however little of the genome is covered?"
+    p: "Yes: always emit all outputs."
+    mark: open
+  9:
+    q: "Keep the primer-trimmed alignment (BAM) as an output?"
+    p: "Yes, as a secondary output."
+  10:
+    q: "Use the repository's DENV3 fixture as a second test?"
+    p: "Yes, alongside SRR25366733; not yet run."
+
+wiki:
+  label: "Where the proposals came from"
+  chain: ["420 notes", "56 Molds", "69 skills"]
+  body: >-
+    Galaxy changes faster than training data, so that knowledge lives in a wiki [3]
+    of Molds (one per action), compiled into skills. One rule, copied verbatim:
+  hashline: >-
+    `workflow-brief-design` #h8("88237d66") = skill copy #h8("88237d66") · build #h8("f275059e") · compiling runs no model
+
+tools:
+  heading: "Then the tools decided."
+  rows:
+    - name: "Tool Shed"
+      stamp: "7/7 FOUND"
+      detail: "Galaxy's tool registry: every step pinned to a revision"
+    - name: "gxwf"
+      stamp: "PASS"
+      detail: "workflow validator: tool state 7/7, connections valid"
+    - name: "Planemo"
+      stamp: "PASS"
+      detail: "test runner: 7/7 jobs ok, Galaxy #h8(\"b18269a1\") (not pinned)"
+  why: >-
+    *Why tools, not instructions?* In the companion Orbit study (open-weight models), a rule given
+    only in the prompt was followed in 0 of 15 graded runs [1, p. 18].
+  provenance: "The Foundry records which knowledge built each skill; Galaxy records what ran."
+  ask: >-
+    Also being checked: nf-core/rnaseq and nf-core/atacseq rebuilds (Nekrutenko lab),
+    Foundry-validated; atacseq partial.
+
+open:
+  heading: "Five things stayed open."
+  items:
+    - kind: open
+      ref: 8
+      text: "A zero-read sample gets an empty consensus, not 10,707 N."
+    - kind: open
+      ref: new
+      text: "Consensus: Galaxy's wrapper skips BAQ (base alignment quality); the paper's code doesn't."
+    - kind: open
+      ref: new
+      text: "Variants: the same BAQ difference."
+    - kind: cut
+      ref: 5
+      text: "Completeness metric: cut by your answer."
+    - kind: cut
+      ref: 7
+      text: "Filtered variant table: cut by your answer."
+  new_key: "changes the build proposed to you"
+  tally: "19 raised; 14 resolved, 5 written down."
+  notyet: "Not yet: replicating the paper's results; the second test (#q(10))."
+
+recompile:
+  heading: "Fix the knowledge, recompile."
+  rows:
+    - when: "17 Jun 2026 · #h8(\"73af1f62\")"
+      what: "A run said `integron_finder` wasn't in the Tool Shed. It was. Mold fixed, skill recompiled."
+      before: "256e3861"
+      after: "2e5fa1f8"
+    - when: '22 Oct 2026 · PR \#701'
+      what: "One test-assertion defect in 3 runs. One note fixed, 8 skills recompiled."
+      before: "64c477c4"
+      after: "9a636385"
+  coda: "Learning happens in the wiki, not in model weights."
+
+board:
+  qrs:
+    - ["repo", "Code"]
+    - ["usage", "Install"]
+    - ["preprint", "Preprint [1]"]
+  install:
+    - ["Claude Code", "/plugin marketplace add galaxyproject/foundry"]
+    - ["Codex", "codex plugin marketplace add galaxyproject/foundry"]

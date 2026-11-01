@@ -1,0 +1,257 @@
+{
+  "schemaVersion": 1,
+  "kind": "differential-review-state",
+  "updatedAt": "2026-10-29T18:14:59.806Z",
+  "hunks": {
+    "h1:f878b006629a7098": {
+      "snapshotId": "20261028T210041Z-hardening-9425d5e862b8",
+      "path": "client/packages/api-client/src/schema/schema.ts",
+      "reviewedAt": "2026-10-29T00:41:25.592Z"
+    },
+    "h1:244a63d65e40d004": {
+      "snapshotId": "20261028T210041Z-hardening-9425d5e862b8",
+      "path": "client/packages/api-client/src/schema/schema.ts",
+      "reviewedAt": "2026-10-29T00:41:26.631Z"
+    },
+    "h1:1d4b729a33f24f90": {
+      "snapshotId": "20261028T210041Z-hardening-9425d5e862b8",
+      "path": "client/packages/api-client/src/schema/schema.ts",
+      "reviewedAt": "2026-10-29T00:41:27.331Z"
+    },
+    "h1:4da0bf04f7fb1536": {
+      "snapshotId": "20261028T210041Z-hardening-9425d5e862b8",
+      "path": "client/packages/api-client/src/schema/schema.ts",
+      "reviewedAt": "2026-10-29T00:41:27.983Z"
+    },
+    "h1:160140485fcbd8fb": {
+      "snapshotId": "20261028T210041Z-hardening-9425d5e862b8",
+      "path": "client/packages/api-client/src/schema/schema.ts",
+      "reviewedAt": "2026-10-29T00:41:28.705Z"
+    },
+    "h1:c03fcfe0a34dc36a": {
+      "snapshotId": "20261028T210041Z-hardening-9425d5e862b8",
+      "path": "client/packages/api-client/src/schema/schema.ts",
+      "reviewedAt": "2026-10-29T00:41:32.422Z"
+    },
+    "h1:7cdef28329ce19ca": {
+      "snapshotId": "20261028T210041Z-hardening-9425d5e862b8",
+      "path": "client/packages/api-client/src/schema/schema.ts",
+      "reviewedAt": "2026-10-29T00:41:33.272Z"
+    },
+    "h1:a79e39f24f0d05c8": {
+      "snapshotId": "20261028T210041Z-hardening-9425d5e862b8",
+      "path": "client/src/api/pages.ts",
+      "reviewedAt": "2026-10-29T00:41:36.684Z"
+    },
+    "h1:dfb29a2b5b6a597d": {
+      "snapshotId": "20261028T210041Z-hardening-9425d5e862b8",
+      "path": "client/src/components/History/WorkflowExtractionForm.test.ts",
+      "reviewedAt": "2026-10-29T00:41:40.676Z"
+    },
+    "h1:a5ec0cd67bb68a61": {
+      "snapshotId": "20261028T210041Z-hardening-9425d5e862b8",
+      "path": "client/src/components/History/WorkflowExtractionForm.test.ts",
+      "reviewedAt": "2026-10-29T00:41:40.676Z"
+    },
+    "h1:6534bf8b117f2286": {
+      "snapshotId": "20261028T210041Z-hardening-9425d5e862b8",
+      "path": "client/src/components/History/WorkflowExtractionForm.test.ts",
+      "reviewedAt": "2026-10-29T00:41:40.676Z"
+    },
+    "h1:01ed3a9fdaa51675": {
+      "snapshotId": "20261028T210041Z-hardening-9425d5e862b8",
+      "path": "client/src/components/History/WorkflowExtractionForm.vue",
+      "reviewedAt": "2026-10-29T00:41:43.309Z"
+    },
+    "h1:31dbf52a5e333d86": {
+      "snapshotId": "20261028T210041Z-hardening-9425d5e862b8",
+      "path": "client/src/components/History/WorkflowExtractionForm.vue",
+      "reviewedAt": "2026-10-29T00:41:43.309Z"
+    },
+    "h1:76ae65820d1c882f": {
+      "snapshotId": "20261028T210041Z-hardening-9425d5e862b8",
+      "path": "lib/galaxy/schema/workflows.py",
+      "reviewedAt": "2026-10-29T00:41:53.164Z"
+    },
+    "h1:e449769a8ac87533": {
+      "snapshotId": "20261028T210041Z-hardening-9425d5e862b8",
+      "path": "lib/galaxy/schema/workflows.py",
+      "reviewedAt": "2026-10-29T00:41:54.642Z"
+    },
+    "h1:d3ad14981d8adcbd": {
+      "snapshotId": "20261028T210041Z-hardening-9425d5e862b8",
+      "path": "lib/galaxy/schema/workflows.py",
+      "reviewedAt": "2026-10-29T00:41:55.733Z"
+    },
+    "h1:cfc3d3d3a1f56461": {
+      "snapshotId": "20261028T210041Z-hardening-9425d5e862b8",
+      "path": "lib/galaxy/webapps/galaxy/api/pages.py",
+      "reviewedAt": "2026-10-29T00:41:59.542Z"
+    },
+    "h1:4437bc2645bc516d": {
+      "snapshotId": "20261028T210041Z-hardening-9425d5e862b8",
+      "path": "lib/galaxy/webapps/galaxy/services/workflows.py",
+      "reviewedAt": "2026-10-29T00:42:06.025Z"
+    },
+    "h1:3e9bfc37c4357f22": {
+      "snapshotId": "20261028T210041Z-hardening-9425d5e862b8",
+      "path": "lib/galaxy/webapps/galaxy/services/workflows.py",
+      "reviewedAt": "2026-10-29T00:42:09.783Z"
+    },
+    "h1:f16338396f2026cc": {
+      "snapshotId": "20261028T210041Z-hardening-9425d5e862b8",
+      "path": "lib/galaxy/webapps/galaxy/services/workflows.py",
+      "reviewedAt": "2026-10-29T00:42:11.175Z"
+    },
+    "h1:014021508ebb6940": {
+      "snapshotId": "20261028T210041Z-hardening-9425d5e862b8",
+      "path": "lib/galaxy/webapps/galaxy/services/workflows.py",
+      "reviewedAt": "2026-10-29T00:42:12.000Z"
+    },
+    "h1:fb6cb5384ac8da20": {
+      "snapshotId": "20261028T210041Z-hardening-9425d5e862b8",
+      "path": "lib/galaxy/workflow/extract.py",
+      "reviewedAt": "2026-10-29T00:42:17.358Z"
+    },
+    "h1:e4d7a98d30fdcca6": {
+      "snapshotId": "20261028T210041Z-hardening-9425d5e862b8",
+      "path": "lib/galaxy/workflow/extract.py",
+      "reviewedAt": "2026-10-29T00:42:18.275Z"
+    },
+    "h1:dbc33e76f0a3407f": {
+      "snapshotId": "20261028T210041Z-hardening-9425d5e862b8",
+      "path": "lib/galaxy_test/api/test_workflow_extraction.py",
+      "reviewedAt": "2026-10-29T00:42:23.937Z"
+    },
+    "h1:c950d83b707a1f44": {
+      "snapshotId": "20261028T210041Z-hardening-9425d5e862b8",
+      "path": "lib/galaxy_test/api/test_workflow_extraction.py",
+      "reviewedAt": "2026-10-29T00:42:23.937Z"
+    },
+    "h1:7e1d095af9798673": {
+      "snapshotId": "20261028T210041Z-hardening-9425d5e862b8",
+      "path": "lib/galaxy_test/api/test_workflow_extraction.py",
+      "reviewedAt": "2026-10-29T00:42:23.937Z"
+    },
+    "h1:167fccaa782e0bb2": {
+      "snapshotId": "20261028T210041Z-hardening-9425d5e862b8",
+      "path": "lib/galaxy_test/api/test_workflow_extraction.py",
+      "reviewedAt": "2026-10-29T00:42:23.937Z"
+    },
+    "h1:28767dcd0df6a5d6": {
+      "snapshotId": "20261028T210041Z-hardening-9425d5e862b8",
+      "path": "lib/galaxy_test/api/test_workflow_extraction.py",
+      "reviewedAt": "2026-10-29T00:42:23.937Z"
+    },
+    "h1:e30ad39747d1edbc": {
+      "snapshotId": "20261028T210041Z-hardening-9425d5e862b8",
+      "path": "lib/galaxy_test/api/test_workflow_extraction.py",
+      "reviewedAt": "2026-10-29T00:42:23.937Z"
+    },
+    "h1:f51da919c262ce80": {
+      "snapshotId": "20261028T210041Z-hardening-9425d5e862b8",
+      "path": "lib/galaxy_test/api/test_workflow_extraction.py",
+      "reviewedAt": "2026-10-29T00:42:23.937Z"
+    },
+    "h1:07ab1754dbd70c0f": {
+      "snapshotId": "20261028T210041Z-hardening-9425d5e862b8",
+      "path": "lib/galaxy_test/api/test_workflow_extraction.py",
+      "reviewedAt": "2026-10-29T00:42:23.937Z"
+    },
+    "h1:7436294aa850035d": {
+      "snapshotId": "20261028T210041Z-hardening-9425d5e862b8",
+      "path": "lib/galaxy_test/api/test_workflow_extraction.py",
+      "reviewedAt": "2026-10-29T00:42:23.937Z"
+    },
+    "h1:a00b3093f453bfe0": {
+      "snapshotId": "20261028T210041Z-hardening-9425d5e862b8",
+      "path": "lib/galaxy_test/api/test_workflow_extraction.py",
+      "reviewedAt": "2026-10-29T00:42:23.937Z"
+    },
+    "h1:13ecb9828de5a063": {
+      "snapshotId": "20261028T210041Z-hardening-9425d5e862b8",
+      "path": "lib/galaxy_test/api/test_workflow_extraction.py",
+      "reviewedAt": "2026-10-29T00:42:23.937Z"
+    },
+    "h1:33ab2de64c823e60": {
+      "snapshotId": "20261028T210041Z-hardening-9425d5e862b8",
+      "path": "lib/galaxy_test/api/test_workflow_extraction.py",
+      "reviewedAt": "2026-10-29T00:42:23.937Z"
+    },
+    "h1:7b43cdbd9bfda3af": {
+      "snapshotId": "20261028T210041Z-hardening-9425d5e862b8",
+      "path": "lib/galaxy_test/api/test_workflow_extraction.py",
+      "reviewedAt": "2026-10-29T00:42:23.937Z"
+    },
+    "h1:7975e0af860ebb93": {
+      "snapshotId": "20261028T210041Z-hardening-9425d5e862b8",
+      "path": "lib/galaxy_test/api/test_workflow_extraction.py",
+      "reviewedAt": "2026-10-29T00:42:23.937Z"
+    },
+    "h1:7a0110105100b0f6": {
+      "snapshotId": "20261028T210041Z-hardening-9425d5e862b8",
+      "path": "lib/galaxy_test/api/test_workflow_extraction.py",
+      "reviewedAt": "2026-10-29T00:42:23.937Z"
+    },
+    "h1:7ef4f13a1f2cd70a": {
+      "snapshotId": "20261028T210041Z-hardening-9425d5e862b8",
+      "path": "lib/galaxy_test/api/test_workflow_extraction.py",
+      "reviewedAt": "2026-10-29T00:42:23.937Z"
+    },
+    "h1:aa513a97ec771d45": {
+      "snapshotId": "20261028T210041Z-hardening-9425d5e862b8",
+      "path": "lib/galaxy_test/api/test_workflow_extraction.py",
+      "reviewedAt": "2026-10-29T00:42:23.937Z"
+    },
+    "h1:ae37d30d8c71b529": {
+      "snapshotId": "20261028T210041Z-hardening-9425d5e862b8",
+      "path": "lib/galaxy_test/api/test_workflow_extraction.py",
+      "reviewedAt": "2026-10-29T00:42:23.937Z"
+    },
+    "h1:9e04e4b7718ebc48": {
+      "snapshotId": "20261028T210041Z-hardening-9425d5e862b8",
+      "path": "lib/galaxy_test/api/test_workflow_extraction.py",
+      "reviewedAt": "2026-10-29T00:42:23.937Z"
+    },
+    "h1:309e62a9f249cdca": {
+      "snapshotId": "20261028T210041Z-hardening-9425d5e862b8",
+      "path": "lib/galaxy_test/api/test_pages_history_attached.py",
+      "reviewedAt": "2026-10-29T00:42:32.212Z"
+    },
+    "h1:3f33ed792de27b32": {
+      "snapshotId": "20261028T210041Z-hardening-9425d5e862b8",
+      "path": "lib/galaxy_test/api/test_pages_history_attached.py",
+      "reviewedAt": "2026-10-29T00:42:33.355Z"
+    },
+    "h1:3843c0f793309e81": {
+      "snapshotId": "20261028T210041Z-hardening-9425d5e862b8",
+      "path": "lib/galaxy_test/api/test_pages_history_attached.py",
+      "reviewedAt": "2026-10-29T00:42:34.237Z"
+    },
+    "h1:95b48e26612fbbbe": {
+      "snapshotId": "20261028T210041Z-hardening-9425d5e862b8",
+      "path": "lib/galaxy_test/api/test_pages_history_attached.py",
+      "reviewedAt": "2026-10-29T00:42:34.929Z"
+    }
+  },
+  "commits": {
+    "459f40d4f51e07279771eba3dcfa2311aeed55d6": {
+      "sha": "d4a265d39c36b59d4258b6aab08e64894cb1dc32",
+      "subject": "Rename pages extraction summary route to match histories; drop unused report_title",
+      "snapshotId": "20261029T004748Z-polishing-9425d5e862b8",
+      "signedOffAt": "2026-10-29T18:14:59.252Z"
+    },
+    "a4640a6d3090bdadcbfb2bd6d956784224a3a516": {
+      "sha": "be1f46b96889e814072f7ad9c88695782c1aea1a",
+      "subject": "Rename label hint kind to src to match Galaxy (src, id) convention",
+      "snapshotId": "20261029T004748Z-polishing-9425d5e862b8",
+      "signedOffAt": "2026-10-29T18:14:59.590Z"
+    },
+    "4925f0d34f825ff56ca1587f0c9cd15b91126b27": {
+      "sha": "9425d5e862b85eee46d0d2039296b76710f5a2e7",
+      "subject": "Tighten report title type now that it is always workflow_name",
+      "snapshotId": "20261029T004748Z-polishing-9425d5e862b8",
+      "signedOffAt": "2026-10-29T18:14:59.806Z"
+    }
+  }
+}

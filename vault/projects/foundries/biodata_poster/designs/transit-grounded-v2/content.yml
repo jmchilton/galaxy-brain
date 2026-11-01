@@ -1,0 +1,176 @@
+# All poster text lives here. Edit, then run `npm run build` (see README).
+# Inline markup: **bold**, *italic*, `mono`, {->} draws an arrow, [[ASK]] / [[QR: ...]] render as placeholders.
+# Overpass has no → ≠ ● glyphs: write {->} and {!=} instead; the build fails on any glyph outside Overpass.
+
+title:
+  - From Papers and Conversations
+  - to Runnable Galaxy Workflows
+brand: Galaxy Workflow Foundry
+authors: John Chilton¹, Marius van den Beek¹, Dannon Baker², Danielle Callan³, Anton Nekrutenko¹
+affiliations:
+  - ¹ The Pennsylvania State University, University Park, PA, USA
+  - ² Johns Hopkins University, Baltimore, MD, USA
+  - ³ Temple University, Philadelphia, PA, USA
+venue: CSHL Biological Data Science · Nov 4–7, 2026
+
+hero:
+  # Two lines; the second phrase gets the vermilion (methods-line) underline.
+  lines:
+    - A correct workflow is a **knowledge problem,**
+    - not a syntax problem.
+  body: >-
+    Galaxy practice changes faster than model training data. A model can read the DengueSeq paper,
+    but can't be assumed to know that Galaxy's iVar consensus wrapper takes no reference. The
+    **Galaxy Workflow Foundry** keeps that knowledge in an inspectable wiki, compiles it into agent
+    skills, and lets deterministic tools, not the model, decide. Agent-built, tool-verified.
+  live: { label: Live results, note: updates after print }
+
+# Map key, merged with the corpus counts. One row under the hero.
+key:
+  - sym: lines
+    n: "13"
+    unit: pipelines
+    head: Lines are routes
+    text: "Molds chained into routes. Not all reach Galaxy: 2 emit CWL, 2 review."
+  - sym: wiki
+    n: "420"
+    unit: notes
+    head: The depot is a wiki
+    text: "Karpathy's LLM wiki, extended: typed notes people can fix."
+  - sym: station
+    n: "56"
+    unit: Molds
+    head: A station is a Mold
+    text: Declares the schemas, patterns and CLI it needs. 27 reviewed.
+  - sym: skill
+    n: "69"
+    unit: skills
+    head: Compiled skills
+    text: Each hashes its source notes. Galaxy records what then ran.
+  - sym: interchange
+    n: "3"
+    unit: tools decide
+    head: Interchanges judge
+    text: Tool Shed pins, gxwf validates, Planemo tests. Not the model.
+  - sym: notice
+    n: "Gaps"
+    unit: expected
+    head: Notices are the ledger
+    text: Methods omit result-changing choices; runs log the gaps.
+keyFoot: "Counts: galaxyproject/foundry `main`, 2026-10-24."
+
+# Map lines (source types). Order = top to bottom on the map.
+lines:
+  M: { name: Paper, desc: "methods text, plus any linked code", entry: Summarize the paper }
+  E: { name: Expert specification, desc: a free-form written spec, entry: Summarize the spec }
+  N: { name: Nextflow, desc: "nf-core and others; ground truth to check against", entry: Summarize the pipeline }
+  C: { name: CWL, desc: "planned: route defined, nothing demo-grade yet", entry: Summarize CWL }
+
+stations:
+  brief: [Brief +, review]
+  interface: [Galaxy, interface]
+  dataflow: [Data, flow]
+  iwc: [IWC, exemplar]
+  template: [Workflow, template]
+  draft: [Draft, loop]
+  tests: [Test data, + plan]
+interchanges:
+  toolshed: { name: Tool Shed, states: hit | weak | miss }
+  draftcheck: { name: gxwf, states: draft check }
+  gxwf: { name: gxwf, states: pass | fail }
+  planemo: { name: Planemo, states: pass | fail }
+loop:
+  label: rounds
+  write: write the step
+  caption: "One round per step; each pins one tool:"
+terminal:
+  name: [Galaxy, workflow]
+  desc: "**Native:** Galaxy's own tools, pinned to Tool Shed revisions, with Galaxy collections."
+  provenance: "**Two provenances:** the Foundry records which knowledge built each skill; Galaxy, what ran."
+returnTrack: "fail: diagnose, repair the step, re-validate"
+
+# The journey band legend (top-left pocket of the map). Anti-rate device.
+legend:
+  title: "Route {!=} journey"
+  band: "**Pale band:** one journey: a real run, with its UTC timetable."
+  solid: "**Solid:** a shown run cleared this stage."
+  dashed: "**Dashed:** none has yet."
+  hollow: "**Hollow:** planned."
+
+whyTools:
+  title: Why the interchanges decide
+  stat: "0 of 15"
+  statText: "graded runs in the companion Orbit study (open-weight models) followed a rule given only in the prompt. “Skills are guidance, not enforcement.”"
+  cite: Baker et al. 2026, pp. 16, 18
+  ciN: "31"
+  ci: "pattern workflows, each testing a wiki pattern note, run `planemo test` on Galaxy 26.1 in CI: green."
+
+alsoTitle: "Also on this line: *A. fumigatus* RNA-seq"
+also: >-
+  Hokken et al.: about 60 steps compiled from methods text, run on public Galaxy; fold changes agree
+  with the paper. Checking against the authors' data surfaced a modelling choice the methods never
+  stated. Baker et al. 2026, Fig. S4A.
+
+# Service notices hung under the trunk. `pin` = which pin on the map points here.
+notices:
+  - line: E
+    title: MRSA + ATAC specs
+    items:
+      - "June 2026, written specs. MRSA: **draft validates in gxwf**, full validation not reached. ATAC: gxwf result unverified (no run summary). **Planemo never ran.**"
+  - line: N
+    title: Nextflow line
+    items:
+      - "**NCBI EGAPx, partial:** translation gave an **empty workflow that gxwf accepted** (validator blind spot). A one-tool wrapper exists."
+      - "**nf-core/sarek, in progress:** a run exists, result not in hand."
+      - ask: true
+        text: "[[ASK]] **nf-core/rnaseq + atacseq:** Foundry-validated rebuilds on pinned IUC tools; atacseq partial."
+
+journey:
+  title: DengueSeq DENV3
+  kicker: "Arrived · journey ticket"
+  source: "Vogels et al. 2024, *BMC Genomics*: DENV-3 amplicon sequencing. Built from the paper **and its linked code** (DENV_pipeline v1.0); the expert reviewer, an author, edited 1 of 10 brief answers. Chosen **after** the skills were built: held out."
+  stamps:
+    - { k: Tool Shed, v: 7 tools pinned }
+    - { k: gxwf validate, v: "`--strict` pass" }
+    - { k: planemo test, v: "green, 7/7 jobs" }
+  ledgerTitle: Open-requirements ledger
+  gloss:
+    low-coverage-and-empty-bam-behavior: "Zero-read sample: empty consensus, not all-N"
+    serotype-coverage-plane-not-carried: "Serotype + completeness metric: cut by brief"
+    filtered-variant-frequency-table-not-carried: "Filtered variant table: cut by brief"
+    consensus-baq-deviation-check-on-test-sample: "Consensus BAQ check on test sample: expert to rule"
+    variants-baq-deviation-check-on-test-sample: "Same, for variant calls"
+  notYet:
+    - A second, larger test case is defined, not run.
+    - No replication of the paper's results yet.
+  # Build fails if the run files disagree, so the text above stays true.
+  expect: { entries: 19, open: 5, dropped: 2, phases: 11, draftRounds: 7, steps: 7 }
+
+works:
+  title: Fix the knowledge, recompile
+  items:
+    - "**Jun 2026:** an MRSA run falsely reported `integron_finder` missing from the Tool Shed. Mold and eval fixed; skill recompiled (`73af1f62`), new hash:"
+    - "**PR #701:** one test-assertion defect in 3 runs; one note fixed, 8 skills regenerated."
+    - "**Upstream fixes forced:** IUC #8808 and usegalaxy-tools #1791 (merged); galaxy #24435 (open); galaxy-tool-util-ts #204/#205, shipped in gxwf 1.15.0."
+  coda: Learning happens in the wiki, not in model weights.
+  hash:
+    file: casts/claude/skills/discover-shed-tool/_provenance.json
+    before: 256e3861e4fd54e5afe1db0cb99954523faea71c06d46b32b2442d39fb646056
+    after: 2e5fa1f8b22f1f9c984fa4c4dc05999294de5db706a9c1691d3af7b3459cbecb
+
+board:
+  title: Board here
+  install:
+    - { k: "Claude Code", v: "/plugin marketplace add galaxyproject/foundry" }
+  installNote: "Codex and Antigravity: see Install."
+  qr:
+    - { label: Code, url: "https://github.com/galaxyproject/foundry", note: GitHub }
+    - { label: Install, url: "https://galaxyproject.github.io/foundry/usage/", note: skills plugin }
+    - { label: Preprint, url: "https://doi.org/10.64898/2026.10.26.761864", note: bioRxiv }
+  # Live results QR sits beside the hero. Set url once it exists; the slot always renders.
+  live: { url: null, placeholder: "[[QR: live results]]" }
+
+citations:
+  - "Baker D, …, Nekrutenko A. Verifiable Agentic Science on Public Infrastructure. bioRxiv 2026.10.26.761864 (2026). doi:10.64898/2026.10.26.761864"
+  - "Karpathy A. LLM wiki (2026). gist.github.com/karpathy/442a6bf555914893e9891c11519de94f"
+  - "Vogels CBF, Hill V, et al. DengueSeq: a pan-serotype whole genome amplicon sequencing protocol for dengue virus. BMC Genomics 25:433 (2024). doi:10.1186/s12864-024-10350-x"

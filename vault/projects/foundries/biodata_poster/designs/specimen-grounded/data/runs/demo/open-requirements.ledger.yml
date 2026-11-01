@@ -1,0 +1,491 @@
+# Open-requirements ledger for run demo-qc-trim-galaxy.
+# Initialized by workflow-brief-to-galaxy-interface (phase 1; no prior ledger).
+# Re-emitted by workflow-brief-to-galaxy-data-flow (phase 2).
+# Re-emitted by compare-against-iwc-exemplar (phase 3; IWC @ b80bc927).
+# Re-emitted by workflow-brief-to-galaxy-template (phase 4; draft galaxy-workflow-draft.gxwf.yml).
+# Re-emitted by advance-galaxy-draft-step (phase 5 iteration 1; step regroup_by_sample).
+# Re-emitted by advance-galaxy-draft-step (phase 5 iteration 2; step validate_endedness; guard runtime spike).
+# Re-emitted by workflow-brief-to-galaxy-test-plan (phase 7; notes appended to 3 open entries, no status changes).
+# Note appended by harness orchestrator after phases 10-11 (skip-trim-output-absence-semantics observations).
+ledger_version: 1
+run_slug: demo-qc-trim-galaxy
+workflow_brief:
+  file: workflow-brief.md
+  sha256: "792d56dec32bdded005af12ea317fa2db3fae86611cf6178cde20866c38b88d8"
+
+entries:
+  - id: sample-sheet-support-in-toolchain
+    status: resolved
+    blocking: false
+    raised_by: workflow-brief-to-galaxy-interface
+    step: null
+    unmet: "workflow input `samplesheet` declared as collection_type sample_sheet:paired_or_unpaired with column_definitions [sample: string, regex ^\\S+$]"
+    missing: "no evidence yet that gxwf 1.13.1 validates, the planemo 0.75.47 test Galaxy executes, and a planemo job file can supply a sample_sheet:paired_or_unpaired input with column values. If any fails, the interface falls back to list:list:paired_or_unpaired (see decision samplesheet-input-shape) and that fallback must be recorded as a decision change."
+    resolved_by: workflow-brief-to-galaxy-template
+    note: "Resolved by harness preflight spike (evidence/sample-sheet-spike/README.md, discovery sample-sheet-spike-passes-in-toolchain): gxwf 1.13.1 validate accepts a sample_sheet:paired_or_unpaired workflow input with column_definitions; validate-tests accepts a class: Collection fixture with `rows` and mixed paired/unpaired elements; planemo 0.75.47 managed Galaxy (master) ran it 1/1 passed. The draft keeps the sample_sheet input; the list:list:paired_or_unpaired fallback is not needed on support grounds (decision samplesheet-input-shape stands). Residual risk narrowed to Apply Rules over a sample sheet, now tracked as apply-rules-sample-sheet-column-unverified. Draft input also carries the regex validator; gxwf validate accepted it structurally (probe)."
+
+  - id: samplesheet-regroup-by-sample
+    status: resolved
+    blocking: false
+    raised_by: workflow-brief-to-galaxy-interface
+    step: null
+    unmet: "merge multi-row samples: regroup `samplesheet` (one element per run, `sample` column) into list:list:paired_or_unpaired keyed outer by sample value, middle by run identifier"
+    missing: "no producer chosen. Candidates to check: Apply rules with sample-sheet column access (rules DSL add_column_from_sample_sheet_index per galaxy-sample-sheet-collections note), __SAMPLE_SHEET_TO_TABULAR__ + relabel/regroup tools. Row order within a sample must be preserved (source groupTuple order = sheet order)."
+    resolved_by: workflow-brief-to-galaxy-data-flow
+    note: "Producer chosen: data-flow node N1 regroup_by_sample = Apply Rules (identifier level 0 = run, level 1 = inner, add_column_from_sample_sheet_index 0 = sample; list_identifiers [sample, run] + paired_or_unpaired_identifier; no sort rule, sheet order kept). See decision regroup-via-apply-rules-sample-sheet-column and discovery apply-rules-reads-sample-sheet-columns. Concrete rule JSON is implementation work; target-Galaxy support remains with sample-sheet-support-in-toolchain."
+
+  - id: mixed-endedness-rejection
+    status: resolved
+    blocking: false
+    raised_by: workflow-brief-to-galaxy-interface
+    step: null
+    unmet: "acceptance criterion: a sample whose rows mix single-end ({unpaired}) and paired-end ({forward,reverse}) elements is rejected (source validateInputSamplesheet in subworkflows/local/utils_nfcore_demo_pipeline/main.nf)"
+    missing: "the input type admits mixed rows per sample; no workflow step yet fails the invocation on this condition"
+    resolved_by: advance-galaxy-draft-step
+    note: "Resolved on runtime evidence by advance-galaxy-draft-step (phase 5 iter 2): validate_endedness bound (decision validate-endedness-awk-strict-three-field). The guard spike evidence/guard-spike/README.md copies regroup_by_sample, flatten_for_guard, guard_identifiers, validate_endedness, guard_ok and invert_skip_trim verbatim from the draft. With a mixed sheet (S1 = one paired + one unpaired run) validate_endedness exits 1 and is the only errored job. Its output carries the source message naming S1. guard_ok pauses, the gated consumers are never scheduled, and Galaxy fails the invocation (FailureReason.dataset_failed) (discovery endedness-guard-fails-invocation-before-consumers). The real FastQC/seqtk steps were not in the spike but sit behind the same `when` gates. Assertability as a planemo `expect_failure` test is a separate, still-open obligation (mixed-endedness-expect-failure-test); planemo cannot honour that key for workflows (discovery planemo-workflow-tests-ignore-expect-failure)."
+
+  - id: wrapper-availability-unverified
+    status: resolved
+    blocking: false
+    raised_by: workflow-brief-to-galaxy-interface
+    step: null
+    unmet: "Galaxy wrappers for FastQC (source 0.12.1, --quiet only) and seqtk trimfq (source 1.4, defaults)"
+    missing: "brief (expert) requires availability be established by environment evidence; no Tool Shed / tool-cache lookup has been run"
+    resolved_by: workflow-brief-to-galaxy-template
+    note: "Tool Shed API (2026-10-16): devteam/fastqc 0.74+galaxy1 @ 2c64fded1286 is installable (wrapper requirement fastqc 0.12.1 = source; command hardcodes --quiet); iuc/seqtk seqtk_trimfq 1.4+galaxy0 @ a019807f4e67 is installable (seqtk 1.4 = source; 1.5+galaxy0 @ 8511b6d85fc7 is newer). Both steps Resolved in the draft and tool_state validated OK by gxwf 1.13.1 (probe). Install/run in planemo-managed Galaxy (and arm64 container behaviour) is exercised by phase 10, not here. See discovery toolshed-wrappers-fastqc-seqtk-trimfq."
+
+  - id: trimmed-reads-gzip-output
+    status: resolved
+    blocking: false
+    raised_by: workflow-brief-to-galaxy-interface
+    step: null
+    unmet: "output `trimmed_reads` elements are gzip-compressed FASTQ (fastqsanger.gz), one per input read file"
+    missing: "unknown whether the chosen seqtk trimfq wrapper emits compressed output for fastqsanger.gz input or needs a compress step / format_source"
+    resolved_by: workflow-brief-to-galaxy-template
+    note: "seqtk_trimfq wrapper (tools-iuc tools/seqtk, both 1.4+galaxy0 and 1.5+galaxy0) appends `| pigz --no-name --no-time` when in_file is fastq.gz and sets output format_source=in_file, so fastqsanger.gz input yields fastqsanger.gz output. The conditional compress node N7 is not emitted. Gzip bytes will differ from source `gzip --no-name`; expert review already requires decompressed-content comparison. See discovery seqtk-trimfq-wrapper-gzips-gz-input."
+
+  - id: skip-trim-output-absence-semantics
+    status: open
+    blocking: false
+    raised_by: workflow-brief-to-galaxy-interface
+    step: null
+    unmet: "with skip_trim=true, no trimmed reads are produced and fastqc_html is unchanged (brief acceptance criterion)"
+    missing: "skip mechanism (step `when:` on boolean) and how a planemo workflow test asserts the skipped/empty state of `trimmed_reads` not settled"
+    resolved_by: null
+    note: "[phase 7 workflow-brief-to-galaxy-test-plan] Planned in galaxy-test-plan.yml case skip_trim_switch: fastqc_html assertions repeated unchanged; trimmed_reads asserted as same-shape collection whose 6 leaves are skipped HDAs (has_size 4 + has_text `null`, Galaxy set_skipped semantics; planemo treats skipped jobs as ok). Still unobserved in this toolchain; if phase 10 shows trimmed_reads absent from invocation outputs, drop it from that case and record absence as observed semantics. Stays open until phase 10. [orchestrator, after phases 10-11] Observed: skip_trim=true keeps full nested trimmed_reads shape; each of 6 leaves is a 4-byte expression.json `null`; all jobs ok/skipped; planned assertions hold per DB/file inspection. planemo 0.75.47 (and master) crashes on these null leaves (TypeError in _verify_output_file), so the case has no planemo verdict. Repair options in workflow-debug-report.md: R1 planemo fix (re-run phase 10 only), R3 expose run_trim boolean output (phases 5,7-10), R2 leaf-free shape check stopgap (phases 8-10). Awaiting user choice; stays open."
+
+  - id: samplesheet-run-identifier-convention
+    status: open
+    blocking: false
+    raised_by: workflow-brief-to-galaxy-interface
+    step: null
+    unmet: "unique element identifier per sample-sheet row for `samplesheet` fixtures"
+    missing: "source sheet has no run column and repeats `sample`; convention suggested `<sample>_T<k>` (k = row order within sample) but not fixed. Workflow logic must not depend on it beyond uniqueness/order."
+    resolved_by: null
+    note: ""
+
+  - id: sample-name-charset-narrowing
+    status: open
+    blocking: false
+    raised_by: workflow-brief-to-galaxy-interface
+    step: null
+    unmet: "source allows any non-whitespace sample name (^\\S+$)"
+    missing: "Galaxy sample-sheet string values / element identifiers are restricted (per galaxy-sample-sheet-collections note: [\\w\\-_ ?]*); names containing '.' or other punctuation may be unrepresentable. Not hit by the source test data (SAMPLE1_PE, SAMPLE2_PE, SAMPLE3_SE). Verify actual Galaxy allowlist."
+    resolved_by: null
+    note: "[iter 2] validate_endedness fails the invocation (Error: unexpected identifier) if a sample value or run identifier contains ':' (the flatten join character). Only matters if Galaxy admits ':' in identifiers/column values at all."
+
+  - id: endedness-validator-tool-need
+    status: resolved
+    blocking: false
+    raised_by: workflow-brief-to-galaxy-data-flow
+    step: validate_endedness
+    unmet: "realize mixed-endedness-rejection: one job reducing the whole regrouped list:list:paired_or_unpaired collection, exiting non-zero (message naming the sample) when any sample's runs mix {unpaired} and {forward,reverse}; on success emit a token / identity mapping of outer identifiers (or the collection itself) that gate_on_validation (N3) consumes so fastqc and trim_reads depend on it"
+    missing: "no Galaxy built-in fails on this condition (__SPLIT_PAIRED_AND_UNPAIRED__ accepts only list, list:paired, list:paired_or_unpaired, so neither the sample sheet nor the nested regroup); no wrapper discovered or authored. Gate idiom (strict identity relabel-from-file vs. validator pass-through output) not yet chosen or verified. Closing this wires mixed-endedness-rejection."
+    resolved_by: workflow-brief-to-galaxy-template
+    note: "Settled at template tier (decision guard-via-stock-awk-and-when-gating): stock wrappers only. regroup_by_sample -> __FLATTEN__ (join_identifier ':') -> iuc collection_element_identifiers 0.0.3 -> bgruening tp_awk_tool 9.11+galaxy0 (step validate_endedness, exits 1 naming the sample on mixed endedness, else prints `true`) -> param_value_from_file (boolean). No user-defined tool. Gate idiom = the guard's boolean feeds `when` of fastqc and of invert_skip_trim (which feeds trim_reads `when`); no pass-through collection (orchestrator constraint 1). Awk code binding remains per-step work on validate_endedness (Identity-pinned). Runtime behaviour tracked by guard-when-gate-blocks-consumers-unverified and mixed-endedness-expect-failure-test; mixed-endedness-rejection stays open until that test passes."
+
+  - id: skip-trim-boolean-inversion
+    status: resolved
+    blocking: false
+    raised_by: workflow-brief-to-galaxy-data-flow
+    step: trim_reads
+    unmet: "trim_reads runs iff skip_trim is false; Galaxy `when` runs on true"
+    missing: "choose (a) negated when expression on trim_reads (e.g. $(!inputs.when)) — Galaxy evaluator accepts non-identity expressions (lib/galaxy_test/workflow/directory_index.gxwf.yml uses `!=`), negation and gxwf 1.13.1 acceptance unverified, not IWC-observed — or (b) an explicit boolean-inversion step feeding $(inputs.when) (IWC-observed form). Label skip_trim must not be renamed."
+    resolved_by: compare-against-iwc-exemplar
+    note: "Closed by corpus idiom (b): insert iuc map_param_value (input_param_type boolean, explicit mappings true->'false' and false->'true', output_param_type boolean) between skip_trim and trim_reads' `when` input, with `when: $(inputs.when)`. IWC @ b80bc927: 6 workflows invert/map booleans this way (rnaseq-pe/rnaseq-sr 'No extra QC', pe-wgs-ivar-analysis step 10 with both rows); all 155 IWC `when` uses are literally $(inputs.when). Option (a) passes gxwf validate 1.13.1 structurally (probe) but has no corpus precedent; keep as fallback only. map_param_value pin is per-step work. See decision skip-trim-invert-via-map-param-value and iwc-comparison-notes.md D4."
+
+  - id: mapover-nested-paired-or-unpaired-shape
+    status: open
+    blocking: false
+    raised_by: workflow-brief-to-galaxy-data-flow
+    step: fastqc
+    unmet: "fastqc and trim_reads mapped over list:list:paired_or_unpaired yield list:list:paired_or_unpaired outputs with identical identifiers (interface outputs fastqc_html, trimmed_reads)"
+    missing: "not verified that the target Galaxy / gxwf map a single-dataset parameter over nested paired_or_unpaired leaves (1 or 2 per run) preserving the inner shape; confirm at template validation or first test run"
+    resolved_by: null
+    note: "Partial runtime evidence (phase 5 iter 2 guard spike): a single-dataset tool (tp_awk_tool `infile`), `when`-gated, mapped over regroup_by_sample/output yields list:list:paired_or_unpaired with identical sample/run/role identifiers and per-leaf content (paired and unpaired leaves). The FastQC and seqtk_trimfq wrappers themselves are still unrun; gxwf 1.13.1 still skips these connections (cannot type Apply Rules output)."
+
+  - id: mixed-paired-or-unpaired-path-no-corpus-precedent
+    status: open
+    blocking: false
+    raised_by: compare-against-iwc-exemplar
+    step: regroup_by_sample
+    unmet: "one mixed single/paired-end processing path (sample_sheet:paired_or_unpaired -> list:list:paired_or_unpaired -> per-leaf fastqc / trim_reads), required because the brief and the source test data put SE and PE samples in one sheet"
+    missing: "no IWC exemplar to pattern-match: IWC @ b80bc927 has 0 uses of paired_or_unpaired or sample_sheet. Corpus handles endedness by separate SE/PE workflows (rnaseq-pe/-sr, chipseq-pe/-sr, mgnify QC -paired-end/-single-end) or parallel PE + SE branches with two outputs (data-fetching/sra-manifest-to-concatenated-fastqs). Correctness of the mixed path rests on Galaxy semantics only and must be confirmed by gxwf validation and the first planemo run. If it fails, the corpus-precedented fallback is parallel PE/SE branches. That would change the output shape (two outputs per analysis), so it needs a recorded decision change and probably a brief_change_recommendation. Note __SPLIT_PAIRED_AND_UNPAIRED__ rejects nested and sample_sheet types (discovery split-paired-unpaired-rejects-nested-and-sample-sheet)."
+    resolved_by: null
+    note: "Related: sample-sheet-support-in-toolchain, mapover-nested-paired-or-unpaired-shape. See iwc-comparison-notes.md D3."
+
+  - id: fail-guard-gate-unverified-no-corpus-precedent
+    status: resolved
+    blocking: false
+    raised_by: compare-against-iwc-exemplar
+    step: gate_on_validation
+    unmet: "a failing validate_endedness job prevents fastqc and trim_reads from running, so the invocation fails with no partial outputs (decision validate-after-regroup-with-dependency-gate)"
+    missing: "no IWC workflow deliberately fails an invocation or gates on a validator. The nearest corpus motif (wc_gnu/tp_awk_tool -> param_value_from_file -> when; capheine-core-and-compare, MAGs-generation) skips downstream work instead of failing, which would silently change source error() semantics and is NOT a substitute. Strict __RELABEL_FROM_FILE__ is corpus-observed (influenza-consensus-and-subtyping, strict: true, txt), so the N3 gate primitive has precedent, but the end-to-end 'upstream failure blocks mapped consumers' behavior is unverified. Confirm it with a negative (mixed-endedness) planemo job; no IWC test uses expect_failure."
+    resolved_by: workflow-brief-to-galaxy-template
+    note: "Superseded, not verified: step gate_on_validation (N3, strict __RELABEL_FROM_FILE__ pass-through) was removed by the template because the orchestrator forbids re-emitting the nested collection (constraint 1). The verification obligation carries forward unchanged in substance as guard-when-gate-blocks-consumers-unverified (steps guard_ok, invert_skip_trim, fastqc, trim_reads). Prior note (compare-against-iwc-exemplar): Complements endedness-validator-tool-need (tool) with the gate-behavior verification. See iwc-comparison-notes.md D5."
+
+  - id: apply-rules-sample-sheet-column-unverified
+    status: resolved
+    blocking: false
+    raised_by: workflow-brief-to-galaxy-template
+    step: regroup_by_sample
+    unmet: "regroup_by_sample (__APPLY_RULES__, Identity-pinned) turns samplesheet (sample_sheet:paired_or_unpaired) into list:list:paired_or_unpaired keyed sample/run/role via add_column_metadata identifier0, identifier1, add_column_from_sample_sheet_index 0, mapping list_identifiers [2, 0] + paired_or_unpaired_identifier [1], no sort"
+    missing: "the harness spike exercised the sample_sheet input and fixture but not Apply Rules over it; gxwf 1.13.1 cannot fetch built-in __APPLY_RULES__ for tool-state validation (Tool Shed 404) and therefore also cannot resolve the map-over connections of flatten_for_guard, fastqc and trim_reads through it (probe: 4 connection checks skipped). Rule JSON and tool_version (dev Galaxy declares 1.1.0) to be bound by the per-step loop; first planemo run confirms. If Apply Rules cannot read sample-sheet columns on the target Galaxy, the recorded fallback is the list:list:paired_or_unpaired input (decision change required)."
+    resolved_by: advance-galaxy-draft-step
+    note: "Narrowed residual of sample-sheet-support-in-toolchain. Resolved by advance-galaxy-draft-step (phase 5 iter 1): regroup_by_sample bound to __APPLY_RULES__ 1.1.0 with exactly the planned rules/mapping; runtime spike evidence/apply-rules-spike/README.md (planemo 0.75.47, Galaxy master 26.1) passed 1/1 regrouping a sample_sheet:paired_or_unpaired (S1 two paired runs, S2 one unpaired run, interleaved rows) into list:list:paired_or_unpaired S1/{S1_T1,S1_T2}/{forward,reverse}, S2/S2_T1/unpaired with correct leaf contents (discovery apply-rules-sample-sheet-regroup-runs). The list:list:paired_or_unpaired input fallback is not needed. gxwf 1.13.1 also validates this step's tool state once tool_version is pinned (discovery gxwf-validates-apply-rules-when-version-pinned), so the 'Tool Shed 404' part of `missing` applied only to the unpinned TODO version. Residual not checked at runtime: within-sample/outer element order (no test-schema ordering assertion); rests on Galaxy source (row-order dict build). [iter 2: status corrected open -> resolved; iter 1 set resolved_by and this note but left status open.]"
+
+  - id: flatten-paired-or-unpaired-identifiers-unverified
+    status: resolved
+    blocking: false
+    raised_by: workflow-brief-to-galaxy-template
+    step: flatten_for_guard
+    unmet: "__FLATTEN__ with join_identifier ':' over list:list:paired_or_unpaired yields one identifier per read file spelling <sample>:<run>:<forward|reverse|unpaired>, which validate_endedness parses"
+    missing: "not verified whether an {unpaired} leaf flattens to <sample>:<run>:unpaired or collapses to <sample>:<run>. validate_endedness _plan_state handles both (2-field identifier = single-end); confirm on first run and simplify the awk if desired. Also relies on sample names containing no ':' (see sample-name-charset-narrowing)."
+    resolved_by: advance-galaxy-draft-step
+    note: "Resolved by the phase 5 iter 2 guard spike (evidence/guard-spike/): __FLATTEN__ ':' over list:list:paired_or_unpaired produced exactly S1:S1_T1:forward, S1:S1_T1:reverse, S1:S1_T2:forward, S1:S1_T2:reverse, S2:S2_T1:unpaired, so unpaired leaves keep the role level (discovery flatten-paired-or-unpaired-keeps-role-level). The awk dropped the 2-field fallback and now rejects any identifier that is not exactly 3 ':' fields."
+
+  - id: guard-when-gate-blocks-consumers-unverified
+    status: resolved
+    blocking: false
+    raised_by: workflow-brief-to-galaxy-template
+    step: guard_ok
+    unmet: "when validate_endedness exits non-zero, guard_ok, invert_skip_trim, fastqc and trim_reads never run, no fastqc_html / trimmed_reads datasets are produced, and the invocation ends in a state planemo reports as failed (source error() fails the whole run)"
+    missing: "end-to-end Galaxy behaviour unverified: (a) a failed upstream job blocking a parameter-producing step (param_value_from_file) and the `when`-connected consumers; (b) whether planemo treats the resulting invocation (errored job, paused/unscheduled dependents) as a failure for expect_failure; (c) gating map_param_value itself with `when` (invert_skip_trim) is not IWC-observed (IWC gates analysis steps, not the boolean mapper). Fallbacks if (c) fails: trim_reads `when: $(inputs.when && inputs.guard)` with two connected booleans (not corpus-observed), or an explicit boolean-AND step. Verify with the phase-10 negative job."
+    resolved_by: advance-galaxy-draft-step
+    note: "Carries forward the obligation of fail-guard-gate-unverified-no-corpus-precedent after N3 removal. Resolved by the phase 5 iter 2 guard spike (evidence/guard-spike/, planemo 0.75.47, Galaxy master 26.1). (a) With the mixed sheet the errored validate_endedness leaves guard_ok (param_value_from_file) paused. invert_skip_trim and both `when`-gated consumers are never scheduled (no jobs, no outputs), and Galaxy fails the invocation with FailureReason.dataset_failed. (b) planemo reports that test as status `error`. It never reports success, because planemo has no workflow `expect_failure` support; the residual moved to mixed-endedness-expect-failure-test. (c) With the valid sheet, `when` on map_param_value itself works: invert_skip_trim ran under guard_ok, and its output gated trim_stand_in, which ran. No fallback (two-boolean `when` / AND step) is needed. The spike used tp_awk_tool stand-ins for fastqc and trim_reads."
+
+  - id: mixed-endedness-expect-failure-test
+    status: open
+    blocking: false
+    raised_by: workflow-brief-to-galaxy-template
+    step: validate_endedness
+    unmet: "orchestrator constraint 3: mixed SE/PE rejection must be assertable in phases 7/8 via a gxwf/planemo test job with `expect_failure: true` whose samplesheet has one sample with both an {unpaired} and a {forward,reverse} run (rows share the sample value)"
+    missing: "test plan and test file not yet written. Keep the failing path assertable: do not convert the guard to a soft skip, and keep validate_endedness as the only failing step. Planemo discovers tests only as <workflow>.gxwf-tests.yml (spike README). The source has no mixed-endedness fixture; the negative fixture must be synthesized (e.g. reuse source test reads under one sample value). [iter 2] planemo 0.75.47 (latest PyPI; also planemo main @ d171869b) ignores `expect_failure` in workflow tests. Any unsuccessful invocation becomes status `error` (planemo/runnable.py structured_data), so this job can never report passed under planemo, even though gxwf validate-tests accepts it (it requires an `outputs:` key, `outputs: {}` works). Phases 7/8/10 must choose: keep the expect_failure job, which documents and gxwf-validates but is expected to show as 1 error in planemo and must be interpreted, not counted as a pass, OR assert rejection outside planemo (e.g. a Galaxy API/bioblend check that the invocation fails and only validate_endedness errors), OR wait for planemo support. Do not soften the guard to make it pass."
+    resolved_by: null
+    note: "Rejection behaviour itself is verified at runtime (mixed-endedness-rejection resolved, evidence/guard-spike/). This entry now tracks only assertability inside the phase 7/8 test file / phase 10 runner (orchestrator constraint 3). [phase 7 workflow-brief-to-galaxy-test-plan] Plan keeps the case as mixed_endedness_rejection__NOT_PLANEMO_RUNNABLE (expect_failure: true, outputs: {}, fixture test-data-refs proposed_fixtures.mixed_endedness_rejection) and routes it to a separate non-discovered file (suggested galaxy-workflow.mixed-endedness-rejection.expect-failure.yml; planemo auto-discovers only galaxy-workflow.gxwf{-tests,_tests,-test,_test}.{yml,yaml,json}), gxwf validate-tests only. Runtime coverage = evidence/guard-spike/ (awk code byte-identical to shipped validate_endedness). A green planemo run does not cover this criterion. Stays open: no passing automated assertion exists."
+
+  - id: seqtk-trimfq-source-snapshot-agreement
+    status: open
+    blocking: false
+    raised_by: workflow-brief-to-galaxy-template
+    step: trim_reads
+    unmet: "trimmed reads agree with the source snapshot by decompressed content (brief acceptance criterion; expert review)"
+    missing: "trim_reads pins iuc seqtk_trimfq 1.4+galaxy0 (seqtk 1.4, matching source bioconda::seqtk=1.4) with quality mode q 0.05 / l 30, which equal seqtk trimfq's built-in defaults used by the source (ext.args unset). Equivalence of the conda/container build (source snapshot reports 1.4-r122) and the arm64 container path are unverified until the test run; the snapshot md5s are of gzip --no-name bytes, so tests must compare decompressed content (wrapper uses pigz --no-name --no-time)."
+    resolved_by: null
+    note: "[phase 7 workflow-brief-to-galaxy-test-plan] Correction to `missing`: snapshot md5s are of DECOMPRESSED content (phase 6 reproduction, test-data-refs.json checksum_semantics). Galaxy/planemo `checksum:` hashes raw output bytes and ignores `decompress`, so galaxy-test-plan.yml plans per-leaf compare:diff + decompress: true against evidence/seqtk-reproduction/trimmed_*.fastq.gz (decompressed md5 == snapshot), plus decompressed has_n_lines and a trimmed-only has_line. Stays open until phase 10 runs the wrapper."
+
+discoveries:
+  - id: sheet-rows-are-runs-grouped-by-sample
+    raised_by: workflow-brief-to-galaxy-interface
+    evidence: "subworkflows/local/utils_nfcore_demo_pipeline/main.nf L102-120: samplesheetToList -> per-row [meta.id, meta+single_end, files] -> groupTuple() -> validateInputSamplesheet -> fastqs.flatten()"
+    impact: "Galaxy input must be one element per row with a sample grouping key; a regroup step realizes the merge."
+
+  - id: analyses-are-per-file
+    raised_by: workflow-brief-to-galaxy-interface
+    evidence: "modules/nf-core/fastqc/main.nf renames each file to <sample>_<n> and emits one html per file; modules/nf-core/seqtk/trim/main.nf loops `seqtk trimfq $f | gzip --no-name > <sample>_$(basename $f)`"
+    impact: "Per-dataset map-over is computationally equivalent; per-sample grouping affects organization/naming only."
+
+  - id: snapshot-pins-trimmed-md5-not-reports
+    raised_by: workflow-brief-to-galaxy-interface
+    evidence: "tests/default.nf.test.snap lists md5 for 6 trimmed .fastq.gz (gzip --no-name); tests/.nftignore excludes fastqc/**/*_fastqc.{html,zip}"
+    impact: "Report content has no source expected value; trimmed reads compare by decompressed content (expert review)."
+
+  - id: source-test-data-shape
+    raised_by: workflow-brief-to-galaxy-interface
+    evidence: "summary-nextflow.json test_candidates[0] (selected) + snapshot paths: SAMPLE1_PE (1 PE run), SAMPLE2_PE (1 PE run), SAMPLE3_SE (2 SE runs); remote viralrecon samplesheet_test_illumina_amplicon.csv"
+    impact: "Fixture is a 4-row sheet mixing paired and unpaired rows across samples -> paired_or_unpaired inner shape needed."
+
+  - id: quality-encoding-unstated
+    raised_by: workflow-brief-to-galaxy-interface
+    evidence: "assets/schema_input.json constrains only *.f(ast)q.gz filenames; no encoding stated anywhere in source"
+    impact: "fastqsanger.gz is an assumption (Sanger/Illumina 1.8+)."
+
+  - id: apply-rules-reads-sample-sheet-columns
+    raised_by: workflow-brief-to-galaxy-data-flow
+    evidence: "galaxyproject/galaxy dev @ a63da1dfd19: lib/galaxy/util/rules_dsl.py AddColumnFromSampleSheetByIndex (add_column_from_sample_sheet_index) and RuleSet.collection_type appending :paired_or_unpaired for a paired_or_unpaired_identifier mapping; lib/galaxy/managers/collections.py __init_rule_data copies each sample-sheet row's columns to all nested leaves and _build_elements_from_rule_data groups in row order, normalizing forward/reverse/unpaired"
+    impact: "One Apply Rules step can regroup sample_sheet:paired_or_unpaired by the `sample` column into list:list:paired_or_unpaired preserving sheet order; `sample` becomes the outer identifier so no metadata re-attach is needed. Dev checkout only; target-Galaxy support unverified."
+
+  - id: split-paired-unpaired-rejects-nested-and-sample-sheet
+    raised_by: workflow-brief-to-galaxy-data-flow
+    evidence: "galaxyproject/galaxy dev @ a63da1dfd19: lib/galaxy/tools/split_paired_and_unpaired.xml accepts list:paired,list,list:paired_or_unpaired; lib/galaxy/tools/__init__.py asserts collection_type in those three"
+    impact: "No built-in route to detect mixed endedness per sample; validator needs a discovered or authored tool."
+
+  - id: skipped-mapped-step-yields-null-elements
+    raised_by: workflow-brief-to-galaxy-data-flow
+    evidence: "galaxyproject/galaxy dev @ a63da1dfd19: lib/galaxy/model/__init__.py set_skipped (extension expression.json, state ok, blurb skipped, content null, hidden); lib/galaxy/workflow/modules.py hides outputs when when_values == [False]"
+    impact: "With skip_trim=true, trimmed_reads is likely a hidden same-shape collection of skipped/null elements rather than an absent output; test plan must assert accordingly (skip-trim-output-absence-semantics)."
+
+  - id: iwc-parallel-raw-qc-and-trim-motif
+    raised_by: compare-against-iwc-exemplar
+    evidence: "IWC @ b80bc927 amplicon/amplicon-mgnify/mgnify-amplicon-pipeline-v5-quality-control-single-end.ga: native step 8 devteam/fastqc 0.74+galaxy1 (input_file <- Single-end reads; outputs html_file, text_file) and step 9 pjbriggs/trimmomatic (readtype|fastq_in <- Single-end reads; fastq_out with change_datatype fastqsanger.gz) both consume the raw input collection"
+    impact: "The parallel FastQC-on-untrimmed + trim map-over topology (N4 || N5) is corpus-precedented. The nearest exemplar (Medium) is sliced in iwc-exemplar.gxwf.yml. Its post-trim FastQC/MultiQC extras are out of scope."
+
+  - id: iwc-multi-run-regroup-via-apply-rules
+    raised_by: compare-against-iwc-exemplar
+    evidence: "IWC @ b80bc927 data-fetching/sra-manifest-to-concatenated-fastqs.ga steps 10-15: __RELABEL_FROM_FILE__ (strict false) encodes <run>___<sample>; __APPLY_RULES__ add_column_metadata identifier0..2 + add_column_regex (.*?)___(.*) -> \\2; mapping list_identifiers [sample, run] (+ paired_identifier); no sort rule; then cat_multi_datasets concatenates runs per sample"
+    impact: "The N1 list_identifiers [sample, run] + inner-identifier mapping with no sort is corpus-shaped. The sample-sheet-column key source has no precedent. The IWC concat step must NOT be copied: the source keeps per-run files (snapshot pins 6 per-file md5s)."
+
+  - id: iwc-endedness-handled-by-split-not-mixed
+    raised_by: compare-against-iwc-exemplar
+    evidence: "IWC @ b80bc927: grep paired_or_unpaired / sample_sheet over workflows/**/*.ga and *-tests.yml -> 0 hits; SE/PE split into separate workflows (transcriptomics/rnaseq-pe vs rnaseq-sr, epigenetics/chipseq-pe vs chipseq-sr, mgnify QC paired-end vs single-end) or parallel branches with paired_output + single_output (sra-manifest-to-concatenated-fastqs)"
+    impact: "The mixed single-path design has no exemplar (entry mixed-paired-or-unpaired-path-no-corpus-precedent)."
+
+  - id: iwc-skip-boolean-inversion-idiom
+    raised_by: compare-against-iwc-exemplar
+    evidence: "IWC @ b80bc927: all 155 step `when` values are $(inputs.when); map_param_value with boolean input in 6 workflows, e.g. transcriptomics/rnaseq-pe step 13 'No extra QC' (false->'true', unmapped default 'false', output_param_type boolean) feeding MultiQC `when`; sars-cov-2 pe-wgs-ivar-analysis step 10 (true->'false', false->'true')"
+    impact: "Settles skip-trim-boolean-inversion to option (b)."
+
+  - id: iwc-no-invocation-fail-guard
+    raised_by: compare-against-iwc-exemplar
+    evidence: "IWC @ b80bc927: no expect_failure in any *-tests.yml; no step whose purpose is to fail on bad input; derived-condition chains (comparative_genomics/hyphy/capheine-core-and-compare steps 10-20: wc_gnu -> tp_awk_tool -> param_value_from_file -> when; MAGs-generation wc_gnu -> param_value_from_file) skip rather than fail; strict __RELABEL_FROM_FILE__ only in virology/influenza-isolates-consensus-and-subtyping"
+    impact: "The N2/N3 guard is a no-precedent construct (entry fail-guard-gate-unverified-no-corpus-precedent). The soft-skip alternative is rejected because it would change source error() semantics."
+
+  - id: iwc-tests-never-exercise-skipped-when
+    raised_by: compare-against-iwc-exemplar
+    evidence: "IWC @ b80bc927: rnaseq-pe-tests.yml only sets 'Generate additional QC reports: true'; no *-tests.yml asserts skipped/null outputs"
+    impact: "The skip_trim=true test job and its assertion on skipped trimmed_reads have no corpus model; the test plan must derive them from Galaxy semantics (discovery skipped-mapped-step-yields-null-elements). skip-trim-output-absence-semantics stays open."
+
+  - id: gxwf-validate-accepts-when-connection-and-negation
+    raised_by: compare-against-iwc-exemplar
+    evidence: "gxwf 1.13.1 validate + lint on a format2 probe (devteam/fastqc 0.74+galaxy1 steps with in.when <- boolean input, when: $(inputs.when) and when: $(!inputs.when)): structural OK, tool_state 2/2 OK. gxwf convert native->format2 on rnaseq-pe.ga reported post_validation fallback ('when: input connection does not match a tool parameter') for every cached tool step with a when connection (steps 23, 26, 27)"
+    impact: "The template can author `when` connections and gxwf validate will accept them. Round-tripping through `convert` may fall back to raw tool_state on gated steps (converter false positive, not a draft error)."
+
+  - id: iwc-no-seqtk-trimfq
+    raised_by: compare-against-iwc-exemplar
+    evidence: "IWC @ b80bc927: only seqtk use is iuc/seqtk/seqtk_subseq/1.5+galaxy0 (influenza-consensus-and-subtyping); FastQC corpus-observed as devteam/fastqc/fastqc/0.74+galaxy1 in 5 workflows"
+    impact: "trim_reads has no corpus wrapper or gzip idiom; trimmed-reads-gzip-output and wrapper-availability-unverified stay open for discovery."
+
+  - id: sample-sheet-spike-passes-in-toolchain
+    raised_by: workflow-brief-to-galaxy-template
+    evidence: "evidence/sample-sheet-spike/README.md (harness preflight, 2026-10-16): planemo 0.75.47 managed Galaxy (master) passed 1/1 a workflow with a sample_sheet:paired_or_unpaired input carrying column_definitions and a `rows` test fixture mixing paired and unpaired(paired_or_unpaired) elements (__SAMPLE_SHEET_TO_TABULAR__ output contained the sample value); gxwf 1.13.1 validate and validate-tests accept it; the tests format supports expect_failure; planemo only discovers tests named <workflow>.gxwf-tests.yml."
+    impact: "Keep the sample_sheet input; list:list:paired_or_unpaired fallback not needed on support grounds. Closes sample-sheet-support-in-toolchain; Apply Rules over a sample sheet remains unverified (apply-rules-sample-sheet-column-unverified)."
+
+  - id: toolshed-wrappers-fastqc-seqtk-trimfq
+    raised_by: workflow-brief-to-galaxy-template
+    evidence: "toolshed.g2.bx.psu.edu API 2026-10-16: get_ordered_installable_revisions devteam/fastqc ends 2c64fded1286 (fastqc 0.74+galaxy1); iuc/seqtk revisions a019807f4e67 and 4b494533146a carry seqtk_trimfq 1.4+galaxy0, 8511b6d85fc7 carries 1.5+galaxy0. tools-iuc @ b9b16be49 tools/fastqc/rgFastQC.xml: requirement fastqc 0.12.1, command always passes --quiet, outputs html_file (html) and text_file (txt); kmers default 7 = FastQC default. tools-iuc tools/seqtk/seqtk_trimfq.xml: input in_file, output default, quality mode defaults -q 0.05 -l 30 (= seqtk trimfq defaults)."
+    impact: "fastqc and trim_reads are Resolved in the draft; source tool versions are matched (FastQC 0.12.1, seqtk 1.4)."
+
+  - id: seqtk-trimfq-wrapper-gzips-gz-input
+    raised_by: workflow-brief-to-galaxy-template
+    evidence: "tools-iuc tools/seqtk/macros.xml @CONDITIONAL_GZIP_OUT@ = `| pigz -p $GALAXY_SLOTS --no-name --no-time` when in_file is fasta.gz/fastq.gz (present at both 1.4 and 1.5; git history c819f01ae); seqtk_trimfq output `default` format_source=in_file; wrapper test 3 maps fastqsanger.gz -> fastqsanger.gz."
+    impact: "No compress step (data-flow N7) is needed; trimmed_reads is fastqsanger.gz directly. Closes trimmed-reads-gzip-output."
+
+  - id: tp-awk-tool-fails-on-nonzero-exit
+    raised_by: workflow-brief-to-galaxy-template
+    evidence: "bgruening/galaxytools tools/text_processing/text_processing/awk.xml (9.11+galaxy0): `env -i awk --sandbox -v FS=<tab> -v OFS=<tab> --re-interval -f script infile > outfile`; macros.xml stdio exit_code range 1: and :-1 are errors, plus stderr regex `Error:`; the code param sanitizer removes single quotes; IWC @ b80bc927 uses tp_awk_tool 9.11+galaxy0 @ 30b60202d990 in 79 steps."
+    impact: "A stock awk step can fail the job (awk `exit 1`) and so act as the endedness guard; the error message must go to stdout (sandbox forbids redirection) and code must use double quotes."
+
+  - id: guard-chain-wrappers-corpus-observed
+    raised_by: workflow-brief-to-galaxy-template
+    evidence: "IWC @ b80bc927: param_value_from_file 0.1.0 (built-in) in 112 steps, e.g. capheine-core-and-compare (input1 <- tp_awk_tool outfile, param_type boolean, remove_newlines true, output boolean_param); iuc collection_element_identifiers 0.0.3 @ 3e27acfa4830 (input_collection -> output txt; accepts list, list:paired); iuc map_param_value 0.2.0 @ 5ac8a4bf7a8d two-row boolean inversion with on_unmapped fail (pe-wgs-ivar-analysis step 10); __FLATTEN__ 1.0.0 (Galaxy model_operation_macros join_identifier options _, :, -) in 10 IWC steps."
+    impact: "Every guard and gating step except the awk code and the Apply Rules state is Resolved from corpus/source evidence."
+
+  - id: draft-probe-tool-state-ok
+    raised_by: workflow-brief-to-galaxy-template
+    evidence: "gxwf 1.13.1 draft-validate galaxy-workflow-draft.gxwf.yml: draft valid (2 TODO sentinels, 2 steps with _plan_*); --concrete --connections ok but the projection dropped every step downstream of the drafty regroup_by_sample (0 tool states checked). A scratch provisional-concrete copy (rules + trivial awk code filled) passed gxwf validate --connections: structural OK, tool_state 7/7 OK (flatten, element identifiers, tp_awk_tool, param_value_from_file, map_param_value with when, fastqc with when, seqtk_trimfq with when), __APPLY_RULES__ skipped (Tool Shed 404), connections 7 ok / 0 invalid / 4 skipped (all through Apply Rules)."
+    impact: "Resolved steps' state is schema-valid; nested paired_or_unpaired map-over (mapover-nested-paired-or-unpaired-shape) is still unverified by static tooling."
+
+  - id: apply-rules-sample-sheet-regroup-runs
+    raised_by: advance-galaxy-draft-step
+    evidence: "evidence/apply-rules-spike/ (2026-10-16): workflow samplesheet (sample_sheet:paired_or_unpaired, format fastqsanger.gz, column sample) -> __APPLY_RULES__ 1.1.0 rules [add_column_metadata identifier0, add_column_metadata identifier1, add_column_from_sample_sheet_index 0], mapping [list_identifiers [2, 0], paired_or_unpaired_identifier [1]]; fixture rows S1_T1:[S1] paired, S2_T1:[S2] unpaired, S1_T2:[S1] paired; planemo 0.75.47 managed Galaxy master (26.1) 1/1 passed asserting collection_type list:list:paired_or_unpaired, 2 outer elements, S1/{S1_T1,S1_T2}/{forward,reverse}, S2/S2_T1/unpaired and per-leaf contents."
+    impact: "regroup_by_sample works on the target Galaxy; unpaired rows keep the `unpaired` role (no forward->unpaired renaming needed). Element order not asserted (test schema has no nested ordering check); sheet order rests on Galaxy source. Fixture filetype fastqsanger was accepted against input format fastqsanger.gz (format is not enforced at invocation)."
+
+  - id: gxwf-validates-apply-rules-when-version-pinned
+    raised_by: advance-galaxy-draft-step
+    evidence: "gxwf 1.13.1 draft-validate --concrete --strict-state and validate --strict-state report __APPLY_RULES__ 1.1.0 tool_state ok, including with an empty --cache-dir (toolshed /api/tools/__APPLY_RULES__/versions/1.1.0 returns 200). The template-phase 404 coincided with tool_version TODO (shed TRS version listing cannot resolve stock versions)."
+    impact: "Once regroup_by_sample is pinned, gxwf can resolve its output for downstream connection checks (flatten_for_guard, fastqc, trim_reads) in later iterations; gxwf checks rules state shape only, not rule semantics, so the runtime spike remains the semantic check."
+
+  - id: planemo-collection-output-test-needs-element-tests
+    raised_by: advance-galaxy-draft-step
+    evidence: "planemo 0.75.47 planemo/test/_check_output.py for_collections() returns `\"element_tests\" in test_properties`; an output test with top-level `elements:` (accepted by gxwf validate-tests 1.13.1) failed with 'No path specified for expected output file [regrouped]'; the same assertions under `element_tests:` passed."
+    impact: "Phase 7/8 workflow tests must use top-level `element_tests:` for collection outputs (fastqc_html, trimmed_reads)."
+
+  - id: flatten-paired-or-unpaired-keeps-role-level
+    raised_by: advance-galaxy-draft-step
+    evidence: "evidence/guard-spike/ test 0 (planemo 0.75.47, Galaxy master 26.1): __FLATTEN__ 1.0.0 join_identifier ':' over list:list:paired_or_unpaired -> collection_element_identifiers 0.0.3 output had exactly 5 lines S1:S1_T1:forward, S1:S1_T1:reverse, S1:S1_T2:forward, S1:S1_T2:reverse, S2:S2_T1:unpaired (has_n_lines + has_line asserted). Matches Galaxy lib/galaxy/tools FlattenTool.add_elements, which joins every nesting level's identifier."
+    impact: "Every read-file identifier is sample:run:role; the unpaired role is never collapsed. validate_endedness can require exactly 3 fields."
+
+  - id: endedness-guard-fails-invocation-before-consumers
+    raised_by: advance-galaxy-draft-step
+    evidence: "evidence/guard-spike/ test 1 (mixed S1 = paired S1_T1 + unpaired S1_T2) jobs: __APPLY_RULES__ ok, __FLATTEN__ ok, collection_element_identifiers ok, tp_awk_tool error (exit 1, empty job stdout/stderr, so not a conda-activation failure), param_value_from_file paused. invert_skip_trim, qc_stand_in and trim_stand_in were in step state new with no jobs. planemo-excerpt.log shows 'Failed to schedule WorkflowInvocation ... on invert_skip_trim ... reason=FailureReason.dataset_failed' after planemo's last poll (out.json still says invocation_state ready). Test 0 (valid) ran all 16 jobs ok, and both gated consumers produced outputs. The guard message (in the errored outfile, since awk --sandbox forbids stderr) is 'Error: Multiple runs of a sample must be of the same datatype i.e. single-end or paired-end: S1' (awkcheck/ with biocontainers gawk 5.3.1 and the wrapper flags)."
+    impact: "The stock awk guard plus param_value_from_file plus `when` chain fails the invocation before any QC or trimming job, with validate_endedness as the only errored job. Gating map_param_value with `when` works."
+
+  - id: planemo-workflow-tests-ignore-expect-failure
+    raised_by: advance-galaxy-draft-step
+    evidence: "planemo 0.75.47 site-packages: no reference to expect_failure under planemo/ (only galaxy/tool_util/verify/interactor.py, which serves tool tests). planemo/runnable.py RunResponse.structured_data sets status 'error' whenever was_successful is false. Planemo main @ d171869b (2026-10-11) is the same: the only hits are docs and tool-test XML, and 0.75.47 is the latest PyPI release. Spike test 1 with expect_failure: true -> 'guard.gxwf.yml_1: failed', summary num_errors 1. gxwf validate-tests 1.13.1 accepts expect_failure but rejects a test without `outputs:` (`outputs: {}` passes)."
+    impact: "Orchestrator constraint 3 (assert mixed SE/PE rejection via an expect_failure job) cannot produce a green planemo result. Phase 7/8/10 must treat that job's error as the expected outcome or assert outside planemo (obligation mixed-endedness-expect-failure-test)."
+
+decisions:
+  - id: samplesheet-input-shape
+    decided_by: workflow-brief-to-galaxy-interface
+    decision: "Input `samplesheet` = collection sample_sheet:paired_or_unpaired, one element per sheet row (run), inner {forward,reverse} or {unpaired}, element datatype fastqsanger.gz, column_definitions [{name: sample, type: string, optional: false, validators: [{type: regex, expression: '^\\S+$'}]}]."
+    rationale: "Keeps source sample-sheet semantics in-workflow (expert review: merge multi-row samples, reject mixed endedness, no whitespace in names); paired_or_unpaired carries per-row endedness. Fallback list:list:paired_or_unpaired only on recorded toolchain failure."
+    evidence:
+      - sheet-rows-are-runs-grouped-by-sample
+      - source-test-data-shape
+
+  - id: gzip-name-constraint-as-datatype
+    decided_by: workflow-brief-to-galaxy-interface
+    decision: "Express the source's *.fastq.gz / *.fq.gz filename constraint as element datatype fastqsanger.gz."
+    rationale: "Galaxy element identifiers carry no file extension; datatype is the Galaxy-native gzip-FASTQ restriction."
+    evidence:
+      - quality-encoding-unstated
+
+  - id: skip-trim-boolean-input
+    decided_by: workflow-brief-to-galaxy-interface
+    decision: "Input `skip_trim` = boolean, default false; true suppresses trimming and leaves fastqc_html unchanged."
+    rationale: "Brief: keep the trim switch (expert review); source params.skip_trim default false."
+    evidence: []
+
+  - id: outputs-sample-keyed-nested
+    decided_by: workflow-brief-to-galaxy-interface
+    decision: "Outputs `fastqc_html` (html) and `trimmed_reads` (fastqsanger.gz), both list:list:paired_or_unpaired keyed <sample>/<run id>/<forward|reverse|unpaired>; no flatten to source <sample>_<n> naming."
+    rationale: "Brief treats publish layout as reference only; nested map-over shape keeps pairing, avoids a relabel step, gives addressable element_tests. Source correspondence: n-th leaf in run-then-mate order <-> <sample>_<n>."
+    evidence:
+      - analyses-are-per-file
+
+  - id: no-extra-checkpoints
+    decided_by: workflow-brief-to-galaxy-interface
+    decision: "Promote no checkpoint outputs beyond fastqc_html and trimmed_reads; FastQC zip/raw data stays unexposed."
+    rationale: "Expert: reports and trimmed reads only; HTML carries assertable content; trimmed reads compare to snapshot after decompression."
+    evidence:
+      - snapshot-pins-trimmed-md5-not-reports
+
+  - id: regroup-via-apply-rules-sample-sheet-column
+    decided_by: workflow-brief-to-galaxy-data-flow
+    decision: "Node N1 regroup_by_sample: Apply Rules over samplesheet, outer = sample column, middle = run identifier, inner = paired_or_unpaired role; no sort rule. Removed (identity) under the list:list:paired_or_unpaired fallback input."
+    rationale: "Implements the brief's multi-row merge in-workflow with one built-in step; row order preserved matches source groupTuple order."
+    evidence:
+      - apply-rules-reads-sample-sheet-columns
+      - sheet-rows-are-runs-grouped-by-sample
+
+  - id: validate-after-regroup-with-dependency-gate
+    decided_by: workflow-brief-to-galaxy-data-flow
+    decision: "Mixed-endedness rejection = N2 validate_endedness, a single whole-collection reduction over the regrouped collection that fails the job; N3 gate_on_validation passes the regrouped collection through only via a data dependency on N2's output, and both fastqc and trim_reads consume N3's output. No per-sample mapping, no filtering of bad samples."
+    rationale: "Source validateInputSamplesheet error()s the entire run; per-sample checks or filters would leave partial outputs or silently improve the source. Works unchanged on the fallback input shape."
+    evidence:
+      - split-paired-unpaired-rejects-nested-and-sample-sheet
+
+  - id: qc-and-trim-parallel-mapover
+    decided_by: workflow-brief-to-galaxy-data-flow
+    decision: "fastqc and trim_reads map independently over the gated regrouped collection; no edge from trimming to QC; FastQC zip/raw outputs left unconnected; no flatten or relabel to source <sample>_<n> names."
+    rationale: "Brief: QC on untrimmed reads only, trimming does not feed QC, not pair-aware; interface decision outputs-sample-keyed-nested."
+    evidence:
+      - analyses-are-per-file
+
+  - id: skip-trim-when-gate
+    decided_by: workflow-brief-to-galaxy-data-flow
+    decision: "trim_reads (and the conditional compress placeholder, if emitted) is gated by a step `when` derived from NOT skip_trim; fastqc is unconditional; no pick_value merge (nothing downstream consumes trimmed_reads)."
+    rationale: "Source `if (!params.skip_trim) SEQTK_TRIM(...)`; conditional-run-optional-step pattern. Inversion mechanism left to skip-trim-boolean-inversion."
+    evidence:
+      - skipped-mapped-step-yields-null-elements
+
+  - id: nearest-iwc-exemplar-mgnify-qc-se
+    decided_by: compare-against-iwc-exemplar
+    decision: "Nearest IWC exemplar = amplicon/amplicon-mgnify/mgnify-amplicon-pipeline-v5-quality-control-single-end, confidence Medium (read-QC domain, FastQC family, parallel raw-QC + trim motif; differs in input topology list vs mixed sample sheet and trimmer). Relevant subgraph (native steps 0, 8, 9) emitted as iwc-exemplar.gxwf.yml. Cross-domain pattern excerpts: sra-manifest-to-concatenated-fastqs (multi-run regroup), rnaseq-pe (skip inversion). No High exemplar exists."
+    rationale: "Feature hierarchy: domain and DAG motif match beat short-read-qc-trimming, whose single fastp step merges QC and trim and has no parallel QC branch."
+    evidence:
+      - iwc-parallel-raw-qc-and-trim-motif
+
+  - id: skip-trim-invert-via-map-param-value
+    decided_by: compare-against-iwc-exemplar
+    decision: "N6 invert_skip_trim = explicit map_param_value boolean->boolean step (true->false, false->true) feeding trim_reads `when` input; trim_reads uses when: $(inputs.when). $(!inputs.when) is fallback only."
+    rationale: "Corpus-observed idiom; negated when expressions never appear in IWC. Chooses between the data-flow brief's options; no scope change."
+    evidence:
+      - iwc-skip-boolean-inversion-idiom
+      - gxwf-validate-accepts-when-connection-and-negation
+
+  - id: keep-design-over-iwc-idioms
+    decided_by: compare-against-iwc-exemplar
+    decision: "Do not adopt these IWC idioms that conflict with the brief: per-sample concatenation of runs (sra-manifest cat_multi_datasets), SE/PE split into separate workflows or branches, when-derived soft skip in place of the fail guard, post-trim FastQC, MultiQC, exposed trimmer thresholds."
+    rationale: "Brief requires source behavior: per-file QC/trim with per-run files kept, one mixed sheet, error() on mixed endedness, QC on untrimmed only, seqtk defaults not exposed, MultiQC excluded (expert)."
+    evidence:
+      - iwc-multi-run-regroup-via-apply-rules
+      - iwc-endedness-handled-by-split-not-mixed
+      - iwc-no-invocation-fail-guard
+
+  - id: guard-via-stock-awk-and-when-gating
+    decided_by: workflow-brief-to-galaxy-template
+    decision: "Realize data-flow N2 as four stock/built-in steps: flatten_for_guard (__FLATTEN__, ':') -> guard_identifiers (collection_element_identifiers) -> validate_endedness (tp_awk_tool; exit 1 naming the sample on mixed endedness, else print `true`) -> guard_ok (param_value_from_file boolean). Drop data-flow N3 (pass-through gate). guard_ok/boolean_param feeds `when` of fastqc and of invert_skip_trim; fastqc and trim_reads consume regroup_by_sample/output directly."
+    rationale: "Orchestrator constraints 1 and 2: no custom tool re-emitting the nested collection; prefer stock wrappers runnable in planemo-managed Galaxy. A failed guard job leaves its consumers unschedulable, so the guard still fails the invocation (unlike the IWC derived-boolean soft skip, the awk step exits non-zero rather than emitting false). Refines decision validate-after-regroup-with-dependency-gate (same placement and whole-collection reduction; dependency via `when` instead of a pass-through)."
+    evidence:
+      - tp-awk-tool-fails-on-nonzero-exit
+      - guard-chain-wrappers-corpus-observed
+      - split-paired-unpaired-rejects-nested-and-sample-sheet
+
+  - id: trim-gate-via-guarded-map-param-value
+    decided_by: workflow-brief-to-galaxy-template
+    decision: "Combine 'guard passed' with NOT skip_trim by gating invert_skip_trim (map_param_value true->'false', false->'true', on_unmapped fail) on guard_ok with `when: $(inputs.when)`; trim_reads `when` <- invert_skip_trim/output_param_boolean with `when: $(inputs.when)`. No separate boolean-AND or expression step (extra steps for trim gating: 0 beyond the map_param_value already decided)."
+    rationale: "Orchestrator constraint 1 (IWC idiom: map_param_value inversion + `when: $(inputs.when)`, count extra expression steps). Keeps every `when` literally $(inputs.when) as in all 155 IWC uses; trim still transitively depends on the guard."
+    evidence:
+      - iwc-skip-boolean-inversion-idiom
+      - gxwf-validate-accepts-when-connection-and-negation
+
+  - id: no-compress-step
+    decided_by: workflow-brief-to-galaxy-template
+    decision: "Do not emit data-flow N7 compress_if_needed; trimmed_reads <- trim_reads/default."
+    rationale: "seqtk_trimfq gzips output for gz input (format_source in_file)."
+    evidence:
+      - seqtk-trimfq-wrapper-gzips-gz-input
+
+  - id: pin-source-tool-versions
+    decided_by: workflow-brief-to-galaxy-template
+    decision: "fastqc = devteam/fastqc 0.74+galaxy1 @ 2c64fded1286 (FastQC 0.12.1; state nogroup false, kmers 7; text_file hidden, unexposed); trim_reads = iuc/seqtk seqtk_trimfq 1.4+galaxy0 @ a019807f4e67 (seqtk 1.4; mode quality q 0.05 l 30) rather than the newer 1.5+galaxy0."
+    rationale: "Brief: reproduce source behaviour; source tool versions are evidence (FastQC 0.12.1, seqtk 1.4). Matching them maximizes agreement with the source snapshot. FastQC state copied from the nearest IWC exemplar matches FastQC defaults and the source's --quiet-only call."
+    evidence:
+      - toolshed-wrappers-fastqc-seqtk-trimfq
+      - iwc-parallel-raw-qc-and-trim-motif
+
+  - id: orchestrator-template-constraints-honoured
+    decided_by: workflow-brief-to-galaxy-template
+    decision: "All four orchestrator constraints are honoured in the draft: (1) no pass-through of the nested collection, guard boolean drives `when`, trim via guarded map_param_value; (2) stock tp_awk_tool guard, no user-defined tool; (3) failing path kept assertable (validate_endedness is the single failing step; obligation mixed-endedness-expect-failure-test); (4) no per-sample concatenation (runs remain separate leaves)."
+    rationale: "Recorded so later phases do not reintroduce a pass-through gate, a soft-skip guard, or concatenation."
+    evidence:
+      - sample-sheet-spike-passes-in-toolchain
+      - iwc-multi-run-regroup-via-apply-rules
+
+  - id: regroup-rules-bound-as-planned
+    decided_by: advance-galaxy-draft-step
+    decision: "regroup_by_sample = __APPLY_RULES__ 1.1.0, state.rules = {rules: [add_column_metadata identifier0, add_column_metadata identifier1, add_column_from_sample_sheet_index 0], mapping: [list_identifiers [2, 0], paired_or_unpaired_identifier [1]]}, no sort rule. tool_version 1.1.0 from the populated tool cache (~/.galaxy/tool_info_cache entry __APPLY_RULES__ 1.1.0) and Galaxy dev apply_rules.xml."
+    rationale: "Implements decision regroup-via-apply-rules-sample-sheet-column unchanged; verified at runtime by the spike."
+    evidence:
+      - apply-rules-sample-sheet-regroup-runs
+      - gxwf-validates-apply-rules-when-version-pinned
+
+  - id: validate-endedness-awk-strict-three-field
+    decided_by: advance-galaxy-draft-step
+    decision: "validate_endedness = bgruening/text_processing tp_awk_tool 9.11+galaxy0 @ 30b60202d990 (latest installable revision; identity pin confirmed against Tool Shed get_repository_revision_install_info). state.variables = []. state.code: split each line on ':'; require exactly 3 fields else print 'Error: unexpected identifier (want sample:run:role)' and fail; role forward/reverse -> paired set, unpaired -> single set, any other role -> error. In END, for each sample in both sets print the source validateInputSamplesheet message naming the sample; exit 1 if any error, else print exactly `true`. No single quotes in code."
+    rationale: "Implements the _plan_state with the 2-field fallback removed, because the flatten keeps the role level (discovery flatten-paired-or-unpaired-keeps-role-level). Strict parsing fails loudly instead of mis-grouping when a name contains ':'. Code is byte-identical to the passing spike."
+    evidence:
+      - flatten-paired-or-unpaired-keeps-role-level
+      - endedness-guard-fails-invocation-before-consumers
+      - tp-awk-tool-fails-on-nonzero-exit
+
+brief_change_recommendations:
+  - id: restate-gzip-name-constraint-for-galaxy
+    raised_by: workflow-brief-to-galaxy-interface
+    proposed_change: "Restate the requirement 'gzip-compressed FASTQ names (*.fastq.gz / *.fq.gz)' as 'inputs are gzip-compressed FASTQ' so a Galaxy datatype restriction satisfies it."
+    reason: "Galaxy collection elements have identifiers, not filenames; the literal name pattern cannot be checked. Correctness does not depend on this change (decision gzip-name-constraint-as-datatype proceeds)."
+    evidence:
+      - gzip-name-constraint-as-datatype
+    status: proposed

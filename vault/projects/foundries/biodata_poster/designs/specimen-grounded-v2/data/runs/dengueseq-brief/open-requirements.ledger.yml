@@ -1,0 +1,503 @@
+# Open-requirements ledger: dengueseq-denv3-galaxy
+# Started by workflow-brief-to-galaxy-interface (first design Mold; no inherited ledger).
+# basis: all brief open-question decisions use the note's enum value `brief-proposal`;
+# `review` records the expert review outcome (accepted-proposal | expert-edited) per ../review.md.
+
+entries:
+  - id: depth-table-row-and-column-shape
+    status: resolved
+    raised_by: workflow-brief-to-galaxy-interface
+    step: per_base_depth
+    unmet: "Public output `per_base_depth` must have exactly one row per reference position (10,707 for NC_001475.2), zero-depth positions included, per brief acceptance criterion and tests/scripts/unit_tests_results.py."
+    missing: "Column layout not settled: source runs `bedtools genomecov -d` (chrom, pos, depth; all positions incl. zero) then reduces to a headed 2-column position/depth TSV. Whether the Galaxy output keeps the 3-column headerless form or reproduces the 2-column headed table (and how a header affects the row-count assertion) is for data-flow/test-plan."
+    resolved_by: workflow-brief-to-galaxy-data-flow
+    note: "Resolved by decision depth-table-keep-genomecov-d-layout: keep native `bedtools genomecov -d` 3-column headerless layout (chrom, 1-based pos, depth); exactly 10,707 lines, no header. Test-plan asserts line count 10,707 and column 2 spans 1..10707."
+  - id: low-coverage-and-empty-bam-behavior
+    status: open
+    raised_by: workflow-brief-to-galaxy-interface
+    unmet: "Accepted answer: always emit consensus, variants, depth (and trimmed BAM) for every sample, including low or zero coverage."
+    missing: "Source writes placeholder files (make_empty_files.py) when the trimmed BAM is empty and skips later steps; Galaxy tool behavior on an empty BAM (consensus/variants/depth) is unknown. Data-flow/implementation must confirm outputs are still produced or record the gap."
+    resolved_by: null
+    note: "consensus iteration (discovery consensus-variants-pileup-parity-probe, header-only BAM probe in the wrapper container): source consensus chain (`mpileup -aa --reference`) emits header + 10,707 N; IUC ivar_consensus chain (`mpileup -a`, no reference) emits a header-only FASTA with an EMPTY sequence (iVar 'Reference length: 0'), exit 0. Both variants chains emit a header-only TSV, exit 0. `-a` vs `-aa` only matters for a sample with zero reads on the contig: with any read mapped, `-a` already gives all 10,707 positions (2,596 zero-depth on the fixture). So outputs are still emitted (oq-always-emit-outputs holds), but a zero-read sample's consensus is an empty-sequence record, not all-N. per_base_depth iteration (discovery bedtools-genomecov-wrapper-collected): rendered wrapper command on the same header-only BAM emits 10,707 rows of depth 0, exit 0, identical to source `genomecov -d` -> depth output satisfies always-emit with the full row count. The consensus_header sed on an empty-sequence record is not yet checked; stays open. variants iteration: bound IUC ivar_variants wrapper chain emits a header-only TSV on a header-only BAM (exit 0; probe chain (b) = rendered wrapper command), so variant_calls satisfies always-emit; its missing -a/-aa is moot for ivar variants. consensus_header iteration (discovery tp-sed-wrapper-collected): the bound sed on the wrapper's zero-read consensus record (`>Consensus_<id>_threshold_0.75_quality_20` + one empty line) exits 0 and emits `>{id}.DENV3` + the same empty line, so consensus_genome is still emitted for a zero-read sample, as a header-only/empty-sequence FASTA (source: 10,707 N). Remaining open: (a) that empty-vs-all-N gap is a recorded difference for test-plan/expert (assert record presence/header, not length, for zero-read samples); (b) map_reads/filter_mapped_primary/primer_trim on a zero-read sample (trimmed BAM always-emit) were not exercised end-to-end in Galaxy; test/run phases should confirm, or accept as a known gap."
+  - id: two-pileup-settings
+    status: resolved
+    raised_by: workflow-brief-to-galaxy-interface
+    unmet: "Source uses two distinct pileups on the sorted trimmed BAM: consensus `samtools mpileup -aa -A -d 10000 -Q 0`, variants `-aa -A -d 0 -Q 0`."
+    missing: "Whether chosen Galaxy iVar consensus/variants wrappers expose or internally fix these mpileup settings is unknown; data-flow must map each or record deviation."
+    resolved_by: advance-galaxy-draft-step
+    note: "Consensus half decided (decision consensus-ivar-consensus-pin, discovery consensus-variants-pileup-parity-probe): IUC ivar_consensus runs `-A -a -d 0 -Q 0` (no reference/BAQ off); deviation accepted and quantified. Variants half left to the variants iteration, which must read consensus-variants-pileup-parity-probe (variants comparison already run) rather than re-probe. Stays open until variants binds. [variants iteration] Variants half decided (decision variants-ivar-variants-pin): IUC ivar_variants runs `-A -d 0 --reference REF -B -Q 0` (BAQ forced off, no -aa); deviation accepted and quantified from the existing probe, not re-probed. Both halves decided -> resolved; residual expert judgment carried by brief-change recommendations consensus-pileup-baq-off and variants-pileup-baq-off, residual test-sample checks by consensus-baq-deviation-check-on-test-sample and variants-baq-deviation-check-on-test-sample."
+  - id: samtools-view-flag-semantics
+    status: resolved
+    raised_by: workflow-brief-to-galaxy-interface
+    unmet: "Mapped-read filter `samtools view -bS -F 4 -F 2048` recorded as written in brief; intent is removal of unmapped and supplementary records."
+    missing: "How samtools combines repeated -F flags is not interpreted by the brief or summary; data-flow must choose an exclusion flag setting (e.g. combined 2052) and cite the reasoning."
+    resolved_by: workflow-brief-to-galaxy-data-flow
+    note: "Resolved by discovery samtools-repeated-F-flags-are-ORed (samtools 1.17 empirically ORs repeated -F; source effective mask = 2052) and decision mapping-filter-exclude-2052."
+  - id: srr25366733-fixture-acquisition
+    status: resolved
+    raised_by: workflow-brief-to-galaxy-interface
+    unmet: "Primary test sample SRR25366733 (expert-confirmed, MiSeq 2x251 paired, 183,398 read pairs) must be supplied as a one-element `list:paired` fixture with element identifier `SRR25366733`, forward/reverse fastqsanger.gz."
+    missing: "No fetch attempted; no URL/checksum yet. Test-data phase must resolve ENA/SRA FASTQ URLs and hashes."
+    resolved_by: find-test-data
+    note: "test-data-refs.json element SRR25366733: ENA https://ftp.sra.ebi.ac.uk/vol1/fastq/SRR253/033/SRR25366733/SRR25366733_{1,2}.fastq.gz; SHA-1 a41c8351.../09e1cc0c...; md5 matches ENA filereport; 10,477,526 / 11,262,585 bytes. See discovery srr25366733-ena-files-verified."
+  - id: published-consensus-accession-unknown
+    status: resolved
+    raised_by: workflow-brief-to-galaxy-interface
+    unmet: "Accepted (low-confidence) answer: compare produced consensus with a published GenBank consensus for FL-BPHL-0001 if one can be located."
+    missing: "No accession in local sources; depth threshold (10 vs 20) used for published Florida genomes unknown. Test-plan must locate it or fall back to structural criteria only."
+    resolved_by: find-test-data
+    note: "Found GenBank OR150748.1 (isolate DENV-3/USA/FL-BPHL-0001/2023, PRJNA973096, 10,537 bp, 8 N, assembly bwa 0.7.17 + ivar 1.3.1, BPHL submitter). Caveat: its BioSample is SAMN35803652, not the run's SAMN35803653 (same isolate name; no nuccore record links SAMN35803653). Depth threshold used still unknown. Test-plan decides whether to use it (loose identity/length comparison only) or stay structural. See discovery or150748-published-consensus-candidate."
+  - id: galaxy-wrapper-availability-unverified
+    status: resolved
+    raised_by: workflow-brief-to-galaxy-interface
+    unmet: "Steps need wrappers for BWA-MEM, samtools view/sort, iVar trim/consensus/variants, samtools mpileup (if separate), bedtools genomecov."
+    missing: "Expert requirement: wrapper availability must be collected from the environment (Tool Shed / gxwf), not inferred from paper or code. Not yet probed; discovery belongs to template/draft-step phases."
+    resolved_by: advance-galaxy-draft-step
+    note: "Per-step progress (advance-galaxy-draft-step): map_reads collected 2026-10-20 via gxwf tool-search/tool-versions/tool-revisions -> devteam/bwa/bwa_mem 0.7.19+galaxy1 @ c598cbb8b019 (discovery bwa-mem-wrapper-collected). filter_mapped_primary collected 2026-10-20 via gxwf tool-search (owner-scoped)/tool-versions/tool-revisions -> iuc/samtools_view 1.22+galaxy2 @ 5cf9fcc93508 (discovery samtools-view-wrapper-collected). primer_trim collected 2026-10-20 via gxwf tool-search/tool-versions/tool-revisions -> iuc/ivar_trim 1.4.4+galaxy1 @ 6606a8c97889 (discovery ivar-trim-wrapper-collected). Stays open until every step's wrapper is collected. consensus collected 2026-10-20 via gxwf tool-search/tool-versions/tool-revisions -> iuc/ivar_consensus 1.4.4+galaxy0 @ 1c5448133894 (discovery ivar-consensus-wrapper-collected). per_base_depth collected 2026-10-20 via gxwf tool-search/tool-versions/tool-revisions -> iuc/bedtools/bedtools_genomecoveragebed 2.31.1+galaxy0 @ d57471728f7b (discovery bedtools-genomecov-wrapper-collected). variants collected 2026-10-20 via gxwf tool-search/tool-versions/tool-revisions -> iuc/ivar_variants 1.4.4+galaxy0 @ 5e5dfc9e71e2 (discovery ivar-variants-wrapper-collected). consensus_header collected 2026-10-20 via gxwf tool-search/tool-versions/tool-revisions -> bgruening/text_processing/tp_sed_tool 9.11+galaxy0 @ 30b60202d990 (discovery tp-sed-wrapper-collected). All seven tool steps now collected from the environment -> resolved."
+  - id: serotype-coverage-plane-not-carried
+    status: open
+    kind: dropped
+    raised_by: workflow-brief-to-galaxy-interface
+    units: "consensus-to-reference alignment (Nextalign/MAFFT), serotype_caller.py coverage_untrimmed/coverage_trimmed, DENV3.trim.bed coverage-window input, 50% call gate"
+    because: "Brief Scope/Excluded removes serotype calling and summary tables; accepted brief open-question answer 'Should a genome completeness/coverage metric be produced?' = no separate metric by default (workflow-brief.md, Open questions)."
+    unmet: "Paper's main QC metric (genome completeness over coding window) is not produced."
+    missing: "Completeness is inferable only from consensus N content and depth outputs; expert may add a metric later."
+    resolved_by: null
+    note: "Deliberate cut per reviewed brief, not a capability gap."
+  - id: filtered-variant-frequency-table-not-carried
+    status: open
+    kind: dropped
+    raised_by: workflow-brief-to-galaxy-interface
+    units: "make_summary_files.py::sort_variant_files output <sample>.<ref>.10.variants_frequency.tsv (PASS, 0.2<AF<0.8, renamed columns) and variants_summary.tsv variant_count"
+    because: "Accepted brief open-question answer: expose the full iVar variants table as the variant calls; co-infection analysis excluded (workflow-brief.md, Scope/Excluded and Open questions)."
+    unmet: "Source's filtered/renamed variant table and variant_count are not reproduced; repository unit test's variant_count assertion cannot be reused."
+    missing: ""
+    resolved_by: null
+    note: "Deliberate cut per reviewed brief."
+  - id: wrapper-mpileup-settings-parity
+    status: resolved
+    raised_by: workflow-brief-to-galaxy-data-flow
+    step: consensus, variants
+    unmet: "Consensus branch pileup must equal `samtools mpileup -aa --reference REF -A -d 10000 -Q 0`; variants branch pileup must equal `-aa --reference REF -A -d 0 -Q 0` (0 assumed = no depth cap; samtools 1.17 help shows only default 8000, not confirmed). Source passes no -B, so BAQ stays at samtools default (on); default skip flags unchanged."
+    missing: "Chosen consensus/variants wrappers (fused pileup+caller or separate mpileup) not yet discovered; implementation must confirm each flag (-aa, -A, -d, -Q 0, --reference, BAQ) is settable or internally fixed to the same value, and record any deviation (e.g. a wrapper that cannot pass -d 0 or forces -B)."
+    resolved_by: advance-galaxy-draft-step
+    note: "Wrapper-level split of two-pileup-settings; that entry stays open until this closes. Consensus branch: -A, -Q 0 match; -a (not -aa) differs only for zero-read samples; -d 0 (unlimited, confirmed) vs 10000 has no effect on calls on the fixture despite being exercised (max depth 246,366); BAQ off (no --reference) changes 1 called position of 10,707 (decision consensus-ivar-consensus-pin, discovery consensus-variants-pileup-parity-probe). Variants branch pending its iteration. [variants iteration] Variants branch (decision variants-ivar-variants-pin, discovery consensus-variants-pileup-parity-probe): -A, -Q 0, --reference, -d 0 (unlimited, confirmed) match the source; -aa absent is moot for ivar variants (zero-depth positions never yield rows; header-only TSV on an empty BAM either way); -B forces BAQ off vs source BAQ on -> all 346 source rows present, +6 wrapper-only rows (2 PASS: 3137 A>G AF 0.24, 5591 G>T AF 0.91), 0 PASS flips, ALT_FREQ shifts on 177 shared rows (max 0.124). Every flag now settled or recorded as an accepted deviation -> resolved."
+  - id: wrapper-defaults-vs-ivar-defaults
+    status: resolved
+    raised_by: workflow-brief-to-galaxy-data-flow
+    step: primer_trim, consensus, variants
+    unmet: "Source leaves iVar options at iVar's own (v1.4 per paper) defaults: trim -m/-q/-s/-x (no -f), consensus -q and -n (N), variants -m and other non -q/-t options. Brief: 'iVar consensus options other than -t/-m stay at iVar's defaults'."
+    missing: "Galaxy wrappers commonly set their own default values (e.g. an explicit trim min length) that may differ from the binary defaults; implementation must compare each wrapper default with the iVar binary default and set state to match, or record the deviation. Do not assume parity."
+    resolved_by: compare-against-iwc-exemplar
+    note: "Resolved by discovery ivar-1-4-4-binary-defaults-match-wrappers: iVar 1.4.4 binary -h defaults equal IUC wrapper defaults (trim -m auto/-1, -q 20, -s 4, -x 0; consensus -q 20, -c 0.8, -n N); variants wrapper passes only -q/-t (+ -r only with GTF, tracked separately as ivar-variants-no-r-without-gtf). Template keeps trimmed_length.filter auto, amplicons.filter_by '' (no -f). Paper's iVar 1.4 vs 1.4.4 not compared (versions are evidence only per brief). Conditional: holds for iuc ivar_* 1.4.4 wrappers; reopen if discovery selects another wrapper."
+  - id: ivar-trim-e-explicit
+    status: resolved
+    raised_by: workflow-brief-to-galaxy-data-flow
+    step: primer_trim
+    unmet: "Primer trim must keep reads in which no primer was found (`ivar trim -e`), as source does."
+    missing: "Wrapper option name/default for -e unknown; implementation must set it explicitly in step state, not rely on a default."
+    resolved_by: advance-galaxy-draft-step
+    note: "Resolved: primer_trim (iuc ivar_trim 1.4.4+galaxy1) state sets inc_primers: true explicitly (truevalue `-e`, wrapper default false). Docker probe on full denv3_test fixture: wrapper log 'Since the -e flag was given, these reads were written to file' (1,361,380 reads outside primer regions kept), same counts as source verbatim chain (discovery ivar-trim-wrapper-collected)."
+  - id: consensus-fasta-header-naming
+    status: resolved
+    raised_by: workflow-brief-to-galaxy-data-flow
+    step: consensus
+    unmet: "Source consensus FASTA header is `<sample>.DENV3` (ivar consensus -i), i.e. derived from the sample identifier."
+    missing: "Whether the consensus wrapper can set the header from the collection element identifier is unverified. Implementation should prefer an element-identifier-derived header; if not possible, accept the wrapper's header and tell test-plan not to assert the exact header (assert single record instead)."
+    resolved_by: advance-galaxy-draft-step
+    note: "IUC ivar_consensus 1.4.4+galaxy0 header confirmed empirically (discovery consensus-variants-pileup-parity-probe): `>Consensus_denv3_test_threshold_0.75_quality_20` for element id denv3_test (wrapper seds the first lowercase `consensus` in consensus.fa to the sanitized element id), so the planned consensus_header expression `/^>/s/Consensus_(.*)_threshold_.*/\\1.DENV3/` yields `>denv3_test.DENV3`, equal to the source header. [consensus_header iteration] Resolved (decision consensus-header-tp-sed-pin, discovery tp-sed-wrapper-collected): consensus_header = bgruening tp_sed_tool 9.11+galaxy0 with code `/^>/s/Consensus_(.*)_threshold_.*/\\1.DENV3/`; Docker probe in quay.io/biocontainers/sed:4.9 with the wrapper's exact `sed --sandbox -r -f <configfile>` invocation turns the real wrapper header `>Consensus_denv3_test_threshold_0.75_quality_20` into `>denv3_test.DENV3` (byte-equal to the source chain header) and `>Consensus_SRR25366733_threshold_0.75_quality_20` into `>SRR25366733.DENV3`; sequence lines byte-identical. Test-plan may assert the exact header `>{element_id}.DENV3`."
+  - id: consensus-params-connectable
+    status: resolved
+    raised_by: workflow-brief-to-galaxy-data-flow
+    step: consensus
+    unmet: "Workflow parameters `Consensus frequency threshold` (float) and `Consensus minimum depth` (int) must drive the consensus step's -t and -m."
+    missing: "Requires consensus wrapper -t/-m to be plain float/int params connectable from workflow parameter inputs; unverified until discovery."
+    resolved_by: compare-against-iwc-exemplar
+    note: "Corpus settles connectability: IWC pe-wgs-ivar-analysis 0.4 step _unlabeled_step_17 (ivar_consensus 1.4.4+galaxy0) wires float workflow param to min_freq and int param to min_qual; wrapper min_depth (-m) is a plain integer param of the same kind (ivar_consensus.xml). Template connects min_freq <- Consensus frequency threshold, min_depth <- Consensus minimum depth. Conditional: holds for iuc ivar_consensus 1.4.4+galaxy0; reopen if discovery selects another wrapper."
+  - id: ivar-wrapper-pileup-deviation-choice
+    status: resolved
+    raised_by: compare-against-iwc-exemplar
+    step: consensus, variants
+    unmet: "Brief/data-flow pileups: consensus `mpileup -aa --reference REF -A -d 10000 -Q 0` (BAQ on); variants `-aa --reference REF -A -d 0 -Q 0` (BAQ on)."
+    missing: "Only corpus wrappers (iuc ivar_consensus/ivar_variants 1.4.4+galaxy0) hard-code `-A -a -d 0 -Q 0` (no reference, so no BAQ) and `-A -d 0 --reference -B -Q 0` (BAQ forced off, no -aa); no IUC iVar wrapper accepts a pileup dataset (per tools-iuc b9b16be49 tools/ivar/ listing; Tool Shed not searched). Template/discovery must choose: accept recorded deviation, find/author a wrapper exposing the flags, or a split pileup->caller path. See discoveries iuc-ivar-consensus-pileup-flags, iuc-ivar-variants-pileup-flags-and-r."
+    resolved_by: advance-galaxy-draft-step
+    note: "Concrete instance of wrapper-mpileup-settings-parity; that entry and two-pileup-settings stay open until this is decided. Consensus: choice = accept recorded deviation with iuc ivar_consensus 1.4.4+galaxy0; the `DENV3 reference genome` -> consensus edge is dropped (wrapper has no reference port) and that drop IS this deviation (decision consensus-ivar-consensus-pin). Calls differ at 1 position, so brief-change recommendation consensus-pileup-baq-off is proposed for the expert. Variants half open; its data is already in consensus-variants-pileup-parity-probe. [variants iteration] Variants: choice = accept recorded deviation with iuc ivar_variants 1.4.4+galaxy0 @ 5e5dfc9e71e2 (decision variants-ivar-variants-pin); the `DENV3 reference genome` -> variants edge is kept (wrapper `ref` port feeds mpileup --reference). Variant table differs (6 extra rows, 2 PASS), so sibling brief-change recommendation variants-pileup-baq-off is proposed. Both halves decided -> resolved."
+  - id: ivar-variants-no-r-without-gtf
+    status: resolved
+    raised_by: compare-against-iwc-exemplar
+    step: variants
+    unmet: "Source runs `ivar variants -q 20 -t 0.03 -r REF` with no GFF."
+    missing: "iuc ivar_variants 1.4.4+galaxy0 passes `-r ref.fa` only when a GTF is supplied (ivar_variants.xml, tools-iuc b9b16be49); without GTF ivar runs without -r (mpileup still gets --reference, so REF column likely from pileup). Effect on table content (REF/ALT, codon columns) not verified; implementation/test must check or record deviation."
+    resolved_by: advance-galaxy-draft-step
+    note: "Evidence for the variants iteration (discovery consensus-variants-pileup-parity-probe): with no GFF, `ivar variants` output is byte-identical with and without `-r REF`, for both the source pileup and the IUC wrapper pileup; REF column is A/C/G/T from the pileup either way. Left open for the variants iteration to close. [variants iteration] Closed (decision variants-ivar-variants-pin): step state output_format.choice tabular with no gtf, so the wrapper omits `-r`; probe showed -r is byte-neutral without a GFF for both pileups -> no deviation from omitting -r. GFF_FEATURE/codon/AA columns empty either way."
+  - id: primer-bed-scheme-convert-compat
+    status: resolved
+    raised_by: compare-against-iwc-exemplar
+    step: primer_trim
+    unmet: "Primer trim must consume pinned 6-column DENV3.bed (pool col 5, strand col 6; 70 records)."
+    missing: "iuc ivar_trim 1.4.4+galaxy1 first runs `scheme-convert --to bed --bed-type ivar` (viramp-hub 0.1.0) on the BED; DENV3.bed's naming/pool convention not checked against its parser (ARTIC BEDs pass in IWC tests). Implementation/test must confirm."
+    resolved_by: advance-galaxy-draft-step
+    note: "Resolved empirically (discovery ivar-trim-wrapper-collected): in the wrapper's own mulled container, scheme-convert parses DENV3.bed (both raw CRLF and LF forms) into 70 records with identical chrom/start/end/name/strand (records re-sorted by start; col 5 pool -> score 60). ivar trim reports 'Found 70 primers'; on the full denv3_test fixture the wrapper chain and the source verbatim chain give identical per-primer counts and identical alignments (SAM cols 1-11 and all tags except iVar's XA:i primer-index tag, which shifts only because the converted BED is re-ordered; not read by mpileup/consensus/variants/genomecov)."
+
+  - id: consensus-baq-deviation-check-on-test-sample
+    status: open
+    raised_by: advance-galaxy-draft-step
+    step: consensus
+    unmet: The accepted BAQ-off consensus deviation (decision consensus-ivar-consensus-pin) was measured only on the repo denv3_test fixture (1 differing position of 10,707).
+    missing: "Size of the deviation on the expert's test sample SRR25366733 is unknown. Test/run phases should run the source verbatim mapper.sh L46 chain alongside the workflow consensus on SRR25366733 (or its fixture) and report differing called positions, so the expert can judge brief-change recommendation consensus-pileup-baq-off against the published-consensus acceptance criterion. Depth cap need NOT be re-checked there: -d 10000 vs unlimited was exercised on the fixture (max depth 246,366) with no effect on calls."
+    resolved_by: null
+    note: ''
+  - id: variants-baq-deviation-check-on-test-sample
+    status: open
+    raised_by: advance-galaxy-draft-step
+    step: variants
+    unmet: "The accepted BAQ-off variants deviation (decision variants-ivar-variants-pin) was measured only on the repo denv3_test fixture (+6 wrapper-only rows of 352, 2 of them PASS; 0 PASS flips on the 346 shared rows)."
+    missing: "Size of the deviation on the expert's test sample SRR25366733 is unknown. Test/run phases should run the source verbatim mapper.sh L68 chain alongside the workflow variants on SRR25366733 and report row-set and PASS differences (keyed on POS/REF/ALT), so the expert can judge brief-change recommendation variants-pileup-baq-off. Test-plan should not assert exact variant row counts copied from a source run without this check. Depth cap and -r need no re-check (-d 0 both sides; -r byte-neutral without GFF)."
+    resolved_by: null
+    note: ''
+discoveries:
+  - id: repo-bed-and-fasta-identical-to-test-refs
+    raised_by: workflow-brief-to-galaxy-interface
+    evidence: "sources/DENV_pipeline/tests/test_refs/DENV3.{bed,fasta} are byte-identical (diff) to denv_pipeline/DENV_primers_and_refs/DENV3.{bed,fasta} at the v1.0 pin; DENV3.bed has 70 records, 6 columns (chrom NC_001475.2, start, end, name, pool, strand)."
+    impact: "One reference FASTA and one primer BED fixture serve both the SRR25366733 and denv3_test tests."
+  - id: repo-denv3-test-fixture-is-large
+    raised_by: workflow-brief-to-galaxy-interface
+    evidence: "tests/test_inputs/denv3_test/denv3_test_S30_L003_R1_001.fastq.gz is ~91.5 MB and R2 ~87.0 MB (~178 MB pair)."
+    impact: "The brief's 'additional or smaller test' fixture is not small; treat as secondary test only, possibly subsampled or run as a non-default/CI-optional test. Not a brief change: accepted answer says 'secondary test'."
+  - id: reference-not-a-builtin-genome
+    raised_by: workflow-brief-to-galaxy-interface
+    evidence: "Source builds/ships its own BWA index for DENV3.fasta (NC_001475.2, 10,707 bp); no Galaxy built-in index is implied by any source."
+    impact: "Reference is supplied as a history FASTA dataset; mapping step must index from history."
+  - id: source-sample-layout-is-directory-convention
+    raised_by: workflow-brief-to-galaxy-interface
+    evidence: "Source finds reads by *R1*/*R2* globs in one directory per sample; brief: 'That layout is a source convention, not a requirement'. No sample sheet or per-sample metadata columns in source."
+    impact: "A plain list:paired collection suffices; no sample_sheet input."
+  - id: samtools-repeated-F-flags-are-ORed
+    raised_by: workflow-brief-to-galaxy-data-flow
+    evidence: "Docker probe 2026-10-20, quay.io/biocontainers/samtools:1.17--hd87286a_2 (amd64 emulation): 3-record SAM (r1 mapped primary, r2 flag 4, r3 flag 2048); `samtools view -F 4 -F 2048`, `-F 2048 -F 4` and `-F 2052` each output only r1."
+    impact: "Source `-F 4 -F 2048` (as written) is effectively exclude-mask 2052 at the paper's samtools version; intended and actual semantics agree."
+
+  - id: iuc-ivar-consensus-pileup-flags
+    raised_by: compare-against-iwc-exemplar
+    evidence: "tools-iuc b9b16be49 tools/ivar/ivar_consensus.xml:13 `samtools mpileup -A -a -d 0 -Q 0 sorted.bam | ivar consensus -p consensus -q -t -c -m <depth_action>`; @TOOL_VERSION@ 1.4.4, wrapper +galaxy0 (matches IWC pins; Tool Shed changeset not cross-checked)."
+    impact: "Consensus pileup differs from brief (-aa, --reference/BAQ, -d 10000). See ivar-wrapper-pileup-deviation-choice; -a vs -aa also bears on low-coverage-and-empty-bam-behavior (a no-read reference may yield no pileup rows)."
+  - id: iuc-ivar-variants-pileup-flags-and-r
+    raised_by: compare-against-iwc-exemplar
+    evidence: "tools-iuc b9b16be49 tools/ivar/ivar_variants.xml:12 `samtools mpileup -A -d 0 --reference ref.fa -B -Q 0`; `-r ref.fa -g gtf` emitted only when gtf set."
+    impact: "Variants pileup forces -B (BAQ off) and lacks -aa vs source; ivar runs without -r absent a GTF. See ivar-wrapper-pileup-deviation-choice, ivar-variants-no-r-without-gtf."
+  - id: iuc-ivar-trim-sorts-output
+    raised_by: compare-against-iwc-exemplar
+    evidence: "ivar_trim.xml:45 pipes `ivar trim` into `samtools sort -o trimmed.sorted.bam`; output_bam format bam. Input linked with metadata.bam_index (must be indexed Galaxy bam)."
+    impact: "Data-flow N5 sort_trimmed is absorbed by the trim wrapper (contrary to data-flow assumption that trim output is unsorted); N3 absorbed by bwa_mem output_sort: coordinate. ivar_trim/output_bam is the fan-out point and primer_trimmed_bam producer, as in IWC pe-wgs-ivar-analysis."
+  - id: iuc-ivar-consensus-header-from-element-id
+    raised_by: compare-against-iwc-exemplar
+    evidence: "ivar_consensus.xml:10,21 sanitizes element_identifier (re.sub [^\\w\\-] -> _) and seds it into the iVar header; IWC pe-wgs-ivar-analysis step 'Consensus genome (masked for depth)' (tp_sed) then applies `/^>/s/Consensus_(.*)_threshold_.*/\\1/`, test asserts `>ERR4970105`."
+    impact: "consensus-fasta-header-naming: element-id-derived header is available; a tp_sed step with replacement `\\1.DENV3` would reproduce the source header. Template decides whether to add the node."
+  - id: ivar-trim-e-is-inc-primers
+    raised_by: compare-against-iwc-exemplar
+    evidence: "ivar_trim.xml:83 `inc_primers` argument -e, boolean, checked=false; IWC exemplars set inc_primers: true."
+    impact: "ivar-trim-e-explicit: step state must set inc_primers: true (default false)."
+  - id: ivar-1-4-4-binary-defaults-match-wrappers
+    raised_by: compare-against-iwc-exemplar
+    evidence: "Docker 2026-10-20 quay.io/biocontainers/ivar:1.4.4--h077b44d_0 (amd64 emulation): `ivar trim -h` -x 0, -m 50% avg length of first 1000 reads, -q 20, -s 4, -e off; `ivar consensus` -q 20, -t 0, -c 0.8, -m 10, -n N."
+    impact: "IUC wrapper defaults equal binary defaults for every option the brief leaves at default; closes wrapper-defaults-vs-ivar-defaults."
+  - id: bedtools-genomecov-wrapper-d-requires-hist-mode
+    raised_by: compare-against-iwc-exemplar
+    evidence: "tools-iuc bedtools/genomeCoverageBed.xml emits -bg when report_select==bg and zero_regions false, -max $max in hist mode, plus $d. Docker probe bedtools:2.31.1--h13024bc_3: `-bg -d` errors 'Use -d/-dz or -bg, not both'; `-max 0 -d` gives per-base chrom/pos/depth incl. zero rows, same as `-d`."
+    impact: "N6c state for bedtools_genomecoveragebed 2.31.1+galaxy0: input_type_select bam, report.report_select hist, d true."
+  - id: iwc-corpus-tool-pins
+    raised_by: compare-against-iwc-exemplar
+    evidence: "IWC 7ba89fa: bwa_mem 0.7.19(+galaxy1), samtools_view 1.22+galaxy1/+galaxy2, ivar_trim 1.4.4+galaxy1, ivar_variants 1.4.4+galaxy0, ivar_consensus 1.4.4+galaxy0, bedtools_genomecoveragebed 2.31.1+galaxy0, tp_sed_tool 9.11+galaxy0 (full table in iwc-comparison-notes.md)."
+    impact: "Candidate pins for discovery; does not close galaxy-wrapper-availability-unverified (environment collection still required)."
+  - id: template-computability-pass-clean
+    raised_by: workflow-brief-to-galaxy-template
+    evidence: "Template computability review of all 7 steps: each declared output is computable from its wired inputs (reads+reference -> BAM; BAM -> filtered BAM; BAM+BED -> trimmed BAM; trimmed BAM+reference+2 params -> consensus; consensus -> renamed FASTA; trimmed BAM+reference -> variants; trimmed BAM -> per-base depth, reference length carried in BAM header)."
+    impact: "No blocking entries appended. Non-blocking risks stay tracked: sort folds conditional on wrapper (template-fold-sort-nodes-into-wrappers), pileup parity (ivar-wrapper-pileup-deviation-choice), empty-BAM behavior (low-coverage-and-empty-bam-behavior)."
+
+  - id: bwa-mem-wrapper-collected
+    raised_by: advance-galaxy-draft-step
+    step: map_reads
+    evidence: "2026-10-20 gxwf tool-search 'bwa mem' hits devteam~bwa~bwa_mem (higher scores are bwa-mem2 indexers/data managers); tool-versions newest 0.7.19+galaxy1; tool-revisions --latest -> changeset c598cbb8b019 (0.7.19 -> 1dfc975b48d5, the exemplar pin). Wrapper command (tools-iuc b9b16be49 tools/bwa/bwa-mem.xml, TOOL_VERSION 0.7.19, suffix 1): `bwa index -a auto` on history FASTA; `bwa mem -t ${GALAXY_SLOTS} -v 1 REF R1 R2 | samtools sort -O bam` (output_sort coordinate; samtools 1.21 requirement); illumina mode adds no scoring flags; rg do_not_set adds no -R."
+    impact: "Matches source `bwa mem -v 1 -t 2 REF R1 R2` modulo thread count (bwa-verbosity-threads-not-carried; -v 1 is hard-coded by the wrapper anyway). Coordinate sort is native, so the N3 fold holds (template-fold-sort-nodes-into-wrappers) and no repair is needed. Version drift: bwa 0.7.19 vs paper/source 0.7.17-r1188 (evidence only, not a requirement); minor alignment differences possible, to be judged by phase-10 output comparisons. Source sorts after `samtools view -F 4 -F 2048`; here sort precedes the filter step, which yields the same record set and order."
+
+  - id: samtools-view-wrapper-collected
+    raised_by: advance-galaxy-draft-step
+    step: filter_mapped_primary
+    evidence: "2026-10-20 gxwf tool-search 'samtools view' (unscoped) does not rank iuc samtools_view in top 10; `tool-search samtools --owner iuc` hits iuc~samtools_view~samtools_view. tool-versions newest 1.22+galaxy2 (= newest IWC corpus pin); tool-revisions --latest -> changeset 5cf9fcc93508. Wrapper command (tools-iuc b9b16be49 tool_collections/samtools/samtools_view/samtools_view.xml, TOOL_VERSION 1.22, suffix 2): selected_reads + oformat bam renders `samtools view -@ N -b -f 0 -F <sum(exclusive_filter)> -G 0 -o outfile infile` (FLAGS macro sums selected bits; -q only if quality > 0; no subsample at factor 1). BAM input with oformat bam is not re-sorted (wrapper test 5: sorted bam unmodified); outputsam change_format -> bam, so Galaxy sets bam_index metadata. Docker probe quay.io/biocontainers/samtools:1.22--h96c455f_0 (amd64 emulation, ~5 s) on a 5-record coordinate-sorted BAM (primary, flag 4, flag 2048, flag 256 MAPQ 0, primary MAPQ 5) with the exact rendered command: kept r1, r4 (secondary), r5 (MAPQ 5); dropped unmapped and supplementary; @HD SO:coordinate and record order preserved. Scratch: _scratch/filter_mapped_primary/."
+    impact: "Wrapper reproduces source `samtools view -bS -F 4 -F 2048` (effective -F 2052) exactly; -f 0 / -G 0 are no-ops. Coordinate order from map_reads is preserved, so the N3 sort fold holds and primer_trim receives an indexed bam. Version drift samtools 1.22 vs paper 1.17 (evidence only; flag semantics unchanged per both probes)."
+
+  - id: ivar-trim-wrapper-collected
+    raised_by: advance-galaxy-draft-step
+    step: primer_trim
+    evidence: "2026-10-20 gxwf tool-search 'ivar trim' top hit iuc~ivar_trim~ivar_trim (score 47.7; next iuc ivar_removereads); tool-versions newest 1.4.4+galaxy1; tool-revisions --latest -> sole changeset 6606a8c97889 (= IWC pe-wgs-ivar-analysis 0.4 pin). Wrapper command (tools-iuc b9b16be49 tools/ivar/ivar_trim.xml, TOOL_VERSION 1.4.4, suffix 1; requirements ivar 1.4.4, samtools 1.22, python 3.12, sed 4.9, viramp-hub 0.1.0 -> mulled-v2-dad95157f1e6ebaffc641a09503d0100710a1765:4dccdbb26cdfad6bb44e3adebe06dce653024d66-0 via galaxy-tool-util mulled-hash): `ln -s input_bed bed.bed && scheme-convert --to bed --bed-type ivar -o ivar.bed bed.bed && ln -s input_bam sorted.bam && ln -s bam_index sorted.bam.bai && ivar trim -i sorted.bam -b ivar.bed -x 0 -e -m -1 -q 20 -s 4 | samtools sort -o trimmed.sorted.bam -`. Docker probe (amd64 emulation) on the FULL repo fixture tests/test_inputs/denv3_test with repo DENV3.fasta/DENV3.bed: mapped with bwa 0.7.19 + `samtools view -bS -F 4 -F 2048 | samtools sort` (2,432,412 records, ~41 s); (a) source verbatim mapper.sh L29 `ivar trim -e -i X.bam -b DENV3.bed -p X.trimmed` + samtools sort/index on the raw CRLF BED vs (b) the rendered wrapper chain on LF and CRLF BEDs, all in the wrapper container (~33 s for all three). Results: 'Found 70 primers', auto min length 75 bp, identical per-primer read counts and summary stats (32.51% primer-trimmed; 24.08% dropped below 75 bp; 55.97% outside primer regions kept via -e); 1,846,698 records in each output, coordinate-sorted; SAM cols 1-11 md5-identical; only diff is XA:i (iVar primer index into the BED) because scheme-convert re-sorts records by start. DENV3.bed has CRLF line endings; wrapper output identical for CRLF and LF input. Scratch (full-fixture mapped.bam, src/wrapper trimmed BAMs reusable by the consensus parity probe): _scratch/primer_trim/out/."
+    impact: "Wrapper reproduces source trim + sort exactly for downstream purposes; closes ivar-trim-e-explicit and primer-bed-scheme-convert-compat. Output output_bam is format bam (Galaxy sets bam_index), sorted, so the N5 sort fold holds (template-fold-sort-nodes-into-wrappers) and no repair is needed. -m -1 auto equals the iVar binary default the source relies on (both chose 75 bp). XA:i tag values are not a public contract; test-plan must not assert BAM byte/md5 equality against source BAMs."
+
+  - id: ivar-consensus-wrapper-collected
+    raised_by: advance-galaxy-draft-step
+    step: consensus
+    evidence: "2026-10-20 gxwf tool-search 'ivar consensus' -> sole hit iuc~ivar_consensus~ivar_consensus (score 43.3); 'ivar' -> iuc ivar_{variants,removereads,getmasked,consensus,filtervariants,trim}, none consumes a pileup dataset or exposes mpileup flags; 'mpileup' -> devteam samtools_mpileup, varscan_* (no iVar caller downstream of a pileup on the shed); 'consensus' -> unrelated/different-algorithm tools (b2b_bam2consensus, fgbio, mothur). tool-versions newest 1.4.4+galaxy0; tool-revisions --latest -> sole changeset 1c5448133894 (= IWC pe-wgs-ivar-analysis 0.4 pin). Command (tools-iuc b9b16be49 tools/ivar/ivar_consensus.xml; summary manifest carries none): `ln -s input_bam sorted.bam && samtools mpileup -A -a -d 0 -Q 0 sorted.bam | ivar consensus -p consensus -q $min_qual -t $min_freq -c $min_indel_freq -m $min_depth $depth_action && sed -i 's|consensus|<sanitized element id>|' consensus.fa`. Requirements ivar 1.4.4, samtools 1.22, python 3.12, sed 4.9 -> mulled-v2-4f658947f2dcf92b56aabbcd88f865ae3b66b28d:3173a8c8166c6d0717af222356f88229b21103e2-0 (galaxy-tool-util mulled-hash). Ports: input_bam (bam); min_qual int 20; min_freq float default 0.0 (NOT the source's 0.75; connected from the workflow parameter); min_indel_freq 0.8; min_depth int 10; depth_action select -k | -n N (default) | -n -; output consensus (fasta). No reference input."
+    impact: Identity, pin and port names for step consensus; reference edge cannot be wired (see decision consensus-ivar-consensus-pin). Wrapper defaults equal iVar 1.4.4 binary defaults except min_freq (moot, connected). Container is the one used for the parity probe.
+  - id: consensus-variants-pileup-parity-probe
+    raised_by: advance-galaxy-draft-step
+    step: consensus, variants
+    evidence: "Docker 2026-10-20, all chains in the IUC ivar_consensus/ivar_variants wrapper container mulled-v2-4f658947...:3173a8c8...-0 (samtools 1.22.1, iVar 1.4.4; amd64 emulation), FULL repo fixture tests/test_inputs/denv3_test, repo DENV3.fasta, reusing the primer_trim probe BAMs (source-verbatim trimmed+sorted BAM; IUC ivar_trim-rendered BAM, SAM cols 1-11 identical). CONSENSUS: (a) mapper.sh L46 verbatim `mpileup -aa --reference REF -A -d 10000 -Q 0 | ivar consensus -t 0.75 -m 10` -> 10,709 bp, 3,141 N; (b) IUC-rendered `mpileup -A -a -d 0 -Q 0 | ivar consensus -q 20 -t 0.75 -c 0.8 -m 10 -n N` -> 10,708 bp, 3,141 N, header `Consensus_denv3_test_threshold_0.75_quality_20`. Identical N mask (0 N-only positions either side); ONE called-base difference, at ref 5591 (G; context ...ACG[G]TGTGG): (b) calls T (G>T, 848/929 reads, ivar variants AF 0.913 BAQ-off), (a) keeps G and inserts +T (BAQ demotes the T bases below q20, leaving ~81 quality bases of which 79 carry +T, over the 0.8 indel threshold) -> source consensus 1 bp longer. (b)'s pileup on the source-trimmed BAM gives the identical consensus to (b) -> trim chain contributes nothing. Attribution: source flags + `-B` (BAQ off, -d 10000) == (b); source flags with `-d 0` (BAQ on) == (a) -> the difference is entirely BAQ; depth cap and -a/-aa contribute nothing. VARIANTS: (a) mapper.sh L68 verbatim `mpileup -aa --reference REF -A -d 0 -Q 0 | ivar variants -q 20 -t 0.03 -r REF` -> 346 rows (324 PASS); (b) IUC-rendered tabular, no GTF `mpileup -A -d 0 --reference REF -B -Q 0 | ivar variants -q 20 -t 0.03` (no -r) -> 352 rows (326 PASS). Keyed on POS/REF/ALT: all 346 (a) rows present in (b); 6 (b)-only rows (PASS: 3137 A>G AF 0.24, 5591 G>T AF 0.91; non-PASS: 1843 C>T, 8085 A>G, 8300 C>G, 8321 A>T); 0 PASS flips on shared rows; 177 shared rows differ in ALT_FREQ (max |dAF| 0.124 at 2491 T>C), depth/qual columns differ (BAQ). Source-style summary filter (PASS, 0.2<AF<0.8; not carried, see filtered-variant-frequency-table-not-carried): 2 vs 3 rows. `-r REF` with vs without: byte-identical for both pileups (no GFF; REF from pileup). DEPTH: `-d 0` confirmed unlimited (samtools logs 'Max depth set to maximum value (2147483647)'); max pileup depth 246,366 (pos 7295); 3,468 positions > 10,000; `-d 10000` caps max at 10,074 and alters depth at 3,838 positions (default 8000: 3,948) -> the -d 10000 vs 0 difference WAS exercised on this fixture. EMPTY BAM (header-only): see low-coverage-and-empty-bam-behavior. WALL-CLOCK (amd64 emulation): consensus 3 chains 163 s, variants 4 chains 328 s, depth pileups 214 s, attribution + empty-BAM 105 s; ~13.5 min total. Scratch: _scratch/consensus/ (probe.sh, probe2.sh, scripts/cdiff.py, scripts/vdiff.py, out/)."
+    impact: 'Consensus: IUC wrapper deviation = BAQ only, 1 of 10,707 positions on the fixture (SNV vs +1 insertion at 5591); accepted by decision consensus-ivar-consensus-pin with brief-change recommendation consensus-pileup-baq-off. Variants: the variants iteration can rely on this comparison without re-probing - IUC ivar_variants deviation is BAQ-forced-off (+6 low-frequency/new rows, ALT_FREQ shifts, no PASS flips), -r irrelevant without a GFF. Depth cap needs no SRR25366733 re-check.'
+  - id: bedtools-genomecov-wrapper-collected
+    raised_by: advance-galaxy-draft-step
+    step: per_base_depth
+    evidence: "2026-10-20 gxwf tool-search 'genomecov' -> iuc~bedtools~bedtools_genomecoveragebed (7.36, tied with two jackcurragh ribogalaxy forks; top hit swebb pyGTF2bedGraph unrelated). tool-versions newest 2.31.1+galaxy0; tool-revisions --latest -> d57471728f7b (= IWC consensus-from-variation 0.4.5 pin). Wrapper (tools-iuc b9b16be49 tools/bedtools/genomeCoverageBed.xml, TOOL_VERSION 2.31.1; requirement bedtools 2.31.1): input_type bam -> `-ibam input`; report hist -> `-max $max` (XML default 0; summary manifest shows max optional/null - lossy); d true -> `-d`; output `output` format bedgraph with change_format hist -> tabular (change_format not carried by the summary manifest). Docker probe quay.io/biocontainers/bedtools:2.31.1--h13024bc_3 (amd64 emulation, 8 s total) reusing primer_trim probe BAMs: source verbatim `bedtools genomecov -d -ibam src.trimmed.sort.bam` vs rendered `bedtools genomecov -ibam <IUC ivar_trim BAM> -max 0 -d` -> both 10,707 lines, 3 columns, pos column = line number, 2,596 zero-depth rows, md5-identical (2a2cfbf3dda1d262d78f5e8f7aae2fab). Header-only BAM: both commands emit 10,707 rows of depth 0, exit 0. Scratch: _scratch/per_base_depth/out/."
+    impact: "per_base_depth reproduces the source depth table byte-for-byte; satisfies decision depth-table-keep-genomecov-d-layout and the 10,707-row acceptance criterion; Galaxy datatype is tabular. Test-plan can assert line count 10,707 and has_n_columns 3."
+  - id: ivar-variants-wrapper-collected
+    raised_by: advance-galaxy-draft-step
+    step: variants
+    evidence: "2026-10-20 gxwf tool-search 'ivar variants' -> top hit iuc~ivar_variants~ivar_variants (42.80; next iuc ivar_filtervariants 29.66, ivar_removereads 28.04, ivar_getmasked 26.44, freyja_variants 21.27 - none an iVar BAM variant caller). tool-versions newest 1.4.4+galaxy0; tool-revisions --latest -> sole changeset 5e5dfc9e71e2 (= IWC pe-wgs-ivar-analysis 0.4 pin). Command (tools-iuc b9b16be49 tools/ivar/ivar_variants.xml; summary manifest carries none): `ln -s ref ref.fa && ln -s input_bam sorted.bam && samtools mpileup -A -d 0 --reference ref.fa -B -Q 0 sorted.bam | ivar variants -p variants -q $min_qual -t $min_freq [-r ref.fa -g gtf only if gtf set]` - identical to chain (b) of discovery consensus-variants-pileup-parity-probe (same mulled container, shared ivar macros). Ports: input_bam (XML format bam), ref (XML format fasta) - manifest reports both as extension `data`; min_qual int 20; min_freq float 0.03 (both equal the source -q 20 -t 0.03); output_format conditional choice tabular|vcf|tabular_and_vcf (pass_only only in vcf branches, optional gtf in tabular branches); outputs output_variants_tabular (tabular, filter choice in tabular|tabular_and_vcf; column_names metadata REGION..POS_AA) and output_variants_vcf (vcf, filtered out under tabular). Strict-state: unconnected optional `gtf` must be omitted, not null."
+    impact: "Identity, pin and port names for step variants; reference edge kept (wrapper `ref` port). Rendered command equals the probed wrapper chain, so the probe's variants comparison applies to this step without re-running."
+
+  - id: tp-sed-wrapper-collected
+    raised_by: advance-galaxy-draft-step
+    step: consensus_header
+    evidence: "2026-10-20 gxwf tool-search 'sed' -> top hit bgruening~text_processing~tp_sed_tool (57.56; next galaxyp pyprophet_export 45.74, none another text sed). tool-versions newest 9.11+galaxy0; tool-revisions --tool-version 9.11+galaxy0 -> 30b60202d990. Command (galaxytools a8748eb tools/text_processing/text_processing/sed.xml; TOOL_VERSION 9.11, suffix 0): `sed --sandbox -r [-n if advanced] -f '$sed_script' '$infile' > '$output'`, sed_script configfile = `$code`; requirement sed 4.9; code sanitizer allows string.printable minus apostrophe (backslash, ^, >, parens kept). Ports: infile (gx_data, XML format txt; fasta is a txt subclass), output (format_source infile -> stays fasta). Docker probe (quay.io/biocontainers/sed:4.9, GNU sed 4.9, configfile bytes reproduced incl. leading newline/indent; ~3 s wall-clock under amd64 emulation) on the real IUC ivar_consensus outputs from discovery consensus-variants-pileup-parity-probe: full fixture `>Consensus_denv3_test_threshold_0.75_quality_20` -> `>denv3_test.DENV3` (= source header), body byte-identical; zero-read record `>Consensus_<id>_threshold_0.75_quality_20\\n\\n` -> `>{id}.DENV3\\n\\n`, exit 0; synthetic `>Consensus_SRR25366733_threshold_0.75_quality_20` -> `>SRR25366733.DENV3`. Scratch: _scratch/consensus_header/."
+    impact: "Identity, pin and port names (infile/output) for step consensus_header; closes consensus-fasta-header-naming; adds the sed half of the zero-read check to low-coverage-and-empty-bam-behavior."
+  - id: srr25366733-ena-files-verified
+    raised_by: find-test-data
+    evidence: "ENA filereport (2026-10-20): SRR25366733 fastq_ftp lists 3 files: SRR25366733.fastq.gz (1,446 B, unpaired orphans), _1 (10,477,526 B, md5 0411ecfe42382289106df93fc6c9ccca), _2 (11,262,585 B, md5 053c19a8cd0295ddd44723a071817cf4). Downloaded _1/_2 to _scratch/testdata: md5 match; SHA-1 a41c83519f9526558a5170afc4599d64bb4f9f8c / 09e1cc0c74dccbc68af7ce5009cec9907a290911; 183,384 reads each, 251 bp."
+    impact: "Primary fixture = _1/_2 only (183,384 pairs, not the 183,398 ENA read_count); ~21.7 MB total, fine for a test."
+  - id: repo-fixtures-raw-github-urls
+    raised_by: find-test-data
+    evidence: "denv3_test R1/R2 are plain git blobs (not LFS) at 8214cfb; raw.githubusercontent.com URLs return HTTP 200 with Content-Length equal to local sizes (91,521,631 / 87,023,977). DENV3.fasta and DENV3.bed raw-URL SHA-1 equals local SHA-1 (5787e2a1... / 1744aa0f...)."
+    impact: "Secondary fixture, reference and BED all resolvable as pinned remote URLs; no Zenodo upload needed."
+  - id: or150748-published-consensus-candidate
+    raised_by: find-test-data
+    evidence: "NCBI esearch nuccore 'DENV-3/USA/FL-BPHL-0001/2023' -> 1 hit OR150748.1 (BioSample SAMN35803652). 'SAMN35803653[BioSample]' -> 0 hits; elink biosample->nuccore empty. efetch FASTA SHA-1 824afd4a53c636d3a8de6fd70d7ddc2c2c7382af (10,537 bp, 8 N)."
+    impact: "Likely the published consensus for the test isolate, but BioSample mismatch means identity is not proven; use only as a loose comparison."
+decisions:
+  # --- Workflow Brief open questions (all ten, in brief order) ---
+  - id: oq-primer-scheme-for-trimming
+    decided_by: workflow-brief-to-galaxy-interface
+    open_question: "Which primer scheme amplified the test sample SRR25366733: DENV3-only or pan-serotype?"
+    basis: brief-proposal
+    review: accepted-proposal
+    confidence: low
+    decision: "Treat as DENV3 primers for trimming; trim with the DENV3 primer BED only, as the source does per reference."
+    rationale: "Brief proposal accepted unedited at expert review; paper suggests Florida validated the pan-serotype scheme but SRA metadata confirming pools is missing."
+  - id: oq-test-sample-metadata
+    decided_by: workflow-brief-to-galaxy-interface
+    open_question: "Is the test sample's metadata correct (DENV-3/USA/FL-BPHL-0001/2023, MiSeq 2×251, PRJNA973096)?"
+    basis: brief-proposal
+    review: expert-edited
+    decision: "Yes. Use SRR25366733 as the primary test sample (ENA: Illumina MiSeq, paired, BioSample SAMN35803653 alias DENV-3/USA/FL-BPHL-0001/2023, 183,398 read pairs, PRJNA973096)."
+    rationale: "Expert checked the ENA record 2026-10-20 and replaced the proposal with a confirmed answer; sample record authoritative over SRA file names (FL-BPHL-0005)."
+  - id: oq-published-consensus-comparison
+    decided_by: workflow-brief-to-galaxy-interface
+    open_question: "Should the produced consensus be compared against a published consensus genome for the test sample?"
+    basis: brief-proposal
+    review: accepted-proposal
+    confidence: low
+    decision: "Yes if a GenBank consensus for FL-BPHL-0001 can be located; otherwise structural criteria only."
+    rationale: "Brief proposal accepted unedited; accession not in local sources (see entry published-consensus-accession-unknown)."
+  - id: oq-reference-and-bed-source
+    decided_by: workflow-brief-to-galaxy-interface
+    open_question: "Which primer BED and reference copy are authoritative: the pinned repository files or the protocols.io release?"
+    basis: brief-proposal
+    review: accepted-proposal
+    confidence: low
+    decision: "Pinned repository files DENV3.fasta and DENV3.bed at v1.0."
+    rationale: "Brief proposal accepted unedited; exactly what the published pipeline used; protocols.io copy not compared."
+  - id: oq-completeness-metric
+    decided_by: workflow-brief-to-galaxy-interface
+    open_question: "Should a genome completeness/coverage metric be produced?"
+    basis: brief-proposal
+    review: accepted-proposal
+    confidence: low
+    decision: "No separate metric by default; consensus and depth outputs show completeness."
+    rationale: "Brief proposal accepted unedited; source computes it only for excluded serotype calling (see dropped entry serotype-coverage-plane-not-carried)."
+  - id: oq-consensus-min-depth
+    decided_by: workflow-brief-to-galaxy-interface
+    open_question: "What consensus minimum depth should be used: 10 or 20?"
+    basis: brief-proposal
+    review: accepted-proposal
+    decision: "10, adjustable (public integer workflow parameter, default 10)."
+    rationale: "Brief proposal accepted unedited; paper Methods, code default and Fig. S1 all say 10."
+  - id: oq-variant-output
+    decided_by: workflow-brief-to-galaxy-interface
+    open_question: "Which variant output should be produced: iVar's full variant table, or the pipeline's filtered and renamed table?"
+    basis: brief-proposal
+    review: accepted-proposal
+    decision: "Full iVar variants table (min quality 20, min frequency 0.03) as the variant calls."
+    rationale: "Brief proposal accepted unedited; filtered table serves excluded co-infection analysis."
+  - id: oq-always-emit-outputs
+    decided_by: workflow-brief-to-galaxy-interface
+    open_question: "Should outputs be produced regardless of how much of the genome is covered?"
+    basis: brief-proposal
+    review: accepted-proposal
+    decision: "Yes. Always emit consensus, variants and depth for DENV3, including low-coverage results; no 50% gate."
+    rationale: "Brief proposal accepted unedited; serotype known, serotype calling excluded (see entry low-coverage-and-empty-bam-behavior)."
+  - id: oq-trimmed-bam-output
+    decided_by: workflow-brief-to-galaxy-interface
+    open_question: "Should the primer-trimmed, sorted alignment be a workflow output?"
+    basis: brief-proposal
+    review: accepted-proposal
+    decision: "Yes, as a secondary public output `primer_trimmed_bam`."
+    rationale: "Brief proposal accepted unedited; source publishes it in results/bam_files."
+  - id: oq-repo-test-fixture
+    decided_by: workflow-brief-to-galaxy-interface
+    open_question: "Is the repository's DENV3 test fixture useful as an additional or smaller test?"
+    basis: brief-proposal
+    review: accepted-proposal
+    decision: "Yes, as a secondary test alongside SRR25366733."
+    rationale: "Brief proposal accepted unedited; note discovery repo-denv3-test-fixture-is-large (~178 MB, not smaller)."
+
+  # --- Interface decisions ---
+  - id: reads-as-list-paired
+    decided_by: workflow-brief-to-galaxy-interface
+    decision: "Workflow input `Paired-end reads`: collection type list:paired, element identifiers = sample IDs, forward/reverse members fastqsanger.gz (fastqsanger also acceptable)."
+    rationale: "Brief: per sample, forward and reverse FASTQ; per-sample outputs; mapping-over a list:paired gives sample-keyed outputs. Single test sample = one-element list."
+    evidence: [source-sample-layout-is-directory-convention]
+  - id: reference-as-history-fasta
+    decided_by: workflow-brief-to-galaxy-interface
+    decision: "Workflow input `DENV3 reference genome`: single dataset, fasta; used for mapping (index from history), consensus/variant pileups and iVar variants -r."
+    rationale: "Accepted answer: pinned repository DENV3.fasta; not a built-in genome."
+    evidence: [reference-not-a-builtin-genome, repo-bed-and-fasta-identical-to-test-refs]
+  - id: primer-bed-input
+    decided_by: workflow-brief-to-galaxy-interface
+    decision: "Workflow input `DENV3 primer BED`: single dataset, bed (6 columns, pool in col 5, strand col 6)."
+    rationale: "Brief input role DENV3 primer positions; accepted answer uses repository DENV3.bed."
+    evidence: [repo-bed-and-fasta-identical-to-test-refs]
+  - id: public-consensus-parameters-only
+    decided_by: workflow-brief-to-galaxy-interface
+    decision: "Expose only `Consensus frequency threshold` (float, default 0.75) and `Consensus minimum depth` (int, default 10) as workflow parameters. Variant calling (-q 20, -t 0.03), trim -e, mpileup and mapping filter settings are fixed in-step."
+    rationale: "Brief Inputs list only these two as consensus parameters; paper says only these 'can be changed by the user'. Other settings are source behavior to follow."
+  - id: per-sample-list-outputs
+    decided_by: workflow-brief-to-galaxy-interface
+    decision: "Public outputs, each a list keyed by sample ID: `consensus_genome` (fasta), `variant_calls` (tabular iVar TSV), `per_base_depth` (tabular), `primer_trimmed_bam` (bam, secondary). No separate BAI output (Galaxy bam datatype carries its index). No serotype, summary, alignment, completeness or plot outputs."
+    rationale: "Brief Outputs and acceptance criteria; accepted answers oq-variant-output, oq-trimmed-bam-output, oq-completeness-metric; Scope/Excluded."
+  - id: no-extra-checkpoint-outputs
+    decided_by: workflow-brief-to-galaxy-interface
+    decision: "No additional checkpoint outputs promoted; the four public outputs already give content-level assertions (depth row count, consensus length/N masking, variant table header and rows)."
+    rationale: "Testability note: promote selectively; untrimmed BAM / pileups add interface noise without a stronger assertion."
+
+  # --- Data-flow decisions ---
+  - id: per-sample-map-over-topology
+    decided_by: workflow-brief-to-galaxy-data-flow
+    decision: "Linear per-sample map-over: map (list:paired -> list) -> filter -> sort -> ivar trim -> sort/index (fan-out, primer_trimmed_bam) -> {consensus, variants, per-base depth}. Reference and BED broadcast; no reductions, Apply Rules, cleanup or cross-sample steps."
+    rationale: "Source per-reference path in mapper.sh collapsed to DENV3; paper Methods and Fig. S1 agree on order."
+  - id: mapping-filter-exclude-2052
+    decided_by: workflow-brief-to-galaxy-data-flow
+    decision: "Post-mapping filter excludes flags 4 and 2048 (mask 2052) only; secondary (256) kept, no MAPQ filter."
+    rationale: "Brief intent (remove unmapped and supplementary) and source behavior at samtools 1.17 coincide."
+    evidence: [samtools-repeated-F-flags-are-ORed]
+  - id: two-independent-pileup-branches
+    decided_by: workflow-brief-to-galaxy-data-flow
+    decision: "Consensus and variants each get their own pileup from the sorted trimmed BAM (consensus -d 10000, variants -d 0); no shared pileup node. Fused pileup+caller wrappers or split pileup->caller are both acceptable if flags match."
+    rationale: "Brief acceptance criterion: variant calling 'on its own pileup'; source runs two mpileups with different -d."
+  - id: depth-table-keep-genomecov-d-layout
+    decided_by: workflow-brief-to-galaxy-data-flow
+    decision: "per_base_depth is native `bedtools genomecov -d -ibam` output: 3 columns (chrom, 1-based pos, depth), headerless, 10,707 lines; no cut/header transform."
+    rationale: "Brief requires one row per reference base covering every position, not the source's post-processed 2-column headed form; native layout makes the row-count assertion exact and avoids a placeholder transform. Reproducing the 2-column table is a single optional tabular transform if the expert wants it."
+  - id: no-coverage-gate-or-conditional
+    decided_by: workflow-brief-to-galaxy-data-flow
+    decision: "No conditional/when, filter-empty or 50% coverage gate; every sample flows to all four outputs."
+    rationale: "Accepted answer oq-always-emit-outputs; serotype calling excluded. Empty-BAM tool behavior remains open (low-coverage-and-empty-bam-behavior)."
+  - id: bwa-verbosity-threads-not-carried
+    decided_by: workflow-brief-to-galaxy-data-flow
+    decision: "BWA-MEM `-v 1 -t 2` not carried as step state; default BWA-MEM scoring in paired mode."
+    rationale: "Verbosity and thread count do not change alignments' scientific content; Galaxy manages threads."
+
+  # --- Template decisions ---
+  - id: template-fold-sort-nodes-into-wrappers
+    decided_by: workflow-brief-to-galaxy-template
+    decision: "Data-flow N3 sort_mapped folds into map_reads (coordinate-sorted BAM output required) and N5 sort_trimmed folds into primer_trim (sorted, indexed output required). Draft steps: map_reads -> filter_mapped_primary -> primer_trim -> {consensus -> consensus_header, variants, per_base_depth}."
+    rationale: "Data-flow brief allows folding N3; IUC ivar_trim sorts internally (contrary to the data-flow 'unsorted' assumption, which holds for the binary only). Conditional on those wrappers: if phase 5 selects a mapper or trimmer that does not sort, a sort step is a repair-galaxy-draft-topology escalation, as recorded in each step's _plan_out."
+    evidence: [iuc-ivar-trim-sorts-output]
+  - id: fused-pileup-caller-node-per-branch
+    decided_by: workflow-brief-to-galaxy-template
+    decision: "Consensus and variants are each one pileup+caller node fed directly by primer_trim (no separate pileup node). The pileup-flag parity choice (ivar-wrapper-pileup-deviation-choice) is left to the per-step loop and must be recorded there."
+    rationale: "Fits every parity outcome except a split pileup->caller path (accept recorded deviation, authored wrapper exposing flags, other discovered fused wrapper); no known wrapper takes a pileup dataset, so a split path would be a repair escalation. Topology half of two-pileup-settings is settled (two independent branches); wrapper-flag half stays open."
+    evidence: [iuc-ivar-consensus-pileup-flags, iuc-ivar-variants-pileup-flags-and-r]
+  - id: reference-wired-to-consensus-and-variants
+    decided_by: workflow-brief-to-galaxy-template
+    decision: "`DENV3 reference genome` is wired into consensus as well as variants (and map_reads)."
+    rationale: "Source consensus pileup uses `--reference` (BAQ on). The IUC ivar_consensus wrapper has no reference port; choosing it means dropping this edge, which is itself the deviation decision and must be recorded under ivar-wrapper-pileup-deviation-choice, not done silently."
+  - id: consensus-header-sed-node
+    decided_by: workflow-brief-to-galaxy-template
+    decision: "Add step consensus_header (header normalization) after consensus; `consensus_genome` is promoted from it. Target header `>{element_id}.DENV3`, e.g. IUC header form via `/^>/s/Consensus_(.*)_threshold_.*/\\1.DENV3/`."
+    rationale: "Reproduces source `-i ${fname}.DENV3` header and gives test-plan a stable exact-header assertion; same idiom as IWC pe-wgs-ivar-analysis 'Consensus genome (masked for depth)'. Harmless no-op if the chosen consensus wrapper already emits `<sample>.DENV3`. Topology half of consensus-fasta-header-naming; entry stays open until phase 5 binds the expression to the chosen consensus wrapper's header."
+    evidence: [iuc-ivar-consensus-header-from-element-id]
+  - id: template-wrapper-tiers
+    decided_by: workflow-brief-to-galaxy-template
+    decision: "Identity-pinned (versionless repo tool_id, tool_version TODO): map_reads (devteam bwa_mem), filter_mapped_primary (iuc samtools_view), primer_trim (iuc ivar_trim), consensus_header (bgruening tp_sed_tool), per_base_depth (iuc bedtools_genomecoveragebed). Deferred (tool_id TODO): consensus, variants."
+    rationale: "Pins rest on corpus use of the same wrapper for the same operation (iwc-corpus-tool-pins), not on environment availability, which remains unverified (galaxy-wrapper-availability-unverified stays open). consensus/variants deferred because wrapper choice is coupled to the open pileup-parity decision; IUC ivar_consensus/ivar_variants are named in _plan_context as candidates only. Exemplar confidence Medium; genomecov pin from rank-3 pattern-only exemplar (state probe-verified)."
+    confidence: low
+  - id: map-reads-bwa-mem-pin
+    decided_by: advance-galaxy-draft-step
+    step: map_reads
+    decision: "map_reads = devteam/bwa/bwa_mem 0.7.19+galaxy1 (changeset c598cbb8b019). State: reference_source history (index_a auto), fastq_input paired_collection fed by `Paired-end reads` (list:paired map-over -> one BAM per sample element), rg do_not_set, analysis_type illumina, output_sort coordinate. Output bam_output (hidden) feeds filter_mapped_primary."
+    rationale: "Identity pin confirmed by Tool Shed discovery; newest wrapper revision chosen over the exemplar's 0.7.19 (same bwa binary, one wrapper revision newer). Exemplar idiom reused minus fastp upstream (brief: no trimming before mapping)."
+    evidence: [bwa-mem-wrapper-collected, iwc-corpus-tool-pins]
+
+  - id: filter-mapped-primary-samtools-view-pin
+    decided_by: advance-galaxy-draft-step
+    step: filter_mapped_primary
+    decision: "filter_mapped_primary = iuc/samtools_view 1.22+galaxy2 (changeset 5cf9fcc93508). State: mode.outtype selected_reads; filter_config exclusive_filter ['4','2048'] (-F 2052), inclusive_filter / exclusive_filter_all unset (-f 0 / -G 0), quality / cigarcons unset, no region/RG/expression/tag/qname filters; subsample fraction factor 1 (off); output_options retained, complementary_output false, oformat bam; addref no. Input `input` <- map_reads/bam_output; output `outputsam` (hidden) feeds primer_trim."
+    rationale: "Identity pin confirmed by Tool Shed discovery; newest wrapper revision (exemplar used 1.22+galaxy1). Exemplar inclusive_filter ['1','2'] and quality 20 deliberately not copied (decision mapping-filter-exclude-2052)."
+    evidence: [samtools-view-wrapper-collected, samtools-repeated-F-flags-are-ORed, iwc-corpus-tool-pins]
+
+  - id: primer-trim-ivar-trim-pin
+    decided_by: advance-galaxy-draft-step
+    step: primer_trim
+    decision: "primer_trim = iuc/ivar_trim 1.4.4+galaxy1 (changeset 6606a8c97889). State: primer.source history (input_bed <- `DENV3 primer BED`), amplicons.filter_by '' (no -f), primer_pos_wiggle 0, inc_primers true (-e), min_qual 20, window_width 4, trimmed_length.filter auto (-m -1). Input input_bam <- filter_mapped_primary/outputsam; output output_bam (visible) is the public primer_trimmed_bam and feeds consensus, variants, per_base_depth."
+    rationale: "Identity pin confirmed by Tool Shed discovery at the newest version (= exemplar). Every option set explicitly at the iVar binary default the source relies on; exemplar amplicons yes_compute not copied. Empirical parity with the source trim chain on the full repo fixture."
+    evidence: [ivar-trim-wrapper-collected, ivar-trim-e-is-inc-primers, ivar-1-4-4-binary-defaults-match-wrappers, iwc-corpus-tool-pins]
+  - id: consensus-ivar-consensus-pin
+    decided_by: advance-galaxy-draft-step
+    step: consensus
+    decision: "consensus = iuc/ivar_consensus 1.4.4+galaxy0 (changeset 1c5448133894), accepting a recorded, quantified pileup deviation. State: input_bam <- primer_trim/output_bam; min_freq <- `Consensus frequency threshold` and min_depth <- `Consensus minimum depth` (ConnectedValue); min_qual 20, min_indel_freq 0.8, depth_action '-n N' set explicitly (iVar defaults). Output consensus (hidden) -> consensus_header. The planned `DENV3 reference genome` -> consensus edge is DROPPED: the wrapper has no reference port, so its pileup runs without --reference (BAQ off), -a instead of -aa, -d 0 instead of 10000."
+    rationale: 'Only Tool Shed wrapper for iVar consensus; no shed tool feeds iVar from a pileup dataset (split path would need repair plus an authored caller). Brief lists the pileup flags as source behavior preferred unless overridden and names only -aa -A -d 10000 -Q 0 (not --reference/BAQ); acceptance criteria (0.75/10, low-depth masking) are met. Probe on the full fixture: identical N mask, 1 called-position difference of 10,707, attributable entirely to BAQ; -d cap and -a/-aa have no effect on calls (aside from a zero-read sample yielding an empty-sequence record). Because calls do differ, the choice is surfaced to the expert as brief-change recommendation consensus-pileup-baq-off rather than settled silently; authoring a BAQ-on wrapper remains the alternative if the expert rejects it.'
+    evidence:
+      - ivar-consensus-wrapper-collected
+      - consensus-variants-pileup-parity-probe
+      - iuc-ivar-consensus-pileup-flags
+
+  - id: per-base-depth-bedtools-genomecov-pin
+    decided_by: advance-galaxy-draft-step
+    step: per_base_depth
+    decision: "per_base_depth = iuc/bedtools/bedtools_genomecoveragebed 2.31.1+galaxy0 (changeset d57471728f7b). State: input_type.input_type_select bam (input <- primer_trim/output_bam), report.report_select hist with max 0, d true; split false, strand '' (both), dz/five/three false. Output `output` (tabular, visible) is the public per_base_depth."
+    rationale: "Identity pin confirmed by Tool Shed discovery at the newest version (= corpus pin). hist mode needed because the bg branch emits -bg, which bedtools rejects with -d (discovery bedtools-genomecov-wrapper-d-requires-hist-mode); max 0 set explicitly to match the probed command. Empirical byte parity with source on the full repo fixture and on an empty BAM; no transform step needed."
+    evidence: [bedtools-genomecov-wrapper-collected, bedtools-genomecov-wrapper-d-requires-hist-mode, iwc-corpus-tool-pins]
+
+  - id: variants-ivar-variants-pin
+    decided_by: advance-galaxy-draft-step
+    step: variants
+    decision: "variants = iuc/ivar_variants 1.4.4+galaxy0 (changeset 5e5dfc9e71e2), accepting a recorded, quantified pileup deviation. State: input_bam <- primer_trim/output_bam; ref <- `DENV3 reference genome`; min_qual 20, min_freq 0.03 set explicitly (= source -q 20 -t 0.03, not exposed; decision public-consensus-parameters-only); output_format.choice tabular, no gtf (full unfiltered native table; no VCF, no pass_only - decision oq-variant-output). Output output_variants_tabular (visible) is the public variant_calls. Wrapper pileup is `-A -d 0 --reference REF -B -Q 0` vs source `-aa --reference REF -A -d 0 -Q 0`: BAQ forced off (-B) and no -aa; ivar -r omitted without a GTF."
+    rationale: "Only Tool Shed iVar variants wrapper; no shed iVar caller consumes a pileup dataset, so exact BAQ-on parity needs an authored wrapper or a split path with an authored caller. The brief fixes `-q 20 -t 0.03` on its own pileup (met) and names the pileup flags only as source behavior preferred unless overridden. Existing probe (not re-run; rendered command equals probe chain b): all 346 source rows reproduced, 6 extra wrapper rows (2 PASS: 3137 A>G AF 0.24, 5591 G>T AF 0.91 - the same BAQ site as the consensus difference), 0 PASS flips, ALT_FREQ shifts up to 0.124; -aa moot for variant rows; -r byte-neutral without GFF. Because the table differs, the choice is surfaced to the expert as brief-change recommendation variants-pileup-baq-off rather than settled silently; authoring a BAQ-on variants wrapper is the alternative if rejected."
+    evidence:
+      - ivar-variants-wrapper-collected
+      - consensus-variants-pileup-parity-probe
+      - iuc-ivar-variants-pileup-flags-and-r
+
+  - id: consensus-header-tp-sed-pin
+    decided_by: advance-galaxy-draft-step
+    step: consensus_header
+    decision: "consensus_header = bgruening/text_processing/tp_sed_tool 9.11+galaxy0 (changeset 30b60202d990). State: infile <- consensus/consensus (ConnectedValue); code `/^>/s/Consensus_(.*)_threshold_.*/\\1.DENV3/`; adv_opts.adv_opts_selector basic. Output `output` (visible) is workflow output consensus_genome."
+    rationale: "Template identity pin confirmed by environment discovery; newest version chosen over the IWC 9.5+galaxy3 pin (same command shape). Greedy `(.*)` captures the full sanitized element id up to the last `_threshold_`, so element ids with underscores survive. Empirically yields the source header `<sample>.DENV3` on real wrapper output and leaves sequence (or an empty sequence line) untouched."
+    evidence:
+      - tp-sed-wrapper-collected
+      - consensus-variants-pileup-parity-probe
+
+brief_change_recommendations:
+  - id: consensus-pileup-baq-off
+    raised_by: advance-galaxy-draft-step
+    proposed_change: "Under Requirements and preferences, consensus pileup: accept the IUC ivar_consensus pileup `samtools mpileup -A -a -d 0 -Q 0` without a reference (BAQ off) in place of the source's `-aa --reference REF -A -d 10000 -Q 0` (BAQ on); or, if BAQ-on parity is required, say so explicitly (which would require authoring a consensus wrapper)."
+    reason: 'Consensus calls differ: on the full denv3_test fixture the BAQ-off wrapper calls G>T at ref 5591 where the source keeps G and inserts T (+1 bp length); every other position and the whole N mask agree. The current brief text names -aa/-d 10000 but not BAQ, so it neither requires nor forbids this.'
+    evidence:
+      - consensus-variants-pileup-parity-probe
+      - consensus-ivar-consensus-pin
+    status: proposed
+  - id: variants-pileup-baq-off
+    raised_by: advance-galaxy-draft-step
+    proposed_change: "Under Requirements and preferences, variants pileup (sibling of consensus-pileup-baq-off): accept the IUC ivar_variants pileup `samtools mpileup -A -d 0 --reference REF -B -Q 0` (BAQ forced off, no -aa) and `ivar variants -q 20 -t 0.03` without `-r` (no GFF) in place of the source's `-aa --reference REF -A -d 0 -Q 0 | ivar variants -q 20 -t 0.03 -r REF` (BAQ on); or, if BAQ-on parity is required, say so explicitly (which would require authoring a variants wrapper). The expert may decide both recommendations together: one BAQ policy for both pileups."
+    reason: "Variant table differs: on the full denv3_test fixture the BAQ-off wrapper reproduces all 346 source rows and adds 6 (2 PASS: 3137 A>G AF 0.24, 5591 G>T AF 0.91; 4 non-PASS), with no PASS flips and ALT_FREQ shifts up to 0.124 on 177 shared rows. Under the source's own downstream summary filter (PASS, 0.2<AF<0.8; not carried) that is 3 rows vs 2. Dropping `-r` has no effect without a GFF. The brief text neither requires nor forbids BAQ."
+    evidence:
+      - consensus-variants-pileup-parity-probe
+      - variants-ivar-variants-pin
+    status: proposed

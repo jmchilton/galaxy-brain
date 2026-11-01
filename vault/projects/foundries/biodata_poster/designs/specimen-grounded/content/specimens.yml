@@ -1,0 +1,64 @@
+# Specimen labels. Graphs, pins, marks and ledger counts come from ./data at build time.
+# Every open ledger entry needs a gloss here; a gloss for a missing or resolved id fails the build.
+# show_defects: how many glossed entries to print on the card (the rest are counted).
+
+specimens:
+  dengueseq-brief:
+    workflow: runs/dengueseq-brief/galaxy-workflow.gxwf.yml
+    run: dengueseq-brief
+    rankdir: LR
+    show_defects: 5
+    glosses:
+      low-coverage-and-empty-bam-behavior: "A zero-read sample gives an empty consensus record, where the source writes 10,707 Ns."
+      serotype-coverage-plane-not-carried: "Dropped at review: serotype calling and the paper's genome-completeness metric."
+      filtered-variant-frequency-table-not-carried: "Dropped at review: the filtered intrahost-variant table. The full iVar table is output instead."
+      consensus-baq-deviation-check-on-test-sample: "The Galaxy iVar wrapper turns BAQ off. 1 of 10,707 consensus positions differs on the repo fixture; not yet checked on SRR25366733."
+      variants-baq-deviation-check-on-test-sample: "Same BAQ deviation for variants: 6 extra rows (2 PASS) of 352 on the repo fixture; not yet checked on SRR25366733."
+
+  dengueseq-direct:
+    workflow: runs/dengueseq-direct/galaxy-workflow.gxwf.yml
+    run: dengueseq-direct
+    rankdir: LR
+    show_defects: 2
+    extra_defects:
+      - "Planemo red on a test-assertion defect: has_line_matching must match a whole line, and the test's regex did not. All 8 jobs ran ok."
+    glosses:
+      test-sample-primer-pool-unverified: "Not verified that the DENV3 primer BED fits the test sample's pan-serotype primer pools."
+      variants-frequency-filtered-view-not-carried: "Dropped by default, with no expert ruling: the filtered intrahost-variant view."
+      genome-completeness-qc-not-carried: "Dropped by default: the paper's genome-completeness metric."
+      ivar-pileup-settings-reproducible: "Neither Galaxy iVar wrapper reproduces the source's pileup flags (BAQ, -aa)."
+
+  bacass:
+    workflow: runs/bacass/galaxy-workflow.gxwf.yml
+    run: bacass
+    rankdir: LR
+    show_defects: 2
+    glosses:
+      graph-assertion-full-line-regex: "Planemo red: the test's '^S\\t1\\t' and '^L\\t' graph assertions never match, because has_line_matching must match a whole line. The debug phase found the outputs correct."
+      tool-extra-args-not-exposed: "Dropped: free-form extra fastp and Unicycler arguments (empty by default in the source)."
+      samplesheet-genomesize-not-carried: "Dropped: per-sample genome size, unused on the short-read path."
+
+  demo:
+    workflow: runs/demo/galaxy-workflow.gxwf.yml
+    run: demo
+    rankdir: LR
+    show_defects: 1
+    extra_defects:
+      - "Test case 2 (skip trimming) has no verdict: Planemo itself crashed checking skipped outputs. A harness bug, not a workflow failure."
+    glosses:
+      mixed-paired-or-unpaired-path-no-corpus-precedent: "One mixed single/paired-end path with no IWC precedent; it rests on Galaxy collection semantics alone."
+      seqtk-trimfq-source-snapshot-agreement: "Agreement of trimmed reads with the source's snapshot not yet shown."
+      skip-trim-output-absence-semantics: "How a test asserts skipped trimming is planned, not yet observed."
+      samplesheet-run-identifier-convention: "Run identifiers follow a fixture convention, not a fixed rule."
+      sample-name-charset-narrowing: "Galaxy identifiers allow fewer characters than source sample names."
+      mapover-nested-paired-or-unpaired-shape: "Map-over of nested paired-or-unpaired leaves only partly verified."
+      mixed-endedness-expect-failure-test: "Mixed-endedness rejection verified at runtime, not as a Planemo test."
+
+  uc1-mrsa:
+    workflow: runs/uc1-mrsa/galaxy-workflow-draft.iter1.gxwf.yml
+    rankdir: LR
+
+qr:
+  repo: https://github.com/galaxyproject/foundry
+  install: https://galaxyproject.github.io/foundry/usage/
+  preprint: https://doi.org/10.64898/2026.10.26.761864

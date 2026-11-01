@@ -1,0 +1,140 @@
+# All prose on the poster. Edit here, then ./build.sh.
+# Inline markup: **bold**, `code`, {->} arrow, {!=} not-equal, {=} equals (SVG glyphs), [[...]] placeholder style.
+
+title:
+  - From Papers and Conversations
+  - to Runnable Galaxy Workflows
+authors: John Chilton¹, Marius van den Beek¹, Dannon Baker², Danielle Callan³, Anton Nekrutenko¹
+affiliations:
+  - ¹ The Pennsylvania State University, University Park, PA, USA
+  - ² Johns Hopkins University, Baltimore, MD, USA
+  - ³ Temple University, Philadelphia, PA, USA
+venue: "**Galaxy Workflow Foundry** · CSHL Biological Data Science 2026"
+
+scan:
+  live:
+    label: Live results
+    note: ""
+    url: null              # set when the live page exists; until then the dashed slot renders
+    placeholder: "[[QR: live results]]"
+  qr:
+    - { label: Code, url: "https://github.com/galaxyproject/foundry", note: GitHub }
+    - { label: Install, url: "https://galaxyproject.github.io/foundry/usage/", note: skills }
+    - { label: "Preprint", url: "https://doi.org/10.64898/2026.10.26.761864", note: "[1]" }
+  install:
+    - { k: "Claude Code", v: "/plugin marketplace add galaxyproject/foundry" }
+    - { k: "Codex", v: "codex plugin marketplace add galaxyproject/foundry" }
+
+hero:
+  # Each beat is underlined with the mark the trace below uses for it.
+  beats:
+    - { text: "The model writes.", mark: model }
+    - { text: "The tools decide.", mark: tool }
+    - { text: "The gaps are written down.", mark: open }
+  # set beside the hero's second line
+  gloss: >-
+    Galaxy changes faster than model training data. So the Galaxy Workflow Foundry keeps that knowledge in a wiki [2] of
+    Molds (one per action, declaring what it needs), compiles each into an agent skill stamped with its sources' hashes.
+    Tools judge: Tool Shed (registry), gxwf (validator), Planemo (tests).
+thesis: A correct workflow is a knowledge problem, not a syntax problem.
+
+summary:
+  cells:
+    - { n: "1 paper", u: "dengue sequencing [3] + its code, picked after the skills were built" }
+    - { n: "13 phases", u: "one compiled skill each, in order" }
+    - { n: "7 tools", u: "pinned to Tool Shed revisions" }
+    - { n: "6 min · 2 h 23 min", u: "paper {->} brief, then brief {->} tested workflow" }
+    - { n: "7/7 jobs", u: "PASS in a real Galaxy (Planemo)" }
+    - { n: "5 open", u: "gaps, written down", cls: open }
+
+trace:
+  # subject line over the stat strip (design pass): what the one run was, at heading size
+  subject: "**One run:** the DengueSeq paper (dengue virus) {->} a tested Galaxy workflow"
+  runBrief: "Run 1 · 20 Oct · paper-to-workflow-brief"
+  runGalaxy: "Run 2 · 20–21 Oct · workflow-brief-to-galaxy"
+  review:
+    label: expert review
+    sub: "· an author (J.C.)"
+  breakLabel: ["6 h 58 min", "not drawn"]
+  branchSub: "(branch)"
+  legend:
+    title: "One row per skill, UTC clock"
+    model: the model wrote
+    tool: a tool decided
+    human: a person decided
+    pin: Tool Shed pin
+    mold: "Mold: hash of the knowledge compiled into the skill"
+  pins:
+    title: Seven rounds, seven pins
+    note: "Looked up in the Tool Shed index (`gxwf tool-search`), not recalled by the model. All 7: `hit`."
+  tools:
+    validate: { tag: PASS, detail: "gxwf: 7/7 tool states · 83 s" }
+    run: { tag: PASS, detail: "Planemo: 7/7 jobs · 33 min" }
+    attempt1: "attempt 1: infra (TMPDIR socket path too long), no workflow ran"
+  burndown:
+    head: Open requirements
+    zero: "0: never reached"
+    final: "5 open"
+    finalSub:
+      - 3 await the expert
+      - 2 cut in the reviewed brief
+    note: >-
+      19 raised, 14 resolved. Methods omit result-changing choices, so gaps are expected and written down.
+  footnote: >-
+    One run, not a sample: no rate can be read from it. Not yet: a replication of the paper's results, or the second
+    test case. Bars run from one artifact's timestamp to the next; short bars are widened. Burndown rebuilt from
+    `raised_by` / `resolved_by` in the final ledger.
+
+why:
+  head: Why tools decide
+  text: >-
+    In the companion Orbit study (open-weight models), a rule given only in the prompt was followed in **0 of 15**
+    graded runs. Skills are guidance, not enforcement.
+  cite: Baker et al. 2026 [1], pp. 16, 18
+
+inspect:
+  build:
+    head: Build provenance
+    file: "`discover-shed-tool/_provenance.json`, the skill behind the 7 pins (build `f275059e`, abridged)"
+    caption: >-
+      Compiling runs no model. A rewritten sidecar changes its hash ({!=}); a verbatim copy keeps it ({=}).
+  recompile:
+    head: Fix the knowledge, recompile
+    laterNote: "Jul: 3 note-format edits"
+    usedNote: "this run's build"
+    fixNote: "17 Jun, `73af1f62`: an expert-spec run (MRSA) falsely reported `integron_finder` missing from the Tool Shed. Mold and its test fixed, skill recompiled."
+    second: "22 Oct, PR #701: a test-assertion defect in 3 runs. 1 note fixed, 8 skills recompiled."
+    coda: Learning happens in the wiki, in a readable diff, not in model weights.
+  exec:
+    head: Execution provenance
+    caption: >-
+      Galaxy's record of what ran. Galaxy not pinned to a release; output bytes not retained, so the assertions are
+      the evidence.
+  ledger:
+    head: One open requirement
+    file: "`open-requirements.ledger.yml`, 1 of 19 entries, abridged"
+    caption: "In plain words: with no reads, Galaxy's wrapper gives an empty consensus; the paper's code gives 10,707 N."
+    gloss: "Molds append and resolve; what nothing closes stays open."
+
+notes:
+  - "Corpus at `main`, 2026-10-24: 420 notes · 56 Molds (27 reviewed) · 13 pipelines · 16 schemas · 69 skills · 31 CI pattern workflows green on Galaxy 26.1."
+  - "Upstream fixes the conversions forced: IUC #8808 and usegalaxy-tools #1791 (merged) · galaxy #24435 (open) · galaxy-tool-util-ts #205 (in gxwf 1.15.0; Foundry recompiled)."
+ask: "[[ASK]] Also Foundry-validated: nf-core/rnaseq and nf-core/atacseq rebuilds (atacseq partial). Details on the live page."
+refs:
+  - "Baker D, …, Nekrutenko A. Verifiable Agentic Science on Public Infrastructure. bioRxiv (2026). doi:10.64898/2026.10.26.761864. Fig. S4A: an earlier methods-text workflow (Hokken et al.)"
+  - "Karpathy A. LLM wiki. gist.github.com/karpathy/442a6bf555914893e9891c11519de94f (2026)"
+  - "Vogels CBF, Hill V, et al. DengueSeq: a pan-serotype whole genome amplicon sequencing protocol for dengue virus. BMC Genomics 25:433 (2024). Code: DENV_pipeline v1.0"
+
+# Build guard: the run must still say this, or the text above is stale.
+expect:
+  briefPhases: 2
+  galaxyPhases: 11
+  iterations: 7
+  entries: 19
+  open: 5
+  dropped: 2
+  resolved: 14
+  pins: 7
+  preFindTestDataOpen: 7
+  reviewProposals: 10
+  reviewEdited: 1

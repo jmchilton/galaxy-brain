@@ -1,14 +1,14 @@
 Follow-up to 🔀 #22860 - align the notebook extraction API names that are new in 26.2 with existing Galaxy conventions before 26.2.0 freezes them.
 
-***Every name changed here first appears in 26.2, so renaming now costs nothing; after 26.2.0 each one becomes a breaking API change.***
+***Every name changed here first appears in 26.2, so renaming now costs nothing; after 26.2 each one becomes a breaking API change.***
 
 #22860 added notebook (page) driven workflow extraction. Three of its wire names are outliers next to the API around them:
 
-| New in 26.2 | Existing convention | After this PR |
-|---|---|---|
-| `GET /api/pages/{id}/workflow_extraction_summary` | `GET /api/histories/{history_id}/extraction_summary` (26.1) | `GET /api/pages/{id}/extraction_summary` |
-| `OutputLabelHint.kind` (`hda`/`hdca`), `StepLabelHint.kind` (`job`/`implicit_collection_jobs`) | `(src, id)` references: `EncodedDataItemSourceId`, `InvocationInput`, `ToolRequestJobReference` | `src` |
-| `WorkflowExtractionByIdsPayload.report_title` | — | removed |
+| New in 26.2                                                                                    | Existing convention                                                                             | After this PR                            |
+| ---------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- | ---------------------------------------- |
+| `GET /api/pages/{id}/workflow_extraction_summary`                                              | `GET /api/histories/{history_id}/extraction_summary` (26.1)                                     | `GET /api/pages/{id}/extraction_summary` |
+| `OutputLabelHint.kind` (`hda`/`hdca`), `StepLabelHint.kind` (`job`/`implicit_collection_jobs`) | `(src, id)` references: `EncodedDataItemSourceId`, `InvocationInput`, `ToolRequestJobReference` | `src`                                    |
+| `WorkflowExtractionByIdsPayload.report_title`                                                  | —                                                                                               | removed                                  |
 
 No `kind: Literal` field exists anywhere else in `lib/galaxy/schema`. `src` already names a job in `ToolRequestJobReference` (`src: "job"`); `implicit_collection_jobs` has no exact precedent but is a context-local value, like `"tool_request"` in `history_graph.NodeRef`.
 

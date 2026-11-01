@@ -1,0 +1,92 @@
+# All poster copy. **bold**, *italic*, `mono`, {arrow} {times} {check} tokens.
+# Word guard: everything except title, authors, affiliations, refs and QR captions counts (<= 400).
+
+kicker: "Format 2 + gxwf · two lines, one route"
+title: ["Galaxy Type-Checks the Science,", "Not Just the Pipeline"]
+authors: "John Chilton<sup>1</sup>, Marius van den Beek<sup>1</sup>, Dannon Baker<sup>2</sup>, Danielle Callan<sup>3</sup>, Anton Nekrutenko<sup>1</sup>"
+affiliations:
+  - "<sup>1</sup>The Pennsylvania State University, University Park, PA, USA"
+  - "<sup>2</sup>Johns Hopkins University, Baltimore, MD, USA"
+  - "<sup>3</sup>Temple University, Philadelphia, PA, USA"
+live:
+  title: "Live results"
+  text: "Keeps updating after print."
+
+hero:
+  # {every} is set by build.mjs: "every" only if the rnaseq-pe run and the IWC corpus run both report 0 skips, else "each"
+  big: ["Galaxy can type-check {every} scientific", "tool call before a single job runs."]
+  sub: "Most pipelines check your ticket at the entrance. Galaxy checks it at {every} station."
+
+map:
+  stages: [Entrance, Trim, Align, Quantify, Coverage, QC, Report]
+  nf:
+    name: "nf-core/rnaseq"
+    engine: "Nextflow"
+    gate: "nf-schema checks pipeline parameters here"
+    open: "Inside each step, tool flags travel as free-form strings"
+    end: ["Flag typos surface", "when the job runs"]
+  gx:
+    name: "IWC rnaseq-pe"
+    engine: "Galaxy"
+    feeders: "parameter steps"
+  terminus:
+    tag: "Validated before compute"
+    big: "0 jobs run"
+    rows:
+      - "**{tool_ok}/{tool_n}** tool states ok"
+      - "**{conn_ok}/{conn_n}** connections ok"
+      - "**{skip}** skipped"
+    note: "{tool_sub} of the tool states sit inside subworkflows. Under a second on a warm cache."
+    cite: "One real report: `gxwf` {cli} on the community IWC workflow."
+
+key:
+  title: "Map key"
+  items:
+    - sym: gate
+      term: "Ticket gate"
+      text: "A type check. Each tool's parameters are checked against its typed tool schema: names, types, select options, conditionals."
+    - sym: open
+      term: "Open station"
+      text: "No tool-level check before the job runs."
+    - sym: gauge
+      term: "Track gauge"
+      text: "Every connection is type-checked, collections included. Swap this map's `list:paired` input for a plain `list` and {shape_bad} of {conn_n} connections are rejected, starting at fastp."
+    - sym: interchange
+      term: "Interchange"
+      text: "The collection changes shape. Map-over is inferred, not guessed; MultiQC reduces the list to one report."
+
+signs:
+  - id: types
+    title: "Where the types come from"
+    stat: "10,000+"
+    text: "Tool Shed tools served with typed parameter schemas."
+  - id: format2
+    title: "Format 2 makes the types writable"
+    ga_tag: "native .ga"
+    ga: ['"tool_state": "{', '  \"output_sort\":', '    \"coordsorted\"', '}"']
+    f2_tag: "Format 2"
+    f2: ["state:", "  output_sort: coordsorted"]
+  - id: typo
+    title: "A typo, caught first"
+    # code lines are rendered from data/planted.json (typo)
+    note: "Planted in this map's featureCounts step. Real `gxwf` output."
+  - id: everywhere
+    title: "Same check everywhere"
+    text: "One validator behind the CLI, VS Code, the browser and CI. Fast enough for an agent to repair in a tight loop."
+
+close:
+  big: "Designed for humans, so it works for agents."
+  text: "Galaxy Workflow Foundry agents write Format 2. `gxwf` decides when it is valid."
+
+ask:
+  label: "[[ASK]]"
+  text: "nf-core/rnaseq and nf-core/atacseq rebuilt as Galaxy workflows (A. Nekrutenko); atacseq partial. Foundry-validated."
+
+qrs:
+  - { id: docs, url: "https://jmchilton.github.io/galaxy-tool-util-ts/", label: "gxwf docs" }
+  - { id: slides, url: "https://jmchilton.net/slides/gcc2026/", label: "Slides" }
+  - { id: foundry, url: "https://galaxyproject.github.io/foundry/", label: "Foundry" }
+
+refs:
+  - "Stations after the nf-core/rnaseq metro map (Guinchard, Fellows Yates, Patel, Garcia; nf-core, CC BY). Tool-level checks per the gxwf manuscript, Table 1."
+  - "IWC rnaseq-pe at iwc `23ccd99`, checked with gxwf 1.15.0 (`--connections --strict-structure --strict-state`) on 2026-10-30."

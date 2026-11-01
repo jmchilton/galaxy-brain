@@ -1,0 +1,167 @@
+{
+  "schemaVersion": 1,
+  "kind": "differential-review-state",
+  "updatedAt": "2026-10-29T00:52:43.652Z",
+  "hunks": {
+    "h1:31613919eb5e6cf7": {
+      "snapshotId": "20261028T161320Z-hardening-e816c0542f05",
+      "path": "lib/galaxy_test/selenium/test_history_dataset_state.py",
+      "reviewedAt": "2026-10-29T00:52:02.465Z"
+    },
+    "h1:728c79241344130e": {
+      "snapshotId": "20261028T161320Z-hardening-e816c0542f05",
+      "path": "lib/galaxy/selenium/navigates_galaxy.py",
+      "reviewedAt": "2026-10-29T00:52:06.041Z"
+    },
+    "h1:100558fcf0072539": {
+      "snapshotId": "20261028T161320Z-hardening-e816c0542f05",
+      "path": "client/src/utils/navigation/navigation.yml",
+      "reviewedAt": "2026-10-29T00:52:07.072Z"
+    },
+    "h1:b2016634bd37e7aa": {
+      "snapshotId": "20261028T161320Z-hardening-e816c0542f05",
+      "path": "client/src/components/Workflow/Published/WorkflowPublishedButtons.vue",
+      "reviewedAt": "2026-10-29T00:52:11.277Z"
+    },
+    "h1:69578b38759616d2": {
+      "snapshotId": "20261028T161320Z-hardening-e816c0542f05",
+      "path": "client/src/components/Workflow/Published/WorkflowPublishedButtons.vue",
+      "reviewedAt": "2026-10-29T00:52:11.277Z"
+    },
+    "h1:ecc23f3fd1738ceb": {
+      "snapshotId": "20261028T161320Z-hardening-e816c0542f05",
+      "path": "client/src/components/TooltipOnHover.vue",
+      "reviewedAt": "2026-10-29T00:52:16.239Z"
+    },
+    "h1:422560be9265f69b": {
+      "snapshotId": "20261028T161320Z-hardening-e816c0542f05",
+      "path": "client/src/components/RuleCollectionBuilder.vue",
+      "reviewedAt": "2026-10-29T00:52:20.806Z"
+    },
+    "h1:ec062fbc15c70505": {
+      "snapshotId": "20261028T161320Z-hardening-e816c0542f05",
+      "path": "client/src/components/RuleCollectionBuilder.vue",
+      "reviewedAt": "2026-10-29T00:52:20.806Z"
+    },
+    "h1:6075883eaa92323a": {
+      "snapshotId": "20261028T161320Z-hardening-e816c0542f05",
+      "path": "client/src/components/RuleCollectionBuilder.vue",
+      "reviewedAt": "2026-10-29T00:52:20.806Z"
+    },
+    "h1:c1fedb0772586e73": {
+      "snapshotId": "20261028T161320Z-hardening-e816c0542f05",
+      "path": "client/src/components/Panels/MultiviewPanel.vue",
+      "reviewedAt": "2026-10-29T00:52:22.008Z"
+    },
+    "h1:b2f1b595a9dc95b9": {
+      "snapshotId": "20261028T161320Z-hardening-e816c0542f05",
+      "path": "client/src/components/JobInformation/JobInformation.test.js",
+      "reviewedAt": "2026-10-29T00:52:24.527Z"
+    },
+    "h1:605ad0188c90b54a": {
+      "snapshotId": "20261028T161320Z-hardening-e816c0542f05",
+      "path": "client/src/components/History/CurrentHistory/HistoryNavigation.test.ts",
+      "reviewedAt": "2026-10-29T00:52:32.517Z"
+    },
+    "h1:a71b4e7d0371c974": {
+      "snapshotId": "20261028T161320Z-hardening-e816c0542f05",
+      "path": "client/src/components/History/CurrentHistory/HistoryNavigation.vue",
+      "reviewedAt": "2026-10-29T00:52:30.975Z"
+    },
+    "h1:b6bee0adf9b7aa3a": {
+      "snapshotId": "20261028T161320Z-hardening-e816c0542f05",
+      "path": "client/src/components/History/CurrentHistory/HistoryNavigation.vue",
+      "reviewedAt": "2026-10-29T00:52:30.975Z"
+    },
+    "h1:d137ce09ae9f29f6": {
+      "snapshotId": "20261028T161320Z-hardening-e816c0542f05",
+      "path": "client/src/components/History/CurrentHistory/HistoryNavigation.test.ts",
+      "reviewedAt": "2026-10-29T00:52:32.517Z"
+    },
+    "h1:eee14c503cc226dd": {
+      "snapshotId": "20261028T161320Z-hardening-e816c0542f05",
+      "path": "client/src/components/Common/GCard.test.ts",
+      "reviewedAt": "2026-10-29T00:52:35.231Z"
+    },
+    "h1:83a3bc46f7162893": {
+      "snapshotId": "20261028T161320Z-hardening-e816c0542f05",
+      "path": "client/src/components/Common/GCard.test.ts",
+      "reviewedAt": "2026-10-29T00:52:35.231Z"
+    },
+    "h1:8d4f9b953c44222f": {
+      "snapshotId": "20261028T161320Z-hardening-e816c0542f05",
+      "path": "client/src/components/Common/GCard.vue",
+      "reviewedAt": "2026-10-29T00:52:35.804Z"
+    },
+    "h1:2b9032ea438c95f5": {
+      "snapshotId": "20261028T161320Z-hardening-e816c0542f05",
+      "path": "client/src/components/Common/GCard.vue",
+      "reviewedAt": "2026-10-29T00:52:35.804Z"
+    },
+    "h1:f6ecb0a6034024d9": {
+      "snapshotId": "20261028T161320Z-hardening-e816c0542f05",
+      "path": "client/src/components/History/Content/ContentOptions.test.ts",
+      "reviewedAt": "2026-10-29T00:52:37.678Z"
+    },
+    "h1:df0fe4e9d3af0927": {
+      "snapshotId": "20261028T161320Z-hardening-e816c0542f05",
+      "path": "client/src/components/History/Content/ContentOptions.vue",
+      "reviewedAt": "2026-10-29T00:52:39.036Z"
+    },
+    "h1:9d42f6ef4f933779": {
+      "snapshotId": "20261028T161320Z-hardening-e816c0542f05",
+      "path": "client/src/components/History/Content/ContentOptions.vue",
+      "reviewedAt": "2026-10-29T00:52:39.036Z"
+    }
+  },
+  "commits": {
+    "3781caef8314ca80c0a01e3d7e08841fb736ed97": {
+      "sha": "5435b4e10c91fa6a4a3a3841a1e6b77514c864aa",
+      "subject": "Baseline tests for history item edit button disabled state",
+      "snapshotId": "20261028T161320Z-hardening-e816c0542f05",
+      "signedOffAt": "2026-10-29T00:52:41.137Z"
+    },
+    "2adc4c38948c310e622eb3502133ced4b77dc356": {
+      "sha": "5cc7c46b2fca0f16040d63f060c20aa968aa238d",
+      "subject": "Show disabled history item edit button's 'not yet editable' tooltip",
+      "snapshotId": "20261028T161320Z-hardening-e816c0542f05",
+      "signedOffAt": "2026-10-29T00:52:42.369Z"
+    },
+    "5d41df6a5321cef946032df173136144474cf96d": {
+      "sha": "2c7f9fd491675d42465f20c69463fe0639d0b11b",
+      "subject": "Show disabled titles on history, multiview and workflow edit buttons",
+      "snapshotId": "20261028T161320Z-hardening-e816c0542f05",
+      "signedOffAt": "2026-10-29T00:52:42.754Z"
+    },
+    "cccefa1e4b5953259a32eebd5cd48d3f4911c225": {
+      "sha": "0a179ff08b961078a8e1c3c4614dcbe7e36383fc",
+      "subject": "Drop ContentOptions tooltip unit test duplicated by Selenium",
+      "snapshotId": "20261028T161320Z-hardening-e816c0542f05",
+      "signedOffAt": "2026-10-29T00:52:42.945Z"
+    },
+    "0a0a70664b238703f68fa4fb5b76739e171b793f": {
+      "sha": "1d935c72d14df31c307618591df4a9462aa5263d",
+      "subject": "Simplify edit tooltip titles via disabled-title; share tooltip click-away",
+      "snapshotId": "20261028T161320Z-hardening-e816c0542f05",
+      "signedOffAt": "2026-10-29T00:52:43.137Z"
+    },
+    "e49d5d81dcaed27f7ef14190c875a2b9fc48f164": {
+      "sha": "0d7b3961ae746b9c1bc4ddfc206ddd6ef496b8a0",
+      "subject": "Show disabled titles on GCard actions and rule builder buttons",
+      "snapshotId": "20261028T161320Z-hardening-e816c0542f05",
+      "signedOffAt": "2026-10-29T00:52:43.319Z"
+    },
+    "e049cecce598ec32b31361b6f12b46f5173248cf": {
+      "sha": "a4d12ab8b428677ee6736601b08ffff7449aa5b1",
+      "subject": "Test GCard disabled action tooltips; fix workflow_card_button selector",
+      "snapshotId": "20261028T161320Z-hardening-e816c0542f05",
+      "signedOffAt": "2026-10-29T00:52:43.487Z"
+    },
+    "52c60c8eb9673014f6464b60b70b18836790976e": {
+      "sha": "e816c0542f05167a07da4b4fbca67a019991cbcc",
+      "subject": "Explain disabled history switch button while switching",
+      "snapshotId": "20261028T161320Z-hardening-e816c0542f05",
+      "signedOffAt": "2026-10-29T00:52:43.652Z"
+    }
+  }
+}

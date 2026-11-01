@@ -1,0 +1,123 @@
+# All poster copy. Edit, then `./build.sh`.
+# Inline markup: **bold**, *italic*, `mono`; {arrow} {ne} {times} draw SVG glyphs (Overpass lacks them).
+# Body words (everything except title, authors, affiliations, refs, QR captions) are capped at 400 by the build.
+
+kicker: Foundry pattern · system map
+title: A Foundry for Your Field’s Edge
+subtitle: Agents, Knowledge, and Checks Beyond Galaxy
+authors: John Chilton<sup>1</sup>, Marius van den Beek<sup>1</sup>, Dannon Baker<sup>2</sup>, Danielle Callan<sup>3</sup>, Anton Nekrutenko<sup>1</sup>
+affiliations:
+  - <sup>1</sup>The Pennsylvania State University, University Park, PA, USA
+  - <sup>2</sup>Johns Hopkins University, Baltimore, MD, USA
+  - <sup>3</sup>Temple University, Philadelphia, PA, USA
+
+live:
+  title: Live results
+  text: Updated after print.
+
+hero:
+  a: Models already know the textbook.
+  b: Build a Foundry for your field’s edge.
+
+# ---------- map: SVG labels ----------
+zone:
+  title: The textbook
+  text: >-
+    Inside the circle, a frontier model writes the skill well. Delete one, and a blind model writes
+    it back from memory, caveats included [2].
+
+pattern:
+  stations: [[Knowledge, base], [Mold], [Cast], [Check]]
+  title: The pattern
+  text: One small core. Every line rides it.
+
+lib:
+  title: foundry-lib
+  text: Share converged mechanics. Keep domain meaning local.
+
+lines:
+  W: { name: Galaxy Workflow Foundry, sub: the first instance }
+  S: { name: Statistical Genomics Foundry }
+  T: { name: TDA Bioinformatics Foundry, sub: topological data analysis }
+
+termini:
+  W: [gxwf + Planemo, validate, then run]
+  S: [Critique today, calibration is the target]
+  T: [Locked environments, + replication evidence]
+  B: Observed BioContainer
+
+stations:
+  transfer: ["Stepped back:", new repository]
+  galaxy: Galaxy tool requirements
+
+bio:
+  rungs: [Pixi environment, local recipes, public channel, community maintained]
+
+# ---------- map: callouts ----------
+lesson:
+  tag: Lesson
+  head: Abstraction ahead of evidence
+  text: >-
+    Derive abstractions from a second application; fresh agent context breaks that rule. We
+    extracted foundry-lib early and bootstrapped from one prompt: “Both moved abstraction ahead of
+    evidence.”
+
+seeded:
+  head: “I seeded the Foundry wrong.”
+  text: >-
+    Four jobs at once, textbook skills included. “A better skill mill is still a skill mill.”
+
+receipts:
+  head: Hardening leaves receipts
+  items:
+    - "**TopoQA** reproduced, with caveats · **TopoMetry** partially · **HiPoNet** inconclusive"
+    - "**17** conda recipes · upstream PRs and issues"
+    - "Every build audits citations: **104** resolved, **0** mismatched"
+    - "A paper becomes a guarded Mold: “a prediction, not measured DockQ.”"
+
+measure:
+  head: "Biopixi: installing is a measurement."
+  text: L1–L3 are decidable from the lockfile. L4 needs observation.
+
+cta:
+  head: Your edge here
+  text: You bring the corpus and the check. The core comes with the line.
+
+matrix:
+  title: Stopping pattern
+  sub: foundry-lib packages each line calls at
+  # columns: the 9 shared, then the 3 only TDA uses (data/foundry-lib.json; build fails if that drifts)
+
+# ---------- key strip ----------
+key:
+  title: Map key
+  items:
+    - sym: line
+      term: A line is a Foundry
+      text: One field each. Every line runs the same core.
+    - sym: zone
+      term: The circle is the textbook
+      text: Shaded is what models know. A dent is progress past it [1].
+    - sym: shared
+      term: Shared stations are packages
+      text: Mechanics that converged across Foundries.
+    - sym: terminus
+      term: A terminus is a check
+      text: Each field supplies its own meaning of correct.
+    - sym: fault
+      term: Faults transfer lessons
+      text: A failure is a station. Its lesson rides on.
+    - sym: dashed
+      term: Dashed is not built yet
+      text: A pattern, not a turnkey solution.
+
+# ---------- footer (not counted) ----------
+qrs:
+  - { id: pattern, label: Foundry Pattern, url: "https://galaxyproject.github.io/foundry-pattern/" }
+  - { id: slides, label: Slides, url: "https://jmchilton.net/slides/foundry-pattern/" }
+  - { id: lib, label: foundry-lib, url: "https://jmchilton.github.io/foundry-lib/" }
+refs:
+  - Circle and dent after Might M. *The illustrated guide to a Ph.D.* matt.might.net, CC BY-NC 2.5.
+  - Chilton J. *The Foundry Pattern* (slides, 2026), blind-regeneration experiment.
+  - "Replications: jmchilton/topoqa-interface-quality-replication, topometry-cell-cycle-replication, hiponet-melanoma-replication. Upstream: Sylverity/petls-pytorch#1, conda-forge/staged-recipes#34367 (merged); yubingapril/TopoQA#1, bdjones13/PETLS#2 (open)."
+footnote: "Packages: `@galaxy-foundry/*` in each repo’s package.json; counts and statuses as of 2026-10-30."

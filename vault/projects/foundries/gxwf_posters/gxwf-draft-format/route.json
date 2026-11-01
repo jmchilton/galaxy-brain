@@ -1,0 +1,279 @@
+{
+ "denv": {
+  "brief": {
+   "pipeline": "paper-to-workflow-brief",
+   "phases": [
+    {
+     "n": 1,
+     "name": "summarize-paper",
+     "iterations": null
+    },
+    {
+     "n": 2,
+     "name": "freeform-summary-to-workflow-brief",
+     "iterations": null
+    }
+   ]
+  },
+  "galaxy": {
+   "pipeline": "workflow-brief-to-galaxy",
+   "phases": [
+    {
+     "n": 1,
+     "name": "workflow-brief-to-galaxy-interface",
+     "iterations": null
+    },
+    {
+     "n": 2,
+     "name": "workflow-brief-to-galaxy-data-flow",
+     "iterations": null
+    },
+    {
+     "n": 3,
+     "name": "compare-against-iwc-exemplar",
+     "iterations": null
+    },
+    {
+     "n": 4,
+     "name": "workflow-brief-to-galaxy-template",
+     "iterations": null
+    },
+    {
+     "n": 5,
+     "name": "advance-galaxy-draft-step",
+     "iterations": 7
+    },
+    {
+     "n": 6,
+     "name": "test-data-resolution",
+     "iterations": null
+    },
+    {
+     "n": 7,
+     "name": "workflow-brief-to-galaxy-test-plan",
+     "iterations": null
+    },
+    {
+     "n": 8,
+     "name": "implement-galaxy-workflow-test",
+     "iterations": null
+    },
+    {
+     "n": 9,
+     "name": "validate-galaxy-workflow",
+     "iterations": null
+    },
+    {
+     "n": 10,
+     "name": "run-workflow-test",
+     "iterations": null
+    },
+    {
+     "n": 11,
+     "name": "debug-galaxy-workflow-output",
+     "iterations": null
+    }
+   ]
+  },
+  "test": {
+   "validate": "pass",
+   "status": "pass",
+   "num_tests": 1,
+   "num_failures": 0,
+   "not_run": 1
+  }
+ },
+ "bacass": {
+  "brief": {
+   "pipeline": "nextflow-to-workflow-brief",
+   "phases": [
+    {
+     "n": 1,
+     "name": "summarize-nextflow",
+     "iterations": null
+    },
+    {
+     "n": 2,
+     "name": "nextflow-summary-to-workflow-brief",
+     "iterations": null
+    }
+   ]
+  },
+  "galaxy": {
+   "pipeline": "workflow-brief-to-galaxy",
+   "phases": [
+    {
+     "n": 1,
+     "name": "workflow-brief-to-galaxy-interface",
+     "iterations": null
+    },
+    {
+     "n": 2,
+     "name": "workflow-brief-to-galaxy-data-flow",
+     "iterations": null
+    },
+    {
+     "n": 3,
+     "name": "compare-against-iwc-exemplar",
+     "iterations": null
+    },
+    {
+     "n": 4,
+     "name": "workflow-brief-to-galaxy-template",
+     "iterations": null
+    },
+    {
+     "n": 5,
+     "name": "advance-galaxy-draft-step",
+     "iterations": 4
+    },
+    {
+     "n": 6,
+     "name": "test-data-resolution",
+     "iterations": null
+    },
+    {
+     "n": 7,
+     "name": "workflow-brief-to-galaxy-test-plan",
+     "iterations": null
+    },
+    {
+     "n": 8,
+     "name": "implement-galaxy-workflow-test",
+     "iterations": null
+    },
+    {
+     "n": 9,
+     "name": "validate-galaxy-workflow",
+     "iterations": null
+    },
+    {
+     "n": 10,
+     "name": "run-workflow-test",
+     "iterations": null
+    },
+    {
+     "n": 11,
+     "name": "debug-galaxy-workflow-output",
+     "iterations": null
+    }
+   ]
+  },
+  "test": {
+   "validate": "pass",
+   "status": "fail",
+   "num_tests": 1,
+   "num_failures": 1,
+   "not_run": 0
+  },
+  "debug": "assertion-mismatch (assertion-choice defect; not an output regression)"
+ },
+ "graphs": {
+  "draft": {
+   "sha": "daf2928",
+   "class": "GalaxyWorkflowDraft",
+   "steps": [
+    {
+     "id": "map_reads",
+     "concrete": true,
+     "from": []
+    },
+    {
+     "id": "filter_mapped_primary",
+     "concrete": true,
+     "from": [
+      "map_reads"
+     ]
+    },
+    {
+     "id": "primer_trim",
+     "concrete": true,
+     "from": [
+      "filter_mapped_primary"
+     ]
+    },
+    {
+     "id": "consensus",
+     "concrete": true,
+     "from": [
+      "primer_trim"
+     ]
+    },
+    {
+     "id": "consensus_header",
+     "concrete": false,
+     "from": [
+      "consensus"
+     ]
+    },
+    {
+     "id": "variants",
+     "concrete": false,
+     "from": [
+      "primer_trim"
+     ]
+    },
+    {
+     "id": "per_base_depth",
+     "concrete": false,
+     "from": [
+      "primer_trim"
+     ]
+    }
+   ]
+  },
+  "promoted": {
+   "sha": "b82fa5e",
+   "class": "GalaxyWorkflow",
+   "steps": [
+    {
+     "id": "map_reads",
+     "concrete": true,
+     "from": []
+    },
+    {
+     "id": "filter_mapped_primary",
+     "concrete": true,
+     "from": [
+      "map_reads"
+     ]
+    },
+    {
+     "id": "primer_trim",
+     "concrete": true,
+     "from": [
+      "filter_mapped_primary"
+     ]
+    },
+    {
+     "id": "consensus",
+     "concrete": true,
+     "from": [
+      "primer_trim"
+     ]
+    },
+    {
+     "id": "consensus_header",
+     "concrete": true,
+     "from": [
+      "consensus"
+     ]
+    },
+    {
+     "id": "variants",
+     "concrete": true,
+     "from": [
+      "primer_trim"
+     ]
+    },
+    {
+     "id": "per_base_depth",
+     "concrete": true,
+     "from": [
+      "primer_trim"
+     ]
+    }
+   ]
+  }
+ }
+}

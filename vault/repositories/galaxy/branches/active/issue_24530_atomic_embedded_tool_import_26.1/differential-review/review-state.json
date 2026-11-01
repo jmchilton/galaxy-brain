@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "kind": "differential-review-state",
+  "updatedAt": "2026-10-28T14:41:41.881Z",
+  "hunks": {
+    "h1:1f7a68fb17229c0a": {
+      "snapshotId": "20261028T053619Z-hardening-dadc555490f8",
+      "path": "lib/galaxy/managers/tools.py",
+      "reviewedAt": "2026-10-28T14:41:40.436Z"
+    },
+    "h1:ded0f7b51f1af702": {
+      "snapshotId": "20261028T053619Z-hardening-dadc555490f8",
+      "path": "lib/galaxy/managers/tools.py",
+      "reviewedAt": "2026-10-28T14:41:40.436Z"
+    },
+    "h1:320646546069b768": {
+      "snapshotId": "20261028T053619Z-hardening-dadc555490f8",
+      "path": "lib/galaxy/managers/tools.py",
+      "reviewedAt": "2026-10-28T14:41:40.436Z"
+    },
+    "h1:5f9f6521e7e1103f": {
+      "snapshotId": "20261028T053619Z-hardening-dadc555490f8",
+      "path": "lib/galaxy/managers/tools.py",
+      "reviewedAt": "2026-10-28T14:41:40.436Z"
+    },
+    "h1:4cc0eb9d08b34f6e": {
+      "snapshotId": "20261028T053619Z-hardening-dadc555490f8",
+      "path": "lib/galaxy/managers/tools.py",
+      "reviewedAt": "2026-10-28T14:41:40.436Z"
+    },
+    "h1:963c3400cb47f556": {
+      "snapshotId": "20261028T053619Z-hardening-dadc555490f8",
+      "path": "lib/galaxy/managers/workflows.py",
+      "reviewedAt": "2026-10-28T14:41:41.048Z"
+    },
+    "h1:3f4a8803dc821d68": {
+      "snapshotId": "20261028T053619Z-hardening-dadc555490f8",
+      "path": "lib/galaxy/managers/workflows.py",
+      "reviewedAt": "2026-10-28T14:41:41.048Z"
+    },
+    "h1:411a5c6644188c84": {
+      "snapshotId": "20261028T053619Z-hardening-dadc555490f8",
+      "path": "lib/galaxy/managers/workflows.py",
+      "reviewedAt": "2026-10-28T14:41:41.048Z"
+    },
+    "h1:527a47a7691896d8": {
+      "snapshotId": "20261028T053619Z-hardening-dadc555490f8",
+      "path": "lib/galaxy/managers/workflows.py",
+      "reviewedAt": "2026-10-28T14:41:41.048Z"
+    },
+    "h1:2437a9f406766602": {
+      "snapshotId": "20261028T053619Z-hardening-dadc555490f8",
+      "path": "lib/galaxy/managers/workflows.py",
+      "reviewedAt": "2026-10-28T14:41:41.048Z"
+    },
+    "h1:bb2039f3a99965b1": {
+      "snapshotId": "20261028T053619Z-hardening-dadc555490f8",
+      "path": "lib/galaxy/managers/workflows.py",
+      "reviewedAt": "2026-10-28T14:41:41.048Z"
+    },
+    "h1:697cfd6101d0484c": {
+      "snapshotId": "20261028T053619Z-hardening-dadc555490f8",
+      "path": "lib/galaxy/tool_util/toolbox/base.py",
+      "reviewedAt": "2026-10-28T14:41:41.272Z"
+    },
+    "h1:a8ca0e17964db45e": {
+      "snapshotId": "20261028T053619Z-hardening-dadc555490f8",
+      "path": "lib/galaxy/workflow/modules.py",
+      "reviewedAt": "2026-10-28T14:41:41.464Z"
+    },
+    "h1:33135aa895f220ad": {
+      "snapshotId": "20261028T053619Z-hardening-dadc555490f8",
+      "path": "lib/galaxy_test/api/test_workflows.py",
+      "reviewedAt": "2026-10-28T14:41:41.655Z"
+    },
+    "h1:e183fb8489c4ffff": {
+      "snapshotId": "20261028T053619Z-hardening-dadc555490f8",
+      "path": "lib/galaxy_test/api/test_workflows.py",
+      "reviewedAt": "2026-10-28T14:41:41.655Z"
+    },
+    "h1:bc234950d340b225": {
+      "snapshotId": "20261028T053619Z-hardening-dadc555490f8",
+      "path": "lib/galaxy_test/api/test_workflows.py",
+      "reviewedAt": "2026-10-28T14:41:41.655Z"
+    },
+    "h1:993d874d60067fd8": {
+      "snapshotId": "20261028T053619Z-hardening-dadc555490f8",
+      "path": "test/unit/app/tools/test_toolbox.py",
+      "reviewedAt": "2026-10-28T14:41:41.881Z"
+    },
+    "h1:0ce927ce7d816feb": {
+      "snapshotId": "20261028T053619Z-hardening-dadc555490f8",
+      "path": "test/unit/app/tools/test_toolbox.py",
+      "reviewedAt": "2026-10-28T14:41:41.881Z"
+    }
+  },
+  "commits": {}
+}

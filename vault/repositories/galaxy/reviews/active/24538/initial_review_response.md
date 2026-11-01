@@ -1,4 +1,4 @@
-(space for John's free style comments - just keep empty)
+We don't really do the suggestion below and I'm unsure if it has performance implications - clearly it slows things down a bit but I'm unsure if this is a crticical 
 
 <details><summary>Automated Review Details</summary>
 

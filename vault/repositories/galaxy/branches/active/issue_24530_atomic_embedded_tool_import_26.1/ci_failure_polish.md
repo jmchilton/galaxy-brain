@@ -1,9 +1,11 @@
 # CI failure found during polish (dadc555490f)
 
-Fork CI run [40638865157](https://github.com/jmchilton/galaxy/actions/runs/40638865157/job/122652057105), API tests (3.10): `TestCachedWorkflowsApi::test_run_workflow_use_cached_job_with_sample_sheet` fails at `GET /api/tools` with 500 "Could not convert toolbox to dictionary".
+Fork CI run [40638865157](https://github.com/jmchilton/galaxy/actions/runs/40638865157/job/122652057105), API tests (3.10): `TestCachedWorkflowsApi::test_run_workflow_use_cached_job_with_sample_sheet` fails at `GET /api/tools` with 500 "Could not convert toolbox to dictionary": `Tool.to_dict` reads `self.dynamic_tool.uuid` on an expired, detached `DynamicTool`.
 
-`Tool.to_dict` reads `self.dynamic_tool.uuid` and raises `DetachedInstanceError: Instance <DynamicTool> is not bound to a Session; attribute refresh operation cannot proceed`. Didn't fail on the checked `release_26.1` run.
+## Reproduced locally; inherited from the parent
 
-Likely cause (unverified): `rollback_tools_on_error` calls `session.rollback()`, which expires every instance in the request session, including `DynamicTool` rows the process-wide toolbox still holds (not only the ones it unloads). A later request then touches the expired, detached instance. Commits don't expire them, so this is new with the branch. Candidate fixes: a SAVEPOINT (`begin_nested`) scope, or refresh/expunge toolbox-held tools after rollback. Needs a reproduction and a decision.
+On one server, `TestAdminWorkflowsApi::test_import_embedded_admin_tool_after_step_metadata` (both params) then the cached test: the cached test fails on this branch **and on `workflow_import_embedded_tools` (82a993c494a)**. No failed import is involved, so it isn't the rollback. A successful embedded admin import leaves a toolbox-cached tool whose `DynamicTool` was expired by a later commit in the request (sessions use `expire_on_commit=True`) and then detached when the request session closed. #24475's own CI passed only because the tests ran on different xdist workers.
+
+A savepoint in `rollback_tools_on_error` (tried, reverted) doesn't change it.
 
 Other failures: Selenium `test_import_dataset_from_history` (fails on base); CWL conformance (no failed job).

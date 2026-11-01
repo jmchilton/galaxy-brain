@@ -1,0 +1,37 @@
+run_record_version: 1
+pipeline: workflow-brief-to-galaxy
+run_slug: demo-qc-trim-galaxy
+harness_name: pipeline-workflow-brief-to-galaxy
+source_revision: 5
+assembly_sha256: "63f975d7009d1de2096747d1c1baf1a469ef92a2a463e259cfe880192d83d96f"
+foundry_head: null
+started_at: "2026-10-16T23:07:16Z"
+finished_at: "2026-10-17T02:37:11Z"
+status: complete
+inputs:
+  workflow_brief: { file: workflow-brief.md, copied_from: ../demo-qc-trim-brief/workflow-brief.md, sha256: "792d56dec32bdded005af12ea317fa2db3fae86611cf6178cde20866c38b88d8" }
+  source_summary: { file: summary-nextflow.json, copied_from: ../demo-qc-trim-brief/summary-nextflow.json }
+  source_checkout: ../sources/nf-core-demo
+  expert_review: ../review.md
+preflight:
+  check_workflow_brief: { exit: 0, valid: true, ready: true, blockers: [] }
+  gxwf: "1.13.1 via npx (PATH gxwf reports 1.0.0 but --version is hardcoded; package is 1.8.2 per phase 9 — still below ^1.13.1)"
+  galaxy_tool_cache: "1.13.1 via npx (PATH copy is 1.0.0)"
+  planemo: "0.75.47 via uvx (PATH copy is 0.75.44)"
+  container_engine: "docker 29.8.2 linux/aarch64; singularity/apptainer/podman absent"
+phases:
+  - { n: 1, kind: mold, skill: workflow-brief-to-galaxy-interface, status: done, artifacts: [ { id: workflow-brief-galaxy-interface, file: workflow-brief-galaxy-interface.md, at: "2026-10-16T23:11:45Z" }, { id: open-requirements-ledger, file: open-requirements.ledger.yml, at: "2026-10-16T23:11:45Z" } ] }
+  - { n: 2, kind: mold, skill: workflow-brief-to-galaxy-data-flow, status: done, artifacts: [ { id: workflow-brief-galaxy-data-flow, file: workflow-brief-galaxy-data-flow.md, at: "2026-10-16T23:18:51Z" }, { id: open-requirements-ledger, file: open-requirements.ledger.yml, at: "2026-10-16T23:18:51Z" } ] }
+  - { n: 3, kind: mold, skill: compare-against-iwc-exemplar, status: done, artifacts: [ { id: iwc-comparison-notes, file: iwc-comparison-notes.md, at: "2026-10-16T23:26:37Z" }, { id: iwc-exemplar-gxformat2, file: iwc-exemplar.gxwf.yml, at: "2026-10-16T23:26:37Z" }, { id: open-requirements-ledger, file: open-requirements.ledger.yml, at: "2026-10-16T23:26:37Z" } ] }
+  - { n: 4, kind: mold, skill: workflow-brief-to-galaxy-template, status: done, artifacts: [ { id: galaxy-workflow-draft, file: galaxy-workflow-draft.gxwf.yml, at: "2026-10-16T23:54:11Z" }, { id: open-requirements-ledger, file: open-requirements.ledger.yml, at: "2026-10-16T23:54:11Z" } ] }
+  - { n: 5, kind: mold, skill: advance-galaxy-draft-step, status: done, iterations: 2, artifacts: [ { id: galaxy-workflow-draft, file: galaxy-workflow-draft.gxwf.yml, at: "2026-10-17T00:22:03Z", iteration: 1 }, { id: open-requirements-ledger, file: open-requirements.ledger.yml, at: "2026-10-17T00:22:03Z", iteration: 1 }, { id: galaxy-workflow-draft, file: galaxy-workflow-draft.gxwf.yml, at: "2026-10-17T00:40:03Z", iteration: 2 }, { id: galaxy-workflow, file: galaxy-workflow.gxwf.yml, at: "2026-10-17T00:40:03Z", iteration: 2 }, { id: open-requirements-ledger, file: open-requirements.ledger.yml, at: "2026-10-17T00:40:03Z", iteration: 2 } ] }
+  - { n: 6, kind: branch, pattern: test-data-resolution, status: done, selected: find-test-data, artifacts: [ { id: test-data-refs, file: test-data-refs.json, at: "2026-10-17T00:43:27Z" } ] }
+  - { n: 7, kind: mold, skill: workflow-brief-to-galaxy-test-plan, status: done, artifacts: [ { id: galaxy-test-plan, file: galaxy-test-plan.yml, at: "2026-10-17T00:54:15Z" }, { id: open-requirements-ledger, file: open-requirements.ledger.yml, at: "2026-10-17T00:54:15Z" } ] }
+  - { n: 8, kind: mold, skill: implement-galaxy-workflow-test, status: done, artifacts: [ { id: galaxy-workflow-test, file: galaxy-workflow.gxwf-tests.yml, at: "2026-10-17T00:58:24Z" }, { id: galaxy-workflow-test-expect-failure, file: galaxy-workflow.mixed-endedness-rejection.expect-failure.yml, at: "2026-10-17T00:58:24Z" } ] }
+  - { n: 9, kind: mold, skill: validate-galaxy-workflow, status: done, artifacts: [ { id: galaxy-workflow-validation-result, file: galaxy-workflow-validation-result.json, at: "2026-10-17T01:02:21Z" } ] }
+  - { n: 10, kind: mold, skill: run-workflow-test, status: done, note: "resumed after usage-limit interruption 2026-10-17; attempt-1 logs kept in workflow-test-run/", artifacts: [ { id: workflow-test-result, file: workflow-test-result.json, at: "2026-10-17T02:29:22Z" } ] }
+  - { n: 11, kind: mold, skill: debug-galaxy-workflow-output, status: done, artifacts: [ { id: workflow-debug-report, file: workflow-debug-report.md, at: "2026-10-17T02:37:11Z" } ] }
+outcome:
+  workflow: galaxy-workflow.gxwf.yml (gxwf validate pass)
+  tests: "case source_profile_test_default PASS (planemo); case skip_trim_switch ran clean but no planemo verdict (planemo 0.75.47 crash on null skipped leaves); mixed-endedness rejection not planemo-runnable, covered by evidence/guard-spike"
+  open: "repair choice R1/R2/R3 in workflow-debug-report.md pending user"

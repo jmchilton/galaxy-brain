@@ -1,0 +1,87 @@
+{
+  "schemaVersion": 1,
+  "kind": "differential-review-state",
+  "updatedAt": "2026-10-29T01:03:16.175Z",
+  "hunks": {
+    "h1:e360c6273f8ad57a": {
+      "snapshotId": "20261028T161350Z-hardening-937be9882a4a",
+      "path": "lib/galaxy/managers/datasets.py",
+      "reviewedAt": "2026-10-29T01:03:09.238Z"
+    },
+    "h1:b2e607b9f9ac3107": {
+      "snapshotId": "20261028T161350Z-hardening-937be9882a4a",
+      "path": "lib/galaxy/visualization/data_providers/registry.py",
+      "reviewedAt": "2026-10-29T01:03:10.004Z"
+    },
+    "h1:b2bb36da78d6193a": {
+      "snapshotId": "20261028T161350Z-hardening-937be9882a4a",
+      "path": "lib/galaxy/webapps/galaxy/api/users.py",
+      "reviewedAt": "2026-10-29T01:03:10.553Z"
+    },
+    "h1:a856bb33b60cd3d5": {
+      "snapshotId": "20261028T161350Z-hardening-937be9882a4a",
+      "path": "lib/galaxy/webapps/galaxy/services/datasets.py",
+      "reviewedAt": "2026-10-29T01:03:11.712Z"
+    },
+    "h1:6d98dc0ba437bfbb": {
+      "snapshotId": "20261028T161350Z-hardening-937be9882a4a",
+      "path": "lib/galaxy/webapps/galaxy/services/datasets.py",
+      "reviewedAt": "2026-10-29T01:03:11.712Z"
+    },
+    "h1:cd2e868c8b798011": {
+      "snapshotId": "20261028T161350Z-hardening-937be9882a4a",
+      "path": "lib/galaxy_test/api/test_datasets.py",
+      "reviewedAt": "2026-10-29T01:03:12.580Z"
+    }
+  },
+  "commits": {
+    "53cf5ffdad323dd1a3aea1197984fb30ad9a7a3d": {
+      "sha": "097f287d76d30d17d5677e251b8abdb735c372e2",
+      "subject": "Baseline tests for converted/{ext} reusing an existing conversion",
+      "snapshotId": "20261028T161350Z-hardening-937be9882a4a",
+      "signedOffAt": "2026-10-29T01:03:13.894Z"
+    },
+    "69448fa374d68db65a7b15b4a0beb54ada7e584c": {
+      "sha": "4bd3e788987e70447a28a0d0349d64315c29aaca",
+      "subject": "Look up existing implicit conversions through the HDA manager",
+      "snapshotId": "20261028T161350Z-hardening-937be9882a4a",
+      "signedOffAt": "2026-10-29T01:03:14.833Z"
+    },
+    "0930b96a2496994aca2d5e0e8384fa05949a0c34": {
+      "sha": "1274f58d63d134c2473d7405d777dfa910f2a696",
+      "subject": "Clarify get_accessible_converted docstring",
+      "snapshotId": "20261028T161350Z-hardening-937be9882a4a",
+      "signedOffAt": "2026-10-29T01:03:15.166Z"
+    },
+    "3d0d7dccdb4b437229708f4e8d8d97c36666a80a": {
+      "sha": "559503cd03cb6133a7689a8aad6a412ef3cbf867",
+      "subject": "Add converted/{ext} GET helper in dataset API tests",
+      "snapshotId": "20261028T161350Z-hardening-937be9882a4a",
+      "signedOffAt": "2026-10-29T01:03:15.374Z"
+    },
+    "0e972c127d64bb5d263741881a16157e5f935c11": {
+      "sha": "44343f33bc4a4faef2e1095ab779a8342bbd83a3",
+      "subject": "Check the conversion converted/{ext} returns, reuse error_unless_accessible",
+      "snapshotId": "20261028T161350Z-hardening-937be9882a4a",
+      "signedOffAt": "2026-10-29T01:03:15.532Z"
+    },
+    "2c39404db4816765cf658c7143b1a75e32f4232e": {
+      "sha": "933a2998f6ad2ba9a3c8bd0e4ced331243ceb236",
+      "subject": "Route data-provider conversions through get_accessible_converted; 400 for a pending custom build len",
+      "snapshotId": "20261028T161350Z-hardening-937be9882a4a",
+      "signedOffAt": "2026-10-29T01:03:15.724Z"
+    },
+    "f5a3546b2a54b38d8ba1f4f1cc552de4a24b91f1": {
+      "sha": "321d01ad0a1fa0d43824eafefe713792df9f8739",
+      "subject": "Drop unreachable pending-len guard; note why converted/{ext} skips the helper",
+      "snapshotId": "20261028T161350Z-hardening-937be9882a4a",
+      "signedOffAt": "2026-10-29T01:03:15.906Z"
+    },
+    "b141bffe01b6a02ba57d4ba7c97729e8fbef880d": {
+      "sha": "937be9882a4a7ffaea6b63e970bf1f81b2a2cac7",
+      "subject": "Check data-provider conversion dependencies through the HDA manager too",
+      "snapshotId": "20261028T161350Z-hardening-937be9882a4a",
+      "signedOffAt": "2026-10-29T01:03:16.175Z"
+    }
+  }
+}

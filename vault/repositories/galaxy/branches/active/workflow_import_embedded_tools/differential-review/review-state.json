@@ -1,0 +1,33 @@
+{
+  "schemaVersion": 1,
+  "kind": "differential-review-state",
+  "updatedAt": "2026-10-28T15:25:02.544Z",
+  "hunks": {
+    "h1:404a9d37865b40cc": {
+      "snapshotId": "20261027T194204Z-revision-82a993c494ad",
+      "path": "lib/galaxy/managers/workflows.py",
+      "reviewedAt": "2026-10-28T15:24:58.323Z"
+    },
+    "h1:b8d846ac88f46ed9": {
+      "snapshotId": "20261027T194204Z-revision-82a993c494ad",
+      "path": "lib/galaxy/workflow/modules.py",
+      "reviewedAt": "2026-10-28T15:25:01.320Z"
+    },
+    "h1:b70847565c712ca2": {
+      "snapshotId": "20261027T194204Z-revision-82a993c494ad",
+      "path": "lib/galaxy/workflow/modules.py",
+      "reviewedAt": "2026-10-28T15:25:01.320Z"
+    },
+    "h1:4d620ec1359cdf85": {
+      "snapshotId": "20261027T194204Z-revision-82a993c494ad",
+      "path": "lib/galaxy_test/api/test_workflows.py",
+      "reviewedAt": "2026-10-28T15:25:02.544Z"
+    },
+    "h1:7708fc3bb829398c": {
+      "snapshotId": "20261027T194204Z-revision-82a993c494ad",
+      "path": "lib/galaxy_test/api/test_workflows.py",
+      "reviewedAt": "2026-10-28T15:25:02.544Z"
+    }
+  },
+  "commits": {}
+}
