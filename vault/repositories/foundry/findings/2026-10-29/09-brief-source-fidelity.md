@@ -24,6 +24,7 @@ Nothing in the Mold tells the author how to verify a `file:line` cite, how to pa
 - Phase-2 transcript (`subagents/agent-a2823ecca88a1c949.jsonl` under this session's project dir): entry 47 runs `sed -n 199,202p modules.nf`. Entry 48's result starts `"  script: \n  sampleId = …"`, so the blank line 199 isn't visible. Entry 67's report says: "Phase 1 cites `modules.nf:201` …; it is actually line 200, and the brief cites 200."
 - `phase1-notes.md:17` (201, correct) and `:72` (ambiguous AF wording). `environment-probes.txt:12-13` (`conda: ABSENT`, `mamba: ABSENT`, nothing more).
 - Mold: `content/molds/nextflow-summary-to-workflow-brief/index.md:83` ("distinguish source facts from expert requirements") and `:89` (environment). There is no rule on citations or paraphrase. `content/research/workflow-brief-design/index.md:46,50` covers evidence for open questions, not its accuracy.
+- viralrecon (/home/ubuntu/foundry-runs/prose-nf2wb-viralrecon-2026-10-31, phase 2, ledger `brief-viralrecon-recurs-findings-09-10-29`): no wrong cite this time, but only because the driver supplied `.scratch/check_cites.py` (186 cites, 0 failures; it misses `tests/.nftignore`, cited by hand). The Mold still has no citation rule; the deterministic check came from the harness, not Foundry.
 
 ## Proposed fix
 
