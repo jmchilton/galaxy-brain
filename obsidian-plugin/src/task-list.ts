@@ -77,10 +77,15 @@ export function parseTasks(data: unknown, known: { profiles: string[]; agentDirs
 
 /** Each ```gb-tasks block's fence lines (0-based) and YAML source; unclosed blocks are skipped. */
 export function taskBlocks(note: string): Array<{ start: number; end: number; source: string }> {
+	return fencedBlocks(note, "gb-tasks");
+}
+
+/** Each ```<language> block's fence lines (0-based) and source; unclosed blocks are skipped. */
+export function fencedBlocks(note: string, language: string): Array<{ start: number; end: number; source: string }> {
 	const lines = note.split("\n");
 	const blocks = [];
 	for (let start = 0; start < lines.length; start++) {
-		if (lines[start]!.trim() !== "```gb-tasks") continue;
+		if (lines[start]!.trim() !== `\`\`\`${language}`) continue;
 		const end = lines.findIndex((line, i) => i > start && line.trim() === "```");
 		if (end < 0) break;
 		blocks.push({ start, end, source: lines.slice(start + 1, end).join("\n") });

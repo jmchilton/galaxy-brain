@@ -252,6 +252,20 @@
 .gb-tasks-empty { color: var(--text-muted); }
 .gb-tasks-error { color: var(--text-error); }
 
+/* ```gb-missed-prs and gb-missed-prs-feed blocks. */
+.gb-missed-prs { display: flex; flex-direction: column; gap: 6px; }
+.gb-missed-pr { border: 1px solid var(--background-modifier-border); border-radius: 6px; padding: 6px 8px; }
+.gb-missed-pr-head { display: flex; align-items: baseline; gap: 6px; font-weight: 600; }
+.gb-missed-pr-meta { color: var(--text-muted); font-size: var(--font-ui-smaller); }
+.gb-missed-pr-summary { white-space: pre-wrap; margin-top: 4px; }
+.gb-missed-pr-discussion-summary { white-space: pre-wrap; margin-top: 2px; font-size: var(--font-ui-small); color: var(--text-muted); }
+.gb-missed-pr-more { margin-top: 4px; font-size: var(--font-ui-small); }
+.gb-missed-pr-more > summary { cursor: pointer; color: var(--text-muted); }
+.gb-missed-pr-text { white-space: pre-wrap; margin-top: 2px; }
+.gb-missed-prs-day h3 { margin: 0.8em 0 0.3em; }
+.gb-missed-prs-empty { color: var(--text-muted); }
+.gb-missed-prs-error { color: var(--text-error); }
+
 /* Sync button above issues and reviews tabs. */
 .galaxy-brain-repository .gbr-sync { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
 

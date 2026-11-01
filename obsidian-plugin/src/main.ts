@@ -27,8 +27,10 @@ import { openDifferentialReview, registerDifferentialReview } from "./diff-revie
 import { compareUrl, githubUrl, worktreeCandidates } from "./record-links";
 import { parseRecordAgents, SYNC_PROCESSES, SYNC_PROFILE } from "./record-agents";
 import { repositoryNames } from "./repository";
+import { renderMissedPrCards } from "./missed-pr-cards";
+import { CRACKS_DIR, crackFiles, parseMissedPrs } from "./missed-prs";
 import { renderTaskCards } from "./task-cards";
-import { parseTasks, recordIndexPath, refinementPrompt, replaceBlockBody, type Task, type TaskRecord } from "./task-list";
+import { fencedBlocks, parseTasks, recordIndexPath, refinementPrompt, replaceBlockBody, type Task, type TaskRecord } from "./task-list";
 import { ALL_REPOS, REPOSITORY_VIEW, RepositoryView } from "./repository-view";
 
 const PROFILES_PATH = "agents/_shared/AGENT_PROFILES.yml";
@@ -89,6 +91,8 @@ export default class GalaxyBrainPlugin extends Plugin {
 		});
 
 		this.registerMarkdownCodeBlockProcessor("gb-tasks", (source, el, ctx) => this.renderTasks(source, el, ctx));
+		this.registerMarkdownCodeBlockProcessor("gb-missed-prs", (source, el) => this.renderMissedPrs(source, el));
+		this.registerMarkdownCodeBlockProcessor("gb-missed-prs-feed", (source, el, ctx) => this.renderMissedPrsFeed(source, el, ctx));
 
 		if (!Platform.isDesktopApp) return;
 
@@ -408,6 +412,34 @@ export default class GalaxyBrainPlugin extends Plugin {
 			remove: (_task, index) => void remove(index),
 			openRecord: (record, newLeaf) => this.openTaskRecord(record, newLeaf),
 		});
+	}
+
+	/** Cards for a ```gb-missed-prs block. */
+	private renderMissedPrs(source: string, el: HTMLElement) {
+		try {
+			renderMissedPrCards(el, parseMissedPrs(parseYaml(source)));
+		} catch (error) {
+			el.createDiv({ cls: "gb-missed-prs-error", text: `gb-missed-prs: ${error instanceof Error ? error.message : error}` });
+		}
+	}
+
+	/** Every merge-date file's ```gb-missed-prs blocks in a directory (body, default the_cracks), newest first. */
+	private async renderMissedPrsFeed(source: string, el: HTMLElement, ctx: MarkdownPostProcessorContext) {
+		const dir = source.trim() || CRACKS_DIR;
+		const files = crackFiles(this.app.vault.getMarkdownFiles().map((file) => file.path), dir);
+		if (files.length === 0) return void el.createDiv({ cls: "gb-missed-prs-empty", text: `No merge-date files in ${dir}.` });
+		for (const { path, date } of files) {
+			const file = this.app.vault.getFileByPath(path);
+			if (!file) continue;
+			const blocks = fencedBlocks(await this.app.vault.cachedRead(file), "gb-missed-prs");
+			const day = el.createDiv({ cls: "gb-missed-prs-day" });
+			const link = day.createEl("h3").createEl("a", { text: date, cls: "internal-link", href: "#" });
+			link.onclick = (event) => {
+				event.preventDefault();
+				void this.app.workspace.openLinkText(path, ctx.sourcePath, event.metaKey || event.ctrlKey);
+			};
+			for (const block of blocks) this.renderMissedPrs(block.source, day);
+		}
 	}
 
 	/** Opens a task's record index.md, wherever its status puts it. */

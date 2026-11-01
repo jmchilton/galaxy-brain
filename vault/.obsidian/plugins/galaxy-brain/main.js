@@ -1037,10 +1037,13 @@ function parseTasks(data, known) {
   });
 }
 function taskBlocks(note) {
+  return fencedBlocks(note, "gb-tasks");
+}
+function fencedBlocks(note, language) {
   const lines = note.split("\n");
   const blocks = [];
   for (let start = 0; start < lines.length; start++) {
-    if (lines[start].trim() !== "```gb-tasks") continue;
+    if (lines[start].trim() !== `\`\`\`${language}`) continue;
     const end = lines.findIndex((line, i) => i > start && line.trim() === "```");
     if (end < 0) break;
     blocks.push({ start, end, source: lines.slice(start + 1, end).join("\n") });
@@ -5899,25 +5902,87 @@ function repositorySections(records) {
   })).filter((section2) => section2.groups.length > 0);
 }
 
+// src/missed-pr-cards.ts
+function renderMissedPrCards(el3, prs) {
+  const list2 = el3.createDiv({ cls: "gb-missed-prs" });
+  if (prs.length === 0) list2.createDiv({ cls: "gb-missed-prs-empty", text: "No missed PRs." });
+  for (const pr of prs) {
+    const card = list2.createDiv({ cls: "gb-missed-pr" });
+    const head = card.createDiv({ cls: "gb-missed-pr-head" });
+    head.createEl("a", { text: `#${pr.pr}`, href: pr.url, cls: "external-link", attr: { target: "_blank", rel: "noopener" } });
+    head.createSpan({ cls: "gb-missed-pr-title", text: pr.title });
+    const meta = [
+      pr.author && `by ${pr.author}`,
+      pr.mergedBy && `merged by ${pr.mergedBy}`,
+      pr.approvers.length ? `approved by ${pr.approvers.join(", ")}` : "no approvals",
+      pr.mergedAt?.slice(0, 10)
+    ];
+    card.createDiv({ cls: "gb-missed-pr-meta", text: meta.filter(Boolean).join(" \xB7 ") });
+    if (pr.summary) card.createDiv({ cls: "gb-missed-pr-summary", text: pr.summary.trim() });
+    if (pr.discussionSummary) card.createDiv({ cls: "gb-missed-pr-discussion-summary", text: `\u{1F4AC} ${pr.discussionSummary.trim()}` });
+    for (const [label, text2] of [["Details", pr.details], ["Discussion", pr.discussion]]) {
+      if (!text2) continue;
+      const details = card.createEl("details", { cls: "gb-missed-pr-more" });
+      details.createEl("summary", { text: label });
+      details.createDiv({ cls: "gb-missed-pr-text", text: text2.trim() });
+    }
+  }
+}
+
+// src/missed-prs.ts
+var CRACKS_DIR = "agents/gx_reviews/the_cracks";
+var TEXT_FIELDS = { author: "author", merged_by: "mergedBy", summary: "summary", discussion_summary: "discussionSummary", details: "details", discussion: "discussion" };
+var FIELDS2 = ["pr", "title", "url", "merged_at", "approvers", ...Object.keys(TEXT_FIELDS)];
+function parseMissedPrs(data) {
+  if (data === null || data === void 0) return [];
+  if (!Array.isArray(data)) throw new Error("gb-missed-prs block must be a list of PRs");
+  return data.map((entry, i) => {
+    const fail = (message) => new Error(`entry ${i + 1}: ${message}`);
+    if (!entry || typeof entry !== "object") throw fail("not a mapping");
+    const extra = Object.keys(entry).find((key2) => !FIELDS2.includes(key2));
+    if (extra) throw fail(`unknown field ${extra}`);
+    const { pr, title, url, merged_at: mergedAt, approvers = [] } = entry;
+    if (typeof pr !== "number" || !Number.isInteger(pr)) throw fail("missing pr");
+    if (typeof title !== "string" || !title.trim()) throw fail("missing title");
+    if (typeof url !== "string" || !/^https?:\/\/\S+$/.test(url)) throw fail("url must be an http(s) URL");
+    if (!Array.isArray(approvers) || approvers.some((login) => typeof login !== "string")) throw fail("approvers must be a list of logins");
+    const result = { pr, title, url, approvers };
+    for (const [key2, field] of Object.entries(TEXT_FIELDS)) {
+      const value = entry[key2];
+      if (value === void 0 || value === null) continue;
+      if (typeof value !== "string") throw fail(`${key2} must be text`);
+      result[field] = value;
+    }
+    if (mergedAt instanceof Date) result.mergedAt = mergedAt.toISOString();
+    else if (typeof mergedAt === "string") result.mergedAt = mergedAt;
+    else if (mergedAt !== void 0 && mergedAt !== null) throw fail("merged_at must be a timestamp");
+    return result;
+  });
+}
+function crackFiles(paths, dir) {
+  const pattern = /^(\d{4}-\d{2}-\d{2})\.md$/;
+  return paths.filter((path) => path.startsWith(`${dir}/`)).map((path) => ({ path, match: pattern.exec(path.slice(dir.length + 1)) })).filter((file) => file.match).map(({ path, match }) => ({ path, date: match[1] })).sort((a, b) => b.date.localeCompare(a.date));
+}
+
 // src/repository-view.ts
 var import_obsidian5 = require("obsidian");
 
 // src/github-feed.ts
-var FIELDS2 = "number title url createdAt author { login }";
+var FIELDS3 = "number title url createdAt author { login }";
 var FEED_QUERY = `query($owner: String!, $name: String!, $mine: String!) {
   repository(owner: $owner, name: $name) {
     created: pullRequests(states: OPEN, first: 30, orderBy: {field: CREATED_AT, direction: DESC}) {
-      nodes { ${FIELDS2} isDraft headRefName }
+      nodes { ${FIELDS3} isDraft headRefName }
     }
     updated: pullRequests(states: OPEN, first: 60, orderBy: {field: UPDATED_AT, direction: DESC}) {
-      nodes { ${FIELDS2} isDraft headRefName timelineItems(itemTypes: [READY_FOR_REVIEW_EVENT], last: 1) { nodes { ... on ReadyForReviewEvent { createdAt } } } }
+      nodes { ${FIELDS3} isDraft headRefName timelineItems(itemTypes: [READY_FOR_REVIEW_EVENT], last: 1) { nodes { ... on ReadyForReviewEvent { createdAt } } } }
     }
     issues(states: OPEN, first: 30, orderBy: {field: CREATED_AT, direction: DESC}) {
-      nodes { ${FIELDS2} }
+      nodes { ${FIELDS3} }
     }
   }
   mine: search(query: $mine, type: ISSUE, first: 100) {
-    nodes { ... on PullRequest { ${FIELDS2} isDraft headRefName mergeable } }
+    nodes { ... on PullRequest { ${FIELDS3} isDraft headRefName mergeable } }
   }
 }`;
 var item = (node, at = node.createdAt) => ({
@@ -6399,6 +6464,8 @@ var GalaxyBrainPlugin = class extends import_obsidian6.Plugin {
       callback: () => void this.openAgents()
     });
     this.registerMarkdownCodeBlockProcessor("gb-tasks", (source, el3, ctx) => this.renderTasks(source, el3, ctx));
+    this.registerMarkdownCodeBlockProcessor("gb-missed-prs", (source, el3) => this.renderMissedPrs(source, el3));
+    this.registerMarkdownCodeBlockProcessor("gb-missed-prs-feed", (source, el3, ctx) => this.renderMissedPrsFeed(source, el3, ctx));
     if (!import_obsidian6.Platform.isDesktopApp) return;
     this.addCommand({
       id: "launch-agent",
@@ -6682,6 +6749,32 @@ var GalaxyBrainPlugin = class extends import_obsidian6.Plugin {
       remove: (_task, index) => void remove(index),
       openRecord: (record, newLeaf) => this.openTaskRecord(record, newLeaf)
     });
+  }
+  /** Cards for a ```gb-missed-prs block. */
+  renderMissedPrs(source, el3) {
+    try {
+      renderMissedPrCards(el3, parseMissedPrs((0, import_obsidian6.parseYaml)(source)));
+    } catch (error) {
+      el3.createDiv({ cls: "gb-missed-prs-error", text: `gb-missed-prs: ${error instanceof Error ? error.message : error}` });
+    }
+  }
+  /** Every merge-date file's ```gb-missed-prs blocks in a directory (body, default the_cracks), newest first. */
+  async renderMissedPrsFeed(source, el3, ctx) {
+    const dir = source.trim() || CRACKS_DIR;
+    const files = crackFiles(this.app.vault.getMarkdownFiles().map((file) => file.path), dir);
+    if (files.length === 0) return void el3.createDiv({ cls: "gb-missed-prs-empty", text: `No merge-date files in ${dir}.` });
+    for (const { path, date } of files) {
+      const file = this.app.vault.getFileByPath(path);
+      if (!file) continue;
+      const blocks = fencedBlocks(await this.app.vault.cachedRead(file), "gb-missed-prs");
+      const day = el3.createDiv({ cls: "gb-missed-prs-day" });
+      const link = day.createEl("h3").createEl("a", { text: date, cls: "internal-link", href: "#" });
+      link.onclick = (event) => {
+        event.preventDefault();
+        void this.app.workspace.openLinkText(path, ctx.sourcePath, event.metaKey || event.ctrlKey);
+      };
+      for (const block of blocks) this.renderMissedPrs(block.source, day);
+    }
   }
   /** Opens a task's record index.md, wherever its status puts it. */
   openTaskRecord(record, newLeaf) {
