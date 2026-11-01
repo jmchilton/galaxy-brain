@@ -1,4 +1,4 @@
-
+Is this maybe a release 26.2 change? Incremental quota has been broken in subtle ways forever and these are some big changes in important/intricate places. Really impressive work though and the PR description is very helpful and well laid out.  -John
 
 <details><summary>Automated Review Details</summary>
 
