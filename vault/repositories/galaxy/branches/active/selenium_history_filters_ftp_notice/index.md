@@ -5,11 +5,11 @@
 
 ## Status
 
-Polished, ready for final review; see the [polish debrief](polish_debrief.md), [PR description](pr_description.md), [titles](pr_titles.md) and [tags](pr_tags.md). Base: `release_26.2` (`7a7c1576f94`). Head: `1090ba998b5`.
+PR #24458 approved by dannon; review addressed per [review_response_dannon_1.md](review_response_dannon_1.md). Base: `release_26.2` (`f03ab3f7a35`). Head: `e7d15e3cca8`.
 
-Draft PR #24458 opened; fork CI is pending.
+PR #24458 open, not draft, approved by dannon.
 
-Fresh fork CI pending after rebase; prior local Selenium (5), focused component tests (20), formatting and changed-file mypy passed (not rerun after rebase).
+Fork CI pending on `e7d15e3cca8`; FilesDialog vitest (28) and `test_hide_and_unhide_items` Selenium passed locally after rebase.
 
 ## Base
 
