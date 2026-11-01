@@ -1,0 +1,11 @@
+# Component - Tool Output Collection Types and Mapped Output Structure
+
+How the collection type of a tool's collection output is derived, per job and after map-over, and where the server and the workflow editor each compute or validate it. Cover: the output declaration forms (`type`, `type_source`, `structured_like`, `type_prefix` once merged, legacy `<output type="collection">`) and how `tool_output_to_structure` (`structure.py`) and `create_collection` (`tools/actions/__init__.py`) resolve them; `ExecutionTracker._mapped_output_structure` / `precreate_output_collections` (`tools/execute.py`) and `DatasetCollectionManager.precreate_dataset_collection`; `Tree` / `UninitializedTree` / `Leaf` `.multiply()`, `CollectionTypeDescription.multiply` and `map_over_collection_type` (plain string concatenation, no validation) and what metadata `Tree.multiply` carries (`columns_metadata`, `column_definitions`, `when_values`); where `CollectionTypeDescription.validate()` / `COLLECTION_TYPE_REGEX` is and is not called (precreation does not validate; API create paths do); the workflow side (`workflow/modules.py` `get_all_outputs`, `get_step_map_over`) and the TS mirrors (`collectionTypeDescription.ts` `append`, `terminals.ts` output map-over); and `sample_sheet` special cases (`_normalize_collection_type`, outer-rank-only regex, what `sample_sheet x list` produces today). Include a table of "composition point -> function -> validates?" and known gaps. Leave out input matching (see `collection_type_compatibility_and_input_matching` request) and element identifier flow.
+
+## Why
+
+The #24481 fix changes what mapping a `list` or `list:paired` output over a `sample_sheet` produces, and no note maps the output-type derivation and composition path across server and editor; `Component - Collection Tool Execution Semantics` and `Component - Collection Models` describe multiplication conceptually only. `Component - Collections - Sample Sheets Backend` is also stale here: it says mapping does not propagate `column_definitions` or `columns`, but `Tree.multiply` and precreation preserve them.
+
+## Requested by
+
+- vault/repositories/galaxy/branches/active/issue_24481_sample_sheet_mapped_output_type_26_0/brain_research.md: needs the output-type composition and validation map before changing `multiply` / precreation for sample sheets.
