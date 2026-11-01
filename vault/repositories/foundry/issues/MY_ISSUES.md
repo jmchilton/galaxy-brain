@@ -75,6 +75,8 @@ GitHub state last refreshed: 2026-10-28. Issues here are unassigned by default a
 - (mvp) [#673](https://github.com/galaxyproject/foundry/issues/673) — Runtime Note reads as a blanket source-read ban; phases disagree on reading pinned source; next: generator line + per-Mold fixes. [notes](queued/673/index.md)
 - (mvp) [#674](https://github.com/galaxyproject/foundry/issues/674) — interface notes lack rules for shape-changing params and meta-driven parameterization; next: edit params + channel-shape notes, recast. [notes](queued/674/index.md)
 - (mvp) [#678](https://github.com/galaxyproject/foundry/issues/678) — discovery `status` has no `unsuitable`; capability miss routes to authoring an existing wrapper; next: add status to schema + Molds, coordinate with #669. [notes](queued/678/index.md)
+- (mvp) [#735](https://github.com/galaxyproject/foundry/issues/735) — test-data Molds stage data tables planemo ignores (unsuffixed conf, absolute `.loc`); next: `.xml.test` + `${__HERE__}` recipe in note + Molds. [notes](queued/735/index.md)
+- [#574](https://github.com/galaxyproject/foundry/issues/574) — Tool Shed tool search ignores `repo_name`/`id`, so slug queries miss; next: repo-search retry in discover-shed-tool. [notes](queued/574/index.md)
 
 ## Blocked on others (`blocked`)
 
@@ -92,10 +94,8 @@ GitHub state last refreshed: 2026-10-28. Issues here are unassigned by default a
 - [#553](https://github.com/galaxyproject/foundry/issues/553) — No reachable route serves a Tool Shed wrapper's raw XML at a pinned changeset
 - [#562](https://github.com/galaxyproject/foundry/issues/562) — Sandbox Support - agent-safehouse
 - [#566](https://github.com/galaxyproject/foundry/issues/566) — Needs better guidance for importing to a real galaxy instance
-- [#735](https://github.com/galaxyproject/foundry/issues/735) — Test-data Molds stage data tables in a form planemo doesn't auto-discover
 - [#571](https://github.com/galaxyproject/foundry/issues/571) — `gxformat2-schema` documents nested `state` but not nested `in:` key addressing
 - [#572](https://github.com/galaxyproject/foundry/issues/572) — ToolShed-fetch decoder rejects a real IUC wrapper's filtered list-collection output
-- [#574](https://github.com/galaxyproject/foundry/issues/574) — `gxwf tool-search` returns zero hits for a literal Tool Shed repo slug
 - [#575](https://github.com/galaxyproject/foundry/issues/575) — `paper-to-test-data` has no scoping or upstream-fixture guidance, and is the weaker half of its own fallback chain
 - [#576](https://github.com/galaxyproject/foundry/issues/576) — Test-plan schema requires a file-shaped `fixture` for plain scalar workflow parameters
 - [#577](https://github.com/galaxyproject/foundry/issues/577) — `freeform-summary-to-galaxy-test-plan` is silent on being handed a concrete draft and resolved test-data refs
