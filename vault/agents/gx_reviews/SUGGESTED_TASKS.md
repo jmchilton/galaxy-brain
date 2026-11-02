@@ -41,7 +41,7 @@ when: whenever
 what: active review records waiting on John rather than an agent or the author (see "Delivery and follow-up" in ./AGENTS.md):
 
 - the latest round's generated review (e.g. `initial_review_response.md`, `draft-review.md`) is unposted and its `initial_response_action.md`, if any, has no checked boxes, with no jmchilton review or comment on the PR since;
-- an approved PR with green checks awaiting John's merge;
+- an approved greenish PR with awaiting John's merge; if John has already posted a review and they haven't responded to review (with commits or messages) - you should wait 7 days until suggesting this action
 - a decision or follow-up the record's `index.md` says is waiting on John.
 
 Skip records the Respond to Reviews section covers. `description` is why it needs John, in one line.
