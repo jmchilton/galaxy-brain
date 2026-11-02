@@ -3,7 +3,7 @@ Triage index for `galaxyproject/pulsar` issues, per [`MY_ISSUES_INDEX.md`](../..
 GitHub state last refreshed: 2026-10-26. Issues here are unassigned by default.
 ## Waiting on John (`needs_decision`)
 
-None yet.
+- (assigned) [#520](https://github.com/galaxyproject/pulsar/issues/520) — release 1.0; decide: when 0.16.0 and the Galaxy 26.2 release process are good enough. [notes](needs_decision/520/index.md)
 ## In motion (`wip`)
 
 - [#541](https://github.com/galaxyproject/pulsar/issues/541) — preserve cancellation cleanup; branch `term-first-cancellation`. [notes](wip/541/index.md)
@@ -21,12 +21,8 @@ None yet.
 - (assigned) [#498](https://github.com/galaxyproject/pulsar/issues/498) — ubuntu-22.04 runner deprecation; lint/test moved to 24.04 (#508 merged); next: packaging metadata PR. [notes](queued/498/index.md)
 - [#263](https://github.com/galaxyproject/pulsar/issues/263) — expression tools unsupported; #266 and friends are workarounds; next: design a real fix from the research note. [notes](queued/263/index.md)
 - [#469](https://github.com/galaxyproject/pulsar/issues/469) — resilience suite fixture startup flakiness; next: read #470 (partial) and #471 (unmerged) before starting fresh. [notes](queued/469/index.md)
-
-## Blocked on others (`blocked`)
-
-- [#492](https://github.com/galaxyproject/pulsar/issues/492) — report job failure reason to Galaxy for resubmission; blocked on: [#486](https://github.com/galaxyproject/pulsar/pull/486). [notes](blocked/492/index.md)
-- [#510](https://github.com/galaxyproject/pulsar/issues/510) — modernize Windows support; blocked on: a Windows dev environment for an agent. [notes](blocked/510/index.md)
-- (assigned) [#520](https://github.com/galaxyproject/pulsar/issues/520) — release 1.0; blocked on: a 0.16.0 we really like and a Galaxy 26.2 release process that feels good. [notes](blocked/520/index.md)
+- [#492](https://github.com/galaxyproject/pulsar/issues/492) — report job failure reason to Galaxy for resubmission; blocked on: [#486](https://github.com/galaxyproject/pulsar/pull/486). [notes](queued/492/index.md)
+- [#510](https://github.com/galaxyproject/pulsar/issues/510) — modernize Windows support; blocked on: a Windows dev environment for an agent. [notes](queued/510/index.md)
 
 ## Untriaged (`untriaged`)
 

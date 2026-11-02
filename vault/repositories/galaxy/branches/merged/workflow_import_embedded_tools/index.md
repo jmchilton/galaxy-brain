@@ -1,5 +1,6 @@
 ---
 upstream_base_branch: release_26.1
+child_branches: issue_24530_atomic_embedded_tool_import_26.1
 ---
 # Fix workflow imports containing embedded tools
 

@@ -64,10 +64,7 @@ GitHub state last refreshed: 2026-10-27. Issues here are unassigned by default. 
 - [#706](https://github.com/galaxyproject/planemo/issues/706) — Lint does not notice missing tool_data_table_conf.xml.sample; build-next (M); next: implement. [notes](queued/706/index.md)
 - [#1342](https://github.com/galaxyproject/planemo/issues/1342) — Rename the default branch to `main`; build-next (admin); next: implement. [notes](queued/1342/index.md)
 - [#1672](https://github.com/galaxyproject/planemo/issues/1672) — repo-level data-manager/data-table linting; galaxy#23229 merged; next: implement. [notes](queued/1672/index.md)
-
-## Blocked on others (`blocked`)
-
-- [#1745](https://github.com/galaxyproject/planemo/issues/1745) — collection `metadata: {name:}` assertions; routing done in #1723, docs remain; blocked on: galaxy#24224 merge + galaxy-tool-util release. [notes](blocked/1745/index.md)
+- [#1745](https://github.com/galaxyproject/planemo/issues/1745) — collection `metadata: {name:}` assertions; routing done in #1723, docs remain; blocked on: galaxy#24224 merge + galaxy-tool-util release. [notes](queued/1745/index.md)
 
 ## Untriaged (`untriaged`)
 

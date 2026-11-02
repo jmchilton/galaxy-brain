@@ -7,14 +7,14 @@ name: is-{name}
 Let's talk about jmchilton/galaxy-tool-util-ts#{name}. The issue record is {record}.
 
 ## 🐴 Work on issue
-status: untracked, queued, wip, needs_decision, blocked
+status: untracked, queued, wip, needs_decision
 agent_dir: workflow_libs
 name: wh-{name}
 
 Run ./WORK_HORSE.md on jmchilton/galaxy-tool-util-ts#{name}
 
 ## ✅ Close issue
-status: needs_decision, queued, wip, blocked, delegated
+status: needs_decision, queued, wip, delegated
 agent_dir: workflow_libs
 name: cl-{name}
 profile: Sonnet (medium)
@@ -22,7 +22,7 @@ profile: Sonnet (medium)
 Close issue jmchilton/galaxy-tool-util-ts#{name} according to the processes described in AGENTS.md.
 
 ## 🗄️ Shelve
-status: needs_decision, queued, wip, blocked
+status: needs_decision, queued, wip
 agent_dir: workflow_libs
 name: sh-{name}
 profile: Sonnet (medium)

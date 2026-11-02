@@ -47,7 +47,7 @@ Foundry issues carry triage labels on GitHub, defined in Foundry's `content/meta
 
 1. Closed on GitHub → `closed`.
 2. An open PR or a branch addresses it → `wip`.
-3. `requires-iwc-inputs` or any `upstream/*` → `blocked`.
+3. `requires-iwc-inputs` or any `upstream/*` → give the record an agent blocker ([BLOCKERS.md](../_shared/BLOCKERS.md)) whose condition is that label's removal, then keep matching.
 4. `agent/research` or `agent/implement` → `queued`.
 5. `agent/human` → `needs_decision`: John drives it.
 6. `needs-triage` → `untriaged`.

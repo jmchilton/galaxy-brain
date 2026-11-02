@@ -1,7 +1,7 @@
 Launchers for Galaxy issues records; format in [LAUNCHERS.md](../../../agents/_shared/LAUNCHERS.md).
 
 ## 🐴 Implement
-status: queued, wip, needs_decision, blocked
+status: queued, wip, needs_decision
 agent_dir: gx_workhorse
 name: wh-{name}
 
@@ -28,7 +28,7 @@ name: wo-{name}
 Let's work on https://github.com/galaxyproject/galaxy/issues/{name}. If unassigned, assign me. Implement the feature or bug and harden.
 
 ## 🗄️ Shelve
-status: needs_decision, queued, wip, blocked
+status: needs_decision, queued, wip
 agent_dir: gx_issues
 name: sh-{name}
 profile: Sonnet (medium)

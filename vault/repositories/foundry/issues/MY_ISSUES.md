@@ -29,6 +29,10 @@ GitHub state last refreshed: 2026-10-28. Issues here are unassigned by default a
 - (large) [#507](https://github.com/galaxyproject/foundry/issues/507) — Improved Structure and Schemas for Mold Artifacts; decide: who drives (agent/implement, agent/research or agent/human). [notes](needs_decision/507/index.md)
 - [#564](https://github.com/galaxyproject/foundry/issues/564) — advance-galaxy-draft-step/repair-galaxy-draft-topology can produce step doc: text long enough to crash work…; decide: close? galaxy#23579 dropped the annotation index; no lint check yet. [notes](needs_decision/564/index.md)
 - [#664](https://github.com/galaxyproject/foundry/issues/664) — 4 upstream wrapper bugs (multiqc qualimap, salmonquantmerge, agat, stringtie), none filed upstream; decide: forward upstream, then close? [notes](needs_decision/664/index.md)
+- [#191](https://github.com/galaxyproject/foundry/issues/191) — Galaxy sample-sheet column-value charset gate rejects nf-core canonical values; blocked on: a Galaxy change. [notes](needs_decision/191/index.md)
+- (large) [#225](https://github.com/galaxyproject/foundry/issues/225) — Document Galaxy list-of-record collections for reference data; blocked on: a Galaxy change. [notes](needs_decision/225/index.md)
+- (mvp) [#591](https://github.com/galaxyproject/foundry/issues/591) — `download?style=ga` emits unversioned tool_ids; saves but 400s on invoke; decide: apply the proposed labels (agent files the Galaxy issue). [notes](needs_decision/591/index.md)
+- (mvp) [#658](https://github.com/galaxyproject/foundry/issues/658) — planemo workflow_lint: string `run:` crash (fixed on master, unreleased) and no workflow_directory; decide: apply the proposed labels (agent/implement for the planemo fix). [notes](needs_decision/658/index.md)
 
 ## In motion (`wip`)
 
@@ -77,15 +81,8 @@ GitHub state last refreshed: 2026-10-28. Issues here are unassigned by default a
 - (mvp) [#678](https://github.com/galaxyproject/foundry/issues/678) — discovery `status` has no `unsuitable`; capability miss routes to authoring an existing wrapper; next: add status to schema + Molds, coordinate with #669. [notes](queued/678/index.md)
 - (mvp) [#735](https://github.com/galaxyproject/foundry/issues/735) — test-data Molds stage data tables planemo ignores (unsuffixed conf, absolute `.loc`); next: `.xml.test` + `${__HERE__}` recipe in note + Molds. [notes](queued/735/index.md)
 - [#574](https://github.com/galaxyproject/foundry/issues/574) — Tool Shed tool search ignores `repo_name`/`id`, so slug queries miss; next: repo-search retry in discover-shed-tool. [notes](queued/574/index.md)
-
-## Blocked on others (`blocked`)
-
-- [#191](https://github.com/galaxyproject/foundry/issues/191) — Galaxy sample-sheet column-value charset gate rejects nf-core canonical values; blocked on: a Galaxy change. [notes](blocked/191/index.md)
-- (large) [#225](https://github.com/galaxyproject/foundry/issues/225) — Document Galaxy list-of-record collections for reference data; blocked on: a Galaxy change. [notes](blocked/225/index.md)
-- [#271](https://github.com/galaxyproject/foundry/issues/271) — Decide gops_* vs bedtools interval-tool redundancy (interval MOC); blocked on: an IWC workflow using the operation. [notes](blocked/271/index.md)
-- [#624](https://github.com/galaxyproject/foundry/issues/624) — API Docs Maybe Should Have Corresponding MCP entrypoints; blocked on: a Galaxy change. [notes](blocked/624/index.md)
-- (mvp) [#591](https://github.com/galaxyproject/foundry/issues/591) — `download?style=ga` emits unversioned tool_ids; saves but 400s on invoke; blocked on: Galaxy fix (no Galaxy issue yet). [notes](blocked/591/index.md)
-- (mvp) [#658](https://github.com/galaxyproject/foundry/issues/658) — planemo workflow_lint: string `run:` crash (fixed on master, unreleased) and no workflow_directory; blocked on: planemo release + part-2 fix. [notes](blocked/658/index.md)
+- [#271](https://github.com/galaxyproject/foundry/issues/271) — Decide gops_* vs bedtools interval-tool redundancy (interval MOC); blocked on: an IWC workflow using the operation. [notes](queued/271/index.md)
+- [#624](https://github.com/galaxyproject/foundry/issues/624) — API Docs Maybe Should Have Corresponding MCP entrypoints; blocked on: a Galaxy change. [notes](queued/624/index.md)
 
 ## Untriaged (`untriaged`)
 

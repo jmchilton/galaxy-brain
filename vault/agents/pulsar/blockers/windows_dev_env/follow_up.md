@@ -1,0 +1,1 @@
+Read `blockers/windows_dev_env/previous_session.md`. A Windows host is now available. Re-triage the record `vault/repositories/pulsar/issues/*/510/` per `../_shared/MY_ISSUES_INDEX.md`, starting from the seven Windows issues closed 2026-09-16 that it tracks. Finally delete `blockers/windows_dev_env/` and the record's `blockers:` entry for it.

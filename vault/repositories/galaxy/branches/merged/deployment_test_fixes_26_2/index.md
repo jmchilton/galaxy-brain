@@ -1,5 +1,6 @@
 ---
 upstream_base_branch: release_26.2
+child_branches: deployment_test_docs_decorators_26_2
 ---
 # Deployment test framework fixes
 

@@ -1,14 +1,14 @@
 Launchers for pulsar issues records; format in [LAUNCHERS.md](../../../agents/_shared/LAUNCHERS.md).
 
 ## 🐴 Work on issue
-status: untracked, queued, wip, needs_decision, blocked
+status: untracked, queued, wip, needs_decision
 agent_dir: pulsar
 name: wh-{name}
 
 Run ./WORK_HORSE.md on galaxyproject/pulsar#{name}
 
 ## ✅ Close issue
-status: needs_decision, queued, wip, blocked, delegated
+status: needs_decision, queued, wip, delegated
 agent_dir: pulsar
 name: cl-{name}
 profile: Sonnet (medium)
@@ -16,7 +16,7 @@ profile: Sonnet (medium)
 Close issue galaxyproject/pulsar#{name} according to the processes described in AGENTS.md.
 
 ## 🗄️ Shelve
-status: needs_decision, queued, wip, blocked
+status: needs_decision, queued, wip
 agent_dir: pulsar
 name: sh-{name}
 profile: Sonnet (medium)

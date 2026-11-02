@@ -1,3 +1,6 @@
+---
+blocking: pulsar/issues/492
+---
 # pulsar #486 — Add a queued_htcondor manager on the htcondor2 bindings, shared with Galaxy
 
 [PR #486](https://github.com/galaxyproject/pulsar/pull/486) · Active. GitHub state checked 2026-10-11.

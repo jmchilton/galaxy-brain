@@ -107,13 +107,9 @@ GitHub state last refreshed: 2026-10-27. Every open issue below is assigned to j
 - [#24350](https://github.com/galaxyproject/galaxy/issues/24350) — `has_line_matching` wraps regex as `^e$` (ungrouped) but docs match `has_text_matching`; next: red unit test, split annotation, regen. [notes](queued/24350/index.md)
 - [#24376](https://github.com/galaxyproject/galaxy/issues/24376) — library folder download Selenium test lacks `test_` prefix; stale selector + zip name; next: rename, fix both, run. [notes](queued/24376/index.md)
 - [#24471](https://github.com/galaxyproject/galaxy/issues/24471) — workflow import 500s (IntegrityError) when an embedded UDT follows a step with an output/PJA; next: red API test in `test_workflows.py`, UDT pre-pass. [notes](queued/24471/index.md)
+- [#24551](https://github.com/galaxyproject/galaxy/issues/24551) — metadata-file / extra-file downloads pull through object store cache, fail past cache size; blocked on: #24484 merging. [notes](queued/24551/index.md)
+- [#22598](https://github.com/galaxyproject/galaxy/issues/22598) — Tool Shed contents hidden from anonymous users after bot traffic; blocked on: an infrastructure decision (natefoo, mvdbeek). [notes](queued/22598/index.md)
 
-
-## Blocked on others (`blocked`)
-
-- [#24551](https://github.com/galaxyproject/galaxy/issues/24551) — metadata-file / extra-file downloads pull through object store cache, fail past cache size; blocked on: #24484 merging. [notes](blocked/24551/index.md)
-- [#22598](https://github.com/galaxyproject/galaxy/issues/22598) — Tool Shed contents hidden from anonymous users after bot traffic; blocked on: an infrastructure decision (natefoo, mvdbeek). [notes](blocked/22598/index.md)
-- [#23183](https://github.com/galaxyproject/galaxy/issues/23183) — warm pool of interactive tool instances; blocked on: startup metrics showing which part is slow. [notes](blocked/23183/index.md)
 
 ## Untriaged (`untriaged`)
 

@@ -15,7 +15,7 @@ name: wh-{name}
 Run ./WORK_HORSE.md on galaxyproject/foundry#{name}
 
 ## ✅ Close issue
-status: needs_decision, queued, wip, blocked, delegated
+status: needs_decision, queued, wip, delegated
 agent_dir: wf_foundry
 name: cl-{name}
 profile: Sonnet (medium)
@@ -23,7 +23,7 @@ profile: Sonnet (medium)
 Close issue galaxyproject/foundry#{name} according to the processes described in AGENTS.md.
 
 ## 🗄️ Shelve
-status: needs_decision, queued, wip, blocked
+status: needs_decision, queued, wip
 agent_dir: wf_foundry
 name: sh-{name}
 profile: Sonnet (medium)

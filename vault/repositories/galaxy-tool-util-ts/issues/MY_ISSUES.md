@@ -13,10 +13,6 @@ None yet.
 
 None yet.
 
-## Blocked (`blocked`)
-
-None yet.
-
 ## Untriaged (`untriaged`)
 
 None yet.

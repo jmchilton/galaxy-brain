@@ -1,3 +1,6 @@
+---
+blocking: planemo/issues/1745
+---
 # issue_24188_subworkflow_rename_expression_json
 
 - [View PR #24224](https://github.com/galaxyproject/galaxy/pull/24224)
