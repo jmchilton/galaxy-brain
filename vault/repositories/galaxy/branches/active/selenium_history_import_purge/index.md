@@ -1,3 +1,7 @@
+---
+upstream_base_branch: release_26.2
+pr: 24440
+---
 # selenium_history_import_purge
 
 - [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:selenium_history_import_purge?expand=1)
@@ -5,9 +9,9 @@
 
 ## Status
 
-`ready`: polished, head `509236eca45` on `release_26.2`; rebased 2026-10-28 (one `navigates_galaxy.py` add/add conflict, kept both).
+`ready`: head `b30953d1fca` on `release_26.2`; mvdbeek's two nits applied 2026-11-02 ([response](review_response_mvdbeek_1.md)).
 
-[#24440](https://github.com/galaxyproject/galaxy/pull/24440) undrafted 2026-10-24 (tick).
+[#24440](https://github.com/galaxyproject/galaxy/pull/24440) approved by mvdbeek; inline replies drafted, unposted.
 
 CI rerunning after force-push; prior run's only red was unrelated Integration `test_pulsar_embedded_extended_metadata::test_runtime_environment_warning`.
 
