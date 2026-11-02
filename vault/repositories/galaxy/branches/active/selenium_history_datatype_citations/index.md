@@ -5,7 +5,7 @@
 
 ## Status
 
-Head `ed7aee4d160`; rebased onto `release_26.2` 2026-10-28 (one trivial conflict in `navigates_galaxy.py`, kept both helpers); undrafted 2026-10-22 on John's request (`ready`). See [PR description](pr_description.md), [titles](pr_titles.md), [tags](pr_tags.md), [polish debrief](polish_debrief.md), [implementation debrief](implementation_debrief.md), [rescope debrief](implementation_rescope_debrief.md), original scope [alt](alts/original_scope.md).
+Head `ab414ac4063` (davelopez approved 2026-11-02; his citation-key regex nit applied); rebased onto `release_26.2` 2026-10-28 (one trivial conflict in `navigates_galaxy.py`, kept both helpers); undrafted 2026-10-22 on John's request (`ready`). See [PR description](pr_description.md), [titles](pr_titles.md), [tags](pr_tags.md), [polish debrief](polish_debrief.md), [implementation debrief](implementation_debrief.md), [rescope debrief](implementation_rescope_debrief.md), original scope [alt](alts/original_scope.md).
 
 CI on `ed7aee4d160` reds diagnosed unrelated 2026-11-01: client-cache restore failures (infra); failed jobs rerun.
 
