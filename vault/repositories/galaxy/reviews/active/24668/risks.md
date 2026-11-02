@@ -1,0 +1,1 @@
+Risks are minimal - this change only deletes run-item rows that already belong to deleted (pruned) storage operation runs, adds no API, schema, or migration, and doesn't lock Galaxy into particular difficult to change choices (a two-way door).
