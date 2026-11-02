@@ -9,11 +9,11 @@ upstream_base_branch: release_26.2
 
 ## Status
 
-Rebased onto `release_26.2` (`a0e37600cf6`) 2026-11-02 with davelopez review fixes, pushed at `c9cfd049e14`; 12 touched E2E tests pass locally.
+Rebased onto `release_26.2` (`a0e37600cf6`) 2026-11-02 with davelopez review fixes, pushed at `60fc267c415`; 12 touched E2E tests pass locally.
 
-[PR #24482](https://github.com/galaxyproject/galaxy/pull/24482) open against `release_26.2`; reply to davelopez review drafted in [review_response_davelopez_1.md](review_response_davelopez_1.md), not yet posted; one open question in [pushback](review_pushback_davelopez_1.md).
+[PR #24482](https://github.com/galaxyproject/galaxy/pull/24482) open against `release_26.2`; reply to davelopez review drafted in [review_response_davelopez_1.md](review_response_davelopez_1.md), not yet posted.
 
-CI re-running on `c9cfd049e14`; screenshots hosted on fork branch `pr-assets-selenium_faq_account_workflow_display_26.2`.
+CI re-running on `60fc267c415`; screenshots hosted on fork branch `pr-assets-selenium_faq_account_workflow_display_26.2`.
 
 ## Handoff
 

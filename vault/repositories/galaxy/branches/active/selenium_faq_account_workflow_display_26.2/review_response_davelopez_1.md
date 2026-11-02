@@ -1,6 +1,6 @@
 # Response to davelopez review (2026-10-30) — PR #24482
 
-Fixes in `c9cfd049e14` (rebased onto `release_26.2` `a0e37600cf6`); 12 touched E2E tests (Playwright) and the vitest file pass locally. All points addressed; vitest "loading" row kept pending John (see [pushback](review_pushback_davelopez_1.md)).
+Fixes in `60fc267c415` (rebased onto `release_26.2` `a0e37600cf6`); 12 touched E2E tests (Playwright) and the vitest file pass locally. All points addressed; redundant vitest "loading" row dropped with John's OK.
 
 ## Top-level reply (for John to post)
 
@@ -14,7 +14,7 @@ Fixes in `c9cfd049e14` (rebased onto `release_26.2` `a0e37600cf6`); 12 touched E
 > - **Best Practices:** split out `workflow_editor_open_best_practices()`. The two callers that only need the panel open use it now, and so does the untyped-parameter test that came in with the rebase.
 > - **`manage_information_save`:** it no longer navigates when Manage Information is already open, so `test_public_name` loads the page once.
 > - **`DisplayApplications.vue`:** removed the extra `dataset &&` check.
-> - **`DisplayApplications.test.js`:** you're right about "loading", which the old guard already covers. "failed" does depend on the id check, though. I confirmed this by changing the wrapper to plain `v-if="dataset"`: then the `{}` result renders the wrapper and that row fails (so does "stale"). The wrapper is the readiness marker the browser helper waits for, so I kept that row.
+> - **`DisplayApplications.test.js`:** you're right about "loading", which the old guard already covers, so I removed that row. "failed" does depend on the id check, though. I confirmed this by changing the wrapper to plain `v-if="dataset"`: then the `{}` result renders the wrapper and that row fails (so does "stale"). The wrapper is the readiness marker the browser helper waits for, so I kept that row.
 >
 > ***Posted by agent [gx_branches](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/gx_branches/AGENTS.md) using model Claude Opus 5.5 on John's behalf.***
 
