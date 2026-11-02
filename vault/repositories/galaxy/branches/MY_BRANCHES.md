@@ -25,6 +25,7 @@ Snapshot: 2026-11-01 (reclassified from GitHub: 12 merged and archived, #24578 c
 - [`issue_22598_login_prompt_26.2`](active/issue_22598_login_prompt_26.2/index.md) — Prompts anonymous shed users to log in for Changelog/Contents, then returns them. [#24549](https://github.com/galaxyproject/galaxy/pull/24549).
 - [`staging_workflow_parameter_lists`](active/staging_workflow_parameter_lists/index.md) — Lets galaxy-tool-util staging leave parameter-input values (e.g. multi-value lists) unstaged. Base `release_26.2`. [#24552](https://github.com/galaxyproject/galaxy/pull/24552).
 - [`issue_3899_pulsar_container_deps`](active/issue_3899_pulsar_container_deps/index.md) — Respects a Pulsar container job’s dependency-resolution opt-in (#3899). [#24555](https://github.com/galaxyproject/galaxy/pull/24555).
+- [`selenium_faq_account_workflow_display_26.2`](active/selenium_faq_account_workflow_display_26.2/index.md) — FAQ account/storage, workflow editor and populated/empty display-catalog tests and helpers. Base `release_26.2`. [#24482](https://github.com/galaxyproject/galaxy/pull/24482).
 - [`issue_24476_parsed_output_filters_26_1`](active/issue_24476_parsed_output_filters_26_1/index.md) — Preserves filter expressions in parsed data, collection and scalar outputs (#24476). Base `release_26.1`. [#24483](https://github.com/galaxyproject/galaxy/pull/24483).
 
 ## Open Galaxy PRs — needs attention (`attention`)
@@ -32,7 +33,6 @@ Snapshot: 2026-11-01 (reclassified from GitHub: 12 merged and archived, #24578 c
 - [`selenium_stories_core`](active/selenium_stories_core/index.md) — Writes Selenium and Playwright screenshots as Markdown, HTML and PDF stories; narrates tours. [#24137](https://github.com/galaxyproject/galaxy/pull/24137).
 
 
-- [`selenium_faq_account_workflow_display_26.2`](active/selenium_faq_account_workflow_display_26.2/index.md) — FAQ account/storage, workflow editor and populated/empty display-catalog tests and helpers. Base `release_26.2`. [#24482](https://github.com/galaxyproject/galaxy/pull/24482).
 - [`selenium_tool_form_helpers`](active/selenium_tool_form_helpers/index.md) — Public tool-form fill/describe helpers on `NavigatesGalaxy`; fixes nested repeats, sections, editor steps. [#24331](https://github.com/galaxyproject/galaxy/pull/24331).
 - [`issue_24328_data_table_mismatch_26.1`](active/issue_24328_data_table_mismatch_26.1/index.md) — Conflicting shed data table halts startup with an actionable error; installs no longer wipe Galaxy's tables (#24328). Base `release_26.1`. [#24349](https://github.com/galaxyproject/galaxy/pull/24349).
 - [`selenium_history_filters_ftp_notice`](active/selenium_history_filters_ftp_notice/index.md) — Restores FTP guidance and wraps upload-browser names; adds history and remote-folder tests. Base `release_26.2`. [#24458](https://github.com/galaxyproject/galaxy/pull/24458).

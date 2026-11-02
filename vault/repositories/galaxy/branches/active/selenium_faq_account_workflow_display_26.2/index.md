@@ -11,7 +11,7 @@ upstream_base_branch: release_26.2
 
 Rebased onto `release_26.2` (`a0e37600cf6`) 2026-11-02 with davelopez review fixes, pushed at `60fc267c415`; 12 touched E2E tests pass locally.
 
-[PR #24482](https://github.com/galaxyproject/galaxy/pull/24482) open against `release_26.2`; reply to davelopez review drafted in [review_response_davelopez_1.md](review_response_davelopez_1.md), not yet posted.
+[PR #24482](https://github.com/galaxyproject/galaxy/pull/24482) open against `release_26.2`; reply to davelopez review ([draft](review_response_davelopez_1.md)) [posted](https://github.com/galaxyproject/galaxy/pull/24482#issuecomment-6584180916) 2026-11-02; awaiting re-review.
 
 CI re-running on `60fc267c415`; screenshots hosted on fork branch `pr-assets-selenium_faq_account_workflow_display_26.2`.
 
