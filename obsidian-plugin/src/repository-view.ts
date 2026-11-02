@@ -1,10 +1,10 @@
-import { Component, debounce, ItemView, MarkdownRenderer, Platform, setIcon, type ViewStateResult, type WorkspaceLeaf } from "obsidian";
+import { Component, debounce, ItemView, MarkdownRenderer, Notice, Platform, setIcon, type ViewStateResult, type WorkspaceLeaf } from "obsidian";
 import { type GroupingSection, groupingFor, isReviewableRecordKind, KIND_LABELS, parseGrouping, RECORD_KINDS, type RecordKind, recordTitle, statusLabel } from "../../site/src/lib/records";
 import { type GithubTab, githubListTitle, githubListUrl, REPOSITORY_TABS as TABS, type RepositoryTab as Tab, upstreamOwner } from "../../site/src/lib/repository-tabs";
 import { type Launcher, launchersFor, type RecordRef, untrackedRecord } from "./launchers";
 import { type FeedItem, type FeedList, type Feeds, feedArgs, matchRecords, parseFeeds } from "./github-feed";
 import { BlockerModal } from "./blocker-modal";
-import { recordBlocker } from "./blockers";
+import { isAgentBlocker, type RecordId, recordBlockers, recordIdLabel, recordIndexPath, recordRefs } from "./blockers";
 import { hasDifferentialReview, openDifferentialReview } from "./diff-review-view";
 import { compareUrl, githubUrl } from "./record-links";
 import { SYNC_PROCESSES, SYNC_PROFILE } from "./record-agents";
@@ -354,8 +354,7 @@ export class RepositoryView extends ItemView {
 			action(RECORD_ICONS[record.kind], `Open ${kind} record ${record.name} (${statusLabel(record.status)})`, (event) =>
 				void this.app.workspace.openLinkText(record.indexPath ?? record.dir, "", event.metaKey || event.ctrlKey),
 			);
-			const blocker = recordBlocker(bodyOf(record));
-			if (blocker) action("lock", `Blocked: ${blocker.agentDir}/${blocker.name}`, () => new BlockerModal(this.app, blocker).open());
+			this.recordRefActions(bodyOf(record), action);
 			if (launchable.has(record.dir)) action("bot", `Launch agent for ${kind} record`, () => void this.host.pickLauncher(record));
 			const worktree = this.host.worktreeFor(record, bodyOf(record));
 			if (worktree) action("code", `Open ${kind} worktree with Code`, () => this.host.openInCode(worktree));
@@ -425,6 +424,21 @@ export class RepositoryView extends ItemView {
 		return bodies;
 	}
 
+	/** 🔒 per blocker (agent blockers open their condition, records their index.md), 🚫 per record this one blocks, 🔗 per related record. */
+	private recordRefActions(body: string, action: (icon: string, label: string, onClick: (event: MouseEvent) => void) => void) {
+		const openRecord = (id: RecordId, event: MouseEvent) => {
+			const path = recordIndexPath(this.app.vault.getMarkdownFiles().map((f) => f.path), id);
+			if (path) void this.app.workspace.openLinkText(path, "", event.metaKey || event.ctrlKey);
+			else new Notice(`${recordIdLabel(id)} not found`);
+		};
+		for (const blocker of recordBlockers(body)) {
+			if (isAgentBlocker(blocker)) action("lock", `Blocked: ${blocker.agentDir}/${blocker.name}`, () => new BlockerModal(this.app, blocker).open());
+			else action("lock", `Blocked by ${recordIdLabel(blocker)}`, (event) => openRecord(blocker, event));
+		}
+		for (const blocked of recordRefs(body, "blocking")) action("ban", `Blocking ${recordIdLabel(blocked)}`, (event) => openRecord(blocked, event));
+		for (const related of recordRefs(body, "related_records")) action("link", `Related: ${recordIdLabel(related)}`, (event) => openRecord(related, event));
+	}
+
 	private renderRecord(
 		list: HTMLElement,
 		record: RecordSummary,
@@ -442,13 +456,12 @@ export class RepositoryView extends ItemView {
 		if (record.title !== record.name) item.createSpan({ text: record.name, cls: "gbr-name" });
 		for (const tag of tags) item.createSpan({ text: tag, cls: "gbr-tag" });
 		item.createSpan({ text: timeAgo(time, Date.now()), cls: "gbr-time" });
-		const action = (icon: string, label: string, onClick: () => void) => {
+		const action = (icon: string, label: string, onClick: (event: MouseEvent) => void) => {
 			const button = actions.createEl("button", { cls: "clickable-icon", attr: { "aria-label": label } });
 			setIcon(button, icon);
 			button.onclick = onClick;
 		};
-		const blocker = recordBlocker(body);
-		if (blocker) action("lock", `Blocked: ${blocker.agentDir}/${blocker.name}`, () => new BlockerModal(this.app, blocker).open());
+		this.recordRefActions(body, action);
 		if (launchable) action("bot", "Launch agent", () => void this.host.pickLauncher(record));
 		const github = githubUrl(record, body);
 		if (github) action("github", "Open on GitHub", () => window.open(github));

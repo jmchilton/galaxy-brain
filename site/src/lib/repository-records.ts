@@ -12,7 +12,6 @@ const STATUS_BADGES: Record<string, string> = {
   queued: 'revised',
   wip: 'revised',
   needs_decision: 'draft',
-  blocked: 'draft',
   merged: 'reviewed',
   abandoned: 'stale',
   archived: 'archived',

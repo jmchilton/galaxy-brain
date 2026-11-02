@@ -11,8 +11,7 @@ Sections match the status directories, in this order, plus `untriaged`. Write `N
 1. `needs_decision`
 2. `wip`
 3. `queued`
-4. `blocked`
-5. `untriaged` — no directory yet.
+4. `untriaged` — no directory yet.
 
 `delegated` and `closed` issues leave the index: remove the line and move the directory. Its branches follow the branch queue's own rules in `MY_BRANCHES_INDEX.md`, not the issue's.
 
@@ -29,7 +28,7 @@ Each entry is one bullet:
 - Mark assignment on the exception, not the rule: the header says whether issues in this index are assigned to jmchilton by default, and lines that differ carry `(assigned)` or `(unassigned)`.
 - Prefix `(large)` when the issue is too big for a triage agent to take on alone.
 - `wip` entries name the branch or PR, never its CI or review state. That lives in the branch queue (`../branches/MY_BRANCHES.md`).
-- `blocked` entries replace `next:` with `blocked on:`; `needs_decision` entries with `decide:`.
+- Entries whose record has `blockers:` ([BLOCKERS.md](BLOCKERS.md)) replace `next:` with `blocked on:`; other `needs_decision` entries replace it with `decide:`.
 - `untriaged` entries are just the link and a short title.
 - Findings, history, open questions and plans go in the issue's `index.md`, not the entry.
 

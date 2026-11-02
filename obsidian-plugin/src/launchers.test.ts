@@ -23,7 +23,7 @@ status: queued
 `;
 
 const GALAXY_ISSUES = { repo: "galaxy", kind: "issues" } as const;
-const SHELVE_ISSUE = "needs_decision,queued,wip,blocked";
+const SHELVE_ISSUE = "needs_decision,queued,wip";
 
 const vaultLaunchers = (path: string) =>
 	parseLaunchers(readFileSync(new URL(`../../vault/${path}`, import.meta.url), "utf8"), launcherScope(path)!).map((l) => [
@@ -127,7 +127,7 @@ describe("parseLaunchers", () => {
 			["🗄️ Shelve", "active", "gx_branches"],
 		]);
 		expect(vaultLaunchers("repositories/galaxy/issues/LAUNCHERS.md")).toEqual([
-			["🐴 Implement", "queued,wip,needs_decision,blocked", "gx_workhorse"],
+			["🐴 Implement", "queued,wip,needs_decision", "gx_workhorse"],
 			["💭 New session", "", "gx_issues"],
 			["🩺 Root cause", "untracked", "gx_workhorse"],
 			["🛠️ Work on", "untracked", "gx_workhorse"],
@@ -152,8 +152,8 @@ describe("parseLaunchers", () => {
 	});
 
 	it("parses the vault's Foundry, workflow library, Pulsar and Planemo launchers", () => {
-		const WORK_ON = "untracked,queued,wip,needs_decision,blocked";
-		const OPEN_ISSUE = "needs_decision,queued,wip,blocked,delegated";
+		const WORK_ON = "untracked,queued,wip,needs_decision";
+		const OPEN_ISSUE = "needs_decision,queued,wip,delegated";
 		const AGENT_DIRS = { foundry: "wf_foundry", gxformat2: "workflow_libs", "galaxy-tool-util-ts": "workflow_libs", pulsar: "pulsar", planemo: "planemo" };
 		for (const [repo, dir] of Object.entries(AGENT_DIRS)) {
 			const session = dir === "workflow_libs" ? [["💭 New session", "", dir]] : [];

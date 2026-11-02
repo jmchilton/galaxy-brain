@@ -4,5 +4,5 @@ Shelve the current work until a blocker clears, as a blocker directory per [BLOC
 2. Pick a short snake_case name, unique under `AGENT_DIRECTORY/blockers/`.
 3. Write `previous_session.md`: what was being done, where it stands (branches, worktrees, commits, open questions) and what comes next. In a fresh session started on a record, summarize the record's current state instead. Keep sensitive findings out, per [SECURITY_REPORTS.md](SECURITY_REPORTS.md).
 4. Write `condition.md`, `follow_up.md` and `index.md`. Make the follow-up prompt self-contained: name the record directory, branch or PR. Write `agent_profile.md` only when the follow-up needs a profile other than the default.
-5. If there is a record, set `blocker: <agent_dir>/<short_name>` in its `index.md` frontmatter (adding frontmatter if it has none), per [BLOCKERS.md](BLOCKERS.md).
+5. If there is a record, add `<agent_dir>/<short_name>` to `blockers:` in its `index.md` frontmatter (adding frontmatter if it has none, and making a list if it already has a blocker), per [BLOCKERS.md](BLOCKERS.md).
 6. Report the blocker's path and condition.

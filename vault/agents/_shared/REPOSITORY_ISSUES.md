@@ -11,7 +11,6 @@ The status answers "whose move is it?". An issue lives under exactly one:
 - `needs_decision/` — John's: scope, approach, close or transfer.
 - `queued/` — an agent's, not started: triaged, with a next step.
 - `wip/` — in motion: a branch or open PR (ours or someone else's) addresses it.
-- `blocked/` — someone else's: an upstream PR, reporter info, an infrastructure decision.
 - `delegated/` — nobody's, released: we posted a plan or handed it to a project in `vault/projects/`, and aren't working it.
 - `closed/` — nobody's, done: closed on GitHub.
 
@@ -23,7 +22,7 @@ When the status changes, move the directory. Until permanent URLs exist, a move 
 
 ## Contents
 
-Each directory contains an `index.md` file without frontmatter (except a `blocker:` per [BLOCKERS.md](BLOCKERS.md)). It serves as an ongoing debrief as work is done.
+Each directory contains an `index.md` file without frontmatter (except `blockers:` and `blocking:`, per [BLOCKERS.md](BLOCKERS.md), and `related_records:`, per [NOT_VAULT_NOTES.md](NOT_VAULT_NOTES.md)). It serves as an ongoing debrief as work is done.
 
 File names follow the File Docs: `vault/repositories/_defaults/issues/FILE_DOCS.md`, with sections replaced by `vault/repositories/PROJECT/issues/FILE_DOCS.md`. Prefer a documented name over a new one; add a section when a new kind of file starts recurring. Undocumented files are fine.
 

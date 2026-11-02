@@ -1,0 +1,5 @@
+- blocked: a record with `blockers:`; the next move belongs to someone or something outside John and the agents (an upstream PR, another person, an environment or infrastructure), stated as a record or a condition an agent can check.
+- "needs decision": the next move is John's, a choice agents shouldn't make (scope, design, whether to abandon), with the options laid out.
+- abandon: John has explicitly decided to drop the work; an agent may recommend abandoning, but only John's call moves the record to `abandoned/`.
+- polish: take a hardened branch to ready-for-final-review by getting it through its checklist and writing a persuasive PR description, without changing its scope.
+- harden: stress an implemented branch (baseline refactor, test challenges, independent reviews, scope evaluation) to find what's wrong with it before polishing.

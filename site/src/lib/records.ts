@@ -48,7 +48,7 @@ export const KIND_LABELS: Record<RecordKind, string> = {
 // Unlisted statuses still render, after these.
 export const STATUS_ORDER: Record<RecordKind, string[]> = {
   branches: ['active', 'merged', 'abandoned'],
-  issues: ['needs_decision', 'queued', 'wip', 'blocked', 'delegated', 'closed'],
+  issues: ['needs_decision', 'queued', 'wip', 'delegated', 'closed'],
   issues_incubator: ['incubating', 'internal', 'rejected'],
   reviews: ['active', 'archived'],
 };

@@ -7,7 +7,8 @@ Paths are relative to the galaxy-brain repository root. Note contracts live in [
 - `meta_tags.yml` is the tag registry. Every tag on a validated note must appear here.
 - `meta_schema.yml` defines the frontmatter contract in JSON Schema Draft 07, written as YAML.
 - `validate_frontmatter.py` validates notes. It declares PEP 723 dependencies for `uv`.
-- `test_validate_frontmatter.py` and `test_check_references.py` contain the root Python tests.
+- `meta_record_schema.yml` defines repository record frontmatter. `validate_records.py` validates it, including `blockers:`/`blocking:`, `related_records:` and `parent_branch:`/`child_branches:` references and their pairing.
+- `test_validate_frontmatter.py`, `test_validate_records.py` and `test_check_references.py` contain the root Python tests.
 - `dashboard_sections.json` drives `generate_dashboard.py` and `site/src/pages/index.astro`.
 - `generate_index.py` generates `vault/Index.md`, a catalog of validated note types and their summaries. It excludes agent workflows, repository records, and workspace sub-files.
 - `vault/log.md` is the append-only operations journal, written by the ingest workflow. It is excluded from validation and content collections, but published at `/log/`.
@@ -28,7 +29,7 @@ Run commands from the repository root. Python commands require `uv`. Run `npm in
 ```sh
 make test                           # root Python tests, not the JS suites
 make test ARGS="-k pattern"         # select Python tests
-make validate                       # validate vault/ frontmatter
+make validate                       # validate vault/ note and record frontmatter
 make validate ARGS="vault/research/" # validate a directory
 make dashboard                      # generate vault/Dashboard.md
 make check-dashboard                # fail on dashboard drift
@@ -73,7 +74,7 @@ make diff-review-test               # differential-review Vitest suite
 
 ### Shared records and configuration
 
-- Records live at `vault/repositories/<repo>/<kind>/<status>/<id>/`, where kind is `branches`, `issues`, `issues_incubator`, or `reviews`. Their `index.md` files need no frontmatter.
+- Records live at `vault/repositories/<repo>/<kind>/<status>/<id>/`, where kind is `branches`, `issues`, `issues_incubator`, or `reviews`. Their `index.md` files need no frontmatter; when present it follows `meta_record_schema.yml`.
 - `site/src/lib/records.ts` supplies record paths, status helpers, and queue grouping shared by the site and Obsidian plugin. Keep it dependency-free and free of Node imports because the plugin also loads on mobile.
 - Branch, issue and review records group by sections in their queue file (`vault/repositories/<repo>/<kind>/MY_BRANCHES.md`, `MY_ISSUES.md`, `MY_REVIEWS.md`) when present. Unlisted records fall back to status groups. The tab also embeds the queue file.
 - Launchers come from `vault/repositories/<repo>/<kind>/LAUNCHERS.md` and `_defaults/<kind>/LAUNCHERS.md`. The format is documented in `vault/agents/_shared/LAUNCHERS.md` and parsed by `obsidian-plugin/src/launchers.ts`.
@@ -85,7 +86,7 @@ make diff-review-test               # differential-review Vitest suite
 ### Obsidian plugin
 
 - TypeScript + esbuild builds into `vault/.obsidian/plugins/galaxy-brain/`. Pure logic lives in plain modules with Vitest tests.
-- The repository view provides launch buttons and an upstream activity feed fetched with `gh api graphql` (`github-feed.ts`). Tab definitions and GitHub list URLs are shared with the site through `site/src/lib/repository-tabs.ts`. The site links to GitHub lists, while the plugin fetches them. Records (and feed rows matching them) whose `index.md` frontmatter names a `blocker:` get a 🔒 opening its condition and follow-up (`blocker-modal.ts`).
+- The repository view provides launch buttons and an upstream activity feed fetched with `gh api graphql` (`github-feed.ts`). Tab definitions and GitHub list URLs are shared with the site through `site/src/lib/repository-tabs.ts`. The site links to GitHub lists, while the plugin fetches them. Records (and feed rows matching them) get a 🔒 per `blockers:` entry, opening an agent blocker's condition and follow-up (`blocker-modal.ts`) or the blocking record, a 🚫 per `blocking:` entry and a 🔗 per `related_records:` entry (`blockers.ts`).
 - `gb-tasks` fenced blocks render as task cards with launch-and-remove, snooze (hides until `snoozed_until`) and remove buttons; `kind: human` cards get ✔ (remove) instead of launch. See `vault/agents/_shared/TASK_LIST_YAML_FORMAT.md` and `obsidian-plugin/src/task-list.ts`.
 - `gb-missed-prs` fenced blocks render cards for merged Galaxy PRs John missed (`vault/agents/gx_reviews/the_cracks/FELL_THROUGH_THE_CRACKS_NOTE_FORMAT.md`, `obsidian-plugin/src/missed-prs.ts`). ✔ / ↺ toggle the entry's `reviewed: true`; reviewed cards show dimmed. A `gb-missed-prs-feed` block renders unreviewed cards from every `YYYY-MM-DD.md` file in `the_cracks/` (or the directory in its body), newest first; it shares `cracks-feed.ts` with the Agents view's tab.
 - The Agents view (`agents-view.ts`) has an agent-dir dropdown. Each agent page shows 🌅 Good morning / ⏱️ Tick buttons (`Run ./GOOD_MORNING.md` / `./TICK.md`, `Sonnet (medium)`, for the files present) and its `TASKS.md` task cards; the landing page lists every agent's buttons and merges all `TASKS.md` cards, by priority then recommended first. Tasks and Blockers tabs, with counts, switch between those cards and the `blockers/` entries (`vault/agents/_shared/BLOCKERS.md`): name, agent dir and `condition.md`. Agents with a `the_cracks/` directory add a Fell Through the Cracks tab of unreviewed `gb-missed-prs` cards, and a missed-PR count on the landing page. See `agent-routines.ts` and `blockers.ts`.

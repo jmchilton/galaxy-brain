@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { blockerFromPath, blockersPath, recordBlocker } from "./blockers";
+import { blockerFromPath, blockersPath, recordBlockers, recordIdLabel, recordIndexPath, recordRefs } from "./blockers";
 
 describe("blockersPath", () => {
 	it("is blockers/ in the agent dir", () => {
@@ -20,15 +20,47 @@ describe("blockerFromPath", () => {
 	});
 });
 
-describe("recordBlocker", () => {
-	it("reads the blocker named in a record's frontmatter", () => {
-		expect(recordBlocker("---\nupstream_base_branch: dev\nblocker: gx_branches/wait_for_24501\n---\n# Fix\n")).toEqual({ agentDir: "gx_branches", name: "wait_for_24501" });
-		expect(recordBlocker('---\nblocker: "planemo/release"\n---\n')).toEqual({ agentDir: "planemo", name: "release" });
+describe("recordBlockers", () => {
+	it("reads agent and record blockers named in a record's frontmatter", () => {
+		expect(recordBlockers("---\nupstream_base_branch: dev\nblockers: gx_branches/wait_for_24501\n---\n# Fix\n")).toEqual([{ agentDir: "gx_branches", name: "wait_for_24501" }]);
+		expect(recordBlockers('---\nblockers: ["planemo/release", galaxy/reviews/24484]\n---\n')).toEqual([
+			{ agentDir: "planemo", name: "release" },
+			{ repo: "galaxy", kind: "reviews", name: "24484" },
+		]);
 	});
 
-	it("is null without a frontmatter blocker", () => {
-		expect(recordBlocker("# Fix\n\nblocker: gx_branches/wait\n")).toBeNull();
-		expect(recordBlocker("---\nupstream_base_branch: dev\n---\n")).toBeNull();
-		expect(recordBlocker("---\nblocker: no_slash\n---\n")).toBeNull();
+	it("is empty without frontmatter blockers, and skips malformed ones", () => {
+		expect(recordBlockers("# Fix\n\nblockers: gx_branches/wait\n")).toEqual([]);
+		expect(recordBlockers("---\nupstream_base_branch: dev\n---\n")).toEqual([]);
+		expect(recordBlockers("---\nblockers: [no_slash, galaxy/pulls/12]\n---\n")).toEqual([]);
+	});
+});
+
+describe("recordRefs", () => {
+	it("reads the records a record blocks", () => {
+		expect(recordRefs("---\nblocking:\n  - galaxy/issues/24551\n  - planemo/branches/fix_26.1\n---\n", "blocking")).toEqual([
+			{ repo: "galaxy", kind: "issues", name: "24551" },
+			{ repo: "planemo", kind: "branches", name: "fix_26.1" },
+		]);
+	});
+
+	it("reads related records, skipping malformed ones", () => {
+		expect(recordRefs("---\nrelated_records: [galaxy/reviews/24484, gx_branches/wait]\n---\n", "related_records")).toEqual([
+			{ repo: "galaxy", kind: "reviews", name: "24484" },
+		]);
+	});
+});
+
+describe("recordIndexPath", () => {
+	it("finds a record's index.md under any status", () => {
+		const paths = ["repositories/galaxy/issues/queued/24551/index.md", "repositories/galaxy/issues/queued/24551/plan.md", "repositories/galaxy/reviews/active/24551/index.md"];
+		expect(recordIndexPath(paths, { repo: "galaxy", kind: "issues", name: "24551" })).toBe("repositories/galaxy/issues/queued/24551/index.md");
+		expect(recordIndexPath(paths, { repo: "galaxy", kind: "branches", name: "24551" })).toBeUndefined();
+	});
+});
+
+describe("recordIdLabel", () => {
+	it("is the frontmatter reference", () => {
+		expect(recordIdLabel({ repo: "galaxy", kind: "reviews", name: "24484" })).toBe("galaxy/reviews/24484");
 	});
 });

@@ -3,7 +3,8 @@
 # requires-python = ">=3.10"
 # ///
 """Post an issues_incubator record's proposal.md as a GitHub issue, labeled per its
-issue_tags.md, and move the record to `repositories/<repo>/issues/<status>/<number>/`.
+issue_tags.md, move the record to `repositories/<repo>/issues/<status>/<number>/`, point
+other records' frontmatter references at it, and re-validate records.
 
 Usage: vault/agents/_shared/scripts/file_incubator_issue.py RECORD_DIR [--status STATUS] [--github-repo OWNER/REPO] [--assign] [--dry-run]
 """
@@ -17,15 +18,33 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Callable
 
-ISSUE_STATUSES = ["needs_decision", "queued", "wip", "blocked", "delegated"]
+ISSUE_STATUSES = ["needs_decision", "queued", "wip", "delegated"]
 FILEABLE_STATUSES = ["incubating", "internal"]
 ISSUE_URL = re.compile(r"https://github\.com/[^/\s]+/[^/\s]+/issues/(\d+)")
 # One backticked label per bullet; prose and anything else in issue_tags.md is ignored.
 TAG_LINE = re.compile(r"^- `([^`]+)`", re.MULTILINE)
+FRONTMATTER = re.compile(r"\A---\n.*?^---\n", re.DOTALL | re.MULTILINE)
 
 
 class FilingError(Exception):
     pass
+
+
+def split_frontmatter(text: str) -> tuple[str, str]:
+    """(leading `---` block or "", rest)."""
+    match = FRONTMATTER.match(text)
+    return (match.group(0), text[match.end():]) if match else ("", text)
+
+
+def ref_pattern(ref: str) -> re.Pattern[str]:
+    """A `<repo>/<kind>/<name>` record reference as a whole token."""
+    return re.compile(rf"(?<![\w./-]){re.escape(ref)}(?![\w.-])")
+
+
+def records_referencing(repositories: Path, ref: str) -> list[Path]:
+    """Record index.md files whose frontmatter mentions `ref`."""
+    pattern = ref_pattern(ref)
+    return [index for index in sorted(repositories.glob("*/*/*/*/index.md")) if pattern.search(split_frontmatter(index.read_text())[0])]
 
 
 @dataclass
@@ -39,6 +58,16 @@ class FilingPlan:
     dest_parent: Path
     assign: bool = False
     labels: list[str] = field(default_factory=list)
+    frontmatter: str = ""
+    referencing: list[Path] = field(default_factory=list)
+
+    @property
+    def repositories(self) -> Path:
+        return self.record.parents[3]
+
+    @property
+    def ref(self) -> str:
+        return f"{self.repo}/issues_incubator/{self.record.name}"
 
 
 def plan_filing(record: Path, status: str, github_repo: str | None = None, assign: bool = False) -> FilingPlan:
@@ -62,10 +91,11 @@ def plan_filing(record: Path, status: str, github_repo: str | None = None, assig
         raise FilingError(f"{proposal} must start with a `# title` line")
     body = proposal.read_text()[title_match.end():].lstrip("\n")
     index = record / "index.md"
-    summary = re.sub(r"^\s*#\s+.*\n", "", index.read_text(), count=1).strip() if index.is_file() else ""
+    head, index_body = split_frontmatter(index.read_text()) if index.is_file() else ("", "")
+    summary = re.sub(r"^\s*#\s+.*\n", "", index_body, count=1).strip()
     tags = record / "issue_tags.md"
     labels = TAG_LINE.findall(tags.read_text()) if tags.is_file() else []
-    return FilingPlan(
+    plan = FilingPlan(
         record=record,
         repo=repo,
         github_repo=github_repo or f"galaxyproject/{repo}",
@@ -75,7 +105,10 @@ def plan_filing(record: Path, status: str, github_repo: str | None = None, assig
         dest_parent=record.parents[2] / "issues" / status,
         assign=assign,
         labels=labels,
+        frontmatter=head,
     )
+    plan.referencing = [path for path in records_referencing(plan.repositories, plan.ref) if path != index]
+    return plan
 
 
 def gh_create_issue(plan: FilingPlan) -> str:
@@ -125,11 +158,29 @@ def file_record(
     for path in plan.record.iterdir():
         if path.name != "index.md":
             shutil.move(str(path), dest / path.name)
-    index = f"# {plan.repo}#{number} — {plan.title}\n\n[Issue]({url})\n"
+    index = f"{plan.frontmatter}# {plan.repo}#{number} — {plan.title}\n\n[Issue]({url})\n"
     (dest / "index.md").write_text(index + (f"\n{plan.summary}\n" if plan.summary else ""))
     (plan.record / "index.md").unlink(missing_ok=True)
     plan.record.rmdir()
+    rewrite_references(plan.repositories, plan.ref, f"{plan.repo}/issues/{number}")
     return dest
+
+
+def rewrite_references(repositories: Path, old: str, new: str) -> list[Path]:
+    """Point records' frontmatter references to `old` at `new`; returns the rewritten index.md files."""
+    pattern = ref_pattern(old)
+    rewritten = records_referencing(repositories, old)
+    for index in rewritten:
+        head, body = split_frontmatter(index.read_text())
+        index.write_text(pattern.sub(new, head) + body)
+    return rewritten
+
+
+def validate_records(repositories: Path) -> int:
+    """Run the repository's record validator over this vault; returns its exit code."""
+    root = repositories.parents[1]
+    cmd = ["uv", "run", str(root / "validate_records.py"), str(repositories.parent), "--schema", str(root / "meta_record_schema.yml")]
+    return subprocess.run(cmd).returncode
 
 
 def main(argv: list[str] | None = None) -> int:
@@ -145,13 +196,22 @@ def main(argv: list[str] | None = None) -> int:
         if args.dry_run:
             check_labels(plan)
             labels = ", ".join(plan.labels) or "none"
-            print(f"Would file on {plan.github_repo}: {plan.title}\nlabels: {labels}\nthen move to {plan.dest_parent}/<number>/\n\n{plan.body}")
+            print(f"Would file on {plan.github_repo}: {plan.title}\nlabels: {labels}\nthen move to {plan.dest_parent}/<number>/")
+            for index in plan.referencing:
+                print(f"and point {plan.ref} at {plan.repo}/issues/<number> in {index}")
+            print(f"\n{plan.body}")
             return 0
         dest = file_record(plan)
     except FilingError as e:
         print(f"error: {e}", file=sys.stderr)
         return 1
-    print(f"Filed and moved record to {dest}\nNext: triage it into MY_ISSUES.md per vault/agents/_shared/MY_ISSUES_INDEX.md")
+    print(f"Filed and moved record to {dest}")
+    for index in plan.referencing:
+        print(f"Pointed {plan.ref} at {plan.repo}/issues/{dest.name} in {index}")
+    if validate_records(plan.repositories):
+        print("error: record validation failed after filing; fix the records above", file=sys.stderr)
+        return 1
+    print("Next: triage it into MY_ISSUES.md per vault/agents/_shared/MY_ISSUES_INDEX.md")
     return 0
 
 

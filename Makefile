@@ -4,9 +4,10 @@ DEPS = --with python-frontmatter --with jsonschema --with pyyaml
 
 validate:
 	uv run $(DEPS) python validate_frontmatter.py $(ARGS)
+	uv run $(DEPS) python validate_records.py
 
 test:
-	uv run $(DEPS) --with pytest pytest test_validate_frontmatter.py test_check_references.py -v $(ARGS)
+	uv run $(DEPS) --with pytest pytest test_validate_frontmatter.py test_validate_records.py test_check_references.py -v $(ARGS)
 
 install:
 	mkdir -p ~/.claude/skills

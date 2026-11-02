@@ -688,18 +688,35 @@ function upstreamOwner(repo, bodies) {
 }
 
 // src/record-frontmatter.ts
-var STRING_FIELDS = ["upstream_base_branch", "parent_branch", "blocker"];
+var STRING_FIELDS = ["upstream_base_branch", "parent_branch"];
+var LIST_FIELDS = ["blockers", "blocking", "related_records"];
+var unquote = (value) => value.trim().replace(/^(["'])(.*)\1$/, "$2");
 function recordFrontmatter(body) {
   const block = /^---\n([\s\S]*?)^---$/m.exec(body);
   if (!block || block.index !== 0) return {};
   const raw = {};
+  let listKey;
   for (const line of block[1].split("\n")) {
-    const m = /^(\w+):\s*["']?([^"']*?)["']?\s*$/.exec(line);
-    if (m && m[2]) raw[m[1]] = m[2];
+    const item2 = /^\s*-\s+(.+)$/.exec(line);
+    if (item2 && listKey) {
+      raw[listKey].push(unquote(item2[1]));
+      continue;
+    }
+    listKey = void 0;
+    const m = /^(\w+):\s*(.*?)\s*$/.exec(line);
+    if (!m) continue;
+    const key2 = m[1];
+    const value = m[2];
+    const flow = /^\[(.*)\]$/.exec(value);
+    if (flow) raw[key2] = flow[1].split(",").map(unquote).filter(Boolean);
+    else if (value) raw[key2] = [unquote(value)];
+    else raw[listKey = key2] = [];
   }
   const fields = {};
-  for (const key2 of STRING_FIELDS) if (raw[key2]) fields[key2] = raw[key2];
-  if (raw.pr && /^\d+$/.test(raw.pr)) fields.pr = Number(raw.pr);
+  for (const key2 of STRING_FIELDS) if (raw[key2]?.[0]) fields[key2] = raw[key2][0];
+  for (const key2 of LIST_FIELDS) if (raw[key2]?.length) fields[key2] = raw[key2];
+  const pr = raw.pr?.[0];
+  if (pr && /^\d+$/.test(pr)) fields.pr = Number(pr);
   return fields;
 }
 
@@ -829,75 +846,6 @@ function routineLaunch(agentDir, routine) {
   };
 }
 
-// src/blockers.ts
-var blockersPath = (agentDir) => `agents/${agentDir}/blockers`;
-function blockerFromPath(path) {
-  const m = path.match(/^agents\/([^/]+)\/blockers\/([^/]+)(?:\/|$)/);
-  return m ? { agentDir: m[1], name: m[2] } : null;
-}
-function recordBlocker(body) {
-  const m = /^([^\s/]+)\/([^\s/]+)$/.exec(recordFrontmatter(body).blocker ?? "");
-  return m ? { agentDir: m[1], name: m[2] } : null;
-}
-
-// src/cracks-feed.ts
-var import_obsidian2 = require("obsidian");
-
-// src/missed-pr-cards.ts
-function renderMissedPrCards(el3, prs, options = {}) {
-  const list2 = el3.createDiv({ cls: "gb-missed-prs" });
-  const empty2 = (text2) => list2.createDiv({ cls: "gb-missed-prs-empty", text: text2 });
-  const shown = options.hideReviewed ? prs.filter((pr) => !pr.reviewed) : prs;
-  if (prs.length === 0) empty2("No missed PRs.");
-  else if (shown.length === 0) empty2("All reviewed.");
-  for (const pr of shown) {
-    let reviewed = pr.reviewed;
-    const card = list2.createDiv({ cls: "gb-missed-pr" });
-    card.toggleClass("gb-missed-pr-reviewed", reviewed);
-    const head = card.createDiv({ cls: "gb-missed-pr-head" });
-    head.createEl("a", { text: `#${pr.pr}`, href: pr.url, cls: "external-link", attr: { target: "_blank", rel: "noopener" } });
-    head.createSpan({ cls: "gb-missed-pr-title", text: pr.title });
-    const { setReviewed } = options;
-    if (setReviewed) {
-      const button2 = head.createEl("button");
-      const label = () => {
-        button2.setText(reviewed ? "\u21BA" : "\u2714");
-        button2.setAttr("aria-label", reviewed ? "Mark unreviewed" : "Mark reviewed");
-      };
-      label();
-      button2.onclick = async () => {
-        card.addClass("gb-missed-pr-pending");
-        const ok = await setReviewed(pr, !reviewed);
-        card.removeClass("gb-missed-pr-pending");
-        if (!ok) return;
-        reviewed = !reviewed;
-        if (options.hideReviewed && reviewed) {
-          card.remove();
-          if (!list2.querySelector(".gb-missed-pr")) empty2("All reviewed.");
-          return;
-        }
-        card.toggleClass("gb-missed-pr-reviewed", reviewed);
-        label();
-      };
-    }
-    const meta = [
-      pr.author && `by ${pr.author}`,
-      pr.mergedBy && `merged by ${pr.mergedBy}`,
-      pr.approvers.length ? `approved by ${pr.approvers.join(", ")}` : "no approvals",
-      pr.mergedAt?.slice(0, 10)
-    ];
-    card.createDiv({ cls: "gb-missed-pr-meta", text: meta.filter(Boolean).join(" \xB7 ") });
-    if (pr.summary) card.createDiv({ cls: "gb-missed-pr-summary", text: pr.summary.trim() });
-    if (pr.discussionSummary) card.createDiv({ cls: "gb-missed-pr-discussion-summary", text: `\u{1F4AC} ${pr.discussionSummary.trim()}` });
-    for (const [label, text2] of [["Details", pr.details], ["Discussion", pr.discussion]]) {
-      if (!text2) continue;
-      const details = card.createEl("details", { cls: "gb-missed-pr-more" });
-      details.createEl("summary", { text: label });
-      details.createDiv({ cls: "gb-missed-pr-text", text: text2.trim() });
-    }
-  }
-}
-
 // ../site/src/lib/records.ts
 var RECORD_KINDS = ["branches", "issues", "issues_incubator", "reviews"];
 var DEFAULTS_REPO = "_defaults";
@@ -923,7 +871,7 @@ var KIND_LABELS = {
 };
 var STATUS_ORDER = {
   branches: ["active", "merged", "abandoned"],
-  issues: ["needs_decision", "queued", "wip", "blocked", "delegated", "closed"],
+  issues: ["needs_decision", "queued", "wip", "delegated", "closed"],
   issues_incubator: ["incubating", "internal", "rejected"],
   reviews: ["active", "archived"]
 };
@@ -1011,6 +959,93 @@ function groupBySections(records, kind, grouping) {
     return found.length ? [{ key: section2.key, label: section2.label, records: found }] : [];
   });
   return { sections, rest: ofKind.filter((record) => !listed.has(record.name)) };
+}
+
+// src/blockers.ts
+var blockersPath = (agentDir) => `agents/${agentDir}/blockers`;
+var isAgentBlocker = (blocker) => "agentDir" in blocker;
+var recordIdLabel = ({ repo, kind, name }) => `${repo}/${kind}/${name}`;
+function blockerFromPath(path) {
+  const m = path.match(/^agents\/([^/]+)\/blockers\/([^/]+)(?:\/|$)/);
+  return m ? { agentDir: m[1], name: m[2] } : null;
+}
+function recordId(ref) {
+  const m = /^([^\s/]+)\/([^\s/]+)\/([^\s/]+)$/.exec(ref);
+  return m && RECORD_KINDS.includes(m[2]) ? { repo: m[1], kind: m[2], name: m[3] } : null;
+}
+function recordBlockers(body) {
+  return (recordFrontmatter(body).blockers ?? []).flatMap((ref) => {
+    const agent = /^([^\s/]+)\/([^\s/]+)$/.exec(ref);
+    const blocker = agent ? { agentDir: agent[1], name: agent[2] } : recordId(ref);
+    return blocker ? [blocker] : [];
+  });
+}
+function recordRefs(body, field) {
+  return (recordFrontmatter(body)[field] ?? []).flatMap((ref) => recordId(ref) ?? []);
+}
+function recordIndexPath(paths, { repo, kind, name }) {
+  return paths.find((path) => {
+    const parsed = parseRecordPath(path);
+    return parsed?.repo === repo && parsed.kind === kind && parsed.id === name && parsed.rest === "index.md";
+  });
+}
+
+// src/cracks-feed.ts
+var import_obsidian2 = require("obsidian");
+
+// src/missed-pr-cards.ts
+function renderMissedPrCards(el3, prs, options = {}) {
+  const list2 = el3.createDiv({ cls: "gb-missed-prs" });
+  const empty2 = (text2) => list2.createDiv({ cls: "gb-missed-prs-empty", text: text2 });
+  const shown = options.hideReviewed ? prs.filter((pr) => !pr.reviewed) : prs;
+  if (prs.length === 0) empty2("No missed PRs.");
+  else if (shown.length === 0) empty2("All reviewed.");
+  for (const pr of shown) {
+    let reviewed = pr.reviewed;
+    const card = list2.createDiv({ cls: "gb-missed-pr" });
+    card.toggleClass("gb-missed-pr-reviewed", reviewed);
+    const head = card.createDiv({ cls: "gb-missed-pr-head" });
+    head.createEl("a", { text: `#${pr.pr}`, href: pr.url, cls: "external-link", attr: { target: "_blank", rel: "noopener" } });
+    head.createSpan({ cls: "gb-missed-pr-title", text: pr.title });
+    const { setReviewed } = options;
+    if (setReviewed) {
+      const button2 = head.createEl("button");
+      const label = () => {
+        button2.setText(reviewed ? "\u21BA" : "\u2714");
+        button2.setAttr("aria-label", reviewed ? "Mark unreviewed" : "Mark reviewed");
+      };
+      label();
+      button2.onclick = async () => {
+        card.addClass("gb-missed-pr-pending");
+        const ok = await setReviewed(pr, !reviewed);
+        card.removeClass("gb-missed-pr-pending");
+        if (!ok) return;
+        reviewed = !reviewed;
+        if (options.hideReviewed && reviewed) {
+          card.remove();
+          if (!list2.querySelector(".gb-missed-pr")) empty2("All reviewed.");
+          return;
+        }
+        card.toggleClass("gb-missed-pr-reviewed", reviewed);
+        label();
+      };
+    }
+    const meta = [
+      pr.author && `by ${pr.author}`,
+      pr.mergedBy && `merged by ${pr.mergedBy}`,
+      pr.approvers.length ? `approved by ${pr.approvers.join(", ")}` : "no approvals",
+      pr.mergedAt?.slice(0, 10)
+    ];
+    card.createDiv({ cls: "gb-missed-pr-meta", text: meta.filter(Boolean).join(" \xB7 ") });
+    if (pr.summary) card.createDiv({ cls: "gb-missed-pr-summary", text: pr.summary.trim() });
+    if (pr.discussionSummary) card.createDiv({ cls: "gb-missed-pr-discussion-summary", text: `\u{1F4AC} ${pr.discussionSummary.trim()}` });
+    for (const [label, text2] of [["Details", pr.details], ["Discussion", pr.discussion]]) {
+      if (!text2) continue;
+      const details = card.createEl("details", { cls: "gb-missed-pr-more" });
+      details.createEl("summary", { text: label });
+      details.createDiv({ cls: "gb-missed-pr-text", text: text2.trim() });
+    }
+  }
 }
 
 // src/task-list.ts
@@ -1116,7 +1151,7 @@ function replaceBlockBody(note, fenceStart, fenceEnd, body) {
   lines.splice(fenceStart + 1, fenceEnd - fenceStart - 1, ...bodyLines);
   return lines.join("\n");
 }
-function recordIndexPath(record, paths) {
+function recordIndexPath2(record, paths) {
   const prefix = `repositories/${record.repo}/${record.kind}/`;
   const suffix = `/${record.name}/index.md`;
   return paths.find((path) => path.startsWith(prefix) && path.endsWith(suffix) && !path.slice(prefix.length, -suffix.length).includes("/"));
@@ -6477,8 +6512,7 @@ var RepositoryView = class extends import_obsidian7.ItemView {
         `Open ${kind} record ${record.name} (${statusLabel(record.status)})`,
         (event) => void this.app.workspace.openLinkText(record.indexPath ?? record.dir, "", event.metaKey || event.ctrlKey)
       );
-      const blocker = recordBlocker(bodyOf(record));
-      if (blocker) action("lock", `Blocked: ${blocker.agentDir}/${blocker.name}`, () => new BlockerModal(this.app, blocker).open());
+      this.recordRefActions(bodyOf(record), action);
       if (launchable.has(record.dir)) action("bot", `Launch agent for ${kind} record`, () => void this.host.pickLauncher(record));
       const worktree = this.host.worktreeFor(record, bodyOf(record));
       if (worktree) action("code", `Open ${kind} worktree with Code`, () => this.host.openInCode(worktree));
@@ -6542,6 +6576,20 @@ var RepositoryView = class extends import_obsidian7.ItemView {
     }));
     return bodies;
   }
+  /** 🔒 per blocker (agent blockers open their condition, records their index.md), 🚫 per record this one blocks, 🔗 per related record. */
+  recordRefActions(body, action) {
+    const openRecord = (id, event) => {
+      const path = recordIndexPath(this.app.vault.getMarkdownFiles().map((f) => f.path), id);
+      if (path) void this.app.workspace.openLinkText(path, "", event.metaKey || event.ctrlKey);
+      else new import_obsidian7.Notice(`${recordIdLabel(id)} not found`);
+    };
+    for (const blocker of recordBlockers(body)) {
+      if (isAgentBlocker(blocker)) action("lock", `Blocked: ${blocker.agentDir}/${blocker.name}`, () => new BlockerModal(this.app, blocker).open());
+      else action("lock", `Blocked by ${recordIdLabel(blocker)}`, (event) => openRecord(blocker, event));
+    }
+    for (const blocked of recordRefs(body, "blocking")) action("ban", `Blocking ${recordIdLabel(blocked)}`, (event) => openRecord(blocked, event));
+    for (const related of recordRefs(body, "related_records")) action("link", `Related: ${recordIdLabel(related)}`, (event) => openRecord(related, event));
+  }
   renderRecord(list2, record, body, launchable, { time = record.mtime, tags = [] } = {}) {
     const item2 = list2.createEl("li", { cls: "gbr-record" });
     const actions = item2.createSpan({ cls: "gbr-actions" });
@@ -6558,8 +6606,7 @@ var RepositoryView = class extends import_obsidian7.ItemView {
       (0, import_obsidian7.setIcon)(button2, icon);
       button2.onclick = onClick;
     };
-    const blocker = recordBlocker(body);
-    if (blocker) action("lock", `Blocked: ${blocker.agentDir}/${blocker.name}`, () => new BlockerModal(this.app, blocker).open());
+    this.recordRefActions(body, action);
     if (launchable) action("bot", "Launch agent", () => void this.host.pickLauncher(record));
     const github = githubUrl(record, body);
     if (github) action("github", "Open on GitHub", () => window.open(github));
@@ -6932,7 +6979,7 @@ var GalaxyBrainPlugin = class extends import_obsidian8.Plugin {
   }
   /** Opens a task's record index.md, wherever its status puts it. */
   openTaskRecord(record, newLeaf) {
-    const path = recordIndexPath(record, this.app.vault.getMarkdownFiles().map((file) => file.path));
+    const path = recordIndexPath2(record, this.app.vault.getMarkdownFiles().map((file) => file.path));
     if (!path) return void new import_obsidian8.Notice(`No record ${record.repo}/${record.kind}/${record.name}`);
     void this.app.workspace.openLinkText(path, "", newLeaf);
   }

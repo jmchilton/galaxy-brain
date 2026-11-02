@@ -38,7 +38,7 @@ flowchart TD
   J -->|post| G["GitHub issue"]
   J -->|internal| N["Tracked internally<br/>fixed PR-first"]
   J -->|reject| O["Archived with reason"]
-  G --> T["Triage index<br/>needs_decision, wip, queued, blocked"]
+  G --> T["Triage index<br/>needs_decision, wip, queued"]
   S["Issues assigned to John"] --> T
   T -->|queued| W["Handed to gx_workhorse"]
 ```

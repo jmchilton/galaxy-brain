@@ -2,7 +2,7 @@ from pathlib import Path
 
 import pytest
 
-from file_incubator_issue import FilingError, file_record, plan_filing
+from file_incubator_issue import FilingError, file_record, main, plan_filing
 
 
 def make_record(vault: Path, status="incubating", name="orphaned_tools", proposal=True, debrief=True) -> Path:
@@ -122,3 +122,51 @@ def test_unknown_label_raises_before_create(tmp_path):
     with pytest.raises(FilingError, match=r"unknown label.*area/API"):
         file_record(plan_filing(record, "queued"), create, lambda repo: {"kind/bug"})
     assert record.exists()
+
+
+def filed_as(number):
+    return lambda plan: f"https://github.com/galaxyproject/galaxy/issues/{number}"
+
+
+def test_files_keep_record_frontmatter(tmp_path):
+    record = make_record(tmp_path)
+    (record / "index.md").write_text("---\nblocking: galaxy/branches/fix\n---\n# Orphaned tools\n\nImport leaks tools.\n")
+    dest = file_record(plan_filing(record, "queued"), filed_as(24500))
+    assert (dest / "index.md").read_text() == (
+        "---\nblocking: galaxy/branches/fix\n---\n"
+        "# galaxy#24500 — Import leaves orphaned tools\n\n"
+        "[Issue](https://github.com/galaxyproject/galaxy/issues/24500)\n\n"
+        "Import leaks tools.\n"
+    )
+
+
+def test_files_rewrite_references_in_other_records_frontmatter(tmp_path):
+    record = make_record(tmp_path)
+    blocked = tmp_path / "repositories" / "planemo" / "branches" / "active" / "fix"
+    blocked.mkdir(parents=True)
+    text = (
+        "---\nblockers:\n  - galaxy/issues_incubator/orphaned_tools\n  - galaxy/issues_incubator/orphaned_tools_extra\n---\n"
+        "# fix\n\nWaits on galaxy/issues_incubator/orphaned_tools.\n"
+    )
+    (blocked / "index.md").write_text(text)
+    plan = plan_filing(record, "queued")
+    assert plan.referencing == [blocked / "index.md"]
+    file_record(plan, filed_as(24500))
+    assert (blocked / "index.md").read_text() == text.replace(
+        "  - galaxy/issues_incubator/orphaned_tools\n", "  - galaxy/issues/24500\n"
+    )
+
+
+def test_files_rewrite_related_records(tmp_path):
+    record = make_record(tmp_path)
+    related = tmp_path / "repositories" / "galaxy" / "reviews" / "active" / "24484"
+    related.mkdir(parents=True)
+    (related / "index.md").write_text("---\nrelated_records: [galaxy/branches/fix, galaxy/issues_incubator/orphaned_tools]\n---\n# 24484\n")
+    file_record(plan_filing(record, "queued"), filed_as(24500))
+    assert (related / "index.md").read_text() == "---\nrelated_records: [galaxy/branches/fix, galaxy/issues/24500]\n---\n# 24484\n"
+
+
+def test_blocked_is_not_an_issue_status(capsys):
+    with pytest.raises(SystemExit):
+        main(["some/record", "--status", "blocked"])
+    assert "invalid choice: 'blocked'" in capsys.readouterr().err

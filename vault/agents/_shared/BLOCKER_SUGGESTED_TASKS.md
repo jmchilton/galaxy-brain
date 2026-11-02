@@ -15,3 +15,21 @@ profile: {profile}
 description: 🔓 {name}: {description}
 status: recommended
 ```
+
+## Blocking record finished
+
+when: whenever
+what: records this agent dir owns (per [RECORD_AGENTS.yml](RECORD_AGENTS.yml)) whose `blockers:` names a record now in a terminal status (`make validate` warns about these).
+
+`record` is the blocked record's `<repo>/<kind>/<name>`; `blocker` is the finished record's; `status` is its status directory.
+
+Suggest:
+
+```
+prompt: |
+  {blocker} is {status}, unblocking {record}. Drop {blocker} from {record}'s `blockers:` and {record} from {blocker}'s `blocking:`, then pick up {record}'s next step.
+agent_dir: {agent_dir}
+description: 🔓 {record}: {blocker} is {status}
+record: {record}
+status: recommended
+```

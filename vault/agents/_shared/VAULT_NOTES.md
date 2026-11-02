@@ -7,7 +7,7 @@ Paths are relative to the galaxy-brain repository root; run `make` commands from
 - Notes require `type`, `tags`, `status`, `created`, `revised`, `revision`, `ai_generated`, and `summary`. Summaries must contain 20–160 characters. Type-specific requirements live in `meta_schema.yml` under `allOf/if/then`.
 - Supported types are `research`, `plan`, `plan-section`, `concept`, `moc`, `project`, and `paper`. Research notes also require a registered `subtype`.
 - `vault/projects/<name>/` and `vault/papers/<name>/` are workspaces. Only their `index.md` files are validated notes. Sibling Markdown files are plain documents and render through separate site collections.
-- `vault/agents/**` and `vault/repositories/**`, including their `index.md` files, are plain documents excluded from frontmatter validation. Do not add note frontmatter to them. See `vault/agents/_shared/NOT_VAULT_NOTES.md`.
+- `vault/agents/**` and `vault/repositories/**`, including their `index.md` files, are plain documents excluded from note validation. Do not add note frontmatter to them. Record `index.md` frontmatter has its own contract, `meta_record_schema.yml`, checked by `validate_records.py`. See `vault/agents/_shared/NOT_VAULT_NOTES.md`.
 - `find_md_files()` in `validate_frontmatter.py` skips hidden paths, `templates/`, `agents/`, `repositories/`, `Dashboard.md`, `Index.md`, `log.md`, and non-index Markdown files under `projects/` and `papers/` when traversing the vault root.
 - Tags are hierarchical, such as `research/component`. Tag coherence accepts a registered subtag of the expected type tag.
 - `parent_plan`, `related_issues`, `related_notes`, and `related_projects` use `[[Target Name]]` links. `related_prs` accepts wiki links or integer PR numbers.

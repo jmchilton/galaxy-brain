@@ -1,0 +1,64 @@
+# meta_record_schema.yml - JSON Schema Draft 07 in YAML syntax
+# Frontmatter contract for repository record index.md files
+# (vault/repositories/<repo>/<kind>/<status>/<name>/index.md). Frontmatter is optional.
+$schema: "http://json-schema.org/draft-07/schema#"
+title: "Galaxy Brain Repository Record Frontmatter"
+type: object
+additionalProperties: false
+
+definitions:
+  agent_blocker:
+    type: string
+    pattern: "^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$"
+  record_ref:
+    type: string
+    pattern: "^[A-Za-z0-9_.-]+/(branches|issues|issues_incubator|reviews)/[A-Za-z0-9_.-]+$"
+  branch_name:
+    type: string
+    pattern: "^[A-Za-z0-9_.-]+$"
+  blocker_ref:
+    anyOf:
+      - $ref: "#/definitions/agent_blocker"
+      - $ref: "#/definitions/record_ref"
+
+properties:
+  upstream_base_branch:
+    type: string
+    minLength: 1
+  parent_branch:
+    $ref: "#/definitions/branch_name"
+  child_branches:
+    oneOf:
+      - $ref: "#/definitions/branch_name"
+      - type: array
+        items:
+          $ref: "#/definitions/branch_name"
+        minItems: 1
+        uniqueItems: true
+  pr:
+    type: integer
+    minimum: 1
+  blockers:
+    oneOf:
+      - $ref: "#/definitions/blocker_ref"
+      - type: array
+        items:
+          $ref: "#/definitions/blocker_ref"
+        minItems: 1
+        uniqueItems: true
+  blocking:
+    oneOf:
+      - $ref: "#/definitions/record_ref"
+      - type: array
+        items:
+          $ref: "#/definitions/record_ref"
+        minItems: 1
+        uniqueItems: true
+  related_records:
+    oneOf:
+      - $ref: "#/definitions/record_ref"
+      - type: array
+        items:
+          $ref: "#/definitions/record_ref"
+        minItems: 1
+        uniqueItems: true
