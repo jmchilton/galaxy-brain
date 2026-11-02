@@ -1,6 +1,6 @@
 # Response to davelopez review (2026-10-30) — PR #24482
 
-Commit `1e6881dd20e` (unpushed until approved). No contention; all points addressed except vitest rows (explained, kept).
+Commit `c22216c4565` (unpushed until approved); 8 touched E2E tests pass locally (Playwright). No contention; all points addressed except vitest rows (explained, kept).
 
 ## Inline replies
 
