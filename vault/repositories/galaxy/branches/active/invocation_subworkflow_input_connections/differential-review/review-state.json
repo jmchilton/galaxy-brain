@@ -1,0 +1,92 @@
+{
+  "schemaVersion": 1,
+  "kind": "differential-review-state",
+  "updatedAt": "2026-11-01T20:57:40.107Z",
+  "hunks": {
+    "h1:8cf9c5a3c15e55fd": {
+      "snapshotId": "20261101T195254Z-revision-14f1310fe20b",
+      "path": "lib/galaxy/workflow/modules.py",
+      "reviewedAt": "2026-11-01T20:57:29.125Z"
+    },
+    "h1:334006b2cfb61642": {
+      "snapshotId": "20261101T195254Z-revision-14f1310fe20b",
+      "path": "lib/galaxy/workflow/run.py",
+      "reviewedAt": "2026-11-01T20:57:33.213Z"
+    },
+    "h1:40a3210551cf912e": {
+      "snapshotId": "20261101T195254Z-revision-14f1310fe20b",
+      "path": "lib/galaxy/workflow/run.py",
+      "reviewedAt": "2026-11-01T20:57:33.213Z"
+    },
+    "h1:64084aa4efad571d": {
+      "snapshotId": "20261101T195254Z-revision-14f1310fe20b",
+      "path": "lib/galaxy/workflow/run_request.py",
+      "reviewedAt": "2026-11-01T20:57:34.103Z"
+    },
+    "h1:8b5cbffbf2e7b85f": {
+      "snapshotId": "20261101T195254Z-revision-14f1310fe20b",
+      "path": "lib/galaxy/workflow/run_request.py",
+      "reviewedAt": "2026-11-01T20:57:34.103Z"
+    },
+    "h1:d0f034242be2cb47": {
+      "snapshotId": "20261101T195254Z-revision-14f1310fe20b",
+      "path": "lib/galaxy/workflow/run_request.py",
+      "reviewedAt": "2026-11-01T20:57:34.103Z"
+    },
+    "h1:04357afbb1a8d8c2": {
+      "snapshotId": "20261101T195254Z-revision-14f1310fe20b",
+      "path": "lib/galaxy/workflow/run_request.py",
+      "reviewedAt": "2026-11-01T20:57:34.103Z"
+    },
+    "h1:8f1580c4f5ac0535": {
+      "snapshotId": "20261101T195254Z-revision-14f1310fe20b",
+      "path": "lib/galaxy/workflow/run_request.py",
+      "reviewedAt": "2026-11-01T20:57:34.103Z"
+    },
+    "h1:d9bfabc71c1bc618": {
+      "snapshotId": "20261101T195254Z-revision-14f1310fe20b",
+      "path": "lib/galaxy/workflow/run_request.py",
+      "reviewedAt": "2026-11-01T20:57:34.103Z"
+    },
+    "h1:912870ac3be5abe1": {
+      "snapshotId": "20261101T195254Z-revision-14f1310fe20b",
+      "path": "lib/galaxy_test/api/test_workflows.py",
+      "reviewedAt": "2026-11-01T20:57:35.119Z"
+    },
+    "h1:fe4b2b820f3fef43": {
+      "snapshotId": "20261101T195254Z-revision-14f1310fe20b",
+      "path": "lib/galaxy_test/api/test_workflows.py",
+      "reviewedAt": "2026-11-01T20:57:35.119Z"
+    },
+    "h1:f0e9046fa49713fe": {
+      "snapshotId": "20261101T195254Z-revision-14f1310fe20b",
+      "path": "test/unit/workflows/test_workflow_progress.py",
+      "reviewedAt": "2026-11-01T20:57:36.267Z"
+    },
+    "h1:6bf768c3e86b5fa2": {
+      "snapshotId": "20261101T195254Z-revision-14f1310fe20b",
+      "path": "test/unit/workflows/test_workflow_progress.py",
+      "reviewedAt": "2026-11-01T20:57:36.267Z"
+    }
+  },
+  "commits": {
+    "43e53f03fc44b2e8605a97b1ac22ce04d08d6a47": {
+      "sha": "4ff20afd574e48048d45566a48314a48fe12de15",
+      "subject": "Reject disconnected required subworkflow inputs before invocation",
+      "snapshotId": "20261101T195254Z-revision-14f1310fe20b",
+      "signedOffAt": "2026-11-01T20:57:39.547Z"
+    },
+    "7beae814ea610439db60a5dd21e51cee8feb4f32": {
+      "sha": "2de0931ac074db58aee61387ab34ce042f7ae9de",
+      "subject": "Report disconnected subworkflow inputs consistently at runtime",
+      "snapshotId": "20261101T195254Z-revision-14f1310fe20b",
+      "signedOffAt": "2026-11-01T20:57:39.882Z"
+    },
+    "bd2f35bf35b827aac9e07849dcc96cfc2f13942e": {
+      "sha": "14f1310fe20ba7971d376ace99a3649faf62b909",
+      "subject": "Name disconnected subworkflow inputs in runtime failures",
+      "snapshotId": "20261101T195254Z-revision-14f1310fe20b",
+      "signedOffAt": "2026-11-01T20:57:40.107Z"
+    }
+  }
+}
