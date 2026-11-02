@@ -1,14 +1,6 @@
 # Tasks
 
 ```gb-tasks
-- prompt: Let's talk about branch issue_24188_subworkflow_rename_expression_json. The branch record is vault/repositories/galaxy/branches/active/issue_24188_subworkflow_rename_expression_json/.
-  agent_dir: gx_branches
-  link: https://github.com/galaxyproject/galaxy/pull/24224
-  record: galaxy/branches/issue_24188_subworkflow_rename_expression_json
-  description: |
-    🔀 `${label}` renames inside subworkflows use expression.json values, not HDA reprs (#24188). Base `release_26.1`. [#24224](https://github.com/galaxyproject/galaxy/pull/24224).
-  status: recommended
-  suggested_by: gx_branches/SUGGESTED_TASKS.md#Merge Branches
 - prompt: Let's talk about branch selenium_dataset_tags_auto_detect. The branch record is vault/repositories/galaxy/branches/active/selenium_dataset_tags_auto_detect/.
   agent_dir: gx_branches
   link: https://github.com/galaxyproject/galaxy/pull/24347
@@ -69,4 +61,11 @@
   record: galaxy/branches/selenium_history_import_purge
   description: |
     mvdbeek approved #24440; both optional nits applied in one commit, already pushed.
+- prompt: Review dannon nit fixes on selenium_data_formats_interval_columns (c811d58bf30) in the differential review, then post the drafted reply in review_response_dannon_1.md.
+  agent_dir: gx_branches
+  kind: human
+  link: https://github.com/galaxyproject/galaxy/pull/24439
+  record: galaxy/branches/selenium_data_formats_interval_columns
+  description: |
+    dannon approved #24439; radio-select reader/setter and submitted-color check applied in one commit, already pushed.
 ```

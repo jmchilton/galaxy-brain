@@ -5,11 +5,11 @@
 
 ## Status
 
-`ready`: polished, head `d0ec25c9634` on `release_26.2` (rebased 2026-10-28, one import conflict in `framework.py`).
+`ready`: head `c811d58bf30` on `release_26.2`; dannon's two review nits applied 2026-11-02 ([response](review_response_dannon_1.md)).
 
-[#24439](https://github.com/galaxyproject/galaxy/pull/24439) out of draft (found undrafted 2026-10-24).
+[#24439](https://github.com/galaxyproject/galaxy/pull/24439) approved by dannon; drafted reply awaits John.
 
-CI re-running after the 2026-10-28 rebase.
+CI running on `c811d58bf30`.
 
 ## Scope
 
