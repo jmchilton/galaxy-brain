@@ -1,58 +1,35 @@
 # Polish debrief: `tool_parameter_references`
 
-2026-10-02. Head moved from `36f409c61da` to `0fdd5df7248` (`jmchilton/tool_parameter_references`; worktree `~/projects/worktrees/galaxy/branch/tool_parameter_references`). The only change was a rebase onto `origin/dev` `f8576c1eff4`; there were no content edits.
+2026-11-01, run from the factory session at John's request ("grand rebase and polish"). Head `245a9103f73` → `0b79ffc8921` on `jmchilton/tool_parameter_references`; base dev `269efa7af5b`. [Earlier polish (2026-10-02)](earlier_drafts/1/polish_debrief.md).
 
-## Entry state
+## Decision
 
-- Listed under `branches_implemented`, with blockers "John's read-through, Sphinx build". Two local commits were unpushed (`bb8cf3620a3`, `36f409c61da`, from 2026-10-01); the parent session pushed them before polishing.
-- Fork "Build docs" was green at `1ed8b98835c`, the only workflow this docs-only diff triggers.
+John, 2026-11-01: merge now. The doc describes dev as it is, with inline **Open:** notes linking the issues and PRs that would change it. Supersedes "stays draft until the rough edges are fixed".
 
-## Checklist (GENERAL.md only)
+## Steps
 
-- I ran it myself. As a fork, I couldn't spawn the fresh subagent that POLISH_BRANCH.md asks for, so this pass isn't independent.
-- I skipped WORKFLOW_RELATED.md. The doc covers workflows in one section, but the change is documentation only and touches no workflow code.
-- Every item passes. Three are N/A, since there are no failure paths, no tests and no code comments. On archeology: the doc's version history (pre-23.1 keys, the 26.0 and 26.2 gates, the 23.0 `when` fallback) is there to explain which legacy forms still resolve, which is what the doc is about.
+- Rebase onto dev: 2771 commits, no conflicts (docs only).
+- Fact-check: fresh Opus subagent, [reverification_2026-11.md](reverification_2026-11.md). 11 stale findings, 1 new silent trap, 7 open-work notes, gaps table updated.
+- Refresh, four commits:
+  1. `509ea5a8f61` type_source (#23890), linters (#23919), rename (#23918), editor `when` parsing, "Galaxy 26.2" wording.
+  2. `810addd1103` YAML class-based dialects and sections (#24365); warning removed; two gaps closed.
+  3. `9430df04c7d` YAML tool tests drop section values (verified in `yaml.py` `_flatten_parameter`); new silent trap + gap row.
+  4. `0b79ffc8921` intro note on #23444 and **Open:** notes for #23884/#24524, #23888, #23891, #23902, #23895, #23981.
+- Checklist: fresh Sonnet subagent, [pr_checklist.md](pr_checklist.md). One fail (#24524 note read as merged) fixed in commit 4.
+- Sphinx: minimal `sphinx-build -n` (sphinx 9.1.1, myst-parser 5.1.0, Galaxy's heading-anchor config) with `tool_state.md` and a stub `user_defined_tools_authoring.md`: 0 warnings from this doc. Full `make docs` not run.
+- Strengthening round: skipped; the fact-check covered it.
+- [PR description](pr_description.md) rewritten; [titles](pr_titles.md) without `[WIP]`; [tags](pr_tags.md) add `area/workflows`.
 
-## Verification against `origin/dev`
+## Snapshot
 
-Spot-checked the riskiest claims; all hold:
+```
+created .../differential-review/snapshots/20261101T231006Z-polishing-0b79ffc89213.json
+  polishing @ 0b79ffc89213 vs origin/dev (merge-base 269efa7af5be)
+  first snapshot: 12 commits, 2 files, 2 hunks
+```
 
-- The default profiles: XML `16.01`, YAML `24.2`.
-- The `structured_like` 26.0 gate (`execute.py:579`).
-- `type_source` walking `.inputs`, which `Conditional` lacks.
-- The late `_eval_format_source` for `expression.json` (`evaluation.py`).
-- `MetadataSourceProvider` being a plain dict.
-- The 26.2 removal of flat `when` aliases (`73caef00c18`).
-- The `enable_tool_requests` default of true.
-- The `18_01_consider_structured_like` text.
-- The dev linter skipping `|` and warning only on unqualified names.
-- All 15 cited test functions exist at the cited paths.
+## Left for John
 
-## Sphinx
-
-- I did a minimal `sphinx-build -n` with Galaxy's MyST config (`myst_heading_anchors = 5`, `docutils.nodes.make_id` slugs) over this doc, `tool_state.md` and a stub of the generated `user_defined_tools_authoring.md`. Every anchor and cross-page link resolves; there were no warnings from this doc.
-- I didn't run the full `make docs`. Fork "Build docs" at `0fdd5df7248` was queued at handoff (superseded by `aa43e451f05`, below).
-
-## Strengthening round
-
-I did this myself as well, not with a subagent. Nothing in scope was added. The hedges that are left are the doc's own Verification Gaps table, and closing those would mean adding tests, which widens the scope.
-
-## Left over
-
-- **Staleness coupling:** `fix_format_source_docs` changes the linter rows described here: repeat awareness, errors on non-matches, and selector support. The description's Context says whichever PR merges second updates the other.
-- The doc documents `multiple="true"` numbered keys (`input1`) shadowing `cond|input1` as a hazard. That's consistent with `gx_issues/to_file/format_source_allows_internals.md`, which treats those keys as internals not to endorse.
-- Scope questions for John:
-  - Close any Verification Gaps rows with tests in this PR, or leave them as follow-ups?
-  - Fix `18_01_consider_structured_like` (it contradicts the 26.0 gate), or just document it as the doc does now?
-  - Is the opener "Groundwork for 🎯 #23444" right, or should this stand alone?
-
-## Independent checklist pass (after the fork)
-
-The fork couldn't spawn subagents, so a fresh subagent re-ran the checklist and spot-checked 17 claims against the worktree. Checklist answers matched. Fixed in `aa43e451f05`:
-
-- The "already declared" `data_ref` assert is in `Tool.parse_param_elem`, not `_from_input_source_galaxy`.
-- Connection keys that grow a repeat *start with* `<repeat>_N|`, not end with `_N|`.
-- Flat repeats pad to the larger of `default` and `min`, not just `min`.
-- The `#{input1}` rename fallback is a raw string suffix match (`cond|xinput1` also matches), not a path-segment match.
-
-Rejected: it flagged the `user_defined_tools_authoring.md` link as broken. The file is generated by `doc/Makefile` (and gitignored), so the link resolves in `make docs`. Also dropped the repeated "Groundwork for" from the description's Context.
+- #23891 and #23902 branches disagree on the profile gate (27.0 on #23891's head vs. 26.2 on #23902, built on an older #23891 commit). The doc's notes avoid naming a profile.
+- The new section-drop trap has no issue yet.
+- Update PR #23877's body from `pr_description.md` (after `human_review.md`), retitle, undraft.

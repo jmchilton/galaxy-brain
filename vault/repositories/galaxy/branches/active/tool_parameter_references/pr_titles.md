@@ -1,0 +1,4 @@
+- Galaxy Developer Docs for Tool Parameter References
+- Document how tools, APIs and workflows reference nested tool parameters
+- Developer reference for nested tool parameter references
+- Add a developer reference for tool parameter naming and its silent traps
