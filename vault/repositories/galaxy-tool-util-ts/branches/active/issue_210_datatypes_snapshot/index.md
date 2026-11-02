@@ -1,5 +1,6 @@
 ---
 upstream_base_branch: main
+child_branches: issue_210_test_kind_checks
 ---
 
 # Galaxy datatypes snapshot in workflow-graph (#210 Phase A)
