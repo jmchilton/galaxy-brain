@@ -1,6 +1,6 @@
 ## PRs to review (`to_review`)
 
-- [#24661](https://github.com/galaxyproject/galaxy/pull/24661) — initial review in progress. [notes](active/24661/index.md)
+- [#24661](https://github.com/galaxyproject/galaxy/pull/24661) — initial review ready, unposted (one P2 + five P3s; five fixed on `pr_24661_review_0`). [notes](active/24661/index.md)
 - [#24598](https://github.com/galaxyproject/galaxy/pull/24598) — approved + review branch `e278e8edcea` pushed into PR; awaiting merge. [notes](active/24598/index.md)
 - [#24635](https://github.com/galaxyproject/galaxy/pull/24635) — initial review ready, unposted (four P2s + five P3s; eight fixed on `pr_24635_review_0`); release-target question for John. [notes](active/24635/index.md)
 - [#24510](https://github.com/galaxyproject/galaxy/pull/24510) — happy-dom 21 bump; CI fix `b4129a30ef2` pushed to PR branch, no agent review; awaiting CI + merge. [notes](active/24510/index.md)
