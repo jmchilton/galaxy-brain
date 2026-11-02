@@ -13,7 +13,7 @@ Approved by launch; PR opened as draft, rebased onto `release_26.2` (`62dcd7b0a7
 
 [PR #24482](https://github.com/galaxyproject/galaxy/pull/24482) draft against `release_26.2`; screenshots hosted on fork branch `pr-assets-selenium_faq_account_workflow_display_26.2`.
 
-PR [#24482](https://github.com/galaxyproject/galaxy/pull/24482) undrafted 2026-11-01 with CI green on `9c088e58794`; davelopez left unanswered comments 2026-10-30.
+PR [#24482](https://github.com/galaxyproject/galaxy/pull/24482) undrafted 2026-11-01 with CI green on `9c088e58794`; davelopez review 2026-10-30 addressed locally in `1e6881dd20e` (unpushed); replies drafted in [review_response_davelopez_1.md](review_response_davelopez_1.md).
 
 ## Handoff
 

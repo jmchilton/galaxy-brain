@@ -1,38 +1,6 @@
 # Tasks
 
 ```gb-tasks
-- prompt: Let's talk about branch issue_23980_static_restriction_default. The branch record is vault/repositories/galaxy/branches/active/issue_23980_static_restriction_default/.
-  agent_dir: gx_branches
-  link: https://github.com/galaxyproject/galaxy/pull/24140
-  record: galaxy/branches/issue_23980_static_restriction_default
-  description: |
-    🔀 Preselects restricted text-input defaults and permits a default empty option on 26.2. [#24140](https://github.com/galaxyproject/galaxy/pull/24140).
-  status: recommended
-  suggested_by: gx_branches/SUGGESTED_TASKS.md#Merge Branches
-- prompt: Let's talk about branch selenium_collection_build_convert. The branch record is vault/repositories/galaxy/branches/active/selenium_collection_build_convert/.
-  agent_dir: gx_branches
-  link: https://github.com/galaxyproject/galaxy/pull/24341
-  record: galaxy/branches/selenium_collection_build_convert
-  description: |
-    🔀 Fixes Convert Collection always enabled; E2E tests for list building and collection conversion. Base `release_26.2`. [#24341](https://github.com/galaxyproject/galaxy/pull/24341).
-  status: recommended
-  suggested_by: gx_branches/SUGGESTED_TASKS.md#Merge Branches
-- prompt: Let's talk about branch selenium_data_formats_interval_columns. The branch record is vault/repositories/galaxy/branches/active/selenium_data_formats_interval_columns/.
-  agent_dir: gx_branches
-  link: https://github.com/galaxyproject/galaxy/pull/24439
-  record: galaxy/branches/selenium_data_formats_interval_columns
-  description: |
-    🔀 Add missing E2E tests: tool form accepted formats, Attributes tab interval columns; shared `form_element_*` read/set helpers. [#24439](https://github.com/galaxyproject/galaxy/pull/24439).
-  status: recommended
-  suggested_by: gx_branches/SUGGESTED_TASKS.md#Merge Branches
-- prompt: Let's talk about branch selenium_history_import_purge. The branch record is vault/repositories/galaxy/branches/active/selenium_history_import_purge/.
-  agent_dir: gx_branches
-  link: https://github.com/galaxyproject/galaxy/pull/24440
-  record: galaxy/branches/selenium_history_import_purge
-  description: |
-    🔀 Add missing 26.2 E2E tests for shared history import and histories list bulk purge. Base `release_26.2`. [#24440](https://github.com/galaxyproject/galaxy/pull/24440).
-  status: recommended
-  suggested_by: gx_branches/SUGGESTED_TASKS.md#Merge Branches
 - prompt: Let's talk about branch issue_24188_subworkflow_rename_expression_json. The branch record is vault/repositories/galaxy/branches/active/issue_24188_subworkflow_rename_expression_json/.
   agent_dir: gx_branches
   link: https://github.com/galaxyproject/galaxy/pull/24224
@@ -80,11 +48,18 @@
     🔓 deployment_test_fixes_merged: galaxyproject/galaxy#24489 (`deployment_test_fixes_26_2`) is merged.
   status: recommended
   suggested_by: gx_branches/SUGGESTED_TASKS.md#Unblocked
-- prompt: "Review the davelopez nit fix on selenium_history_datatype_citations (ab414ac4063) in the differential review, then post the drafted reply in review_response_davelopez_1.md."
+- prompt: Review the davelopez nit fix on selenium_history_datatype_citations (ab414ac4063) in the differential review, then post the drafted reply in review_response_davelopez_1.md.
   agent_dir: gx_branches
   kind: human
   link: https://github.com/galaxyproject/galaxy/pull/24329
   record: galaxy/branches/selenium_history_datatype_citations
   description: |
     davelopez approved #24329; optional BibTeX-key regex nit applied in one commit.
+- prompt: Review davelopez response commit on selenium_faq_account_workflow_display_26.2 (1e6881dd20e) in the differential review; push it, then post the drafted replies in review_response_davelopez_1.md.
+  agent_dir: gx_branches
+  kind: human
+  link: https://github.com/galaxyproject/galaxy/pull/24482
+  record: galaxy/branches/selenium_faq_account_workflow_display_26.2
+  description: |
+    2 inline races + 7 summary points addressed in one commit; vitest-row point explained in review_pushback_davelopez_1.md.
 ```
