@@ -1,9 +1,12 @@
 Follow-up to #24607, which re-checks a user-defined tool owner's execution role at job prep.
 
-- Add API test: queued user tool job fails when the owner is removed from the group granting the execute role (passes with #24607's fix, fails without).
-- Log a distinct startup reason (`(uuid ...) unavailable: <error>`) when a dynamic tool job can't be recovered because its uuid lookup raises (owner lost the execute role, definition can't load, tool deactivated); previously logged as "removed from tool config". Startup unit test asserts the uuid and error.
-- Drop mock-only `prepare()` unit test duplicating API coverage.
+- Add API test: queued user tool job fails when the owner is removed from the group granting the execute role (passes with #24607's fix, fails without). `user_tool_execute_permissions_via_group()` yields the group and reuses `create_group`.
+- Startup recovery now logs why a dynamic tool job can't be recovered instead of "removed from tool config":
+  - owner lost the execute role: `(uuid ...) not usable by the job's owner: User is not allowed to run unprivileged tools`, via new `DynamicToolManager.ensure_job_owner_can_run(job)`. Checked before the uuid lookup, which otherwise swallows the permission error and reports `ObjectNotFound`.
+  - any other uuid lookup failure (definition can't load, tool deactivated): `(uuid ...) unavailable: <error>`.
+- The startup tool check moves into a `_tool_unavailable_reason` helper; unit tests cover each reason, one against a real role deletion.
 - Spec the `JobHandlerQueue` mock in the startup unit test.
-- `user_tool_execute_permissions_via_group()` yields the group and reuses `create_group`.
+
+`JobWrapper.prepare()` keeps its inline role check for now; #24635 adds code right after it, so switching it to `ensure_job_owner_can_run` can follow once that merges forward.
 
 🤖 Generated with [Claude Code](https://claude.com/claude-code)
