@@ -1,6 +1,5 @@
 ---
 upstream_base_branch: release_26.1
-parent_branch: workflow_import_embedded_tools
 ---
 # Roll back embedded tools when a workflow import fails
 
