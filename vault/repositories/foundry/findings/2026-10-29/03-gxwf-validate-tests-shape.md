@@ -3,6 +3,7 @@
 - Target: jmchilton/galaxy-tool-util-ts (owns `checkTestsAgainstWorkflow` in `@galaxy-tool-util/schema`, which `gxwf validate-tests --workflow` calls). Foundry tracking needed: yes, and it already exists.
 - Seen in: `/home/ubuntu/foundry-runs/prose-wb2g-demo-v1-2026-10-29`, phase 8 (implement-galaxy-workflow-test), 2026-10-29; ledger entries `validate-tests-doc-overclaims-type-mismatch-check`, `gxwf-validate-tests-no-collection-type-or-filetype-check`.
 - Existing issues/PRs: upstream [jmchilton/galaxy-tool-util-ts#210](https://github.com/jmchilton/galaxy-tool-util-ts/issues/210) (open, same gap, found on egapx with 1.14.0). Foundry [#731](https://github.com/galaxyproject/foundry/issues/731) (open, `priority/mvp`, `agent/implement`) with open PR [#734](https://github.com/galaxyproject/foundry/pull/734) (`issue-731-igwt-cardinality-trace`), which already rewords step 4/eval, adds a manual job-input shape/filetype check and fixes `content/cli/gxwf/validate-tests.md`. This run is a duplicate; it adds input-side evidence only.
+- hic v0 (/home/ubuntu/foundry-runs/prose-wb2g-hic-v0-2026-11-01, phase 8, ledger `validate-tests-cross-check-skips-output-collection-type`, gxwf 1.15.0): output side of gtu#210 item 1. Negative probe: `run_fastqc_*` `collection_type` changed `list:paired` → `list:list` still validated (exit 0); renamed output and input labels were caught. Add as evidence on #210; #734's output-kind tracing is the Foundry stopgap. The missing-`element_tests` case is planemo's (finding 14), not a gxwf check.
 
 ## Symptom
 
