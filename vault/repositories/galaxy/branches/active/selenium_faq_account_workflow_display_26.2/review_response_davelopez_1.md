@@ -1,31 +1,33 @@
 # Response to davelopez review (2026-10-30) — PR #24482
 
-Commit `c22216c4565` (unpushed until approved); 8 touched E2E tests pass locally (Playwright). No contention; all points addressed except vitest rows (explained, kept).
+Fixes in `c9cfd049e14` (rebased onto `release_26.2` `a0e37600cf6`); 12 touched E2E tests (Playwright) and the vitest file pass locally. All points addressed; vitest "loading" row kept pending John (see [pushback](review_pushback_davelopez_1.md)).
 
-## Inline replies
+## Top-level reply (for John to post)
 
-### navigates_galaxy.py `manage_information_save` email wait (r4424734541)
-
-> Applied your suggestion as written — the helper now waits for the span to show the saved email, and only falls back to plain visibility for public-name-only saves. Thanks!
+> Thanks for the careful review, Dave! I rebased onto `release_26.2` and pushed fixes for everything:
 >
-> ***Posted by model Claude Opus 5.5 at effort low on jmchilton's behalf***
-
-### test_workflow_editor.py `test_edit_tags` (r4424734561)
-
-> Good catch. The test now polls `GET /api/workflows` until the workflow carries the tag before leaving the editor, so the list can't load ahead of the save.
+> - **Saved email check (inline):** used your suggestion as written. The helper now waits until the field shows the saved email. If only the public name changed, it just waits for the field to appear.
+> - **Workflow tag save (inline):** before leaving the editor, `test_edit_tags` now polls `GET /api/workflows` until the workflow has the tag. The list can no longer load before the save finishes.
+> - **Storage Refresh:** the helper now only clicks Refresh. The wait for the short-lived "recalculating" message moved into the CI test, with a comment that it can clear right away when Celery is running.
+> - **Display applications helper:** it now returns an ordered list of `(label, links)` pairs, so two apps with the same name can't overwrite each other.
+> - **`test_best_practices_input_label`:** removed the duplicate lint-status check.
+> - **Best Practices:** split out `workflow_editor_open_best_practices()`. The two callers that only need the panel open use it now, and so does the untyped-parameter test that came in with the rebase.
+> - **`manage_information_save`:** it no longer navigates when Manage Information is already open, so `test_public_name` loads the page once.
+> - **`DisplayApplications.vue`:** removed the extra `dataset &&` check.
+> - **`DisplayApplications.test.js`:** you're right about "loading", which the old guard already covers. "failed" does depend on the id check, though. I confirmed this by changing the wrapper to plain `v-if="dataset"`: then the `{}` result renders the wrapper and that row fails (so does "stale"). The wrapper is the readiness marker the browser helper waits for, so I kept that row.
 >
-> ***Posted by model Claude Opus 5.5 at effort low on jmchilton's behalf***
+> ***Posted by agent [gx_branches](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/gx_branches/AGENTS.md) using model Claude Opus 5.5 on John's behalf.***
 
-## Top-level reply
+## Optional inline replies
 
-> Thanks for the careful read — pushed fixes for both inline comments plus:
+### r4424734541 (`manage_information_save` email wait)
+
+> Applied as suggested, thanks.
 >
-> - **Storage Refresh:** the helper now only clicks Refresh; the wait on the transient "recalculating" alert lives in the CI test (with a comment noting it can clear instantly under Celery).
-> - **Display applications helper:** now returns an ordered list of `(label, links)` so duplicate labels can't collide.
-> - **`test_best_practices_input_label`:** dropped the duplicate lint-status check.
-> - **Best Practices:** split out `workflow_editor_open_best_practices()`; the two callers that only need the panel use it.
-> - **`manage_information_save`:** skips navigating when Manage Information is already open, so `test_public_name` loads it once.
-> - **`DisplayApplications.vue`:** removed the redundant inner `dataset &&`.
-> - **`DisplayApplications.test.js`:** agreed "loading" only exercises the existing guard. "failed" (`{}`) does need the id check though — with only `v-if="dataset"` the new wrapper would render for an empty object — so I left both rows in.
+> ***Posted by agent [gx_branches](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/gx_branches/AGENTS.md) using model Claude Opus 5.5 on John's behalf.***
+
+### r4424734561 (`test_edit_tags`)
+
+> Good catch. It now polls `GET /api/workflows` for the tag before leaving the editor.
 >
-> ***Posted by model Claude Opus 5.5 at effort low on jmchilton's behalf***
+> ***Posted by agent [gx_branches](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/gx_branches/AGENTS.md) using model Claude Opus 5.5 on John's behalf.***
