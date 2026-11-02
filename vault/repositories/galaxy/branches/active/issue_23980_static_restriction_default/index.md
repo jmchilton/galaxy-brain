@@ -1,6 +1,10 @@
 # issue_23980_static_restriction_default
 
-Status: `attention`. mvdbeek's 2026-10-20 review is addressed, and replies were posted 2026-10-22 (see [review response](review_response.md)). Restriction-string follow-up: [#24375](https://github.com/galaxyproject/galaxy/issues/24375). Base: `release_26.2`. PR: [#24140](https://github.com/galaxyproject/galaxy/pull/24140). Tip `6a35ca795e3`, rebased onto `release_26.2` `e3affe97eb8` 2026-10-24 (tick) to clear conflicts with numeric-bounds work: kept both sides' API tests, kept base's `parameter_kwds: dict[str, Any]`; CI pending.
+Status: `attention`. mvdbeek's 2026-10-20 review is addressed, and replies were posted 2026-10-22 (see [review response](review_response.md)). Restriction-string follow-up: [#24375](https://github.com/galaxyproject/galaxy/issues/24375). Base: `release_26.2`. PR: [#24140](https://github.com/galaxyproject/galaxy/pull/24140). Tip `3f65dd5a1f2`: includes mvdbeek's fork PR #95 (400 on invalid stored default), rebased onto `release_26.2` `5b1a037ee0f` 2026-11-02; CI pending.
+
+## Rebase — 2026-11-02
+
+Fast-forwarded to `2a6dd60b1c4` (merge of mvdbeek's jmchilton/galaxy#95), rebased onto `release_26.2` `5b1a037ee0f` (merge commit linearized). One conflict: `run_request.py` `galaxy.workflow.modules` import list — base added `disconnected_*`/`workflow_step_name`, #95 added `step_cannot_run_exception`; kept all. Ruff clean, import ok, `test/unit/workflows` 289 passed/1 skipped. Pushed `--force-with-lease`; PR now mergeable.
 
 Preselects defaults for statically restricted workflow text inputs (#23980). The run form can also submit `""` when it's the default option.
 
