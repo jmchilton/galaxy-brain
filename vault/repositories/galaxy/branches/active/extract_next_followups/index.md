@@ -16,7 +16,7 @@ Fixes notebook-to-workflow extraction, report references and editor behavior aft
 
 Draft PR [#24225](https://github.com/galaxyproject/galaxy/pull/24225); screenshots hosted on `pr-assets-extract_next_followups`. E5 renames a 26.2 API route, so this must merge before 26.2.0.
 
-Rebased 2026-10-29 onto `release_26.2` `62dcd7b0a7a` (#24525 merged); head `409c23e0b59`, no conflicts, unit tests 120 passed. Revision snapshot taken (`--base release_26.2`; record has no frontmatter). PR CI re-running.
+Rebased 2026-11-02 onto `release_26.2` `5b1a037ee0f`; head `5316486f068`. Conflicts were from upstream label-hint `kind`→`src` rename (`be1f46b9688`) and `title: str` tightening (`9425d5e862b`); resolved to upstream names, two test hint dicts fixed up in place; route-rename commit dropped as already upstream. Unit tests 106 passed. Revision snapshot taken. PR CI re-running.
 
 ## Decisions and references
 
