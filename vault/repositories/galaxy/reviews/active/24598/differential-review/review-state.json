@@ -1,0 +1,25 @@
+{
+  "schemaVersion": 1,
+  "kind": "differential-review-state",
+  "updatedAt": "2026-11-01T21:02:19.720Z",
+  "hunks": {
+    "h1:8696313b591a0cb2": {
+      "snapshotId": "20261101T193716Z-review-ec57ee1b0200",
+      "path": "scripts/cleanup_datasets/pgcleanup.py",
+      "reviewedAt": "2026-11-01T21:02:16.881Z"
+    },
+    "h1:6f844f312e00aba7": {
+      "snapshotId": "20261101T193716Z-review-ec57ee1b0200",
+      "path": "test/unit/scripts/test_pgcleanup_exit_code.py",
+      "reviewedAt": "2026-11-01T21:02:17.585Z"
+    }
+  },
+  "commits": {
+    "629cbe64e9f90963827eaba0fdc6e6d7e51e0d27": {
+      "sha": "ec57ee1b02005a0d9da4a5c7467ca9d39444f994",
+      "subject": "Exit nonzero from pgcleanup when run sequence fails",
+      "snapshotId": "20261101T193716Z-review-ec57ee1b0200",
+      "signedOffAt": "2026-11-01T21:02:19.720Z"
+    }
+  }
+}

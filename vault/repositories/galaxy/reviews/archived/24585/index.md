@@ -7,3 +7,7 @@
 Initial review (round 0) of `71178a56e3b` approved with response (three P3s, all fixed on `pr_24585_review_1`, pushed to John's fork only) on 2026-10-30; awaiting author/merge.
 
 PR open against `dev` by itisAliRH, out of draft; part of #23812 (W4). Worktree: `~/projects/worktrees/galaxy/pr/24585/`.
+
+## Archived
+
+Merged on GitHub 2026-11-02T14:39:14Z; tracking ended (PR merged). Archived 2026-11-02.

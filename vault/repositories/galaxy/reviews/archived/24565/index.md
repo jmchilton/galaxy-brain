@@ -11,3 +11,7 @@ Initial review ready, unposted. One P2 + four P3s fixed on `pr_24565_review_0`; 
 - Action: [initial_response_action.md](initial_response_action.md) · Findings checklist: [verified_findings_checklist.md](verified_findings_checklist.md)
 - Verified: [verified_review.md](verified_review.md) · Filtered: [filtered_findings.md](filtered_findings.md) · Branch: [review_1_branch_details.md](review_1_branch_details.md) (prev [review_0](review_0_branch_details.md))
 - Reports: [initial_review.md](initial_review.md), [test_challenges_review.md](test_challenges_review.md), [performance_challenges_review.md](performance_challenges_review.md), [risks.md](risks.md), [initial_review_agents.md](initial_review_agents.md)
+
+## Archived
+
+Merged on GitHub 2026-11-02T13:26:18Z; tracking ended (PR merged). Archived 2026-11-02.

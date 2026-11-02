@@ -7,3 +7,7 @@
 - Response: [initial_review_response.md](initial_review_response.md) · [verified_review.md](verified_review.md) · [initial_response_action.md](initial_response_action.md) · [verified_findings_checklist.md](verified_findings_checklist.md)
 - Branch: [review_0_branch_details.md](review_0_branch_details.md)
 - Reports: [initial_review.md](initial_review.md), [test_challenges_review.md](test_challenges_review.md), [risks.md](risks.md)
+
+## Archived
+
+Merged on GitHub 2026-11-02T13:09:14Z; tracking ended (PR merged). Archived 2026-11-02.

@@ -1,0 +1,123 @@
+{
+  "schemaVersion": 1,
+  "kind": "differential-review-state",
+  "updatedAt": "2026-11-01T18:23:22.304Z",
+  "hunks": {
+    "h1:d402a341aca74ed1": {
+      "snapshotId": "20261101T132341Z-review-e43b2db63a4d",
+      "path": "doc/source/admin/galaxy_options.rst",
+      "reviewedAt": "2026-11-01T18:22:22.396Z"
+    },
+    "h1:644418e0648c44cd": {
+      "snapshotId": "20261101T132341Z-review-e43b2db63a4d",
+      "path": "lib/galaxy/config/_galaxy_config_schema_attributes.py",
+      "reviewedAt": "2026-11-01T18:22:26.692Z"
+    },
+    "h1:48e40aba11ad3a59": {
+      "snapshotId": "20261101T132341Z-review-e43b2db63a4d",
+      "path": "lib/galaxy/config/sample/galaxy.yml.sample",
+      "reviewedAt": "2026-11-01T18:22:29.558Z"
+    },
+    "h1:6b05a70c1efe1a83": {
+      "snapshotId": "20261101T132341Z-review-e43b2db63a4d",
+      "path": "lib/galaxy/config/sample/job_conf.sample.yml",
+      "reviewedAt": "2026-11-01T18:22:33.087Z"
+    },
+    "h1:08002820df42fa0b": {
+      "snapshotId": "20261101T132341Z-review-e43b2db63a4d",
+      "path": "lib/galaxy/config/sample/job_conf.sample.yml",
+      "reviewedAt": "2026-11-01T18:22:33.087Z"
+    },
+    "h1:7fddf2043402b956": {
+      "snapshotId": "20261101T132341Z-review-e43b2db63a4d",
+      "path": "lib/galaxy/config/sample/job_conf.xml.sample_advanced",
+      "reviewedAt": "2026-11-01T18:22:36.187Z"
+    },
+    "h1:b83d98ea805727e3": {
+      "snapshotId": "20261101T132341Z-review-e43b2db63a4d",
+      "path": "lib/galaxy/config/sample/job_conf.xml.sample_advanced",
+      "reviewedAt": "2026-11-01T18:22:36.187Z"
+    },
+    "h1:e42a03e30d5a051d": {
+      "snapshotId": "20261101T132341Z-review-e43b2db63a4d",
+      "path": "lib/galaxy/config/schemas/config_schema.yml",
+      "reviewedAt": "2026-11-01T18:22:39.156Z"
+    },
+    "h1:f33fe08c89ce49ef": {
+      "snapshotId": "20261101T132341Z-review-e43b2db63a4d",
+      "path": "lib/galaxy/jobs/__init__.py",
+      "reviewedAt": "2026-11-01T18:22:45.467Z"
+    },
+    "h1:1dc5060a5de5c0f5": {
+      "snapshotId": "20261101T132341Z-review-e43b2db63a4d",
+      "path": "lib/galaxy/jobs/__init__.py",
+      "reviewedAt": "2026-11-01T18:22:45.467Z"
+    },
+    "h1:7152ccdc309d294d": {
+      "snapshotId": "20261101T132341Z-review-e43b2db63a4d",
+      "path": "lib/galaxy/jobs/runners/__init__.py",
+      "reviewedAt": "2026-11-01T18:22:47.907Z"
+    },
+    "h1:65bb93963b76690d": {
+      "snapshotId": "20261101T132341Z-review-e43b2db63a4d",
+      "path": "lib/galaxy/jobs/runners/__init__.py",
+      "reviewedAt": "2026-11-01T18:22:47.907Z"
+    },
+    "h1:ad678e89e3710bda": {
+      "snapshotId": "20261101T132341Z-review-e43b2db63a4d",
+      "path": "lib/galaxy/tool_util/deps/container_classes.py",
+      "reviewedAt": "2026-11-01T18:23:00.772Z"
+    },
+    "h1:912337537575b6f6": {
+      "snapshotId": "20261101T132341Z-review-e43b2db63a4d",
+      "path": "lib/galaxy/tool_util/deps/container_classes.py",
+      "reviewedAt": "2026-11-01T18:23:00.772Z"
+    },
+    "h1:b4011bc02d8c24a5": {
+      "snapshotId": "20261101T132341Z-review-e43b2db63a4d",
+      "path": "lib/galaxy/tool_util/deps/container_classes.py",
+      "reviewedAt": "2026-11-01T18:23:00.772Z"
+    },
+    "h1:c99c6f26ada01147": {
+      "snapshotId": "20261101T132341Z-review-e43b2db63a4d",
+      "path": "lib/galaxy/tool_util/deps/container_classes.py",
+      "reviewedAt": "2026-11-01T18:23:00.772Z"
+    },
+    "h1:dd3595a62c688dcc": {
+      "snapshotId": "20261101T132341Z-review-e43b2db63a4d",
+      "path": "lib/galaxy/tool_util/deps/container_classes.py",
+      "reviewedAt": "2026-11-01T18:23:00.772Z"
+    },
+    "h1:3b1d850522e7aca0": {
+      "snapshotId": "20261101T132341Z-review-e43b2db63a4d",
+      "path": "lib/galaxy_test/driver/driver_util.py",
+      "reviewedAt": "2026-11-01T18:23:03.473Z"
+    },
+    "h1:cade527766482f4b": {
+      "snapshotId": "20261101T132341Z-review-e43b2db63a4d",
+      "path": "test/integration/test_user_defined_tool_job_conf.py",
+      "reviewedAt": "2026-11-01T18:23:07.854Z"
+    },
+    "h1:19f0cb9d985bd897": {
+      "snapshotId": "20261101T132341Z-review-e43b2db63a4d",
+      "path": "test/integration/test_user_defined_tool_job_conf.py",
+      "reviewedAt": "2026-11-01T18:23:07.854Z"
+    },
+    "h1:09b7102cb78678ca": {
+      "snapshotId": "20261101T132341Z-review-e43b2db63a4d",
+      "path": "test/unit/app/jobs/test_job_wrapper.py",
+      "reviewedAt": "2026-11-01T18:23:12.789Z"
+    },
+    "h1:ba14cabd55715204": {
+      "snapshotId": "20261101T132341Z-review-e43b2db63a4d",
+      "path": "test/unit/app/jobs/test_require_container.py",
+      "reviewedAt": "2026-11-01T18:23:17.921Z"
+    },
+    "h1:bf503dc1fdba0122": {
+      "snapshotId": "20261101T132341Z-review-e43b2db63a4d",
+      "path": "test/unit/tool_util/test_container_job_directory_volumes.py",
+      "reviewedAt": "2026-11-01T18:23:22.304Z"
+    }
+  },
+  "commits": {}
+}

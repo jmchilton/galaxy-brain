@@ -8,3 +8,7 @@
 Round 0 review on `c9ad46bdcc5` posted 2026-11-01 as approval (body = response). P2 1 + three P3s, all fixed on `pr_24634_review_0` (`3cefdbb928c`, fork only). Default reviewer's Celery P2 and risks' symlink concern disproved (filtered). A private security note exists for John (location given in session, not recorded here).
 
 PR open, out of draft (mvdbeek), base `release_26.2`. Worktree: `~/projects/worktrees/galaxy/pr/24634`.
+
+## Archived
+
+Merged on GitHub 2026-11-02T11:11:27Z; tracking ended (PR merged). Archived 2026-11-02.

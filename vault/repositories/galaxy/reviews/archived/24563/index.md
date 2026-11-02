@@ -7,3 +7,7 @@ Latest review: round 0 on `f7db338ea74b7efd891d3c8edd84ab53ad007ad0` (2026-10-30
 - [Response draft](initial_review_response.md) · [Action checklist](initial_response_action.md) · [Findings checklist](verified_findings_checklist.md)
 - [Verified review](verified_review.md) · [Branch details](review_0_branch_details.md) · [Agents](initial_review_agents.md)
 - Reports: [default](initial_review.md) · [test challenger](test_challenges_review.md) · [risks](risks.md)
+
+## Archived
+
+Merged on GitHub 2026-11-02T13:09:10Z; tracking ended (PR merged). Archived 2026-11-02.
