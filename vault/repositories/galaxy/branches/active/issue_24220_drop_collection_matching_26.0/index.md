@@ -9,7 +9,7 @@ pr: 24453
 
 ## Status
 
-Status: expanded server fix pushed; head `340e7139d0b` (mypy fix as a separate commit, squash into `758e4e6a397` when force-push is allowed). Worktree: `~/projects/worktrees/galaxy/branch/issue_24220_drop_collection_matching_26.0`.
+Status: reworking onto a shared split-type helper (decision 2026-11-02); pushed head `340e7139d0b`. Worktree: `~/projects/worktrees/galaxy/branch/issue_24220_drop_collection_matching_26.0`.
 
 PR [#24453](https://github.com/galaxyproject/galaxy/pull/24453) in draft since 2026-10-29 for the expanded fix ([comment](https://github.com/galaxyproject/galaxy/pull/24453#issuecomment-6507455866)); live body not yet updated from [pr_description.md](pr_description.md).
 
@@ -26,5 +26,6 @@ Fixes galaxyproject/galaxy#24220: tool form drag and drop matched collections to
 - Option-dedupe changes from 20657 (`68b8d3969e5`) left out; not needed for drop matching.
 - Alt `issue_24220_drop_collection_matching_26.0_alt_original_scope` keeps the pre-re-scope fix ([alts/original_scope.md](alts/original_scope.md)).
 
-- Map-over drops the server can't split (`sample_sheet` targets, compound `X:paired_or_unpaired`) are refused, per mvdbeek's commit. The compound case contradicts `collection_semantics.md`. John's decision (2026-10-29): expand this PR with the server fix scoped in [followup_issue_split_paired_or_unpaired.md](followup_issue_split_paired_or_unpaired.md). Built narrower than the PR comment promised: no shared helper or TS mirror; `_split_dataset_collection` learned compound `X:paired_or_unpaired` (structure code already supported it; `modules.py` already worked), `HistoryQuery.can_map_over` skips `sample_sheet`, Marius' client guard exempts compound types.
+- Map-over drops the server can't split (`sample_sheet` targets, compound `X:paired_or_unpaired`) are refused, per mvdbeek's commit. The compound case contradicts `collection_semantics.md`. John's decision (2026-10-29): expand this PR with the server fix scoped in [followup_issue_split_paired_or_unpaired.md](followup_issue_split_paired_or_unpaired.md). First build (`cf4cc766114`..`340e7139d0b`) was narrower than the PR comment promised, without recorded sign-off: `_split_dataset_collection` learned compound types, leaving the bare rewrite copied 3× and new compound/`sample_sheet` string checks copied 2× each.
+- John's decision (2026-11-02): rework onto the promised shared split-type helper (Python + TS mirror) in this branch if it means less duplication and stronger abstractions. Producers emit literal split types; `_split_dataset_collection` changes reverted; Marius' literal-suffix guard kept (promised publicly on 2026-10-29).
 - Merge forward: `canMatch` → `accepts` is already on `release_26.1`; only tsc/vitest will catch it.
