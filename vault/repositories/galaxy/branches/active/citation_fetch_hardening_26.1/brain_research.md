@@ -24,7 +24,7 @@ documents:
   - path: vault/research/Component - User-Defined Tools.md
     why: Trust split between admin GalaxyTool and unprivileged GalaxyUserTool and how dynamic tools load; explains why user-authored citations make fetch bounds matter.
     load_when: Reasoning about which tool sources reach CitationsManager.
-  - path: vault/repositories/galaxy/branches/active/issue_24530_atomic_embedded_tool_import_26.1/brain_research.md
+  - path: vault/repositories/galaxy/branches/abandoned/issue_24530_atomic_embedded_tool_import_26.1/brain_research.md
     why: Lists callers that create dynamic tools (embedded workflow tools, agents, API); each can carry citations through the same parse path.
     load_when: Auditing which entry points need the citation cap tests.
 research_requests:

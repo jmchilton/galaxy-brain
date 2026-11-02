@@ -95,7 +95,6 @@ None yet.
 
 ## Galaxy branches — needs polish (`branches_need_polish`)
 
-- [`issue_24530_atomic_embedded_tool_import_26.1`](active/issue_24530_atomic_embedded_tool_import_26.1/index.md) — Failed workflow import/update/shared copy rolls back embedded tools (DB + toolbox) (#24530). Stacked on `workflow_import_embedded_tools` (#24475). [Open PR](https://github.com/jmchilton/galaxy/compare/workflow_import_embedded_tools...issue_24530_atomic_embedded_tool_import_26.1?expand=1).
 - [`converted_dataset_lookup_via_manager_26.0`](active/converted_dataset_lookup_via_manager_26.0/index.md) — Existing implicit conversions looked up via `DatasetAssociationManager.get_accessible_converted`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.0...jmchilton:galaxy:converted_dataset_lookup_via_manager_26.0?expand=1).
 
 ## Galaxy branches — ready for final review (`branches_ready_for_final_review`)

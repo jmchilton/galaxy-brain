@@ -19,7 +19,7 @@ documents:
   - path: vault/research/Component - User-Defined Tools.md
     why: GalaxyTool (admin) vs GalaxyUserTool trust split, dynamic tool storage and loading, which affects how stored GalaxyTool rows fail loud.
     load_when: Reasoning about stored-row failure paths (tools/__init__.py loading, ToolMissingException).
-  - path: vault/repositories/galaxy/branches/active/issue_24530_atomic_embedded_tool_import_26.1/brain_research.md
+  - path: vault/repositories/galaxy/branches/abandoned/issue_24530_atomic_embedded_tool_import_26.1/brain_research.md
     why: Code observations on every caller that creates dynamic tools (embedded workflow tools, copy_workflow_for_user, agents, api/dynamic_tools.py) and their tests; all hit YamlToolSource construction so the new validation can break them.
     load_when: Auditing callers and unit/API tests that pass raw tool dicts (e.g. embedded YAML in unit tests).
 research_requests:
