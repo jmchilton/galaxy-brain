@@ -76,3 +76,11 @@ name: sh-{name}
 profile: Sonnet (medium)
 
 Shelve the branch {name} per ../_shared/PROCESS_SHELVE.md. The record is {record}. Blocked on: <user_input_here>
+
+## 🪦 Abandon
+status: active
+agent_dir: gx_branches
+name: ab-{name}
+profile: Sonnet (medium)
+
+Abandon branch {name}; this launch is my explicit abandonment. The record is {record}. Follow "Abandoned Branches" and "Cleaning up Worktrees" in ../_shared/MY_BRANCHES_INDEX.md. If an open PR exists, stop and ask before closing it. Reason: <user_input_here>
