@@ -1,3 +1,6 @@
+---
+related_records: galaxy/branches/pr_24607_followup
+---
 # PR #24607 — [26.1] Recheck the owner's execution role when a user-defined tool job is prepared
 
 - PR: https://github.com/galaxyproject/galaxy/pull/24607 (mvdbeek, base `release_26.1`)
@@ -16,3 +19,5 @@
 ## Archived
 
 GitHub state: MERGED 2026-11-01. Tracking ended on merge; archived 2026-11-01. Worktree removed.
+
+Follow-up branch [`pr_24607_followup`](../../../branches/active/pr_24607_followup/index.md) (base `dev`) carries the review commits; PR description moved there.
