@@ -21,6 +21,8 @@ In the following files:
 @../_shared/MY_BRANCHES_INDEX.md
 @../_shared/REPOSITORY_BRANCHES.md
 @../_shared/WORKTREES.md
+@../_shared/PROCESS_INITIAL_REVIEW.md
+@../_shared/REVIEW_FOCUS.md
 
 The agent running in this directory is responsible for maintaining and promoting branches within [MY_BRANCHES.md](../../repositories/foundry/branches/MY_BRANCHES.md).
 

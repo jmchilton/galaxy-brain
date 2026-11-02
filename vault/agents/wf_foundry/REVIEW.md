@@ -1,3 +1,3 @@
 # Review a pull request
 
-Start a pull request review of supplied review.
+Start an initial review of the supplied pull request.
