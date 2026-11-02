@@ -51,13 +51,14 @@ This [review branch](https://github.com/jmchilton/galaxy/tree/pr_24661_review_0)
 
 Review branch [`pr_24661_review_0`](https://github.com/jmchilton/galaxy/tree/pr_24661_review_0)
 
-Built on the reviewed commit [`e6ea29e1a91`](https://github.com/galaxyproject/galaxy/commit/e6ea29e1a91). It adds a ToolSuccess test that actually guards the new-submission reset (fails without the `watch(jobResponse)`), tightens the pager-count assertion, swaps the new scoped margin style for `mb-0`, names the pager landmark "Jobs" (test selectors follow), and migrates the twin `BPagination` in `History/Graph/ToolExecutionJobs.vue` to `GPagination` with a new unit test. `ToolSuccess.test.ts` (14) and `ToolExecutionJobs.test.ts` (2) pass.
+Built on the reviewed commit [`e6ea29e1a91`](https://github.com/galaxyproject/galaxy/commit/e6ea29e1a91). It adds a ToolSuccess test that actually guards the new-submission reset (fails without the `watch(jobResponse)`), tightens the pager-count assertion, swaps the new scoped margin style for `mb-0`, names the pager landmark "Jobs" (test selectors follow), and migrates the twin `BPagination` in `History/Graph/ToolExecutionJobs.vue` to `GPagination` with a new unit test, and adds an E2E test of the pager. `ToolSuccess.test.ts` (14), `ToolExecutionJobs.test.ts` (2) and the new Playwright test pass.
 
 - [`e790f7ce6a7`](https://github.com/jmchilton/galaxy/commit/e790f7ce6a7) Test ToolSuccess resets to job 1 on a same-size new response — new test; red without the watcher (`expected '2' to be '1'`), green with it.
 - [`2d624d0f6cb`](https://github.com/jmchilton/galaxy/commit/2d624d0f6cb) Assert exact job pager pages in ToolSuccess test — replaces `toBeGreaterThan(0)` with page labels `["1", "2"]` and current page `1`.
 - [`e9ea24e1f91`](https://github.com/jmchilton/galaxy/commit/e9ea24e1f91) Use mb-0 on the ToolSuccess job pager instead of a scoped style — drops the `.job-pagination` class and `<style scoped>` block.
 - [`750a3ca7d25`](https://github.com/jmchilton/galaxy/commit/750a3ca7d25) Label the ToolSuccess job pager landmark "Jobs" — adds `aria-label="Jobs"` and keys test selectors off it.
 - [`6f0c23b98bc`](https://github.com/jmchilton/galaxy/commit/6f0c23b98bc) Use GPagination for the history graph job pager too — migrates `ToolExecutionJobs.vue` and adds `ToolExecutionJobs.test.ts` (red on the `BPagination` version).
+- [`9b9774fcd18`](https://github.com/jmchilton/galaxy/commit/9b9774fcd18) Add E2E test for the ToolSuccess job pager — batch-runs `cat1` over two datasets, checks pages `1`/`2`, clicks `2`, asserts the job id switches; passes under Playwright.
 
 </details>
 
@@ -129,12 +130,16 @@ Discovered by [gx_test_challenger](https://github.com/jmchilton/galaxy-brain/blo
 
 </details>
 
-### P3 5: No E2E coverage of the job pager
+### P3 5: No E2E coverage of the job pager (implementation verified)
 
-No Selenium/Playwright test reaches the tool success job pager or the `JobHeader` row layout; the swap to `GPagination` and the wrap change are only fully observable in a browser. A small test in `lib/galaxy_test/selenium/test_tool_form.py` could batch-run `cat1` over two datasets, assert pages `1` and `2`, click `2`, check the header switches jobs, and take a screenshot. It needs a `data-description` on the `GPagination` and matching `navigation.yml` selectors. Not written on the review branch.
+No Selenium/Playwright test reaches the tool success job pager or the `JobHeader` row layout; the swap to `GPagination` and the wrap change are only fully observable in a browser. A small test in `lib/galaxy_test/selenium/test_tool_form.py` could batch-run `cat1` over two datasets, assert pages `1` and `2`, click `2`, check the header switches jobs, and take a screenshot. It needs a `data-description` on the `GPagination` and matching `navigation.yml` selectors.
+
+A new `test_tool_success_job_pagination` in `test_tool_form.py` batch-runs `cat1` over two datasets from the form, asserts the pager shows exactly pages `1` and `2` with `1` current, clicks `2`, and asserts the current page moves and the job id chip switches to the other `cat1` job (both ids checked against the history's jobs), then screenshots. It adds `data-description="tool success job pagination"` on the pager, `tool_success` selectors plus `tool_form.parameter_data_input_multiple` in `navigation.yml`. Passes under Playwright.
+
+Fixed on the review branch in [`9b9774fcd18`](https://github.com/jmchilton/galaxy/commit/9b9774fcd18).
 
 <details><summary>Discovery & Verification Agent Details</summary>
 
-Discovered by [gx_test_challenger](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/reviewers/gx_test_challenger.md) via Claude Opus 5.5 at medium effort.
+Discovered by [gx_test_challenger](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/reviewers/gx_test_challenger.md) via Claude Opus 5.5 at medium effort. Verified via Claude Opus 5.5 at medium effort.
 
 </details>

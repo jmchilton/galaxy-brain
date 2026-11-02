@@ -54,12 +54,14 @@ Discovered by [gx_test_challenger](https://github.com/jmchilton/galaxy-brain/blo
 
 </details>
 
-### P3 5: No E2E coverage of the job pager
+### P3 5: No E2E coverage of the job pager (implementation verified)
 
-No Selenium/Playwright test reaches the tool success job pager or the `JobHeader` row layout; the swap to `GPagination` and the wrap change are only fully observable in a browser. A small test in `lib/galaxy_test/selenium/test_tool_form.py` could batch-run `cat1` over two datasets, assert pages `1` and `2`, click `2`, check the header switches jobs, and take a screenshot. It needs a `data-description` on the `GPagination` and matching `navigation.yml` selectors. Not written on the review branch.
+No Selenium/Playwright test reaches the tool success job pager or the `JobHeader` row layout; the swap to `GPagination` and the wrap change are only fully observable in a browser. A small test in `lib/galaxy_test/selenium/test_tool_form.py` could batch-run `cat1` over two datasets, assert pages `1` and `2`, click `2`, check the header switches jobs, and take a screenshot. It needs a `data-description` on the `GPagination` and matching `navigation.yml` selectors.
+
+A new `test_tool_success_job_pagination` in `test_tool_form.py` batch-runs `cat1` over two datasets from the form, asserts the pager shows exactly pages `1` and `2` with `1` current, clicks `2`, and asserts the current page moves and the job id chip switches to the other `cat1` job (both ids checked against the history's jobs), then screenshots. It adds `data-description="tool success job pagination"` on the pager, `tool_success` selectors plus `tool_form.parameter_data_input_multiple` in `navigation.yml`. Passes under Playwright.
 
 <details><summary>Discovery & Verification Agent Details</summary>
 
-Discovered by [gx_test_challenger](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/reviewers/gx_test_challenger.md) via Claude Opus 5.5 at medium effort.
+Discovered by [gx_test_challenger](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/reviewers/gx_test_challenger.md) via Claude Opus 5.5 at medium effort. Verified via Claude Opus 5.5 at medium effort.
 
 </details>

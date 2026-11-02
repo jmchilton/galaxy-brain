@@ -5,6 +5,6 @@
 
 ## Status
 
-Round 0 review on `e6ea29e1a91` ready, unposted: one P2 + five P3s; all but the E2E P3 fixed on `pr_24661_review_0` (`6f0c23b98bc`).
+Round 0 review on `e6ea29e1a91` ready, unposted: one P2 + five P3s; all six fixed on `pr_24661_review_0` (`9b9774fcd18`, pushed).
 
 PR open, base `dev`, author itisAliRH; effective diff vs dev is 4 files (GPagination itself already on dev). Worktree `~/projects/worktrees/galaxy/pr/24661`.
