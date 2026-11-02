@@ -13,7 +13,7 @@ Status: expanded server fix pushed; head `340e7139d0b` (mypy fix as a separate c
 
 PR [#24453](https://github.com/galaxyproject/galaxy/pull/24453) in draft since 2026-10-29 for the expanded fix ([comment](https://github.com/galaxyproject/galaxy/pull/24453#issuecomment-6507455866)); live body not yet updated from [pr_description.md](pr_description.md).
 
-CI on `30d5f79f4c7`: only reds were mypy `union-attr` in `test_subcollections.py` (lint + packages), fixed in `340e7139d0b`; CI on it pending.
+CI on `340e7139d0b` green (58 pass, 1 skipped; checked 2026-11-02).
 
 Fixes galaxyproject/galaxy#24220: tool form drag and drop matched collections to collection inputs by plain string suffix. Carved from [issue_20657_input_processing_mode](../issue_20657_input_processing_mode/index.md).
 
