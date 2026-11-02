@@ -36,7 +36,7 @@ status: recommended
 ## De-conflict Branches
 
 when: whenever
-what: entries in `MY_BRANCHES.md` whose PR has merge conflicts with its base, skipping `branches_need_decision`, reference-only and do-not-PR branches.
+what: entries in `MY_BRANCHES.md` whose PR has merge conflicts with its base, skipping `branches_need_decision`, reference-only and do-not-PR branches, and standing branches (those with a `../gx_standing/standing_branches/{name}/` record; gx_standing owns them).
 
 `description` is the branch's queue line plus the conflicting files. Add `priority: high` when the PR is out of draft.
 
@@ -86,23 +86,6 @@ record: galaxy/branches/{name}
 profile: Opus (low)
 description: 💬 {description}
 status: recommended
-```
-
-## Decide Branches
-
-when: daily
-what: entries in `branches_need_decision`.
-
-`description` is the branch's queue line plus the decision recorded in its branch record.
-
-Suggest:
-
-```
-prompt: Let's talk about branch {name}. The branch record is vault/repositories/galaxy/branches/active/{name}/.
-agent_dir: gx_branches
-record: galaxy/branches/{name}
-description: 🤔 {description}
-status: idea
 ```
 
 ## Merge Branches

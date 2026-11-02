@@ -1,0 +1,6 @@
+Advance standing branch NAME. The record is `standing_branches/NAME/index.md`, in the format of `../_shared/STANDING_BRANCHES.md`; its gx_branches record is named by `record:`.
+
+1. **Sync children.** Fetch `origin` and `jmchilton`, then refresh each child's `status` from live GitHub state.
+2. **Rebase onto what moved.** Rebase NAME onto a `stacked` child whose head isn't an ancestor of NAME (`git merge-base --is-ancestor`), or onto its base when a merged child's merge commit isn't. Stop and report if the worktree has uncommitted or unpushed work. Resolve mechanical conflicts; stop and ask John about substantial ones. Force-push with `--force-with-lease` to `jmchilton` and update the head SHA in the branch record.
+3. **Find a child.** If no child is `proposed`, find the next smallest slice of NAME's diff against its base that could be reviewed and merged on its own: a refactor, test coverage, a doc, or a fix found along the way. Add it as `proposed` with a sentence on why it stands alone, then ask John. Once he approves, create the branch per `../_shared/REPOSITORY_BRANCHES.md` and hand it off per `../_shared/GX_IMPLEMENTATION_HANDOFF.md`.
+4. **Report** in one line: what moved, what was rebased, and what is proposed or waiting.
