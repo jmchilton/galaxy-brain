@@ -1,6 +1,7 @@
 ---
 upstream_base_branch: main
 pr: 739
+related_records: foundry/branches/start-contributing-intro
 ---
 
 # Start Contributing page skeleton (#737)
@@ -12,7 +13,7 @@ pr: 739
 
 Skeleton `content/meta/start-contributing.md` (intro TODO left) plus `good first issue` note in issue-labels; pipeline-experiments and `no-agent-required` sections added; head `ccbce836` pushed to `jmchilton`; John fills in the content. Worktree `~/projects/worktrees/foundry/branch/issue-737-start-contributing`.
 
-Draft PR [#739](https://github.com/galaxyproject/foundry/pull/739) opened 2026-11-03; intro TODO remains.
+PR [#739](https://github.com/galaxyproject/foundry/pull/739) merged 2026-11-03 with the intro TODO; fixed in follow-up `start-contributing-intro` ([#745](https://github.com/galaxyproject/foundry/pull/745)).
 
 `make check`: only `check-vendored` red (local-only, known).
 

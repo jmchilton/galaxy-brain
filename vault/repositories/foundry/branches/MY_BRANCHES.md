@@ -10,6 +10,7 @@ Snapshot: 2026-10-28 (originally recovered from live GitHub state, local worktre
 - [`feat/test-pipeline-test-data-branch`](active/feat-test-pipeline-test-data-branch/index.md) — Runs the test-data branch in test-pipeline, one worker per leg. Base `feat/test-pipeline-draft-loop`. [#690](https://github.com/galaxyproject/foundry/pull/690).
 - [`issue-719-eval-draft-fixes`](active/issue-719-eval-draft-fixes/index.md) — Template and draft-loop evals stop failing correct output (#719). [#720](https://github.com/galaxyproject/foundry/pull/720).
 - [`issue-724-shed-tool-id-version`](active/issue-724-shed-tool-id-version/index.md) — Shed tool_id is the full versioned GUID in implement-galaxy-tool-step (#724). [#727](https://github.com/galaxyproject/foundry/pull/727).
+- [`start-contributing-intro`](active/start-contributing-intro/index.md) — Replaces Start Contributing intro TODO; adds contribution-loop paragraph and IWC Lab pointer. [#745](https://github.com/galaxyproject/foundry/pull/745).
 - [`issue-725-brief-scope-conflicts`](active/issue-725-brief-scope-conflicts/index.md) — Clear scope vs source conflicts become brief open questions (#725). [#728](https://github.com/galaxyproject/foundry/pull/728).
 
 ## Open Foundry PRs — needs attention (`attention`)
@@ -29,7 +30,6 @@ None yet.
 ## Draft Foundry PRs — needs author work (`author_work`)
 
 - [`issue-570-cast-moc-leaf-patterns`](active/issue-570-cast-moc-leaf-patterns/index.md) — Cast pattern maps of content with the leaf pattern pages they list (#570); needs foundry-lib#139 released. [#738](https://github.com/galaxyproject/foundry/pull/738).
-- [`issue-737-start-contributing`](active/issue-737-start-contributing/index.md) — Start Contributing page skeleton + `good first issue` label docs; John fills in content (#737). [#739](https://github.com/galaxyproject/foundry/pull/739).
 
 ## Foundry branches — implemented, work left (`branches_implemented_needs_ci`)
 
