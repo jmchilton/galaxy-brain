@@ -22,5 +22,5 @@ Map every step inside a mapped-over subworkflow over the subworkflow's input sha
 ## Decisions
 
 - John: "I just don't understand this PR." Making it understandable comes before splitting it; [branch review](../../../../repositories/galaxy/branches/active/subworkflow_mapping/subworkflow_mapping_branch_review.md) is the starting point.
-- 2026-11-02: John abandoned `subworkflow_mapping_when_alignment` and `subworkflow_mapping_per_step_semantics` as superseded by this branch; port the 2 `when_alignment` API scenarios here with callable-semantics assertions.
+- 2026-11-02: John abandoned `subworkflow_mapping_when_alignment` and `subworkflow_mapping_per_step_semantics` as superseded by this branch. The 2 `when_alignment` API scenarios were ported here with callable-semantics assertions (`16a961062b6`).
 - `mapping_axes_model` is not merged (only #23681 is); tracked as this branch's foundation slice.

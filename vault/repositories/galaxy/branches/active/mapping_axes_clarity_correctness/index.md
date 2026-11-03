@@ -11,7 +11,7 @@ related_records:
 
 ## Status
 
-Head `a6bb814032f` (pushed): `mapping_axes_model` + `b77c29aae59` make format + `174e74528bd` validate inherited mapping axis prefix shapes + `a6bb814032f` broadcast inherited workflow conditions across nested mapping. Neither fix is on #23676's head. Checked out in the `subworkflow_mapping` worktree.
+Head `a6bb814032f` (pushed): `mapping_axes_model` + `b77c29aae59` make format + `174e74528bd` validate inherited mapping axis prefix shapes + `a6bb814032f` broadcast inherited workflow conditions across nested mapping. Neither fix is on #23676's head. No worktree (the `subworkflow_mapping` worktree went back to its own branch 2026-11-02).
 
 No PR.
 

@@ -16,6 +16,12 @@ Brings subworkflow mapping inline between the workflow editor and the backend.
 
 [subworkflow mapping branch review](subworkflow_mapping_branch_review.md) · [Tracking history](tracking_history.md)
 
+## 2026-11-02
+
+- Head `16a961062b6`: ported `when_alignment`'s 2 conditional API scenarios (`test_conditional_subworkflow_independent_child_mapping` red on dev, green here; `test_invocation_conditional_map_over_inner_collection` green on both).
+- Worktree switched back to `subworkflow_mapping` (from `mapping_axes_clarity_correctness`, which is pushed) and bootstrapped.
+- Migration bug: `8d1f0c7a4b2e` has `down_revision = "e96dd6fd5863"`, but the branch base already has `a4c3f2e1b790` there, so alembic finds multiple heads and Galaxy won't start. Tests ran with a local re-point to `a4c3f2e1b790` (not committed); fix on the next rebase.
+
 ## TICK — 2026-10-11
 
 Live PR #23676 is conflicting against dev. Read-only merge-tree found conflicts in workflow parameter fixture, tool_util_models, workflow/modules.py and mypy.ini; these involve workflow/schema semantics and are substantial. Left PR head `6ece27c39d8dbd3f72dd13ad208762f715095d08` intact. The local worktree instead follows mapping_axes_clarity_correctness at a6bb814032f, so it was not repurposed.
