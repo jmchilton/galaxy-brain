@@ -8,7 +8,7 @@ Paths are relative to the galaxy-brain repository root. Note contracts live in [
 - `meta_schema.yml` defines the frontmatter contract in JSON Schema Draft 07, written as YAML.
 - `validate_frontmatter.py` validates notes. It declares PEP 723 dependencies for `uv`.
 - `meta_record_schema.yml` defines repository record frontmatter. `validate_records.py` validates it, including `blockers:`/`blocking:`, `related_records:` and `parent_branch:`/`child_branches:` references and their pairing.
-- `test_validate_frontmatter.py`, `test_validate_records.py` and `test_check_references.py` contain the root Python tests.
+- `test_validate_frontmatter.py`, `test_validate_records.py`, `test_check_references.py` and `test_pull_screenshots.py` contain the root Python tests.
 - `dashboard_sections.json` drives `generate_dashboard.py` and `site/src/pages/index.astro`.
 - `generate_index.py` generates `vault/Index.md`, a catalog of validated note types and their summaries. It excludes agent workflows, repository records, and workspace sub-files.
 - `vault/log.md` is the append-only operations journal, written by the ingest workflow. It is excluded from validation and content collections, but published at `/log/`.
@@ -21,6 +21,7 @@ Paths are relative to the galaxy-brain repository root. Note contracts live in [
 - `differential-review-lib/` is a Git submodule of the differential review package ([jmchilton/differential-review](https://github.com/jmchilton/differential-review)): a pure core (`src/core/`, no Node imports) shared by the plugins, and a generic snapshot CLI. `differential-review/` is galaxy-brain's CLI on top of it, which agents run after each phase with `--record <record dir>`. See `LIBRARY_DIFFERENTIAL_REVIEW.md`. Its Obsidian view is `obsidian-plugin/src/diff-review-*.ts`, the only writer of `review-state.json`. Plugin builds also need `npm install` in `differential-review-lib/`, and the CLI in `differential-review/`.
 - `galaxy-architecture/` is a Git submodule. `generate_architecture_views.py` renders its topics into `vault/projects/architecture/topics/`.
 - `check_references.py` checks paper manuscript citations against each paper's `references.yml`.
+- `pull_screenshots.py` pulls gitignored `screenshots/` files from each remote in `ENVIRONMENTS.yml` (staged under `~/.cache/galaxy-brain/screenshots/`), placing record screenshots in the record's current status directory and moving local ones stranded by a status move. Copies only missing or newer files; never deletes.
 
 ## Commands
 
@@ -37,6 +38,8 @@ make index                          # generate vault/Index.md
 make check-index                    # fail on catalog drift
 make references                     # report paper citation coverage/errors
 make check-references               # fail on paper citation errors
+make pull-screenshots               # dry run: plan screenshot pulls from remotes
+make pull-screenshots ARGS=--apply  # write them into vault/
 make architecture-views             # regenerate architecture topic views
 make check-architecture-views       # fail on architecture view drift
 make site-dev                       # Astro dev server

@@ -1,4 +1,4 @@
-.PHONY: validate test install site-dev site-build site-preview site-deploy dashboard check-dashboard index check-index architecture-views check-architecture-views architecture-update references check-references plugin-build plugin-dev plugin-test herdr-plugin-build herdr-plugin-test chrome-ext-build chrome-native-install site-test diff-review-build diff-review-test
+.PHONY: validate test pull-screenshots install site-dev site-build site-preview site-deploy dashboard check-dashboard index check-index architecture-views check-architecture-views architecture-update references check-references plugin-build plugin-dev plugin-test herdr-plugin-build herdr-plugin-test chrome-ext-build chrome-native-install site-test diff-review-build diff-review-test
 
 DEPS = --with python-frontmatter --with jsonschema --with pyyaml
 
@@ -7,7 +7,10 @@ validate:
 	uv run $(DEPS) python validate_records.py
 
 test:
-	uv run $(DEPS) --with pytest pytest test_validate_frontmatter.py test_validate_records.py test_check_references.py -v $(ARGS)
+	uv run $(DEPS) --with pytest pytest test_validate_frontmatter.py test_validate_records.py test_check_references.py test_pull_screenshots.py -v $(ARGS)
+
+pull-screenshots:
+	uv run pull_screenshots.py $(ARGS)
 
 install:
 	mkdir -p ~/.claude/skills
