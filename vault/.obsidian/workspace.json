@@ -4,16 +4,43 @@
     "type": "split",
     "children": [
       {
-        "id": "5c64f080614dac48",
+        "id": "7d9d36fc42ee2005",
         "type": "tabs",
         "children": [
           {
-            "id": "010203dff24eddef",
+            "id": "a70f7e92b551c489",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "repositories/galaxy/branches/active/issue_24530_atomic_embedded_tool_import_26.1/index.md",
+                "file": "projects/invocation_graph_embedded_outputs/index.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "index"
+            }
+          },
+          {
+            "id": "116dce4bca55154f",
+            "type": "leaf",
+            "state": {
+              "type": "galaxy-brain-differential-review",
+              "state": {
+                "recordDir": "repositories/galaxy/branches/active/pr_24607_followup",
+                "hideReviewed": true
+              },
+              "icon": "git-compare",
+              "title": "Review: pr_24607_followup"
+            }
+          },
+          {
+            "id": "9d29558b8d513434",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "projects/invocation_graph_embedded_outputs/index.md",
                 "mode": "source",
                 "source": false
               },
@@ -21,7 +48,8 @@
               "title": "index"
             }
           }
-        ]
+        ],
+        "currentTab": 2
       }
     ],
     "direction": "vertical"
@@ -43,7 +71,7 @@
                 "sortOrder": "alphabetical",
                 "autoReveal": true,
                 "showSearch": true,
-                "searchQuery": "issue_24530"
+                "searchQuery": ""
               },
               "icon": "lucide-folder-closed",
               "title": "Files"
@@ -200,54 +228,54 @@
       "templater-obsidian:Templater": false
     }
   },
-  "active": "010203dff24eddef",
+  "active": "c1926bfde7f63465",
   "lastOpenFiles": [
-    "agents/factory/SUGGESTED_PROMPTS.md",
-    "agents/gx_branches/SUGGESTED_TASKS.md",
-    "agents/gx_branches/TASKS.md",
-    "agents/gx_branches/TICK.md",
-    "agents/gx_branches/AGENTS.md",
-    "repositories/galaxy/branches/active/selenium_faq_account_workflow_display_26.2/differential-review/snapshots/20261102T161502Z-revision-c22216c45654.json",
-    "repositories/galaxy/issues/blocked/24551/raw.md",
-    "repositories/galaxy/issues/blocked/24551/proposal.md",
-    "repositories/galaxy/issues/blocked/24551/issue_tags.md",
-    "repositories/galaxy/issues/blocked/24551/index.md",
-    "repositories/galaxy/issues/blocked/24551/debrief.md",
-    "repositories/galaxy/issues/blocked/23183/index.md",
-    "repositories/galaxy/issues/blocked/22598/index.md",
-    "repositories/galaxy/issues/blocked/22598",
-    "repositories/galaxy/issues/blocked/24551",
-    "repositories/galaxy/issues/blocked/23183",
-    "repositories/galaxy/issues/blocked",
-    "repositories/foundry/issues/blocked/624/index.md",
-    "repositories/foundry/issues/blocked/658/index.md",
-    "repositories/foundry/issues/blocked/591/index.md",
-    "repositories/foundry/issues/blocked/271/index.md",
-    "repositories/foundry/issues/blocked/225/index.md",
-    "repositories/foundry/issues/blocked/191/index.md",
-    "repositories/foundry/issues/blocked/658",
-    "repositories/foundry/issues/blocked/624",
-    "repositories/foundry/issues/blocked/591",
-    "repositories/foundry/issues/blocked/271",
-    "repositories/foundry/issues/blocked/225",
-    "agents/wf_foundry/DOMAIN_REVIEW_RESEARCH.md",
-    "agents/wf_foundry/DOMAIN_REVIEW.md",
-    "repositories/galaxy/branches/active/selenium_data_formats_interval_columns/review_response_dannon_1.md",
-    "repositories/galaxy/branches/active/selenium_history_import_purge/review_response_mvdbeek_1.md",
-    "repositories/galaxy/branches/active/selenium_faq_account_workflow_display_26.2/review_pushback_davelopez_1.md",
-    "repositories/galaxy/branches/active/selenium_faq_account_workflow_display_26.2/review_response_davelopez_1.md",
-    "repositories/galaxy/branches/active/selenium_history_datatype_citations/review_response_davelopez_1.md",
-    "agents/gx_reviews/TASKS.md",
-    "repositories/galaxy/branches/merged/issue_24469_collection_build_reset_selection_25.1/screenshots/03_after_fix_after_build.png",
-    "repositories/galaxy/branches/merged/issue_24469_collection_build_reset_selection_25.1/screenshots/02_before_fix_after_build.png",
-    "repositories/galaxy/branches/merged/issue_24469_collection_build_reset_selection_25.1/screenshots/01_selected_before_build.png",
-    "repositories/galaxy/branches/merged/issue_24457_password_reset_25.1/earlier_drafts/2/screenshots/password_expired_form.png",
-    "repositories/galaxy/branches/merged/issue_24457_password_reset_25.1/earlier_drafts/2/screenshots/password_reset_saved.png",
-    "repositories/galaxy/branches/merged/issue_24457_password_reset_25.1/earlier_drafts/2/screenshots/password_reset_form.png",
-    "repositories/galaxy/branches/merged/issue_24457_password_reset_25.1/earlier_drafts/2/screenshots/password_expired_saved.png",
-    "repositories/galaxy/branches/merged/issue_24457_password_reset_25.1/earlier_drafts/1/screenshots/password_reset_form.png",
-    "repositories/galaxy/branches/merged/issue_24457_password_reset_25.1/earlier_drafts/1/screenshots/password_reset_form-1.png",
-    "repositories/galaxy/branches/merged/issue_24457_password_reset_25.1/earlier_drafts/1/screenshots/password_expired_form.png",
+    "repositories/galaxy/branches/active/workflow_step_parameter_overrides/subagents/phase_c_normal_review.md",
+    "repositories/galaxy/branches/active/workflow_step_parameter_overrides/subagents/phase_c_merged_picker.md",
+    "repositories/galaxy/branches/active/workflow_step_parameter_overrides/initial_implementation_debrief.md",
+    "agents/gx_standing/standing_branches/invocation_graph_embedded_outputs/index.md",
+    "agents/gx_standing/standing_branches/invocation_graph_embedded_outputs",
+    "repositories/galaxy/branches/active/issue_24545_oom_kill_detection/polish_debrief.md",
+    "repositories/galaxy/branches/active/issue_24545_oom_kill_detection/differential-review/snapshots/20261103T141054Z-polishing-958fa86948d1.json",
+    "repositories/galaxy/branches/active/issue_24545_oom_kill_detection/pr_tags.md",
+    "repositories/galaxy/branches/active/issue_24545_oom_kill_detection/pr_titles.md",
+    "repositories/galaxy/branches/active/issue_24545_oom_kill_detection/pr_description.md",
+    "repositories/galaxy/branches/active/issue_24545_oom_kill_detection/demo/render_and_check.py",
+    "repositories/galaxy/branches/active/issue_24545_oom_kill_detection/demo/real_kernel_oom_demo.md",
+    "repositories/galaxy/branches/active/issue_24545_oom_kill_detection/demo",
+    "repositories/galaxy/branches/active/issue_24545_oom_kill_detection/differential-review/snapshots/20261103T140337Z-hardening-05c139c38a0a.json",
+    "repositories/galaxy/branches/active/issue_24545_oom_kill_detection/thermo_nuclear_review.md",
+    "repositories/pulsar/branches/active/cgroup-oom-kills-408/polish_debrief.md",
+    "repositories/pulsar/branches/active/cgroup-oom-kills-408/differential-review/snapshots/20261103T140048Z-polishing-63969ff15ba5.json",
+    "repositories/pulsar/branches/active/cgroup-oom-kills-408/demo/render_command_sh.py",
+    "repositories/pulsar/branches/active/cgroup-oom-kills-408/demo/real_kernel_oom_demo.md",
+    "repositories/pulsar/branches/active/cgroup-oom-kills-408/demo",
+    "repositories/pulsar/branches/active/cgroup-oom-kills-408/pr_tags.md",
+    "repositories/pulsar/branches/active/cgroup-oom-kills-408/pr_titles.md",
+    "repositories/pulsar/branches/active/cgroup-oom-kills-408/pr_description.md",
+    "repositories/pulsar/branches/active/cgroup-oom-kills-408/differential-review/snapshots/20261103T135500Z-hardening-63969ff15ba5.json",
+    "repositories/pulsar/branches/active/cgroup-oom-kills-408/thermo_nuclear_review.md",
+    "repositories/galaxy/branches/active/issue_24545_oom_kill_detection/codex_review.md",
+    "repositories/galaxy/reviews/active/24666/initial_response_action.md",
+    "repositories/pulsar/branches/active/cgroup-oom-kills-408/codex_review.md",
+    "repositories/galaxy/branches/active/issue_24545_oom_kill_detection/subagents/normal_review.md",
+    "repositories/galaxy/branches/active/issue_24545_oom_kill_detection/subagents/normal_review_details.md",
+    "repositories/galaxy/branches/active/issue_24545_oom_kill_detection/subagents",
+    "repositories/pulsar/branches/active/cgroup-oom-kills-408/subagents/normal_review.md",
+    "repositories/pulsar/branches/active/cgroup-oom-kills-408/subagents/normal_review_details.md",
+    "repositories/galaxy/reviews/active/24666/initial_review_agents.md",
+    "repositories/galaxy/reviews/active/24666/initial_review.md",
+    "repositories/galaxy/reviews/active/24666/initial_review_response.md",
+    "repositories/galaxy/branches/active/issue_24532_user_deletion_refusal_25.1/screenshots/user_deletion_refused_by_configuration.png",
+    "repositories/galaxy/branches/active/issue_24376_library_download_test_26_2/screenshots/libraries_folder_download_selected.png",
+    "repositories/galaxy/branches/active/issue_24376_library_download_test_26_2/earlier_drafts/1/screenshots/libraries_folder_download_selected.png",
+    "repositories/galaxy/branches/active/compare_runs/screenshots/presentation/14_export_menu.png",
+    "repositories/galaxy/branches/active/compare_runs/screenshots/presentation/13_subworkflow_all_runs_disabled.png",
+    "repositories/galaxy/branches/active/compare_runs/screenshots/presentation/12_mapped_step_batch_reused_job.png",
+    "repositories/galaxy/branches/active/compare_runs/screenshots/presentation/11_editor_compare_runs_link.png",
+    "repositories/galaxy/branches/active/compare_runs/screenshots/presentation/10_dataset_details_other_runs_action.png",
+    "repositories/galaxy/branches/active/compare_runs/screenshots/presentation/09b_tool_runs_page.png",
+    "repositories/galaxy/branches/active/compare_runs/screenshots/presentation/09a_job_page_other_runs_action.png",
     "Untitled.canvas",
     "Untitled 1.canvas",
     "Untitled 2.canvas",
