@@ -21,7 +21,8 @@ Brings subworkflow mapping inline between the workflow editor and the backend.
 - Head `16a961062b6`: ported `when_alignment`'s 2 conditional API scenarios (`test_conditional_subworkflow_independent_child_mapping` red on dev, green here; `test_invocation_conditional_map_over_inner_collection` green on both).
 - Worktree switched back to `subworkflow_mapping` (from `mapping_axes_clarity_correctness`, which is pushed) and bootstrapped.
 - Migration bug: `8d1f0c7a4b2e` has `down_revision = "e96dd6fd5863"`, but the branch base already has `a4c3f2e1b790` there, so alembic finds multiple heads and Galaxy won't start. Tests ran with a local re-point to `a4c3f2e1b790` (not committed); fix on the next rebase.
-- Head `4d38ff04a81`: `amend!` fixup of `485c68ba354` replaces the `TestJob.timeout` schema field with a `SLOW_WORKFLOW_TIMEOUTS` map in `test_framework_workflows.py` (John's call; `workflow_test_timeouts` abandoned). Autosquash on the next rebase. `tool_util_models` no longer conflicts with dev; merge-tree now lists `parameter_steps.json`, `modules.py`, `mypy.ini`, `test/unit/workflows/test_modules.py`.
+- Head `4d38ff04a81`: `amend!` fixup of `485c68ba354` replaces the `TestJob.timeout` schema field with a `SLOW_WORKFLOW_TIMEOUTS` map in `test_framework_workflows.py` (John's call; `workflow_test_timeouts` abandoned). Autosquash on the next rebase.
+- Head `77807fafe07`: cherry-picked `174e74528bd` (validate inherited mapping axis prefix shapes) from `mapping_axes_model`'s review fixes; `a6bb814032f` not needed here. 229 matching/workflow unit tests, 9 conditional/inner-collection API tests and 3 `-k subworkflow` framework tests pass (framework run took 16.6 min). `tool_util_models` no longer conflicts with dev; merge-tree now lists `parameter_steps.json`, `modules.py`, `mypy.ini`, `test/unit/workflows/test_modules.py`.
 
 ## TICK — 2026-10-11
 

@@ -12,8 +12,8 @@ Map every step inside a mapped-over subworkflow over the subworkflow's input sha
 ## Children
 
 - `map_over_extraction` — [#23681](https://github.com/galaxyproject/galaxy/pull/23681) · `merged` · `prerequisite` — Extracts `galaxy.workflow.map_over` (`plan_map_over`) ahead of #23676.
-- [`mapping_axes_model`](../../../../repositories/galaxy/branches/active/mapping_axes_model/index.md) — `wip` · `stacked` — Bottom 7 commits of #23676: collection mapping as ordered, persistable axes.
-- [`mapping_axes_clarity_correctness`](../../../../repositories/galaxy/branches/active/mapping_axes_clarity_correctness/index.md) — `wip` · `related` — On `mapping_axes_model`: prefix-shape validation, inherited `when` broadcast; not in #23676.
+- [`mapping_axes_model`](../../../../repositories/galaxy/branches/active/mapping_axes_model/index.md) — `wip` · `stacked` — Bottom 7 commits of #23676 (ordered, persistable mapping axes) + 2 review fixes; the PR-to-be.
+- [`mapping_axes_clarity_correctness`](../../../../repositories/galaxy/branches/abandoned/mapping_axes_clarity_correctness/index.md) — `abandoned` · `related` — Typo-created name for `mapping_axes_model`'s review fixes; folded in.
 - [`workflow_test_timeouts`](../../../../repositories/galaxy/branches/abandoned/workflow_test_timeouts/index.md) — `abandoned` · `extracted` — `TestJob.timeout` schema field; replaced by a runner-side `SLOW_WORKFLOW_TIMEOUTS` map in #23676.
 - [`subworkflow_mapping_per_step_semantics`](../../../../repositories/galaxy/branches/abandoned/subworkflow_mapping_per_step_semantics/index.md) — [#23426](https://github.com/galaxyproject/galaxy/pull/23426) · `abandoned` · `related` — #23369 split half 1, then the RFC that chose callable-boundary semantics.
 - [`subworkflow_mapping_when_alignment`](../../../../repositories/galaxy/branches/abandoned/subworkflow_mapping_when_alignment/index.md) — `abandoned` · `related` — `is_aligned_with` guard on the inlining model; superseded, API scenarios ported here.
