@@ -41,7 +41,7 @@ None yet.
 
 ## Pulsar branches — ready for final review (`branches_ready_for_final_review`)
 
-None yet.
+- [`cgroup-oom-kills-408`](active/cgroup-oom-kills-408/index.md) — Job-script cgroup OOM-kill check with manager default and per-job override, for galaxy#24545. [Open PR](https://github.com/galaxyproject/pulsar/compare/master...jmchilton:pulsar:cgroup-oom-kills-408?expand=1).
 
 ## Pulsar branches — approved, opens when green (`branches_need_pr`)
 

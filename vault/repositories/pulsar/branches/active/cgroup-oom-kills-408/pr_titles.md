@@ -1,0 +1,4 @@
+- Report cgroup OOM kills on the job's stderr (opt-in `check_cgroup_oom_kills`)
+- Add opt-in check for OOM-killed processes in Pulsar job scripts
+- Let job scripts report OOM kills that leave exit code 0
+- Add `check_cgroup_oom_kills` manager option with per-job override
