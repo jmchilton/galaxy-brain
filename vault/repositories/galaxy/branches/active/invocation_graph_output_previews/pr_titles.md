@@ -1,0 +1,4 @@
+- Preview a step's outputs by hovering it in the workflow invocation graph
+- Hover previews of step outputs in the workflow invocation graph
+- Invocation graph: hover a step's outputs to preview them
+- Show tables, images and collections on hover in the workflow invocation graph

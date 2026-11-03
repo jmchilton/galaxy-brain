@@ -1,22 +1,29 @@
+---
+upstream_base_branch: dev
+parent_branch: invocation_graph_output_previews
+related_records: galaxy/branches/invocation_graph_output_previews
+---
+
 # invocation_graph_embedded_outputs
 
-- [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:invocation_graph_embedded_outputs?expand=1)
+- [Open PR](https://github.com/jmchilton/galaxy/compare/invocation_graph_output_previews...invocation_graph_embedded_outputs?expand=1)
 - [View on GitHub](https://github.com/jmchilton/galaxy/tree/invocation_graph_embedded_outputs)
 
 Spike: show outputs inside the workflow invocation graph in three stages (hover preview, workflow outputs embedded as large nodes with nudged layout, steps shown as their preferred output). Requirements are in the queued issue draft [invocation_graph_embedded_outputs](../../../issues_incubator/incubating/invocation_graph_embedded_outputs/raw.md).
 
-- Base: `dev` (`2cca8565861`). New feature plus new step metadata, so it targets dev.
-- Worktree: `/Users/jxc755/projects/worktrees/galaxy/branch/invocation_graph_embedded_outputs`
+- Base: stacked on `invocation_graph_output_previews` (stage 1), which targets `dev`. New feature plus new step metadata, so it targets dev.
+- Worktree: `~/projects/worktrees/galaxy/branch/invocation_graph_embedded_outputs`
 - [Spike debrief](spike_debrief.md)
+- [Rebase on stage 1 debrief](rebase_on_stage1_debrief.md): commit list and the stage 2/3 boundary.
 - Project: [invocation_graph_embedded_outputs](../../../../../projects/invocation_graph_embedded_outputs/index.md) (screenshots)
 
 ## Status
 
-Spike branch with one commit per stage plus follow-up fixes from a live browser run, head `3e4312f7c1d`.
+Rebased onto stage 1 (`90cdc7089d9`) as four stage 2 commits then two stage 3 commits, head `4187ad166e4`; the original spike is kept as `invocation_graph_embedded_outputs_spike` (`3e4312f7c1d`).
 
 No PR.
 
-No CI run.
+No CI run; local vitest, vue-tsc, eslint and related Python unit tests pass.
 
 ## Decisions
 
