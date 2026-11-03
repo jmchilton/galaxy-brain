@@ -9,11 +9,15 @@ upstream_base_branch: main
 
 ## Status
 
-Implemented and pushed to `origin` at `967a6caf` on `origin/main` `f5470fe5`; review and hardening in progress.
+Implemented and reviewed; pushed to `origin` at `3d91bb6b` on `origin/main` `f5470fe5`; hardening in progress.
 
 No PR yet.
 
 Local gate: lint, format, typecheck, tests green except 3 integration-tests that fail identically on `origin/main`; Makefile checksum targets fail under Node 26 (pre-existing), checksums verified with `sha256sum`. CI runs on PRs only.
+
+## Links
+
+[implementation debrief](implementation_debrief.md) · [normal review](subagents/normal_review.md)
 
 ## Notes
 

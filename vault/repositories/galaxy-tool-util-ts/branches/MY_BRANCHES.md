@@ -26,7 +26,7 @@ None yet.
 
 ## Branches — implemented (`branches_implemented`)
 
-None yet.
+- [`issue_212_udt_expression_paths`](active/issue_212_udt_expression_paths/index.md) — UDT checks: `inputs.*` paths in templates and output labels vs Galaxy's job runtime model (#212). [Open PR](https://github.com/jmchilton/galaxy-tool-util-ts/compare/main...issue_212_udt_expression_paths).
 
 ## Branches — needs polish (`branches_need_polish`)
 
