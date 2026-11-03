@@ -1,0 +1,4 @@
+- `kind/bug` — exit-0 jobs with killed processes finish green with truncated outputs (#24545).
+- `area/jobs` — output check, Slurm and Pulsar runners, resubmission.
+- `area/admin` — new `check_cgroup_oom_kills` destination param and sample job conf docs.
+- `area/testing/integration` — new local and embedded-Pulsar resubmission integration tests.

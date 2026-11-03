@@ -1,0 +1,4 @@
+- Fail OOM-killed jobs that exit 0, and resubmit them on Pulsar too
+- Detect OOM kills reported on a job's stderr (Slurm `Detected N oom-kill event(s)`)
+- Treat resource-manager OOM kills as memory failures even when the job exits 0
+- Fail and resubmit jobs whose processes were OOM-killed mid-pipeline
