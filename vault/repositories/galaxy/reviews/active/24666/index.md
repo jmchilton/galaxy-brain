@@ -5,7 +5,7 @@
 
 ## Status
 
-Initial review ready, unposted (round 0, reviewed `7587ed8a9ff`), trimmed by John 2026-11-03 (dropped restart-stall + untested-branches findings). Two P2s + four P3s, all fixed on [`pr_24666_review_1`](https://github.com/jmchilton/galaxy/tree/pr_24666_review_1) (tip `64c0908f95e`, on John's fork, not pushed into PR); `pr_24666_review_0` kept.
+Approved with response 2026-11-03 (round 0, reviewed `7587ed8a9ff`); awaiting merge. Trimmed by John 2026-11-03 (dropped restart-stall + untested-branches findings). Two P2s + four P3s, all fixed on [`pr_24666_review_1`](https://github.com/jmchilton/galaxy/tree/pr_24666_review_1) (tip `64c0908f95e`, on John's fork, not pushed into PR); `pr_24666_review_0` kept.
 
 PR open, out of draft.
 
