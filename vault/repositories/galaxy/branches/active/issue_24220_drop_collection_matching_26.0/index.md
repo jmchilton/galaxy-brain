@@ -11,7 +11,7 @@ pr: 24453
 
 Status: reworked onto the shared split-type helper ([debrief](helper_rework_debrief.md)); head `76abc799f6c`. Worktree: `~/projects/worktrees/galaxy/branch/issue_24220_drop_collection_matching_26.0`.
 
-PR [#24453](https://github.com/galaxyproject/galaxy/pull/24453) in draft since 2026-10-29 for the expanded fix ([comment](https://github.com/galaxyproject/galaxy/pull/24453#issuecomment-6507455866)); live body not yet updated from [pr_description.md](pr_description.md); reply to Marius not posted.
+PR [#24453](https://github.com/galaxyproject/galaxy/pull/24453) in draft since 2026-10-29 for the expanded fix ([comment](https://github.com/galaxyproject/galaxy/pull/24453#issuecomment-6507455866)); live body updated from [pr_description.md](pr_description.md) 2026-11-02; [reply to Marius](review_response_mvdbeek_2.md) drafted, not posted.
 
 CI on `76abc799f6c` running (2026-11-02).
 
