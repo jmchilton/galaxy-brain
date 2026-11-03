@@ -1,0 +1,49 @@
+diff --git a/client/src/components/Comparison/ComparisonTable.vue b/client/src/components/Comparison/ComparisonTable.vue
+index 94b88385d35..0f6d99fa79a 100644
+--- a/client/src/components/Comparison/ComparisonTable.vue
++++ b/client/src/components/Comparison/ComparisonTable.vue
+@@ -389,6 +389,9 @@ const tableKey = computed(() => `${props.transpose}:${props.table.rows.map((row)
+     }
+     :deep(.g-table-details-row td) {
+         white-space: normal;
++    }
++    // Only the detail's own cell: nested tables (the parameter diff's changed rows) keep their colours.
++    :deep(.g-table-details-row > td) {
+         background: var(--color-grey-100);
+     }
+     // Outranks GTable's compact cell padding, so the pinned detail spans the whole scroller.
+diff --git a/client/src/components/Comparison/comparisonQuery.test.ts b/client/src/components/Comparison/comparisonQuery.test.ts
+index ba1eb8126e4..d185349feda 100644
+--- a/client/src/components/Comparison/comparisonQuery.test.ts
++++ b/client/src/components/Comparison/comparisonQuery.test.ts
+@@ -49,6 +49,12 @@ describe("parseComparisonQuery", () => {
+         });
+     });
+ 
++    it("ignores the page layout keys any Galaxy URL may carry", () => {
++        expect(
++            parseComparisonQuery({ kind: "tool_runs", tool_id: "cat1", hide_panels: "true", hide_masthead: "true" }),
++        ).toEqual({ kind: "tool_runs", params: { tool_id: "cat1" } });
++    });
++
+     it("passes malformed numbers and booleans through for the server to reject", () => {
+         expect(parseComparisonQuery({ kind: "tool_runs", tool_id: "cat1", limit: "1.5", sort_desc: "yes" })).toEqual({
+             kind: "tool_runs",
+diff --git a/client/src/components/Comparison/comparisonQuery.ts b/client/src/components/Comparison/comparisonQuery.ts
+index 03c89084022..13ab6a9f93a 100644
+--- a/client/src/components/Comparison/comparisonQuery.ts
++++ b/client/src/components/Comparison/comparisonQuery.ts
+@@ -96,8 +96,12 @@ function parseValue(paramKind: ParamKind, value: LocationQueryValue | LocationQu
+     return single;
+ }
+ 
++/** Keys any Galaxy page takes to change its layout (the window manager adds the first two); not comparison parameters. */
++const APP_QUERY_KEYS = ["hide_panels", "hide_masthead", "embed"];
++
+ /** Turns `/comparisons` URL query into the matching endpoint's parameters; rejects keys the endpoint doesn't take. */
+-export function parseComparisonQuery(query: LocationQuery): ParsedComparison {
++export function parseComparisonQuery(urlQuery: LocationQuery): ParsedComparison {
++    const query = Object.fromEntries(Object.entries(urlQuery).filter(([key]) => !APP_QUERY_KEYS.includes(key)));
+     const kind = first(query.kind);
+     if (!isKind(kind)) {
+         return { error: kind ? `Unknown comparison kind "${kind}".` : "No comparison kind given." };
