@@ -41,5 +41,5 @@ Before this branch, a focused select lost its border entirely when hovered.
 - `baseline_refactor.md`, `scope_evaluation.md`, `implementation_rescope_debrief.md`, and `earlier_drafts/1/` for the first hardening pass.
 - Check branch: no Python changed. Prettier passes on the CSS.
 
-## Open item
-The baseline refactor rewrote the local history; the tree is identical to the pushed head `50e41129faa`. A force-push to `jmchilton/issue_24648_shed_field_border` was denied by the permission classifier, so the fork still has the 3-commit version. John needs to approve or run: `git push --force-with-lease=issue_24648_shed_field_border:50e41129faa jmchilton issue_24648_shed_field_border`. Delete the local backup branch `issue_24648_shed_field_border_pre_baseline` afterwards.
+## History
+The baseline refactor's rewritten history (tree identical to the earlier `50e41129faa`) was force-pushed to the fork with John's approval.

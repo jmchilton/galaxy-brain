@@ -8,7 +8,7 @@ upstream_base_branch: dev
 
 ## Status
 
-Implemented and hardened (READY); local history awaits a force-push to the fork.
+Implemented and hardened (READY); pushed to the fork at `85ca630bac6`.
 
 ## Decisions
 
