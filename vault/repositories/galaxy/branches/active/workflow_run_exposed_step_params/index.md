@@ -1,3 +1,8 @@
+---
+upstream_base_branch: dev
+parent_branch: issue_24177_rerun_step_params_full_form
+related_records: galaxy/branches/workflow_step_parameter_overrides
+---
 # workflow_run_exposed_step_params
 
 - [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:workflow_run_exposed_step_params?expand=1)
@@ -23,3 +28,5 @@ API probes, vitest and 5 E2E tests pass locally; no CI.
 Filed as [#24454](https://github.com/galaxyproject/galaxy/issues/24454). Split into PRs, or abandon the spike?
 
 2026-11-03: after pushback on `|`-joined subworkflow keys, the API plan is a dedicated nested `step_parameter_overrides` field (21.01-style tool state, subworkflows nested, applied on top of `parameters`), replacing exposure keys and `exposed_step_parameters` ([comment](https://github.com/galaxyproject/galaxy/issues/24454#issuecomment-6592278488)). The spike's payload, exposure keys and G1/G4 code predate this.
+
+2026-11-03: being promoted, merged with the graph picker alt, into the tracked branch [`workflow_step_parameter_overrides`](../workflow_step_parameter_overrides/index.md).
