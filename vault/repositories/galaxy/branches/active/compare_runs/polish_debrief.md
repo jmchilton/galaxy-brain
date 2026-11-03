@@ -80,6 +80,6 @@ Left over:
 
 - Recaptured shots 03, 05 and 14. Shot 14 is now `14_subworkflow_all_runs_unavailable.png` and shows the message.
 - Updated the harness copy in `presentation/`.
-- The published deck still shows the old shots and text. Slide 4's callouts and the "Known gaps" text on slide 12 / E7 are now out of date.
+- Deck refreshed afterwards (version `1793713819-dd4f`): slides 4, 12, E2 and E7 have the new images and text, and `slides.md` matches.
 
 PR screenshots (`screenshots/*.png`, gitignored) exist only on chickenstraws. The open-PR action needs to run here, or the images need copying to the Mac first.
