@@ -1,17 +1,18 @@
 ---
 upstream_base_branch: main
+pr: 739
 ---
 
 # Start Contributing page skeleton (#737)
 
-- [Open PR](https://github.com/galaxyproject/foundry/compare/main...jmchilton:foundry:issue-737-start-contributing)
+- [PR #739](https://github.com/galaxyproject/foundry/pull/739)
 - [View on GitHub](https://github.com/jmchilton/foundry/tree/issue-737-start-contributing)
 
 ## Status
 
 Skeleton `content/meta/start-contributing.md` (TODO bodies) plus `good first issue` note in issue-labels, head `d2b9ae8a` pushed to `jmchilton`; John fills in the content. Worktree `~/projects/worktrees/foundry/branch/issue-737-start-contributing`.
 
-No PR yet.
+Draft PR [#739](https://github.com/galaxyproject/foundry/pull/739) opened 2026-11-03; TODO bodies remain.
 
 `make check`: only `check-vendored` red (local-only, known).
 

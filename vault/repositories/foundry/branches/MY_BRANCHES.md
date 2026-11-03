@@ -29,6 +29,7 @@ None yet.
 ## Draft Foundry PRs — needs author work (`author_work`)
 
 - [`issue-570-cast-moc-leaf-patterns`](active/issue-570-cast-moc-leaf-patterns/index.md) — Cast pattern maps of content with the leaf pattern pages they list (#570); needs foundry-lib#139 released. [#738](https://github.com/galaxyproject/foundry/pull/738).
+- [`issue-737-start-contributing`](active/issue-737-start-contributing/index.md) — Start Contributing page skeleton + `good first issue` label docs; John fills in content (#737). [#739](https://github.com/galaxyproject/foundry/pull/739).
 
 ## Foundry branches — implemented, work left (`branches_implemented_needs_ci`)
 
@@ -39,7 +40,6 @@ None yet.
 - [`fix/advance-draft-needs-tool`](active/fix-advance-draft-needs-tool/index.md) — Draft loop records a step that needs a tool instead of improvising one; close-enough rule. Stacked on #686. [Open PR](https://github.com/galaxyproject/foundry/compare/feat/test-pipeline-draft-loop...fix/advance-draft-needs-tool).
 - [`docs/issue-labels`](active/docs-issue-labels/index.md) — Documents GitHub issue labels and triage rules (`content/meta/issue-labels.md`). [Open PR](https://github.com/galaxyproject/foundry/compare/main...docs/issue-labels).
 - [`issue-534-concrete-nextflow-scenarios`](active/issue-534-concrete-nextflow-scenarios/index.md) — Replaces abstract summarize-nextflow scenarios with concrete pinned fixtures (#534). [Open PR](https://github.com/galaxyproject/foundry/compare/main...issue-534-concrete-nextflow-scenarios).
-- [`issue-737-start-contributing`](active/issue-737-start-contributing/index.md) — Start Contributing page skeleton + `good first issue` label docs; John fills in content (#737). [Open PR](https://github.com/galaxyproject/foundry/compare/main...jmchilton:foundry:issue-737-start-contributing).
 
 ## Foundry branches — needs polish (`branches_need_polish`)
 
