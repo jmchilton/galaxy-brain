@@ -7,3 +7,5 @@
 Initial review of `8faff364290` complete 2026-10-23, unposted: P1 (`exact=true` with short/versionless shed id always 404s; red-to-green unit test), one P2 + two P3s, all fixed on `pr_24420_review_0` (`0c10060d87f`, pushed to fork; check moved into ToolsService/toolbox). Unit 9/9 + edited API test pass.
 
 Open, ready for review, against `dev`. Author richard-burhans. 2 files, +20/-0. Worktree `~/projects/worktrees/galaxy/pr/24420`.
+
+2026-11-03: pushed merge of `dev` (`5ab3087a566`) into PR head as `8d15ef63266` (on top of `18dc9597f0a`); resolved import conflict in `test/unit/app/tools/test_toolbox.py`; `test_toolbox.py` 57 pass.
