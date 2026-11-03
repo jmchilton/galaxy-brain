@@ -1,8 +1,8 @@
 Implement 🎯 #10039 - see every run of a workflow step, a workflow's outputs, or a tool in one table.
 
-After a few runs of a workflow, "what did this step produce before I changed that parameter?" means opening invocations one at a time, finding the step in each graph and clicking through to datasets. For a tool there is no list of its past runs at all. This adds one table for each question, reached from the places a user already is: the invocation step card, the workflow's invocation list, the job and dataset pages, and the workflow editor.
+After a few runs of a workflow, "what did this step produce before I changed that parameter?" means opening invocations one at a time, finding the step in each graph and clicking through to datasets. #10039 asks for exactly that view of a step, from the editor, and #20382 asks to run several workflow versions "to compare the result from the changes I've made". A workflow's outputs and a tool raise the same question one level up and one level down. No page lists a tool's past runs: #15506 describes falling back on `/api/jobs?tool_id=…` to find one. This adds one table for each question, reached from the places a user already is: the invocation step card, the workflow's invocation list, the job and dataset pages, and the workflow editor.
 
-**One step, every run.** An "All runs" tab on the invocation step card lists every run of that step across workflow versions. The ★ row is the run you are viewing; cells that differ from it are highlighted, and expanding a row diffs its tool parameters against the viewed run. Here v3 changed the filter condition, which explains why `out_file1` grew from 22 to 42 lines:
+**One step, every run.** An "All runs" tab on the invocation step card lists every run of that step across workflow versions. The ★ row is the run you are viewing; cells that differ from it are highlighted, and expanding a row diffs its tool parameters against the viewed run. Here v2 relaxed the filter condition from `c3-c2>=200` to `>=100`. Expanding the v1 row shows that change against the viewed v3 run, and it explains why `out_file1` grew from 22 to 42 lines on the same input:
 
 ![All runs tab on a step card, one row expanded with its parameter diff](screenshots/row_detail_parameter_diff.png)
 
@@ -14,9 +14,17 @@ After a few runs of a workflow, "what did this step produce before I changed tha
 
 ![Runs of the Filter tool, including mapped-over batches and a reused one](screenshots/tool_runs_page.png)
 
+**From the editor.** A saved step's inspector gets "Compare runs of this step", which opens that step's table as a page. The table isn't embedded in the editor:
+
+![Workflow editor inspector with the Compare runs of this step button](screenshots/editor_compare_runs_link.png)
+
 ***Each user sees only their own runs. The endpoints are read-only GETs, and there is no database migration.***
 
-***A step is matched across workflow versions by its label, so only labelled steps and outputs can be compared. An unlabelled step's All runs tab says so and points at the editor.***
+***A step is matched across versions of one saved workflow by its label, not its UUID, which changes on a rename-only save. Only labelled steps and outputs can be compared, and an imported copy of a workflow keeps its own runs.***
+
+***Nothing is replaced. Existing pages gain a tab, a button or a link, and the workflow's invocation list heading becomes breadcrumbs. No index is added; queries page over the caller's own invocations and jobs.***
+
+***Most of the 20 leading baseline and refactor commits can land on `dev` as separate prep PRs first, if a series is easier to review.***
 
 <details><summary>What else the table does</summary>
 
@@ -50,9 +58,9 @@ Smaller API changes the feature needs, each in its own commit near the front:
 
 <details><summary>How the branch is organised</summary>
 
-79 commits, about 13.6k added and 1k removed lines outside the generated client schema:
+81 commits, about 12.1k added and 0.3k removed lines outside the generated client schema:
 
-- 8 baseline-test commits, then 12 base-level refactors and fixes. Each has a consumer on `dev` or fixes a `dev` bug: ItemPopoverLink (fixes a DOM id collision in storage runs), `totalMatches`, `downloadBlob`, `useExecutionJobs`, the router's `reuseOnQueryChange`, the BreadcrumbHeading ellipsis, and the job response fields above.
+- 8 baseline-test commits, then 12 base-level refactors and fixes. All but the router's `reuseOnQueryChange` have a consumer on `dev` or fix a `dev` bug: ItemPopoverLink (fixes a DOM id collision in storage runs), `totalMatches`, `downloadBlob`, `useExecutionJobs`, the BreadcrumbHeading ellipsis, and the job response fields above. `reuseOnQueryChange` overlaps #24307's inline rule and lands with `/comparisons`.
 - Server: the endpoints, a comparisons manager split into queries, records, cells and columns, and API tests.
 - One client schema regeneration.
 - Client: `ComparisonTable` with its cells, the `/comparisons` page, the entry points, then diff, export, highlights and filters.
@@ -96,7 +104,73 @@ Builds on Galaxy's invocation step cards, `JobParametersDiff` and `ToolExecution
 
 ## Agentic Checks
 
-CHECKS_PLACEHOLDER
+### ✅ [Scope Evaluation](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/GX_PROCESS_SCOPE_EVALUATION.md)
+
+<details><summary>No scope change after two expansions; the leading commits split into standalone prep PRs if wanted.</summary>
+
+The branch covers the whole plan, its later diff/export polish, and two small expansions. Contraction was weighed (mainly the ~1.9k-line Phase 5 polish) and rejected because it is a clean PR boundary. Six prep PRs can land on `dev` alone, including the released `tool_version` job response fix.
+
+[Full report](https://galaxy-brain.jmchilton.net/repositories/galaxy/branches/compare_runs/scope_evaluation/).
+
+</details>
+
+### ✅ [Cursor's Thermo Nuclear Review](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/prompts/thermo-nuclear-code-quality-review.md)
+
+<details><summary>No blocking structural problems; six maintainability findings fixed.</summary>
+
+SQL moved into `comparison_queries` with one labelled-steps loader, one access guard in the service, the tool-runs API tests split into their own module, and a `useComparison` composable and `ComparisonColumnCell` on the client. Behaviour unchanged.
+
+[Full report](https://galaxy-brain.jmchilton.net/repositories/galaxy/branches/compare_runs/thermo_nuclear_review/).
+
+</details>
+
+### ✅ [John's Galaxy Test Challenges](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/GX_PROCESS_CHALLENGE_TESTS.md)
+
+<details><summary>Caught a real selector regression in an existing integration Selenium test; tests made pure or DB-free where possible.</summary>
+
+The ItemPopoverLink refactor broke `test_objectstore_selection`'s selector; the fix is folded into that commit. Red checks now fail at an assertion on the base, a failed-load behaviour change got a test, and an E2E pins the expanded row inside the scroller.
+
+[Full report](https://galaxy-brain.jmchilton.net/repositories/galaxy/branches/compare_runs/test_challenges_debrief/).
+
+</details>
+
+### ✅ Second Frontier Model Review
+
+<details><summary>Four findings, all confirmed and fixed red-to-green.</summary>
+
+A `new` state filter dropped invocations with no state; the state chooser missed states rows can show; an older workflow-name request could overwrite the heading; the step tab kept the previous step's table while the next loaded.
+
+[Full report](https://galaxy-brain.jmchilton.net/repositories/galaxy/branches/compare_runs/codex_review/).
+
+</details>
+
+### ✅ [Refactoring of base branch](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/GX_PROCESS_REFACTOR_BASELINE.md)
+
+<details><summary>8 baseline-test commits and 12 base-level refactors and fixes lead the branch.</summary>
+
+All but the router's `reuseOnQueryChange` have a consumer on `dev` or fix a `dev` bug: metadata keys by name, ItemPopoverLink, `totalMatches`, `downloadBlob`, `useExecutionJobs`, the BreadcrumbHeading ellipsis, and the job response fields.
+
+[Full report](https://galaxy-brain.jmchilton.net/repositories/galaxy/branches/compare_runs/baseline_refactor/).
+
+</details>
+
+### ✅ [John's Agentic Checklist](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/gx_pr_checklists/GENERAL.md)
+
+<details><summary>All items pass after two small fixes from the first pass.</summary>
+
+- [x] What does the user see when it fails? A danger alert with Retry for API errors, "no access" cells for items the caller can't read, and an explanation inside an unavailable All runs tab.
+- [x] Is the diff free of unrelated or stale generated changes? Yes!
+- [x] Are unit tests not just testing the literal implementation? Yes.
+- [x] Are baseline tests in their own leading commits (if applicable)? Yes.
+- [x] Are the comments free of excess archeology? Yes.
+- [x] If comments contain some description of previous implementation, bugs, etc.. - what purpose do they serve? N/A.
+- [x] Which existing workflows change behavior (if any)? None. Nothing touches workflow execution or scheduling. The changes are UI additions: an All runs tab on invocation step cards, breadcrumbs and Compare outputs on stored-workflow invocations, and a link in the editor's NodeInspector.
+- [x] Who hits this in practice and what is the evidence? Workflow developers iterating on a step across versions; #10039 asks for that step mode. The workflow-outputs and tool modes extend the same problem and have no separate user request.
+- [x] Were simpler or existing approaches considered? If yes, describe which and why they weren't pursued. If no, why not? Yes. The plan's "Alternative Approaches" section covers them.
+
+[Full report](https://galaxy-brain.jmchilton.net/repositories/galaxy/branches/compare_runs/pr_checklist/). Run via Claude Opus 5.5 at high effort.
+
+</details>
 
 ## How to test the changes?
 
