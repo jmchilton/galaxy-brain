@@ -63,7 +63,6 @@ None yet.
 
 ## Galaxy branches — implemented, work left (`branches_implemented_needs_ci`)
 
-- [`invocation_graph_embedded_workflow_outputs`](active/invocation_graph_embedded_workflow_outputs/index.md) — Stage 2: Embed Outputs shows workflow outputs as cards beside their steps, nudging steps right. [Open PR](https://github.com/jmchilton/galaxy/compare/invocation_graph_output_previews...invocation_graph_embedded_workflow_outputs?expand=1).
 - [`issue_24545_oom_kill_detection`](active/issue_24545_oom_kill_detection/index.md) — Fails exit-0 jobs whose job stderr reports an OOM kill; resubmits Pulsar jobs; opt-in cgroup check (#24545). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_24545_oom_kill_detection?expand=1).
 - [`issue_24648_shed_field_border`](active/issue_24648_shed_field_border/index.md) — Tool Shed form fields get 3:1 grey-500 borders and consistent hover and focus states (#24648). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_24648_shed_field_border?expand=1).
 - [`vitest_real_api_calls`](active/vitest_real_api_calls/index.md) — Records real Galaxy API responses for client tests, starting with history and quota usage. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:vitest_real_api_calls?expand=1).
@@ -103,6 +102,7 @@ None yet.
 
 ## Galaxy branches — ready for final review (`branches_ready_for_final_review`)
 
+- [`invocation_graph_embedded_workflow_outputs`](active/invocation_graph_embedded_workflow_outputs/index.md) — Stage 2: Embed Outputs shows workflow outputs as cards beside their steps, nudging steps right. [Open PR](https://github.com/jmchilton/galaxy/compare/invocation_graph_output_previews...invocation_graph_embedded_workflow_outputs?expand=1).
 - [`invocation_graph_output_previews`](active/invocation_graph_output_previews/index.md) — Stage 1: hovering a step's outputs in the invocation graph previews them. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:invocation_graph_output_previews?expand=1).
 - [`compare_runs`](active/compare_runs/index.md) — Compare runs of a workflow step, workflow outputs or a tool in one table: 3 GET endpoints, All runs tab, `/comparisons` page. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:compare_runs?expand=1).
 - [`extraction_hid_copies_pdf_sections_26.1`](active/extraction_hid_copies_pdf_sections_26.1/index.md) — 26.1 port of #24225 fixes: copies are one extraction input/summary card, name 400s, user-tool summary 403, PDF invocation sections. Land after #24225 reaches 26.2. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.1...jmchilton:galaxy:extraction_hid_copies_pdf_sections_26.1?expand=1).

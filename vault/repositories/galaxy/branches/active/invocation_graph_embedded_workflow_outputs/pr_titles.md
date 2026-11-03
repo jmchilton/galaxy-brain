@@ -1,0 +1,5 @@
+- Embed workflow outputs as cards beside their steps in the invocation graph
+- Invocation graph: an Embed Outputs toggle shows workflow outputs beside their steps
+- Show workflow outputs inside the workflow invocation graph, nudging steps to make room
+- Invocation graph: embed labeled workflow outputs as static cards
+- Embed Outputs toggle for the workflow invocation graph
