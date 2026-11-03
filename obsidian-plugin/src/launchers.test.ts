@@ -125,6 +125,7 @@ describe("parseLaunchers", () => {
 			["🗣 Build Slides - Implementation", "", "gx_branches"],
 			["📝 Address diff comments", "active", "gx_branches"],
 			["🗄️ Shelve", "active", "gx_branches"],
+			["🪦 Abandon", "active", "gx_branches"],
 		]);
 		expect(vaultLaunchers("repositories/galaxy/issues/LAUNCHERS.md")).toEqual([
 			["🐴 Implement", "queued,wip,needs_decision", "gx_workhorse"],
