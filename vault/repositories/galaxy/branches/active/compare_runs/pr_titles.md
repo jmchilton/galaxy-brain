@@ -1,0 +1,4 @@
+- Compare every run of a workflow step, a workflow's outputs, or a tool
+- Compare runs: one table for a step's, a workflow's or a tool's past runs
+- Add run comparison tables for workflow steps, workflow outputs and tools
+- See every past run of a step, workflow or tool side by side

@@ -36,4 +36,5 @@ Running list, added to throughout the overnight run. Each is "chose X, confirm?"
 21. **`GET /api/jobs?tool_version=`** has no consumer on the branch beyond tests — keep it in the job-fields prep PR, or drop?
 22. **Subworkflow invocation pages** — All runs there would resolve to the subworkflow build's hidden StoredWorkflow; iteration 3 disables/labels the tab there rather than inventing an identity rule.
 23. **State chooser** — job `error` and `failed` merged into one "failed" option (writes both to the URL, matches the State column); options in a compact "State: …" dropdown. `error` alone is no longer filterable. OK?
-24. **Disabled All runs tab** — now reads "All runs" with the explanation in a tooltip (supersedes the full-sentence label noted in Q13).
+24. **Disabled All runs tab** — now reads "All runs" with the explanation in a tooltip (supersedes the full-sentence label noted in Q13). *Superseded in polishing:* the tab is always enabled and opens on the explanation, which touch devices, screen readers and screenshots can see.
+25. **Row-detail diff headings** — renamed in polishing from "This run" / "Run you are viewing", which read backwards against the ★ this run badge, to "This row (v1)" / "★ Viewed run (v3)". OK?

@@ -9,17 +9,17 @@ upstream_base_branch: dev
 
 ## Status
 
-READY: implemented and hardened ×3 at `be7415d94dd`; open decisions in [design questions](design_questions.md), summary in [implementation debrief](implementation_debrief.md).
+Polished, ready for final review at `9bd004da99e`: [description](pr_description.md), [titles](pr_titles.md), [tags](pr_tags.md), [checklist](pr_checklist.md), [polish debrief](polish_debrief.md); open decisions in [design questions](design_questions.md).
 
 No PR.
 
-No CI run yet (fork CI not checked).
+Fork CI green on `be7415d94dd`; queued on `9bd004da99e`.
 
 ## Decisions
 
 - Plan: [compare_runs project](../../../../../projects/compare_runs/plan.md); targets `dev` (new API + UI, no migration).
 - Not stacked on #24173: mode 1 row links emit #24173's `?step_label=` query, ignored until it lands.
 - John asked for at least three harden iterations, expanded scope and polish; design questions collected for the morning.
-- Worktree: `/Users/jxc755/projects/worktrees/galaxy/branch/compare_runs`; also on chickenstraws at `~/projects/worktrees/galaxy/branch/compare_runs`, holding two uncommitted product fixes (`presentation/product_fixes.patch`).
+- Worktree: `/Users/jxc755/projects/worktrees/galaxy/branch/compare_runs` (behind: polished on chickenstraws at `~/projects/worktrees/galaxy/branch/compare_runs`, which also holds the PR screenshots).
 - Client presentation: [slide doc](presentation/slides.md) and [published deck](https://claude.ai/artifact/PLBbWy4DqURbomwhT7cxw6); capture harness and debriefs in `presentation/`.
 - Alt: `compare_runs_alt_original_scope` ([alts/original_scope.md](alts/original_scope.md)). Backups `compare_runs_pre_*` on `jmchilton` can be deleted once John is happy.
