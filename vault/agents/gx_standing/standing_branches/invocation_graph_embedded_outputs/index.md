@@ -11,10 +11,11 @@ Show outputs inside the workflow invocation graph in three stages: hover preview
 ## Children
 
 - [`invocation_graph_output_previews`](../../../../repositories/galaxy/branches/active/invocation_graph_output_previews/index.md) — `wip` · `stacked` — Stage 1: hovering a step's outputs previews its datasets and collections.
-- `invocation_graph_mapped_step_state` — `proposed` · `related` — Pre-existing bug found by stage 1 scope evaluation: a map-over whose jobs are all new/queued shows as `ok`. ~10 lines plus Vitest; stands alone and could target a release branch. Awaiting John: split out, fold into stage 1, or drop.
 - [`invocation_graph_embedded_workflow_outputs`](../../../../repositories/galaxy/branches/active/invocation_graph_embedded_workflow_outputs/index.md) — `wip` · `stacked` — Stage 2: workflow outputs embedded as large nodes, nudging steps; stacked on stage 1.
 
 ## Decisions
 
 - 2026-11-03 John: extract stage 1 from the spike, harden (gx_workhorse) and polish (gx_branches POLISH_BRANCH.md); rebase the spike; repeat for stage 2 on stage 1; rebase; harden and polish the spike itself (stage 3). The original spike head `3e4312f7c1d` is kept as `invocation_graph_embedded_outputs_spike` on `jmchilton`.
 - Nudge only, never a full re-layout (John, 2026-10-20).
+- 2026-11-03 John: the stage 1 scope evaluation's pre-existing bug (a map-over whose jobs are all new/queued shows as `ok`) is dropped for now; no branch.
+- 2026-11-03 John: his own requirements draft and the spike screenshots are the evidence for the PR checklist's "who hits this" item; no issue needed before PRs.
