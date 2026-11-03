@@ -10,9 +10,9 @@ pr: 739
 
 ## Status
 
-Skeleton `content/meta/start-contributing.md` (TODO bodies) plus `good first issue` note in issue-labels, head `d2b9ae8a` pushed to `jmchilton`; John fills in the content. Worktree `~/projects/worktrees/foundry/branch/issue-737-start-contributing`.
+Skeleton `content/meta/start-contributing.md` (intro TODO left) plus `good first issue` note in issue-labels, head `1ce0a431` pushed to `jmchilton`; John fills in the content. Worktree `~/projects/worktrees/foundry/branch/issue-737-start-contributing`.
 
-Draft PR [#739](https://github.com/galaxyproject/foundry/pull/739) opened 2026-11-03; TODO bodies remain.
+Draft PR [#739](https://github.com/galaxyproject/foundry/pull/739) opened 2026-11-03; intro TODO remains.
 
 `make check`: only `check-vendored` red (local-only, known).
 
