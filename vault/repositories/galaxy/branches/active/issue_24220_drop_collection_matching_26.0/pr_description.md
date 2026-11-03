@@ -1,4 +1,4 @@
-Fix 🎯 #24220 - tool form drag and drop matches collections to collection inputs by plain string suffix, so it refuses collections the dropdown lists and accepts ones the dropdown doesn't. Also fixes the server failing map-overs that its own dropdown lists onto compound `X:paired_or_unpaired` inputs (e.g. `list:list` on `list:paired_or_unpaired`), which `collection_semantics.md` documents as valid.
+Fix 🎯 #24220 - tool form drag and drop matches collections to collection inputs by plain string suffix, so it refuses collections the dropdown lists and accepts ones the dropdown doesn't. Also fixes the server listing map-overs it can't run onto compound `X:paired_or_unpaired` inputs (e.g. `list:list` on `list:paired_or_unpaired`), which `collection_semantics.md` documents as valid.
 
 Drag a collection onto a tool form collection input and the client decides by `endsWith`: no `:` boundary, no `paired_or_unpaired` or `sample_sheet` rules, first declared type instead of deepest. The server's dropdown knows all of these, so drag and drop and the dropdown disagree in both directions.
 
@@ -7,23 +7,24 @@ Drag a collection onto a tool form collection input and the client decides by `e
 | `list:paired_or_unpaired` on a `paired` input - not in the dropdown, fails at run time | ![accepted](screenshots/before_paired_input_drop_list_paired_or_unpaired_2_dropped.png) Accepted, mapped over `paired`; the job fails with "Cannot split collection in desired fashion." | ![refused](screenshots/after_paired_input_drop_list_paired_or_unpaired_1_dragover.png) Refused with an alert; the value is unchanged. |
 | `list:paired` on a `paired_or_unpaired` input - listed in the dropdown | ![refused](screenshots/before_paired_or_unpaired_input_drop_list_paired_1_dragover.png) Refused: "list of pairs dataset collection is not a valid input…" | ![accepted](screenshots/after_paired_or_unpaired_input_drop_list_paired_2_dropped.png) Accepted and mapped over, as the dropdown offers it. |
 
-***Drops now follow the rules the 26.0 server uses for the dropdown, reusing the workflow editor's `CollectionTypeDescription` (its code is untouched). Two server changes came out of review: `_split_dataset_collection` now splits compound `X:paired_or_unpaired` map-overs instead of failing with "Cannot split collection in desired fashion.", and the dropdown no longer lists map-overs onto `sample_sheet` inputs, which a split never yields.***
+***Drops now follow the rules the 26.0 server uses for the dropdown, reusing the workflow editor's `CollectionTypeDescription` (its code is untouched). Two server changes came out of review: the dropdown now lists compound `X:paired_or_unpaired` map-overs with the literal type the split runs on (`list`, `list:paired`) instead of one that fails with "Cannot split collection in desired fashion.", and it no longer lists map-overs onto `sample_sheet` inputs, which a split never yields.***
 
 ***It targets 26.0 only: 25.1's dropdown still has the suffix bug, so a fixed client would disagree with it there.***
 
 All seven rows of the issue's table are fixed: `paired` accepted directly on `paired_or_unpaired`, `list`/`list:paired` accepted directly on `list:paired_or_unpaired` and mapped over on `paired_or_unpaired`, `sample_sheet` accepted on `list`, `X:paired_or_unpaired` refused on `paired`, the deepest declared type picked for map-over, and dropped collection elements mapped over like collections.
 
-***Drag and drop and the dropdown now agree on map-overs: both refuse `sample_sheet` input targets, and both offer `list:list` and `list:list:paired` on `list:paired_or_unpaired`, which now run and give a flat list (`MAPPING_LIST_LIST_OVER_LIST_PAIRED_OR_UNPAIRED` in `collection_semantics.md`).***
+***Drag and drop and the dropdown now agree on map-overs: both refuse `sample_sheet` input targets, and both offer `list:list` and `list:list:paired` on `list:paired_or_unpaired` (as `map_over_type` `list` and `list:paired`), which now run and give a flat list (`MAPPING_LIST_LIST_OVER_LIST_PAIRED_OR_UNPAIRED` in `collection_semantics.md`).***
 
 <details><summary>How</summary>
 
-- One helper, `matchCollectionType()` (`FormData/collectionMatch.ts`), built on the client's existing `CollectionTypeDescription.canMatch`/`canMapOver`, the same class the workflow editor uses and the one `type_description.py` says must stay in sync with the server. It tries a direct match, then maps over the deepest input type, with the server's `paired_or_unpaired` → `paired` / single-datasets rewrite.
+- One helper, `matchCollectionType()` (`FormData/collectionMatch.ts`), built on the client's existing `CollectionTypeDescription.canMatch`/`canMapOver`, the same class the workflow editor uses and the one `type_description.py` says must stay in sync with the server. It tries a direct match, then maps over the deepest input type, then asks `CollectionTypeDescription.splitCollectionType` for the literal type the split runs on.
 - Both drop gates use it: `canAcceptSrc` (dragenter/drop) and `toDataOption` (the emitted value). This covers HDCAs and collection elements that hold a collection.
 - A dropped element keeps its `map_over_type` when the form refreshes its options. The server lists the selected element without it, so without this the next emit would drop the map-over.
 - Both gates read one `restrictedCollectionTypes`, so they can't disagree on an unrestricted input (they did on `[]`; the server sends `null`, so this is consistency, not a user-visible fix).
 - `sample_sheet` column definitions are checked only on direct drops, like the server's listing.
-- A map-over must split on a literal suffix of the collection type (`_split_dataset_collection`), except `single_datasets` and compound `X:paired_or_unpaired`.
-- Server: `_split_dataset_collection` (`subcollections.py`) splits a compound `X:paired_or_unpaired` map-over at the children `X:paired_or_unpaired` accepts (`X`, `X:paired`), using the existing `CollectionTypeDescription.has_subcollections_of_type` / `can_match_type`. Workflow invocations already ran these.
+- A map-over must split on a literal suffix of the collection type (`_split_dataset_collection`), except `single_datasets`.
+- One split-type rule, `CollectionTypeDescription.split_collection_type` (`type_description.py`), with a TypeScript mirror `splitCollectionType` (`collectionTypeDescription.ts`): the literal type a collection splits into when mapped over an input type. A bare `paired_or_unpaired` becomes `paired` or `single_datasets` (the existing rewrite); a compound `X:paired_or_unpaired` becomes `X:paired` when the collection ends in `:X:paired`, else `X`; a type the collection already ends in is kept.
+- `HistoryQuery.map_over_type` pairs it with `can_map_over`. The dropdown (`basic.py`) and workflow runs (`workflow/modules.py`) call it instead of each copying the `paired_or_unpaired` rewrite; drag and drop calls the TS mirror. `_split_dataset_collection` is unchanged.
 - Server: `HistoryQuery.can_map_over` (`query.py`) skips `sample_sheet` input types, so the dropdown falls through to a type that runs. The client's deepest-first pick skips them too.
 
 </details>
@@ -32,36 +33,37 @@ All seven rows of the issue's table are fixed: `paired` accepted directly on `pa
 
 - `FormData.test.ts` drop tables mount `FormData`, fire real dragenter/drop events with HDCAs and collection elements, and assert the emitted payload or the refusal alert. Baseline rows (behavior the client already got right, plus the first client tests of the `sample_sheet` column-definition check) are in the leading commit; each fix commit flips only the rows it fixes and fails at its parent.
 - `test_can_map_over_dce_on_collection_param` (API) pins the one server fact the element map-over relies on: a `dce` with a `map_over_type` on a collection input maps over that level.
-- `test_tool_execute.py` (API): `list:list` and `list:list:paired` mapped over `list:paired_or_unpaired` run and give a flat list; `/build` lists the compound map-over and no longer lists a `sample_sheet` one. Added red in a leading baseline commit (the listing test is a green pin).
-- Unit: `test_subcollections.py` covers the compound split and `sample_sheet` refusals; `test_matching.py` covers the `sample_sheet` skip in `HistoryQuery`.
-- `nested_over_list_paired_or_unpaired` (workflow framework test) pins the invocation path, which already worked. `collection_semantics.yml` now links the two `list:list` mapping examples to their API tests.
+- `test_tool_execute.py` (API): `list:list` and `list:list:paired` mapped over `list:paired_or_unpaired` with the `map_over_type` `/build` lists (`list`, `list:paired`) run and give a flat list; `/build` no longer lists a `sample_sheet` map-over. Added red in a leading baseline commit.
+- Unit: `test_type_descriptions.py` and `collectionTypeDescription.test.ts` table-test `split_collection_type` / `splitCollectionType` (bare rows in the extract commit, compound rows red until the fix); `test_matching.py` covers `HistoryQuery.map_over_type` and the `sample_sheet` skip.
+- `nested_over_list_paired_or_unpaired` and `flat_over_paired_or_unpaired` (workflow framework tests) pin the invocation path, which now takes the literal split type too. `collection_semantics.yml` now links the two `list:list` mapping examples to their API tests.
 - No E2E: the shared `drag_and_drop` helpers don't fire `dragenter`, which `FormData` needs. The screenshots above are ad hoc captures.
 
 </details>
 
 ## Risks
 
-The server changes touch only map-overs that failed at submit before: compound `X:paired_or_unpaired` now runs, `sample_sheet` is no longer offered. Everything is a two-way door.
+The server changes touch only map-overs that failed at submit before: compound `X:paired_or_unpaired` now runs, `sample_sheet` is no longer offered. Workflow runs now map compound inputs over the literal split type too. Everything is a two-way door.
 
 <details><summary>Risk Details</summary>
 
-- Only map-over types ending in `:paired_or_unpaired` (not `sample_sheet`) take the new split path; literal split types behave as before.
+- `/build` now lists `list` / `list:paired` where it listed `list:paired_or_unpaired`. An API client posting a compound `map_over_type` directly still gets the 400 it got before.
+- Workflow invocations map compound inputs over `X` / `X:paired` instead of passing the compound type to the structure code, which already handled it; both framework tests above pass. No test maps a subworkflow over a `paired_or_unpaired` input.
 - Dropping `sample_sheet` map-overs from the listing can change which map-over the dropdown picks when an input also declares a shallower type (e.g. `["sample_sheet", "list"]` now maps `list:list` over `list`). The old pick failed at submit.
 - The `formattedOptions` patch that keeps a dropped element's `map_over_type` works around the server's `DataCollectionToolParameter.to_dict` omitting it; a server fix would let it go.
-- Merge forward: `release_26.1` (39597b33667) and `dev` renamed `canMatch` to `accepts`. `collectionMatch.ts` is a new file, so the merge won't conflict; only tsc/vitest will catch it.
+- Merge forward: `release_26.1` (39597b33667) and `dev` renamed `canMatch` to `accepts`. `collectionMatch.ts` is a new file, so the merge won't conflict; only tsc/vitest will catch it. `splitCollectionType` is a new method after `effectiveMapOver`; `basic.py`'s rewrite moved on `dev`, so expect a manual merge there.
 - 25.1 isn't targeted: its dropdown still has the suffix bug, so a fixed client would disagree with it.
 
 </details>
 
 <details><summary>Risk Review Advice</summary>
 
-Compare `matchCollectionType` against `DataCollectionToolParameter.to_dict` / `HistoryQuery` in `basic.py` and `query.py`: direct match first, deepest map-over next, then the `paired_or_unpaired` rewrite, then the literal-suffix check from `_split_dataset_collection` in `subcollections.py`. On the server, check `_is_split_type` in `subcollections.py` against the mapping examples in `collection_semantics.yml`.
+Compare `matchCollectionType` against `DataCollectionToolParameter.to_dict` / `HistoryQuery` in `basic.py` and `query.py`: direct match first, deepest map-over next, then the `paired_or_unpaired` rewrite, then the literal-suffix check from `_split_dataset_collection` in `subcollections.py`. Check `split_collection_type` and its TS mirror against each other and against the mapping examples in `collection_semantics.yml`.
 
 </details>
 
 ## Context
 
-Builds on 🔀 #24227 (🎯 #24218, merged), which fixed the client's `canMapOver` for `X:paired_or_unpaired` inputs; without it the helper would accept a `paired` drop on `list:paired_or_unpaired`. Follow-up to 🔀 #18623 (added the suffix check) and 🔀 #22193 (the server's `:` boundary on 26.0). The server split fix and `sample_sheet` refusal came out of review, which found the dropdown listing map-overs the server couldn't run. Carved from 🌿[`issue_20657_input_processing_mode`](https://github.com/jmchilton/galaxy/tree/issue_20657_input_processing_mode). Alternative kept on 🌿[`issue_24220_drop_collection_matching_26.0_alt_original_scope`](https://github.com/jmchilton/galaxy/tree/issue_24220_drop_collection_matching_26.0_alt_original_scope) - the seven issue rows only, without the direct-drop-only column-definition check and the shared `restrictedCollectionTypes` gate. Developed with [John's Galaxy Brain Branch Factory](https://jmchilton.github.io/galaxy-brain/factory/galaxy-branches/).
+Builds on 🔀 #24227 (🎯 #24218, merged), which fixed the client's `canMapOver` for `X:paired_or_unpaired` inputs; without it the helper would accept a `paired` drop on `list:paired_or_unpaired`. Follow-up to 🔀 #18623 (added the suffix check) and 🔀 #22193 (the server's `:` boundary on 26.0). The split-type helper and `sample_sheet` refusal came out of review, which found the dropdown listing map-overs the server couldn't run. Carved from 🌿[`issue_20657_input_processing_mode`](https://github.com/jmchilton/galaxy/tree/issue_20657_input_processing_mode). Alternative kept on 🌿[`issue_24220_drop_collection_matching_26.0_alt_original_scope`](https://github.com/jmchilton/galaxy/tree/issue_24220_drop_collection_matching_26.0_alt_original_scope) - the seven issue rows only, without the direct-drop-only column-definition check and the shared `restrictedCollectionTypes` gate. Developed with [John's Galaxy Brain Branch Factory](https://jmchilton.github.io/galaxy-brain/factory/galaxy-branches/).
 
 ## Agentic Checks
 

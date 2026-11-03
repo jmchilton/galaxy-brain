@@ -44,11 +44,9 @@ None yet.
 
 ## Draft Galaxy PRs — waiting for CI (`ci_wait`)
 
-None yet.
+- [`issue_24220_drop_collection_matching_26.0`](active/issue_24220_drop_collection_matching_26.0/index.md) — Tool form drag and drop matches dropped collections like the server; shared literal split-type helper (#24220). Base `release_26.0`. [#24453](https://github.com/galaxyproject/galaxy/pull/24453).
 
 ## Draft Galaxy PRs — needs author work (`author_work`)
-
-- [`issue_24220_drop_collection_matching_26.0`](active/issue_24220_drop_collection_matching_26.0/index.md) — Tool form drag and drop matches dropped collections like the server; reworking onto a shared split-type helper (#24220). Base `release_26.0`. [#24453](https://github.com/galaxyproject/galaxy/pull/24453).
 
 - [`issue_24389_lint_duplicate_test_params_26.1`](active/issue_24389_lint_duplicate_test_params_26.1/index.md) — Lint conflicting duplicate tool-test params (load unchanged); `<edit_attributes>` stored as dicts (#24389). Base `release_26.1`. [#24480](https://github.com/galaxyproject/galaxy/pull/24480).
 - [`extract_next_followups`](active/extract_next_followups/index.md) — Fixes notebook-to-workflow extraction, report references and editor behavior after #22860. Base `release_26.2`; must merge before 26.2.0 (API rename). [#24225](https://github.com/galaxyproject/galaxy/pull/24225). Draft [WIP] by John's request: up early while they review it in detail.

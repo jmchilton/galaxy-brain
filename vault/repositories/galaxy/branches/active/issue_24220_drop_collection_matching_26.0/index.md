@@ -9,11 +9,11 @@ pr: 24453
 
 ## Status
 
-Status: reworking onto a shared split-type helper (decision 2026-11-02); pushed head `340e7139d0b`. Worktree: `~/projects/worktrees/galaxy/branch/issue_24220_drop_collection_matching_26.0`.
+Status: reworked onto the shared split-type helper ([debrief](helper_rework_debrief.md)); head `3ec0b6573f5`. Worktree: `~/projects/worktrees/galaxy/branch/issue_24220_drop_collection_matching_26.0`.
 
-PR [#24453](https://github.com/galaxyproject/galaxy/pull/24453) in draft since 2026-10-29 for the expanded fix ([comment](https://github.com/galaxyproject/galaxy/pull/24453#issuecomment-6507455866)); live body not yet updated from [pr_description.md](pr_description.md).
+PR [#24453](https://github.com/galaxyproject/galaxy/pull/24453) in draft since 2026-10-29 for the expanded fix ([comment](https://github.com/galaxyproject/galaxy/pull/24453#issuecomment-6507455866)); live body not yet updated from [pr_description.md](pr_description.md); reply to Marius not posted.
 
-CI on `340e7139d0b` green (58 pass, 1 skipped; checked 2026-11-02).
+CI on `3ec0b6573f5` running (2026-11-02).
 
 Fixes galaxyproject/galaxy#24220: tool form drag and drop matched collections to collection inputs by plain string suffix. Carved from [issue_20657_input_processing_mode](../issue_20657_input_processing_mode/index.md).
 
