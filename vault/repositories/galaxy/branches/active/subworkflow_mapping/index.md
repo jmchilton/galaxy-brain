@@ -1,3 +1,13 @@
+---
+upstream_base_branch: dev
+pr: 23676
+related_records:
+  - galaxy/branches/mapping_axes_model
+  - galaxy/branches/mapping_axes_clarity_correctness
+  - galaxy/branches/workflow_test_timeouts
+  - galaxy/branches/subworkflow_mapping_per_step_semantics
+  - galaxy/branches/subworkflow_mapping_when_alignment
+---
 # subworkflow_mapping
 
 Status: `author_work`. Base: `dev`. [PR #23676](https://github.com/galaxyproject/galaxy/pull/23676) (open).

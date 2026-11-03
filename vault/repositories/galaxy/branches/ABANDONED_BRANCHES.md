@@ -21,3 +21,5 @@
 - [`workflow_editor_selector_escaping`](abandoned/workflow_editor_selector_escaping/index.md) (`7ba4f7bd25f`) — abandoned: folded into parent #24370, merged to `release_26.2` 2026-10-28 (John, 2026-10-28).
 - [`issue_24530_atomic_embedded_tool_import_26.1`](abandoned/issue_24530_atomic_embedded_tool_import_26.1/index.md) (`dadc555490f`) — abandoned at John’s request (2026-11-02); no reason given; clean, fully pushed worktree removed.
 - [`pr_24607_followup`](abandoned/pr_24607_followup/index.md) (`47e2af2f82d`) — abandoned at John’s request (2026-11-02); no reason given; no PR opened; clean, fully pushed worktree removed.
+- [`subworkflow_mapping_per_step_semantics`](abandoned/subworkflow_mapping_per_step_semantics/index.md) (`ec88bda5b46`, PR #23426 closed) — abandoned: the RFC's callable-boundary decision became #23676 (John, 2026-11-02); no worktree.
+- [`subworkflow_mapping_when_alignment`](abandoned/subworkflow_mapping_when_alignment/index.md) (`bd24feae8f1`) — abandoned: superseded by #23676's axis-bound conditions; its 2 API scenarios ported there (John, 2026-11-02); no worktree.

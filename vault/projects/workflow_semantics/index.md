@@ -52,7 +52,8 @@ Notes moved here 2026-08-25 from untracked markdown in the
   `subworkflow_mapping_per_step_semantics`.
 - **`PR_WHEN_ALIGNMENT_DESCRIPTION.md`** — description for the second half: the
   `is_aligned_with` guard, API + unit tests, conditional docs. Branch
-  `subworkflow_mapping_when_alignment`, stacked on the first.
+  `subworkflow_mapping_when_alignment`, stacked on the first. Both branches
+  abandoned 2026-11-02 as superseded by #23676.
 - **`WF_SEMANTICS_FACT_QUESTIONS.md`** — the Q1–Q21 question set plus §2's extra
   fact records. **Read with the status doc's §3.8 corrections in hand:** Q1, Q18
   and Q19 are wrong, Q6 was the one genuinely unanswered question, and §2's 15
