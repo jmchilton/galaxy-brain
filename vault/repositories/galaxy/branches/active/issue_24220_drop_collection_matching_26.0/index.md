@@ -9,11 +9,11 @@ pr: 24453
 
 ## Status
 
-Status: reworked onto the shared split-type helper ([debrief](helper_rework_debrief.md)); head `3ec0b6573f5`. Worktree: `~/projects/worktrees/galaxy/branch/issue_24220_drop_collection_matching_26.0`.
+Status: reworked onto the shared split-type helper ([debrief](helper_rework_debrief.md)); head `76abc799f6c`. Worktree: `~/projects/worktrees/galaxy/branch/issue_24220_drop_collection_matching_26.0`.
 
 PR [#24453](https://github.com/galaxyproject/galaxy/pull/24453) in draft since 2026-10-29 for the expanded fix ([comment](https://github.com/galaxyproject/galaxy/pull/24453#issuecomment-6507455866)); live body not yet updated from [pr_description.md](pr_description.md); reply to Marius not posted.
 
-CI on `3ec0b6573f5` running (2026-11-02).
+CI on `76abc799f6c` running (2026-11-02).
 
 Fixes galaxyproject/galaxy#24220: tool form drag and drop matched collections to collection inputs by plain string suffix. Carved from [issue_20657_input_processing_mode](../issue_20657_input_processing_mode/index.md).
 
@@ -28,4 +28,5 @@ Fixes galaxyproject/galaxy#24220: tool form drag and drop matched collections to
 
 - Map-over drops the server can't split (`sample_sheet` targets, compound `X:paired_or_unpaired`) are refused, per mvdbeek's commit. The compound case contradicts `collection_semantics.md`. John's decision (2026-10-29): expand this PR with the server fix scoped in [followup_issue_split_paired_or_unpaired.md](followup_issue_split_paired_or_unpaired.md). First build (`cf4cc766114`..`340e7139d0b`) was narrower than the PR comment promised, without recorded sign-off: `_split_dataset_collection` learned compound types, leaving the bare rewrite copied 3× and new compound/`sample_sheet` string checks copied 2× each.
 - John's decision (2026-11-02): rework onto the promised shared split-type helper (Python + TS mirror) in this branch if it means less duplication and stronger abstractions. Producers emit literal split types; `_split_dataset_collection` changes reverted; Marius' literal-suffix guard kept (promised publicly on 2026-10-29).
-- Merge forward: `canMatch` → `accepts` is already on `release_26.1`; only tsc/vitest will catch it.
+- Merge forward: `canMatch` → `accepts` is already on `release_26.1`; only tsc/vitest will catch it. The `basic.py`/`modules.py` rewrite sites moved on 26.1 (manual merge); 26.1 already refuses `sample_sheet` map-over targets in `can_map_over`.
+- Alt `issue_24220_drop_collection_matching_26.0_alt_split_fix` keeps the first server fix (`_split_dataset_collection` learned compound types), superseded by the helper rework.

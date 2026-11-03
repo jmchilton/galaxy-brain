@@ -33,7 +33,8 @@ All seven rows of the issue's table are fixed: `paired` accepted directly on `pa
 
 - `FormData.test.ts` drop tables mount `FormData`, fire real dragenter/drop events with HDCAs and collection elements, and assert the emitted payload or the refusal alert. Baseline rows (behavior the client already got right, plus the first client tests of the `sample_sheet` column-definition check) are in the leading commit; each fix commit flips only the rows it fixes and fails at its parent.
 - `test_can_map_over_dce_on_collection_param` (API) pins the one server fact the element map-over relies on: a `dce` with a `map_over_type` on a collection input maps over that level.
-- `test_tool_execute.py` (API): `list:list` and `list:list:paired` mapped over `list:paired_or_unpaired` with the `map_over_type` `/build` lists (`list`, `list:paired`) run and give a flat list; `/build` no longer lists a `sample_sheet` map-over. Added red in a leading baseline commit.
+- `test_tool_execute.py` (API): `list:list` and `list:list:paired` mapped over `list:paired_or_unpaired` with the `map_over_type` `/build` lists (`list`, `list:paired`) run and give a flat list; `/build` no longer lists a `sample_sheet` map-over. Added in a leading baseline commit; the run tests fail with "Cannot split collection in desired fashion." there and at the extract commit, and pass from the fix.
+- Unit: `test_subcollections.py` pins the split contract the helper relies on: literal suffixes split, compound and `sample_sheet` types are refused.
 - Unit: `test_type_descriptions.py` and `collectionTypeDescription.test.ts` table-test `split_collection_type` / `splitCollectionType` (bare rows in the extract commit, compound rows red until the fix); `test_matching.py` covers `HistoryQuery.map_over_type` and the `sample_sheet` skip.
 - `nested_over_list_paired_or_unpaired` and `flat_over_paired_or_unpaired` (workflow framework tests) pin the invocation path, which now takes the literal split type too. `collection_semantics.yml` now links the two `list:list` mapping examples to their API tests.
 - No E2E: the shared `drag_and_drop` helpers don't fire `dragenter`, which `FormData` needs. The screenshots above are ad hoc captures.
@@ -50,7 +51,7 @@ The server changes touch only map-overs that failed at submit before: compound `
 - Workflow invocations map compound inputs over `X` / `X:paired` instead of passing the compound type to the structure code, which already handled it; both framework tests above pass. No test maps a subworkflow over a `paired_or_unpaired` input.
 - Dropping `sample_sheet` map-overs from the listing can change which map-over the dropdown picks when an input also declares a shallower type (e.g. `["sample_sheet", "list"]` now maps `list:list` over `list`). The old pick failed at submit.
 - The `formattedOptions` patch that keeps a dropped element's `map_over_type` works around the server's `DataCollectionToolParameter.to_dict` omitting it; a server fix would let it go.
-- Merge forward: `release_26.1` (39597b33667) and `dev` renamed `canMatch` to `accepts`. `collectionMatch.ts` is a new file, so the merge won't conflict; only tsc/vitest will catch it. `splitCollectionType` is a new method after `effectiveMapOver`; `basic.py`'s rewrite moved on `dev`, so expect a manual merge there.
+- Merge forward: `release_26.1` (39597b33667) and `dev` renamed `canMatch` to `accepts`. `collectionMatch.ts` is a new file, so the merge won't conflict; only tsc/vitest will catch it. `splitCollectionType` is a new method after `effectiveMapOver`. On `release_26.1` the `basic.py` and `workflow/modules.py` rewrite sites moved (`basic.py` grew a second copy), so expect manual merges there; 26.1's `can_map_over`/`canMapOver` already refuse `sample_sheet` input types, which makes this PR's `sample_sheet` skips redundant after merging forward.
 - 25.1 isn't targeted: its dropdown still has the suffix bug, so a fixed client would disagree with it.
 
 </details>
@@ -66,6 +67,8 @@ Compare `matchCollectionType` against `DataCollectionToolParameter.to_dict` / `H
 Builds on 🔀 #24227 (🎯 #24218, merged), which fixed the client's `canMapOver` for `X:paired_or_unpaired` inputs; without it the helper would accept a `paired` drop on `list:paired_or_unpaired`. Follow-up to 🔀 #18623 (added the suffix check) and 🔀 #22193 (the server's `:` boundary on 26.0). The split-type helper and `sample_sheet` refusal came out of review, which found the dropdown listing map-overs the server couldn't run. Carved from 🌿[`issue_20657_input_processing_mode`](https://github.com/jmchilton/galaxy/tree/issue_20657_input_processing_mode). Alternative kept on 🌿[`issue_24220_drop_collection_matching_26.0_alt_original_scope`](https://github.com/jmchilton/galaxy/tree/issue_24220_drop_collection_matching_26.0_alt_original_scope) - the seven issue rows only, without the direct-drop-only column-definition check and the shared `restrictedCollectionTypes` gate. Developed with [John's Galaxy Brain Branch Factory](https://jmchilton.github.io/galaxy-brain/factory/galaxy-branches/).
 
 ## Agentic Checks
+
+*These ran before the server changes from review; the server rework since has its own red-to-green tests.*
 
 ### ✅ [Scope Evaluation](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/GX_PROCESS_SCOPE_EVALUATION.md)
 
@@ -118,7 +121,7 @@ Builds on 🔀 #24227 (🎯 #24218, merged), which fixed the client's `canMapOve
 - [ ] Did a human read every test and every comment? (Requires human author to check)
 - [x] What does the user see when it fails? A drop that doesn't fit is refused with an alert on the input (e.g. "mixed list of paired and unpaired dataset collection is not a valid input for paired type dataset collection parameter.") and the value is unchanged.
 - [x] Is the diff free of unrelated or stale generated changes? Yes!
-- [x] Are unit tests not just testing the literal implementation? Yes. They drop items on a mounted `FormData` and assert the emitted payload against the server's listing rules; the helper isn't tested directly.
+- [x] Are unit tests not just testing the literal implementation? Yes. They drop items on a mounted `FormData` and assert the emitted payload against the server's listing rules; `matchCollectionType` isn't tested directly. `split_collection_type` / `splitCollectionType` are table-tested against the same rows in Python and TS.
 - [x] Are baseline tests in their own leading commits (if applicable)? Yes, followed by a behavior-free helper extract.
 - [x] Are the comments free of excess archeology? Yes.
 - [x] If comments contain some description of previous implementation, bugs, etc.. - what purpose do they serve? N/A
