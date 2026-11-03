@@ -8,7 +8,7 @@ upstream_base_branch: release_25.1
 
 ## Status
 
-Status: in implementation. Base: `release_25.1` (`9eb3271d60a`). Worktree: `~/projects/worktrees/galaxy/branch/harden_url_abstractions_25.1`.
+Status: BLOCKED on a scope decision (route DRS lookups through `ValidatingSession`?); see [implementation debrief](implementation_debrief.md). Base: `release_25.1` (`83296278444`), head `3355e25a9b2`. Worktree: `~/projects/worktrees/galaxy/branch/harden_url_abstractions_25.1`. Alt: `harden_url_abstractions_25.1_alt_original_scope` ([alts/original_scope.md](alts/original_scope.md)).
 
 No PR yet. CI not yet seen.
 
