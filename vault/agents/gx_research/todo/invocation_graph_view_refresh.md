@@ -11,3 +11,4 @@ Output-preview work on the invocation graph needs to add E2E coverage and relied
 ## Requested by
 
 - vault/repositories/galaxy/branches/active/invocation_graph_output_previews/index.md: needed accurate E2E test and selector coverage for the invocation graph, and the invocation-payload-versus-step-outputs data flow.
+- vault/repositories/galaxy/branches/active/invocation_graph_embedded_workflow_outputs/index.md: stage 2 embeds workflow-output cards in the graph, so it also needs the `node-area` slot, `fitWorkflow(extraRectangles)` and the (non-)cooperation of the minimap, plus the new `InvocationEmbeddedOutputs` / `useEmbeddedOutputs` / `embeddedOutputLayout` surfaces once merged.

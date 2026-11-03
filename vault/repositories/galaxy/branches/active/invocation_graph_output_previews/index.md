@@ -1,7 +1,7 @@
 ---
 upstream_base_branch: dev
 related_records: galaxy/branches/invocation_graph_embedded_outputs
-child_branches: invocation_graph_embedded_outputs
+child_branches: invocation_graph_embedded_workflow_outputs
 ---
 
 # Invocation graph: hover a step to preview its outputs
