@@ -20,3 +20,4 @@
 - [`playwright_remote_debugging_port`](abandoned/playwright_remote_debugging_port/index.md) (`9ffb7bda18c`) — abandoned: absorbed into `galaxy_ui_driver` as its CDP port commit (John, 2026-10-20).
 - [`workflow_editor_selector_escaping`](abandoned/workflow_editor_selector_escaping/index.md) (`7ba4f7bd25f`) — abandoned: folded into parent #24370, merged to `release_26.2` 2026-10-28 (John, 2026-10-28).
 - [`issue_24530_atomic_embedded_tool_import_26.1`](abandoned/issue_24530_atomic_embedded_tool_import_26.1/index.md) (`dadc555490f`) — abandoned at John’s request (2026-11-02); no reason given; clean, fully pushed worktree removed.
+- [`pr_24607_followup`](abandoned/pr_24607_followup/index.md) (`47e2af2f82d`) — abandoned at John’s request (2026-11-02); no reason given; no PR opened; clean, fully pushed worktree removed.

@@ -20,4 +20,4 @@ related_records: galaxy/branches/pr_24607_followup
 
 GitHub state: MERGED 2026-11-01. Tracking ended on merge; archived 2026-11-01. Worktree removed.
 
-Follow-up branch [`pr_24607_followup`](../../../branches/active/pr_24607_followup/index.md) (base `dev`) carries the review commits; PR description moved there.
+Follow-up branch [`pr_24607_followup`](../../../branches/abandoned/pr_24607_followup/index.md) (base `dev`) carries the review commits; PR description moved there.
