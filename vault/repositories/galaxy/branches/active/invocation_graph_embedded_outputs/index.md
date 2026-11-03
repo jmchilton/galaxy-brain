@@ -1,3 +1,8 @@
+---
+upstream_base_branch: dev
+related_records: galaxy/branches/invocation_graph_output_previews
+---
+
 # invocation_graph_embedded_outputs
 
 - [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:invocation_graph_embedded_outputs?expand=1)

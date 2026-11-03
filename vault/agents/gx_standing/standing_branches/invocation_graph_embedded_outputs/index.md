@@ -11,6 +11,7 @@ Show outputs inside the workflow invocation graph in three stages: hover preview
 ## Children
 
 - [`invocation_graph_output_previews`](../../../../repositories/galaxy/branches/active/invocation_graph_output_previews/index.md) — `wip` · `stacked` — Stage 1: hovering a step's outputs previews its datasets and collections.
+- `invocation_graph_mapped_step_state` — `proposed` · `related` — Pre-existing bug found by stage 1 scope evaluation: a map-over whose jobs are all new/queued shows as `ok`. ~10 lines plus Vitest; stands alone and could target a release branch. Awaiting John: split out, fold into stage 1, or drop.
 - [`invocation_graph_embedded_workflow_outputs`](../../../../repositories/galaxy/branches/active/invocation_graph_embedded_workflow_outputs/index.md) — `wip` · `stacked` — Stage 2: workflow outputs embedded as large nodes, nudging steps; stacked on stage 1.
 
 ## Decisions
