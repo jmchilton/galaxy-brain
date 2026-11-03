@@ -1,8 +1,12 @@
 # invocation_no_add_to_history_false_26.1
 
-Status: `branches_need_decision` — 2026-10-20 John posted a [decision gist](https://gist.github.com/jmchilton/c68c645a8fa6d8da58af9a5e70f060c1) comparing this with the 26.2 branch; waiting for someone to okay one approach.
+Status: `branches_ready_for_final_review` — John chose this over the 26.2 generator approach (2026-11-02), now [abandoned](../../abandoned/invocation_no_add_to_history_false/index.md); [pr_description.md](pr_description.md) rewritten with a "path not taken" section and awaits John's read-through. Head `690e27233e1`, rebased onto `release_26.1` `6da0d325952`; fork CI pending.
 
-Backport of the two server fixes from [invocation_no_add_to_history_false](../invocation_no_add_to_history_false/index.md) (26.2): honor explicit `no_add_to_history: false`/`null`, and accept a `null`/`{}` `ds_map` next to `inputs`. The bugs date to 2024 and are exposed by the published 26.1.1 api-client types. The generator and schema-description commits stay on 26.2 only.
+Honor explicit `no_add_to_history: false`/`null`, and accept a `null`/`{}` `ds_map` next to `inputs`. The bugs date to 2024 and are exposed by the published api-client types. Standing-branch child of [issue_20900_invocation_validation](../../../../../agents/gx_standing/standing_branches/issue_20900_invocation_validation/index.md).
+
+## Rebase — 2026-11-02
+
+`050ada8acae` → `690e27233e1`. One mechanical conflict in `test_workflows.py`: the new test sat next to #24171's nonexistent/library/inaccessible input tests; kept both. Patches unchanged apart from context. Ruff, black, isort clean. API: 8 passed; with `release_26.1`'s `run_request.py`, the 4 predicted cases fail (null/false `no_add_to_history`, null/empty `ds_map`).
 
 Original backport commits: `3ed01f6e317` (cherry-pick of `9e160f5cbde`; the test-file conflict pulled in 26.2-only neighboring tests, resolved by keeping only `test_run_no_add_to_history`), `9ef7c304d7c` (clean cherry-pick of `33be985c49e`). Diff vs base: `run_request.py` +2/-2, `test_workflows.py` +52.
 

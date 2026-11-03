@@ -17,8 +17,8 @@ Reject bad workflow invocation requests at the API before creating histories or 
 - [`invocation_completion_action_validation`](../../../../repositories/galaxy/branches/merged/invocation_completion_action_validation/index.md) — [#24202](https://github.com/galaxyproject/galaxy/pull/24202) · `merged` · `extracted` — Validate completion actions and required export config; 26.2.
 - [`invocation_subworkflow_input_connections`](../../../../repositories/galaxy/branches/active/invocation_subworkflow_input_connections/index.md) — [#24203](https://github.com/galaxyproject/galaxy/pull/24203) · `merged` · `extracted` — Reject disconnected required subworkflow inputs; consistent runtime gaps; 26.2.
 - [`invocation_parameter_expected_failure`](../../../../repositories/galaxy/branches/active/invocation_parameter_expected_failure/index.md) — [#24265](https://github.com/galaxyproject/galaxy/pull/24265) · `merged` · `extracted` — Invalid subworkflow parameters fail with real reason (#20980 regression); 26.1.
-- [`invocation_no_add_to_history_false`](../../../../repositories/galaxy/branches/active/invocation_no_add_to_history_false/index.md) — `wip` · `extracted` — Honor `no_add_to_history: false`, empty `ds_map`, client-type root cause; 26.2.
-- [`invocation_no_add_to_history_false_26.1`](../../../../repositories/galaxy/branches/active/invocation_no_add_to_history_false_26.1/index.md) — `wip` · `related` — Server-only 26.1 alternative to the previous child.
+- [`invocation_no_add_to_history_false`](../../../../repositories/galaxy/branches/abandoned/invocation_no_add_to_history_false/index.md) — `abandoned` · `extracted` — Server fixes plus client-type generator; 26.2. Path not taken.
+- [`invocation_no_add_to_history_false_26.1`](../../../../repositories/galaxy/branches/active/invocation_no_add_to_history_false_26.1/index.md) — `wip` · `extracted` — Honor `no_add_to_history: false` and empty `ds_map` (server only); 26.1.
 
 ## Remaining in the standing branch
 
@@ -33,4 +33,4 @@ Reject bad workflow invocation requests at the API before creating histories or 
 - 2026-10-14/15, John: extract four bug fixes, then four more guards, each standalone off a release branch.
 - 2026-10-16, John: keep as reference while smaller PRs come out; do not PR as-is.
 - Multiple-text per-value validator (`119716e6a2f`) is superseded upstream; drop on rebase, don't extract.
-- 2026-10-20, John: `no_add_to_history` [decision gist](https://gist.github.com/jmchilton/c68c645a8fa6d8da58af9a5e70f060c1) — 26.2 full fix vs 26.1 server-only; awaiting an okay.
+- 2026-11-02, John: no response to the `no_add_to_history` [decision gist](https://gist.github.com/jmchilton/c68c645a8fa6d8da58af9a5e70f060c1); go with 26.1 server-only, abandon the 26.2 generator branch and describe it in the PR as the path not taken. The generator isn't needed by the remaining #20900 work.

@@ -1,6 +1,6 @@
 # invocation_no_add_to_history_false
 
-Status: `branches_need_decision` — 2026-10-20 John posted a [decision gist](https://gist.github.com/jmchilton/c68c645a8fa6d8da58af9a5e70f060c1) comparing this with the 26.1 branch; waiting for someone to okay one approach. Base: `release_26.2` (retargeted from `dev` 2026-10-15 at John's request; now on `162b71f8185`).
+Status: `abandoned` — John, 2026-11-02: no one answered the [decision gist](https://gist.github.com/jmchilton/c68c645a8fa6d8da58af9a5e70f060c1) on the backend channel, so the smaller server-only [26.1 branch](../../active/invocation_no_add_to_history_false_26.1/index.md) goes ahead; its PR links here as the path not taken. Fork branch kept at `33be985c49e`; clean, pushed worktree removed. Base was `release_26.2`.
 
 Fixes workflow invocations built to the published request types:
 - honor `no_add_to_history: false`/`null`;
@@ -8,7 +8,7 @@ Fixes workflow invocations built to the published request types:
 - correct the `no_add_to_history` schema description;
 - make generated client types stop requiring defaulted fields of request-only schemas (the root cause that pushed typed callers into both server bugs).
 
-Independent extraction from [issue_20900_invocation_validation](../issue_20900_invocation_validation/index.md).
+Independent extraction from [issue_20900_invocation_validation](../../active/issue_20900_invocation_validation/index.md).
 
 **[PR description](pr_description.md) · [Title options](pr_titles.md) · [Polish debrief](polish_debrief.md) · [Checklist evaluation](checklist_evaluation.md) · [Scope evaluation](scope_evaluation.md) · [Test challenges](test_challenges_debrief.md)**
 
@@ -20,7 +20,7 @@ Independent extraction from [issue_20900_invocation_validation](../issue_20900_i
 - Fix `ds_map` here too.
 - Shared request/response schemas: a documented partial fix, with no input/output split.
 - One PR.
-- Backport the server fixes to 26.1 separately: [invocation_no_add_to_history_false_26.1](../invocation_no_add_to_history_false_26.1/index.md).
+- Backport the server fixes to 26.1 separately: [invocation_no_add_to_history_false_26.1](../../active/invocation_no_add_to_history_false_26.1/index.md).
 
 ## State
 
