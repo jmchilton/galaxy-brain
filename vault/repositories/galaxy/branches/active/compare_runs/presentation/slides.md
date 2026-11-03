@@ -60,15 +60,15 @@ Five runs of the same workflow. Which ones differ, and how?
 
 Expand the v1 run that kept 22 lines, and Galaxy names the parameter that changed.
 
-In the detail, **This run** is the expanded v1 row and **Run you are viewing** is the starred v3 run.
+The detail's headings name both runs: **This row (v1)** against **★ Viewed run (v3)**.
 
-![The All runs table with the oldest v1 CCDS run expanded. Below it, "Parameters against the run you are viewing" reports "1 of 3 parameters differ" and highlights one row in yellow: "With following condition", c3-c2>=200 in this run against c3-c2>=100 in the run you are viewing.](../screenshots/presentation/slides/03_row_detail_parameter_diff_crop.png)
+![The All runs table with the oldest v1 CCDS run expanded. Below it, "Parameters against the run you are viewing" reports "1 of 3 parameters differ" and highlights one row in yellow: "With following condition", c3-c2>=200 under "This row (v1)" against c3-c2>=100 under "★ Viewed run (v3)".](../screenshots/presentation/slides/03_row_detail_parameter_diff_crop.png)
 
 [Open full size](../screenshots/presentation/slides/03_row_detail_parameter_diff_crop.png) · [uncropped](../screenshots/presentation/03_row_detail_parameter_diff.png)
 
-**Focus:** the yellow "With following condition" row: `c3-c2>=200` (v1) against `c3-c2>=100` (v3), and the expanded last row it belongs to. Label the two column headings with callouts: "This run" → "v1, expanded" and "Run you are viewing" → "v3, ★".
+**Focus:** the yellow "With following condition" row: `c3-c2>=200` (v1) against `c3-c2>=100` (v3), and the expanded last row it belongs to. The column headings already carry the versions, so they need no callouts.
 
-> Notes: Expand the v1 row that kept only 22 lines. Its detail compares its job parameters with the run we started from, and only one of three differs: the filter went from exons of at least 200 bases to at least 100. The headings are easy to misread, since "This run" here means the row you expanded, not the starred run, so read them as v1 and v3. That is the answer to "why did this output change?", found without leaving the page.
+> Notes: Expand the v1 row that kept only 22 lines. Its detail compares its job parameters with the run we started from, and only one of three differs: the filter went from exons of at least 200 bases to at least 100. The headings say which is which: this row is v1, and the starred run you're viewing is v3. That is the answer to "why did this output change?", found without leaving the page.
 >
 > [Sources] Shot: `polish_debrief.md` (03). The v1 to v2 parameter change: `capture_debrief.md` ("Versions and runs"). Feature: "parameter-change highlights in row detail", `implementation_debrief.md` ("Polish beyond the plan"). The yellow highlight in this shot depends on a small fix made while polishing the screenshots and not yet committed to the branch: `polish_debrief.md` ("Product fixes", fix 2), `product_fixes.patch`. Crop: rows and detail only, from the original 03.
 
@@ -190,14 +190,14 @@ A step run over a whole collection is one row, and reused results say where they
 
 ## 12. Known gaps
 
-- **Steps inside a subworkflow** can't be compared across runs yet. Their All runs tab is disabled, with a tooltip that says why.
+- **Steps inside a subworkflow** can't be compared across runs yet. Their All runs tab says so and points to the parent run.
 - **Unlabelled steps and outputs** can't be compared, because labels are how runs are matched across versions.
 - **Output datasets** are compared by their metadata, such as line counts, not by their contents.
 - **The tool form** has no "previous runs" panel yet. Start from a job or a dataset instead.
 
-> Notes: Here is what it doesn't do yet. The subworkflow case is disabled on purpose, rather than showing a table that would mislead. The practical advice is to label the steps and outputs you care about and keep those labels stable. I'd like to hear which of these gaps would get in your way.
+> Notes: Here is what it doesn't do yet. The subworkflow case says so plainly, rather than showing a table that would mislead. The practical advice is to label the steps and outputs you care about and keep those labels stable. I'd like to hear which of these gaps would get in your way.
 >
-> [Sources] Subworkflow steps: `design_questions.md` Q22, Q24; `implementation_debrief.md` ("Touch-ups": "All runs is disabled on a subworkflow's own invocation page"); tooltip text: `polish_debrief.md` (14). Unlabelled steps: `plan.md` ("Matching across versions"). Output links never highlighted as different: `design_questions.md` Q19. Tool-form panel deferred: `design_questions.md` Q3. Later work: `plan.md` ("Later"). The disabled tab is shown on extra slide E7; it is too subtle to carry a main slide.
+> [Sources] Subworkflow steps: `design_questions.md` Q22, Q24; `implementation_debrief.md` ("Touch-ups"), superseded by `../polish_debrief.md` (commit `28f6e36ae19`: the tab is always enabled and explains itself); message text: `StepAllRunsTab.vue`. Unlabelled steps: `plan.md` ("Matching across versions"). Output links never highlighted as different: `design_questions.md` Q19. Tool-form panel deferred: `design_questions.md` Q3. Later work: `plan.md` ("Later"). The message is shown on extra slide E7.
 
 ---
 
@@ -243,15 +243,15 @@ The step comparison opens full width, with nothing else on screen.
 
 **Transpose** turns runs into columns, for a few runs across many fields.
 
-![The same five runs transposed: runs are columns headed by relative times, and the rows are Version, State, History, input and out_file1. The out_file1 row reads 42, 48, 42, 26, 22 across. The Transpose button is highlighted.](../screenshots/presentation/05_transposed.png)
+![The same five runs transposed: runs are columns headed by their version and relative time (such as "v3 about 2 hours ago"), and the rows are Version, State, History, input and out_file1. The out_file1 row reads 42, 48, 42, 26, 22 across. The Transpose button is highlighted.](../screenshots/presentation/05_transposed.png)
 
 [Open full size](../screenshots/presentation/05_transposed.png)
 
 **Focus:** the highlighted "Transpose" button and the out_file1 row read across (42, 48, 42, 26, 22).
 
-> Notes: Workflows with many outputs make wide tables. Transposing reads better when you compare a handful of runs across many outputs. The column headings are relative times; the Version row underneath tells the runs apart.
+> Notes: Workflows with many outputs make wide tables. Transposing reads better when you compare a handful of runs across many outputs. Each column heading starts with the run's workflow version, so the runs are easy to tell apart.
 >
-> [Sources] `polish_debrief.md` (05). Transpose: `plan.md` ("The table"). Captured without side panels, which needs uncommitted product fix 1: `product_fixes.patch`.
+> [Sources] `polish_debrief.md` (05). Transpose: `plan.md` ("The table"). Captured without side panels, which needs uncommitted product fix 1: `product_fixes.patch`. Version-led headings: commit `da943637353`.
 
 ---
 
@@ -314,22 +314,22 @@ Three read-only GET endpoints, one shared table format.
 
 ## E7. Known limits
 
-![Two strips from a run of the nested workflow "Select long exons (Version: 1)": its header bar, then, after a dashed band marking the cut, the card for step "2: Keep long exons" with tabs Job, Outputs, Step Config and All runs. "All runs" is in grey text where the other tabs are blue links.](../screenshots/presentation/slides/14_subworkflow_all_runs_disabled_crop.png)
+![Two strips from a run of the nested workflow "Select long exons (Version: 1)": its header bar, then, after a dashed band marking the cut, the card for step "2: Keep long exons" with the All runs tab open on an info message: "Steps inside a subworkflow can't be compared across runs yet. Open the parent run to compare its steps."](../screenshots/presentation/slides/14_subworkflow_all_runs_unavailable_crop.png)
 
-[Open full size](../screenshots/presentation/slides/14_subworkflow_all_runs_disabled_crop.png) · [uncropped](../screenshots/presentation/14_subworkflow_all_runs_disabled.png)
+[Open full size](../screenshots/presentation/slides/14_subworkflow_all_runs_unavailable_crop.png) · [uncropped](../screenshots/presentation/14_subworkflow_all_runs_unavailable.png)
 
-- Steps inside subworkflows can't be compared yet; the tab above is disabled.
-- Unlabelled steps and outputs can't be compared.
+- Steps inside subworkflows can't be compared yet; the tab above says so and points to the parent run. An unlabelled step's tab asks you to label it.
+- Unlabelled outputs can't be compared either.
 - Output links are never highlighted as "different", because every run makes new datasets; compare them by line count or another metadata value instead.
 - Row links open the run; jumping straight to the same step needs a separate Galaxy change, #24173.
 - Wide tables scroll sideways on a 1280 px screen, and the parameter diff in a row's detail is readable but tall.
 - In mode 1, a version none of whose runs recorded outputs is assumed to have every output on the page.
 
-**Focus:** the grey "All runs" tab at the right of the tab row. Put its tooltip in a callout: *"Steps inside a subworkflow can't be compared across runs yet."*
+**Focus:** the open "All runs" tab and the blue message under it.
 
-> Notes: None of these blocks the main use, but they are worth knowing before a demo on your own data. The disabled tab is a subtle grey; its explanation only appears on hover.
+> Notes: None of these blocks the main use, but they are worth knowing before a demo on your own data.
 >
-> [Sources] `implementation_debrief.md` ("Known limits"). `design_questions.md` Q19 (output links never highlighted), Q22 (subworkflows), Q24 (tooltip). `polish_debrief.md` (14; the tooltip is a native `title` and can't be captured). `subagents/phase_5_implementation.md` (outputs uncompared). `../index.md` ("mode 1 row links emit #24173's `?step_label=` query, ignored until it lands"). `plan.md` (unlabelled steps). Crop: the run's header bar and the step card's tab row; the dashed band replaces the graph between them.
+> [Sources] `implementation_debrief.md` ("Known limits"). `design_questions.md` Q19 (output links never highlighted), Q22 (subworkflows), Q24 (superseded: the tab is always enabled). `../polish_debrief.md` (`28f6e36ae19`; shot 14 recaptured). `subagents/phase_5_implementation.md` (outputs uncompared). `../index.md` ("mode 1 row links emit #24173's `?step_label=` query, ignored until it lands"). `plan.md` (unlabelled steps). Crop: the run's header bar and the step card's tab row with its message; the dashed band replaces the graph between them.
 
 ---
 

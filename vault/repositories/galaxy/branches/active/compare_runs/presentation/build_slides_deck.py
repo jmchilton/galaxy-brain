@@ -22,9 +22,9 @@ MONO = "'IBM Plex Mono', 'Courier New', monospace"
 IMG = {
     "01": "/_blob/7cd4589706bb97e7eb613450a4806fe2",
     "02": "/_blob/a8cba41a0f719ad5cfc166654feaba6c",
-    "03crop": "/_blob/cfd3117b7b160743cee88bd8c0404004",
+    "03crop": "/_blob/c58945e7519feaf22f9e59eee66cdb21",
     "04": "/_blob/8c0cde5cf8d8234c0abe1787edd2304c",
-    "05": "/_blob/01ab1a4150406edd0f38e5e179922bd9",
+    "05": "/_blob/45eef01977dabdc0d652768ff41717f1",
     "06": "/_blob/d92a285eab6c4bea816fe9a4cfe57fdb",
     "07": "/_blob/13588bc2bb8b5cf5cf0beb71c235b178",
     "08": "/_blob/792b96bdeb1e1f169b85a0fc8c0acba9",
@@ -33,7 +33,7 @@ IMG = {
     "11crop": "/_blob/372c77a6c02b285549eec133314b8854",
     "12": "/_blob/5946aa8a98a16cc82c8f53618b68f365",
     "13crop": "/_blob/2982d83de33fbece447d97095d4e8c2b",
-    "14crop": "/_blob/4c2dbb4dd7b02c76abdaf39d7fbf6e24",
+    "14crop": "/_blob/d30145d393590d39f189a1a13557cba5",
     "15": "/_blob/98de97c76dbedac89bc899b0c048d477",
 }
 
@@ -158,12 +158,12 @@ shot(
     "Why a result changed",
     [
         "Expand the v1 run that kept 22 lines, and Galaxy names the parameter that changed.",
-        "In the detail, <b>This run</b> is the expanded v1 row; <b>Run you are viewing</b> is the starred v3 run.",
+        "The detail’s headings name both runs: <b>This row (v1)</b> against <b>★ Viewed run (v3)</b>.",
     ],
     "03crop", 1728, 579,
-    "The All runs table with the oldest v1 run expanded. Parameters against the run you are viewing reports 1 of 3 parameters differ and highlights With following condition: c3-c2&gt;=200 in this run against c3-c2&gt;=100 in the run you are viewing.",
+    "The All runs table with the oldest v1 run expanded. Parameters against the run you are viewing reports 1 of 3 parameters differ and highlights With following condition: c3-c2&gt;=200 under This row (v1) against c3-c2&gt;=100 under ★ Viewed run (v3).",
     f"the yellow “With following condition” row: <span style=\"color:{BLUE}\">c3-c2&gt;=200</span> in v1 against <span style=\"color:{BLUE}\">c3-c2&gt;=100</span> in v3.",
-    "Expand the v1 row that kept only 22 lines. Its detail compares its job parameters with the run we started from, and only one of three differs: the filter went from exons of at least 200 bases to at least 100. The headings are easy to misread, since This run here means the row you expanded, not the starred run, so read them as v1 and v3. That is the answer to why did this output change, found without leaving the page.",
+    "Expand the v1 row that kept only 22 lines. Its detail compares its job parameters with the run we started from, and only one of three differs: the filter went from exons of at least 200 bases to at least 100. The headings say which is which: this row is v1, and the starred run you’re viewing is v3. That is the answer to why did this output change, found without leaving the page.",
 )
 
 # 5 two runs
@@ -282,12 +282,12 @@ text_slide(
     "Known gaps",
     ["What it doesn’t do yet."],
     '<div style="flex:1;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:28px">'
-    + card("Steps inside a subworkflow", "Can’t be compared across runs yet. Their All runs tab is disabled, with a tooltip that says why.")
+    + card("Steps inside a subworkflow", "Can’t be compared across runs yet. Their All runs tab says so and points to the parent run.")
     + card("Unlabelled steps and outputs", "Can’t be compared, because labels are how runs are matched across versions.")
     + card("Output datasets", "Compared by their metadata, such as line counts, not by their contents.")
     + card("The tool form", "Has no “previous runs” panel yet. Start from a job or a dataset instead.")
     + "</div>",
-    "Here is what it doesn’t do yet. The subworkflow case is disabled on purpose, rather than showing a table that would mislead. The practical advice is to label the steps and outputs you care about and keep those labels stable. I’d like to hear which of these gaps would get in your way.",
+    "Here is what it doesn’t do yet. The subworkflow case says so plainly, rather than showing a table that would mislead. The practical advice is to label the steps and outputs you care about and keep those labels stable. I’d like to hear which of these gaps would get in your way.",
 )
 
 # 13 summary
@@ -348,9 +348,9 @@ shot(
     "Runs as columns",
     ["<b>Transpose</b> turns runs into columns, for a few runs across many fields."],
     "05", 1728, 531,
-    "The same five runs transposed: runs are columns headed by relative times, and the rows are Version, State, History, input and out_file1.",
+    "The same five runs transposed: runs are columns headed by their version and relative time, such as v3 about 2 hours ago, and the rows are Version, State, History, input and out_file1.",
     "the out_file1 row read across: 42, 48, 42, 26, 22.",
-    "Workflows with many outputs make wide tables. Transposing reads better when you compare a handful of runs across many outputs. The column headings are relative times; the Version row underneath tells the runs apart.",
+    "Workflows with many outputs make wide tables. Transposing reads better when you compare a handful of runs across many outputs. Each column heading starts with the run’s workflow version, so the runs are easy to tell apart.",
 )
 
 shot(
@@ -420,16 +420,16 @@ write(
     "e7-limits",
     f"""
 <section id="e7-limits" data-transition="fade" style="background:{LIGHT};{SECTION_LIGHT}">
-{header("Extra · Limits", "Known limits", ["The subworkflow case: “All runs” is greyed, and its reason is a hover tooltip."])}
-<img src="{IMG['14crop']}" alt="Two strips from a run of the nested workflow Select long exons: its header bar, then, after a dashed band, the step card for Keep long exons with tabs Job, Outputs, Step Config and a greyed All runs." style="width:1728px;height:177px;{IMG_STYLE}">
+{header("Extra · Limits", "Known limits", ["The subworkflow case: “All runs” opens on a message that says why."])}
+<img src="{IMG['14crop']}" alt="Two strips from a run of the nested workflow Select long exons: its header bar, then, after a dashed band, the step card for Keep long exons with the All runs tab open on the message Steps inside a subworkflow can’t be compared across runs yet. Open the parent run to compare its steps." style="width:1728px;height:247px;{IMG_STYLE}">
 {bullets([
-    "Steps inside subworkflows can’t be compared yet; the tab above is disabled, with the tooltip “Steps inside a subworkflow can’t be compared across runs yet.”",
-    "Unlabelled steps and outputs can’t be compared.",
+    "Steps inside subworkflows can’t be compared yet; the tab above says so and points to the parent run. An unlabelled step’s tab asks you to label it.",
+    "Unlabelled outputs can’t be compared either.",
     "Output links are never highlighted as different, because every run makes new datasets; compare line counts or other metadata instead.",
     "Row links open the run; jumping straight to the same step needs a separate Galaxy change, #24173.",
     "Wide tables scroll sideways on a 1280 px screen, and a row’s parameter diff is readable but tall.",
 ], size=28)}
-<aside>None of these blocks the main use, but they are worth knowing before a demo on your own data. The disabled tab is a subtle grey; its explanation only appears on hover.</aside>
+<aside>None of these blocks the main use, but they are worth knowing before a demo on your own data.</aside>
 </section>
 """,
 )
