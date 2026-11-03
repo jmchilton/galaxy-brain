@@ -63,27 +63,7 @@ Discovered by [gx_test_challenger](https://github.com/jmchilton/galaxy-brain/blo
 
 </details>
 
-### P3 1: Restarting after a killed populate waits up to 120 s for a holder that no longer exists
-
-The holder string is `host:pid:uuid8`, so a restarted process never matches the lease row its predecessor left behind. `try_acquire` refuses until `expires_at` passes. The `finally: lease.release(...)` in `populate_once` does not run in three cases:
-
-- SIGKILL
-- an OOM kill
-- Python's default SIGTERM handling
-
-A single-process or dev Galaxy that is killed during its first long populate therefore stalls the next boot for up to `LEASE_TTL` (120 s). Meanwhile it logs "Waiting for another Galaxy process to finish populating", even though no other process exists.
-
-`try_acquire` could treat a lease as free when its holder is on this host and that holder's pid is gone (`os.kill(pid, 0)` raises `ProcessLookupError`). The takeover must be a compare-and-set on the observed holder string. Containers that share a hostname but have separate PID namespaces could take over a live lease this way, which leads back to the concurrent populates of the old behaviour. A smaller change is to include the current holder in the wait log message, so operators can see whose lease they are waiting on.
-
-Not fixed on the review branch, because the trade-off is the author's call on a release branch.
-
-<details><summary>Discovery & Verification Agent Details</summary>
-
-Discovered by [default](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/reviewers/default.md) via Claude Opus 5.5 at medium effort.
-
-</details>
-
-### P3 2: `coordination.py` catches SQLAlchemy exceptions while programming against the backend-neutral `PopulateLease` (implementation verified)
+### P3 1: `coordination.py` catches SQLAlchemy exceptions while programming against the backend-neutral `PopulateLease` (implementation verified)
 
 `populate_once` and `_wait_for_lease` take an abstract `PopulateLease` but catch `sqlalchemy.exc.OperationalError` and `SQLAlchemyError`. That has two effects:
 
@@ -108,26 +88,7 @@ Discovered by [default](https://github.com/jmchilton/galaxy-brain/blob/main/vaul
 
 </details>
 
-### P3 3: Some new lease and toolbox branches are untested (implementation verified)
-
-No test covers these paths:
-
-- The `last_populated_at()` fallback that populates without coordination. This is the case of a server database without the lease table.
-- `renew()` returning False after a takeover, and the original holder's `release(populated=True)` then not recording `populated_at`.
-- `populate_lease()` returning `None` for a read-only store.
-- The toolbox repopulating when the peer leaves no loadable index. This is the rolling-upgrade case `peer_result_usable` exists for.
-
-The review branch adds a test for each, and all four pass.
-
-The second `_populate_once` call site, in fast panel init, cannot be tested. `_index_panel_items()` drops placements whose id is not in the index, because `_latest_panel_tool_ids` skips ids with no entry. As a result, `missing` computed from those placements is always empty. This is true at the base too. A check against `ToolIndex(panel_items=[a, gone])` returned `missing set()`.
-
-<details><summary>Discovery & Verification Agent Details</summary>
-
-Discovered by [gx_test_challenger](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/reviewers/gx_test_challenger.md) via Claude Opus 5.5 at low effort and by [default](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/reviewers/default.md) via Claude Opus 5.5 at medium effort. Verified via Claude Opus 5.5 at medium effort.
-
-</details>
-
-### P3 4: `_populate_once` tracks reloads with a `nonlocal` flag (implementation verified)
+### P3 2: `_populate_once` tracks reloads with a `nonlocal` flag (implementation verified)
 
 `CachedToolBox._populate_once` sets `nonlocal reloaded` inside `reload_and_check` and afterwards reloads `if populated or not reloaded`. This is correct but hard to follow.
 
@@ -139,13 +100,13 @@ Discovered by [thermo_review](https://github.com/jmchilton/galaxy-brain/blob/mai
 
 </details>
 
-### P3 5: `_init_tools_from_index` recomputes panel placements on every boot (implementation verified)
+### P3 3: `_init_tools_from_index` recomputes panel placements on every boot (implementation verified)
 
 `missing = self._panel_ids_missing_from_index()` calls `_index_panel_items()` again right after `placements` was computed, and does the same again after the populate branch. The base reused `placements`. `_index_panel_items()` dedupes ids and collapses lineages with `parse_tool_version`, and it runs on the every-boot fast path. The cost is small, about 6 ms on a synthetic 10k-entry index.
 
 Let `_panel_ids_missing_from_index` take the already computed placements. The `still_needed` lambda keeps the no-argument form.
 
-As P3 3 notes, `missing` here is always empty. The populate branch at this call site may be worth dropping in a follow-up on `dev`.
+`missing` here is always empty, because `_index_panel_items()` drops ids that are missing from the index. The populate branch at this call site may be worth dropping in a follow-up on `dev`.
 
 <details><summary>Discovery & Verification Agent Details</summary>
 
@@ -153,7 +114,7 @@ Discovered by [gx_performance_challenger](https://github.com/jmchilton/galaxy-br
 
 </details>
 
-### P3 6: The multi-process ready/go test harness is duplicated (implementation verified)
+### P3 4: The multi-process ready/go test harness is duplicated (implementation verified)
 
 Two tests each inline the same spawn, ready-files, go-signal, communicate and kill loop, about 25 lines each:
 

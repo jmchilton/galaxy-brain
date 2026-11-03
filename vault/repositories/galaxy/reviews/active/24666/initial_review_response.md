@@ -1,4 +1,4 @@
-(space for John's free style comments - just keep empty)
+
 
 <details><summary>Automated Review Details</summary>
 
@@ -52,19 +52,18 @@ You're contributing to a repository John cares about and you deserve a human res
 
 <details><summary>Review Verification Branch Details</summary>
 
-This [review branch](https://github.com/jmchilton/galaxy/tree/pr_24666_review_0) contains work the verification agent did to help verify findings and make sure suggestions make sense and are actionable. This doesn't necessarily represent production ready code. Feel free to include any commits in the PR but they should be reviewed by a human.
+This [review branch](https://github.com/jmchilton/galaxy/tree/pr_24666_review_1) contains work the verification agent did to help verify findings and make sure suggestions make sense and are actionable. This doesn't necessarily represent production ready code. Feel free to include any commits in the PR but they should be reviewed by a human.
 
 <details><summary>Branch and Commit Details</summary>
 
-[`pr_24666_review_0`](https://github.com/jmchilton/galaxy/tree/pr_24666_review_0) is based on the reviewed commit `7587ed8a9ff`. It fixes every verified finding except P3 1, the restart stall on a dead lease, which is left to the author. Waiters now check for a completed peer populate before the expensive staleness scan, and the lease contract is backend-neutral. The sleep-ordered tests wait on an event, `_populate_once` no longer needs its reload flag, and panel placements are reused. The duplicated multi-process test harness is now a shared fixture. New tests cover the untested lease and toolbox branches. Every test the branch adds or edits passes when run individually.
+[`pr_24666_review_1`](https://github.com/jmchilton/galaxy/tree/pr_24666_review_1) is based on the reviewed commit `7587ed8a9ff`. It fixes every verified finding. Waiters now check for a completed peer populate before the expensive staleness scan, and the lease contract is backend-neutral. The sleep-ordered tests wait on an event, `_populate_once` no longer needs its reload flag, and panel placements are reused. The duplicated multi-process test harness is now a shared fixture. Every test the branch adds or edits passes when run individually.
 
-- [`1a8fe2d7312`](https://github.com/jmchilton/galaxy/commit/1a8fe2d7312) Raise lease-specific errors instead of SQLAlchemy ones from PopulateLease. The SQLAlchemy lease raises the new `PopulateLeaseError` and `PopulateLeaseBusy` from `interface.py`, so `coordination.py` no longer imports SQLAlchemy (P3 2).
-- [`513ca9e6c5f`](https://github.com/jmchilton/galaxy/commit/513ca9e6c5f) Reload the tool index in the populate callback instead of tracking it. Drops the `nonlocal reloaded` flag from `CachedToolBox._populate_once` (P3 4).
-- [`49183e7817a`](https://github.com/jmchilton/galaxy/commit/49183e7817a) Check for a peer populate before the staleness check under the lease. A waiter whose peer has just populated now skips `needs_population` (P2 1).
-- [`bd19078c57f`](https://github.com/jmchilton/galaxy/commit/bd19078c57f) Order lease waiter tests on an event instead of sleep(0.2). Tests release the peer only after the waiter has found the lease held, and assert what they previously only implied (P2 2).
-- [`82287e6360a`](https://github.com/jmchilton/galaxy/commit/82287e6360a) Test lease takeover, read-only stores and an unusable peer index. Adds tests for those previously untested branches (P3 3).
-- [`374f028ac61`](https://github.com/jmchilton/galaxy/commit/374f028ac61) Reuse computed panel placements when checking for missing index ids. `_panel_ids_missing_from_index` now takes the placements `_init_tools_from_index` has already computed (P3 5).
-- [`8f75f2d1c59`](https://github.com/jmchilton/galaxy/commit/8f75f2d1c59) Share the multi-process start-signal harness between store tests. Both subprocess tests now use a `run_processes_together` conftest fixture (P3 6).
+- [`e6968188f0f`](https://github.com/jmchilton/galaxy/commit/e6968188f0f) Raise lease-specific errors instead of SQLAlchemy ones from PopulateLease. The SQLAlchemy lease raises the new `PopulateLeaseError` and `PopulateLeaseBusy` from `interface.py`, so `coordination.py` no longer imports SQLAlchemy (P3 1).
+- [`783b24cc4f1`](https://github.com/jmchilton/galaxy/commit/783b24cc4f1) Reload the tool index in the populate callback instead of tracking it. Drops the `nonlocal reloaded` flag from `CachedToolBox._populate_once` (P3 2).
+- [`32f1005c274`](https://github.com/jmchilton/galaxy/commit/32f1005c274) Check for a peer populate before the staleness check under the lease. A waiter whose peer has just populated now skips `needs_population` (P2 1).
+- [`234d4089a5c`](https://github.com/jmchilton/galaxy/commit/234d4089a5c) Order lease waiter tests on an event instead of sleep(0.2). Tests release the peer only after the waiter has found the lease held, and assert what they previously only implied (P2 2).
+- [`24dc2dabab5`](https://github.com/jmchilton/galaxy/commit/24dc2dabab5) Reuse computed panel placements when checking for missing index ids. `_panel_ids_missing_from_index` now takes the placements `_init_tools_from_index` has already computed (P3 3).
+- [`64c0908f95e`](https://github.com/jmchilton/galaxy/commit/64c0908f95e) Share the multi-process start-signal harness between store tests. Both subprocess tests now use a `run_processes_together` conftest fixture (P3 4).
 
 </details>
 
@@ -92,7 +91,7 @@ Check `_populated_since(...) and peer_result_usable()` before `needs_population(
 
 A larger version would let `_wait_for_lease` also watch `last_populated_at()`, so that waiters load the peer's result without taking the lease at all. That seems too much for a release branch.
 
-Fixed on the review branch in [`49183e7817a`](https://github.com/jmchilton/galaxy/commit/49183e7817a).
+Fixed on the review branch in [`32f1005c274`](https://github.com/jmchilton/galaxy/commit/32f1005c274).
 
 <details><summary>Discovery & Verification Agent Details</summary>
 
@@ -131,7 +130,7 @@ Two more assertions make the tests check what they claim:
 - Assert that the injected acquire failures were consumed.
 - Assert that `peer_result_usable` was actually consulted.
 
-Fixed on the review branch in [`bd19078c57f`](https://github.com/jmchilton/galaxy/commit/bd19078c57f).
+Fixed on the review branch in [`234d4089a5c`](https://github.com/jmchilton/galaxy/commit/234d4089a5c).
 
 <details><summary>Discovery & Verification Agent Details</summary>
 
@@ -139,27 +138,7 @@ Discovered by [gx_test_challenger](https://github.com/jmchilton/galaxy-brain/blo
 
 </details>
 
-### P3 1: Restarting after a killed populate waits up to 120 s for a holder that no longer exists
-
-The holder string is `host:pid:uuid8`, so a restarted process never matches the lease row its predecessor left behind. `try_acquire` refuses until `expires_at` passes. The `finally: lease.release(...)` in `populate_once` does not run in three cases:
-
-- SIGKILL
-- an OOM kill
-- Python's default SIGTERM handling
-
-A single-process or dev Galaxy that is killed during its first long populate therefore stalls the next boot for up to `LEASE_TTL` (120 s). Meanwhile it logs "Waiting for another Galaxy process to finish populating", even though no other process exists.
-
-`try_acquire` could treat a lease as free when its holder is on this host and that holder's pid is gone (`os.kill(pid, 0)` raises `ProcessLookupError`). The takeover must be a compare-and-set on the observed holder string. Containers that share a hostname but have separate PID namespaces could take over a live lease this way, which leads back to the concurrent populates of the old behaviour. A smaller change is to include the current holder in the wait log message, so operators can see whose lease they are waiting on.
-
-Not fixed on the review branch, because the trade-off is the author's call on a release branch.
-
-<details><summary>Discovery & Verification Agent Details</summary>
-
-Discovered by [default](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/reviewers/default.md) via Claude Opus 5.5 at medium effort.
-
-</details>
-
-### P3 2: `coordination.py` catches SQLAlchemy exceptions while programming against the backend-neutral `PopulateLease` (implementation verified)
+### P3 1: `coordination.py` catches SQLAlchemy exceptions while programming against the backend-neutral `PopulateLease` (implementation verified)
 
 `populate_once` and `_wait_for_lease` take an abstract `PopulateLease` but catch `sqlalchemy.exc.OperationalError` and `SQLAlchemyError`. That has two effects:
 
@@ -178,7 +157,7 @@ Define `PopulateLeaseError` and a `PopulateLeaseBusy` subclass in `interface.py`
 
 A new test drops the lease table and checks that `populate_once` still populates once.
 
-Fixed on the review branch in [`1a8fe2d7312`](https://github.com/jmchilton/galaxy/commit/1a8fe2d7312).
+Fixed on the review branch in [`e6968188f0f`](https://github.com/jmchilton/galaxy/commit/e6968188f0f).
 
 <details><summary>Discovery & Verification Agent Details</summary>
 
@@ -186,34 +165,13 @@ Discovered by [default](https://github.com/jmchilton/galaxy-brain/blob/main/vaul
 
 </details>
 
-### P3 3: Some new lease and toolbox branches are untested (implementation verified)
-
-No test covers these paths:
-
-- The `last_populated_at()` fallback that populates without coordination. This is the case of a server database without the lease table.
-- `renew()` returning False after a takeover, and the original holder's `release(populated=True)` then not recording `populated_at`.
-- `populate_lease()` returning `None` for a read-only store.
-- The toolbox repopulating when the peer leaves no loadable index. This is the rolling-upgrade case `peer_result_usable` exists for.
-
-The review branch adds a test for each, and all four pass.
-
-The second `_populate_once` call site, in fast panel init, cannot be tested. `_index_panel_items()` drops placements whose id is not in the index, because `_latest_panel_tool_ids` skips ids with no entry. As a result, `missing` computed from those placements is always empty. This is true at the base too. A check against `ToolIndex(panel_items=[a, gone])` returned `missing set()`.
-
-Fixed on the review branch in [`82287e6360a`](https://github.com/jmchilton/galaxy/commit/82287e6360a).
-
-<details><summary>Discovery & Verification Agent Details</summary>
-
-Discovered by [gx_test_challenger](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/reviewers/gx_test_challenger.md) via Claude Opus 5.5 at low effort and by [default](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/reviewers/default.md) via Claude Opus 5.5 at medium effort. Verified via Claude Opus 5.5 at medium effort.
-
-</details>
-
-### P3 4: `_populate_once` tracks reloads with a `nonlocal` flag (implementation verified)
+### P3 2: `_populate_once` tracks reloads with a `nonlocal` flag (implementation verified)
 
 `CachedToolBox._populate_once` sets `nonlocal reloaded` inside `reload_and_check` and afterwards reloads `if populated or not reloaded`. This is correct but hard to follow.
 
 Every path either runs `needs_population`, which reloads, or runs the populate callback. Reloading inside the populate callback (`_run_inline_populator()` followed by `_reload_tool_index()`) therefore removes both the flag and the post-call branch.
 
-Fixed on the review branch in [`513ca9e6c5f`](https://github.com/jmchilton/galaxy/commit/513ca9e6c5f).
+Fixed on the review branch in [`783b24cc4f1`](https://github.com/jmchilton/galaxy/commit/783b24cc4f1).
 
 <details><summary>Discovery & Verification Agent Details</summary>
 
@@ -221,15 +179,15 @@ Discovered by [thermo_review](https://github.com/jmchilton/galaxy-brain/blob/mai
 
 </details>
 
-### P3 5: `_init_tools_from_index` recomputes panel placements on every boot (implementation verified)
+### P3 3: `_init_tools_from_index` recomputes panel placements on every boot (implementation verified)
 
 `missing = self._panel_ids_missing_from_index()` calls `_index_panel_items()` again right after `placements` was computed, and does the same again after the populate branch. The base reused `placements`. `_index_panel_items()` dedupes ids and collapses lineages with `parse_tool_version`, and it runs on the every-boot fast path. The cost is small, about 6 ms on a synthetic 10k-entry index.
 
 Let `_panel_ids_missing_from_index` take the already computed placements. The `still_needed` lambda keeps the no-argument form.
 
-As P3 3 notes, `missing` here is always empty. The populate branch at this call site may be worth dropping in a follow-up on `dev`.
+`missing` here is always empty, because `_index_panel_items()` drops ids that are missing from the index. The populate branch at this call site may be worth dropping in a follow-up on `dev`.
 
-Fixed on the review branch in [`374f028ac61`](https://github.com/jmchilton/galaxy/commit/374f028ac61).
+Fixed on the review branch in [`24dc2dabab5`](https://github.com/jmchilton/galaxy/commit/24dc2dabab5).
 
 <details><summary>Discovery & Verification Agent Details</summary>
 
@@ -237,7 +195,7 @@ Discovered by [gx_performance_challenger](https://github.com/jmchilton/galaxy-br
 
 </details>
 
-### P3 6: The multi-process ready/go test harness is duplicated (implementation verified)
+### P3 4: The multi-process ready/go test harness is duplicated (implementation verified)
 
 Two tests each inline the same spawn, ready-files, go-signal, communicate and kill loop, about 25 lines each:
 
@@ -246,7 +204,7 @@ Two tests each inline the same spawn, ready-files, go-signal, communicate and ki
 
 Move the loop to a `run_processes_together` fixture in the `source_store` `conftest.py`. Keep the early-exit and deadline asserts. Both tests still pass with the fixture.
 
-Fixed on the review branch in [`8f75f2d1c59`](https://github.com/jmchilton/galaxy/commit/8f75f2d1c59).
+Fixed on the review branch in [`64c0908f95e`](https://github.com/jmchilton/galaxy/commit/64c0908f95e).
 
 <details><summary>Discovery & Verification Agent Details</summary>
 
