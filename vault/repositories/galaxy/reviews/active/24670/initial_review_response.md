@@ -1,4 +1,4 @@
-(space for John's free style comments - just keep empty)
+P3 3 below seemed pedantic but the test case makes sense - a corner case for sure but probably worth getting it correct. -John
 
 <details><summary>Automated Review Details</summary>
 
@@ -114,18 +114,6 @@ Fixed on the review branch in [`f360119b5da`](https://github.com/jmchilton/galax
 <details><summary>Discovery & Verification Agent Details</summary>
 
 Discovered by [default](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/reviewers/default.md) via Claude Opus 5.5 at medium effort.
-
-</details>
-
-### P3 4: Job cache still searched for every remaining slice on each capped iteration
-
-`ToolModule.execute` → `Tool.completed_jobs(...)` runs `job_search.by_tool_input` for every unrecorded index. However, `execute` consumes at most `max_num_jobs` slices per iteration. For N elements and cap C that is about N²/(2C) searches instead of N. For the reported 1,912-element case that is roughly 2.8k searches vs 1.9k. For a 100k-element map-over at the default cap of 1000 it is roughly 5M vs 100k. This is not a regression: before the PR it was N searches per iteration, with no end. It is downgraded from P2 for that reason, and because the fix changes the shape of `completed_jobs` on the shared tool API path, which is a poor fit for a release branch.
-
-As a `dev` follow-up, resolve the cached job lazily when `execute` is about to run a slice, passing a lookup instead of a precomputed dict, so searches total about N. Capping the search at the first `max_num_jobs` unrecorded indexes is simpler. It can under-fill an iteration, though, because the tracker still skips unrecorded slices whose elements are already populated.
-
-<details><summary>Discovery & Verification Agent Details</summary>
-
-Discovered by [gx_performance_challenger](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/reviewers/gx_performance_challenger.md) via Claude Opus 5.5 at medium effort.
 
 </details>
 
