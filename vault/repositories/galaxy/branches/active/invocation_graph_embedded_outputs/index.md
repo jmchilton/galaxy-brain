@@ -17,17 +17,19 @@ Spike: show outputs inside the workflow invocation graph in three stages (hover 
 - Worktree: `~/projects/worktrees/galaxy/branch/invocation_graph_embedded_outputs`
 - [Spike debrief](spike_debrief.md)
 - [Rebase on stage 1 debrief](rebase_on_stage1_debrief.md): commit list and the stage 2/3 boundary.
+- [Rebase on stage 2 debrief](rebase_on_stage2_debrief.md): stage 3 reapplied on stage 2, behavioural differences from the spike, open questions for hardening.
 - Project: [invocation_graph_embedded_outputs](../../../../../projects/invocation_graph_embedded_outputs/index.md) (screenshots)
 
 ## Status
 
-Rebased onto stage 1 (`90cdc7089d9`) as four stage 2 commits then two stage 3 commits, head `4187ad166e4`; the original spike is kept as `invocation_graph_embedded_outputs_spike` (`3e4312f7c1d`).
+Rebased onto stage 2 (`3b546b24e6f`) as four stage 3 commits, head `6e8a0a965c9`; ready for stage 3 hardening, and the original spike is kept as `invocation_graph_embedded_outputs_spike` (`3e4312f7c1d`).
 
 No PR.
 
-No CI run; local vitest, vue-tsc, eslint and related Python unit tests pass.
+No CI run; local vitest, vue-tsc, eslint, Python unit and API tests, and the invocation graph Playwright tests pass.
 
 ## Decisions
 
 - Nudge only, never a full re-layout. If nudging can't keep the layout recognizable, drop stage 2 (John, requirements session 2026-10-20).
 - "Annotated outputs" means workflow outputs (John, 2026-10-20).
+- Steps shown as their preferred output follow stage 2's static-card rules (inert, pointer-transparent, no pagination); clicking selects the step (rebase on stage 2, 2026-11-03).
