@@ -380,8 +380,7 @@ class TestComparisonsPresentation(SharedStateSeleniumTestCase):
         # An open activity panel (Tools by default) closes by clicking its active activity; the
         # choice is kept in local storage. The history panel collapses with its FlexPanel button.
         self._wait_on(
-            lambda: self.execute_script(
-                """
+            lambda: self.execute_script("""
                 const bars = [...document.querySelectorAll('.activity-bar')];
                 let open = false;
                 for (const bar of bars) {
@@ -402,21 +401,18 @@ class TestComparisonsPresentation(SharedStateSeleniumTestCase):
                     document.head.appendChild(style);
                 }
                 return !open;
-                """
-            ),
+                """),
             "side panels to close",
         )
 
     def _settle(self):
         """Wait out loading messages, spinners and skeletons, then park the mouse off any hover target."""
         self._wait_on(
-            lambda: self.execute_script(
-                """
+            lambda: self.execute_script("""
                 const busy = document.querySelectorAll(
                     '[data-description="loading message"], .fa-spin, .spinner-border, .b-skeleton, .loading-span');
                 return ![...busy].some((el) => el.offsetParent !== null);
-                """
-            ),
+                """),
             "loading indicators to clear",
             wait_type=self.wait_types.DATABASE_OPERATION,
         )
@@ -447,8 +443,7 @@ class TestComparisonsPresentation(SharedStateSeleniumTestCase):
         if crop_to is None:
             self.screenshot(label)
             return
-        height = self.execute_script(
-            f"""
+        height = self.execute_script(f"""
             const els = [...document.querySelectorAll({json.dumps(crop_to)})].filter((el) => el.offsetParent !== null);
             let cut = Math.max({min_height}, Math.max(...els.map((el) => el.getBoundingClientRect().bottom)) + {pad});
             const blocks = [...document.querySelectorAll({json.dumps("tr, .btn" if snap else ":not(*)")})]
@@ -465,30 +460,25 @@ class TestComparisonsPresentation(SharedStateSeleniumTestCase):
                 }}
             }}
             return Math.ceil(Math.min({HEIGHT}, cut));
-            """
-        )
+            """)
         path = self._screenshot_path(label)
         if path:
             self.page.screenshot(path=path, clip={"x": 0, "y": 0, "width": WIDTH, "height": height})
 
     def _hide_columns(self, *labels: str):
         """Untick columns in the table's Show/Hide Columns menu (the cog)."""
-        self.execute_script(
-            """
+        self.execute_script("""
             const toggles = [...document.querySelectorAll('.comparison-table .list-header-filters .dropdown-toggle')];
             toggles.find((t) => t.querySelector('svg[data-icon="gear"], svg[data-icon="cog"]')).click();
-            """
-        )
+            """)
         for label in labels:
             self._wait_on(
-                lambda label=label: self.execute_script(
-                    f"""
+                lambda label=label: self.execute_script(f"""
                     const items = [...document.querySelectorAll('.dropdown-menu.show [role="menuitemcheckbox"], .dropdown-menu.show .dropdown-item')];
                     const item = items.find((i) => i.textContent.trim() === {json.dumps(label)});
                     if (item) {{ item.click(); return true; }}
                     return false;
-                    """
-                ),
+                    """),
                 f"{label} in the column menu",
             )
         self.page.keyboard.press("Escape")
@@ -496,8 +486,7 @@ class TestComparisonsPresentation(SharedStateSeleniumTestCase):
 
     def _scroll_center(self, selector: str, offset: int = 0):
         """Scroll the element's nearest scrolling ancestor so the element starts ``offset`` px below its top."""
-        self.execute_script(
-            f"""
+        self.execute_script(f"""
             const target = document.querySelector({json.dumps(selector)});
             let scroller = target.parentElement;
             while (scroller && !(scroller.scrollHeight > scroller.clientHeight
@@ -507,8 +496,7 @@ class TestComparisonsPresentation(SharedStateSeleniumTestCase):
             scroller = scroller || document.scrollingElement;
             const delta = target.getBoundingClientRect().top - scroller.getBoundingClientRect().top;
             scroller.scrollTop += delta - {offset};
-            """
-        )
+            """)
         self.sleep_for(self.wait_types.UX_RENDER)
 
     def _show_metadata(self, column_key: str, element: str):
@@ -518,14 +506,12 @@ class TestComparisonsPresentation(SharedStateSeleniumTestCase):
         header.wait_for_visible()
         self.wait_for_and_click_selector(f"{header.selector} .comparison-column-menu")
         self._wait_on(
-            lambda: self.execute_script(
-                f"""
+            lambda: self.execute_script(f"""
                 const items = [...document.querySelectorAll('.dropdown-menu.show [role="menuitemradio"]')];
                 const item = items.find((item) => item.textContent.trim() === {json.dumps(element)});
                 if (item) {{ item.click(); return true; }}
                 return false;
-                """
-            ),
+                """),
             f"{element} in the {column_key} display menu",
         )
         self.execute_script("document.activeElement && document.activeElement.blur();")
@@ -561,14 +547,12 @@ class TestComparisonsPresentation(SharedStateSeleniumTestCase):
 
     def _click_card_header_button(self, text: str):
         self._wait_on(
-            lambda: self.execute_script(
-                f"""
+            lambda: self.execute_script(f"""
                 const buttons = [...document.querySelectorAll('.invocation-step-card button, .card-header button')];
                 const button = buttons.find((b) => b.textContent.trim() === {json.dumps(text)});
                 if (button) {{ button.click(); return true; }}
                 return false;
-                """
-            ),
+                """),
             f"{text} button in the step card",
         )
         self.sleep_for(self.wait_types.UX_RENDER)
@@ -584,14 +568,12 @@ class TestComparisonsPresentation(SharedStateSeleniumTestCase):
 
     def _click_text(self, selector: str, text: str):
         self._wait_on(
-            lambda: self.execute_script(
-                f"""
+            lambda: self.execute_script(f"""
                 const els = [...document.querySelectorAll({json.dumps(selector)})];
                 const el = els.find((e) => e.textContent.trim() === {json.dumps(text)});
                 if (el) {{ el.click(); return true; }}
                 return false;
-                """
-            ),
+                """),
             f"{text!r} to click",
         )
 
@@ -720,8 +702,7 @@ class TestComparisonsPresentation(SharedStateSeleniumTestCase):
 
     def _center_editor_graph(self):
         """Drag the editor canvas (from an empty spot) so the graph sits mid-height instead of at the top."""
-        box = self.execute_script(
-            """
+        box = self.execute_script("""
             const canvas = document.querySelector('#canvas-container').getBoundingClientRect();
             const nodes = [...document.querySelectorAll('#canvas-container .workflow-node')]
                 .map((node) => node.getBoundingClientRect());
@@ -729,8 +710,7 @@ class TestComparisonsPresentation(SharedStateSeleniumTestCase):
             const bottom = Math.max(...nodes.map((n) => n.bottom));
             const left = Math.min(...nodes.map((n) => n.left));
             return { top, bottom, left, canvasTop: canvas.top, canvasBottom: canvas.bottom };
-            """
-        )
+            """)
         dy = (box["canvasTop"] + box["canvasBottom"]) / 2 - (box["top"] + box["bottom"]) / 2
         if dy < 20:
             return
@@ -754,16 +734,19 @@ class TestComparisonsPresentation(SharedStateSeleniumTestCase):
         self._capture("13_mapped_step_batch_reused_job", crop_to=".comparison-view > *")
 
     @selenium_test
-    def test_14_subworkflow_all_runs_disabled(self):
+    def test_14_subworkflow_all_runs_unavailable(self):
         steps = self.workflow_populator.get_invocation(self.nested_run, step_details=True)["steps"]
         (nested,) = [step for step in steps if step["workflow_step_label"] == "Select long exons"]
         # the filter is the subworkflow's last step, so step back and forward to centre it
         self._open_step_card(nested["subworkflow_invocation_id"], FILTER, zoom_outs=0, recenter=("Prev", "Next"))
-        tab = self.components.comparisons.step_all_runs_tab.wait_for_visible()
-        assert tab.get_attribute("aria-disabled") == "true"
-        self.components.invocations.step_job_details(order_index="1").wait_for_visible()
-        # The disabled tab's reason is a native tooltip, which a screenshot can't show; the slide captions it.
-        self._capture("14_subworkflow_all_runs_disabled", crop_to=".invocation-step-card .nav-tabs", pad=2, snap=False)
+        comparisons = self.components.comparisons
+        comparisons.step_all_runs_tab.wait_for_and_click()
+        comparisons.step_all_runs_unavailable.wait_for_visible()
+        self._settle()
+        self._capture(
+            "14_subworkflow_all_runs_unavailable",
+            crop_to=".invocation-step-card .nav-tabs, .invocation-step-all-runs-unavailable",
+        )
 
     @selenium_test
     def test_15_export_menu(self):

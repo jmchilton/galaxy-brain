@@ -84,7 +84,6 @@ None yet.
 ## Galaxy branches — implemented, work left, green (`branches_implemented`)
 
 - [`deployment_test_docs_decorators_26_2`](active/deployment_test_docs_decorators_26_2/index.md) — Documents deployment tests and adds a decorator audit skill. Stacked on `deployment_test_fixes_26_2`. [Open PR](https://github.com/jmchilton/galaxy/compare/deployment_test_fixes_26_2...deployment_test_docs_decorators_26_2?expand=1).
-- [`compare_runs`](active/compare_runs/index.md) — Compare runs of a workflow step, workflow outputs or a tool in one table (3 GET endpoints, All runs tab, `/comparisons`, 5 entry points, diff/export/highlights); baselines + 10 base refactors first; hardened ×3, READY. Decisions: PR split, [design questions](active/compare_runs/design_questions.md). Base `dev`, head `be7415d94dd`. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:compare_runs?expand=1).
 
 - [`issue_23902_qualified_output_references`](active/issue_23902_qualified_output_references/index.md) — From 26.2, unqualified `format_source`/`metadata_source` fail tool load; runtime skips legacy aliases (fixes #23902). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_23902_qualified_output_references?expand=1).
 - [`resubmit_static_chain_test_26.1`](active/resubmit_static_chain_test_26.1/index.md) — Tests repeated resubmission through static destinations with per-hop environment values. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.1...jmchilton:galaxy:resubmit_static_chain_test_26.1?expand=1).
@@ -96,6 +95,7 @@ None yet.
 
 ## Galaxy branches — needs polish (`branches_need_polish`)
 
+- [`compare_runs`](active/compare_runs/index.md) — Compare runs of a workflow step, workflow outputs or a tool in one table: 3 GET endpoints, All runs tab, `/comparisons` page. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:compare_runs?expand=1).
 - [`converted_dataset_lookup_via_manager_26.0`](active/converted_dataset_lookup_via_manager_26.0/index.md) — Existing implicit conversions looked up via `DatasetAssociationManager.get_accessible_converted`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.0...jmchilton:galaxy:converted_dataset_lookup_via_manager_26.0?expand=1).
 
 ## Galaxy branches — ready for final review (`branches_ready_for_final_review`)
