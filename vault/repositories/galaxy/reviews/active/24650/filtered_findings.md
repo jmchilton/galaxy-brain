@@ -1,0 +1,2 @@
+- default P3 1 (lookup-or-register duplicated with eager path): moot; the fix removes `_register_conf_repository`, so nothing duplicates `get_tool_repository_from_xml_item` any more.
+- gx_risk_assessment note (revision-keyed lookup lets a DB row at another revision coexist with the stub): not actionable; nothing is registered any more, and falling back to the conf stub when no row matches the revision is what the eager path does.
