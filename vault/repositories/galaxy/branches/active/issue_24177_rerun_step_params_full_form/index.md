@@ -1,3 +1,9 @@
+---
+upstream_base_branch: dev
+child_branches:
+  - workflow_run_exposed_step_params
+  - workflow_step_parameter_overrides
+---
 # issue_24177_rerun_step_params_full_form
 
 Status: `branches_implemented_needs_ci`. Head: `46db8f9d5b69ec9498e6987416ca58375f38b44c` (re-scoped, 4 commits). Fork CI pending.
