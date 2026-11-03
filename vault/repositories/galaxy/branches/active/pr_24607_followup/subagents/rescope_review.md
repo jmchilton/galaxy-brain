@@ -1,3 +1,15 @@
+# Re-scope review debrief
+
+Acted on both real issues. The stale PR description was rewritten. The missing real-chain test was added as `e6efabbcbf4`, now folded into `47e2af2f82d`, and test challenges round 2 later moved it through `_check_job_at_startup`. No bugs were found.
+
+Not acted on:
+- `Job.user_defined_tool` property: optional, open-coded at 4 sites. It would grow scope, so it's an open question for John alongside the `prepare()` follow-up.
+- Owner user id in the role-loss log: the job id is already logged.
+- Hand-built `(uuid ...)` prefix at two sites: fine at two.
+- Duplicated "This tool was disabled..." string: declined at the time. Thermo round 2 later hoisted it into `TOOL_DISABLED_MESSAGE`.
+
+<details><summary>Full review</summary>
+
 Run via Claude Opus 5.5 at high effort.
 
 # Re-scope review: pr_24607_followup (`ab008a1a7cfe...59f2aa5b7be`)
@@ -44,3 +56,5 @@ Run via Claude Opus 5.5 at high effort.
 - The comment update at `handler.py:258` ("e.g. a deactivated dynamic tool") is accurate now that role loss no longer reaches that branch.
 - The test helpers `_user_tool_job`, `_startup_queue` and `_assert_failed_not_recovered` are proportionate, and `has_tool.assert_not_called()` pins the ordering.
 - No security-sensitive findings.
+
+</details>
