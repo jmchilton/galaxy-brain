@@ -10,11 +10,11 @@ related_records: galaxy/branches/invocation_graph_embedded_outputs
 
 ## Status
 
-Polishing at `90cdc7089d9`, stopped at the checklist: "Who hits this in practice and what is the evidence?" fails because no issue or prior-art search backs the feature yet ([checklist](pr_checklist.md)).
+Polished at `90cdc7089d9`; ready for John's final review ([PR description](pr_description.md), [titles](pr_titles.md), [tags](pr_tags.md), [checklist](pr_checklist.md), [polish debrief](polish_debrief.md)).
 
 No PR.
 
-Fork CI on `90cdc7089d9` pending (1 of 11 runs passed, none failed) on 2026-11-03.
+Fork CI on `90cdc7089d9`: unrelated reds only (macOS startup jobs cancelled; Galaxy packages mypy on `kombu`), 2026-11-03.
 
 ## Decisions
 
@@ -22,4 +22,4 @@ Fork CI on `90cdc7089d9` pending (1 of 11 runs passed, none failed) on 2026-11-0
 - Leaves out the embed toggle, embedded nodes, the nudge layout and `preferred_output`.
 - Targets `dev`: new client feature.
 - Worktree: `~/projects/worktrees/galaxy/branch/invocation_graph_output_previews`.
-- Mapped-over step state (pending jobs reading `ok`, the scope evaluation's Scope A) is deferred to a separate proposed child branch, `invocation_graph_mapped_step_state` (awaiting John); this branch is polished without it (coordinator, 2026-11-03).
+- Mapped-over step state (pending jobs reading `ok`, the scope evaluation's Scope A) is not fixed here: John dropped it for now (2026-11-03). This branch is polished without it.

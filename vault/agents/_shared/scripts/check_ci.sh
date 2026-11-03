@@ -37,7 +37,7 @@ if [ -n "$pr" ]; then
 elif [ -n "$branch" ] && [ -n "$base" ]; then
   repo=${repo:-$(gh api user --jq .login)/${upstream#*/}}
   sha=$(gh api "repos/$repo/branches/$branch" --jq .commit.sha)
-  key=branch-$(echo "$branch" | tr -c 'A-Za-z0-9._-\n' _) ref=$branch base_args=(--base "$base" --base-repo "$upstream")
+  key=branch-$(echo "$branch" | tr -c 'A-Za-z0-9._\n-' _) ref=$branch base_args=(--base "$base" --base-repo "$upstream")
 else
   usage
 fi

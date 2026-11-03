@@ -6,7 +6,7 @@ Run via claude-opus-5-5 at medium effort.
   - `InvocationOutputPreview.vue` shows the not-ready text while the step is in `NON_TERMINAL_STATES` (except subworkflows, whose state stays `queued`). A finished `error` step falls through to `HistoryDatasetDisplay`/`CollectionDisplay`, which show the errored dataset or a fetch error the way Markdown embeds already do.
   - `InvocationStepOutputsPopover.vue` shows `LoadingSpan` while step details load, then "No outputs produced yet." when nothing is listed.
   - Gap: if the step-details fetch (`fetchInvocationStepById`) fails, `useKeyedCache` records the error but `useStepOutputItems` doesn't expose it, so the popover says "No outputs produced yet." instead of reporting a load failure. Workflow inputs and outputs from the invocation payload still render. This is minor, but surfacing `invocationStore`'s load error would make the message accurate.
-  - Known and deferred: a mapped-over step whose jobs are only `new`/`queued` reads as `ok` (`invocation_graph_mapped_step_state`). On such steps the not-ready placeholder doesn't appear, and previews load collections that are still filling.
+  - Known and out of scope (dropped by John, 2026-11-03): a mapped-over step whose jobs are only `new`/`queued` reads as `ok`, a bug that predates this branch. On such steps the not-ready placeholder doesn't appear, and previews load collections that are still filling.
   </details>
 - [x] Is the diff free of unrelated or stale generated changes? Yes!
 - [x] Are unit tests not just testing the literal implementation? Yes. They assert observable behaviour (rendered text, previewed labels and items, HTTP request counts against a mocked server), not internals.
@@ -21,12 +21,7 @@ Run via claude-opus-5-5 at medium effort.
 - [x] Are the comments free of excess archeology? Yes. The added comments explain current constraints (stacked terminals, the payload leaving `steps[].outputs` empty, the stores caching by id). None narrate history.
 - [x] If comments contain some description of previous implementation, bugs, etc.. - what purpose do they serve? N/A
 - [x] Which existing workflows change behavior (if any)? None. The change is client-only: a hover popover on the invocation graph's output terminals and two new optional `GraphStep` fields. The editor's `Node.vue` mounts the popover only when `isInvocation` is set, and there are no backend or API changes.
-- [ ] Who hits this in practice and what is the evidence? Users who read results off the invocation graph, per John's feature request ("motivated by user input"). No issue, user report or prior-art search is cited.
-  <details>
-
-  - The source is the incubating draft `issues_incubator/incubating/invocation_graph_embedded_outputs/raw.md`, whose open questions still include "Prior art: search for existing issues and PRs ... (not done yet)" and filing the issue.
-  - Fix: file the stage 1 issue (or an umbrella issue) from the incubator draft, run the prior-art search, and link both from the PR description with the concrete user scenario. That scenario is checking a step's table, image or collection without leaving the graph for the history or the outputs list.
-  </details>
+- [x] Who hits this in practice and what is the evidence? Users who read a run's results off the invocation graph and today leave it for the history or the Outputs tab to see a step's table, image or collection. Evidence: John's maintainer requirements draft (`issues_incubator/incubating/invocation_graph_embedded_outputs/raw.md`, from user input) and the spike screenshots, which John accepted as the motivation with no separate issue (John, 2026-11-03).
 - [x] Were simpler or existing approaches considered? Yes. The previews reuse the existing Markdown `HistoryDatasetDisplay`/`CollectionDisplay` instead of new renderers, and read the invocation payload before falling back to the existing step-details endpoint (no API change).
   <details>
 

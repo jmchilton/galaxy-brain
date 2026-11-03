@@ -98,10 +98,10 @@ None yet.
 ## Galaxy branches — needs polish (`branches_need_polish`)
 
 - [`converted_dataset_lookup_via_manager_26.0`](active/converted_dataset_lookup_via_manager_26.0/index.md) — Existing implicit conversions looked up via `DatasetAssociationManager.get_accessible_converted`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.0...jmchilton:galaxy:converted_dataset_lookup_via_manager_26.0?expand=1).
-- [`invocation_graph_output_previews`](active/invocation_graph_output_previews/index.md) — Stage 1: hovering a step's outputs in the invocation graph previews them. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:invocation_graph_output_previews?expand=1).
 
 ## Galaxy branches — ready for final review (`branches_ready_for_final_review`)
 
+- [`invocation_graph_output_previews`](active/invocation_graph_output_previews/index.md) — Stage 1: hovering a step's outputs in the invocation graph previews them. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:invocation_graph_output_previews?expand=1).
 - [`compare_runs`](active/compare_runs/index.md) — Compare runs of a workflow step, workflow outputs or a tool in one table: 3 GET endpoints, All runs tab, `/comparisons` page. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:compare_runs?expand=1).
 - [`extraction_hid_copies_pdf_sections_26.1`](active/extraction_hid_copies_pdf_sections_26.1/index.md) — 26.1 port of #24225 fixes: copies are one extraction input/summary card, name 400s, user-tool summary 403, PDF invocation sections. Land after #24225 reaches 26.2. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.1...jmchilton:galaxy:extraction_hid_copies_pdf_sections_26.1?expand=1).
 - [`issue_24531_edit_disabled_tooltip_26.2`](active/issue_24531_edit_disabled_tooltip_26.2/index.md) — Disabled GButtons show their disabled-reason tooltips (history item edit #24531, nav, multiview, GCard, rule builder). [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:issue_24531_edit_disabled_tooltip_26.2?expand=1).
