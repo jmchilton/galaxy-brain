@@ -11,11 +11,11 @@ related_records:
 
 ## Status
 
-Polished at `958fa86948d`; ready for John's final review.
+Implemented and hardened at `958fa86948d`; handed off per `GX_IMPLEMENTATION_HANDOFF.md`. The polish files (description, titles, tags, polish debrief) were written outside that process — John to decide whether to keep them for the branch agent.
 
 No PR.
 
-Fork CI for `958fa86948d` queued at polish hand-off.
+Fork CI for `958fa86948d` queued at hand-off.
 
 ## Base
 

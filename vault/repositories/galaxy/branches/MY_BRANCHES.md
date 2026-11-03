@@ -63,6 +63,7 @@ None yet.
 
 ## Galaxy branches — implemented, work left (`branches_implemented_needs_ci`)
 
+- [`issue_24545_oom_kill_detection`](active/issue_24545_oom_kill_detection/index.md) — Fails exit-0 jobs whose job stderr reports an OOM kill; resubmits Pulsar jobs; opt-in cgroup check (#24545). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_24545_oom_kill_detection?expand=1).
 - [`issue_24648_shed_field_border`](active/issue_24648_shed_field_border/index.md) — Tool Shed form fields get 3:1 grey-500 borders and consistent hover and focus states (#24648). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_24648_shed_field_border?expand=1).
 - [`vitest_real_api_calls`](active/vitest_real_api_calls/index.md) — Records real Galaxy API responses for client tests, starting with history and quota usage. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:vitest_real_api_calls?expand=1).
 - [`issue_24532_user_deletion_refusal_25.1`](active/issue_24532_user_deletion_refusal_25.1/index.md) — Delete Account modal explains a config-refused self-deletion (`err_code` 403004, not 403), stays open on failure (BModal closed it on 25.1), disables OK in flight and handles request failures; jest + new Selenium test (`allow_user_deletion=False`) (#24532). Hardened READY (re-scoped once). Base `release_25.1`, head `551bc3a8e7f`; squash plan in baseline_refactor; manual merge-forward to 26.1+. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_25.1...jmchilton:galaxy:issue_24532_user_deletion_refusal_25.1?expand=1).
@@ -100,7 +101,6 @@ None yet.
 
 ## Galaxy branches — ready for final review (`branches_ready_for_final_review`)
 
-- [`issue_24545_oom_kill_detection`](active/issue_24545_oom_kill_detection/index.md) — Fails exit-0 jobs whose job stderr reports an OOM kill; resubmits Pulsar jobs; opt-in cgroup check (#24545). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_24545_oom_kill_detection?expand=1).
 - [`compare_runs`](active/compare_runs/index.md) — Compare runs of a workflow step, workflow outputs or a tool in one table: 3 GET endpoints, All runs tab, `/comparisons` page. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:compare_runs?expand=1).
 - [`extraction_hid_copies_pdf_sections_26.1`](active/extraction_hid_copies_pdf_sections_26.1/index.md) — 26.1 port of #24225 fixes: copies are one extraction input/summary card, name 400s, user-tool summary 403, PDF invocation sections. Land after #24225 reaches 26.2. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.1...jmchilton:galaxy:extraction_hid_copies_pdf_sections_26.1?expand=1).
 - [`issue_24531_edit_disabled_tooltip_26.2`](active/issue_24531_edit_disabled_tooltip_26.2/index.md) — Disabled GButtons show their disabled-reason tooltips (history item edit #24531, nav, multiview, GCard, rule builder). [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:issue_24531_edit_disabled_tooltip_26.2?expand=1).
