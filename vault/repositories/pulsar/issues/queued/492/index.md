@@ -1,5 +1,6 @@
 ---
 blockers: pulsar/reviews/486
+related_records: pulsar/issues/408
 ---
 # pulsar#492 — Report why a job failed to Galaxy so job resubmission works for Pulsar destinations
 

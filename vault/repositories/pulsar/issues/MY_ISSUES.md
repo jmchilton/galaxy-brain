@@ -14,6 +14,8 @@ GitHub state last refreshed: 2026-10-26. Issues here are unassigned by default.
 
 - [#542](https://github.com/galaxyproject/pulsar/issues/542) — Galaxy Docker EXIT trap replaces cvmfsexec `mountrepo` unmount (shipped in 0.15.16); [#555](https://github.com/galaxyproject/pulsar/pull/555). [notes](wip/542/index.md)
 
+- [#408](https://github.com/galaxyproject/pulsar/issues/408) — DRM limit kills reported as success; OOM part on `cgroup-oom-kills-408` + Galaxy `issue_24545_oom_kill_detection`. [notes](wip/408/index.md)
+
 ## Queued (`queued`)
 
 - [#416](https://github.com/galaxyproject/pulsar/issues/416) — empty `final_status` causes endless monitor failures; next: reproduce and design recovery for damaged metadata. [notes](queued/416/index.md)
@@ -62,7 +64,6 @@ Grouped by title, mechanically.
 - [#349](https://github.com/galaxyproject/pulsar/issues/349) — queue/limits for pre- and post-processing
 - [#355](https://github.com/galaxyproject/pulsar/issues/355) — deleted jobs not cleaned from `${manager}-preprocessing-jobs`
 - [#358](https://github.com/galaxyproject/pulsar/issues/358) — node failure with no `return_code` marked successful
-- [#408](https://github.com/galaxyproject/pulsar/issues/408) — sync slurm runner features with Galaxy's
 
 ### Staging and file transfer
 
