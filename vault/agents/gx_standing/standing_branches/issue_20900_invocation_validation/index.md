@@ -18,7 +18,7 @@ Reject bad workflow invocation requests at the API before creating histories or 
 - [`invocation_subworkflow_input_connections`](../../../../repositories/galaxy/branches/active/invocation_subworkflow_input_connections/index.md) — [#24203](https://github.com/galaxyproject/galaxy/pull/24203) · `merged` · `extracted` — Reject disconnected required subworkflow inputs; consistent runtime gaps; 26.2.
 - [`invocation_parameter_expected_failure`](../../../../repositories/galaxy/branches/active/invocation_parameter_expected_failure/index.md) — [#24265](https://github.com/galaxyproject/galaxy/pull/24265) · `merged` · `extracted` — Invalid subworkflow parameters fail with real reason (#20980 regression); 26.1.
 - [`invocation_no_add_to_history_false`](../../../../repositories/galaxy/branches/abandoned/invocation_no_add_to_history_false/index.md) — `abandoned` · `extracted` — Server fixes plus client-type generator; 26.2. Path not taken.
-- [`invocation_no_add_to_history_false_26.1`](../../../../repositories/galaxy/branches/active/invocation_no_add_to_history_false_26.1/index.md) — `wip` · `extracted` — Honor `no_add_to_history: false` and empty `ds_map` (server only); 26.1.
+- [`invocation_no_add_to_history_false_26.1`](../../../../repositories/galaxy/branches/active/invocation_no_add_to_history_false_26.1/index.md) — [#24671](https://github.com/galaxyproject/galaxy/pull/24671) · `open` · `extracted` — Honor `no_add_to_history: false` and empty `ds_map` (server only); 26.1.
 
 ## Remaining in the standing branch
 

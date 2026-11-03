@@ -4,6 +4,7 @@ Snapshot: 2026-11-01 (reclassified from GitHub: 12 merged and archived, #24578 c
 
 ## Open Galaxy PRs — ready from our side (`ready`)
 
+- [`invocation_no_add_to_history_false_26.1`](active/invocation_no_add_to_history_false_26.1/index.md) — Honors explicit `no_add_to_history: false` and empty `ds_map` on invocation (server only). Base `release_26.1`. [#24671](https://github.com/galaxyproject/galaxy/pull/24671).
 - [`issue_24438_select_comma_split_25.1`](active/issue_24438_select_comma_split_25.1/index.md) — Preserve commas in single-select tool tests; lint and document multiple-select comma values (#24438). [#24491](https://github.com/galaxyproject/galaxy/pull/24491).
 - [`selenium_tool_form_use_cached_job`](active/selenium_tool_form_use_cached_job/index.md) — Missing E2E test of the tool form's re-use equivalent jobs switch + `tool_form_set_switch` helper. [#24451](https://github.com/galaxyproject/galaxy/pull/24451).
 - [`issue_24221_paged_map_over_options_26.1`](active/issue_24221_paged_map_over_options_26.1/index.md) — Paged collection options keep a collection's map-over entry, and it's selectable with a "(one job per …)" label (#24221). Base `release_26.1`. [#24228](https://github.com/galaxyproject/galaxy/pull/24228).
@@ -117,7 +118,6 @@ None yet.
 - [`issue_23914_page_card_actions`](active/issue_23914_page_card_actions/index.md) — Makes notebook card title and Edit/Share actions follow the current user and page, so a late user load shows Share. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_23914_page_card_actions?expand=1).
 - [`issue_23521_conditional_case_resolution`](active/issue_23521_conditional_case_resolution/index.md) — Rejects conditional cases that resolve to nothing instead of running the last when-case (#23521). [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.0...jmchilton:galaxy:issue_23521_conditional_case_resolution?expand=1).
 - [`issue_24389_reject_duplicate_test_params_26.2`](active/issue_24389_reject_duplicate_test_params_26.2/index.md) — Conflicting duplicate tool-test params error at load from 26.2 (#24389). Stacked on the 26.1 lint branch. [Open PR](https://github.com/jmchilton/galaxy/compare/issue_24389_lint_duplicate_test_params_26.1...issue_24389_reject_duplicate_test_params_26.2?expand=1).
-- [`invocation_no_add_to_history_false_26.1`](active/invocation_no_add_to_history_false_26.1/index.md) — Honors explicit `no_add_to_history: false` and empty `ds_map` on invocation (server only). Base `release_26.1`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.1...jmchilton:galaxy:invocation_no_add_to_history_false_26.1?expand=1).
 
 ## Galaxy branches — approved, opens when green (`branches_need_pr`)
 

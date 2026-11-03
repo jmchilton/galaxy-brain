@@ -1,6 +1,10 @@
+---
+upstream_base_branch: release_26.1
+pr: 24671
+---
 # invocation_no_add_to_history_false_26.1
 
-Status: `branches_ready_for_final_review` — John chose this over the 26.2 generator approach (2026-11-02), now [abandoned](../../abandoned/invocation_no_add_to_history_false/index.md); [pr_description.md](pr_description.md) rewritten with a "path not taken" section and awaits John's read-through. Head `690e27233e1`, rebased onto `release_26.1` `6da0d325952`; fork CI pending.
+Status: `ready` — PR [#24671](https://github.com/galaxyproject/galaxy/pull/24671) opened 2026-11-02 at John's request at `690e27233e1`, title `[26.1] Honor invocation request defaults for input copying and ds_map`, [pr_description.md](pr_description.md) verbatim, labels `kind/bug`, `area/workflows`, `area/API`. Chosen over the 26.2 generator approach, now [abandoned](../../abandoned/invocation_no_add_to_history_false/index.md). PR CI pending.
 
 Honor explicit `no_add_to_history: false`/`null`, and accept a `null`/`{}` `ds_map` next to `inputs`. The bugs date to 2024 and are exposed by the published api-client types. Standing-branch child of [issue_20900_invocation_validation](../../../../../agents/gx_standing/standing_branches/issue_20900_invocation_validation/index.md).
 
