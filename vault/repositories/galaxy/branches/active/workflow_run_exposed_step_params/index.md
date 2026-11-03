@@ -20,4 +20,6 @@ API probes, vitest and 5 E2E tests pass locally; no CI.
 
 ## Decision
 
-File the issue with the suggested edits in LESSONS_LEARNED.md? Then split into PRs (G1 strict keys, G2+G4 API, client), or abandon the spike once the issue is filed.
+Filed as [#24454](https://github.com/galaxyproject/galaxy/issues/24454). Split into PRs, or abandon the spike?
+
+2026-11-03: after pushback on `|`-joined subworkflow keys, the API plan is a dedicated nested `step_parameter_overrides` field (21.01-style tool state, subworkflows nested, applied on top of `parameters`), replacing exposure keys and `exposed_step_parameters` ([comment](https://github.com/galaxyproject/galaxy/issues/24454#issuecomment-6592278488)). The spike's payload, exposure keys and G1/G4 code predate this.
