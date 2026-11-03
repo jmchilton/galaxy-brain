@@ -10,11 +10,11 @@ related_records: galaxy/branches/invocation_graph_embedded_outputs
 
 ## Status
 
-Hardened at `90cdc7089d9`, BLOCKED on a scope decision: the scope evaluation suggests also fixing mapped-over step state ([implementation debrief](implementation_debrief.md), [scope evaluation](scope_evaluation.md), [screenshots](screenshot_debrief.md)).
+Polishing at `90cdc7089d9`, stopped at the checklist: "Who hits this in practice and what is the evidence?" fails because no issue or prior-art search backs the feature yet ([checklist](pr_checklist.md)).
 
 No PR.
 
-No CI run checked.
+Fork CI on `90cdc7089d9` pending (1 of 11 runs passed, none failed) on 2026-11-03.
 
 ## Decisions
 
@@ -22,3 +22,4 @@ No CI run checked.
 - Leaves out the embed toggle, embedded nodes, the nudge layout and `preferred_output`.
 - Targets `dev`: new client feature.
 - Worktree: `~/projects/worktrees/galaxy/branch/invocation_graph_output_previews`.
+- Mapped-over step state (pending jobs reading `ok`, the scope evaluation's Scope A) is deferred to a separate proposed child branch, `invocation_graph_mapped_step_state` (awaiting John); this branch is polished without it (coordinator, 2026-11-03).
