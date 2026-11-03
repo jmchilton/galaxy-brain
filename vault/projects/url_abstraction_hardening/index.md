@@ -22,9 +22,9 @@ The code differs across releases (e.g. the http file source uses `urllib` throug
 
 | Release | Branch | Status |
 |---|---|---|
-| `release_25.1` | [`harden_url_abstractions_25.1`](../../repositories/galaxy/branches/active/harden_url_abstractions_25.1/index.md) | in implementation |
-| `release_26.0` | `harden_url_abstractions_26.0` | decided after 25.1 (skipped if 25.1 merges forward cleanly) |
-| `release_26.1` | `harden_url_abstractions_26.1` | decided after 26.0 |
+| `release_25.1` | [`harden_url_abstractions_25.1`](../../repositories/galaxy/branches/active/harden_url_abstractions_25.1/index.md) | hardening |
+| `release_26.0` | [`harden_url_abstractions_26.0`](../../repositories/galaxy/branches/active/harden_url_abstractions_26.0/index.md) | needed: 25.1 conflicts on 26.0 (`uris.py`, `http.py`, tests) |
+| `release_26.1` | [`harden_url_abstractions_26.1`](../../repositories/galaxy/branches/active/harden_url_abstractions_26.1/index.md) | needed: 25.1 conflicts on 26.1 (also `trs_proxy.py`, TRS/DRS tests) |
 
 ## Decisions
 
