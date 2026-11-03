@@ -1,6 +1,6 @@
 This refactors client and Tool Shed frontend tests so the scenario, action and expected result are easier to read. Shared typed fixtures and small mount helpers replace repeated setup; named table rows replace positional flags; exact assertions and real component interactions expose cases that previously passed for the wrong reason.
 
-It also updates the testing guidance in `client/README.md` using examples found during the refactoring. This PR contains the readability work and shared test support. Storybook migrations, browser play functions and accessibility auditing are maintained separately.
+It also updates the testing guidance in `client/README.md` using examples found during the refactoring. This PR contains the readability work and shared test support. It is stacked on a smaller foundation branch (README guidance, six readability examples, Storybook/play/accessibility infrastructure with two migrated tests, and a blocking browser CI step), so until that lands its commits appear here too. The remaining Storybook migrations, browser play functions and accessibility auditing are in #24300.
 
 ## The refactoring loop
 

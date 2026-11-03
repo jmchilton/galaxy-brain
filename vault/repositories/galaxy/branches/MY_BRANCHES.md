@@ -1,6 +1,6 @@
 # Open PR and branch queue
 
-Snapshot: 2026-11-01 (reclassified from GitHub: 12 merged and archived, #24578 closed to decision, 13 moved to ready, #24482/#24483 undrafted, infra reds rerun, 4 branches promoted on unrelated-only fork CI). Previous 2026-10-28.
+Snapshot: 2026-11-01 (reclassified from GitHub: 12 merged and archived, #24578 closed to decision, 13 moved to ready, #24482/#24483 undrafted, infra reds rerun, 4 branches promoted on unrelated-only fork CI). Previous 2026-10-28. 2026-11-02 partial: #24038/#24300 restacked onto `vitest_story_foundation` → `ci_wait`; foundation fork CI green.
 
 ## Open Galaxy PRs — ready from our side (`ready`)
 
@@ -46,13 +46,13 @@ None yet.
 ## Draft Galaxy PRs — waiting for CI (`ci_wait`)
 
 - [`issue_24220_drop_collection_matching_26.0`](active/issue_24220_drop_collection_matching_26.0/index.md) — Tool form drag and drop matches dropped collections like the server; shared literal split-type helper (#24220). Base `release_26.0`. [#24453](https://github.com/galaxyproject/galaxy/pull/24453).
+- [`vitest_readability`](active/vitest_readability/index.md) — Rewrites client tests for readability, shared fixtures and stronger assertions. [#24038](https://github.com/galaxyproject/galaxy/pull/24038).
+- [`vitest_story_play`](active/vitest_story_play/index.md) — Storybook stories, browser plays and accessibility checks for richer client-test review. [#24300](https://github.com/galaxyproject/galaxy/pull/24300). Keep draft RFC per John.
 
 ## Draft Galaxy PRs — needs author work (`author_work`)
 
 - [`issue_24389_lint_duplicate_test_params_26.1`](active/issue_24389_lint_duplicate_test_params_26.1/index.md) — Lint conflicting duplicate tool-test params (load unchanged); `<edit_attributes>` stored as dicts (#24389). Base `release_26.1`. [#24480](https://github.com/galaxyproject/galaxy/pull/24480).
 - [`extract_next_followups`](active/extract_next_followups/index.md) — Fixes notebook-to-workflow extraction, report references and editor behavior after #22860. Base `release_26.2`; must merge before 26.2.0 (API rename). [#24225](https://github.com/galaxyproject/galaxy/pull/24225). Draft [WIP] by John's request: up early while they review it in detail.
-- [`vitest_readability`](active/vitest_readability/index.md) — Rewrites client tests for readability, shared fixtures and stronger assertions. [#24038](https://github.com/galaxyproject/galaxy/pull/24038).
-- [`vitest_story_play`](active/vitest_story_play/index.md) — Storybook stories, browser plays and accessibility checks for richer client-test review. [#24300](https://github.com/galaxyproject/galaxy/pull/24300). Keep draft RFC per John.
 - [`tool_parameter_references`](active/tool_parameter_references/index.md) — Developer reference for the inconsistent ways tools, APIs and workflows reference nested tool parameters. [#23877](https://github.com/galaxyproject/galaxy/pull/23877).
 - [`subworkflow_mapping`](active/subworkflow_mapping/index.md) — Brings subworkflow mapping inline between the workflow editor and the backend. [#23676](https://github.com/galaxyproject/galaxy/pull/23676).
 - [`htcondor_pulsar`](active/htcondor_pulsar/index.md) — Shares HTCondor mechanics with Pulsar and bounds held-job handling. [#23326](https://github.com/galaxyproject/galaxy/pull/23326).
@@ -63,7 +63,7 @@ None yet.
 
 ## Galaxy branches — implemented, work left (`branches_implemented_needs_ci`)
 
-- [`vitest_story_foundation`](active/vitest_story_foundation/index.md) — Client test readability guidance, Storybook stories/plays/a11y infra, two examples and blocking browser CI. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:vitest_story_foundation?expand=1).
+- [`vitest_real_api_calls`](active/vitest_real_api_calls/index.md) — Records real Galaxy API responses for client tests, starting with history and quota usage. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:vitest_real_api_calls?expand=1).
 - [`issue_24532_user_deletion_refusal_25.1`](active/issue_24532_user_deletion_refusal_25.1/index.md) — Delete Account modal explains a config-refused self-deletion (`err_code` 403004, not 403), stays open on failure (BModal closed it on 25.1), disables OK in flight and handles request failures; jest + new Selenium test (`allow_user_deletion=False`) (#24532). Hardened READY (re-scoped once). Base `release_25.1`, head `551bc3a8e7f`; squash plan in baseline_refactor; manual merge-forward to 26.1+. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_25.1...jmchilton:galaxy:issue_24532_user_deletion_refusal_25.1?expand=1).
 - [`issue_24375_restriction_string_roundtrip_26.1`](active/issue_24375_restriction_string_roundtrip_26.1/index.md) — Workflow text input restrictions/suggestions round-trip the editor's `value:label,...` string losslessly (backslash escapes; stray commas dropped; lone `:` = empty value), and restrictions + suggestions opens as restricted (#24375). Hardened READY (re-scoped once). Base `release_26.1`, local head `4333ba9e1a6`; needs a force-push (fork still `c3bf15ffc76`). [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.1...jmchilton:galaxy:issue_24375_restriction_string_roundtrip_26.1?expand=1).
 - [`issue_24376_library_download_test_26_2`](active/issue_24376_library_download_test_26_2/index.md) — Library folder Download E2E test runs again (`test_` prefix, `download-btn` id typo, `selected_library_files.zip`, cross-backend `download_file_from`); fetched/model-store-imported LDDAs get their `library_dataset` back-reference so zip download and LDDA show no longer 500 (#24376). Hardened READY (re-scoped once). Base `release_26.2`, head `f552bcc3656`; alts `_alt_original_scope` (test-only) and `_alt_refactored_history` (same tree, refactor-first history). [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:issue_24376_library_download_test_26_2?expand=1).
@@ -83,6 +83,7 @@ None yet.
 
 ## Galaxy branches — implemented, work left, green (`branches_implemented`)
 
+- [`vitest_story_foundation`](active/vitest_story_foundation/index.md) — Client test readability guidance, Storybook stories/plays/a11y infra, two examples and blocking browser CI. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:vitest_story_foundation?expand=1).
 - [`deployment_test_docs_decorators_26_2`](active/deployment_test_docs_decorators_26_2/index.md) — Documents deployment tests and adds a decorator audit skill. Stacked on `deployment_test_fixes_26_2`. [Open PR](https://github.com/jmchilton/galaxy/compare/deployment_test_fixes_26_2...deployment_test_docs_decorators_26_2?expand=1).
 - [`compare_runs`](active/compare_runs/index.md) — Compare runs of a workflow step, workflow outputs or a tool in one table (3 GET endpoints, All runs tab, `/comparisons`, 5 entry points, diff/export/highlights); baselines + 10 base refactors first; hardened ×3, READY. Decisions: PR split, [design questions](active/compare_runs/design_questions.md). Base `dev`, head `be7415d94dd`. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:compare_runs?expand=1).
 
@@ -92,7 +93,6 @@ None yet.
 - [`selenium_workflow_preview_import_26.2`](active/selenium_workflow_preview_import_26.2/index.md) — Public workflow preview/Run/Import tests + TRS launch-link auto-import and version-alias fixes; baseline first, hardened READY. Base `release_26.2`, head `ef7bf72fdea9`; both browser backends verified.
 - [`issue_24303_collection_type_prefix_26.2`](active/issue_24303_collection_type_prefix_26.2/index.md) — `type_prefix` on `type_source` tool output collections (parser/XSD/lint, runtime, workflow server + subworkflow export fix, editor, collection_semantics) + Nest 1.1.0 replacing #24190 (bernt-matthias's commit cherry-picked; 1.0.0 kept) (#24303). Hardened + re-scoped; decisions: #24190 fate, PR split. Base `release_26.2`, head `e0239d8d74b`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:issue_24303_collection_type_prefix_26.2?expand=1).
 - [`selenium_apply_rules_nest_menus`](active/selenium_apply_rules_nest_menus/index.md) — E2E test for Apply rules driven through the rule builder menus (Basename + nest, then map over); rule-source asserts on GTN rules examples 3/4; single-column rule builder helpers on a navigation target (from `galaxy_ui_driver`). Hardened + re-scoped. Base `release_26.2`, head `c1dc296ac86`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:selenium_apply_rules_nest_menus?expand=1).
-- [`vitest_real_api_calls`](active/vitest_real_api_calls/index.md) — Records real Galaxy API responses for client tests, starting with history and quota usage. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:vitest_real_api_calls?expand=1).
 
 ## Galaxy branches — needs polish (`branches_need_polish`)
 

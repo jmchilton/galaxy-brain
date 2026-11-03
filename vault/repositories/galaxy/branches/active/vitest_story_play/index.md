@@ -7,13 +7,19 @@ Renamed from `storybook_interactions` on 2026-10-09; the worktree directory keep
 
 ## Status
 
-Status: `author_work` — combined play/accessibility RFC with known strict accessibility failures and missing browser CI.
+Status: `ci_wait` (2026-11-02) — stories and plays folded into one lane on restacked `vitest_readability`; head `f43eeb9477f` pushed.
 
-Draft [#24300](https://github.com/galaxyproject/galaxy/pull/24300) targets `dev`, including the readability and story layers; head `a2acdefc35ba703778e9279022f87ca98df8faf8`.
+Draft [#24300](https://github.com/galaxyproject/galaxy/pull/24300) targets `dev`, including the foundation and readability layers.
 
-CI: new-head checks pending; source tree and existing validation limitations are unchanged.
+CI: new-head checks pending; the blocking browser step is expected red on known strict a11y failures (128 locally, all `toHaveNoViolations`).
 
-Worktree: `~/projects/worktrees/galaxy/branch/storybook_interactions` (`git worktree add` from `vitest_stories`, not ghwt, since it's stacked). Pushed to `jmchilton/vitest_story_play`.
+Worktree: `~/projects/worktrees/galaxy/branch/storybook_interactions`. Pushed to `jmchilton/vitest_story_play`. Parent: `vitest_readability`.
+
+## Combined stories + play lane — 2026-11-02
+
+John chose (2026-11-02) to collapse `vitest_stories` into this lane. Each component's stories commit and play commit fold into one "Move X tests onto stories and play functions" commit (95), plus 6 stories-only commits; infra, GDropdownItem and HistoryExportWizard moved to the foundation. Fold verified tree-identical to `a2acdefc35b` on the old base; shared play helpers (`multiselect`, `text`, `toasts`) moved into their first users. Then rebased onto restacked readability: 99 commits, 15 conflicts, 4 gate fixes ([notes](rebase_resolutions_2026-11-02.md)). Gates: type-check, unit 672 files / 5,802 passed / 1 skipped, browser 128 failed of 585 with none new vs the old tip's 152 (23 fixed). Previous heads archived under `refs/archive/restack-20261102/`.
+
+Needs John's sign-off: dev's mocked WorkflowInvocationSteps graph-error test dropped in favor of the MSW story covering the real store path; one of dev's two byte-identical DatasetAttributes "shows why saving failed" tests dropped; new plays `SelectsRdmRecordNotRepositoryRoot` and `ChecksEachConfiguredDependency`; new `WorkflowInvocationStepsPolling.test.ts`. Watch ListCollectionCreator `Drops Deleted Dataset` (flaked once; dev changed `useCollectionCreator`).
 
 - [Plan: Storybook Vitest addon](../../../../../projects/just_jesting_around/plan_vitest_addon.md)
 - [Pipeline branches](../../../../../projects/just_jesting_around/PIPELINE_BRANCHES.md)

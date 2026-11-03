@@ -1,4 +1,4 @@
-This RFC includes the readability work in #24038, the story catalog, browser plays and accessibility checks. It targets `dev` to show the complete proposal.
+This RFC includes the Storybook foundation (infrastructure, two migrated tests and a blocking browser CI step), the readability work in #24038, and the story catalog with browser plays and accessibility checks — one commit per component. It targets `dev` to show the complete proposal; the browser step is red on known strict accessibility failures.
 
 [Presentation: client testing and review time](https://jmchilton.net/slides/client-testing/#/4)
 

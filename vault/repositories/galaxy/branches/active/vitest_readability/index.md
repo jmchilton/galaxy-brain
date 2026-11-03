@@ -1,10 +1,14 @@
 # vitest_readability
 
-Status: `ci_wait` (2026-10-20) — conflicts resolved; history reorganized; head `390b78fc122e` pushed, new-head CI pending. Base: `dev`. Draft [PR #24038 — Rewrite Client Tests toward Readability](https://github.com/galaxyproject/galaxy/pull/24038).
+Status: `ci_wait` (2026-11-02) — restacked onto [`vitest_story_foundation`](../vitest_story_foundation/index.md); head `a54dfb1b450` pushed, new-head CI pending. Base: `dev`, via the foundation. Draft [PR #24038 — Rewrite Client Tests toward Readability](https://github.com/galaxyproject/galaxy/pull/24038).
 
 Rewrites client and Tool Shed frontend tests for readability, shared fixtures and stronger assertions.
 
-Worktree: `/Users/jxc755/projects/worktrees/galaxy/branch/vitest_readability`. Current pushed head: `390b78fc122eb3fe11660a8c8acaf4bc5fa64c57`, rebased onto dev `93b3c85e5320048b33bcc78f6f7767e06813f7e0`. This is the cleaned version with the 76 branch-local score-2 changes removed. Original history remains at `backup/vitest_readability_with_churn-before-stack-20261016` (`7f2db5e5941`); `vitest_readability_with_churn` is now stacked above this cleaned branch.
+## Restacked onto foundation — 2026-11-02
+
+Parent is now `vitest_story_foundation` (`e27f0e5bdf1`, dev `38dc259318c`); #24038's diff includes the foundation until it lands. Dropped the 7 commits the foundation carries; 389 commits remain, 30 conflicts resolved ([notes](subagents/rebase_foundation_2026-11-02.md)). Gates: type-check, unit 676 files / 5,995 passed / 1 skipped, Tool Shed 192 tests. Previous head archived at `refs/archive/restack-20261102/vitest_readability` (`390b78fc122`). Needs John's call: ToolEntryPoints commit (`738e8dfcf60`) is now empty because dev replaced the `.js` with a tightened `.ts`.
+
+Worktree: `/Users/jxc755/projects/worktrees/galaxy/branch/vitest_readability`. Head before the 2026-11-02 restack: `390b78fc122eb3fe11660a8c8acaf4bc5fa64c57`, rebased onto dev `93b3c85e5320048b33bcc78f6f7767e06813f7e0`. This is the cleaned version with the 76 branch-local score-2 changes removed. Original history remains at `backup/vitest_readability_with_churn-before-stack-20261016` (`7f2db5e5941`); `vitest_readability_with_churn` is now stacked above this cleaned branch.
 
 [Rebase conflict-resolution review](subagents/rebase_2026-10-12.md)
 

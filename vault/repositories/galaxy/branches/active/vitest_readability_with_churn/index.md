@@ -1,8 +1,8 @@
 # vitest_readability_with_churn
 
-Status: `branches_reference`; published comparison stack, do not PR. Base: `vitest_readability` (`390b78fc122eb3fe11660a8c8acaf4bc5fa64c57`).
+Status: `branches_reference`; published comparison stack, do not PR. Base: `vitest_readability` (`a54dfb1b450`, restacked 2026-11-02).
 
-Current pushed head: `7f5bf764eb0eaff8857507265e59e9881312a536`. Worktree: `/Users/jxc755/projects/worktrees/galaxy/branch/vitest_readability_with_churn`.
+Current pushed head: `b8d87c00cb6` — 76 commits replayed onto restacked readability, 7 conflicts ([notes](rebase_resolutions_2026-11-02.md)); type-check and unit (676 files / 6,123 passed / 1 skipped) pass. Previous head `7f5bf764eb0` archived at `refs/archive/restack-20261102/vitest_readability_with_churn`. Worktree: `/Users/jxc755/projects/worktrees/galaxy/branch/vitest_readability_with_churn`.
 
 John requested this backup on 2026-10-13 before removing the 77 score-2 readability commits. Originally it preserved the complete `vitest_readability` history at `7f2db5e59415f07c09fec5be75ff4885fbad047e`, including its `fix_story_a11y` base. That original head is now preserved at `backup/vitest_readability_with_churn-before-stack-20261016`. The named branch is now a comparison stack with a worktree; published on the fork at John’s request, no separate PR.
 

@@ -12,7 +12,9 @@ Built and pushed 2026-11-02; head `e27f0e5bdf1`, on dev `38dc259318c`.
 
 No PR yet; John to approve title and description.
 
-Fork CI pending, including the new blocking Storybook browser step.
+Fork CI green on Client Unit Testing including the new blocking browser step; only red is "Test Galaxy release script", from the fork's stale `master` (green on upstream dev).
+
+Lanes restacked on it 2026-11-02: `vitest_readability` (#24038) is its child; the combined stories + play lane (`vitest_story_play`, #24300), `vitest_real_api_calls` and `vitest_readability_with_churn` sit on that.
 
 ## Scope
 

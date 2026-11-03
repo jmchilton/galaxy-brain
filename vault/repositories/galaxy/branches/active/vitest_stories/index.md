@@ -2,7 +2,7 @@
 
 Renamed from `storybook_prototype` on 2026-10-09; the worktree directory keeps the old name.
 
-Status: prototype, not in `MY_BRANCHES.md`. No PR intent yet; John is evaluating it.
+Status: superseded 2026-11-02 — folded into the combined stories + play lane on [`vitest_story_play`](../vitest_story_play/index.md); infra moved to [`vitest_story_foundation`](../vitest_story_foundation/index.md). Branch and fork ref left at `bf693b79ac9`, not restacked; abandonment awaits John.
 
 Worktree: `~/projects/worktrees/galaxy/branch/storybook_prototype` (ghwt). Pushed to `jmchilton/vitest_stories`.
 
