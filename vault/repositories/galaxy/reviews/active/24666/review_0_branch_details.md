@@ -1,0 +1,9 @@
+`pr_24666_review_0` is based on the reviewed commit `7587ed8a9ff`. It fixes every verified finding except P3 1, the restart stall on a dead lease, which is left to the author. Waiters now check for a completed peer populate before the expensive staleness scan, and the lease contract is backend-neutral. The sleep-ordered tests wait on an event, `_populate_once` no longer needs its reload flag, and panel placements are reused. The duplicated multi-process test harness is now a shared fixture. New tests cover the untested lease and toolbox branches. Every test the branch adds or edits passes when run individually.
+
+- `1a8fe2d7312` Raise lease-specific errors instead of SQLAlchemy ones from PopulateLease. The SQLAlchemy lease raises the new `PopulateLeaseError` and `PopulateLeaseBusy` from `interface.py`, so `coordination.py` no longer imports SQLAlchemy (P3 2).
+- `513ca9e6c5f` Reload the tool index in the populate callback instead of tracking it. Drops the `nonlocal reloaded` flag from `CachedToolBox._populate_once` (P3 4).
+- `49183e7817a` Check for a peer populate before the staleness check under the lease. A waiter whose peer has just populated now skips `needs_population` (P2 1).
+- `bd19078c57f` Order lease waiter tests on an event instead of sleep(0.2). Tests release the peer only after the waiter has found the lease held, and assert what they previously only implied (P2 2).
+- `82287e6360a` Test lease takeover, read-only stores and an unusable peer index. Adds tests for those previously untested branches (P3 3).
+- `374f028ac61` Reuse computed panel placements when checking for missing index ids. `_panel_ids_missing_from_index` now takes the placements `_init_tools_from_index` has already computed (P3 5).
+- `8f75f2d1c59` Share the multi-process start-signal harness between store tests. Both subprocess tests now use a `run_processes_together` conftest fixture (P3 6).
