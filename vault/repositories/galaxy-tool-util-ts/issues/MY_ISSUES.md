@@ -2,7 +2,7 @@ Issues here are not assigned to jmchilton by default.
 
 ## Waiting on John (`needs_decision`)
 
-None yet.
+- [#213](https://github.com/jmchilton/galaxy-tool-util-ts/issues/213) — CLI state decode uses `onExcessProperty: "ignore"`, so unknown nested keys pass; decide: always reject vs `--strict-state` only. [notes](needs_decision/213/index.md)
 
 ## In progress (`wip`)
 
@@ -11,7 +11,7 @@ None yet.
 
 ## Queued (`queued`)
 
-None yet.
+- [#214](https://github.com/jmchilton/galaxy-tool-util-ts/issues/214) — regex validator uses JS `m`-flag search, not Python `re.match`; multi-line SQL slips; next: sticky-flag fix + skip on unenforceable validators. [notes](queued/214/index.md)
 
 ## Untriaged (`untriaged`)
 
