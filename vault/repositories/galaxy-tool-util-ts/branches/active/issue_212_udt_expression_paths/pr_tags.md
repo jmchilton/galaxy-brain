@@ -1,0 +1,2 @@
+- `enhancement`: a new check in `validate-tool-source`, `validate` and `draft-validate`.
+- `bug`: optional. The issue frames the gap as these commands passing tools that fail at job time.

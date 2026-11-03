@@ -1,0 +1,4 @@
+- Check `inputs.*` member paths in user-defined tool templates against Galaxy's job runtime model
+- validate-tool-source: catch `inputs.*` references the job's inputs won't have
+- Catch UDT template paths like `inputs.reads.forward.path` that fail at job time
+- Validate user-defined tool expressions and output labels against Galaxy's runtime inputs
