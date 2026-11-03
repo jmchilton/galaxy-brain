@@ -10,7 +10,7 @@ Show outputs inside the workflow invocation graph in three stages: hover preview
 
 ## Children
 
-- [`invocation_graph_output_previews`](../../../../repositories/galaxy/branches/active/invocation_graph_output_previews/index.md) — `wip` · `stacked` — Stage 1: hovering a step's outputs previews its datasets and collections.
+- [`invocation_graph_output_previews`](../../../../repositories/galaxy/branches/active/invocation_graph_output_previews/index.md) — `wip` · `stacked` — Stage 1: hovering a step's outputs previews its datasets and collections. Polished, head `90cdc7089d9`; ready for final review.
 - [`invocation_graph_embedded_workflow_outputs`](../../../../repositories/galaxy/branches/active/invocation_graph_embedded_workflow_outputs/index.md) — `wip` · `stacked` — Stage 2: workflow outputs embedded as large nodes, nudging steps; stacked on stage 1.
 
 ## Decisions
