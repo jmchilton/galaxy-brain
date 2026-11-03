@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { blockerFromPath, blockersPath, recordBlockers, recordIdLabel, recordIndexPath, recordRefs } from "./blockers";
+import { blockerFromPath, blockersPath, recordBlockers, recordIdLabel, recordIndexPath, recordRefs, relatedBranches } from "./blockers";
 
 describe("blockersPath", () => {
 	it("is blockers/ in the agent dir", () => {
@@ -48,6 +48,23 @@ describe("recordRefs", () => {
 		expect(recordRefs("---\nrelated_records: [galaxy/reviews/24484, gx_branches/wait]\n---\n", "related_records")).toEqual([
 			{ repo: "galaxy", kind: "reviews", name: "24484" },
 		]);
+	});
+});
+
+describe("relatedBranches", () => {
+	it("reads a branch record's parent and children as branch records in its repository", () => {
+		const body = "---\nupstream_base_branch: dev\nparent_branch: base\nchild_branches:\n  - child_a\n  - child_b\n---\n";
+		expect(relatedBranches(body, "galaxy")).toEqual({
+			parents: [{ repo: "galaxy", kind: "branches", name: "base" }],
+			children: [
+				{ repo: "galaxy", kind: "branches", name: "child_a" },
+				{ repo: "galaxy", kind: "branches", name: "child_b" },
+			],
+		});
+	});
+
+	it("is empty for an independent branch", () => {
+		expect(relatedBranches("---\nupstream_base_branch: dev\n---\n", "galaxy")).toEqual({ parents: [], children: [] });
 	});
 });
 

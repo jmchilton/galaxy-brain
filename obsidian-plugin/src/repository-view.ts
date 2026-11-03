@@ -4,7 +4,7 @@ import { type GithubTab, githubListTitle, githubListUrl, REPOSITORY_TABS as TABS
 import { type Launcher, launchersFor, type RecordRef, untrackedRecord } from "./launchers";
 import { type FeedItem, type FeedList, type Feeds, feedArgs, matchRecords, parseFeeds } from "./github-feed";
 import { BlockerModal } from "./blocker-modal";
-import { isAgentBlocker, type RecordId, recordBlockers, recordIdLabel, recordIndexPath, recordRefs } from "./blockers";
+import { isAgentBlocker, type RecordId, recordBlockers, recordIdLabel, recordIndexPath, recordRefs, relatedBranches } from "./blockers";
 import { hasDifferentialReview, openDifferentialReview } from "./diff-review-view";
 import { compareUrl, githubUrl } from "./record-links";
 import { SYNC_PROCESSES, SYNC_PROFILE } from "./record-agents";
@@ -354,7 +354,7 @@ export class RepositoryView extends ItemView {
 			action(RECORD_ICONS[record.kind], `Open ${kind} record ${record.name} (${statusLabel(record.status)})`, (event) =>
 				void this.app.workspace.openLinkText(record.indexPath ?? record.dir, "", event.metaKey || event.ctrlKey),
 			);
-			this.recordRefActions(bodyOf(record), action);
+			this.recordRefActions(record.repo, bodyOf(record), action);
 			if (launchable.has(record.dir)) action("bot", `Launch agent for ${kind} record`, () => void this.host.pickLauncher(record));
 			const worktree = this.host.worktreeFor(record, bodyOf(record));
 			if (worktree) action("code", `Open ${kind} worktree with Code`, () => this.host.openInCode(worktree));
@@ -424,8 +424,8 @@ export class RepositoryView extends ItemView {
 		return bodies;
 	}
 
-	/** 🔒 per blocker (agent blockers open their condition, records their index.md), 🚫 per record this one blocks, 🔗 per related record. */
-	private recordRefActions(body: string, action: (icon: string, label: string, onClick: (event: MouseEvent) => void) => void) {
+	/** 🔒 per blocker (agent blockers open their condition, records their index.md), 🚫 per record this one blocks, 🔗 per related record, ↑/↓ per parent/child branch. */
+	private recordRefActions(repo: string, body: string, action: (icon: string, label: string, onClick: (event: MouseEvent) => void) => void) {
 		const openRecord = (id: RecordId, event: MouseEvent) => {
 			const path = recordIndexPath(this.app.vault.getMarkdownFiles().map((f) => f.path), id);
 			if (path) void this.app.workspace.openLinkText(path, "", event.metaKey || event.ctrlKey);
@@ -437,6 +437,9 @@ export class RepositoryView extends ItemView {
 		}
 		for (const blocked of recordRefs(body, "blocking")) action("ban", `Blocking ${recordIdLabel(blocked)}`, (event) => openRecord(blocked, event));
 		for (const related of recordRefs(body, "related_records")) action("link", `Related: ${recordIdLabel(related)}`, (event) => openRecord(related, event));
+		const { parents, children } = relatedBranches(body, repo);
+		for (const parent of parents) action("arrow-up", `Parent branch: ${parent.name}`, (event) => openRecord(parent, event));
+		for (const child of children) action("arrow-down", `Child branch: ${child.name}`, (event) => openRecord(child, event));
 	}
 
 	private renderRecord(
@@ -461,7 +464,7 @@ export class RepositoryView extends ItemView {
 			setIcon(button, icon);
 			button.onclick = onClick;
 		};
-		this.recordRefActions(body, action);
+		this.recordRefActions(record.repo, body, action);
 		if (launchable) action("bot", "Launch agent", () => void this.host.pickLauncher(record));
 		const github = githubUrl(record, body);
 		if (github) action("github", "Open on GitHub", () => window.open(github));

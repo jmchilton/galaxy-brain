@@ -689,7 +689,7 @@ function upstreamOwner(repo, bodies) {
 
 // src/record-frontmatter.ts
 var STRING_FIELDS = ["upstream_base_branch", "parent_branch"];
-var LIST_FIELDS = ["blockers", "blocking", "related_records"];
+var LIST_FIELDS = ["blockers", "blocking", "related_records", "child_branches"];
 var unquote = (value) => value.trim().replace(/^(["'])(.*)\1$/, "$2");
 function recordFrontmatter(body) {
   const block = /^---\n([\s\S]*?)^---$/m.exec(body);
@@ -982,6 +982,11 @@ function recordBlockers(body) {
 }
 function recordRefs(body, field) {
   return (recordFrontmatter(body)[field] ?? []).flatMap((ref) => recordId(ref) ?? []);
+}
+function relatedBranches(body, repo) {
+  const { parent_branch, child_branches = [] } = recordFrontmatter(body);
+  const branch = (name) => ({ repo, kind: "branches", name });
+  return { parents: parent_branch ? [branch(parent_branch)] : [], children: child_branches.map(branch) };
 }
 function recordIndexPath(paths, { repo, kind, name }) {
   return paths.find((path) => {
@@ -6512,7 +6517,7 @@ var RepositoryView = class extends import_obsidian7.ItemView {
         `Open ${kind} record ${record.name} (${statusLabel(record.status)})`,
         (event) => void this.app.workspace.openLinkText(record.indexPath ?? record.dir, "", event.metaKey || event.ctrlKey)
       );
-      this.recordRefActions(bodyOf(record), action);
+      this.recordRefActions(record.repo, bodyOf(record), action);
       if (launchable.has(record.dir)) action("bot", `Launch agent for ${kind} record`, () => void this.host.pickLauncher(record));
       const worktree = this.host.worktreeFor(record, bodyOf(record));
       if (worktree) action("code", `Open ${kind} worktree with Code`, () => this.host.openInCode(worktree));
@@ -6576,8 +6581,8 @@ var RepositoryView = class extends import_obsidian7.ItemView {
     }));
     return bodies;
   }
-  /** 🔒 per blocker (agent blockers open their condition, records their index.md), 🚫 per record this one blocks, 🔗 per related record. */
-  recordRefActions(body, action) {
+  /** 🔒 per blocker (agent blockers open their condition, records their index.md), 🚫 per record this one blocks, 🔗 per related record, ↑/↓ per parent/child branch. */
+  recordRefActions(repo, body, action) {
     const openRecord = (id, event) => {
       const path = recordIndexPath(this.app.vault.getMarkdownFiles().map((f) => f.path), id);
       if (path) void this.app.workspace.openLinkText(path, "", event.metaKey || event.ctrlKey);
@@ -6589,6 +6594,9 @@ var RepositoryView = class extends import_obsidian7.ItemView {
     }
     for (const blocked of recordRefs(body, "blocking")) action("ban", `Blocking ${recordIdLabel(blocked)}`, (event) => openRecord(blocked, event));
     for (const related of recordRefs(body, "related_records")) action("link", `Related: ${recordIdLabel(related)}`, (event) => openRecord(related, event));
+    const { parents, children } = relatedBranches(body, repo);
+    for (const parent of parents) action("arrow-up", `Parent branch: ${parent.name}`, (event) => openRecord(parent, event));
+    for (const child of children) action("arrow-down", `Child branch: ${child.name}`, (event) => openRecord(child, event));
   }
   renderRecord(list2, record, body, launchable, { time = record.mtime, tags = [] } = {}) {
     const item2 = list2.createEl("li", { cls: "gbr-record" });
@@ -6606,7 +6614,7 @@ var RepositoryView = class extends import_obsidian7.ItemView {
       (0, import_obsidian7.setIcon)(button2, icon);
       button2.onclick = onClick;
     };
-    this.recordRefActions(body, action);
+    this.recordRefActions(record.repo, body, action);
     if (launchable) action("bot", "Launch agent", () => void this.host.pickLauncher(record));
     const github = githubUrl(record, body);
     if (github) action("github", "Open on GitHub", () => window.open(github));

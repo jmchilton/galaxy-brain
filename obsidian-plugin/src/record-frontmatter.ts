@@ -3,6 +3,8 @@
 export interface RecordFrontmatter {
 	upstream_base_branch?: string;
 	parent_branch?: string;
+	/** Branch records in this repository naming this one as their `parent_branch`. */
+	child_branches?: string[];
 	/** `<agent_dir>/<short_name>` or `<repo>/<kind>/<name>` references, per vault/agents/_shared/BLOCKERS.md. */
 	blockers?: string[];
 	/** `<repo>/<kind>/<name>` records naming this one as their blocker. */
@@ -14,7 +16,7 @@ export interface RecordFrontmatter {
 }
 
 const STRING_FIELDS = ["upstream_base_branch", "parent_branch"] as const;
-const LIST_FIELDS = ["blockers", "blocking", "related_records"] as const;
+const LIST_FIELDS = ["blockers", "blocking", "related_records", "child_branches"] as const;
 
 const unquote = (value: string) => value.trim().replace(/^(["'])(.*)\1$/, "$2");
 

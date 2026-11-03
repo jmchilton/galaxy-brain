@@ -51,6 +51,13 @@ export function recordRefs(body: string, field: "blocking" | "related_records"):
 	return (recordFrontmatter(body)[field] ?? []).flatMap((ref) => recordId(ref) ?? []);
 }
 
+/** A branch record's `parent_branch` and `child_branches`, as branch records in `repo`. */
+export function relatedBranches(body: string, repo: string): { parents: RecordId[]; children: RecordId[] } {
+	const { parent_branch, child_branches = [] } = recordFrontmatter(body);
+	const branch = (name: string): RecordId => ({ repo, kind: "branches", name });
+	return { parents: parent_branch ? [branch(parent_branch)] : [], children: child_branches.map(branch) };
+}
+
 /** The vault path of a referenced record's index.md, under whichever status it has. */
 export function recordIndexPath(paths: string[], { repo, kind, name }: RecordId): string | undefined {
 	return paths.find((path) => {

@@ -19,6 +19,10 @@ describe("recordFrontmatter", () => {
 		expect(recordFrontmatter("---\nblocking:\n- galaxy/issues/24551\n- planemo/issues/1745\npr: 2\n---\n")).toEqual({ blocking: ["galaxy/issues/24551", "planemo/issues/1745"], pr: 2 });
 	});
 
+	it("reads child_branches", () => {
+		expect(recordFrontmatter("---\nchild_branches: [a, b]\n---\n")).toEqual({ child_branches: ["a", "b"] });
+	});
+
 	it("reads related_records", () => {
 		expect(recordFrontmatter("---\nrelated_records: galaxy/reviews/24484\n---\n")).toEqual({ related_records: ["galaxy/reviews/24484"] });
 	});
