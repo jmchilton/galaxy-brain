@@ -1,4 +1,4 @@
-# Reply to mvdbeek after the expansion (draft, not posted)
+# Reply to mvdbeek after the expansion ([posted](https://github.com/galaxyproject/galaxy/pull/24453#issuecomment-6592549922) 2026-11-02)
 
 Follows John's 2026-10-29 PR comment; head `76abc799f6c`.
 
