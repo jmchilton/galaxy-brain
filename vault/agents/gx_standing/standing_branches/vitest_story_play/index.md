@@ -11,6 +11,7 @@ Move client test setup into Storybook stories and user-visible assertions into b
 
 ## Children
 
+- [`vitest_story_foundation`](../../../../repositories/galaxy/branches/active/vitest_story_foundation/index.md) — `wip` · `extracted` — README guidance, six readability examples, Storybook/play/a11y infra, GDropdownItem and HistoryExportWizard stories, blocking browser CI.
 - [`vitest_readability`](../../../../repositories/galaxy/branches/active/vitest_readability/index.md) — [#24038](https://github.com/galaxyproject/galaxy/pull/24038) · `draft` · `stacked` — Client test readability rewrite.
 - [`vitest_stories`](../../../../repositories/galaxy/branches/active/vitest_stories/index.md) — `wip` · `stacked` — Storybook Vitest addon and browser-mode infrastructure.
 - [`fix_story_a11y`](../../../../repositories/galaxy/branches/merged/fix_story_a11y/index.md) — [#24046](https://github.com/galaxyproject/galaxy/pull/24046) · `merged` · `extracted` — Accessibility repairs found by the story audit.
