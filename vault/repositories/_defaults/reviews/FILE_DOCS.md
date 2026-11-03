@@ -52,7 +52,7 @@ Checkbox list of what to do with `initial_review_response.md` and any review bra
 
 ## verified_findings_checklist.md
 
-One checked box per finding in `verified_review.md`, then a free-text Other Actions section. John unchecks findings to drop and writes requests under Other Actions; [PROCESS_TRIM_FINDINGS.md](../../../agents/_shared/PROCESS_TRIM_FINDINGS.md) then rebuilds the review branch and renumbers the findings.
+One checked box per finding in `verified_review.md`, then a free-text Other Actions section. John unchecks findings to drop, optionally writing why after the title, and writes requests under Other Actions; [PROCESS_TRIM_FINDINGS.md](../../../agents/_shared/PROCESS_TRIM_FINDINGS.md) then rebuilds the review branch and renumbers the findings.
 
 ## review-*.md
 

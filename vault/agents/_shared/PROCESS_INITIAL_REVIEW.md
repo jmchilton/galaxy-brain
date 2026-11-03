@@ -72,6 +72,7 @@ If `REVIEW_DIRECTORY/thermo_followup_refactor_issue.md` exists, check that it st
 - A follow-up refactor issue that no longer makes sense.
 - Especially nit-picky comment adjustments (incorrect comments should remain issues)
 - Adding Galaxy Doctests (we need to update the best practices to disuade these)
+- Requests for Vitest tests that only check a prop reaches a class, attribute or style.
 
 Write each filtered item, with a one-line reason, to `REVIEW_DIRECTORY/filtered_findings.md` for John. Don't create this file if nothing was filtered.
 
@@ -110,7 +111,7 @@ Then write `initial_response_action.md` for John to check one or more options; l
 - [ ] Issue: open the galaxy-brain research follow-up issue
 ```
 
-When `verified_review.md` has findings, also write `verified_findings_checklist.md`: one checked box per finding, in order, then an Other Actions section left blank for John. John unchecks findings to drop and adds free-text requests, then asks for [PROCESS_TRIM_FINDINGS.md](PROCESS_TRIM_FINDINGS.md).
+When `verified_review.md` has findings, also write `verified_findings_checklist.md`: one checked box per finding, in order, then an Other Actions section left blank for John. John unchecks findings to drop, optionally writing why after the title, and adds free-text requests, then asks for [PROCESS_TRIM_FINDINGS.md](PROCESS_TRIM_FINDINGS.md).
 
 ```markdown
 - [x] P1 1: <title>
