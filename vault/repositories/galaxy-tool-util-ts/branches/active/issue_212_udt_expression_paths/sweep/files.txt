@@ -1,0 +1,257 @@
+~/projects/repositories/foundry/casts/claude/skills/author-galaxy-tool-wrapper/references/notes/galaxy-user-tool-workflow-binding.md
+~/projects/repositories/foundry/casts/claude/skills/advance-galaxy-draft-step/references/notes/galaxy-user-tool-workflow-binding.md
+~/projects/repositories/foundry/casts/claude/skills/implement-galaxy-tool-step/references/notes/galaxy-user-tool-workflow-binding.md
+~/projects/repositories/foundry/content/prompts/galaxy/custom-tool-structured/upstream.prompt
+~/projects/repositories/foundry/content/research/galaxy-user-tool-workflow-binding/index.md
+~/projects/repositories/foundry/content/research/galaxy-user-tool-authoring-help/galaxy-user-tool-authoring-help.yml
+~/projects/repositories/foundry-runs/prose-wb2g-callings-v0-2026-10-29/galaxy-workflow-draft.gxwf.yml
+~/projects/repositories/foundry-runs/prose-wb2g-callings-v0-2026-10-29/galaxy-workflow.gxwf.yml
+~/projects/repositories/foundry-runs/prose-wb2g-callings-v0-2026-10-29/galaxy-user-tool.asereadcounter.yml
+~/projects/repositories/foundry-runs/prose-wb2g-callings-v0-2026-10-29/galaxy-user-tool.compare-calls-with-known-sites.yml
+~/projects/repositories/foundry-runs/prose-wb2g-callings-v0-2026-10-29/galaxy-user-tool.variantfiltration.yml
+~/projects/repositories/foundry-runs/nf2g-demo-close-enough-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-002/skill/SKILL.md
+~/projects/repositories/foundry-runs/nf2g-demo-close-enough-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-008/workspace/galaxy-workflow.gxwf.yml
+~/projects/repositories/foundry-runs/nf2g-demo-close-enough-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-008/skill/SKILL.md
+~/projects/repositories/foundry-runs/nf2g-demo-close-enough-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-005/workspace/inputs/galaxy-workflow-draft.gxwf.yml
+~/projects/repositories/foundry-runs/nf2g-demo-close-enough-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-004/workspace/galaxy-workflow-draft.gxwf.yml
+~/projects/repositories/foundry-runs/nf2g-demo-close-enough-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-006/workspace/inputs/galaxy-workflow-draft.gxwf.yml
+~/projects/repositories/foundry-runs/nf2g-demo-close-enough-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-007/workspace/inputs/galaxy-workflow-draft.gxwf.yml
+~/projects/repositories/foundry-runs/nf2g-demo-collision-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-012/workspace/inputs/galaxy-workflow-draft.gxwf.yml
+~/projects/repositories/foundry-runs/nf2g-demo-fields-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-009/workspace/galaxy-workflow-draft.gxwf.yml
+~/projects/repositories/foundry-runs/nf2g-demo-fields-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-009/workspace/inputs/galaxy-workflow-draft.gxwf.yml
+~/projects/repositories/foundry-runs/nf2g-demo-fields-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-008/workspace/galaxy-workflow-draft.gxwf.yml
+~/projects/repositories/foundry-runs/nf2g-demo-fields-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-008/skill/SKILL.md
+~/projects/repositories/foundry-runs/nf2g-demo-fields-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-005/workspace/inputs/galaxy-workflow-draft.gxwf.yml
+~/projects/repositories/foundry-runs/nf2g-demo-fields-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-004/workspace/galaxy-workflow-draft.gxwf.yml
+~/projects/repositories/foundry-runs/nf2g-demo-fields-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-004/skill/SKILL.md
+~/projects/repositories/foundry-runs/nf2g-demo-fields-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-006/workspace/galaxy-user-tool.yml
+~/projects/repositories/foundry-runs/nf2g-demo-fields-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-010/workspace/galaxy-workflow-draft.gxwf.yml
+~/projects/repositories/foundry-runs/nf2g-demo-fields-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-010/skill/SKILL.md
+~/projects/repositories/foundry-runs/prose-wb2g-viralrecon-v0-2026-10-31/galaxy-user-tool.barcode-triage.yml
+~/projects/repositories/foundry-runs/prose-wb2g-viralrecon-v0-2026-10-31/galaxy-user-tool.guppyplex-failure-table.yml
+~/projects/repositories/foundry-runs/prose-wb2g-viralrecon-v0-2026-10-31/galaxy-user-tool.multiqc-metrics.yml
+~/projects/repositories/foundry-runs/prose-wb2g-viralrecon-v0-2026-10-31/galaxy-user-tool.validate-illumina-sample-sheet.yml
+~/projects/repositories/foundry-runs/prose-wb2g-viralrecon-v0-2026-10-31/galaxy-workflow-nanopore-test_nanopore_single_no_gff.gxwf.yml
+~/projects/repositories/foundry-runs/prose-wb2g-viralrecon-v0-2026-10-31/galaxy-user-tool.input-checks.yml
+~/projects/repositories/foundry-runs/prose-wb2g-viralrecon-v0-2026-10-31/galaxy-user-tool.mapped-samples-failure-table.yml
+~/projects/repositories/foundry-runs/prose-wb2g-viralrecon-v0-2026-10-31/galaxy-workflow-test_metaviral_skip_variants.gxwf.yml
+~/projects/repositories/foundry-runs/prose-wb2g-viralrecon-v0-2026-10-31/galaxy-workflow-test_bcftools_ivar_consensus_skip_assembly.gxwf.yml
+~/projects/repositories/foundry-runs/prose-wb2g-viralrecon-v0-2026-10-31/galaxy-user-tool.plasmidid-minia.yml
+~/projects/repositories/foundry-runs/prose-wb2g-viralrecon-v0-2026-10-31/galaxy-user-tool.low-coverage-mask.yml
+~/projects/repositories/foundry-runs/prose-wb2g-viralrecon-v0-2026-10-31/galaxy-user-tool.pangolin.yml
+~/projects/repositories/foundry-runs/prose-wb2g-viralrecon-v0-2026-10-31/galaxy-user-tool.no-reads-after-trimming-table.yml
+~/projects/repositories/foundry-runs/prose-wb2g-viralrecon-v0-2026-10-31/galaxy-user-tool.ivar-trim.yml
+~/projects/repositories/foundry-runs/prose-wb2g-viralrecon-v0-2026-10-31/planemo/attempt5/wf-test.gxwf.yml
+~/projects/repositories/foundry-runs/prose-wb2g-viralrecon-v0-2026-10-31/planemo/attempt8/wf.gxwf.yml
+~/projects/repositories/foundry-runs/prose-wb2g-viralrecon-v0-2026-10-31/planemo/attempt6/wf.gxwf.yml
+~/projects/repositories/foundry-runs/prose-wb2g-hic-v0-2026-11-01/galaxy-workflow-draft.gxwf.yml
+~/projects/repositories/foundry-runs/prose-wb2g-hic-v0-2026-11-01/galaxy-workflow.gxwf.yml
+~/projects/repositories/foundry-runs/prose-wb2g-hic-v0-2026-11-01/foundry-feedback.ledger.yml
+~/projects/repositories/foundry-runs/prose-wb2g-hic-v0-2026-11-01/galaxy-workflow-test.gxwf.yml
+~/projects/repositories/foundry-runs/prose-wb2g-hic-v0-2026-11-01/planemo/attempt4/test_motifs/wf.gxwf.yml
+~/projects/repositories/foundry-runs/prose-wb2g-hic-v0-2026-11-01/planemo/attempt4/test_multi_run/wf.gxwf.yml
+~/projects/repositories/foundry-runs/prose-wb2g-hic-v0-2026-11-01/planemo/attempt5/test_dnase/wf.gxwf.yml
+~/projects/repositories/foundry-runs/prose-wb2g-hic-v0-2026-11-01/planemo/attempt2/test/wf.gxwf.yml
+~/projects/repositories/foundry-runs/prose-nf2g-funcscan-2026-10-25/galaxy-user-tool.amp_ampir.yml
+~/projects/repositories/foundry-runs/prose-wb2g-viralrecon-v0-2026-10-31.bin/probe/k2.gxwf.yml
+~/projects/repositories/foundry-runs/nf2g-demo-close-enough-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-008/workspace/galaxy-workflow-draft.gxwf.yml
+~/projects/repositories/foundry-runs/nf2g-demo-close-enough-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-003/skill/SKILL.md
+~/projects/repositories/foundry-runs/nf2g-demo-author-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-011/workspace/galaxy-workflow-draft.gxwf.yml
+~/projects/repositories/foundry-runs/nf2g-demo-author-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-009/workspace/galaxy-workflow-draft.gxwf.yml
+~/projects/repositories/foundry-runs/nf2g-demo-author-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-009/skill/SKILL.md
+~/projects/repositories/foundry-runs/nf2g-demo-author-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-008/workspace/inputs/galaxy-workflow-draft.gxwf.yml
+~/projects/repositories/foundry-runs/nf2g-demo-author-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-005/workspace/galaxy-workflow-draft.gxwf.yml
+~/projects/repositories/foundry-runs/nf2g-demo-author-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-005/skill/SKILL.md
+~/projects/repositories/foundry-runs/nf2g-demo-author-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-006/workspace/galaxy-workflow-draft.gxwf.yml
+~/projects/repositories/foundry-runs/nf2g-demo-author-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-006/skill/SKILL.md
+~/projects/repositories/foundry-runs/nf2g-demo-author-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-012/workspace/galaxy-workflow.gxwf.yml
+~/projects/repositories/foundry-runs/nf2g-demo-author-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-012/skill/SKILL.md
+~/projects/repositories/foundry-runs/nf2g-demo-author-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-007/workspace/galaxy-user-tool.yml
+~/projects/repositories/foundry-runs/nf2g-demo-fields-6-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-002/skill/SKILL.md
+~/projects/repositories/foundry-runs/nf2g-demo-fields-6-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-003/skill/SKILL.md
+~/projects/repositories/foundry-runs/nf2g-demo-fields-6-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-001/skill/SKILL.md
+~/projects/repositories/foundry-runs/nf2g-demo-collision-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-004/workspace/inputs/galaxy-workflow-draft.gxwf.yml
+~/projects/repositories/foundry-runs/nf2g-demo-collision-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-006/workspace/galaxy-workflow-draft.gxwf.yml
+~/projects/repositories/foundry-runs/nf2g-demo-collision-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-010/workspace/inputs/galaxy-workflow-draft.gxwf.yml
+~/projects/repositories/foundry-runs/nf2g-demo-fields-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-011/workspace/inputs/galaxy-workflow-draft.gxwf.yml
+~/projects/repositories/foundry-runs/nf2g-demo-fields-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-002/workspace/galaxy-user-tool.yml
+~/projects/repositories/foundry-runs/nf2g-demo-fields-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-003/workspace/galaxy-workflow-draft.gxwf.yml
+~/projects/repositories/foundry-runs/nf2g-demo-fields-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-003/skill/SKILL.md
+~/projects/repositories/foundry-runs/nf2g-demo-fields-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-006/workspace/galaxy-workflow-draft.gxwf.yml
+~/projects/repositories/foundry-runs/nf2g-demo-fields-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-006/workspace/inputs/galaxy-workflow-draft.gxwf.yml
+~/projects/repositories/foundry-runs/nf2g-demo-fields-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-007/workspace/inputs/galaxy-workflow-draft.gxwf.yml
+~/projects/repositories/foundry-runs/prose-wb2g-viralrecon-v0-2026-10-31/galaxy-user-tool.kraken2-se.yml
+~/projects/repositories/foundry-runs/prose-wb2g-viralrecon-v0-2026-10-31/galaxy-workflow-nanopore-draft.gxwf.yml
+~/projects/repositories/foundry-runs/prose-wb2g-viralrecon-v0-2026-10-31/galaxy-user-tool.additional-variants-long-table.yml
+~/projects/repositories/foundry-runs/prose-wb2g-viralrecon-v0-2026-10-31/galaxy-user-tool.ivar-variants.yml
+~/projects/repositories/foundry-runs/prose-wb2g-viralrecon-v0-2026-10-31/galaxy-user-tool.consensus-base-density.yml
+~/projects/repositories/foundry-runs/prose-wb2g-viralrecon-v0-2026-10-31/galaxy-user-tool.spades-pe.yml
+~/projects/repositories/foundry-runs/prose-wb2g-viralrecon-v0-2026-10-31/galaxy-workflow-test_plasmidid_additional_annotation.gxwf.yml
+~/projects/repositories/foundry-runs/prose-wb2g-viralrecon-v0-2026-10-31/galaxy-workflow-draft.gxwf.yml
+~/projects/repositories/foundry-runs/prose-wb2g-viralrecon-v0-2026-10-31/galaxy-user-tool.cutadapt-primers-pe.yml
+~/projects/repositories/foundry-runs/prose-wb2g-viralrecon-v0-2026-10-31/galaxy-user-tool.barcode-read-counts.yml
+~/projects/repositories/foundry-runs/prose-wb2g-viralrecon-v0-2026-10-31/planemo/attempt7/wf.gxwf.yml
+~/projects/repositories/foundry-runs/prose-wb2g-viralrecon-v0-2026-10-31/planemo/attempt9/wf.gxwf.yml
+~/projects/repositories/foundry-runs/prose-wb2g-hic-v0-2026-11-01/galaxy-workflow-test_hicpro_maps.gxwf.yml
+~/projects/repositories/foundry-runs/prose-wb2g-hic-v0-2026-11-01/planemo/attempt4/test/wf.gxwf.yml
+~/projects/repositories/foundry-runs/prose-wb2g-hic-v0-2026-11-01/planemo/attempt3/test/wf.gxwf.yml
+~/projects/repositories/foundry-runs/nf2g-demo-close-enough-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-001/skill/SKILL.md
+~/projects/repositories/foundry-runs/nf2g-demo-close-enough-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-004/workspace/galaxy-user-tool.yml
+~/projects/repositories/foundry-runs/nf2g-demo-close-enough-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-007/workspace/galaxy-workflow-draft.gxwf.yml
+~/projects/repositories/foundry-runs/nf2g-demo-close-enough-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-008/workspace/inputs/galaxy-workflow-draft.gxwf.yml
+~/projects/repositories/foundry-runs/nf2g-demo-close-enough-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-005/workspace/galaxy-workflow-draft.gxwf.yml
+~/projects/repositories/foundry-runs/nf2g-demo-close-enough-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-005/skill/SKILL.md
+~/projects/repositories/foundry-runs/nf2g-demo-close-enough-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-006/workspace/galaxy-workflow-draft.gxwf.yml
+~/projects/repositories/foundry-runs/nf2g-demo-close-enough-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-006/skill/SKILL.md
+~/projects/repositories/foundry-runs/nf2g-demo-close-enough-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-007/workspace/galaxy-workflow.gxwf.yml
+~/projects/repositories/foundry-runs/nf2g-demo-close-enough-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-007/skill/SKILL.md
+~/projects/repositories/foundry-runs/prose-nf2g-funcscan-2026-10-25/galaxy-user-tool.amp_macrel.yml
+~/projects/repositories/foundry-runs/nf2g-demo-collision-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-011/workspace/galaxy-workflow-draft.gxwf.yml
+~/projects/repositories/foundry-runs/nf2g-demo-collision-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-011/workspace/galaxy-workflow.gxwf.yml
+~/projects/repositories/foundry-runs/nf2g-demo-collision-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-011/workspace/inputs/galaxy-workflow-draft.gxwf.yml
+~/projects/repositories/foundry-runs/nf2g-demo-collision-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-011/skill/SKILL.md
+~/projects/repositories/foundry-runs/nf2g-demo-collision-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-012/workspace/galaxy-workflow.gxwf.yml
+~/projects/repositories/foundry-runs/nf2g-demo-author-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-011/workspace/inputs/galaxy-workflow-draft.gxwf.yml
+~/projects/repositories/foundry-runs/nf2g-demo-collision-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-007/workspace/galaxy-workflow-draft.gxwf.yml
+~/projects/repositories/foundry-runs/nf2g-demo-collision-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-010/workspace/galaxy-workflow-draft.gxwf.yml
+~/projects/repositories/foundry-runs/nf2g-demo-collision-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-009/workspace/galaxy-workflow-draft.gxwf.yml
+~/projects/repositories/foundry-runs/nf2g-demo-collision-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-009/workspace/galaxy-user-tool.yml
+~/projects/repositories/foundry-runs/nf2g-demo-author-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-002/skill/SKILL.md
+~/projects/repositories/foundry-runs/nf2g-demo-collision-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-009/workspace/inputs/galaxy-workflow-draft.gxwf.yml
+~/projects/repositories/foundry-runs/nf2g-demo-collision-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-002/workspace/galaxy-workflow-draft.gxwf.yml
+~/projects/repositories/foundry-runs/nf2g-demo-collision-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-002/workspace/galaxy-user-tool.yml
+~/projects/repositories/foundry-runs/nf2g-demo-author-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-001/skill/SKILL.md
+~/projects/repositories/foundry-runs/nf2g-demo-author-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-004/workspace/galaxy-user-tool.yml
+~/projects/repositories/foundry-runs/nf2g-demo-collision-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-008/workspace/galaxy-workflow-draft.gxwf.yml
+~/projects/repositories/foundry-runs/nf2g-demo-collision-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-008/workspace/inputs/galaxy-workflow-draft.gxwf.yml
+~/projects/repositories/foundry-runs/nf2g-demo-author-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-012/workspace/galaxy-workflow-draft.gxwf.yml
+~/projects/repositories/foundry-runs/nf2g-demo-collision-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-008/skill/SKILL.md
+~/projects/repositories/foundry-runs/nf2g-demo-author-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-007/workspace/galaxy-workflow-draft.gxwf.yml
+~/projects/repositories/foundry-runs/nf2g-demo-author-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-007/workspace/inputs/galaxy-workflow-draft.gxwf.yml
+~/projects/repositories/foundry-runs/nf2g-demo-collision-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-003/workspace/galaxy-workflow-draft.gxwf.yml
+~/projects/repositories/foundry-runs/nf2g-demo-collision-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-003/workspace/inputs/galaxy-workflow-draft.gxwf.yml
+~/projects/repositories/foundry-runs/nf2g-demo-collision-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-003/skill/SKILL.md
+~/projects/repositories/foundry-runs/nf2g-demo-collision-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-005/workspace/galaxy-workflow-draft.gxwf.yml
+~/projects/repositories/foundry-runs/nf2g-demo-collision-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-005/workspace/inputs/galaxy-workflow-draft.gxwf.yml
+~/projects/repositories/foundry-runs/nf2g-demo-collision-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-005/skill/SKILL.md
+~/projects/repositories/foundry-runs/nf2g-demo-collision-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-001/skill/SKILL.md
+~/projects/repositories/foundry-runs/nf2g-demo-collision-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-004/workspace/galaxy-workflow-draft.gxwf.yml
+~/projects/repositories/foundry-runs/nf2g-demo-collision-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-004/skill/SKILL.md
+~/projects/repositories/foundry-runs/nf2g-demo-collision-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-006/workspace/galaxy-user-tool.yml
+~/projects/repositories/foundry-runs/nf2g-demo-collision-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-006/workspace/inputs/galaxy-workflow-draft.gxwf.yml
+~/projects/repositories/foundry-runs/nf2g-demo-collision-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-012/workspace/galaxy-workflow-draft.gxwf.yml
+~/projects/repositories/foundry-runs/nf2g-demo-collision-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-012/skill/SKILL.md
+~/projects/repositories/foundry-runs/nf2g-demo-collision-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-007/workspace/inputs/galaxy-workflow-draft.gxwf.yml
+~/projects/repositories/foundry-runs/nf2g-demo-collision-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-007/skill/SKILL.md
+~/projects/repositories/foundry-runs/nf2g-demo-collision-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-010/skill/SKILL.md
+~/projects/repositories/foundry-runs/nf2g-demo-fields-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-002/workspace/galaxy-workflow-draft.gxwf.yml
+~/projects/repositories/foundry-runs/nf2g-demo-fields-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-008/workspace/inputs/galaxy-workflow-draft.gxwf.yml
+~/projects/repositories/foundry-runs/nf2g-demo-fields-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-005/workspace/galaxy-workflow-draft.gxwf.yml
+~/projects/repositories/foundry-runs/nf2g-demo-fields-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-005/skill/SKILL.md
+~/projects/repositories/foundry-runs/nf2g-demo-fields-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-004/workspace/inputs/galaxy-workflow-draft.gxwf.yml
+~/projects/repositories/foundry-runs/nf2g-demo-fields-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-010/workspace/inputs/galaxy-workflow-draft.gxwf.yml
+~/projects/repositories/foundry-runs/nf2g-demo-fields-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-011/workspace/galaxy-workflow-draft.gxwf.yml
+~/projects/repositories/foundry-runs/nf2g-demo-fields-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-011/skill/SKILL.md
+~/projects/repositories/foundry-runs/nf2g-demo-fields-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-009/workspace/galaxy-user-tool.yml
+~/projects/repositories/foundry-runs/nf2g-demo-fields-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-003/workspace/inputs/galaxy-workflow-draft.gxwf.yml
+~/projects/repositories/foundry-runs/nf2g-demo-fields-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-001/skill/SKILL.md
+~/projects/repositories/foundry-runs/nf2g-demo-fields-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-007/workspace/galaxy-workflow-draft.gxwf.yml
+~/projects/repositories/foundry-runs/nf2g-demo-fields-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-007/skill/SKILL.md
+~/projects/repositories/foundry-runs/prose-wb2g-viralrecon-v0-2026-10-31/galaxy-user-tool.cutadapt-primers-se.yml
+~/projects/repositories/foundry-runs/prose-wb2g-viralrecon-v0-2026-10-31/galaxy-user-tool.plasmidid-spades.yml
+~/projects/repositories/foundry-runs/prose-wb2g-viralrecon-v0-2026-10-31/galaxy-user-tool.reheader-bcftools-vcf.yml
+~/projects/repositories/foundry-runs/prose-wb2g-viralrecon-v0-2026-10-31/galaxy-workflow-nanopore-test_nanopore.gxwf.yml
+~/projects/repositories/foundry-runs/prose-wb2g-viralrecon-v0-2026-10-31/galaxy-user-tool.mosdepth-plots.yml
+~/projects/repositories/foundry-runs/prose-wb2g-viralrecon-v0-2026-10-31/galaxy-user-tool.ivar-variants-to-vcf.yml
+~/projects/repositories/foundry-runs/prose-wb2g-viralrecon-v0-2026-10-31/galaxy-user-tool.nextclade.yml
+~/projects/repositories/foundry-runs/prose-wb2g-viralrecon-v0-2026-10-31/galaxy-user-tool.deduplicate-artic-variants.yml
+~/projects/repositories/foundry-runs/prose-wb2g-viralrecon-v0-2026-10-31/galaxy-workflow-nanopore.gxwf.yml
+~/projects/repositories/foundry-runs/prose-wb2g-viralrecon-v0-2026-10-31/galaxy-user-tool.sort-ivar-vcf.yml
+~/projects/repositories/foundry-runs/prose-wb2g-viralrecon-v0-2026-10-31/galaxy-user-tool.collapse-primers-to-amplicons.yml
+~/projects/repositories/foundry-runs/prose-wb2g-viralrecon-v0-2026-10-31/galaxy-user-tool.spades-se.yml
+~/projects/repositories/foundry-runs/prose-wb2g-viralrecon-v0-2026-10-31/galaxy-user-tool.rename-consensus-header.yml
+~/projects/repositories/foundry-runs/prose-wb2g-viralrecon-v0-2026-10-31/galaxy-workflow.gxwf.yml
+~/projects/repositories/foundry-runs/prose-wb2g-viralrecon-v0-2026-10-31/galaxy-user-tool.plasmidid-unicycler.yml
+~/projects/repositories/foundry-runs/prose-wb2g-viralrecon-v0-2026-10-31/galaxy-user-tool.multiqc-metrics-nanopore.yml
+~/projects/repositories/foundry-runs/prose-wb2g-viralrecon-v0-2026-10-31/galaxy-user-tool.kraken2-pe.yml
+~/projects/repositories/foundry-runs/prose-wb2g-viralrecon-v0-2026-10-31/galaxy-workflow-test.gxwf.yml
+~/projects/repositories/foundry-runs/prose-wb2g-viralrecon-v0-2026-10-31/galaxy-workflow-test_sispa.gxwf.yml
+~/projects/repositories/foundry-runs/prose-wb2g-hic-v0-2026-11-01/galaxy-workflow-test_dnase.gxwf.yml
+~/projects/repositories/foundry-runs/prose-wb2g-hic-v0-2026-11-01/galaxy-workflow-test_multi_run.gxwf.yml
+~/projects/repositories/foundry-runs/prose-wb2g-hic-v0-2026-11-01/galaxy-workflow-test_motifs.gxwf.yml
+~/projects/repositories/foundry-runs/prose-wb2g-hic-v0-2026-11-01/galaxy-workflow-test_overrides.gxwf.yml
+~/projects/repositories/foundry-runs/prose-wb2g-hic-v0-2026-11-01/planemo/attempt4/test_hicpro_maps/wf.gxwf.yml
+~/projects/repositories/foundry-runs/prose-wb2g-hic-v0-2026-11-01/planemo/attempt4/test_overrides/wf.gxwf.yml
+~/projects/repositories/foundry-runs/prose-wb2g-hic-v0-2026-11-01/planemo/attempt4/test_dnase/wf.gxwf.yml
+~/projects/repositories/foundry-runs/prose-wb2g-hic-v0-2026-11-01/planemo/attempt1/test/wf.gxwf.yml
+~/projects/repositories/foundry-runs/prose-wb2g-viralrecon-v0-2026-10-31.bin/probe/intake/intake.gxwf.yml
+~/projects/repositories/foundry-runs/prose-nf2g-funcscan-2026-10-25/galaxy-user-tool.amp_amplify.yml
+~/projects/repositories/foundry-runs/prose-nf2g-funcscan-2026-10-25/probes/udt-planemo/udt-probe.gxwf.yml
+~/projects/repositories/foundry-runs/nf2g-demo-author-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-011/workspace/galaxy-workflow.gxwf.yml
+~/projects/repositories/foundry-runs/nf2g-demo-author-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-011/skill/SKILL.md
+~/projects/repositories/foundry-runs/nf2g-demo-author-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-009/workspace/inputs/galaxy-workflow-draft.gxwf.yml
+~/projects/repositories/foundry-runs/nf2g-demo-author-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-008/workspace/galaxy-workflow-draft.gxwf.yml
+~/projects/repositories/foundry-runs/nf2g-demo-author-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-008/skill/SKILL.md
+~/projects/repositories/foundry-runs/nf2g-demo-author-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-003/skill/SKILL.md
+~/projects/repositories/foundry-runs/nf2g-demo-author-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-005/workspace/inputs/galaxy-workflow-draft.gxwf.yml
+~/projects/repositories/foundry-runs/nf2g-demo-author-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-004/workspace/galaxy-workflow-draft.gxwf.yml
+~/projects/repositories/foundry-runs/nf2g-demo-author-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-006/workspace/inputs/galaxy-workflow-draft.gxwf.yml
+~/projects/repositories/foundry-runs/nf2g-demo-author-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-012/workspace/inputs/galaxy-workflow-draft.gxwf.yml
+~/projects/repositories/foundry-runs/nf2g-demo-author-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-010/workspace/galaxy-workflow-draft.gxwf.yml
+~/projects/repositories/foundry-runs/nf2g-demo-author-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-010/workspace/inputs/galaxy-workflow-draft.gxwf.yml
+~/projects/repositories/foundry-runs/nf2g-demo-author-7-2026-10-22/trial-001/phase-007-advance-galaxy-draft-step/iteration-010/workspace/galaxy-user-tool.yml
+~/projects/worktrees/galaxy-tool-util-ts/branch/issue_212_udt_expression_paths/packages/schema/test/fixtures/workflows/format2/synthetic-user-defined-tool.gxwf.yml
+~/projects/worktrees/galaxy-tool-util-ts/branch/issue_212_udt_expression_paths/packages/schema/test/fixtures/workflows/format2/draft/synthetic-draft-bad-diagnostics.gxwf.yml
+~/projects/worktrees/galaxy-tool-util-ts/branch/issue_212_udt_expression_paths/packages/schema/test/fixtures/workflows/format2/draft/synthetic-draft-user-tool.gxwf.yml
+~/projects/worktrees/galaxy-tool-util-ts/branch/issue_212_udt_expression_paths/packages/core/test/fixtures/connection_workflows/fail_paired_to_udt_list_collection.gxwf.yml
+~/projects/worktrees/galaxy-tool-util-ts/branch/issue_212_udt_expression_paths/packages/core/test/fixtures/connection_workflows/ok_udt_map_over_list.gxwf.yml
+~/projects/worktrees/galaxy-tool-util-ts/branch/issue_212_udt_expression_paths/packages/core/test/fixtures/connection_workflows/ok_udt_collection_input.gxwf.yml
+~/projects/worktrees/galaxy-tool-util-ts/branch/issue_212_udt_expression_paths/packages/core/test/fixtures/connection_workflows/ok_udt_chain.gxwf.yml
+~/projects/worktrees/galaxy-tool-util-ts/branch/issue_212_udt_expression_paths/packages/core/test/fixtures/connection_workflows/fail_udt_dataset_to_collection_consumer.gxwf.yml
+~/projects/worktrees/galaxy-tool-util-ts/branch/issue_212_udt_expression_paths/packages/core/test/fixtures/connection_workflows/ok_udt_to_regular_dataset.gxwf.yml
+~/projects/worktrees/galaxy-tool-util-ts/branch/issue_212_udt_expression_paths/packages/core/test/fixtures/connection_workflows/ok_udt_in_subworkflow.gxwf.yml
+~/projects/worktrees/galaxy-tool-util-ts/branch/issue_212_udt_expression_paths/packages/core/test/fixtures/connection_workflows/ok_regular_to_udt_dataset.gxwf.yml
+~/projects/worktrees/galaxy-tool-util-ts/branch/issue_212_udt_expression_paths/packages/cli/test/fixtures/workflows/inline-user-defined-tool.gxwf.yml
+~/projects/worktrees/galaxy-tool-util-ts/branch/issue_212_udt_expression_paths/packages/tool-xml/test/fixtures/tool_parsing/tools/cat_multiple_user_defined.yml
+~/projects/worktrees/galaxy-tool-util-ts/branch/issue_212_udt_expression_paths/packages/tool-xml/test/fixtures/tool_parsing/tools/cat_user_defined.yml
+~/projects/worktrees/galaxy-tool-util-ts/branch/issue_212_udt_expression_paths/packages/tool-xml/test/fixtures/tool_parsing/tools/configfile_user_defined.yml
+<galaxy dev e922a682>/galaxy/test/unit/tool_util/test_tool_linters.py
+<galaxy dev e922a682>/galaxy/test/unit/tool_util/test_parsing.py
+<galaxy dev e922a682>/galaxy/test/unit/tool_util/test_ontologies.py
+<galaxy dev e922a682>/galaxy/test/functional/tools/simple_constructs.yml
+<galaxy dev e922a682>/galaxy/test/functional/tools/implicit_conversion_shared_input_y.yml
+<galaxy dev e922a682>/galaxy/test/functional/tools/expect_failure_invalid_inputs_y.yml
+<galaxy dev e922a682>/galaxy/test/functional/tools/directory_or_file_user_defined.yml
+<galaxy dev e922a682>/galaxy/test/functional/tools/configfile_user_defined.yml
+<galaxy dev e922a682>/galaxy/test/functional/tools/collection_paired_test_y.yml
+<galaxy dev e922a682>/galaxy/test/functional/tools/collection_creates_pair_y.yml
+<galaxy dev e922a682>/galaxy/test/functional/tools/cat_user_defined.yml
+<galaxy dev e922a682>/galaxy/test/functional/tools/cat_multiple_user_defined.yml
+<galaxy dev e922a682>/galaxy/test/functional/tools/CLAUDE.md
+<galaxy dev e922a682>/galaxy/test/unit/app/tools/test_tool_deserialization.py
+<galaxy dev e922a682>/galaxy/test/functional/tools/parameters/gx_user_section.yml
+<galaxy dev e922a682>/galaxy/test/functional/tools/parameters/gx_user_repeat.yml
+<galaxy dev e922a682>/galaxy/test/functional/tools/parameters/gx_user_boolean_optional_omitted.yml
+<galaxy dev e922a682>/galaxy/test/functional/tools/parameters/gx_user_boolean_optional_null.yml
+<galaxy dev e922a682>/galaxy/test/functional/tools/parameters/gx_user_boolean_defaults.yml
+<galaxy dev e922a682>/galaxy/test/functional/tools/parameters/gx_user_boolean_conditional.yml
+<galaxy dev e922a682>/galaxy/test/functional/tools/parameters/gx_select_multiple_one_default_user.yml
+<galaxy dev e922a682>/galaxy/test/functional/tools/parameters/gx_numeric_zero_user.yml
+<galaxy dev e922a682>/galaxy/test/functional/tools/parameters/gx_data_user.yml
+<galaxy dev e922a682>/galaxy/test/functional/tools/parameters/gx_data_multiple_user.yml
+<galaxy dev e922a682>/galaxy/test/functional/tools/parameters/gx_data_collection_sample_sheet.yml
+<galaxy dev e922a682>/galaxy/test/functional/tools/parameters/gx_data_collection_record.yml
+<galaxy dev e922a682>/galaxy/test/functional/tools/parameters/gx_data_collection_paired_or_unpaired.yml
+<galaxy dev e922a682>/galaxy/test/functional/tools/parameters/gx_data_collection_paired_or_pou.yml
+<galaxy dev e922a682>/galaxy/test/functional/tools/parameters/gx_data_collection_list_paired_or_list_list.yml
+<galaxy dev e922a682>/galaxy/test/functional/tools/parameters/gx_data_collection_list_paired.yml
+<galaxy dev e922a682>/galaxy/test/functional/tools/parameters/gx_data_collection_list_or_record.yml
+<galaxy dev e922a682>/galaxy/test/functional/tools/parameters/gx_data_collection_list_or_paired.yml
+<galaxy dev e922a682>/galaxy/test/functional/tools/parameters/gx_data_collection_list_or_list_paired.yml
+<galaxy dev e922a682>/galaxy/test/functional/tools/parameters/gx_data_collection_list_list_paired.yml
+<galaxy dev e922a682>/galaxy/test/functional/tools/parameters/gx_data_collection_list_list.yml
+<galaxy dev e922a682>/galaxy/test/functional/tools/parameters/gx_data_collection_any.yml
+<galaxy dev e922a682>/galaxy/test/functional/tools/parameters/gx_boolean_user.yml
+<galaxy dev e922a682>/galaxy/lib/galaxy_test/base/data/user_tools/gx_select_multiple_one_default_user.yml
+<galaxy dev e922a682>/galaxy/lib/galaxy_test/base/data/user_tools/configfile_user_defined.yml
+<galaxy dev e922a682>/galaxy/tmp/claude-1000/-home-ubuntu-projects-repositories-galaxy-brain-vault-agents-workflow-libs/84975f3e-10d1-42df-8b14-fb32892a8be5/scratchpad/galaxy_dev/lib/galaxy/agents/prompts/custom_tool_structured.md

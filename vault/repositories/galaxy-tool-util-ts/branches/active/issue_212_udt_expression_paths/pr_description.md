@@ -1,6 +1,6 @@
-Fix 🎯 #212 - `validate-tool-source`, `validate` and `draft-validate` now catch user-defined tool templates that read `inputs.*` fields the job's inputs won't have, instead of passing tools that fail at job time.
+Fix 🎯 #212 - `validate-tool-source`, `validate` and `draft-validate --concrete` now catch user-defined tool templates that read `inputs.*` fields the job's inputs won't have, instead of passing tools that fail at job time.
 
-Here is the issue's egapx `star_wnode` configfile: a `paired_or_unpaired` collection `reads`, with the reads taken straight off the collection. Its label also asks for a collection's `format`:
+Here is a tool built around the issue's egapx `star_wnode` configfile: a `paired_or_unpaired` collection `reads`, with the reads taken straight off the collection:
 
 ```
 # main
@@ -8,26 +8,41 @@ $ gxwf validate-tool-source star_wnode.yml
 star_wnode.yml: OK
 
 # this branch
-star_wnode.yml: 4 validation error(s)
+star_wnode.yml: 3 validation error(s)
   /configfiles/0/content: inputs.reads.unpaired: data_collection input 'reads' (paired_or_unpaired) has no field 'unpaired' at job runtime (fields: class, collection_type, column_definitions, columns, elements, fields, has_single_item, name, tags). Use inputs.reads.elements.unpaired. [input_path]
   /configfiles/0/content: inputs.reads.forward: data_collection input 'reads' (paired_or_unpaired) has no field 'forward' at job runtime (…). Use inputs.reads.elements.forward. [input_path]
   /configfiles/0/content: inputs.reads.reverse: data_collection input 'reads' (paired_or_unpaired) has no field 'reverse' at job runtime (…). Use inputs.reads.elements.reverse. [input_path]
-  /outputs/0/label: label reference $(inputs.reads.format) is never filled in: a data_collection input in a label must end with one of element_identifier, name [input_path]
 ```
 
-The fixed form (`inputs.reads.has_single_item ? inputs.reads.elements.unpaired.path : …`) passes. Embed the same tool in a workflow and `gxwf validate` fails the step with the same four messages (exit 1; `main`: `tool_state: OK`, exit 0). `draft-validate --concrete` counts it as a failed step.
+The fixed form (`inputs.reads.has_single_item ? inputs.reads.elements.unpaired.path : …`) passes. Embed the same tool in a workflow and `gxwf validate` fails the step with the same three messages, each prefixed `embedded GalaxyUserTool`; it exits 1, where `main` reports `tool_state: OK` and exits 0. `draft-validate --concrete` counts the step as failed.
 
-***It only reports paths that don't exist at job runtime.*** Every path is resolved against the value Galaxy gives that input when the job runs. Field names come from Galaxy's own runtime models (`DataInternalJson` and the collection runtime models), synced into the repo by the new `make sync-job-runtime-schema`, not copied by hand. `elements` follows the collection type. String and array methods at the end of a path (`.path.replace(...)`, `.elements.map(...)`) are fine.
+***It reports a path only when the input's shape is known and the path can't be read from it.*** Every path is resolved against the value Galaxy gives that input when the job runs. Field names come from Galaxy's own runtime models (`DataInternalJson` and the collection runtime models), synced into the repo by the new `make sync-job-runtime-schema`. The layout of `elements` by collection type, including `paired_or_unpaired`'s `unpaired` key, is ported from `galaxy.tools.runtime`. String and array methods at the end of a path (`.path.replace(...)`, `.elements.map(...)`) are fine.
 
-***No findings on Galaxy's own user-defined tools.*** I swept 957 tool definitions: Galaxy dev's YAML test tools, Galaxy Workflow Foundry drafts, and this repo's fixtures. Galaxy's tools produce no findings. Every hit elsewhere is `.path` read directly off a collection, which is `undefined` at job runtime. Two of those hits are in connection-test fixtures synced from Galaxy (`ok_udt_collection_input`, `fail_paired_to_udt_list_collection`), which only feed connection validation.
+***Paths are checked against the runtime model Galaxy's workflow path uses.*** Galaxy's legacy `/api/tools` input builder gives some collections a bare `{forward, reverse}`. A tool written for that shape is reported as wrong.
 
-***This is stricter than Galaxy's create-time checks, on purpose.*** Galaxy's model validators only check that each referenced input is declared, and `validate_expression_template` only checks that each expression is closed. Those mirrored checks are unchanged. The new check runs beside them, so `runSemanticChecks` still mirrors Galaxy exactly.
+***No findings on Galaxy's YAML functional tools.*** I swept 957 tool definitions:
+
+| Source | Tools | With findings |
+|---|---|---|
+| Galaxy dev `test/functional/tools` and other YAML test tools | 34 | 0 |
+| This repo's fixtures | 16 | 2 |
+| Galaxy Workflow Foundry run drafts (many copies of the same tools across iterations) | 907 | 66 copies of 6 distinct tools |
+
+A new `tool-xml` test also checks the YAML tools synced from Galaxy's `test/functional/tools/` and expects no findings, so CI covers part of this. Every hit is `.path` read directly off a collection, which is `undefined` at job runtime.
+
+***The two Galaxy fixtures it flags are real bugs that never run.*** `ok_udt_collection_input` and `fail_paired_to_udt_list_collection`, synced from Galaxy's connection-validation tests, read `.path` off a `list`. They only feed connection checks.
+
+***This is stricter than Galaxy's create-time checks, on purpose.*** Galaxy's model validators only check that each referenced input is declared, `validate_expression_template` only checks that each expression is closed, and `lint_user_tool_source` has no path check either. The mirrored checks are unchanged. The new check runs beside them, so `runSemanticChecks` still mirrors Galaxy exactly.
+
+***One case in Galaxy's validator tests is flagged.*** It references a child of an empty repeat (`inputs.my_repeat[0].x`). The ported mirror test now declares `x`; the mirrored check itself is unchanged.
 
 ***Output labels are checked against Galaxy's label rules, not the runtime model.*** Galaxy fills `$(inputs.<name>.<key>)` from the tool state when the job is created (`galaxy.tools.expressions.labels`), not by evaluating JavaScript. A dataset reference ends with `name`, `element_identifier` or `format`, and a collection reference with `name` or `element_identifier`. Galaxy keeps a reference it can't fill in as written, so the job doesn't fail, but the label is wrong. These are reported as errors too.
 
+***gxwf-web's workflow validation and `validate-tool-source-tree` report these failures too; only the response shape is unchanged.***
+
 ***When the check can't know, it skips.*** These are skipped, not guessed:
 - computed keys (`inputs.reads[k]`)
-- aliases (`const r = inputs.reads; r.x`) and expressions that bind their own `inputs`
+- aliases (`const r = inputs.reads; r.x`), including callback parameters (`e` in `inputs.l.elements.map(e => e.path)`), and expressions that bind their own `inputs`
 - collections with no `collection_type`, a choice of types, or `record` contents
 - bodies that aren't JavaScript
 - YAML `section` inputs: this repo's YAML parser doesn't read them yet, though Galaxy's `CanonicalYamlInputSource` does
@@ -65,6 +80,7 @@ Where Galaxy can give an input one of several shapes, a path passes if any of th
   - each skip case;
   - undeclared roots with and without `undeclaredRoots`;
   - labels: accepted references, each never-filled-in reference, and same-named branches.
+- `packages/tool-xml/test/user-tool-input-paths.test.ts`: no findings on each YAML tool synced from Galaxy's `test/functional/tools/`.
 - `packages/cli/test/user-defined-tool-step.test.ts`: `gxwf validate` in effect and json-schema modes, format2 and native, plus undeclared roots and `draft-validate --concrete`.
 - With the check unwired, the egapx test fails: 0 errors instead of 3.
 - `packages/schema/test/user-tool-source.test.ts` (the port of Galaxy's `test_user_tool_source_validation.py`) changed one fixture. Galaxy's repeat case references `x` in an empty repeat; `x` is now declared.

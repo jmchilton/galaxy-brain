@@ -9,7 +9,7 @@ upstream_base_branch: main
 
 ## Status
 
-Implemented and reviewed; pushed to `origin` at `3d91bb6b` on `origin/main` `f5470fe5`; hardening in progress.
+Polished; ready for John's final review. Pushed to `origin` at `c06dc876` on `origin/main` `f5470fe5`.
 
 No PR yet.
 
@@ -17,9 +17,11 @@ Local gate: lint, format, typecheck, tests green except 3 integration-tests that
 
 ## Links
 
-[implementation debrief](implementation_debrief.md) · [normal review](subagents/normal_review.md)
+[PR description](pr_description.md) · [titles](pr_titles.md) · [tags](pr_tags.md) · [implementation debrief](implementation_debrief.md) · [polish debrief](polish_debrief.md) · [normal review](subagents/normal_review.md) · [Codex review](codex_review.md) · [thermo review](thermo_nuclear_review.md) · [demo](demo/demo_output.txt) · [sweep hits](sweep/hits.txt)
 
 ## Notes
+
+- Defaults pending John: label findings are errors; YAML sections stay unchecked until the TS parser ports Galaxy's `CanonicalYamlInputSource`. Open questions in the [polish debrief](polish_debrief.md).
 
 - Issue: [galaxy-tool-util-ts#212](https://github.com/jmchilton/galaxy-tool-util-ts/issues/212), record [issues/wip/212](../../../issues/wip/212/index.md).
 - Worktree: `~/projects/worktrees/galaxy-tool-util-ts/branch/issue_212_udt_expression_paths`.

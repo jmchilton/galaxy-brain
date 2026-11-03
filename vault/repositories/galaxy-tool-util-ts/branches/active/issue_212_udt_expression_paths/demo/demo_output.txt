@@ -1,0 +1,29 @@
+$ gxwf validate-tool-source star_wnode.yml   # main
+star_wnode.yml: OK
+exit 0
+
+$ gxwf validate-tool-source star_wnode.yml   # branch
+star_wnode.yml: 3 validation error(s)
+  /configfiles/0/content: inputs.reads.unpaired: data_collection input 'reads' (paired_or_unpaired) has no field 'unpaired' at job runtime (fields: class, collection_type, column_definitions, columns, elements, fields, has_single_item, name, tags). Use inputs.reads.elements.unpaired. [input_path]
+  /configfiles/0/content: inputs.reads.forward: data_collection input 'reads' (paired_or_unpaired) has no field 'forward' at job runtime (fields: class, collection_type, column_definitions, columns, elements, fields, has_single_item, name, tags). Use inputs.reads.elements.forward. [input_path]
+  /configfiles/0/content: inputs.reads.reverse: data_collection input 'reads' (paired_or_unpaired) has no field 'reverse' at job runtime (fields: class, collection_type, column_definitions, columns, elements, fields, has_single_item, name, tags). Use inputs.reads.elements.reverse. [input_path]
+exit 1
+
+$ gxwf validate wf.gxwf.yml --offline   # main
+Detected format: format2, mode: effect
+Structural validation: OK
+  [0] tool_state: OK
+
+Tool state: 1 validated, 0 skipped
+exit 0
+
+$ gxwf validate wf.gxwf.yml --offline   # branch
+Detected format: format2, mode: effect
+Structural validation: OK
+  [0] tool_state errors (star_wnode):
+    embedded GalaxyUserTool /configfiles/0/content: inputs.reads.unpaired: data_collection input 'reads' (paired_or_unpaired) has no field 'unpaired' at job runtime (fields: class, collection_type, column_definitions, columns, elements, fields, has_single_item, name, tags). Use inputs.reads.elements.unpaired.
+    embedded GalaxyUserTool /configfiles/0/content: inputs.reads.forward: data_collection input 'reads' (paired_or_unpaired) has no field 'forward' at job runtime (fields: class, collection_type, column_definitions, columns, elements, fields, has_single_item, name, tags). Use inputs.reads.elements.forward.
+    embedded GalaxyUserTool /configfiles/0/content: inputs.reads.reverse: data_collection input 'reads' (paired_or_unpaired) has no field 'reverse' at job runtime (fields: class, collection_type, column_definitions, columns, elements, fields, has_single_item, name, tags). Use inputs.reads.elements.reverse.
+
+Tool state: 1 validated, 0 skipped
+exit 1
