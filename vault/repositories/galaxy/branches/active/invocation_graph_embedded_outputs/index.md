@@ -6,30 +6,37 @@ related_records:
   - galaxy/branches/invocation_graph_embedded_workflow_outputs
 ---
 
-# invocation_graph_embedded_outputs
+# Invocation graph: show steps as their preferred output
 
 - [Open PR](https://github.com/jmchilton/galaxy/compare/invocation_graph_embedded_workflow_outputs...invocation_graph_embedded_outputs?expand=1)
 - [View on GitHub](https://github.com/jmchilton/galaxy/tree/invocation_graph_embedded_outputs)
 
-Spike: show outputs inside the workflow invocation graph in three stages (hover preview, workflow outputs embedded as large nodes with nudged layout, steps shown as their preferred output). Requirements are in the queued issue draft [invocation_graph_embedded_outputs](../../../issues_incubator/incubating/invocation_graph_embedded_outputs/raw.md).
-
-- Base: stacked on `invocation_graph_embedded_workflow_outputs` (stage 2), which stacks on `invocation_graph_output_previews` (stage 1) and targets `dev`. New feature plus new step metadata, so it targets dev.
-- Worktree: `~/projects/worktrees/galaxy/branch/invocation_graph_embedded_outputs`
-- [Spike debrief](spike_debrief.md)
-- [Rebase on stage 1 debrief](rebase_on_stage1_debrief.md): commit list and the stage 2/3 boundary.
-- [Rebase on stage 2 debrief](rebase_on_stage2_debrief.md): stage 3 reapplied on stage 2, behavioural differences from the spike, open questions for hardening.
-- Project: [invocation_graph_embedded_outputs](../../../../../projects/invocation_graph_embedded_outputs/index.md) (screenshots)
-
 ## Status
 
-Rebased onto stage 2 (`3b546b24e6f`) as four stage 3 commits, head `6e8a0a965c9`; ready for stage 3 hardening, and the original spike is kept as `invocation_graph_embedded_outputs_spike` (`3e4312f7c1d`).
+Stage 3 hardened READY at `a8728b098c1`, four baseline/refactor and four feature commits on stage 2 `3b546b24e6f` ([implementation debrief](implementation_debrief.md), [screenshots](screenshots/) with [index](screenshot_debrief.md), [layout measurements](layout_measurements.md)).
 
 No PR.
 
-No CI run; local vitest, vue-tsc, eslint, Python unit and API tests, and the invocation graph Playwright tests pass.
+No CI run yet; local vitest, vue-tsc, Python unit and API tests, and the Playwright invocation graph and editor tests pass.
 
 ## Decisions
 
+- Stage 3 of the [invocation_graph_embedded_outputs](../../../../../agents/gx_standing/standing_branches/invocation_graph_embedded_outputs/index.md) standing branch, stacked on stage 2 (`invocation_graph_embedded_workflow_outputs`). It targets dev: a new feature plus new step metadata. The original spike is kept as `invocation_graph_embedded_outputs_spike` (`3e4312f7c1d`).
 - Nudge only, never a full re-layout. If nudging can't keep the layout recognizable, drop stage 2 (John, requirements session 2026-10-20).
 - "Annotated outputs" means workflow outputs (John, 2026-10-20).
-- Steps shown as their preferred output follow stage 2's static-card rules (inert, pointer-transparent, no pagination); clicking selects the step (rebase on stage 2, 2026-11-03).
+- Proposed for John in the [implementation debrief](implementation_debrief.md) (stage 3 hardening, 2026-11-04):
+  - Steps are shown as their preferred output in embed mode only, against the invoked workflow version.
+  - The field is stored in `WorkflowStep.config`, with no migration.
+  - Only tool steps can name one. The value is type-checked but not checked against the tool's outputs.
+  - The step is drawn as a static snapshot shared with stage 2's cards, which replaces its state text.
+  - The preview is 8.5rem tall (5.25rem for collections), with no cap.
+  - A grown step is exactly a card's width (260px at any root font size, taken from the TS constant).
+  - The size a step grew from is a deliberate underestimate.
+  - Backward edges are a known limitation.
+- gxformat2 support for `preferred_output` is a follow-up in gxformat2, not this branch.
+- Worktree: `~/projects/worktrees/galaxy/branch/invocation_graph_embedded_outputs`.
+
+## History
+
+- [Spike debrief](spike_debrief.md), [rebase on stage 1](rebase_on_stage1_debrief.md), [rebase on stage 2](rebase_on_stage2_debrief.md), [initial implementation debrief](initial_implementation_debrief.md).
+- Requirements: queued issue draft [invocation_graph_embedded_outputs](../../../issues_incubator/incubating/invocation_graph_embedded_outputs/raw.md). Project: [invocation_graph_embedded_outputs](../../../../../projects/invocation_graph_embedded_outputs/index.md) (spike screenshots).

@@ -6,7 +6,14 @@ This review applied `vault/agents/_shared/prompts/thermo-nuclear-code-quality-re
 
 I made four changes, each folded into the commit it belongs to. Behaviour is unchanged at the default 16px root font size. The one visible difference is at other root sizes: a grown step is now exactly as wide as a card (260px), not 16.25rem.
 
-HEAD_PLACEHOLDER
+The head moves from `2164705bc15` to `d3401e83e21`. The base is still stage 2 (`3b546b24e6f`).
+
+| Commit | Was | What changed |
+|---|---|---|
+| `83d9c442144` | same | unchanged (backend) |
+| `5ead23684d4` | `e98e41cf423` | the star gets its own tool-only condition (change 4) |
+| `32de0e2140f` | `76413f31454` | changes 1-3. The message now describes the shared snapshot and the bound widths, rather than "16.25rem". |
+| `d3401e83e21` | `2164705bc15` | rebased only |
 
 ## Verdict
 
@@ -84,4 +91,16 @@ The star reused `showCalloutVisible`, the dataset-visibility toggle's condition.
 
 ## Verification
 
-VERIFICATION_PLACEHOLDER
+- **Vitest** (node 22.20.0) on `Workflow/Editor`, `Workflow/Invocation`, `WorkflowInvocationState` and `useInvocationGraph.test.ts`: 59 files and 543 tests pass. That is one new file (the snapshot test) and the card's summarize test moved into it.
+- **Mutation checks:**
+  - dropping `summarize-collection` from the snapshot fails its test;
+  - ignoring `grewFrom` in the row rule fails 6 layout tests.
+- **Static checks:** `vue-tsc --noEmit` is clean. eslint shows no errors, only existing warnings. prettier is clean.
+- **Python:** nothing changed, so I ran no Python checks.
+- **E2E (Playwright, on the worktree's running servers):** 4 passed in 275s:
+  - `test_embed_shows_steps_as_their_preferred_output`;
+  - `test_hover_previews_step_outputs`;
+  - `test_embed_workflow_outputs`, which covers the card markup change;
+  - `test_star_preferred_output`.
+- **Screenshot.** `invocation_graph_embedded_preferred_outputs` shows head_table and cat_table drawn as their tables, as wide as the cards beside them.
+- **Tree.** The autosquashed tree is identical to the tested tree. The worktree is clean, nothing was pushed, and the servers weren't restarted (there were no backend changes).
