@@ -8,11 +8,15 @@ Since 🔀 #20032, users iterate on an analysis by clicking **Rerun** on an invo
 | --- | --- |
 | ![The invocation card list: both reruns carry a Rerun badge, the original has none](screenshots/workflow_rerun_lineage_list_marker.png) | ![The invocations grid: a new Run type column reads Rerun for the two reruns and is blank for the original](screenshots/workflow_rerun_lineage_grid_markers.png) |
 
-These come from the new E2E test, which runs I → J through the simple run form and J → K through the expanded one, and reloads each page so the links are shown to persist. The API gets the same link: the invoke payload takes `rerun_of_invocation_id`, so a parameter-sweep script can record lineage too, and the invocation view returns it.
+These come from the new E2E test, which runs I → J through the simple run form and J → K through the expanded one, and reloads each rerun page so the links are shown to persist. The API gets the same link: the invoke payload takes `rerun_of_invocation_id`, so a parameter-sweep script can record lineage too, and the invocation view returns it.
 
-***This uses the issue's listed alternative, a nullable, indexed `workflow_invocation.rerun_of_invocation_id` foreign key with a migration, rather than its migration-free meta-parameter proposal. The "newer rerun" link and the list markers need lookups in both directions, which a meta parameter could only do by filtering unindexed text per row.***
+***This uses the issue's listed alternative, a nullable, indexed `workflow_invocation.rerun_of_invocation_id` foreign key with a migration, rather than its migration-free meta-parameter proposal. With a meta parameter, the "newer rerun" link would mean filtering unindexed text across every invocation's request parameters, and the list markers would mean loading each row's request parameters. The column serves both from the invocation row and an index.***
 
 ***Lineage here is direct links only: J links to its source I, and I links to its newest rerun. Galaxy doesn't group a whole lineage together in lists, link I straight to K, or record which step was edited.***
+
+***Each link appears only when the viewer could already open the linked invocation. A newer private rerun by someone else is skipped, not revealed. List views add no queries; a single invocation view adds at most two.***
+
+***The server accepts any source invocation the caller can access. It doesn't require the same stored workflow, so a user who reruns a published invocation through their own imported copy keeps the link.***
 
 ***Invoking a workflow is unchanged unless the caller sends `rerun_of_invocation_id`. Existing invocations are not backfilled. `GET /api/invocations/{id}/request` stays a clean template, so replaying J's request doesn't label the new run a rerun of I. History and invocation imports drop lineage rather than carry a database id that means something else on another server.***
 
@@ -34,7 +38,7 @@ Collection views, which back the grid, the card list and every other client list
 
 <details><summary>How the branch is organised</summary>
 
-Ten commits:
+Eleven commits:
 
 1. Refactor: `serialize_workflow_invocations` holds the serialization loop and `serialize_workflow_invocation` delegates to it. No behavior change on `dev`.
 2. Model, migration, invoke payload, source validation, run-config propagation, the element-view lineage fields, API, migration and model-store tests.
@@ -42,6 +46,7 @@ Ten commits:
 4. to 8. Review, test and E2E follow-ups, plus CI typing fixes.
 9. Batched lineage resolution, with the access rule in SQL, plus unit tests for access semantics and query counts.
 10. Typing fixes for 9.
+11. A differential test of the SQL access clause against `check_security`, and separate 400 and 404 tests for invalid sources.
 
 </details>
 
@@ -53,8 +58,9 @@ The one-way doors are the new `workflow_invocation.rerun_of_invocation_id` colum
 
 - The migration adds a nullable column, a self foreign key (`ON DELETE SET NULL`) and an index to `workflow_invocation`, with no backfill. Removing it later drops recorded lineage. The index is built without `CONCURRENTLY`, as is usual for Galaxy migrations, so very large servers get a short write pause (about 0.8 s per 3M rows measured locally).
 - `latest_rerun_invocation_id` means "newest direct rerun this viewer can access". Widening it later to transitive lineage or grouping would change what the field means.
-- The SQL access clause (`_accessible_invocation_clause` in `services/invocations.py`) is a second copy of the history access rule in `security_check`. Unit tests covering owner, private, shared, importable, admin and anonymous viewers keep them in step. A future change to history access semantics has to update both.
+- The SQL access clause (`_accessible_invocation_clause` in `services/invocations.py`) is a second copy of the history access rule in `security_check`. A differential unit test runs both over owner, other, sharee, admin and anonymous viewers and private, importable and shared histories, so a change to either that makes them disagree fails. The one deliberate gap is an anonymous viewer and an ownerless history, which `security_check` allows. Workflows can't be run anonymously, so no invocation lives in such a history.
 - A rerun whose source becomes inaccessible between opening the rerun page and submitting is refused, rather than run without lineage.
+- The source isn't required to be an invocation of the same workflow. Adding that check later would reject requests that work today.
 - Lineage doesn't survive history or invocation export and import.
 
 </details>
@@ -63,7 +69,7 @@ The one-way doors are the new `workflow_invocation.rerun_of_invocation_id` colum
 
 Review the data and API contract first: the migration and model column, the three response fields and the payload field in `schema/invocation.py` and `schema/workflows.py`, and whether a direct self-reference is the shape Galaxy wants to keep. `test_workflow_invocation_rerun_lineage` and `test_workflow_invocation_rerun_access` in `test_workflows.py` pin the API behavior, and `test_invocation_rerun_migration.py` pins the migration round trip.
 
-Then read `_accessible_invocation_clause` against `managers/base.py::security_check`, which it mirrors, and the ranked query in `_invocation_lineage`. `test_invocations_lineage.py` covers the viewer cases and the constant query count.
+Then read `_accessible_invocation_clause` against `managers/base.py::security_check`, which it mirrors, and the ranked query in `_invocation_lineage`. `test_invocations_lineage.py` checks the clause against `check_security` over a viewer × history matrix, and covers the latest-accessible fallback and the constant query count.
 
 </details>
 
@@ -83,14 +89,14 @@ Follow-up to 🔀 #20032 (fixing 🎯 #11340), which rebuilds a rerun's request 
 
 - [x] What does the user see when it fails? A rerun with an inaccessible or unknown source is rejected with "Workflow submission failed: …". Links the viewer can't access are hidden, not broken.
 - [x] Is the diff free of unrelated or stale generated changes? Yes!
-- [x] Are unit tests not just testing the literal implementation? Yes. They check access semantics through the public serializer, and the migration and model-store behavior against real DDL and real imports. The query-count test deliberately pins the two-query guard.
+- [x] Are unit tests not just testing the literal implementation? Yes. They check access semantics through the public serializer and against `check_security`, and the migration and model-store behavior against real DDL and real imports. The query-count test deliberately pins the two-query guard.
 - [x] Are baseline tests in their own leading commits (if applicable)? Yes. The one reshaping of dev code is the leading no-behavior-change commit, which existing invocation API tests cover.
 - [x] Are the comments free of excess archeology? Yes.
 - [x] If comments contain some description of previous implementation, bugs, etc.. - what purpose do they serve? N/A
 - [x] Which existing workflows change behavior (if any)? Invoking is unchanged unless the caller sends `rerun_of_invocation_id`. Reruns from either run form now record lineage and are refused if the source is inaccessible at submission.
 - [x] Who hits this in practice and what is the evidence? Users who iterate with the workflow Rerun button (🔀 #20032), and API parameter-sweep scripts. The evidence is the issue's analysis of where the link is dropped, not user reports.
 - [x] Were simpler or existing approaches considered? If yes, describe which and why they weren't pursued. If no, why not? Yes. These were all rejected in favor of an indexed nullable self foreign key:
-  - the issue's own migration-free meta-parameter proposal, because reverse lookups would filter unindexed text;
+  - the issue's own migration-free meta-parameter proposal, because reverse lookups would filter unindexed text and list markers would load each row's request parameters;
   - an association table, because an invocation has at most one source;
   - a client-only URL parameter, because it is lost on reload and invisible to the API.
 
@@ -166,8 +172,8 @@ Codex reviewed the full diff, the invocation service and run request modules, an
 
 <details><summary>Tests</summary>
 
-- API (`lib/galaxy_test/api/test_workflows.py`): `test_workflow_invocation_rerun_lineage` covers persistence, list and element views, batch runs, latest-rerun ordering and request-export independence. `test_workflow_invocation_rerun_access` covers inaccessible sources and links.
-- Unit: `test/unit/workflow/test_invocation_rerun_migration.py` (migration round trip), `test/unit/data/model/test_model_store.py` (imports drop lineage), `test/unit/webapps/galaxy/services/test_invocations_lineage.py` (viewer access cases, constant query count).
+- API (`lib/galaxy_test/api/test_workflows.py`): `test_workflow_invocation_rerun_lineage` covers persistence, list and element views, batch runs, latest-rerun ordering and request-export independence. `test_workflow_invocation_rerun_access` covers inaccessible sources and links. `test_workflow_invocation_rerun_invalid_source` checks that a malformed source id gets a 400 and a missing invocation a 404, and that neither creates an invocation.
+- Unit: `test/unit/workflow/test_invocation_rerun_migration.py` (migration round trip), `test/unit/data/model/test_model_store.py` (imports drop lineage), `test/unit/webapps/galaxy/services/test_invocations_lineage.py` (the SQL access clause against `check_security`, latest-accessible fallback, constant query count).
 - E2E: `lib/galaxy_test/selenium/test_workflow_rerun.py::TestWorkflowRun::test_workflow_rerun_lineage` (both run forms, both link directions, card badges, grid column).
 
 </details>
