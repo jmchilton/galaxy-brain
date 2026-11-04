@@ -1,0 +1,4 @@
+- [26.2] Accept unversioned Tool Shed tool ids at an installed version for exact-version workflow invocation
+- [26.2] Fix exact-version workflow invocation rejecting installed tools referenced by unversioned id
+- [26.2] Fix "required tools are not installed" for unversioned shed tool ids in workflow API invocation
+- [26.2] Resolve unversioned shed tool ids at their pinned version in workflow invocation and save

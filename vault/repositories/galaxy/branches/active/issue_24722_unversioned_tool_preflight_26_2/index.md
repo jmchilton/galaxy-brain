@@ -9,9 +9,13 @@ upstream_base_branch: release_26.2
 
 ## Status
 
-Implemented and hardened for [#24722](https://github.com/galaxyproject/galaxy/issues/24722) ([issue record](../../../issues/queued/24722/index.md)). Status READY, scope kept after one expansion. Local head `0e76ac8e20b`; fork still at pre-hardening `dcfa201885c` pending a force-push. Worktree: `~/projects/worktrees/galaxy/branch/issue_24722_unversioned_tool_preflight_26_2`.
+Polished for [#24722](https://github.com/galaxyproject/galaxy/issues/24722) ([issue record](../../../issues/queued/24722/index.md)); ready for final review at `0e76ac8e20b` (fork). Worktree: `~/projects/worktrees/galaxy/branch/issue_24722_unversioned_tool_preflight_26_2`.
 
-No PR; no CI yet.
+No PR yet.
+
+Fork CI on `0e76ac8e20b` green except `macOS startup`, whose 3.10 job was cancelled (unrelated).
+
+[PR description](pr_description.md) · [Titles](pr_titles.md) · [Tags](pr_tags.md) · [Checklist](pr_checklist.md) · [Polish debrief](polish_debrief.md)
 
 [Implementation](implementation_debrief.md) · [Initial](initial_implementation_debrief.md) · [Rescope](implementation_rescope_debrief.md) · [Alt: original scope](alts/original_scope.md) · [Normal review](subagents/normal_review.md) · [Rescope review](subagents/rescope_review.md) · [Test challenges](test_challenges_debrief.md) · [Codex review](codex_review.md) · [Thermo-nuclear review](thermo_nuclear_review.md) · [Refactor baseline](baseline_refactor.md) · [Scope evaluation](scope_evaluation.md) · [Brain research](brain_research.md) · [Earlier hardening](earlier_drafts/1/)
 
