@@ -23,6 +23,6 @@ Parent: none.
 
 ## Next
 
-- Agent: file the Galaxy issue (needs John's OK), link it here and in a #591 comment.
+- Agent: file the Galaxy issue (needs John's OK), link it here and in a #591 comment. Drafted 2026-11-04: [`galaxy/issues_incubator/incubating/invoke_unversioned_tool_id_not_installed`](../../../../galaxy/issues_incubator/incubating/invoke_unversioned_tool_id_not_installed/index.md). The root cause is the invocation pre-flight passing `require_exact_tool_versions` as the toolbox's exact-*id* flag. Download only echoes the stored id, so #591's title overstates the download's role.
 - Foundry: add to the invocation-failure reference: "400 not installed but tool present -> check `tool_id` is versioned".
 - Drop `upstream/galaxy` when the Galaxy fix lands.
