@@ -6,11 +6,11 @@ Stage 2's Embed Outputs puts each labeled workflow output on the graph as a card
 
 | Stage 2: step plus card | This PR: the step drawn as its preferred output |
 |---|---|
-| ![Stage 2 at 100%: head_table and cat_table as plain steps, top_rows as a card beside head_table](screenshots/18_stage2_output_previews_embedded_closeup_live.png) | ![The same view: head_table shows the top_rows table inside the step, cat_table shows its table and is pushed right](screenshots/06_output_previews_a_embedded_closeup.png) |
+| ![Stage 2 at 100%: head_table and cat_table as plain steps, top_rows as a card beside head_table](screenshots/18_stage2_output_previews_embedded_closeup_live.png) | ![The same view: head_table shows the top_rows table inside the step, labelled top_rows; cat_table shows its table, labelled out_file1, and is pushed right](screenshots/06_output_previews_a_embedded_closeup.png) |
 | ![Stage 2, ChIP-seq PE at 50%: Bowtie2 with a mapping stats card beside it](screenshots/stage2_07_chipseq_embedded_50pct.png) | ![The same view: Bowtie2 drawn as its mapping stats table, and filter MAPQ30 sits further left](screenshots/11_chipseq_typical_embedded_50pct.png) |
 | ![Stage 2, ATAC-seq at 50%: a fragment length histogram card beside its step](screenshots/stage2_10_atacseq_embedded_50pct.png) | ![The same view: the histogram step drawn as its output, and remove comments lines moves 164 pixels left of where stage 2 put it](screenshots/13_atacseq_typical_embedded_50pct.png) |
 
-Each pair has the same zoom and pan, so the frames can be flipped in place. The ChIP-seq and ATAC-seq rows are the same layout replicas as stage 2: real IWC positions, labels, edges and workflow outputs, with test tools, so previews show placeholder content.
+Each pair is one invocation, seen through stage 2's client and this PR's, at the same zoom and pan, so the frames can be flipped in place. The ChIP-seq and ATAC-seq rows are the same layout replicas as stage 2: real IWC positions, labels, edges and workflow outputs, where each step writes a prepared demo file shaped like the real output, not a tool result.
 
 ***This is a maintainer-proposed feature and the third stage of the invocation graph outputs effort. It stacks on stage 2's Embed Outputs (🌿[invocation_graph_embedded_workflow_outputs](https://github.com/jmchilton/galaxy/tree/invocation_graph_embedded_workflow_outputs)), and this description covers only what stage 3 adds.***
 
@@ -22,17 +22,18 @@ Each pair has the same zoom and pan, so the frames can be flipped in place. The 
 
 | | |
 |---|---|
-| ![Scenario b at 100%: cat_table shows its table, copy_image shows the quality plot pushed right of it](screenshots/07_output_previews_b_embedded_closeup.png) | ![copy_image drawn as its plot at 150%: the title and axes are readable](screenshots/09_output_previews_b_copy_image_150pct.png) |
+| ![Scenario b at 100%: cat_table shows its table, copy_image shows its reads-per-sample plot pushed right of it](screenshots/07_output_previews_b_embedded_closeup.png) | ![copy_image drawn as its plot at 150%: the title and axes are readable](screenshots/09_output_previews_b_copy_image_150pct.png) |
 | ![Stage 2, ChIP-seq at 80%: summary of MACS2 with its report card](screenshots/stage2_08_chipseq_embedded_macs2_stack_80pct.png) | ![The same view: summary of MACS2 drawn as its report, and the MACS2 steps sit about 40 pixels left of stage 2's positions](screenshots/12_chipseq_typical_embedded_80pct.png) |
 | ![A running invocation at 90%: the final step grown, showing the not-ready message](screenshots/16_running_embedded_closeup_90pct.png) | ![The same page after final finished: its table filled in in place, nothing moved](screenshots/17_running_finished_closeup_90pct.png) |
 | ![The editor star's tooltip: Display this step as this output in invocation graphs with embedded outputs](screenshots/03_editor_star_tooltip_hovered.png) | ![Scenario a refit: head_table and cat_table grown, top_rows has no card of its own](screenshots/04_output_previews_a_embedded.png) |
+| ![ChIP-seq PE embedded and refit: Bowtie2, summary of MACS2 and MultiQC drawn as their outputs](screenshots/10_chipseq_typical_embedded.png) | ![head_table clicked: still drawn as its table, with the step details below listing its dataset](screenshots/19_preferred_step_clicked.png) |
 
 </details>
 
 <details><summary>How it behaves</summary>
 
 - **Editor:** each tool output gets a star beside its workflow-output checkbox and visibility toggle. Clicking it sets or clears the step's preferred output (one per step), as an undoable step update saved with the workflow. It has `aria-pressed` and a tooltip naming what it does. In read-only editors it shows the value but doesn't toggle.
-- **Graph:** with Embed Outputs on, a step whose preferred output exists is drawn 260 pixels wide, a card's width, with a static snapshot of the output (8.5rem tall, 5.25rem for collections) in place of its job-state text. The snapshot follows stage 2's card rules through one shared component: inert, pointer-transparent, collections summarized, no table pagination. The step keeps its state colouring, and clicking it opens the step details, which hold the interactive output.
+- **Graph:** with Embed Outputs on, a step whose preferred output exists is drawn 260 pixels wide, a card's width, with a static snapshot of the output in place of its job-state text. Above the snapshot, a one-line label names the output as its card would have: the workflow output's label, or else the output's name. Label and snapshot are 8.5rem tall together (5.25rem for collections). The snapshot follows stage 2's card rules through one shared component: inert, pointer-transparent, collections summarized, compact tables without sort icons or pagination, images sized to the box. The step keeps its state colouring, and clicking it opens the step details, which hold the interactive output.
 - **Dedup:** when the preferred output is also a labeled workflow output, it gets no separate card; the step stands in for it.
 - **Not a workflow output:** the invocation lists only workflow outputs, so for any other preferred output the step's details are fetched once, and again only if its state changes while the output is still missing. Stage 1's hover popover already pays the same request.
 - **Layout:** stage 2's one left-to-right pass, told what size each grown step grew from, so it can separate the spacing the author left from the room the growth needs. A step that grows into a row it wasn't in keeps the full gap. Steps still never move up, down or left.
@@ -64,7 +65,7 @@ Each pair has the same zoom and pan, so the frames can be flipped in place. The 
 
 <details><summary>How the branch is organised</summary>
 
-Eight commits, about 370 production lines (30 of them backend) and 570 lines of tests and selectors:
+Nine commits, about 440 production lines (30 of them backend) and 670 lines of tests and selectors:
 
 1. Baseline test: stage 2's E2E also checks that embedding leaves no two steps overlapping.
 2. Refactor: `InvocationOutputSnapshot.vue` holds stage 2's static-snapshot rules for the cards.
@@ -74,6 +75,7 @@ Eight commits, about 370 production lines (30 of them backend) and 570 lines of 
 6. The editor star, with Vitest and the Selenium test `test_star_preferred_output` for the save path.
 7. The graph: `usePreferredOutputItems`, `Node.vue` rendering the snapshot, the layout's `grewFrom`, and the CSS widths bound to the layout's TS constants.
 8. The E2E test `test_embed_shows_steps_as_their_preferred_output`.
+9. The label on a grown step, in `InvocationStepPreferredOutput.vue`, which `Node.vue` now renders; Vitest and an E2E check.
 
 The first four touch only stage 1 and stage 2 code and pass stage 2's tests on their own, so they could move down into stage 2's PR instead.
 

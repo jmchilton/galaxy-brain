@@ -1,10 +1,11 @@
-"""Crop the stage screenshots for the invocation-graph outputs deck.
+"""Crop the deck-polish captures for the invocation-graph outputs deck.
 
-Every invocation frame from the three stages is 1280x1000 with the same panels,
-so one box cuts the invocation header and graph canvas out of each of them and
-the flip pairs keep lining up. The crops drop Galaxy's activity bar, masthead
-(random test user names, storage meter) and history panel (test-tool dataset
-names), which differ between stages and pull the eye away from the graph.
+The frames are the deck-polish recapture (see capture_debrief.md), copied into
+../screenshots/presentation/frames/ (gitignored), plus the spike's frames. Every
+1280x1000 invocation frame has the same panels, so one box cuts the invocation
+header and graph canvas out of each of them and the flip pairs keep lining up.
+The fit views are 1600x1000, so their canvas is wider (P7). The crops drop
+Galaxy's activity bar, masthead and history panel.
 
 Needs Pillow; run it with any Python that has it, for example the stage 3
 worktree's virtualenv:
@@ -16,60 +17,72 @@ Writes to ../screenshots/presentation/slides/ (gitignored).
 """
 import os
 
-from PIL import Image
+from PIL import Image, ImageDraw
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-ACTIVE = os.path.normpath(os.path.join(HERE, "..", ".."))
-S1 = os.path.join(ACTIVE, "invocation_graph_output_previews", "screenshots")
-S2 = os.path.join(ACTIVE, "invocation_graph_embedded_workflow_outputs", "screenshots")
-S3 = os.path.join(ACTIVE, "invocation_graph_embedded_outputs", "screenshots")
+FRAMES = os.path.join(HERE, "..", "screenshots", "presentation", "frames")
 SPIKE = os.path.normpath(
-    os.path.join(ACTIVE, "..", "..", "..", "..", "projects", "invocation_graph_embedded_outputs", "screenshots")
+    os.path.join(HERE, "..", "..", "..", "..", "..", "..", "projects", "invocation_graph_embedded_outputs", "screenshots")
 )
 OUT = os.path.join(HERE, "..", "screenshots", "presentation", "slides")
 
 # Invocation header bar (y 56) to the bottom of the graph canvas (y 913), canvas x 105..963.
 FRAME = (105, 56, 964, 914)
-# The same, cut just under the running step and its card (for side-by-side pairs).
-FRAME_TOP = (105, 56, 964, 640)
+# The same in a 1600px-wide window: the canvas runs to x 1284.
+FRAME_WIDE = (105, 56, 1285, 914)
+# The band of the running close-ups holding head_cat, summary and final (for side-by-side pairs).
+RUN_BAND = (105, 380, 964, 700)
 # The ChIP-seq middle region around Bowtie2, filter MAPQ30 and Call Peaks (stage 2 vs 3).
 CHIP_REGION = (105, 260, 800, 700)
-# Workflow editor canvas, right of the Attributes panel.
-EDITOR = (384, 40, 1280, 760)
+# The workflow editor's graph, with the Attributes panel closed.
+EDITOR = (180, 262, 1190, 812)
 # Spike frames are 1600x1000; their invocation header and canvas.
 SPIKE_FRAME = (405, 56, 1284, 824)
 
 CROPS = [
     # name, source dir, file, box
-    ("s1_01_default", S1, "01_default_graph.png", FRAME),
-    ("s1_02_hover_table", S1, "02_hover_table.png", FRAME),
-    ("s1_03_hover_image_pop", S1, "03_hover_image.png", (330, 275, 900, 670)),
-    ("s1_04_hover_collection_pop", S1, "04_hover_collection.png", (330, 550, 800, 710)),
-    ("s1_05_hover_multiple_pop", S1, "05_hover_multiple_outputs.png", (550, 550, 1005, 710)),
-    ("s2_01_before", S2, "01_output_previews_before_embedding.png", FRAME),
-    ("s2_02_embedded", S2, "02_output_previews_embedded.png", FRAME),
-    ("s2_03_closeup", S2, "03_output_previews_embedded_closeup.png", FRAME),
-    ("s2_06_chip_before", S2, "06_chipseq_before_embedding_50pct.png", FRAME),
-    ("s2_07_chip_embedded", S2, "07_chipseq_embedded_50pct.png", FRAME),
-    ("s2_07_chip_region", S2, "07_chipseq_embedded_50pct.png", CHIP_REGION),
-    ("s2_08_macs2_stack", S2, "08_chipseq_embedded_macs2_stack_80pct.png", FRAME),
-    ("s2_09_atac_before", S2, "09_atacseq_before_embedding_50pct.png", FRAME),
-    ("s2_10_atac_embedded", S2, "10_atacseq_embedded_50pct.png", FRAME),
-    ("s2_13_running_top", S2, "13_running_embedded_closeup_90pct.png", FRAME_TOP),
-    ("s2_14_finished_top", S2, "14_running_finished_closeup_90pct.png", FRAME_TOP),
-    ("s3_02_editor", S3, "02_editor_star_output_previews_a.png", EDITOR),
-    ("s3_03_tooltip", S3, "03_editor_star_tooltip_hovered.png", (580, 350, 905, 460)),
-    ("s3_06_closeup", S3, "06_output_previews_a_embedded_closeup.png", FRAME),
-    ("s3_09_image_150", S3, "09_output_previews_b_copy_image_150pct.png", FRAME),
-    ("s3_11_chip_region", S3, "11_chipseq_typical_embedded_50pct.png", CHIP_REGION),
-    ("s3_12_macs2_stack", S3, "12_chipseq_typical_embedded_80pct.png", FRAME),
-    ("s3_13_atac", S3, "13_atacseq_typical_embedded_50pct.png", FRAME),
-    ("s3_16_running_top", S3, "16_running_embedded_closeup_90pct.png", FRAME_TOP),
-    ("s3_17_finished_top", S3, "17_running_finished_closeup_90pct.png", FRAME_TOP),
-    ("s3_18_stage2_closeup", S3, "18_stage2_output_previews_embedded_closeup_live.png", FRAME),
+    ("s1_01_default", FRAMES, "s1_default.png", FRAME),
+    ("s1_02_hover_table", FRAMES, "s1_hover_table.png", FRAME),
+    ("s1_03_hover_image_pop", FRAMES, "s1_hover_image.png", (330, 300, 1050, 640)),
+    ("s1_04_hover_collection_pop", FRAMES, "s1_hover_collection.png", (330, 480, 880, 712)),
+    ("s1_05_hover_multiple_pop", FRAMES, "s1_hover_multiple.png", (550, 555, 1000, 705)),
+    ("s2_chip_fit_before", FRAMES, "s2_chip_fit_before.png", FRAME_WIDE),
+    ("s2_chip_fit_embedded", FRAMES, "s2_chip_fit_embedded.png", FRAME_WIDE),
+    ("s2_chip_fit_restored", FRAMES, "s2_chip_fit_restored.png", FRAME_WIDE),
+    ("s3_chip_fit_embedded", FRAMES, "s3_chip_fit_embedded.png", FRAME_WIDE),
+    ("s2_chip50_before", FRAMES, "s2_chip50_before_zoomed.png", FRAME),
+    ("s2_chip50", FRAMES, "s2_chip50_zoomed.png", FRAME),
+    ("s2_chip50_region", FRAMES, "s2_chip50_zoomed.png", CHIP_REGION),
+    ("s3_chip50_region", FRAMES, "s3_chip50_zoomed.png", CHIP_REGION),
+    ("s2_chip80", FRAMES, "s2_chip80_zoomed.png", FRAME),
+    ("s3_chip80", FRAMES, "s3_chip80_zoomed.png", FRAME),
+    ("s2_atac50_before", FRAMES, "s2_atac50_before_zoomed.png", FRAME),
+    ("s2_atac50", FRAMES, "s2_atac50_zoomed.png", FRAME),
+    ("s3_atac50", FRAMES, "s3_atac50_zoomed.png", FRAME),
+    ("s2_op_close", FRAMES, "s2_op_close_zoomed.png", FRAME),
+    ("s3_op_a_close", FRAMES, "s3_op_a_close_zoomed.png", FRAME),
+    ("s3_op_b_img", FRAMES, "s3_op_b_img_zoomed.png", FRAME),
+    ("s3_op_clicked", FRAMES, "s3_op_fit_clicked.png", (105, 222, 1285, 984)),
+    ("s2_run_top", FRAMES, "s2_run_zoomed.png", RUN_BAND),
+    ("s2_done_top", FRAMES, "s2_run_finished.png", RUN_BAND),
+    ("s3_run_top", FRAMES, "s3_run_zoomed.png", RUN_BAND),
+    ("s3_done_top", FRAMES, "s3_run_finished.png", RUN_BAND),
+    ("s3_editor", FRAMES, "s3_editor_star.png", EDITOR),
+    ("s3_tooltip", FRAMES, "s3_editor_star_tooltip.png", (280, 505, 700, 610)),
     ("spike_07_down", SPIKE, "07_embed_down.png", SPIKE_FRAME),
     ("spike_08_preferred_right", SPIKE, "08_embed_right_preferred_outputs.png", SPIKE_FRAME),
 ]
+
+
+# Guide lines drawn on the ChIP-seq region crops (P9): filter MAPQ30's authored left edge, which stage 3 keeps,
+# at x 333 on screen in both frames (crop x 228); stage 2 pushes it to 358 (crop x 253).
+GUIDES = {"s2_chip50_region": 228, "s3_chip50_region": 228}
+
+
+def draw_guide(crop, x):
+    draw = ImageDraw.Draw(crop)
+    for y in range(0, crop.size[1], 12):
+        draw.line([(x, y), (x, min(y + 7, crop.size[1]))], fill=(214, 110, 20), width=3)
 
 
 def main():
@@ -77,6 +90,8 @@ def main():
     for name, src_dir, fname, box in CROPS:
         im = Image.open(os.path.join(src_dir, fname)).convert("RGB")
         crop = im.crop(box)
+        if name in GUIDES:
+            draw_guide(crop, GUIDES[name])
         path = os.path.join(OUT, f"{name}.png")
         crop.save(path, optimize=True)
         print(f"{name}.png {crop.size[0]}x{crop.size[1]}")
