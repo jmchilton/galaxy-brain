@@ -9,11 +9,11 @@ upstream_base_branch: dev
 
 ## Status
 
-Polishing in progress (`branches_need_polish`), after closing hardening gaps; rebased onto dev at `2f12501a61d`.
+Polishing in progress (`branches_need_polish`); hardening gaps closed except screenshot regeneration, head `830d058c5be`.
 
 No PR.
 
-Fork CI pending on `2f12501a61d`.
+Fork CI pending on `830d058c5be`.
 
 ## Decisions
 
@@ -30,7 +30,10 @@ Fork CI pending on `2f12501a61d`.
 
 [Test challenges](test_challenges_debrief.md) · [E2E polish](polish_e2e_tests_debrief.md) · [Strict review](thermo_nuclear_review.md) · [Scope evaluation](scope_evaluation.md) · [Screenshot index](screenshot_debrief.md)
 
+[Performance challenges](performance_challenges_debrief.md) · [Codex review](codex_review.md) · [Baseline refactor](baseline_refactor.md)
+
 ## History
 
 - 2026-10-16: fixed five branch-specific CI typing errors (migration return annotations, Alembic context import, SQLAlchemy result views in the migration regression); behavior unchanged.
 - 2026-11-04: rebased onto dev (one conflict in `services/workflows.py`, resolved by keeping dev's scheduler/tool/on-complete checks before resolving the rerun source). The Alembic chain stayed linear (`64d49ad328d4` is still dev's head), so the migration needed no re-parenting. Migration round-trip, model-store lineage, both lineage API tests and 143 related client tests pass locally.
+- 2026-11-04 hardening gaps: performance challenge batched lineage resolution into two queries per serialization batch, with the history access rule in SQL (611 → 10 statements for a heavily rerun published invocation). Codex review found no defects. Baseline refactor split out a leading no-behavior-change commit (`9bf74e3ee40`, batch serialization path). Check branch: `make format` clean; mypy run as CI does (from `lib/`) flagged 9 branch typing errors in the new unit test and lineage code, fixed in `830d058c5be`.
