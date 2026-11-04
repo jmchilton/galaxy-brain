@@ -4,8 +4,8 @@ Since 🔀 #20032, users iterate on an analysis by clicking **Rerun** on an invo
 
 ![Invocation J, a rerun of I that was itself rerun as K: one banner reads "This invocation is a rerun of an earlier invocation. View source invocation", a second reads "A newer rerun of this invocation exists. View latest rerun"](screenshots/workflow_rerun_lineage_source_3.png)
 
-| Invocation cards | Invocations grid |
-| --- | --- |
+| Invocation cards                                                                                                                        | Invocations grid                                                                                                                                                 |
+| --------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | ![The invocation card list: both reruns carry a Rerun badge, the original has none](screenshots/workflow_rerun_lineage_list_marker.png) | ![The invocations grid: a new Run type column reads Rerun for the two reruns and is blank for the original](screenshots/workflow_rerun_lineage_grid_markers.png) |
 
 These come from the new E2E test, which runs I → J through the simple run form and J → K through the expanded one, and reloads each rerun page so the links are shown to persist. The API gets the same link: the invoke payload takes `rerun_of_invocation_id`, so a parameter-sweep script can record lineage too, and the invocation view returns it.
