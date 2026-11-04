@@ -3,7 +3,7 @@
 - [#24650](https://github.com/galaxyproject/galaxy/pull/24650) — approved + review posted (P1 + P3 fixed on unpushed `pr_24650_review_0`, not pushed to PR); awaiting merge. [notes](active/24650/index.md)
 - [#24598](https://github.com/galaxyproject/galaxy/pull/24598) — approved + review branch `e278e8edcea` pushed into PR; awaiting merge. [notes](active/24598/index.md)
 - [#24647](https://github.com/galaxyproject/galaxy/pull/24647) — review delivered 2026-11-04 as APPROVE on `7247fea9983` (P2 integration test + three P3s; three fixed on `pr_24647_review_0`). Also approved by davelopez; head now 59f6bfe152b; awaiting merge. [notes](active/24647/index.md)
-- [#24635](https://github.com/galaxyproject/galaxy/pull/24635) — initial review ready, unposted (four P2s + five P3s; eight fixed on `pr_24635_review_0`); release-target question for John. [notes](active/24635/index.md)
+- [#24635](https://github.com/galaxyproject/galaxy/pull/24635) — round 1 re-review on `9ee89b52d9` ready, unposted (four P2s + six P3s, all fixed on `pr_24635_review_1`); release-target question for John. [notes](active/24635/index.md)
 
 - [#24586](https://github.com/galaxyproject/galaxy/pull/24586) — approved; awaiting merge (one P2 + two P3s; fixes on `pr_24586_review_1`, not pushed to PR). [notes](active/24586/index.md)
 - [#24511](https://github.com/galaxyproject/galaxy/pull/24511) — review delivered as comment 2026-11-01 (asks if 26.2 target; two P2s + seven P3s; fixed on `pr_24511_review_0`); 25.1 quota policy-change risk. New head 4b3de9ed5c4 (davelopez, 2026-11-04) since review — re-check. [notes](active/24511/index.md)

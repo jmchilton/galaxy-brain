@@ -1,0 +1,11 @@
+
+- `985676468c1` Share container allowlist rejection message between manager and job prepare: adds `ContainerAllowlist.rejection()`, which the manager and `JobWrapper.prepare` both raise from, with a unit test of both messages.
+- `425d71f5f77` Distinguish raw and parsed container allowlist entries by name: renames them to `raw_entries` and `_rules`.
+- `0c1bd167de4` Define the biocontainers registry location once in recommend: adds `QUAY_REGISTRY` and derives `QUAY_BIOCONTAINERS_PREFIX` from it.
+- `3e52ad9d65a` Lint container identifiers without stripping whitespace: retargets the malformed-container manager test to `oras://` and adds whitespace lint and manager cases.
+- `5ee898d96c0` Share stored user tool row helper between integration tests: adds `integration_util.store_user_tool_row`, used by both user-tool integration files.
+- `15893a1b554` Resolve Pulsar remote container only after prepare accepts the job: moves the `remote_container_handling` `_find_container` call below `prepare()` and restores that setting in the unit test, with a `_find_container` that fails if called.
+- `698c1a812f8` Let the Pulsar rejection unit test fail on its assertions: gives the fake wrapper `get_job` and stubs `_job_state`, so the test fails on its own assertions without the arm.
+- `df7bea10f5f` Test Pulsar rejects a disallowed user tool container without resubmission: adds an embedded-Pulsar variant of the stored-tool job test, with an `any_failure` resubmit rule, and asserts the job's `destination_id` is unchanged.
+- `77ffc7e551d` Test workflow import of a user tool with a disallowed container: asserts a 400 with the allowlist message, and that no workflow or user tool is created.
+- `c3714e1718c` Cover allowed and admin-tool container job paths with integration tests: runs an allowed user tool and `job_environment_default_legacy` (busybox) under the default list and asserts both are `ok`.
