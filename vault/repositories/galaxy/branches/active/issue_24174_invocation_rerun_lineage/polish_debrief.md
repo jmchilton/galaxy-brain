@@ -44,6 +44,18 @@ created …/differential-review/snapshots/20261104T160645Z-revision-9a8bf84c5abd
     new     9a8bf84c5abd Require a rerun source to be an invocation of the same workflow
 ```
 
+## Revision after hand-off: grid icon column
+
+John found the "Run type" header too heavy. `cfe3e41cbd2` replaces the text column with an unlabeled column right after the expand caret. It shows a muted rerun icon (`faRedo`, the icon of Galaxy's Rerun buttons) on reruns only, with the card badge's tooltip ("This invocation is a rerun of an earlier invocation") and screen-reader text. The column comes from a new generic `icon` grid cell type, which `GridList.test.ts` covers: no header, and an icon only when the converter returns text. Grid vitest (16), prettier, eslint and `vue-tsc` pass. The lineage E2E passes after a one-line fix, `a6e2ed29d04`: under Playwright, `get_attribute("textContent")` returns `None`, so the test now reads the marker's `title`. The grid screenshot was recaptured. Squashing the fix into `cfe3e41cbd2` was blocked by the auto-mode classifier, which refused a reset plus force-push, so the history has both commits.
+
+```text
+created …/differential-review/snapshots/20261104T164402Z-revision-a6e2ed29d04b.json
+  revision @ a6e2ed29d04b vs origin/dev (merge-base 7e16f446410c)
+  since 20261104T160645Z-revision-9a8bf84c5abd:
+    commits: 12 same, 0 rebased, 0 changed, 2 new, 0 dropped
+    hunks:   50 carried, 3 changed, 4 new, 0 dropped
+```
+
 ## Validation at `9df72d8d97a`
 
 - API: `test_workflow_invocation_rerun_lineage`, `test_workflow_invocation_rerun_access` and `test_workflow_invocation_rerun_invalid_source` (3 passed).

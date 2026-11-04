@@ -6,7 +6,7 @@ Since 🔀 #20032, users iterate on an analysis by clicking **Rerun** on an invo
 
 | Invocation cards | Invocations grid |
 | --- | --- |
-| ![The invocation card list: both reruns carry a Rerun badge, the original has none](screenshots/workflow_rerun_lineage_list_marker.png) | ![The invocations grid: a new Run type column reads Rerun for the two reruns and is blank for the original](screenshots/workflow_rerun_lineage_grid_markers.png) |
+| ![The invocation card list: both reruns carry a Rerun badge, the original has none](screenshots/workflow_rerun_lineage_list_marker.png) | ![The invocations grid: a muted rerun icon in an unlabeled column before the workflow name marks the two reruns; the original has none](screenshots/workflow_rerun_lineage_grid_markers.png) |
 
 These come from the new E2E test, which runs I → J through the simple run form and J → K through the expanded one, and reloads each rerun page so the links are shown to persist. The API gets the same link: the invoke payload takes `rerun_of_invocation_id`, so a parameter-sweep script can record lineage too, and the invocation view returns it.
 
@@ -24,7 +24,7 @@ These come from the new E2E test, which runs I → J through the simple run form
 
 - **Access.** Each link is shown only when the viewer can access the linked invocation, using the usual invocation rule (the invocation's history is owned by the viewer, importable, or shared with them, or the viewer is an admin). A rerun can target a different history from its source, so each side is checked separately.
 - **"Latest rerun".** This is the newest direct rerun the viewer can access. When the newest is private to someone else, the link falls back to the next accessible one.
-- **Markers.** `is_rerun` is on every invocation view and drives the card badge and the grid's Run type column. It stays `true` when the source has become inaccessible to the viewer: the marker still shows, but the detail page has no source banner.
+- **Markers.** `is_rerun` is on every invocation view and drives the card badge and the grid's rerun icon, an unlabeled column before the workflow name with a tooltip and screen-reader text. It stays `true` when the source has become inaccessible to the viewer: the marker still shows, but the detail page has no source banner.
 - **Deleted sources.** The foreign key is `ON DELETE SET NULL`: deleting a source's row clears its reruns' links.
 - **Submitting.** On invoke, the server loads the source with the normal invocation access check before building any run config. A malformed id fails the whole request with 400, a missing invocation with 404, an inaccessible one with 403, and a source from a different workflow with 400. Both run forms show these errors in their existing "Workflow submission failed" alert. A batch invoke gives every invocation it creates the same source.
 
@@ -38,7 +38,7 @@ Collection views, which back the grid, the card list and every other client list
 
 <details><summary>How the branch is organised</summary>
 
-Twelve commits:
+Fourteen commits:
 
 1. Refactor: `serialize_workflow_invocations` holds the serialization loop and `serialize_workflow_invocation` delegates to it. No behavior change on `dev`.
 2. Model, migration, invoke payload, source validation, run-config propagation, the element-view lineage fields, API, migration and model-store tests.
@@ -48,6 +48,7 @@ Twelve commits:
 10. Typing fixes for 9.
 11. A differential test of the SQL access clause against `check_security`, and separate 400 and 404 tests for invalid sources.
 12. The same-workflow rule for rerun sources, with its API test.
+13. and 14. The grid marker as a header-less icon column, through a new generic `icon` grid cell type, with a `GridList` unit test and the E2E assertion reading the marker's tooltip.
 
 </details>
 
@@ -128,7 +129,7 @@ The element-view lineage fields depend on the viewer, and the serializers had ac
 
 <details><summary>Thin mocked wiring tests replaced by real browser coverage; migration and model-store tests kept and strengthened.</summary>
 
-- A mocked component test for the banner and a mocked rerun case in `WorkflowRunForm.test.ts` were dropped. The E2E test covers that wiring through a real browser and server, across both run forms, and adds grid Run type assertions.
+- A mocked component test for the banner and a mocked rerun case in `WorkflowRunForm.test.ts` were dropped. The E2E test covers that wiring through a real browser and server, across both run forms, and adds assertions on the grid's rerun markers.
 - The migration test was kept, because an API test on an already-migrated server can't check pre-existing rows, the foreign key and index, `SET NULL` or the downgrade.
 - The model-store test now checks that exports omit the lineage id and that imports discard a planted one.
 
@@ -173,8 +174,9 @@ Codex reviewed the full diff, the invocation service and run request modules, an
 <details><summary>Tests</summary>
 
 - API (`lib/galaxy_test/api/test_workflows.py`): `test_workflow_invocation_rerun_lineage` covers persistence, list and element views, batch runs, latest-rerun ordering and request-export independence. `test_workflow_invocation_rerun_access` covers inaccessible sources and links. `test_workflow_invocation_rerun_same_workflow` checks that a copy of the workflow is rejected and a newer version accepted. `test_workflow_invocation_rerun_invalid_source` checks that a malformed source id gets a 400 and a missing invocation a 404, and that neither creates an invocation.
+- Client: `GridList.test.ts` covers the icon cell type (no header, icon only when the converter returns text).
 - Unit: `test/unit/workflow/test_invocation_rerun_migration.py` (migration round trip), `test/unit/data/model/test_model_store.py` (imports drop lineage), `test/unit/webapps/galaxy/services/test_invocations_lineage.py` (the SQL access clause against `check_security`, latest-accessible fallback, constant query count).
-- E2E: `lib/galaxy_test/selenium/test_workflow_rerun.py::TestWorkflowRun::test_workflow_rerun_lineage` (both run forms, both link directions, card badges, grid column).
+- E2E: `lib/galaxy_test/selenium/test_workflow_rerun.py::TestWorkflowRun::test_workflow_rerun_lineage` (both run forms, both link directions, card badges, grid icons).
 
 </details>
 
