@@ -78,7 +78,7 @@ The fix rejects only a non-empty `ds_map` next to non-null `inputs`. 8/8 API cas
 
 ### Backport
 
-[invocation_no_add_to_history_false_26.1](../../active/invocation_no_add_to_history_false_26.1/index.md) carries both server fixes to `release_26.1` (8/8 API locally), queued as `branches_implemented_needs_ci`.
+[invocation_no_add_to_history_false_26.1](../../merged/invocation_no_add_to_history_false_26.1/index.md) carries both server fixes to `release_26.1` (8/8 API locally), queued as `branches_implemented_needs_ci`.
 
 ### Left for John
 

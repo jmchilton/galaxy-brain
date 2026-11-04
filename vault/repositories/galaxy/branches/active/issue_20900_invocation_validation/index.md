@@ -24,7 +24,7 @@ John requested four independent dev-based fixes before the larger validation bra
 
 - [Honor no_add_to_history false](../../abandoned/invocation_no_add_to_history_false/index.md): pushed as `invocation_no_add_to_history_false`; reviewed and 3 API regressions passed.
 
-- [Expected parameter failures](../invocation_parameter_expected_failure/index.md): pushed as `invocation_parameter_expected_failure`; reviewed and 194 workflow unit tests passed (1 skipped).
+- [Expected parameter failures](../../merged/invocation_parameter_expected_failure/index.md): pushed as `invocation_parameter_expected_failure`; reviewed and 194 workflow unit tests passed (1 skipped).
 
 - [Missing invocation input 404s](../../merged/invocation_missing_input_404/index.md): pushed as `invocation_missing_input_404`; reviewed, four missing-input cases and a valid collection invocation passed.
 
@@ -43,6 +43,6 @@ John requested all four remaining candidates as standalone branches. Each starts
 - [invocation_object_store_validation](../../merged/invocation_object_store_validation/index.md) — Validate workflow object-store preferences.
 - [invocation_completion_action_validation](../../merged/invocation_completion_action_validation/index.md) — Reject unknown completion actions.
 - [invocation_tool_compatibility](../../merged/invocation_tool_compatibility/index.md) — Reject incompatible workflow tools early.
-- [invocation_subworkflow_input_connections](../invocation_subworkflow_input_connections/index.md) — Reject disconnected required subworkflow inputs.
+- [invocation_subworkflow_input_connections](../../merged/invocation_subworkflow_input_connections/index.md) — Reject disconnected required subworkflow inputs.
 
 Combined focused local runs: 216 passed, 2 skipped. All applicable hooks and branch-specific review processes passed. Fresh fork CI has not been assessed; no PRs created.

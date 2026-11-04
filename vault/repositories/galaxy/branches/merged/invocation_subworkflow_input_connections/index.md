@@ -1,12 +1,12 @@
 # invocation_subworkflow_input_connections
 
-Status: `ready` — PR #24203 approved by mvdbeek 2026-10-23; both optional nits addressed in `14f1310fe20` (2026-11-01), PR CI on new head pending. [Review response](review_response_mvdbeek_1.md).
+Status: `merged` — PR [#24203](https://github.com/galaxyproject/galaxy/pull/24203) merged 2026-11-02 into `release_26.2` (`5b1a037ee0f`); in `dev`. Worktree removed 2026-11-04.
 
 Reject disconnected required subworkflow inputs with HTTP 400 before creating histories or invocations, including nested step paths, while preserving optional and defaulted inputs.
 
 [Implementation](implementation_debrief.md) · [Initial implementation](initial_implementation_debrief.md) · [Normal review](subagents/normal_review.md) · [Test challenge](test_challenges_debrief.md) · [Scope evaluation](scope_evaluation.md) · [Code-quality review](thermo_nuclear_review.md)
 
-Independent extraction from [issue_20900_invocation_validation](../issue_20900_invocation_validation/index.md), requested 2026-10-15. Pushed to the fork, reviewed and locally validated. Original CI evidence is historical; see the current polish handoff below.
+Independent extraction from [issue_20900_invocation_validation](../../active/issue_20900_invocation_validation/index.md), requested 2026-10-15. Pushed to the fork, reviewed and locally validated. Original CI evidence is historical; see the current polish handoff below.
 
 ## Morning refresh — 2026-10-16
 

@@ -20,4 +20,4 @@ Dataset-versus-collection, collection-type and deleted-input validation could be
 - [invocation_object_store_validation](../invocation_object_store_validation/index.md) — Validate workflow object-store preferences.
 - [invocation_completion_action_validation](../../merged/invocation_completion_action_validation/index.md) — Reject unknown completion actions.
 - [invocation_tool_compatibility](../../merged/invocation_tool_compatibility/index.md) — Reject incompatible workflow tools early.
-- [invocation_subworkflow_input_connections](../invocation_subworkflow_input_connections/index.md) — Reject disconnected required subworkflow inputs.
+- [invocation_subworkflow_input_connections](../../merged/invocation_subworkflow_input_connections/index.md) — Reject disconnected required subworkflow inputs.

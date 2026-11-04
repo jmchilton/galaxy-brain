@@ -1,8 +1,8 @@
 # invocation_parameter_expected_failure
 
-Status: `ready` — undrafted by John 2026-10-20. PR [#24265](https://github.com/galaxyproject/galaxy/pull/24265) opened 2026-10-19 at John's request, at `eef6efec978`, with title `[26.1] Fix subworkflow parameter validation failing as "unexpected failure"` and `pr_description.md` verbatim (John ticked the human-read item and dropped the footer). Base: `release_26.1` at `b0d6435a432` (#24215 merge; rebased 2026-10-19, no conflicts). Rebased onto `release_26.1` 2026-10-15 at John's request; was `dev` at `c63ffc2ccae`.
+Status: `merged` — PR [#24265](https://github.com/galaxyproject/galaxy/pull/24265) merged 2026-11-03 into `release_26.1` (`6da0d325952`); in `dev`. Worktree removed 2026-11-04.
 
-Fix invalid subworkflow parameters failing as `unexpected_failure` (regression from #20980, [25.0]) and classify `workflow_parameter_invalid` as an expected failure (info, not error logs). Independent extraction from [issue_20900_invocation_validation](../issue_20900_invocation_validation/index.md).
+Fix invalid subworkflow parameters failing as `unexpected_failure` (regression from #20980, [25.0]) and classify `workflow_parameter_invalid` as an expected failure (info, not error logs). Independent extraction from [issue_20900_invocation_validation](../../active/issue_20900_invocation_validation/index.md).
 
 **[PR description](pr_description.md) · [PR titles](pr_titles.md) · [Polish debrief](polish_debrief.md)** · [Checklist evaluation](checklist_evaluation.md) · [Implementation](implementation_debrief.md) · [Initial implementation](initial_implementation_debrief.md) · [Normal review](subagents/normal_review.md) · [Scope evaluation](scope_evaluation.md)
 

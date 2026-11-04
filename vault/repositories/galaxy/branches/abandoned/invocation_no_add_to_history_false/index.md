@@ -1,6 +1,6 @@
 # invocation_no_add_to_history_false
 
-Status: `abandoned` — John, 2026-11-02: no one answered the [decision gist](https://gist.github.com/jmchilton/c68c645a8fa6d8da58af9a5e70f060c1) on the backend channel, so the smaller server-only [26.1 branch](../../active/invocation_no_add_to_history_false_26.1/index.md) goes ahead; its PR links here as the path not taken. Fork branch kept at `33be985c49e`; clean, pushed worktree removed. Base was `release_26.2`.
+Status: `abandoned` — John, 2026-11-02: no one answered the [decision gist](https://gist.github.com/jmchilton/c68c645a8fa6d8da58af9a5e70f060c1) on the backend channel, so the smaller server-only [26.1 branch](../../merged/invocation_no_add_to_history_false_26.1/index.md) goes ahead; its PR links here as the path not taken. Fork branch kept at `33be985c49e`; clean, pushed worktree removed. Base was `release_26.2`.
 
 Fixes workflow invocations built to the published request types:
 - honor `no_add_to_history: false`/`null`;
@@ -20,7 +20,7 @@ Independent extraction from [issue_20900_invocation_validation](../../active/iss
 - Fix `ds_map` here too.
 - Shared request/response schemas: a documented partial fix, with no input/output split.
 - One PR.
-- Backport the server fixes to 26.1 separately: [invocation_no_add_to_history_false_26.1](../../active/invocation_no_add_to_history_false_26.1/index.md).
+- Backport the server fixes to 26.1 separately: [invocation_no_add_to_history_false_26.1](../../merged/invocation_no_add_to_history_false_26.1/index.md).
 
 ## State
 
