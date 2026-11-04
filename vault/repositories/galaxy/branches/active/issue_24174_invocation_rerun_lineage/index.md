@@ -9,11 +9,11 @@ upstream_base_branch: dev
 
 ## Status
 
-Polished and ready for John's final review (`branches_ready_for_final_review`) at `9a8bf84c5ab`, with the same-workflow rule added after polish ([PR description](pr_description.md), [titles](pr_titles.md), [tags](pr_tags.md), [checklist](pr_checklist.md), [polish debrief](polish_debrief.md); [screenshots](screenshots/) with [index](screenshot_debrief.md)).
+Polished and ready for John's final review (`branches_ready_for_final_review`) at `a6e2ed29d04`, with the same-workflow rule and the grid icon column added after polish ([PR description](pr_description.md), [titles](pr_titles.md), [tags](pr_tags.md), [checklist](pr_checklist.md), [polish debrief](polish_debrief.md); [screenshots](screenshots/) with [index](screenshot_debrief.md)).
 
 No PR.
 
-Fork CI is pending on `9a8bf84c5ab`. On `830d058c5be`, Python linting, OpenAPI linting, Database indexes, Unit w/postgres and workflow framework tests passed before newer pushes cancelled the rest.
+Fork CI is pending on `a6e2ed29d04`. On `830d058c5be`, Python linting, OpenAPI linting, Database indexes, Unit w/postgres and workflow framework tests passed before newer pushes cancelled the rest.
 
 ## Decisions
 
@@ -40,3 +40,4 @@ Fork CI is pending on `9a8bf84c5ab`. On `830d058c5be`, Python linting, OpenAPI l
 - 2026-11-04 hardening gaps: performance challenge batched lineage resolution into two queries per serialization batch, with the history access rule in SQL (611 → 10 statements for a heavily rerun published invocation). Codex review found no defects. Baseline refactor split out a leading no-behavior-change commit (`9bf74e3ee40`, batch serialization path). Check branch: `make format` clean; mypy run as CI does (from `lib/`) flagged 9 branch typing errors in the new unit test and lineage code, fixed in `830d058c5be`.
 - 2026-11-04 polish: regenerated screenshots, checklist (all pass), PR description, titles and tags. Strengthening added a differential test of the SQL access clause against `check_security` and split 400/404 invalid-source API tests (`9df72d8d97a`).
 - 2026-11-04 revision: same-workflow rule for rerun sources, with `test_workflow_invocation_rerun_same_workflow` (copy rejected, newer version accepted); access test now reruns the published original workflow. Description de-hedged.
+- 2026-11-04 revision: at John's request, the invocations grid's "Run type" text column became a header-less icon column before the workflow name (muted rerun icon with tooltip and screen-reader text, reruns only), via a new generic `icon` grid cell type (`cfe3e41cbd2`, E2E fix `a6e2ed29d04`). GridList vitest, vue-tsc and the lineage E2E pass; grid screenshot recaptured.
