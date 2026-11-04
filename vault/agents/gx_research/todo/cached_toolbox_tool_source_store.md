@@ -9,3 +9,4 @@ Review of #24666 reshapes how processes sharing a store populate it, and galaxy-
 ## Requested by
 
 - vault/repositories/galaxy/reviews/active/24666/: needed a baseline of the cached toolbox/source store architecture to explain the populate lease
+- vault/repositories/galaxy/branches/active/issue_24722_unversioned_tool_preflight_26_2/brain_research.md: needed `CachedToolBox.has_tool` / short-id alias behavior with `exact=True` and an unversioned shed tool_id, which no note covers.

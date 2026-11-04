@@ -12,3 +12,7 @@ Branch: [`issue_212_udt_expression_paths`](../../../branches/active/issue_212_ud
 - Embedded `GalaxyUserTool`s in workflows never reach `validateUserToolSource`; `validate`/`draft-validate` only parse their inputs for state checks.
 - Galaxy runtime shape verified at `65e6daff`: `lib/galaxy/tool_util_models/parameters.py` (`DataInternalJson`, `DataCollectionElementInternalJson`, `DataCollectionInternalJsonBase`, per-type runtime models) and `lib/galaxy/tools/runtime.py` (`model_dump(by_alias=True)`, so every declared field is present, possibly null).
 - Right repository: the offline validator lives here; the matching Galaxy lint is proposed separately.
+
+## Status (2026-11-03)
+
+Branch implemented, reviewed (normal, Codex, thermo), and polished; in `branches_ready_for_final_review`. No PR yet. Follow-ups: port Galaxy's `CanonicalYamlInputSource` (YAML sections), derive the Effect `job_runtime` schemas from `job-runtime.schema.json`, and fix Galaxy's connection fixtures that read `.path` off a `list`.

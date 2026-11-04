@@ -8,7 +8,7 @@ Stage 1 lets you hover a step to preview what it produced, one step at a time. T
 | ![The middle of an IWC ChIP-seq PE layout replica at 50%, before embedding](screenshots/06_chipseq_before_embedding_50pct.png) | ![The same view embedded: Bowtie2's card appears and the steps after it move 49 pixels right](screenshots/07_chipseq_embedded_50pct.png) |
 | ![The upper left of an IWC ATAC-seq layout replica at 50%, before embedding](screenshots/09_atacseq_before_embedding_50pct.png) | ![The same view embedded: cards beside Bowtie2 and the duplicate removal step, downstream steps shifted right, the left column fixed](screenshots/10_atacseq_embedded_50pct.png) |
 
-The ChIP-seq and ATAC-seq rows are layout replicas: the real IWC positions, labels, edges and workflow outputs, with test tools in place of the real ones, so card contents are placeholder text and small test tables.
+The ChIP-seq and ATAC-seq rows are layout replicas: the real IWC positions, labels, edges and workflow outputs, where each step writes a prepared demo file shaped like the real output (a Bowtie2 summary, MACS2 peaks, a fragment length plot), not a tool result. BAM and bigWig cards show what Galaxy shows for binary files: "No content found."
 
 ***This is a maintainer-proposed feature and the second stage of the invocation graph outputs effort. It stacks on the stage 1 hover previews (🌿[invocation_graph_output_previews](https://github.com/jmchilton/galaxy/tree/invocation_graph_output_previews)), and this description covers only what stage 2 adds. Stage 3, a step's preferred output drawn inside its node, builds on this and comes separately.***
 
@@ -29,7 +29,8 @@ The ChIP-seq and ATAC-seq rows are layout replicas: the real IWC positions, labe
 
 - **Which outputs:** each labeled workflow output that has a dataset or collection yet (they exist once their step is scheduled). The toggle is disabled ("No workflow outputs to show yet") until one has.
 - **Cards:** 260×170 for datasets, 260×120 for collections, pinned right of their step with a dashed connector; several outputs of one step stack downwards. Datasets render through stage 1's preview (tables, images, text). Collections show a summary: the name, the history panel's description, and the first two elements plus "and N more".
-- **Static:** cards are inert and pointer-transparent, so dragging and zooming over them move the graph, and nothing in them takes focus. Content is clipped, and a table's pagination is hidden. The interactive preview stays one hover away (stage 1) and in the step details.
+- **Static:** cards are inert and pointer-transparent, so dragging and zooming over them move the graph, and nothing in them takes focus. Content is clipped, never scrolled. A table drops its sort icons and pagination and uses compact rows, so a card shows five rows; an image is sized to the card's body. The interactive preview stays one hover away (stage 1) and in the step details.
+- **Edges:** steps' edges keep their routes and pass under cards; a white halo round each card shows that they pass underneath rather than end at it.
 - **Layout:** steps shrink to 9rem, then one left-to-right pass pushes each step just far enough to clear the cards and keep its row order and flowing edges. Steps never move up, down or left, and the graph refits to include the cards.
 - **Running invocations:** a card shows the not-ready placeholder until its step finishes, then fills in place. Polling causes no re-layout, except once when a step scheduled later (after a subworkflow, say) first gets its outputs.
 
@@ -48,7 +49,7 @@ The ChIP-seq and ATAC-seq rows are layout replicas: the real IWC positions, labe
 
 <details><summary>How the branch is organised</summary>
 
-Six commits, about 620 production lines and 880 lines of tests and selectors:
+Nine commits, about 650 production lines and 900 lines of tests and selectors:
 
 1. A test-only Selenium helper refactor of stage 1's test (`_open_output_kinds_invocation`).
 2. `WorkflowGraph.vue`: `fitWorkflow` takes optional extra rectangles, and a `node-area` slot draws content in workflow coordinates.
@@ -56,6 +57,9 @@ Six commits, about 620 production lines and 880 lines of tests and selectors:
 4. `InvocationEmbeddedCollection.vue` and `InvocationOutputPreview`'s `summarizeCollection` option, with Vitest.
 5. The feature: `useEmbeddedOutputs`, `InvocationEmbeddedOutputs.vue` and the toggle in `InvocationGraph.vue`, with Vitest.
 6. A Selenium/Playwright test of the toggle, cards, connectors, static cards and restore, plus `navigation.yml` selectors.
+7. Compact table snapshots: no sort icons, tighter rows (CSS, with E2E checks).
+8. Image snapshots sized to the card's body through a container query; previews clipped, not scrolled (CSS, with E2E checks).
+9. A halo round each card, with the connectors drawn over it (CSS).
 
 </details>
 
@@ -65,7 +69,7 @@ Risks are minimal - this is an opt-in, client-only view on the invocation graph 
 
 <details><summary>Risk Details</summary>
 
-- On dense workflows the original edges keep their routes and pass under the opaque cards (for example several ATAC-seq edges).
+- On dense workflows the original edges keep their routes and pass under the opaque cards (for example several ATAC-seq edges). A white halo shows they pass underneath, but the stretch under a card is hidden.
 - The layout was measured on the test workflow and four IWC layouts (ChIP-seq PE, CUT&RUN, dada2, ATAC-seq). The worst case, ATAC-seq, moves 21 of 42 steps by up to 527px live (17 steps and 354px offline), and offline 19 of its 1722 pairwise left/right and above/below orderings flip. Workflows unlike these may nudge more.
 - Card sizes are constant, so a tall table or a large image is clipped to the card. The hover preview shows it whole.
 - Cards inherit stage 1's step state: a mapped-over step whose jobs are all still pending already reads as `ok` on `dev`, so its card may load before the jobs finish.

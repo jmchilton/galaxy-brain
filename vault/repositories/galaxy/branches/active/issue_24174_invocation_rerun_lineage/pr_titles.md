@@ -1,0 +1,5 @@
+- Record which invocation a workflow rerun came from, and link the two
+- Workflow invocation rerun lineage: source and newer-rerun links
+- Link workflow reruns to their source invocation
+- Persist workflow rerun lineage and show it on invocations
+- Track workflow invocation reruns (`rerun_of_invocation_id`)

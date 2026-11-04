@@ -1,0 +1,38 @@
+class: GalaxyWorkflow
+inputs:
+  reads:
+    type: collection
+    collection_type: paired_or_unpaired
+outputs:
+  aligned:
+    outputSource: star/aligned
+steps:
+  star:
+    run:
+      class: GalaxyUserTool
+      id: star_wnode
+      version: 0.1.0
+      name: STAR (wnode)
+      container: quay.io/biocontainers/star:2.7.11b--h43eeafb_0
+      inputs:
+      - name: reads
+        type: data_collection
+        collection_type: paired_or_unpaired
+        format:
+        - fastqsanger.gz
+      configfiles:
+      - name: reads
+        filename: reads.sh
+        content: 'set -- $(inputs.reads.unpaired ? `''${inputs.reads.unpaired.path}''`
+          : `''${inputs.reads.forward.path}'' ''${inputs.reads.reverse.path}''`)
+
+          '
+      shell_command: . ./reads.sh && STAR --readFilesIn "$@" --readFilesCommand zcat
+        > Aligned.out.sam
+      outputs:
+      - name: aligned
+        type: data
+        format: sam
+        from_work_dir: Aligned.out.sam
+    in:
+      reads: reads
