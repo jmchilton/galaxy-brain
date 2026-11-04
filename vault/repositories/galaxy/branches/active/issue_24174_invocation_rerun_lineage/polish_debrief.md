@@ -17,20 +17,32 @@ Run via claude-opus-5-5 at high effort (coordinator).
    - direct links only, no grouping;
    - invoke, replay and import are unchanged or independent;
    - access and privacy, and the query cost;
-   - any accessible source is accepted.
+   - a rerun must use the same workflow (any version); this line said "any accessible source" until the revision below.
 5. **Strengthening** (one round). Acted on:
    - **Code:** `9df72d8d97a` adds a differential unit test of `_accessible_invocation_clause` against `check_security` over a viewer × history matrix. A mutation that drops the share condition makes it fail. It also splits invalid-source API checks into 400 for malformed and 404 for a missing invocation; previously both were accepted by `in (400, 404)`.
-   - **Description:** "reloads each page" became "reloads each rerun page"; the reasoning for the foreign key was split into a reverse lookup and per-row markers; and the privacy, cost and any-source highlights were added.
+   - **Description:** "reloads each page" became "reloads each rerun page"; the reasoning for the foreign key was split into a reverse lookup and per-row markers; and the privacy, cost and source highlights were added.
 6. **Titles and tags** ([titles](pr_titles.md), [tags](pr_tags.md)): `kind/feature`, `area/workflows`, `area/database`, `area/API`, `area/UI-UX`.
 
 ## Left for John
 
-- **Scope question: should the source have to be an invocation of the same workflow?** The server accepts any source the caller can access, and the existing access test deliberately links a rerun of another user's own copy of a workflow. The description now states this. Adding a same-workflow check later would reject requests that work now, and it would need a rule for imported copies.
 - **Evidence for need.** No user has reported losing track of reruns. The case rests on #24174's analysis and the demand implied by #20032, #18696 and #10039, and the checklist says so.
 - **Unchanged since earlier review:**
   - `is_rerun` stays `true` when the source becomes inaccessible, so the marker shows without a banner.
   - The index is built without `CONCURRENTLY`.
   - A "newer rerun" link doesn't appear on an invocation page that is already open and finished.
+
+## Revision after hand-off: same-workflow rule
+
+John decided that a rerun's source must be an invocation of the same workflow. `9a8bf84c5ab` makes `invoke_workflow` reject a source whose stored workflow differs from the target's with a 400, "A rerun must run the same workflow as the invocation it reruns." Any version of the same stored workflow is accepted. UI reruns invoke the source's exact version through the `/request` export, so they are unaffected. `test_workflow_invocation_rerun_access` now reruns the published original workflow instead of the other user's copy, and the new `test_workflow_invocation_rerun_same_workflow` checks that an identical copy is rejected and a newer version accepted. Without the check, that test fails. All 4 lineage API tests pass. The payload field's description (pydantic and `schema.ts`) states the rule. The checklist was re-run, and the description was revised to state the rule and drop its hedges.
+
+```text
+created …/differential-review/snapshots/20261104T160645Z-revision-9a8bf84c5abd.json
+  revision @ 9a8bf84c5abd vs origin/dev (merge-base 7e16f446410c)
+  since 20261104T154418Z-polishing-9df72d8d97ac:
+    commits: 11 same, 0 rebased, 0 changed, 1 new, 0 dropped
+    hunks:   48 carried, 4 changed, 1 new, 0 dropped
+    new     9a8bf84c5abd Require a rerun source to be an invocation of the same workflow
+```
 
 ## Validation at `9df72d8d97a`
 

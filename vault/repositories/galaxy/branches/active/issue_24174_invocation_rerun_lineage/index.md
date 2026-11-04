@@ -9,18 +9,18 @@ upstream_base_branch: dev
 
 ## Status
 
-Polished and ready for John's final review (`branches_ready_for_final_review`) at `9df72d8d97a`, with code changed since the earlier read ([PR description](pr_description.md), [titles](pr_titles.md), [tags](pr_tags.md), [checklist](pr_checklist.md), [polish debrief](polish_debrief.md); [screenshots](screenshots/) with [index](screenshot_debrief.md)).
+Polished and ready for John's final review (`branches_ready_for_final_review`) at `9a8bf84c5ab`, with the same-workflow rule added after polish ([PR description](pr_description.md), [titles](pr_titles.md), [tags](pr_tags.md), [checklist](pr_checklist.md), [polish debrief](polish_debrief.md); [screenshots](screenshots/) with [index](screenshot_debrief.md)).
 
 No PR.
 
-Fork CI is queued on `9df72d8d97a` with nothing failed. On `830d058c5be`, Python linting, OpenAPI linting, Database indexes, Unit w/postgres and workflow framework tests passed before newer pushes cancelled the rest.
+Fork CI is pending on `9a8bf84c5ab`. On `830d058c5be`, Python linting, OpenAPI linting, Database indexes, Unit w/postgres and workflow framework tests passed before newer pushes cancelled the rest.
 
 ## Decisions
 
 - Issue: https://github.com/galaxyproject/galaxy/issues/24174. Targets dev: it adds a database migration.
 - Direct-lineage MVP: an indexed nullable self foreign key (`rerun_of_invocation_id`), source access validation, access-filtered source/latest direct-rerun links, both run forms, and rerun markers in both lists. Request exports remain independent; model-store imports discard lineage. No transitive grouping, edited-step metadata, or import remapping ([scope evaluation](scope_evaluation.md)).
 - 2026-11-04: John chose to rebase, run the missing hardening steps (baseline refactor, performance challenge, Codex review, check branch), then polish.
-- Open for John: whether a rerun's source must be an invocation of the same workflow. Today any accessible source is accepted, and the PR description says so ([polish debrief](polish_debrief.md)).
+- 2026-11-04: John decided a rerun's source must be an invocation of the same stored workflow (any version); a different workflow, including an identical copy, is rejected with 400 (`9a8bf84c5ab`). John asked for a PR description without hedging.
 - Worktree: `~/projects/worktrees/galaxy/branch/issue_24174_invocation_rerun_lineage`.
 
 ## Notes
@@ -39,3 +39,4 @@ Fork CI is queued on `9df72d8d97a` with nothing failed. On `830d058c5be`, Python
 - 2026-11-04: rebased onto dev (one conflict in `services/workflows.py`, resolved by keeping dev's scheduler/tool/on-complete checks before resolving the rerun source). The Alembic chain stayed linear (`64d49ad328d4` is still dev's head), so the migration needed no re-parenting. Migration round-trip, model-store lineage, both lineage API tests and 143 related client tests pass locally.
 - 2026-11-04 hardening gaps: performance challenge batched lineage resolution into two queries per serialization batch, with the history access rule in SQL (611 → 10 statements for a heavily rerun published invocation). Codex review found no defects. Baseline refactor split out a leading no-behavior-change commit (`9bf74e3ee40`, batch serialization path). Check branch: `make format` clean; mypy run as CI does (from `lib/`) flagged 9 branch typing errors in the new unit test and lineage code, fixed in `830d058c5be`.
 - 2026-11-04 polish: regenerated screenshots, checklist (all pass), PR description, titles and tags. Strengthening added a differential test of the SQL access clause against `check_security` and split 400/404 invalid-source API tests (`9df72d8d97a`).
+- 2026-11-04 revision: same-workflow rule for rerun sources, with `test_workflow_invocation_rerun_same_workflow` (copy rejected, newer version accepted); access test now reruns the published original workflow. Description de-hedged.
