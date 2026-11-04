@@ -2,7 +2,7 @@
 
 - [#24650](https://github.com/galaxyproject/galaxy/pull/24650) — initial review ready, unposted (P1 + P3; both fixed on `pr_24650_review_0`). [notes](active/24650/index.md)
 - [#24598](https://github.com/galaxyproject/galaxy/pull/24598) — approved + review branch `e278e8edcea` pushed into PR; awaiting merge. [notes](active/24598/index.md)
-- [#24647](https://github.com/galaxyproject/galaxy/pull/24647) — initial review ready, unposted (P2 integration test + three P3s; three fixed on `pr_24647_review_0`). Now APPROVED by another reviewer; new head 59f6bfe152b — re-check. [notes](active/24647/index.md)
+- [#24647](https://github.com/galaxyproject/galaxy/pull/24647) — review delivered 2026-11-04 as APPROVE on `7247fea9983` (P2 integration test + three P3s; three fixed on `pr_24647_review_0`). Also approved by davelopez; head now 59f6bfe152b; awaiting merge. [notes](active/24647/index.md)
 - [#24635](https://github.com/galaxyproject/galaxy/pull/24635) — initial review ready, unposted (four P2s + five P3s; eight fixed on `pr_24635_review_0`); release-target question for John. [notes](active/24635/index.md)
 
 - [#24586](https://github.com/galaxyproject/galaxy/pull/24586) — approved; awaiting merge (one P2 + two P3s; fixes on `pr_24586_review_1`, not pushed to PR). [notes](active/24586/index.md)
