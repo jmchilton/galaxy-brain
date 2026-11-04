@@ -48,14 +48,16 @@ The issue index is [MY_ISSUES.md](../../repositories/foundry/issues/MY_ISSUES.md
 Foundry issues carry triage labels on GitHub, defined in Foundry's `content/meta/issue-labels.md`. Derive an issue's status from the labels on GitHub, first match wins; `MY_ISSUES.md` section keys are in parentheses:
 
 1. Closed on GitHub → `closed`.
-2. An open PR or a branch addresses it → `wip`.
-3. `requires-iwc-inputs` or any `upstream/*` → give the record an agent blocker ([BLOCKERS.md](../_shared/BLOCKERS.md)) whose condition is that label's removal, then keep matching. A blocked `queued` issue goes under `queued_blocked`.
-4. The record has an `issue_tags.md` ([FILE_DOCS.md](../../repositories/foundry/issues/FILE_DOCS.md)) → `needs_decision` (`needs_decision_labels`): John reviews the staged labels.
-5. `agent/implement` → `queued` (`queued_implement`).
-6. `agent/research` → `queued` (`queued_research`).
-7. `agent/human` → `needs_decision` (`needs_decision_human`): John drives it.
-8. `needs-triage` → `untriaged`.
-9. Otherwise (no `agent/*` label yet) → `needs_decision`: John picks who drives it.
+2. `work/in-progress`, or an open PR or a branch addresses it → `wip`.
+3. The record has an `issue_tags.md` ([FILE_DOCS.md](../../repositories/foundry/issues/FILE_DOCS.md)) → `needs_decision` (`needs_decision_labels`): John reviews the staged labels.
+4. `requires-iwc-inputs` or any `upstream/*` → `queued` (`queued_blocked`), with an agent blocker ([BLOCKERS.md](../_shared/BLOCKERS.md)) whose condition is that label's removal.
+5. The record's agent blocker label is gone from GitHub → drop the blocker, stage the next `work/*` label in `issue_tags.md`, and go to `needs_decision_labels`.
+6. `work/ready-implement` → `queued` (`queued_implement`).
+7. `work/ready-research` → `queued` (`queued_research`).
+8. `work/needs-review` → `needs_decision` (`needs_decision_review`): John answers the agent's comment.
+9. `work/human` → `needs_decision` (`needs_decision_human`): John drives it.
+10. No `roadmap/*` or no `priority/*` label → `untriaged`.
+11. Otherwise (no `work/*` label yet) → `needs_decision`: John picks the work state.
 
 To triage an issue, follow [TRIAGE_ISSUE.md](TRIAGE_ISSUE.md).
 

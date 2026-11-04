@@ -1,6 +1,6 @@
 You'll be given a Foundry issue.
 
-All work on Foundry goes through issues. If the issue isn't labeled `agent/implement`, refuse the work and ask John to re-label it.
+All work on Foundry goes through issues. If the issue isn't labeled `work/ready-implement` (or `work/in-progress` on a resumed run), refuse the work and ask John to re-label it. On start, swap `work/ready-implement` for `work/in-progress` and comment with the branch.
 
 Read the issue and its comments. Check for open PRs or branches that address it - don't redo work.
 

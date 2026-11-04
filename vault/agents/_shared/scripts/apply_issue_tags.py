@@ -22,7 +22,7 @@ from issue_labels import TAG_LINE, GhError, gh_label_names
 
 PARENT_LINE = re.compile(r"^Parent: #(\d+)", re.MULTILINE)
 # A staged label in one of these groups replaces the issue's other labels in that group.
-EXCLUSIVE_PREFIXES = ("roadmap/", "priority/", "agent/")
+EXCLUSIVE_PREFIXES = ("roadmap/", "priority/", "work/")
 
 
 class ApplyError(GhError):
@@ -56,6 +56,21 @@ class ApplyPlan:
         return ", ".join(changes) + (f"; parent #{self.parent}" if self.parent else "")
 
 
+def is_work(label: str) -> bool:
+    return label.startswith("work/")
+
+
+def is_blocker(label: str) -> bool:
+    return label.startswith("upstream/") or label == "requires-iwc-inputs"
+
+
+def replaces(staged: str, current: str) -> bool:
+    """Whether applying `staged` removes the issue's `current` label; work/* and blockers exclude each other."""
+    if any(staged.startswith(prefix) and current.startswith(prefix) for prefix in EXCLUSIVE_PREFIXES):
+        return True
+    return (is_work(staged) and is_blocker(current)) or (is_blocker(staged) and is_work(current))
+
+
 def read_staged(text: str) -> tuple[list[str], int | None]:
     """Staged labels and parent issue number from issue_tags.md text."""
     parent = PARENT_LINE.search(text)
@@ -81,16 +96,20 @@ def plan_apply(record: Path, live: LiveIssue, known: set[str], github_repo: str 
     unknown = [label for label in labels if label not in known]
     if unknown:
         raise ApplyError(f"unknown label(s): {', '.join(unknown)}; fix issue_tags.md")
+    work = [label for label in labels if is_work(label)]
+    if work and any(is_blocker(label) for label in labels):
+        raise ApplyError(f"{tags} stages both a work/* label and a blocker; a blocked issue has no work state")
+    if len(work) > 1:
+        raise ApplyError(f"{tags} stages more than one work/* label: {', '.join(work)}")
     if live.state != "OPEN":
         raise ApplyError(f"#{number} is {live.state}; sync the record instead")
-    groups = {prefix for prefix in EXCLUSIVE_PREFIXES if any(label.startswith(prefix) for label in labels)}
     return ApplyPlan(
         record=record.resolve(),
         github_repo=github_repo or f"galaxyproject/{repo}",
         number=number,
         node_id=live.node_id,
         add=[label for label in labels if label not in live.labels],
-        remove=[label for label in live.labels if label not in labels and label.startswith(tuple(groups))],
+        remove=[current for current in live.labels if current not in labels and any(replaces(s, current) for s in labels)],
         parent=parent if parent and parent != live.parent else None,
     )
 
@@ -146,10 +165,11 @@ def apply_plan(
     link_parent: Callable[[str, int, str], None] = gh_link_parent,
     today: date | None = None,
 ) -> None:
-    if plan.add or plan.remove:
-        edit(plan.github_repo, plan.number, plan.add, plan.remove)
+    # Parent first: the label edit triggers Foundry's triage check, which reads the parent.
     if plan.parent:
         link_parent(plan.github_repo, plan.parent, plan.node_id)
+    if plan.add or plan.remove:
+        edit(plan.github_repo, plan.number, plan.add, plan.remove)
     index = plan.record / "index.md"
     text = index.read_text() if index.is_file() else ""
     line = f"Staged labels applied {(today or date.today()).isoformat()}: {plan.describe() or 'already on GitHub'}.\n"

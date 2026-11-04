@@ -26,7 +26,7 @@ Foundry is not a collection of dated workarounds. Galaxy, planemo, gxformat2, ga
 `scenarios.md` holds concrete `(input, expected)` pairs. `eval.md` holds fixture-independent properties. An abstract description of an abstract workflow is not a test case.
 
 - Every `## Case:` names a specific fixture: a repo-relative path, a pinned pipeline in `workflow-fixtures/fixtures.yaml`, a committed `examples/` file, or an IWC workflow ID. Reject phrasings like "a Nextflow summary with a skip-style branch control", "a pipeline (or synthetic tree) that drives the resolver into...", "a complete gxformat2 workflow expected to pass".
-- If the touched file has other abstract cases, they get fixed too: in this PR, in a preceding cleanup PR to rebase on, or in a new `agent/implement` issue.
+- If the touched file has other abstract cases, they get fixed too: in this PR, in a preceding cleanup PR to rebase on, or in a new `work/ready-implement` issue.
 - Each case is a fixture plus an expectation. No preamble, maturity notes, "blocks on" punch lists or "what a first walk needs" sections.
 - No file preamble explaining what a scenarios file is or how pipeline scenarios relate to Mold oracles.
 - Check expectations against the target's real behavior. Example of a wrong one: "unlike gxformat2, CWL has native `when:`" (Galaxy has `when`).
