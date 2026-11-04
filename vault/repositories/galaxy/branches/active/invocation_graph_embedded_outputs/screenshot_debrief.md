@@ -31,6 +31,8 @@ Outside the canvas, a flip pair differs only in page chrome. The live stage 3 fr
 | `17_running_finished_closeup_90pct.png` | The zoomed page after `final` finished. The table filled in in place, and the bounding boxes are unchanged. | 14 | flip with 16 | 90% | same |
 | `18_stage2_output_previews_embedded_closeup_live.png` | **Stage 2 reference, not stage 3.** Stage 2's 03 retaken live on this server, on the stage 2 invocation (no preferred outputs). Its canvas is pixel-identical to stage 2's 03. It is here so that 06 and 07 have a counterpart with the same live chrome. | 03 | flip with 06 and 07 | 100% | live, invocation c9468fdb6dc5c5f1 |
 
+Three stage 2 frames were copied here unchanged during polishing, so the PR description's flip pairs are all under `screenshots/`. They are `stage2_07_chipseq_embedded_50pct.png` (the counterpart of 11), `stage2_08_chipseq_embedded_macs2_stack_80pct.png` (of 12) and `stage2_10_atacseq_embedded_50pct.png` (of 13). They are stage 2 output, not stage 3.
+
 Checks on every frame:
 - Grown steps are 260 px wide at 100% (208 at 80%, 130 at 50%) and line up with the 260-wide cards.
 - Nothing overlaps.

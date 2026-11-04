@@ -83,7 +83,6 @@ None yet.
 - [`issue_24177_rerun_step_params_full_form`](active/issue_24177_rerun_step_params_full_form/index.md) — Keeps reruns with tool step params in the expanded form, prefills simple-form settings and fixes simple-form workflow params (`replacement_params`) (#24177). Stacked on `issue_24176_rerun_full_form_prefill`; re-scoped, head `46db8f9d5b6`; fresh CI pending. [Open PR](https://github.com/galaxyproject/galaxy/compare/issue_24176_rerun_full_form_prefill...jmchilton:galaxy:issue_24177_rerun_step_params_full_form?expand=1).
 - [`workflow_step_parameter_overrides`](active/workflow_step_parameter_overrides/index.md) — Nested `step_parameter_overrides` run field; run-form picker with pop-out workflow view (#24454). [Open PR](https://github.com/galaxyproject/galaxy/compare/issue_24177_rerun_step_params_full_form...jmchilton:galaxy:workflow_step_parameter_overrides?expand=1).
 - [`cwl_fixes_5`](active/cwl_fixes_5/index.md) — Collects CWL validation, typing, output-path and job-document fixes. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:cwl_fixes_5?expand=1).
-- [`invocation_graph_embedded_outputs`](active/invocation_graph_embedded_outputs/index.md) — Stage 3: steps can star a preferred output; with Embed Outputs on, a step is drawn as it and the layout grows. [Open PR](https://github.com/jmchilton/galaxy/compare/invocation_graph_embedded_workflow_outputs...invocation_graph_embedded_outputs?expand=1).
 
 ## Galaxy branches — implemented, work left, green (`branches_implemented`)
 
@@ -103,6 +102,7 @@ None yet.
 
 ## Galaxy branches — ready for final review (`branches_ready_for_final_review`)
 
+- [`invocation_graph_embedded_outputs`](active/invocation_graph_embedded_outputs/index.md) — Stage 3: steps can star a preferred output; with Embed Outputs on, a step is drawn as it and the layout grows. [Open PR](https://github.com/jmchilton/galaxy/compare/invocation_graph_embedded_workflow_outputs...invocation_graph_embedded_outputs?expand=1).
 - [`invocation_graph_embedded_workflow_outputs`](active/invocation_graph_embedded_workflow_outputs/index.md) — Stage 2: Embed Outputs shows workflow outputs as cards beside their steps, nudging steps right. [Open PR](https://github.com/jmchilton/galaxy/compare/invocation_graph_output_previews...invocation_graph_embedded_workflow_outputs?expand=1).
 - [`invocation_graph_output_previews`](active/invocation_graph_output_previews/index.md) — Stage 1: hovering a step's outputs in the invocation graph previews them. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:invocation_graph_output_previews?expand=1).
 - [`compare_runs`](active/compare_runs/index.md) — Compare runs of a workflow step, workflow outputs or a tool in one table: 3 GET endpoints, All runs tab, `/comparisons` page. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:compare_runs?expand=1).

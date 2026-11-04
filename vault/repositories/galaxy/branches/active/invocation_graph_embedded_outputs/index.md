@@ -13,11 +13,11 @@ related_records:
 
 ## Status
 
-Stage 3 hardened READY at `a8728b098c1`, four baseline/refactor and four feature commits on stage 2 `3b546b24e6f` ([implementation debrief](implementation_debrief.md), [screenshots](screenshots/) with [index](screenshot_debrief.md), [layout measurements](layout_measurements.md)).
+Stage 3 polished at `bfd85ad414f`, ready for John's final review ([PR description](pr_description.md), [titles](pr_titles.md), [tags](pr_tags.md), [checklist](pr_checklist.md), [polish debrief](polish_debrief.md); [screenshots](screenshots/) with [index](screenshot_debrief.md), [layout measurements](layout_measurements.md), [implementation debrief](implementation_debrief.md)).
 
 No PR.
 
-No CI run yet; local vitest, vue-tsc, Python unit and API tests, and the Playwright invocation graph and editor tests pass.
+Fork CI on `bfd85ad414f` is pending; Python linting (fixed in polishing) and the other lint and unit runs passed on `e42ca09cd4b`, which differs only by one vitest.
 
 ## Decisions
 
