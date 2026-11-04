@@ -16,6 +16,13 @@ command: agents/_shared/scripts/file_incubator_issue.py {record}
 status: incubating, internal
 command: agents/_shared/scripts/file_incubator_issue.py {record} --assign
 
+## 🐴 File issue and implement
+status: incubating, internal
+agent_dir: gx_workhorse
+name: wh-{name}
+
+John launched this to file and implement the incubator record {record}. File it with `../_shared/scripts/file_incubator_issue.py {record} --status wip --assign`; stop and report if it fails. Then implement the new galaxyproject/galaxy issue; its issue record is the directory the script prints.
+
 ## 💭 New session
 agent_dir: gx_issues
 name: inc-{name}

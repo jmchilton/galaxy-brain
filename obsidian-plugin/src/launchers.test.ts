@@ -138,6 +138,7 @@ describe("parseLaunchers", () => {
 			["❯ Prepare to file", "incubating", "gx_issues"],
 			["📤 File issue", "incubating,internal", ""],
 			["📤 File issue and assign me", "incubating,internal", ""],
+			["🐴 File issue and implement", "incubating,internal", "gx_workhorse"],
 			["💭 New session", "", "gx_issues"],
 		]);
 		expect(vaultLaunchers("repositories/galaxy/reviews/LAUNCHERS.md")).toEqual([
