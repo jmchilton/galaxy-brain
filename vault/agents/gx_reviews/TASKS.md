@@ -65,24 +65,4 @@
   status: recommended
   priority: high
   suggested_by: gx_reviews/SUGGESTED_TASKS.md#Needs Follow Ups
-- prompt: Follow up on galaxyproject/galaxy#24647 (vault/repositories/galaxy/reviews/active/24647/).
-  agent_dir: gx_reviews
-  link: https://github.com/galaxyproject/galaxy/pull/24647
-  record: galaxy/reviews/24647
-  kind: human
-  description: |
-    👀 initial review ready, unposted; no action boxes checked.
-  status: recommended
-  priority: high
-  suggested_by: gx_reviews/SUGGESTED_TASKS.md#Needs Follow Ups
-- prompt: Follow up on galaxyproject/galaxy#24635 (vault/repositories/galaxy/reviews/active/24635/).
-  agent_dir: gx_reviews
-  link: https://github.com/galaxyproject/galaxy/pull/24635
-  record: galaxy/reviews/24635
-  kind: human
-  description: |
-    👀 initial review ready, unposted; release-target question for John.
-  status: recommended
-  priority: high
-  suggested_by: gx_reviews/SUGGESTED_TASKS.md#Needs Follow Ups
 ```

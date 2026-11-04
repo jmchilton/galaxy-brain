@@ -1,4 +1,4 @@
-(space for John's free style comments - just keep empty)
+Good catch I think. Integration testing agent suggested below seems like a good idea despite the mocking/abstraction busting - probably this is an important test? -John
 
 <details><summary>Automated Review Details</summary>
 
