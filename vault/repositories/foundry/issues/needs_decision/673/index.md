@@ -27,3 +27,5 @@ Verified against `origin/main` (4b828886, 2026-10-23):
 ## Next
 
 John decides: (a) roadmap placement/priority above; (b) fix 1 shape: pipeline-level statement vs. staged order (issue offers both); (c) whether to split into three PRs. Then `agent/implement`: generator wording change + recast (`make check`), nextflow-summary-to-galaxy-reference-data qualification, advance-galaxy-draft-step evidence ladder.
+
+Moved to `needs_decision` 2026-11-03: staged labels in `issue_tags.md` await John.

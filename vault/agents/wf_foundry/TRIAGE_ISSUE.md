@@ -9,7 +9,7 @@ Label rules live in Foundry, not here: [`content/meta/issue-labels.md`](https://
    - Upstream bugs: before proposing `upstream/*`, check whether the fix already exists on the upstream's release branches and published packages (PyPI/npm), not just dev/master. Released → propose closing with upgrade guidance instead.
    - We maintain Planemo, gxformat2 and gxwf (galaxy-tool-util-ts). A bug there is work we can do: prefer `agent/implement` with the fix aimed at that repo; add `upstream/*` only while waiting on a merge or release.
    - Bugs in repos we don't maintain with no matching `upstream/*` label (e.g. tool wrappers): `roadmap/off` + `agent/human`, and say where it should be filed.
-4. Derive the vault status from the proposed labels per the "Label mapping" in [CLAUDE.md](CLAUDE.md). Open questions for John go in the note; they don't change the status.
-5. Create the directory and `vault/repositories/foundry/issues/<status>/<number>/index.md`: title, issue link, proposed labels and parent with a reason each, status, findings (what was verified, what wasn't), next. See `issues/queued/678/index.md` for shape.
+4. Derive the vault status per the "Label mapping" in [CLAUDE.md](CLAUDE.md); proposed labels count only once applied. Open questions for John go in the note; they don't change the status.
+5. Create the directory and `vault/repositories/foundry/issues/<status>/<number>/index.md`: title, issue link, proposed labels and parent with a reason each, status, findings (what was verified, what wasn't), next. See `issues/*/678/` for shape. Stage the labels and parent not yet on GitHub in `issue_tags.md` beside it ([FILE_DOCS.md](../../repositories/foundry/issues/FILE_DOCS.md)).
 6. Move the issue's line in [MY_ISSUES.md](../../repositories/foundry/issues/MY_ISSUES.md) to the matching section. In batch runs with subagents, the coordinator does this, not the subagents.
-7. Apply labels and the parent link on GitHub only with John's OK.
+7. Don't apply labels or the parent link on GitHub. John applies them with the 🔖 Apply staged labels launcher, or gives his OK.

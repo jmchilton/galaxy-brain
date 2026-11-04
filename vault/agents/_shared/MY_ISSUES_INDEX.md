@@ -13,6 +13,8 @@ Sections match the status directories, in this order, plus `untriaged`. Write `N
 3. `queued`
 4. `untriaged` — no directory yet.
 
+An agent's `AGENTS.md` may split a status into sub-sections, kept beside it, whose keys start with the status, e.g. `queued_research`.
+
 `delegated` and `closed` issues leave the index: remove the line and move the directory. Its branches follow the branch queue's own rules in `MY_BRANCHES_INDEX.md`, not the issue's.
 
 A line's section and its directory's status always agree; change both together.

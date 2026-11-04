@@ -7,6 +7,14 @@ name: tr-{name}
 
 Run ./TRIAGE_ISSUE.md on galaxyproject/foundry#{name}
 
+## 👀 Diff staged labels
+status: needs_decision, queued, wip
+command: agents/_shared/scripts/apply_issue_tags.py {record} --dry-run
+
+## 🔖 Apply staged labels
+status: needs_decision, queued, wip
+command: agents/_shared/scripts/apply_issue_tags.py {record}
+
 ## 🐴 Work on issue
 status: untracked, queued, wip
 agent_dir: wf_foundry

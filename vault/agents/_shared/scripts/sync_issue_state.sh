@@ -14,10 +14,10 @@ dirs=$(find "$dir" -mindepth 2 -maxdepth 2 -type d -not -path "$dir/closed/*" -e
 tracked=$(printf '%s\n%s\n' "$linked" "$dirs" | grep -E '^[0-9]+$' | sort -un)
 all_dirs=$(find "$dir" -mindepth 2 -maxdepth 2 -type d -exec basename {} \; | grep -E '^[0-9]+$' || true)
 
-echo "## issues: number state reason closedAt assignees closingPRs"
+echo "## issues: number state reason closedAt assignees closingPRs labels"
 for n in $tracked; do
-  gh issue view "$n" -R "$repo" --json number,state,stateReason,closedAt,assignees,closedByPullRequestsReferences \
-    --jq '[.number,.state,.stateReason,.closedAt,([.assignees[].login]|join(",")),([.closedByPullRequestsReferences[]|"\(.number)"]|join(","))]|@tsv' \
+  gh issue view "$n" -R "$repo" --json number,state,stateReason,closedAt,assignees,closedByPullRequestsReferences,labels \
+    --jq '[.number,.state,.stateReason,.closedAt,([.assignees[].login]|join(",")),([.closedByPullRequestsReferences[]|"\(.number)"]|join(",")),([.labels[].name]|join(","))]|@tsv' \
     || echo "$n	QUERY_FAILED"
 done
 

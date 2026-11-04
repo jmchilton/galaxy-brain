@@ -160,7 +160,12 @@ describe("parseLaunchers", () => {
 			const session = dir === "workflow_libs" ? [["💭 New session", "", dir]] : [];
 			const issues =
 				dir === "wf_foundry"
-					? [["🏷️ Triage issue", "untracked,needs_decision", dir], ["🐴 Work on issue", "untracked,queued,wip", dir]]
+					? [
+							["🏷️ Triage issue", "untracked,needs_decision", dir],
+							["👀 Diff staged labels", "needs_decision,queued,wip", ""],
+							["🔖 Apply staged labels", "needs_decision,queued,wip", ""],
+							["🐴 Work on issue", "untracked,queued,wip", dir],
+						]
 					: [...session, ["🐴 Work on issue", WORK_ON, dir]];
 			const expected = {
 				branches: [...session, ["🚀 Open pull request", "active", dir], ["🟣 Merge branch", "active", dir], ["🗄️ Shelve", "active", dir]],

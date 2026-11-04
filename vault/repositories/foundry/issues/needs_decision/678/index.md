@@ -28,3 +28,5 @@
 Pick status name (`unsuitable` vs `capability-miss`), add to enum + allOf (require `candidate` like hit/weak), update `discover-shed-tool` Mold + eval, `advance-galaxy-draft-step` branch text (route to topology repair, not authoring), schema page, glossary; add validator test fixtures. Ordering: coordinate with #669.
 
 Questions: name; is `weak` + a rationale flag enough instead of a new status (issue argues no); also should `miss` stay when no candidate at all.
+
+Moved to `needs_decision` 2026-11-03: staged labels in `issue_tags.md` await John.

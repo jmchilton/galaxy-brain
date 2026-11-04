@@ -39,3 +39,5 @@ Not verified:
 ## Questions for John
 
 - Bundle with #730 or land it separately?
+
+Moved to `needs_decision` 2026-11-03: staged labels in `issue_tags.md` await John.

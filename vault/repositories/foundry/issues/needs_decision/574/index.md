@@ -40,3 +40,5 @@ Add the slug → `repo-search` retry to `discover-shed-tool` (plus an eval prope
 ## Questions for John
 
 - Should a Galaxy Tool Shed PR count as "work we can do" like Planemo, gxformat2 and gxwf, or is it `upstream/tool-shed`? TRIAGE_ISSUE.md doesn't say.
+
+Moved to `needs_decision` 2026-11-03: staged labels in `issue_tags.md` await John.

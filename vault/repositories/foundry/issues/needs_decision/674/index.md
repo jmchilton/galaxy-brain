@@ -25,3 +25,5 @@
 ## Next
 
 Edit the two notes per the issue's Expected section (decision test: does the param change the step set or only a step's arguments), update `nextflow-workflow-io-semantics`, recast, `make check`. Small PR; skim #267 first so shape language agrees.
+
+Moved to `needs_decision` 2026-11-03: staged labels in `issue_tags.md` await John.

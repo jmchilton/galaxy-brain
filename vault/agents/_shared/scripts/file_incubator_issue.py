@@ -18,15 +18,15 @@ from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Callable
 
+from issue_labels import TAG_LINE, GhError, gh_label_names
+
 ISSUE_STATUSES = ["needs_decision", "queued", "wip", "delegated"]
 FILEABLE_STATUSES = ["incubating", "internal"]
 ISSUE_URL = re.compile(r"https://github\.com/[^/\s]+/[^/\s]+/issues/(\d+)")
-# One backticked label per bullet; prose and anything else in issue_tags.md is ignored.
-TAG_LINE = re.compile(r"^- `([^`]+)`", re.MULTILINE)
 FRONTMATTER = re.compile(r"\A---\n.*?^---\n", re.DOTALL | re.MULTILINE)
 
 
-class FilingError(Exception):
+class FilingError(GhError):
     pass
 
 
@@ -123,17 +123,6 @@ def gh_create_issue(plan: FilingPlan) -> str:
     return result.stdout.strip().splitlines()[-1]
 
 
-def gh_label_names(github_repo: str) -> set[str]:
-    result = subprocess.run(
-        ["gh", "label", "list", "--repo", github_repo, "--limit", "1000", "--json", "name", "--jq", ".[].name"],
-        capture_output=True,
-        text=True,
-    )
-    if result.returncode:
-        raise FilingError(f"gh label list failed: {result.stderr.strip()}")
-    return set(result.stdout.splitlines())
-
-
 def check_labels(plan: FilingPlan, known: Callable[[str], set[str]] = gh_label_names) -> None:
     unknown = [label for label in plan.labels if label not in known(plan.github_repo)] if plan.labels else []
     if unknown:
@@ -202,7 +191,7 @@ def main(argv: list[str] | None = None) -> int:
             print(f"\n{plan.body}")
             return 0
         dest = file_record(plan)
-    except FilingError as e:
+    except GhError as e:
         print(f"error: {e}", file=sys.stderr)
         return 1
     print(f"Filed and moved record to {dest}")

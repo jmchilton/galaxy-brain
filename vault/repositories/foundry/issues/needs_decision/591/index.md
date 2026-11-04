@@ -26,3 +26,5 @@ Parent: none.
 - Galaxy issue filed 2026-11-04: [galaxyproject/galaxy#24722](https://github.com/galaxyproject/galaxy/issues/24722) ([record](../../../../galaxy/issues/queued/24722/index.md)). Next: link it in a #591 comment (needs John's OK). The root cause is the invocation pre-flight passing `require_exact_tool_versions` as the toolbox's exact-*id* flag. Download only echoes the stored id, so #591's title overstates the download's role.
 - Foundry: add to the invocation-failure reference: "400 not installed but tool present -> check `tool_id` is versioned".
 - Drop `upstream/galaxy` when the Galaxy fix lands.
+
+Staged labels applied 2026-11-04: +roadmap/off, +priority/mvp, +agent/research, +upstream/galaxy.

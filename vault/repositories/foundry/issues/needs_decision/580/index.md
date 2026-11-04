@@ -27,3 +27,5 @@ Fix the four template Molds (+ evals) to require `position`/`size` on frames, po
 
 - Parent #332 vs another main issue (none obviously fits; #566 is not roadmap/main).
 - Split validator work into an upstream gxwf issue?
+
+Moved to `needs_decision` 2026-11-03: staged labels in `issue_tags.md` await John.
