@@ -1,4 +1,4 @@
-(space for John's free style comments - just keep empty)
+My review agent never P1s - is this right? You understand toolbox startup shit so much better than me at this point so feel free to ignore if this is wildly off base. -John
 
 <details><summary>Automated Review Details</summary>
 
