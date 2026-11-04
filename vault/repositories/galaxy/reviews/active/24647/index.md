@@ -4,7 +4,7 @@
 
 ## Status
 
-Initial review round 0 on `7247fea9983` ready, unposted: one P2 + three P3s; P2 (requested integration test, 4 cases) and two P3s fixed on `pr_24647_review_0` (pushed to fork, not PR); rollback P3 left unfixed.
+Initial review round 0 on `7247fea9983` delivered 2026-11-04 as APPROVE (response posted; review branch not pushed to PR): one P2 + three P3s; P2 (requested integration test, 4 cases) and two P3s fixed on `pr_24647_review_0` (pushed to fork, not PR); rollback P3 left unfixed.
 
 PR open against `release_26.2` (author mvdbeek).
 
