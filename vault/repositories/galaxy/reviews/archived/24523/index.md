@@ -8,3 +8,7 @@
 - Verified: [verified_review.md](verified_review.md) (one P2 + three P3s, all fixed); filtered: [filtered_findings.md](filtered_findings.md)
 - Review branch `pr_24523_review_0` pushed to jmchilton fork: [details](review_0_branch_details.md)
 - Reports: [initial_review.md](initial_review.md), [test_challenges_review.md](test_challenges_review.md), [performance_challenges_review.md](performance_challenges_review.md), [risks.md](risks.md)
+
+## Archived
+
+Merged 2026-11-03T13:44:45Z; tracking ended (archived by sync 2026-11-04).

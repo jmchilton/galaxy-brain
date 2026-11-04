@@ -15,3 +15,7 @@ PR open, out of draft.
 - [verified_review.md](verified_review.md), [filtered_findings.md](filtered_findings.md), [review_1_branch_details.md](review_1_branch_details.md) (prev [review_0](review_0_branch_details.md)), [initial_review_agents.md](initial_review_agents.md)
 - Reports: [initial_review.md](initial_review.md), [thermo_review.md](thermo_review.md), [test_challenges_review.md](test_challenges_review.md), [performance_challenges_review.md](performance_challenges_review.md), [risks.md](risks.md), [learning_galaxy.md](learning_galaxy.md)
 - Verifier note: fast-panel `_populate_once` call site in `_init_tools_from_index` is unreachable (already so at base); suggested dropping on dev.
+
+## Archived
+
+Merged 2026-11-04T11:23:36Z; tracking ended (archived by sync 2026-11-04).

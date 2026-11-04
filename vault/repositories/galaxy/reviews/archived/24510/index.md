@@ -15,3 +15,7 @@ No agent review run (dependabot bump; John asked only for a CI fix). Fix `b4129a
 Verified: 13 failures reproduced locally on `724f53821a8`; after fix full client vitest suite 663 files / 5376 passed, 1 skipped.
 
 Note: dependabot stops rebasing a branch once someone else pushes to it.
+
+## Archived
+
+Merged 2026-11-02T15:34:35Z; tracking ended (archived by sync 2026-11-04).

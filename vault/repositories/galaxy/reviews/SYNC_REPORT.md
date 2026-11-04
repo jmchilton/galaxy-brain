@@ -1,17 +1,17 @@
-# Sync report — 2026-11-02 (gx_reviews)
+# Galaxy review sync — 2026-11-04 (gx_reviews)
 
 ## Archived (merged)
-#24543, #24563, #24565 (review never posted), #24567, #24585, #24634.
+#23964, #24509, #24510, #24523, #24561, #24661, #24666, #24668, #24670.
 
-## Needs re-review (new heads, already flagged in queue)
-#24484 23696757, #24290 b8eb7166, #24420 18dc9597, #24415 469ab3d3, #24407 4c49b5d9, #24409 9a08fe4a, #24288 c91e3494.
+## Needs re-review (new head)
+- #24484 380309990e5; #24288 ad8d6063a2f; #24361 15da7456dad; #24222 b1bdb4a3271; #24511 4b3de9ed5c4; #24647 59f6bfe152b (also approved by another reviewer).
 
 ## Status changes
-- #24510: CI green (26 pass, 13 skipped) on b4129a30ef2.
-- #24598: GH Actions on e278e8edcea awaiting maintainer approval (`action_required`); only CircleCI ran.
+- #24420: jmchilton push 8d15ef63266 (2026-11-03); Test Galaxy packages 3.10 + 3.14 failing.
 
 ## Mismatches
-- #23676: active record, no queue entry (draft, open).
+- active/23676 has no MY_REVIEWS.md entry.
 
 ## Worktrees
-Removed (clean, pushed): 24543, 24585, 24634. No others checked.
+- Removed clean merged worktrees: 23964 24509 24510 24523 24561 24661 24666 24670.
+- Kept 24668: HEAD 98ca6af0568 not found on fork or as ancestor of merged head; confirm before removing.

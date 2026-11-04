@@ -7,3 +7,7 @@
 Round 0 reviewed `7aa5ec64156`: two P2s + five P3s, six fixed on `pr_24509_review_0` (jmchilton fork); approved with response and review branch pushed to PR head (2026-11-01); awaiting merge.
 
 PR open (bernt-matthias → `dev`), out of draft.
+
+## Archived
+
+Merged 2026-11-02T18:21:48Z; tracking ended (archived by sync 2026-11-04).

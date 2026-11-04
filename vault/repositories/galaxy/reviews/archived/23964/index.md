@@ -11,3 +11,7 @@ Merged current `dev` (`6ebef15681f`) into the author branch and pushed merge com
 `9b8df5aa76e` is John's merge of `dev` into the PR, pushed to the author's branch 2026-10-22 (conflict with dev's form-field tokens resolved by moving them into galaxy-ui `theme.css` and regenerating `tokens.css`).
 
 Open, ready for review, against `dev`. Author @dannon. Worktree `~/projects/worktrees/galaxy/pr/23964` (client deps installed; no `.venv`).
+
+## Archived
+
+Merged 2026-11-04T13:09:38Z; tracking ended (archived by sync 2026-11-04).

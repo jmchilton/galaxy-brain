@@ -6,3 +6,7 @@
 - Response: [initial_review_response.md](initial_review_response.md); actions: [initial_response_action.md](initial_response_action.md); checklist: [verified_findings_checklist.md](verified_findings_checklist.md)
 - Verified: [verified_review.md](verified_review.md) — P2 1 + P3 1–5; five fixed on fork `jmchilton/galaxy` `pr_24670_review_0` ([details](review_0_branch_details.md)). Branch tests not run locally (no `.venv`).
 - Reports: [initial_review.md](initial_review.md), [test_challenges_review.md](test_challenges_review.md), [performance_challenges_review.md](performance_challenges_review.md), [risks.md](risks.md), [learning_galaxy.md](learning_galaxy.md), [learning_galaxy_followup_issue.md](learning_galaxy_followup_issue.md), [agents](initial_review_agents.md)
+
+## Archived
+
+Merged 2026-11-03T01:01:48Z; tracking ended (archived by sync 2026-11-04).
