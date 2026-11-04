@@ -1,10 +1,13 @@
+---
+upstream_base_branch: dev
+---
 # issue_20900_invocation_validation
 
-Status: `branches_reference` — waiting on smaller PRs to be pulled out of it (John, 2026-10-16). Base: `dev`. Implementation: BLOCKED by inherited validation regressions; requested rebase complete.
+Status: `branches_reference` — waiting on smaller PRs to be pulled out of it (John, 2026-10-16). Rebased onto dev 2026-11-04 at `3c9b3fbed60`; re-hardening in progress.
 
 Validates workflow invocation requests before creating histories or other side effects (#20900). Standing branch: [standing record](../../../../../agents/gx_standing/standing_branches/issue_20900_invocation_validation/index.md).
 
-[Implementation](implementation_debrief.md) · [Further split candidates](remaining_split_candidates.md) · [Rebase review](subagents/rebase_normal_review.md) · [Tracking history](tracking_history.md)
+[Rebase onto dev](rebase_reconciliation.md) · [Further split candidates](remaining_split_candidates.md) · [Tracking history](tracking_history.md) · Earlier: [drafts 1](earlier_drafts/1/implementation_debrief.md), [drafts 2](earlier_drafts/2/implementation_debrief.md)
 
 ## TICK — 2026-10-11
 
