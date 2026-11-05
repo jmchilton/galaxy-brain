@@ -9,4 +9,4 @@
 
 Approved, review posted 2026-11-04 (round 0, `6655fd8ef10`); awaiting merge. Review branch not pushed to PR: P1 (fix no-op after startup, cache cleared) + P3; both fixed on fork `pr_24650_review_0`, `test_cached_tool.py` 92 passed.
 
-PR open, out of draft.
+Archived 2026-11-05: GitHub state MERGED at 2026-11-05T11:33:57Z (head `ec1ef07e0dd`, CI 53/0/0); tracking ended on merge. Worktree removed.

@@ -55,13 +55,73 @@
   status: recommended
   priority: low
   suggested_by: gx_reviews/SUGGESTED_TASKS.md#Review New PRs
-- prompt: Follow up on galaxyproject/galaxy#24650 (vault/repositories/galaxy/reviews/active/24650/).
+- prompt: Launch a review of galaxyproject/galaxy#24732
   agent_dir: gx_reviews
-  link: https://github.com/galaxyproject/galaxy/pull/24650
-  record: galaxy/reviews/24650
+  link: https://github.com/galaxyproject/galaxy/pull/24732
+  description: |
+    🔎 pujitha24: stricter zip check so a tar ending in a zip isn't treated as that zip; file-type sniffing correctness, ready.
+  status: recommended
+  priority: low
+  suggested_by: gx_reviews/SUGGESTED_TASKS.md#Review New PRs
+- prompt: Launch a review of galaxyproject/galaxy#24683
+  agent_dir: gx_reviews
+  link: https://github.com/galaxyproject/galaxy/pull/24683
+  description: |
+    🔎 mvdbeek: [26.2] model implicit empty boolean conditional branches; tool-state/workflow modeling, ready.
+  status: recommended
+  priority: low
+  suggested_by: gx_reviews/SUGGESTED_TASKS.md#Review New PRs
+- prompt: Launch a review of galaxyproject/galaxy#24673
+  agent_dir: gx_reviews
+  link: https://github.com/galaxyproject/galaxy/pull/24673
+  description: |
+    🔎 mvdbeek: [25.1] fix HDA copies left on a purged dataset by a late job cache hit; data-integrity fix on old release, ready.
+  status: recommended
+  priority: low
+  suggested_by: gx_reviews/SUGGESTED_TASKS.md#Review New PRs
+- prompt: Launch a review of galaxyproject/galaxy#24689
+  agent_dir: gx_reviews
+  link: https://github.com/galaxyproject/galaxy/pull/24689
+  description: |
+    🔎 arash77: [26.1] fix 404 for Tool Shed citable URLs with a trailing slash; small Tool Shed routing fix, ready.
+  status: recommended
+  priority: low
+  suggested_by: gx_reviews/SUGGESTED_TASKS.md#Review New PRs
+- prompt: Launch a review of galaxyproject/galaxy#24716
+  agent_dir: gx_reviews
+  link: https://github.com/galaxyproject/galaxy/pull/24716
+  description: |
+    🔎 itisAliRH: [26.2] apply user tool filter preferences allowed by user_tool_filters; tool panel/config behavior, ready.
+  status: idea
+  priority: low
+  suggested_by: gx_reviews/SUGGESTED_TASKS.md#Review New PRs
+- prompt: Follow up on galaxyproject/galaxy#24361 (vault/repositories/galaxy/reviews/active/24361/).
+  agent_dir: gx_reviews
+  link: https://github.com/galaxyproject/galaxy/pull/24361
+  record: galaxy/reviews/24361
   kind: human
   description: |
-    👀 initial review ready, unposted; no action boxes checked.
+    👀 Approved, mergeable, CI green; author pushed 15da7456dad (2026-11-04) after review — re-check head, then merge.
+  status: recommended
+  priority: high
+  suggested_by: gx_reviews/SUGGESTED_TASKS.md#Needs Follow Ups
+- prompt: Follow up on galaxyproject/galaxy#24222 (vault/repositories/galaxy/reviews/active/24222/).
+  agent_dir: gx_reviews
+  link: https://github.com/galaxyproject/galaxy/pull/24222
+  record: galaxy/reviews/24222
+  kind: human
+  description: |
+    👀 Approved, mergeable, CI green; author pushed b1bdb4a3271 (2026-11-04) after review — re-check head, then merge.
+  status: recommended
+  priority: high
+  suggested_by: gx_reviews/SUGGESTED_TASKS.md#Needs Follow Ups
+- prompt: Follow up on galaxyproject/galaxy#24586 (vault/repositories/galaxy/reviews/active/24586/).
+  agent_dir: gx_reviews
+  link: https://github.com/galaxyproject/galaxy/pull/24586
+  record: galaxy/reviews/24586
+  kind: human
+  description: |
+    👀 Approved, mergeable, CI green; author pushed 1a5ce23b263 (2026-11-02) after review — re-check head, then merge.
   status: recommended
   priority: high
   suggested_by: gx_reviews/SUGGESTED_TASKS.md#Needs Follow Ups

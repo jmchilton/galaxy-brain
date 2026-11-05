@@ -5,7 +5,7 @@
 
 ## Status
 
-Round 1 re-review on `9ee89b52d9` ready, unposted: four P2s + six P3s, all fixed on `pr_24635_review_1` (pushed to fork, not PR). Round 0 only delivered its P3 1 (as John's comment), which the author addressed in `9ee89b52d9`.
+Round 1 re-review on `9ee89b52d9` delivered as John's comment 2026-11-04T22:13Z (approval stands; asks whether P3 3 should move whitespace-strip to XML ingestion): four P2s + six P3s, all fixed on `pr_24635_review_1` (pushed to fork, not PR). Round 0 only delivered its P3 1 (as John's comment), which the author addressed in `9ee89b52d9`.
 
 PR open against `release_26.2`; author requested re-review 2026-11-03.
 
