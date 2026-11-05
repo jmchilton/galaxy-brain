@@ -1,6 +1,6 @@
 # Galaxy Brain Index
 
-*141 notes. Auto-generated — run `make index` to refresh.*
+*142 notes. Auto-generated — run `make index` to refresh.*
 
 ## Plans
 
@@ -24,6 +24,7 @@
 - [[usecases]] — Galaxy Notebooks paper use cases: UC1–UC3 worked with extracted workflows; UC4–UC7 newly seeded as interview inputs from an IWC review.
 - [[toolshed]] — Ongoing Tool Shed maintenance, API modernization, dead-code cleanup, and feature work.
 - [[shed_reviews]] — Conveying IUC-like review authority to non-IUC Tool Shed repositories, and publishing the gates an agentic tool-maturation pipeline passes
+- [[url_abstraction_hardening]] — Align Galaxy's shared URL check with how its HTTP clients read URLs, and check every redirect hop, per release.
 - [[workflow_applications]] — Project tracking work on Galaxy workflow applications.
 - [[workflow_backlog]] — Running log of Galaxy workflow backlog issues, each line pairing an issue with its PR and the next action needed
 - [[workflow_semantics]] — Formalizing Galaxy workflow evaluation semantics into a CI-validated documentation artifact, per issue #22200.
