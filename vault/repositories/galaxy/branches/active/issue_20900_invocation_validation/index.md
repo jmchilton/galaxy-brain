@@ -3,11 +3,19 @@ upstream_base_branch: dev
 ---
 # issue_20900_invocation_validation
 
-Status: `branches_reference` — waiting on smaller PRs to be pulled out of it (John, 2026-10-16). Rebased onto dev 2026-11-04 at `3c9b3fbed60`; re-hardening in progress.
+- [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_20900_invocation_validation?expand=1) · [View on GitHub](https://github.com/jmchilton/galaxy/tree/issue_20900_invocation_validation)
+
+## Status
+
+`branches_need_decision`: all extractions are merged. The branch was rebased, re-hardened and pushed at `9f2d892ad17` on 2026-11-05, and is parked on the scope decisions in the [implementation debrief](implementation_debrief.md).
+
+No PR.
+
+Fork CI is not assessed.
 
 Validates workflow invocation requests before creating histories or other side effects (#20900). Standing branch: [standing record](../../../../../agents/gx_standing/standing_branches/issue_20900_invocation_validation/index.md).
 
-[Rebase onto dev](rebase_reconciliation.md) · [Further split candidates](remaining_split_candidates.md) · [Tracking history](tracking_history.md) · Earlier: [drafts 1](earlier_drafts/1/implementation_debrief.md), [drafts 2](earlier_drafts/2/implementation_debrief.md)
+[Implementation debrief](implementation_debrief.md) · [Scope evaluation](scope_evaluation.md) · [Baseline refactor](baseline_refactor.md) · [Rebase onto dev](rebase_reconciliation.md) · [Further split candidates](remaining_split_candidates.md) · [Tracking history](tracking_history.md) · Earlier: [drafts 1](earlier_drafts/1/implementation_debrief.md), [drafts 2](earlier_drafts/2/implementation_debrief.md)
 
 ## TICK — 2026-10-11
 

@@ -6,7 +6,7 @@ record: galaxy/branches/issue_20900_invocation_validation
 
 - No PR yet · [branch record](../../../../repositories/galaxy/branches/active/issue_20900_invocation_validation/index.md) · refs [#20900](https://github.com/galaxyproject/galaxy/issues/20900)
 
-Reject bad workflow invocation requests at the API before creating histories or other side effects. Fork head `07377e10531` (2026-10-15), 24 commits on dev `88127f42979`; now 1927 behind dev.
+Reject bad workflow invocation requests at the API before creating histories or other side effects. Fork head `9f2d892ad17` (2026-11-05): 5 commits on dev `7e16f446410`, rebased and re-hardened after every extraction merged.
 
 ## Children
 
@@ -24,15 +24,16 @@ All eight extracted PRs merged; every merge commit is in `dev` (checked 2026-11-
 
 ## Remaining in the standing branch
 
-- Validate-before-side-effects restructure: step runtime state computed before history creation (`3ee9cce9cf0`, `c5ee084841d`).
-- Parameter type/restriction checks on input modules (`d6d7befdcd1`).
-- Landing-request lookup check (`7b6ec3613e0`, `ff3919c0f39`); step named in missing-input errors (`a63e098d602`).
-- Dataset-vs-collection, collection-type, deleted-input checks: blocked; valid collection mapping currently fails.
-- Inherited API reds: `test_mapping_and_subcollection_mapping`, `test_workflow_resume_with_mapped_over_collection_input`, `test_workflow_rerun_with_use_cached_job_hides_output`, `test_run_replace_params_over_default`.
+- `fde4e03dd8d`: baseline tests.
+- `cc2099794c5` and `7e670abd636`: behavior-neutral refactors.
+- `7848553da11`: validate every batch entry before side effects. This covers parameter type, restriction and validator checks; deleted inputs; dataset-vs-collection checks; sample-sheet URIs; and null replacement/resource params.
+- `9f2d892ad17`: landing-request lookup before invocation.
+- The four inherited API reds are fixed. The collection-type comparison was dropped (it rejected valid mapping); that decision is John's.
 
 ## Decisions
 
 - 2026-10-14/15, John: extract four bug fixes, then four more guards, each standalone off a release branch.
 - 2026-10-16, John: keep as reference while smaller PRs come out; do not PR as-is.
+- 2026-11-05: extractions all merged; the re-hardened branch moved to `branches_need_decision` on scope (see the branch record's implementation debrief).
 - Multiple-text per-value validator (`119716e6a2f`) is superseded upstream; drop on rebase, don't extract.
 - 2026-11-02, John: no response to the `no_add_to_history` [decision gist](https://gist.github.com/jmchilton/c68c645a8fa6d8da58af9a5e70f060c1); go with 26.1 server-only, abandon the 26.2 generator branch and describe it in the PR as the path not taken. The generator isn't needed by the remaining #20900 work.

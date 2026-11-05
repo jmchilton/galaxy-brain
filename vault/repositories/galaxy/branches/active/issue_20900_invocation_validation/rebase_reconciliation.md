@@ -37,7 +37,7 @@ All four pass on dev's code, so the branch caused them. All pass now.
 
 ## Commits
 
-On dev `7e16f446410`: `4d36b40d9ab` baseline tests, `fc239a42cf3` validate before side effects, `3c9b3fbed60` landing check. Head `3c9b3fbed60`, force-pushed.
+On dev `7e16f446410`: `4d36b40d9ab` baseline tests, `fc239a42cf3` validate before side effects, `3c9b3fbed60` landing check. Head `3c9b3fbed60`, force-pushed. Hardening has since rewritten these commits; [implementation debrief](implementation_debrief.md) has the current history.
 
 Baseline tests (9 cases) pass on dev's sources; the 18 other new cases fail there at their own status/message/no-history assertions.
 
