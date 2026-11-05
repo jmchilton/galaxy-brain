@@ -1,0 +1,10 @@
+- doc: staged data table resolves
+  job:
+    db: mini
+  outputs:
+    lengths:
+      asserts:
+        - that: has_text
+          text: "seq1\t10"
+        - that: has_text
+          text: "seq2\t5"

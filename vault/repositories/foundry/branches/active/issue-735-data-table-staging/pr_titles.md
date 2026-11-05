@@ -1,0 +1,4 @@
+- Stage data tables in the form Planemo discovers
+- Test-data Molds: stage data tables with `.xml.test` and `${__HERE__}`, no flag
+- Add a portable data-table staging recipe for workflow tests
+- find-test-data: stage data tables Planemo auto-discovers

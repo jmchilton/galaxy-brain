@@ -1,0 +1,14 @@
+# planemo 0.75.47, Galaxy release_26.1, Python 3.11 venv, 2026-11-05. Paths shortened.
+red exit=1
+green exit=0
+
+## red
+galaxy.jobs.runners INFO 2026-11-05 15:33:06,045 (1) job rejected while preparing: Parameter 'index': requires a value, but no legal values defined
+There were problems with 1 test(s) - out of 1 test(s) executed. See <probe>/out-red/out.html for detailed breakdown.
+wf.gxwf.yml_0: failed
+job state=error command_line=null
+
+## green
+All 1 test(s) executed passed.
+wf.gxwf.yml_0: passed
+job state=ok command_line=python '<shed_tools>/toolshed.g2.bx.psu.edu/repos/devteam/fasta_compute_length/5cbde03c1103/fasta_compute_length/fasta_compute_length.py' '<probe>/green/test-data/mini.fa' '<job_dir>/000/1/outputs/dataset_7a7023db-e58c-4905-9d73-ec3a76ad4bd9.dat' 0 id_and_desc
