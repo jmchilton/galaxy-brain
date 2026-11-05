@@ -40,14 +40,16 @@ John asked on 2026-11-04 for a rebase and re-harden once all eight extracted PRs
   - workflow API selection: 185 passed, 1 skipped;
   - `test_landing.py`: 23 passed.
   - On the refactor-only commit `7e670abd636`: 297 unit, 25 API and 20 landing tests passed.
+  - On `7848553da11`: 297 unit tests passed.
 - The four inherited API reds from earlier drafts are fixed.
+- **One known regression:** integration `test_dataset_copy_metadata_files.py::test_metadata_copied_to_copied_outputs` fails on the branch, with a 400 "a dataset collection is required but a dataset was supplied". It passes with dev's sources (both checked 2026-11-05). See decision 1.
 
 ## Decisions for John
 
-1. **URI dataset to a collection input.**
-   - `src: hda` is rejected there, but a dataset URI is still accepted.
-   - Rejecting it means fixing the input declarations in dev's `test_run_workflow_from_url_with_implicit_conversion_on_collection` and `test_metadata_copied_to_copied_outputs`.
-   - Recommended: reject it, and fix both.
+1. **Dataset supplied to a collection input.**
+   - The branch rejects `src: hda` there, which breaks dev's integration test `test_metadata_copied_to_copied_outputs`. That test declares `bam_file` as a `list` collection but uploads a `File`; the fix is to declare it `data`. Keeping the check means making that test-data change.
+   - A dataset URI to a collection input is still accepted. Rejecting it too means also fixing `test_run_workflow_from_url_with_implicit_conversion_on_collection`, whose declaration looks swapped.
+   - Recommended: keep the check, reject URIs too, and fix both tests.
 2. **Collection-type check** (dropped).
    - It rejected valid mapping because untyped inputs persist the default `list`.
    - Scope evaluation suggests restoring it for non-`list` declared types via `HistoryQuery` `direct_match`/`can_map_over`. That isn't run yet.
@@ -55,9 +57,7 @@ John asked on 2026-11-04 for a rebase and re-harden once all eight extracted PRs
    - The flag is sticky across entries, so one entry needing materialization marks the later ones too.
    - Dev has the same behavior; the branch preserved it. Fixing it is a small expansion.
 4. **Double populate on a single invocation.** Fixing it means changing commit to flush in the side-effect loop, which also rolls back the history if `queue_invoke` fails. It's a transaction behavior change, so it stays separate.
-5. **Integration red.**
-   - `test/integration/test_dataset_copy_metadata_files.py::test_metadata_copied_to_copied_outputs` supplies a `File` to a `list` collection input, which the branch now rejects (decision 1 covers it).
-   - No integration, framework or browser suites have been run since the rebase, and fork CI hasn't been checked.
+5. **Broader suites.** Apart from the one integration test above, no integration, framework or browser suites have been run since the rebase, and fork CI hasn't been checked.
 6. **PR shape.** `scope_evaluation.md` lists three split options. John's 2026-10-16 decision ("do not PR as-is") was about waiting for the extractions, which have all merged.
 
 Once decided, after scope work:
