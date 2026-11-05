@@ -1,7 +1,7 @@
 // Agent launchers configured in vault/repositories/<repo>/<kind>/LAUNCHERS.md;
 // format in vault/agents/_shared/LAUNCHERS.md.
 
-import { DEFAULTS_REPO, parseRecordPath, RECORD_KINDS, type RecordKind } from "../../site/src/lib/records";
+import { DEFAULTS_REPO, groupingFor, type GroupingSection, parseGrouping, parseRecordPath, RECORD_KINDS, type RecordKind } from "../../site/src/lib/records";
 
 export type AgentKind = "claude" | "codex";
 
@@ -28,6 +28,10 @@ export interface RecordRef {
 	name: string;
 	/** Vault-relative record directory. */
 	dir: string;
+	/** Key of the queue file section listing the record, e.g. `queued_research`. */
+	section?: string;
+	/** Live GitHub labels, when fetched; they replace the queue section for matching. */
+	labels?: string[];
 }
 
 const KEY_LINE = /^(status|agent_dir|name|profile|command):\s*(.*)$/;
@@ -116,12 +120,42 @@ export function untrackedRecord(repo: string, kind: "reviews" | "issues", number
 	return { repo, kind, status: UNTRACKED, name: String(number), dir: "" };
 }
 
+/** The record with the key of the first queue section listing it, if any. */
+export function withSection<R extends RecordRef>(record: R, grouping: GroupingSection[] | undefined): R {
+	const section = grouping?.find((s) => s.names.includes(record.name))?.key;
+	return section ? { ...record, section } : record;
+}
+
+/** Vault paths of the queue files the records could be listed in. */
+export const queuePaths = (records: RecordRef[]): string[] => [
+	...new Set(records.flatMap((record) => groupingFor(record.repo, record.kind) ?? [])),
+];
+
+/** Records with their queue sections; `read` gives a queue file's text, undefined when missing. */
+export function withSections<R extends RecordRef>(records: R[], read: (path: string) => string | undefined): R[] {
+	const groupings = new Map<string, GroupingSection[] | undefined>();
+	return records.map((record) => {
+		const path = groupingFor(record.repo, record.kind);
+		if (!path) return record;
+		if (!groupings.has(path)) {
+			const text = read(path);
+			groupings.set(path, text === undefined ? undefined : parseGrouping(text, path, record.repo, record.kind));
+		}
+		return withSection(record, groupings.get(path));
+	});
+}
+
+/** Status entries match the record's status directory, then its live `label:` entries if fetched, else its queue section. */
 export function launchersFor(launchers: Launcher[], record: RecordRef): Launcher[] {
+	const live = record.labels?.map((label) => `label:${label}`);
+	const matches = (statuses: string[]) =>
+		statuses.includes(record.status) ||
+		(live ? live.some((label) => statuses.includes(label)) : record.section !== undefined && statuses.includes(record.section));
 	return launchers.filter(
 		(launcher) =>
 			(launcher.repo ?? record.repo) === record.repo &&
 			launcher.kind === record.kind &&
-			(launcher.statuses.includes(record.status) || (launcher.statuses.length === 0 && record.status !== UNTRACKED)),
+			(matches(launcher.statuses) || (launcher.statuses.length === 0 && record.status !== UNTRACKED)),
 	);
 }
 

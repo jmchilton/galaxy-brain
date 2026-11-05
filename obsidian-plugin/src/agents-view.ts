@@ -1,4 +1,4 @@
-import { debounce, ItemView, Notice, parseYaml, Platform, stringifyYaml, TFolder, type ViewStateResult, type WorkspaceLeaf } from "obsidian";
+import { debounce, ItemView, Notice, parseYaml, Platform, setIcon, stringifyYaml, TFolder, type ViewStateResult, type WorkspaceLeaf } from "obsidian";
 import { ROUTINES, routineLaunch, tasksPath } from "./agent-routines";
 import { type Blocker, blockerFromPath, blockersPath } from "./blockers";
 import { type CrackDay, readCrackDays, renderCrackDays, unreviewedCount } from "./cracks-feed";
@@ -101,6 +101,9 @@ export class AgentsView extends ItemView {
 		select.createEl("option", { text: "All agents", value: ALL_AGENTS }).selected = all;
 		for (const dir of dirs) select.createEl("option", { text: dir, value: dir }).selected = dir === this.agent;
 		select.onchange = () => void this.leaf.setViewState({ type: AGENTS_VIEW, state: { agent: select.value, tab: this.tab } });
+		const refresh = header.createEl("button", { cls: "clickable-icon", attr: { "aria-label": "Refresh" } });
+		setIcon(refresh, "refresh-cw");
+		refresh.onclick = () => void this.render();
 
 		if (all) {
 			const list = root.createEl("ul");

@@ -46,3 +46,9 @@ name: sh-{name}
 profile: Sonnet (medium)
 
 Shelve the review of {name} per ../_shared/PROCESS_SHELVE.md. The record is {record}. Blocked on: <user_input_here>
+
+## 💭 New session
+agent_dir: wf_foundry
+name: hs-{name}
+
+Let's talk about branch {name}. The review record is {record}.

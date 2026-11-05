@@ -1,6 +1,6 @@
 import { Component, debounce, ItemView, MarkdownRenderer, Notice, Platform, setIcon, type ViewStateResult, type WorkspaceLeaf } from "obsidian";
 import { type GroupingSection, groupingFor, isReviewableRecordKind, KIND_LABELS, parseGrouping, RECORD_KINDS, type RecordKind, recordTitle, statusLabel } from "../../site/src/lib/records";
-import { type GithubTab, githubListTitle, githubListUrl, REPOSITORY_TABS as TABS, type RepositoryTab as Tab, upstreamOwner } from "../../site/src/lib/repository-tabs";
+import { type GithubTab, githubListTitle, githubListUrl, repositoryTabs, searchTabs, upstreamOwner } from "../../site/src/lib/repository-tabs";
 import { type Launcher, launchersFor, type RecordRef, untrackedRecord } from "./launchers";
 import { type FeedItem, type FeedList, type Feeds, feedArgs, matchRecords, parseFeeds } from "./github-feed";
 import { BlockerModal } from "./blocker-modal";
@@ -18,6 +18,7 @@ export const ALL_REPOS = "*";
 export interface RecordHost {
 	loadLaunchers(): Promise<Launcher[]>;
 	pickLauncher(record: RecordRef): Promise<void>;
+	withSections<R extends RecordRef>(records: R[]): Promise<R[]>;
 	worktreeFor(record: RecordRef, body: string): string | null;
 	openInCode(path: string): void;
 	runGh(args: string[]): Promise<string>;
@@ -29,11 +30,12 @@ export interface RecordHost {
 
 // Plugin-only; the site's tab list doesn't have it.
 const RECENT = "recent";
-type ViewTab = Tab | typeof RECENT;
+/** A shared tab, the repository's search tab, or Recent. */
+type ViewTab = string;
 const RECENT_TAB = { id: RECENT, label: "Recent" } as const;
 
 const isRecordTab = (tab: ViewTab): tab is RecordKind => (RECORD_KINDS as readonly string[]).includes(tab);
-const isMine = (tab: GithubTab) => tab === "my-drafts" || tab === "conflicting";
+const isMine = (tab: ViewTab) => tab === "my-drafts" || tab === "conflicting";
 
 const RECENT_BY: Record<RecentBy, string> = { created: "Newest", updated: "Recently updated" };
 
@@ -118,7 +120,7 @@ export class RepositoryView extends ItemView {
 			this.repo = state.repo;
 			this.toggled.clear();
 		}
-		if (state.tab && (state.tab === RECENT || TABS.some((tab) => tab.id === state.tab))) this.tab = state.tab;
+		if (state.tab && (state.tab === RECENT || repositoryTabs(this.repo).some((tab) => tab.id === state.tab))) this.tab = state.tab;
 		else if ((state.tab as string) === "records") this.tab = "branches";
 		if (state.recentBy && state.recentBy in RECENT_BY) this.recentBy = state.recentBy;
 		if ("recentKind" in state) this.recentKind = RECORD_KINDS.find((kind) => kind === state.recentKind);
@@ -148,7 +150,8 @@ export class RepositoryView extends ItemView {
 		const bodies = all ? new Map<string, string>() : await this.readIndexes(files.map((file) => file.path));
 		const records = collectRecords(files, all ? undefined : this.repo, (path) => bodies.get(path));
 		this.launchers = Platform.isDesktopApp ? await this.host.loadLaunchers() : [];
-		const launchable = new Set(records.filter((record) => this.canLaunch(record)).map((record) => record.dir));
+		const sectioned = Platform.isDesktopApp ? await this.host.withSections(records) : [];
+		const launchable = new Set(sectioned.filter((record) => this.canLaunch(record)).map((record) => record.dir));
 
 		if (this.embed) this.removeChild(this.embed);
 		this.embed = this.addChild(new Component());
@@ -166,10 +169,15 @@ export class RepositoryView extends ItemView {
 		select.onchange = () => void this.leaf.setViewState({ type: REPOSITORY_VIEW, state: { repo: select.value, tab: this.tab } });
 
 		// GitHub tabs shell out to `gh`, so they're desktop only.
-		const recordTabs = TABS.filter((tab) => isRecordTab(tab.id));
-		const githubTabs = Platform.isDesktopApp ? TABS.filter((tab) => !isRecordTab(tab.id)) : [];
+		const repoTabs = repositoryTabs(this.repo);
+		const recordTabs = repoTabs.filter((tab) => isRecordTab(tab.id));
+		const githubTabs = Platform.isDesktopApp ? repoTabs.filter((tab) => !isRecordTab(tab.id)) : [];
 		const tabs: Array<{ id: ViewTab; label: string }> = all ? [RECENT_TAB] : [...recordTabs, RECENT_TAB, ...githubTabs];
 		const current = tabs.some((tab) => tab.id === this.tab) ? this.tab : tabs[0]!.id;
+		const onFeed = current !== RECENT && !isRecordTab(current);
+		const refresh = header.createEl("button", { cls: "clickable-icon", attr: { "aria-label": onFeed ? "Refresh from GitHub" : "Refresh" } });
+		setIcon(refresh, "refresh-cw");
+		refresh.onclick = () => void (onFeed ? this.fetchFeeds(true) : this.render());
 		const bar = root.createDiv({ cls: "gbr-tabs" });
 		for (const tab of tabs) {
 			const count = isRecordTab(tab.id) ? ` (${records.filter((record) => record.kind === tab.id).length})` : "";
@@ -186,7 +194,7 @@ export class RepositoryView extends ItemView {
 			await this.renderSync(root, current);
 			this.renderRecords(root, current, records, bodies, launchable, await this.readQueue(current));
 		}
-		else this.renderFeed(root, current, records, bodies, launchable, header);
+		else this.renderFeed(root, current, records, bodies, header);
 	}
 
 	private async renderRecent(root: HTMLElement, records: RecordSummary[], bodies: Map<string, string>, launchable: Set<string>, all: boolean) {
@@ -286,20 +294,16 @@ export class RepositoryView extends ItemView {
 
 	private renderFeed(
 		root: HTMLElement,
-		tab: GithubTab,
+		tab: ViewTab,
 		records: RecordSummary[],
 		bodies: Map<string, string>,
-		launchable: Set<string>,
 		header: HTMLElement,
 	) {
 		const state = this.feedState();
-		const refresh = header.createEl("button", { cls: "clickable-icon", attr: { "aria-label": "Refresh from GitHub" } });
-		setIcon(refresh, "refresh-cw");
-		refresh.onclick = () => void this.fetchFeeds(true);
 		if (state.fetchedAt) header.createSpan({ text: `fetched ${timeAgo(state.fetchedAt, Date.now())}`, cls: "gbr-time" });
 		const owner = upstreamOwner(this.repo, [...bodies.values()]);
 		root.createEl("p", { cls: "gbr-github-link" }).createEl("a", {
-			text: githubListTitle(tab),
+			text: githubListTitle(this.repo, tab),
 			href: githubListUrl(owner, this.repo, tab),
 			cls: "external-link",
 		});
@@ -316,14 +320,18 @@ export class RepositoryView extends ItemView {
 			root.createEl("p", { text: "Checking for conflicts…", cls: "gbr-empty" });
 			return;
 		}
-		const items = state.feeds[FEED_KEYS[tab]];
+		const searchIndex = searchTabs(this.repo).findIndex((search) => search.id === tab);
+		const search = searchIndex >= 0 ? state.feeds.searches[searchIndex] : undefined;
+		const items = search ? search.items : state.feeds[FEED_KEYS[tab as GithubTab]];
+		const isIssue = searchIndex >= 0 || tab === "new-issues";
 		const unchecked = tab === "conflicting" ? state.feeds.unchecked : 0;
 		if (unchecked) root.createEl("p", { text: `GitHub hasn't checked ${unchecked} PR(s) yet; refresh to recheck.`, cls: "gbr-empty" });
-		if (items.length === 0) root.createEl("p", { text: isMine(tab) ? "None." : "Nothing recent.", cls: "gbr-empty" });
+		if (search && search.total > search.items.length) root.createEl("p", { text: `Showing ${search.items.length} of ${search.total}.`, cls: "gbr-empty" });
+		if (items.length === 0) root.createEl("p", { text: isMine(tab) || search ? "None." : "Nothing recent.", cls: "gbr-empty" });
 		const list = root.createEl("ul");
 		for (const item of items) {
-			const matched = matchRecords(item, tab === "new-issues", records, bodyOf);
-			this.renderFeedItem(list, item, tab === "new-issues", matched, bodyOf, launchable);
+			const matched = matchRecords(item, isIssue, records, bodyOf);
+			this.renderFeedItem(list, item, isIssue, matched, bodyOf);
 		}
 	}
 
@@ -333,10 +341,10 @@ export class RepositoryView extends ItemView {
 		isIssue: boolean,
 		matched: RecordSummary[],
 		bodyOf: (record: RecordSummary) => string,
-		launchable: Set<string>,
 	) {
 		const row = list.createEl("li", { cls: "gbr-record" });
 		const actions = row.createSpan({ cls: "gbr-actions" });
+		const live = <R extends RecordRef>(record: R): R => ({ ...record, labels: item.labels });
 		row.createEl("a", { text: `#${item.number} ${item.title}`, href: item.url, cls: "external-link" });
 		if (item.isDraft) row.createSpan({ text: "draft", cls: "gbr-tag" });
 		row.createSpan({ text: `${item.author} · ${timeAgo(Date.parse(item.at), Date.now())}`, cls: "gbr-time" });
@@ -346,7 +354,7 @@ export class RepositoryView extends ItemView {
 			button.onclick = onClick;
 		};
 		if (matched.length === 0) {
-			const untracked = untrackedRecord(this.repo, isIssue ? "issues" : "reviews", item.number);
+			const untracked = live(untrackedRecord(this.repo, isIssue ? "issues" : "reviews", item.number));
 			if (this.canLaunch(untracked)) action("bot", "Launch agent (no record yet)", () => void this.host.pickLauncher(untracked));
 		}
 		for (const record of matched) {
@@ -355,7 +363,7 @@ export class RepositoryView extends ItemView {
 				void this.app.workspace.openLinkText(record.indexPath ?? record.dir, "", event.metaKey || event.ctrlKey),
 			);
 			this.recordRefActions(record.repo, bodyOf(record), action);
-			if (launchable.has(record.dir)) action("bot", `Launch agent for ${kind} record`, () => void this.host.pickLauncher(record));
+			if (this.canLaunch(live(record))) action("bot", `Launch agent for ${kind} record`, () => void this.host.pickLauncher(live(record)));
 			const worktree = this.host.worktreeFor(record, bodyOf(record));
 			if (worktree) action("code", `Open ${kind} worktree with Code`, () => this.host.openInCode(worktree));
 		}
@@ -377,14 +385,15 @@ export class RepositoryView extends ItemView {
 				const prefix = `repositories/${repo}/`;
 				const bodies = await this.readIndexes(this.app.vault.getMarkdownFiles().map((f) => f.path).filter((p) => p.startsWith(prefix)));
 				const owner = upstreamOwner(repo, [...bodies.values()]);
-				state.feeds = parseFeeds(await this.host.runGh(feedArgs(owner, repo)));
+				const args = feedArgs(owner, repo, searchTabs(repo).map((search) => search.query));
+				state.feeds = parseFeeds(await this.host.runGh(args));
 				state.fetchedAt = Date.now();
 				state.error = undefined;
 				if (state.feeds.unchecked) {
 					state.checking = true;
 					if (this.repo === repo) await this.render();
 					await sleep(RECHECK_MS);
-					state.feeds = parseFeeds(await this.host.runGh(feedArgs(owner, repo)));
+					state.feeds = parseFeeds(await this.host.runGh(args));
 					state.fetchedAt = Date.now();
 				}
 			} catch (error) {

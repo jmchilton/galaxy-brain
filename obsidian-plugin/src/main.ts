@@ -19,7 +19,7 @@ import type { RecordKind } from "../../site/src/lib/records";
 import { type CiSource, ciSources, isPrSource, summarizeCheckRuns, summarizePrChecks } from "./ci-status";
 import { CiStatusModal } from "./ci-status-modal";
 import { AGENTS_VIEW, AgentsView, ALL_AGENTS } from "./agents-view";
-import { agentFromPath, agentLaunchersPath, commandArgs, fillAgentTemplate, fillTemplate, type Launcher, launcherScope, launchersFor, parseAgentLaunchers, parseLaunchers, type RecordRef, recordFromPath } from "./launchers";
+import { agentFromPath, agentLaunchersPath, commandArgs, fillAgentTemplate, fillTemplate, type Launcher, launcherScope, launchersFor, parseAgentLaunchers, parseLaunchers, queuePaths, type RecordRef, recordFromPath, withSections } from "./launchers";
 import { defaultProfile, FALLBACK_PROFILES, type Profile, parseProfiles, profileArgs } from "./profiles";
 import { defaultEnvironment, type Environment, LOCAL_ENVIRONMENT, launchArgv, parseEnvironments } from "./environments";
 import { isReviewableRecordKind } from "../../site/src/lib/records";
@@ -270,7 +270,18 @@ export default class GalaxyBrainPlugin extends Plugin {
 	}
 
 	private async launchersFor(record: RecordRef): Promise<Launcher[]> {
-		return launchersFor(await this.loadLaunchers(), record);
+		const [sectioned] = await this.withSections([record]);
+		return launchersFor(await this.loadLaunchers(), sectioned!);
+	}
+
+	/** Records with their queue sections, so section-scoped launchers match. */
+	async withSections<R extends RecordRef>(records: R[]): Promise<R[]> {
+		const texts = new Map<string, string>();
+		await Promise.all(queuePaths(records).map(async (path) => {
+			const file = this.app.vault.getFileByPath(path);
+			if (file) texts.set(path, await this.app.vault.cachedRead(file));
+		}));
+		return withSections(records, (path) => texts.get(path));
 	}
 
 	private async openRepository(repo: string) {

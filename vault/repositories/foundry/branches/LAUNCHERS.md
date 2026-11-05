@@ -23,3 +23,9 @@ name: sh-{name}
 profile: Sonnet (medium)
 
 Shelve the branch {name} per ../_shared/PROCESS_SHELVE.md. The record is {record}. Blocked on: <user_input_here>
+
+## 💭 New session
+agent_dir: wf_foundry
+name: br-{name}
+
+Let's talk about branch {name}. The branch record is {record}.

@@ -4,7 +4,7 @@ Launchers live next to the records they apply to, in `vault/repositories/<repo>/
 
 One `## Label` per launcher. Leading `key: value` lines configure it; the rest is the prompt.
 
-- `status:` optional comma list of record statuses (the `<status>` directory) to show it on. `untracked` targets GitHub PRs (in `reviews/LAUNCHERS.md`) and issues (in `issues/LAUNCHERS.md`) in the repository view's GitHub tabs that have no record yet; only launchers listing it show there.
+- `status:` optional comma list of record statuses (the `<status>` directory) to show it on. An entry may instead name a section key of the kind's queue file (e.g. `queued_research` in `MY_ISSUES.md`), matching only records listed in that section. A `label:<name>` entry (e.g. `label:work/ready-implement`) matches the item's live GitHub label where the repository view's GitHub tabs have fetched them; there, live labels replace queue sections. `untracked` targets GitHub PRs (in `reviews/LAUNCHERS.md`) and issues (in `issues/LAUNCHERS.md`) in the repository view's GitHub tabs that have no record yet; only launchers listing it show there.
 - `agent_dir:` directory under `vault/agents/` to start in.
 - `name:` Herdr agent name; sanitized and de-duplicated by the script.
 - `profile:` profile preselected in the dialog, by name; the first profile when unset.

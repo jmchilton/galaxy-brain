@@ -17,9 +17,9 @@ import {
   REPOSITORY_TABS,
   githubListTitle,
   githubListUrl,
+  repositoryTabs,
   upstreamOwner,
 } from '../../../lib/repository-tabs';
-import type { GithubTab } from '../../../lib/repository-tabs';
 import { originalRelPath } from '../../../lib/project-paths';
 
 export async function getStaticPaths() {
@@ -66,11 +66,11 @@ const tabClass = 'rounded border border-(--color-border) px-3 py-1 text-sm text-
 
   <h1 class="mb-2 text-2xl font-bold">{repo.name}</h1>
   <nav class="mb-4 flex flex-wrap gap-2" aria-label="Repository tabs">
-    {REPOSITORY_TABS.map(tab => {
+    {repositoryTabs(repo.name).map(tab => {
       const panel = panels.find(p => p.kind === tab.id);
       return panel
         ? <a href={`#${panel.kind}`} data-tab={panel.kind} class={tabClass}>{panel.label} ({panel.count})</a>
-        : <a href={githubListUrl(owner, repo.name, tab.id as GithubTab, FORK_OWNER)} title={githubListTitle(tab.id as GithubTab)}
+        : <a href={githubListUrl(owner, repo.name, tab.id, FORK_OWNER)} title={githubListTitle(repo.name, tab.id)}
             target="_blank" rel="noopener" class={tabClass}>{tab.label} ↗</a>;
     })}
   </nav>

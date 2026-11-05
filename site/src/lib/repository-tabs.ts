@@ -30,14 +30,47 @@ const GITHUB_LISTS: Record<GithubTab, { list: 'pulls' | 'issues'; query: (me: st
   'new-issues': { list: 'issues', query: () => 'is:issue is:open sort:created-desc', title: 'Open issues, newest first, on GitHub' },
 };
 
+/** An issue search shown as an extra GitHub tab for one repository. */
+export interface SearchTab {
+  id: string;
+  label: string;
+  /** GitHub issue search, without the `repo:` qualifier. */
+  query: string;
+  title: string;
+}
+
+const SEARCH_TABS: Record<string, SearchTab[]> = {
+  foundry: [
+    { id: 'needs-triage', label: 'Needs triage', query: 'is:issue is:open label:needs-triage sort:created-desc', title: 'Open issues labelled needs-triage, newest first, on GitHub' },
+    { id: 'ready-implement', label: 'Ready for implementation', query: 'is:issue is:open label:work/ready-implement sort:created-desc', title: 'Open issues ready to implement, newest first, on GitHub' },
+    { id: 'ready-research', label: 'Ready for research', query: 'is:issue is:open label:work/ready-research sort:created-desc', title: 'Open issues ready to research, newest first, on GitHub' },
+  ],
+};
+
+const hasOwn = (object: object, key: string) => Object.prototype.hasOwnProperty.call(object, key);
+
+export const searchTabs = (repo: string): SearchTab[] => (hasOwn(SEARCH_TABS, repo) ? SEARCH_TABS[repo]! : []);
+
+/** The shared tabs, then the repository's search tabs. */
+export function repositoryTabs(repo: string): Array<{ id: string; label: string }> {
+  return [...REPOSITORY_TABS, ...searchTabs(repo).map(({ id, label }) => ({ id, label }))];
+}
+
+function githubList(repo: string, tab: string) {
+  if (hasOwn(GITHUB_LISTS, tab)) return GITHUB_LISTS[tab as GithubTab];
+  const search = searchTabs(repo).find(s => s.id === tab);
+  if (!search) throw new Error(`no GitHub tab ${tab} for ${repo}`);
+  return { list: 'issues' as const, query: () => search.query, title: search.title };
+}
+
 /** The tab's list on GitHub; `me` is the author of "my" PRs, `@me` being whoever views it. */
-export function githubListUrl(owner: string, repo: string, tab: GithubTab, me = '@me'): string {
-  const { list, query } = GITHUB_LISTS[tab];
+export function githubListUrl(owner: string, repo: string, tab: string, me = '@me'): string {
+  const { list, query } = githubList(repo, tab);
   return `https://github.com/${owner}/${repo}/${list}?q=${encodeURIComponent(query(me))}`;
 }
 
-export function githubListTitle(tab: GithubTab): string {
-  return GITHUB_LISTS[tab].title;
+export function githubListTitle(repo: string, tab: string): string {
+  return githubList(repo, tab).title;
 }
 
 const MARKDOWN_LINK = /\[([^\]]*)\]\((https:\/\/github\.com\/[^)\s]+)\)/g;

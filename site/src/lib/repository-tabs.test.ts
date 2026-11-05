@@ -1,7 +1,7 @@
 import { readFileSync } from 'node:fs';
 import { describe, expect, it } from 'vitest';
 import { RECORD_KINDS, groupBySections, groupingFor, parseGrouping } from './records';
-import { FORK_OWNER, REPOSITORY_TABS, githubListUrl, upstreamOwner } from './repository-tabs';
+import { FORK_OWNER, REPOSITORY_TABS, githubListTitle, githubListUrl, repositoryTabs, searchTabs, upstreamOwner } from './repository-tabs';
 
 const QUEUE_PATH = 'repositories/galaxy/branches/MY_BRANCHES.md';
 
@@ -39,12 +39,26 @@ describe('parseGrouping', () => {
     expect(sections.reduce((n, section) => n + section.names.length, 0)).toBeGreaterThan(0);
   });
 
+  it('finds the record link after a GitHub link', () => {
+    const text = '## Queued to research (`queued_research`)\n\n- [#12](https://github.com/galaxyproject/foundry/issues/12) — x; next: y. [notes](queued/12/index.md)\n';
+    expect(parseGrouping(text, 'repositories/foundry/issues/MY_ISSUES.md', 'foundry', 'issues')).toEqual([
+      { key: 'queued_research', label: 'Queued to research', names: ['12'] },
+    ]);
+  });
+
+  it("parses the vault's Foundry MY_ISSUES.md", () => {
+    const path = groupingFor('foundry', 'issues')!;
+    const sections = parseGrouping(readFileSync(new URL(`../../../vault/${path}`, import.meta.url), 'utf8'), path, 'foundry', 'issues');
+    expect(sections.find(section => section.key === 'queued_research')!.names.length).toBeGreaterThan(0);
+  });
+
   it("parses the vault's MY_ISSUES.md and MY_REVIEWS.md", () => {
     for (const [kind, key] of [['issues', 'needs_decision'], ['reviews', 'to_review']] as const) {
       const path = groupingFor('galaxy', kind)!;
       const sections = parseGrouping(readFileSync(new URL(`../../../vault/${path}`, import.meta.url), 'utf8'), path, 'galaxy', kind);
       expect(sections.map(section => section.key)).toContain(key);
       expect(sections.reduce((n, section) => n + section.names.length, 0)).toBeGreaterThan(0);
+      expect(sections.flatMap(section => section.names)).not.toContain('');
     }
   });
 });
@@ -121,5 +135,23 @@ describe('githubListUrl', () => {
 
   it('names a fixed author for public pages', () => {
     expect(githubListUrl('galaxyproject', 'galaxy', 'my-drafts', FORK_OWNER)).toBe(url('pulls', 'is:pr is:open author:jmchilton draft:true'));
+  });
+
+  it("links a repository's search tabs to their issue searches", () => {
+    const foundry = (query: string) => `https://github.com/galaxyproject/foundry/issues?q=${encodeURIComponent(query)}`;
+    expect(githubListUrl('galaxyproject', 'foundry', 'needs-triage')).toBe(foundry('is:issue is:open label:needs-triage sort:created-desc'));
+    expect(githubListUrl('galaxyproject', 'foundry', 'ready-implement')).toBe(foundry('is:issue is:open label:work/ready-implement sort:created-desc'));
+    expect(githubListUrl('galaxyproject', 'foundry', 'ready-research')).toBe(foundry('is:issue is:open label:work/ready-research sort:created-desc'));
+    expect(githubListTitle('foundry', 'needs-triage')).toBe('Open issues labelled needs-triage, newest first, on GitHub');
+    expect(() => githubListUrl('galaxyproject', 'galaxy', 'needs-triage')).toThrow('no GitHub tab needs-triage for galaxy');
+  });
+});
+
+describe('repositoryTabs', () => {
+  it("appends a repository's search tabs to the shared tabs", () => {
+    expect(repositoryTabs('foundry').map(tab => tab.id)).toEqual([...REPOSITORY_TABS.map(tab => tab.id), 'needs-triage', 'ready-implement', 'ready-research']);
+    expect(repositoryTabs('galaxy')).toEqual([...REPOSITORY_TABS]);
+    expect(searchTabs('galaxy')).toEqual([]);
+    expect(searchTabs('constructor')).toEqual([]);
   });
 });

@@ -135,7 +135,7 @@ function resolveLink(from: string, link: string): string {
   return parts.join('/');
 }
 
-/** `## Label (`key`)` sections, each listing records via `- [..](relative/path)` items. */
+/** `## Label (`key`)` sections, each listing records via the first relative record link in each `- ` item. */
 export function parseGrouping(text: string, path: string, repo: string, kind: RecordKind): GroupingSection[] {
   const sections: GroupingSection[] = [];
   for (const line of text.split('\n')) {
@@ -144,11 +144,13 @@ export function parseGrouping(text: string, path: string, repo: string, kind: Re
       sections.push({ label: heading[1]!, key: heading[2]!, names: [] });
       continue;
     }
-    const link = line.match(/^- \[[^\]]*\]\(([^)\s]+)\)/);
     const section = sections[sections.length - 1];
-    if (!link || !section) continue;
-    const record = parseRecordPath(resolveLink(path, decodeURI(link[1]!)));
-    if (record?.rest && record.repo === repo && record.kind === kind && !section.names.includes(record.id)) section.names.push(record.id);
+    if (!line.startsWith('- ') || !section) continue;
+    const record = [...line.matchAll(/\]\(([^)\s]+)\)/g)]
+      .filter(link => !/^[a-z][a-z0-9+.-]*:/i.test(link[1]!))
+      .map(link => parseRecordPath(resolveLink(path, decodeURI(link[1]!))))
+      .find(found => found?.rest && found.repo === repo && found.kind === kind);
+    if (record && !section.names.includes(record.id)) section.names.push(record.id);
   }
   return sections;
 }

@@ -26,7 +26,7 @@ const RESPONSE = JSON.stringify({
 					pr(8, ready("2026-10-21T00:00:00Z")),
 				],
 			},
-			issues: { nodes: [{ ...pr(9), isDraft: undefined }] },
+			issues: { nodes: [{ ...pr(9), isDraft: undefined, labels: { nodes: [{ name: "work/ready-implement" }, { name: "priority/mvp" }] } }] },
 		},
 		mine: {
 			nodes: [
@@ -64,10 +64,25 @@ describe("parseFeeds", () => {
 		expect(feeds.issues.map((i) => i.number)).toEqual([9]);
 	});
 
+	it("keeps labels, none when the node has none", () => {
+		expect(feeds.issues[0]!.labels).toEqual(["work/ready-implement", "priority/mvp"]);
+		expect(feeds.newPrs[0]!.labels).toEqual([]);
+	});
+
 	it("lists my drafts and my conflicting PRs, counting PRs GitHub hasn't checked yet", () => {
 		expect(feeds.myDrafts.map((i) => i.number)).toEqual([10, 12]);
 		expect(feeds.conflicting.map((i) => i.number)).toEqual([11, 12]);
 		expect(feeds.unchecked).toBe(1);
+	});
+
+	it("has no search results without searches", () => {
+		expect(feeds.searches).toEqual([]);
+	});
+
+	it("lists each search's issues in order, with its total", () => {
+		const data = JSON.parse(RESPONSE).data;
+		const searched = parseFeeds(JSON.stringify({ data: { ...data, s0: { issueCount: 120, nodes: [pr(20), pr(21)] }, s1: { issueCount: 0, nodes: [] } } }));
+		expect(searched.searches.map((s) => [s.items.map((i) => i.number), s.total])).toEqual([[[20, 21], 120], [[], 0]]);
 	});
 });
 
@@ -77,6 +92,15 @@ describe("feedArgs", () => {
 			"api", "graphql", "-f", "owner=galaxyproject", "-f", "name=galaxy",
 		]);
 		expect(feedArgs("galaxyproject", "galaxy")[7]).toBe("mine=repo:galaxyproject/galaxy is:pr is:open author:@me sort:updated-desc");
+		expect(feedArgs("galaxyproject", "galaxy").at(-1)).not.toContain("s0");
+	});
+
+	it("adds each issue search, scoped to the repository, as its own variable", () => {
+		const args = feedArgs("galaxyproject", "foundry", ["is:issue label:a", "is:issue label:b"]);
+		expect(args.slice(8, 12)).toEqual(["-f", "s0=repo:galaxyproject/foundry is:issue label:a", "-f", "s1=repo:galaxyproject/foundry is:issue label:b"]);
+		const query = args.at(-1)!;
+		expect(query).toContain("$s0: String!, $s1: String!");
+		expect(query).toContain("s1: search(query: $s1, type: ISSUE, first: 100) { issueCount");
 	});
 });
 

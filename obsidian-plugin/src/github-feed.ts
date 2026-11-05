@@ -13,6 +13,7 @@ export interface FeedItem {
 	isDraft: boolean;
 	/** PR head branch name. */
 	branch?: string;
+	labels: string[];
 }
 
 export interface Feeds {
@@ -23,13 +24,29 @@ export interface Feeds {
 	conflicting: FeedItem[];
 	/** My PRs GitHub hasn't computed mergeability for yet; querying starts it. */
 	unchecked: number;
+	/** Results of the repository's issue searches, in order. */
+	searches: SearchFeed[];
 }
 
-export type FeedList = Exclude<keyof Feeds, "unchecked">;
+export interface SearchFeed {
+	items: FeedItem[];
+	/** Matches on GitHub, which can exceed the items fetched. */
+	total: number;
+}
 
-const FIELDS = "number title url createdAt author { login }";
+export type FeedList = Exclude<keyof Feeds, "unchecked" | "searches">;
 
-export const FEED_QUERY = `query($owner: String!, $name: String!, $mine: String!) {
+const FIELDS = "number title url createdAt author { login } labels(first: 20) { nodes { name } }";
+
+const feedQuery = (searches: number) => {
+	const ids = Array.from({ length: searches }, (_, i) => `s${i}`);
+	const params = ["$owner: String!", "$name: String!", "$mine: String!", ...ids.map((id) => `$${id}: String!`)].join(", ");
+	const fields = ids.map((id) => `\n  ${id}: search(query: $${id}, type: ISSUE, first: 100) { issueCount nodes { ... on Issue { ${FIELDS} } } }`).join("");
+	return `query(${params}) {${FEED_FIELDS}${fields}
+}`;
+};
+
+const FEED_FIELDS = `
   repository(owner: $owner, name: $name) {
     created: pullRequests(states: OPEN, first: 30, orderBy: {field: CREATED_AT, direction: DESC}) {
       nodes { ${FIELDS} isDraft headRefName }
@@ -43,8 +60,7 @@ export const FEED_QUERY = `query($owner: String!, $name: String!, $mine: String!
   }
   mine: search(query: $mine, type: ISSUE, first: 100) {
     nodes { ... on PullRequest { ${FIELDS} isDraft headRefName mergeable } }
-  }
-}`;
+  }`;
 
 interface Node {
 	number: number;
@@ -54,6 +70,7 @@ interface Node {
 	author: { login: string } | null;
 	isDraft?: boolean;
 	headRefName?: string;
+	labels?: { nodes: Array<{ name: string }> };
 	mergeable?: "MERGEABLE" | "CONFLICTING" | "UNKNOWN";
 	timelineItems?: { nodes: Array<{ createdAt?: string }> };
 }
@@ -65,12 +82,15 @@ const item = (node: Node, at = node.createdAt): FeedItem => ({
 	author: node.author?.login ?? "ghost",
 	at,
 	isDraft: node.isDraft ?? false,
+	labels: node.labels?.nodes.map((label) => label.name) ?? [],
 	...(node.headRefName ? { branch: node.headRefName } : {}),
 });
 
-export function feedArgs(owner: string, name: string): string[] {
+/** `searches` are issue searches without the `repo:` qualifier, fetched as `s0`, `s1`, …. */
+export function feedArgs(owner: string, name: string, searches: string[] = []): string[] {
 	const mine = `repo:${owner}/${name} is:pr is:open author:@me sort:updated-desc`;
-	return ["api", "graphql", "-f", `owner=${owner}`, "-f", `name=${name}`, "-f", `mine=${mine}`, "-f", `query=${FEED_QUERY}`];
+	const searchArgs = searches.flatMap((query, i) => ["-f", `s${i}=repo:${owner}/${name} ${query}`]);
+	return ["api", "graphql", "-f", `owner=${owner}`, "-f", `name=${name}`, "-f", `mine=${mine}`, ...searchArgs, "-f", `query=${feedQuery(searches.length)}`];
 }
 
 export function parseFeeds(json: string): Feeds {
@@ -91,7 +111,17 @@ export function parseFeeds(json: string): Feeds {
 		myDrafts: mine.filter((node) => node.isDraft).map((node) => item(node)),
 		conflicting: mine.filter((node) => node.mergeable === "CONFLICTING").map((node) => item(node)),
 		unchecked: mine.filter((node) => node.mergeable === "UNKNOWN").length,
+		searches: searchResults(data),
 	};
+}
+
+function searchResults(data: Record<string, unknown>): SearchFeed[] {
+	const results: SearchFeed[] = [];
+	for (let i = 0; `s${i}` in data; i++) {
+		const search = data[`s${i}`] as { issueCount: number; nodes: Node[] };
+		results.push({ items: search.nodes.map((node) => item(node)), total: search.issueCount });
+	}
+	return results;
 }
 
 /**

@@ -3,7 +3,7 @@
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
 import { join, relative } from "node:path";
 import { parse } from "yaml";
-import { type Launcher, launcherScope, parseLaunchers } from "../../obsidian-plugin/src/launchers";
+import { type Launcher, launcherScope, parseLaunchers, withSections } from "../../obsidian-plugin/src/launchers";
 import { type Environment, LOCAL_ENVIRONMENT, parseEnvironments } from "../../obsidian-plugin/src/environments";
 import { FALLBACK_PROFILES, type Profile, parseProfiles } from "../../obsidian-plugin/src/profiles";
 import { collectRecords, type RecordSummary, type VaultFile } from "../../obsidian-plugin/src/repository";
@@ -45,8 +45,10 @@ export function loadLaunchers(vaultRoot: string, files = vaultFiles(vaultRoot)):
 		.filter((launcher) => !launcher.command);
 }
 
+/** Records with their queue sections, so section-scoped launchers match. */
 export function loadRecords(vaultRoot: string, files = vaultFiles(vaultRoot)): RecordSummary[] {
-	return collectRecords(files, undefined, (path) => readVault(vaultRoot, path));
+	const read = (path: string) => readVault(vaultRoot, path);
+	return withSections(collectRecords(files, undefined, read), (path) => (existsSync(join(vaultRoot, path)) ? read(path) : undefined));
 }
 
 export function loadProfiles(vaultRoot: string): Profile[] {

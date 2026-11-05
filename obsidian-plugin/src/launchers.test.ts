@@ -1,6 +1,7 @@
 import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
-import { agentFromPath, commandArgs, fillAgentTemplate, fillTemplate, launcherScope, launchersFor, parseAgentLaunchers, parseLaunchers, recordFromPath, untrackedRecord } from "./launchers";
+import { agentFromPath, commandArgs, fillAgentTemplate, fillTemplate, launcherScope, launchersFor, parseAgentLaunchers, parseLaunchers, queuePaths, type RecordRef, recordFromPath, untrackedRecord, withSection, withSections } from "./launchers";
+import { parseGrouping } from "../../site/src/lib/records";
 
 const CONFIG = `Intro text, ignored.
 
@@ -159,18 +160,20 @@ describe("parseLaunchers", () => {
 		const AGENT_DIRS = { foundry: "wf_foundry", gxformat2: "workflow_libs", "galaxy-tool-util-ts": "workflow_libs", pulsar: "pulsar", planemo: "planemo" };
 		for (const [repo, dir] of Object.entries(AGENT_DIRS)) {
 			const session = dir === "workflow_libs" ? [["💭 New session", "", dir]] : [];
+			const lastSession = dir === "wf_foundry" ? [["💭 New session", "", dir]] : [];
 			const issues =
 				dir === "wf_foundry"
 					? [
 							["🏷️ Triage issue", "untracked,needs_decision", dir],
 							["👀 Diff staged labels", "needs_decision,queued,wip", ""],
 							["🔖 Apply staged labels", "needs_decision,queued,wip", ""],
-							["🐴 Work on issue", "untracked,queued,wip", dir],
+							["🔬 Research issue", "untracked,queued_research,label:work/ready-research,wip", dir],
+							["🐴 Work on issue", "untracked,queued_implement,queued_research,queued,label:work/ready-implement,wip", dir],
 						]
 					: [...session, ["🐴 Work on issue", WORK_ON, dir]];
 			const expected = {
-				branches: [...session, ["🚀 Open pull request", "active", dir], ["🟣 Merge branch", "active", dir], ["🗄️ Shelve", "active", dir]],
-				issues: [...issues, ["✅ Close issue", OPEN_ISSUE, dir], ["🗄️ Shelve", SHELVE_ISSUE, dir]],
+				branches: [...session, ["🚀 Open pull request", "active", dir], ["🟣 Merge branch", "active", dir], ["🗄️ Shelve", "active", dir], ...lastSession],
+				issues: [...issues, ["✅ Close issue", OPEN_ISSUE, dir], ["🗄️ Shelve", SHELVE_ISSUE, dir], ...lastSession],
 				reviews: [
 					...session,
 					["🔎 Review", "untracked", dir],
@@ -179,6 +182,7 @@ describe("parseLaunchers", () => {
 					["🔁 Rework review into PR", "active", dir],
 					["⚡ Quick merge", "untracked,active", dir],
 					["🗄️ Shelve", "active", dir],
+					...lastSession,
 				],
 			};
 			for (const [kind, launchers] of Object.entries(expected)) {
@@ -251,6 +255,65 @@ describe("launchersFor", () => {
 
 	it("treats a missing status as any", () => {
 		expect(launchersFor(launchers, { ...issue, status: "closed" }).map((l) => l.label)).toEqual(["✨ Polish"]);
+	});
+
+	it("matches a status entry against the record's queue section too", () => {
+		const bySection = parseLaunchers("## Research\nstatus: queued_research\nagent_dir: wf_foundry\n\nGo", GALAXY_ISSUES);
+		expect(launchersFor(bySection, { ...issue, section: "queued_research" }).map((l) => l.label)).toEqual(["Research"]);
+		expect(launchersFor(bySection, { ...issue, section: "queued_implement" })).toEqual([]);
+		expect(launchersFor(bySection, issue)).toEqual([]);
+		expect(launchersFor(launchers, { ...issue, section: "queued_research" }).map((l) => l.label)).toEqual(["🐴 Implement", "✨ Polish"]);
+	});
+
+	it("matches label: entries against live labels, which override a stale section", () => {
+		const byWork = parseLaunchers(
+			"## 🔬 Research\nstatus: queued_research, label:work/ready-research\nagent_dir: wf_foundry\n\nGo\n\n## 🐴 Implement\nstatus: queued_implement, label:work/ready-implement\nagent_dir: wf_foundry\n\nGo",
+			GALAXY_ISSUES,
+		);
+		const labels = (record: RecordRef) => launchersFor(byWork, record).map((l) => l.label);
+		expect(labels({ ...issue, labels: ["priority/mvp", "work/ready-implement"] })).toEqual(["🐴 Implement"]);
+		expect(labels({ ...issue, section: "queued_research", labels: ["work/ready-implement"] })).toEqual(["🐴 Implement"]);
+		expect(labels({ ...issue, section: "queued_research", labels: [] })).toEqual([]);
+		expect(labels({ ...issue, section: "queued_research" })).toEqual(["🔬 Research"]);
+		expect(labels({ ...issue, status: "queued", labels: ["queued"] })).toEqual([]);
+	});
+});
+
+describe("withSection", () => {
+	const queue = `## Queued to research (\`queued_research\`)
+
+- [#12](queued/12/index.md) — x
+
+## Queued to implement (\`queued_implement\`)
+
+- [#12](queued/12/index.md) — listed twice
+- [#13](queued/13/index.md) — y
+`;
+	const grouping = parseGrouping(queue, "repositories/foundry/issues/MY_ISSUES.md", "foundry", "issues");
+	const record = (name: string) => recordFromPath(`repositories/foundry/issues/queued/${name}/index.md`)!;
+
+	it("attaches the first queue section listing the record", () => {
+		expect(withSection(record("12"), grouping).section).toBe("queued_research");
+		expect(withSection(record("13"), grouping).section).toBe("queued_implement");
+		expect(withSection({ ...record("12"), labels: ["work/ready-implement"] }, grouping).labels).toEqual(["work/ready-implement"]);
+	});
+
+	it("leaves unlisted records and missing queues without a section", () => {
+		expect(withSection(record("14"), grouping)).toEqual(record("14"));
+		expect(withSection(record("13"), undefined)).toEqual(record("13"));
+	});
+
+	it("reads each queue file once", () => {
+		const branch = recordFromPath("repositories/foundry/branches/active/b/index.md")!;
+		const records = [record("12"), record("13"), branch];
+		expect(queuePaths(records)).toEqual(["repositories/foundry/issues/MY_ISSUES.md", "repositories/foundry/branches/MY_BRANCHES.md"]);
+		const reads: string[] = [];
+		const sectioned = withSections(records, (path) => {
+			reads.push(path);
+			return path.endsWith("MY_ISSUES.md") ? queue : undefined;
+		});
+		expect(sectioned.map((r) => r.section)).toEqual(["queued_research", "queued_implement", undefined]);
+		expect(reads).toEqual(["repositories/foundry/issues/MY_ISSUES.md", "repositories/foundry/branches/MY_BRANCHES.md"]);
 	});
 });
 
