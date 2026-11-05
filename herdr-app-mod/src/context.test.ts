@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { agentContext, folderName, machineOf, promptFiles, reroot } from "./context";
+import { agentContext, folderName, machineOf, promptFiles, recordRefs, reroot } from "./context";
 
 describe("folderName", () => {
 	it("is the last folder of the path, ~ at home", () => {
@@ -12,6 +12,19 @@ describe("folderName", () => {
 	it("is / at the root and empty without a folder", () => {
 		expect(folderName("/", "/Users/me")).toBe("/");
 		expect(folderName(null, "/Users/me")).toBe("");
+	});
+});
+
+describe("recordRefs", () => {
+	it("is the labelled records, newest first, ignoring other labels", () => {
+		const labels = { "gb.record.galaxy/branches/old": "100", where: "x", "gb.record.foundry/issues/735": "300", "gb.record.galaxy/reviews/24635": "200", "herdr.tab": "t" };
+		expect(recordRefs(labels)).toEqual(["foundry/issues/735", "galaxy/reviews/24635", "galaxy/branches/old"]);
+	});
+
+	it("puts values that aren't timestamps last and keeps the newest when capped", () => {
+		expect(recordRefs({ "gb.record.a/b/old": "1", "gb.record.a/b/new": "2" }, 1)).toEqual(["a/b/new"]);
+		expect(recordRefs({ "gb.record.a/b/bad": "soon", "gb.record.a/b/new": "2" })).toEqual(["a/b/new", "a/b/bad"]);
+		expect(recordRefs(undefined)).toEqual([]);
 	});
 });
 

@@ -19,6 +19,18 @@ export function folderName(cwd: string | null, home: string): string {
 	return dir === home.replace(/\/+$/, "") ? "~" : dir.slice(dir.lastIndexOf("/") + 1);
 }
 
+const RECORD_LABEL = "gb.record.";
+
+/** Refs (`<repo>/<kind>/<id>`) of the records labelled `gb.record.<ref>=<epoch seconds>`, newest first. */
+export function recordRefs(labels: Record<string, string> | undefined, max = 8): string[] {
+	const stamp = (value: string) => Number(value) || 0;
+	return Object.entries(labels ?? {})
+		.filter(([key]) => key.startsWith(RECORD_LABEL))
+		.sort(([, a], [, b]) => stamp(b) - stamp(a))
+		.slice(0, max)
+		.map(([key]) => key.slice(RECORD_LABEL.length));
+}
+
 /** The folder's SUGGESTED_PROMPTS.md, then `../_shared/`'s. */
 export function promptFiles(cwd: string): string[] {
 	const dir = cwd.replace(/\/+$/, "");

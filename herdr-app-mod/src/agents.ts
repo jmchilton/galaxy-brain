@@ -5,34 +5,21 @@
 
 import { div, image, svg, View } from "gpui-kit";
 import { h_flex, v_flex } from "gpui-base";
-import { closeOverlay, exec, focused, layout, notify, openOverlay, panes, props, readTextFile, run, setAgentOrder, setShared, shared, spaces, terminals, theme, window } from "herdr";
+import { closeOverlay, focused, layout, notify, openOverlay, panes, props, readTextFile, run, setAgentOrder, setShared, shared, spaces, terminals, theme, window } from "herdr";
 import { parse } from "yaml";
 import { type Environment, parseEnvironments } from "../../obsidian-plugin/src/environments";
 import { machineOf } from "./context";
+import { host } from "./host";
 import { groupPanes, machineIcon, OTHER, RANK, rowText, type SidebarGroup, type SidebarPane } from "./sidebar";
 
 const MOD = "gb-agents";
 const ENVIRONMENTS = `${__GB_ROOT__}/vault/agents/_shared/ENVIRONMENTS.yml`;
-const HOST_CLI = `${__GB_ROOT__}/herdr-plugin/bin/run.sh`;
 
 interface NewAgentOptions {
 	agentDirs: string[];
 	profiles: { name: string; agent: string }[];
 	/** Names; the first is the default. */
 	environments: string[];
-}
-
-/** One Chrome native host request through the herdr-plugin CLI: its result, or a thrown error. */
-async function host(request: object): Promise<any> {
-	const result = await exec(HOST_CLI, ["host", JSON.stringify(request)]).catch((error: unknown) => ({ code: 1, stdout: "", stderr: String(error) }));
-	let reply: { ok: boolean; result?: unknown; error?: string };
-	try {
-		reply = JSON.parse(result.stdout);
-	} catch {
-		reply = { ok: false, error: (result.stderr || result.stdout || `exited ${result.code}`).trim() };
-	}
-	if (!reply.ok) throw new Error(reply.error);
-	return reply.result;
 }
 
 /** Starts a blank agent in the dir; a toast says how it went. */
