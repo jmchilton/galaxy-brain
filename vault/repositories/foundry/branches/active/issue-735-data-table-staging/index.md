@@ -1,5 +1,6 @@
 ---
 upstream_base_branch: main
+pr: 749
 ---
 # Stage data tables in the form planemo auto-discovers
 
@@ -10,9 +11,9 @@ upstream_base_branch: main
 
 Polished at `d81f10e7`, branched from `origin/main` at `618853f0`; worktree `~/projects/worktrees/foundry/branch/issue-735-data-table-staging`. Refs [#735](../../../issues/wip/735/index.md).
 
-No PR yet: opening the draft was denied by the permission classifier on 2026-11-05, so John needs to open it or allow it.
+Draft PR [#749](https://github.com/galaxyproject/foundry/pull/749), opened by John on 2026-11-05.
 
-Local gate green except `check-vendored` (upstream checkout drift, outside the branch); CI runs only on PRs.
+Local gate green except `check-vendored` (upstream checkout drift, outside the branch); CI in progress on `d81f10e7`.
 
 ## Records
 

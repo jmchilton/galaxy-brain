@@ -25,7 +25,7 @@ None yet.
 
 ## Draft Foundry PRs — waiting for CI (`ci_wait`)
 
-None yet.
+- [`issue-735-data-table-staging`](active/issue-735-data-table-staging/index.md) — Stage data tables in the form planemo discovers, no flag or absolute paths (#735). [#749](https://github.com/galaxyproject/foundry/pull/749).
 
 ## Draft Foundry PRs — needs author work (`author_work`)
 
@@ -43,11 +43,10 @@ None yet.
 
 ## Foundry branches — needs polish (`branches_need_polish`)
 
-- [`issue-735-data-table-staging`](active/issue-735-data-table-staging/index.md) — Stage data tables in the form planemo discovers, no flag or absolute paths (#735). [Open PR](https://github.com/galaxyproject/foundry/compare/main...jmchilton:foundry:issue-735-data-table-staging).
+None yet.
 
 ## Foundry branches — ready for final review (`branches_ready_for_final_review`)
 
-- [`issue-735-data-table-staging`](active/issue-735-data-table-staging/index.md) — Stage data tables in the form planemo discovers, no flag or absolute paths (#735). [Open PR](https://github.com/galaxyproject/foundry/compare/main...jmchilton:foundry:issue-735-data-table-staging).
 - [`issue-672-udt-authoring-note`](active/issue-672-udt-authoring-note/index.md) — UDT authoring note: collection inputs/outputs, vendoring recipes, `inputs.x` shape (#672). Draft [#710](https://github.com/galaxyproject/foundry/pull/710). [Open PR](https://github.com/galaxyproject/foundry/compare/main...issue-672-udt-authoring-note).
 
 ## Foundry branches — approved, opens when green (`branches_need_pr`)
