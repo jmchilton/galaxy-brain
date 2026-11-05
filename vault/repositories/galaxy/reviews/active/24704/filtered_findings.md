@@ -1,0 +1,5 @@
+# Filtered findings — PR #24704 (reviewed `8c28063331f`)
+
+- **default P3 2 + gx_test_challenger P3 1 (merged): `SelectTagParameter`/`ColumnListParameter` opt-outs untested outside doctests.** Not actionable as a behavior test, and adding a doctest is filtered by the no-new-Galaxy-doctests rule.
+  - Comma-separated state can't discriminate the flag. `multiple_select_value_split` splits list elements on `,`, so a wrapped `["2,3"]` still yields `["2", "3"]`. Stored `col: '2,3'` and `'2,3\n'` runs are already covered by `test_comma_separated_columns` and `test_comma_separated_columns_with_trailing_newline`.
+  - Newline-separated state can't either. A workflow API test with `column_param_list` `col: "2\n3"` failed the same way with the opt-out on (PR as-is) and off: `cut -f '2__cn__3'`. Stored newline-separated `data_column` state doesn't split at run time even with the opt-out (the PR leaves it a plain string, as base did), so the test can't guard the flag. The test was dropped from the review branch.
