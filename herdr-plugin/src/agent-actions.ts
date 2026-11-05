@@ -1,4 +1,4 @@
-// Record launchers as prompts for an agent already running in their agent dir (suggested-prompts 🚀 menu).
+// Record launchers as prompts for an agent already running in their agent dir (the pane header's 🚀 menu).
 
 import type { Launcher } from "../../obsidian-plugin/src/launchers";
 import { UNTRACKED } from "../../obsidian-plugin/src/launchers";

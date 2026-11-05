@@ -87,7 +87,7 @@ make diff-review-test               # differential-review Vitest suite
 - Launch profiles (agent, model, effort, args) come from `vault/agents/_shared/AGENT_PROFILES.yml`, parsed by `obsidian-plugin/src/profiles.ts`.
 - Launch environments come from `vault/agents/_shared/ENVIRONMENTS.yml`, parsed by `obsidian-plugin/src/environments.ts`. Remote ones pass `--host`/`--vault` to the local `launch_agent.sh`, with vault paths in the prompt re-rooted; it pulls the host's vault clone first. Command launchers stay local.
 - `vault/agents/_shared/scripts/launch_agent.sh` starts agents, dispatching on `herdr:` in `vault/agents/_shared/DISPATCH_CONFIG.yml` (`GB_HERDR` overrides). `app` runs the agent with `hc run` under fresh `herdr.space`/`herdr.tab` label ids, which the Herdr desktop app adopts as a new space and tab, then names them with `herdr-app do space.rename`/`tab.rename` when `herdr-app` is installed. It needs no window, so agents on remote hosts can launch too. Remote launches run on the `hc` machine named like the host. `tui` uses herdr workspaces, starting a headless server if none is running, and runs remote launches through the host's own script over ssh (`herdr machine add` shows them locally). An agent directory is one with an `AGENTS.md` and no leading `_`; launchers list exactly those.
-- Agent directories' `SUGGESTED_PROMPTS.md` files feed the separate `suggested-prompts` hooks plugin in `~/projects/repositories/claude-jmchilton-plugins/plugins/suggested-prompts/`, and the Herdr app mod.
+- Agent directories' `SUGGESTED_PROMPTS.md` files feed the Herdr app mod's pane header.
 
 ### Obsidian plugin
 
@@ -108,10 +108,10 @@ make diff-review-test               # differential-review Vitest suite
 
 ### Herdr app mods
 
-- `herdr-app-mod/` bundles `src/main.ts` into the `gb-pane` mod: a pane header modeled on the app's shipped `pane` mod. Every pane gets 📋 (Send, or Draft in an edit dialog) and emoji quick-send buttons from its folder's `SUGGESTED_PROMPTS.md` plus `../_shared/`'s; agent folders with record launchers add 🚀 (`herdr-plugin` CLI `actions <dir>`, re-rooted for remote panes). Prompts go in with `hc send`, so any agent works.
+- `herdr-app-mod/` bundles `src/main.ts` into the `gb-pane` mod: a pane header modeled on the app's shipped `pane` mod, with the machine's `icon:` and the folder's name. Every pane gets 📋 (Send, or Draft in an edit dialog) and emoji quick-send buttons from its folder's `SUGGESTED_PROMPTS.md` plus `../_shared/`'s; agent folders with record launchers add 🚀 (`herdr-plugin` CLI `actions <dir>`, re-rooted for remote panes). Prompts go in with `hc send`, so any agent works.
 - `src/agents.ts` is the `gb-agents` sidebar, in place of the shipped spaces and agents lists: every terminal grouped by agent dir (shells and other folders under Other), each row its program icon, its machine's `icon:` from `ENVIRONMENTS.yml`, launch name · title, and status. The + in the sidebar header (agent dir, machine, ⚡ default or ⚙️ picked profile) and each group's + start blank agents through the `herdr-plugin` CLI's `host` command.
 - Pure logic (`prompts.ts`, `context.ts`, `sidebar.ts`) has Vitest tests; the UI is checked with `herdr-app check` (run by the install) and in the window.
-- `make herdr-app-mod-install` copies both to `~/.config/herdr-app/mods/` and writes layout `gb`: `main` (or the existing `gb`) with `gb-pane` as pane header and `gb-agents` as the sidebar's header (🧠, +, search, collapse) and list. Show it with `herdr-app do layout.switch --name gb`. Tabs opened before a switch keep their old header.
+- `make herdr-app-mod-install` copies both to `~/.config/herdr-app/mods/` and writes layout `gb`: `main` (or the existing `gb`) with `gb-pane` as pane header, `gb-agents` as the sidebar's header (🧠, +, search, collapse) and list, and no tab or status bar. Show it with `herdr-app do layout.switch --name gb`. Tabs opened before a switch keep their old header.
 
 ### Chrome extension
 

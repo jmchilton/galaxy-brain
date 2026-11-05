@@ -1,5 +1,5 @@
 // galaxy-brain herdr plugin: `open` (actions) pops up the picker pane; `pick` (the pane) runs the fzf launch flow;
-// `actions <agent_dir>` prints that dir's launchers as prompts (JSON) for the suggested-prompts Claude plugin;
+// `actions <agent_dir>` prints that dir's launchers as prompts (JSON) for the Herdr app's pane header;
 // `host <request JSON>` answers one Chrome native host request (JSON), for the Herdr app mods.
 
 import { spawnSync } from "node:child_process";

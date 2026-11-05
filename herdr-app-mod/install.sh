@@ -1,6 +1,7 @@
 #!/bin/sh
 # Installs the built gb-pane and gb-agents mods into the Herdr app, plus a `gb` layout:
-# `main` with gb-pane as its pane header and gb-agents as the sidebar's header and list, in place of the spaces and agents lists.
+# `main` with gb-pane as its pane header and gb-agents as the sidebar's header and list, in place of the spaces and agents lists,
+# and no tab or status bar.
 set -eu
 home=${HERDR_APP_HOME:-$HOME/.config/herdr-app}
 here=$(cd "$(dirname "$0")" && pwd)
@@ -14,7 +15,7 @@ layout="$home/layouts/gb.json"
 jq 'walk(
   if type == "object" and (.header | type) == "object" and .header.content.mod == "pane" then .header.content.mod = "gb-pane" else . end
   | if type == "object" and (.children | type) == "array" then
-      .children |= (map(select(.content.mod? != "spaces"))
+      .children |= (map(select(.content.mod? != "spaces" and .content.mod? != "tabs" and .content.mod? != "workspace-status"))
         | map(if .content.mod? == "agents" then .id = "gb-agents" | .content.mod = "gb-agents"
               elif .id? == "brand" then .content = { mod: "gb-agents", props: { view: "header" } }
               else . end))

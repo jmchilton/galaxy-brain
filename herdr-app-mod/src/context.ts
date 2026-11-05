@@ -11,6 +11,14 @@ export function agentContext(cwd: string | null): AgentContext | null {
 	return match ? { vaultRoot: match[1]!, agentDir: match[2]! } : null;
 }
 
+/** The path's last folder; `~` at home, `/` at the root, empty without a path. */
+export function folderName(cwd: string | null, home: string): string {
+	if (!cwd) return "";
+	const dir = cwd.replace(/\/+$/, "");
+	if (!dir) return "/";
+	return dir === home.replace(/\/+$/, "") ? "~" : dir.slice(dir.lastIndexOf("/") + 1);
+}
+
 /** The folder's SUGGESTED_PROMPTS.md, then `../_shared/`'s. */
 export function promptFiles(cwd: string): string[] {
 	const dir = cwd.replace(/\/+$/, "");

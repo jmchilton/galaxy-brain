@@ -1,5 +1,19 @@
 import { describe, expect, it } from "vitest";
-import { agentContext, machineOf, promptFiles, reroot } from "./context";
+import { agentContext, folderName, machineOf, promptFiles, reroot } from "./context";
+
+describe("folderName", () => {
+	it("is the last folder of the path, ~ at home", () => {
+		expect(folderName("/Users/me/vault/agents/factory", "/Users/me")).toBe("factory");
+		expect(folderName("/Users/me/vault/agents/factory/", "/Users/me")).toBe("factory");
+		expect(folderName("/Users/me", "/Users/me")).toBe("~");
+		expect(folderName("/Users/me/", "/Users/me")).toBe("~");
+	});
+
+	it("is / at the root and empty without a folder", () => {
+		expect(folderName("/", "/Users/me")).toBe("/");
+		expect(folderName(null, "/Users/me")).toBe("");
+	});
+});
 
 describe("agentContext", () => {
 	it("finds the vault root and agent dir of a galaxy-brain agent folder", () => {

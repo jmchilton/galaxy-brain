@@ -12,7 +12,7 @@ One `## Label` per launcher. Leading `key: value` lines configure it; the rest i
 
 Placeholders: `{repo}`, `{kind}`, `{status}`, `{name}` (branch name, PR or issue number), `{record}` (absolute record directory; empty for untracked items).
 
-In a Claude session in an `agent_dir`, the suggested-prompts plugin's 🚀 menu offers that dir's launchers to run in the same session; Claude fills the record placeholders from the record under discussion (`herdr-plugin` CLI `actions <agent_dir>`; rebuild with `make herdr-plugin-build`).
+In a Herdr app pane in an `agent_dir`, the header's 🚀 menu offers that dir's launchers to run in the same session; the agent fills the record placeholders from the record under discussion (`herdr-plugin` CLI `actions <agent_dir>`; rebuild with `make herdr-plugin-build`).
 
 ## Agent launchers
 

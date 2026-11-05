@@ -5,21 +5,19 @@
 import { div, image, svg, View } from "gpui-kit";
 import { h_flex, Textarea, TextareaState, v_flex } from "gpui-base";
 import { closeOverlay, exec, hc, home, notify, openOverlay, panes, props, readTextFile, run, spaces, theme } from "herdr";
-import { agentContext, machineOf, promptFiles, reroot } from "./context";
+import { parse } from "yaml";
+import { type Environment, parseEnvironments } from "../../obsidian-plugin/src/environments";
+import { agentContext, folderName, machineOf, promptFiles, reroot } from "./context";
 import { mergePrompts, parsePrompts, quickEmoji, type SuggestedPrompt } from "./prompts";
+import { machineIcon } from "./sidebar";
 
 const MOD = "gb-pane";
 const ACTIONS_CLI = `${__GB_ROOT__}/herdr-plugin/bin/run.sh`;
 const LOCAL_VAULT = `${__GB_ROOT__}/vault`;
+const ENVIRONMENTS = `${LOCAL_VAULT}/agents/_shared/ENVIRONMENTS.yml`;
 
 type Cx = any;
 type El = any;
-
-function folderLabel(cwd: string | null): string {
-	if (!cwd) return "";
-	const h = home();
-	return cwd === h ? "~" : cwd.startsWith(`${h}/`) ? `~${cwd.slice(h.length)}` : cwd;
-}
 
 function programIcon(program: any, size: number, color: string): El | null {
 	if (!program?.icon) return null;
@@ -101,6 +99,7 @@ export default class GbPane extends View {
 	declare actions: SuggestedPrompt[];
 	declare loadedFor: string | null;
 	declare draft: any;
+	declare environments: Environment[];
 
 	init(_props: unknown, cx: Cx) {
 		const p = props() ?? {};
@@ -108,6 +107,14 @@ export default class GbPane extends View {
 		this.prompts = [];
 		this.loadedFor = null;
 		this.actions = [];
+		this.environments = [];
+		if (this.view === "header") {
+			cx.spawn(async (cx: Cx) => {
+				const text = await readTextFile(ENVIRONMENTS).catch(() => null);
+				this.environments = text ? parseEnvironments(parse(text)) : [];
+				cx.notify();
+			});
+		}
 		if (this.view === "draft") {
 			this.draft = TextareaState.new({ value: p.text ?? "", rows: 10 });
 			this.draft.on("submit", (_e: unknown, cx: Cx) => this.sendDraft(cx));
@@ -130,8 +137,10 @@ export default class GbPane extends View {
 		if (!p) return div();
 		const machine = machineOf(p.tab, spaces());
 		this.reload(cx, p.cwd, machine);
-		const name = ((p.program?.agent || p.program?.shell) && p.program.name) || p.title || p.program?.name || "shell";
 		const pic = programIcon(p.program, 14, t.dim);
+		// An agent's icon stands for its name.
+		const name = p.program?.agent && pic ? null : (p.program?.shell && p.program.name) || p.title || p.program?.name || "shell";
+		const where = machineIcon(machine, this.environments);
 		const pane = p.pane;
 		const terminal = p.terminal;
 		const quick = terminal ? this.prompts.flatMap((one: SuggestedPrompt, i: number) => {
@@ -150,8 +159,10 @@ export default class GbPane extends View {
 			.text_size(12)
 			.on_click(() => run("pane.focus", { pane }))
 			.when(Boolean(pic), (el: El) => el.child(pic))
-			.child(div().flex_none().truncate().max_w(220).font_medium().text_color(t.foreground).child(name))
-			.child(div().flex_1().truncate().text_color(t.dim).child(folderLabel(p.cwd)))
+			.when(Boolean(where), (el: El) => el.child(div().flex_none().child(where)))
+			.when(!where && Boolean(machine), (el: El) => el.child(div().flex_none().text_size(10).text_color(t.dim).child(machine)))
+			.when(Boolean(name), (el: El) => el.child(div().flex_none().truncate().max_w(220).font_medium().text_color(t.foreground).child(name)))
+			.child(div().flex_1().truncate().text_color(t.dim).child(folderName(p.cwd, home())))
 			.when(p.status === "working", (el: El) => el.child(svg("mods/workspace-chrome/spinner.svg").size(12).flex_none().text_color(t.working).spin(900)))
 			.when(p.status === "blocked", (el: El) =>
 				el.child(div().flex_none().px(6).h(18).flex().items_center().rounded(5).bg(`${t.blocked}26`).text_size(10.5).font_semibold().text_color(t.blocked).child("Needs you")),
