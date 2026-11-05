@@ -51,14 +51,21 @@ John asked on 2026-11-04 for a rebase and re-harden once all eight extracted PRs
    - Declarations fixed to `data`: `test_metadata_copied_to_copied_outputs` (integration, 2 passed) and `test_run_workflow_from_url_with_implicit_conversion_on_collection`.
    - Checks after the change: 32 related API tests passed; 297 unit tests passed, 1 skipped; ruff, black and isort clean; no mypy errors in the changed files.
    - A static scan of the framework workflow tests and of the workflows embedded in Python tests found no other dataset test data on collection inputs. Fork CI is the remaining check.
-2. **Collection-type check** (dropped).
-   - It rejected valid mapping because untyped inputs persist the default `list`.
-   - Scope evaluation suggests restoring it for non-`list` declared types via `HistoryQuery` `direct_match`/`can_map_over`. That isn't run yet.
+2. **Collection-type check. Decided 2026-11-05 (John): fix the Galaxy bug instead of skipping `list`.**
+   - Root cause: `_parse_state_into_dict` filled a missing `collection_type` key with `list`, but kept `null` (an editor-cleared type). So gxformat2 `type: collection` inputs and `.ga` files without the key became `list`-only. A probe confirmed this across save, export and re-import.
+   - `2aab3a22916`: a missing type stays `None`, and new editor nodes still start as `list` via `stateOverwrites` in `inputs.ts`. Tests: the tightened unit test `test_data_collection_input_default_state` and the new client `inputs.test.ts` were both red before.
+   - `bcbd2de187c`: `HistoryQuery` `direct_match`/`can_map_over` check on collection inputs; untyped inputs accept anything. New tests: `test_run_with_incompatible_collection_type` (paired↔list, red before) and `test_run_with_untyped_collection_input_accepts_any_collection_type`.
+   - Workflows already stored with an implicit `list` stay `list`, and the API now enforces it as the run form already did.
+   - Checks on head `bcbd2de187c`:
+     - full `test_workflows.py`: 543 passed;
+     - framework workflows: 91 passed;
+     - unit: 297 passed;
+     - lint, mypy, prettier and eslint clean.
 3. **`requires_materialization` across batch entries.**
    - The flag is sticky across entries, so one entry needing materialization marks the later ones too.
    - Dev has the same behavior; the branch preserved it. Fixing it is a small expansion.
 4. **Double populate on a single invocation.** Fixing it means changing commit to flush in the side-effect loop, which also rolls back the history if `queue_invoke` fails. It's a transaction behavior change, so it stays separate.
-5. **Broader suites.** Apart from the one integration test above, no integration, framework or browser suites have been run since the rebase, and fork CI hasn't been checked.
+5. **Broader suites.** These have now run: the full workflow API file, the framework workflows and the one integration test. Other integration suites, the browser suites and fork CI haven't.
 6. **PR shape.** `scope_evaluation.md` lists three split options. John's 2026-10-16 decision ("do not PR as-is") was about waiting for the extractions, which have all merged.
 
 Once decided, after scope work:

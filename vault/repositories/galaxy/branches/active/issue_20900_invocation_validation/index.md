@@ -7,7 +7,7 @@ upstream_base_branch: dev
 
 ## Status
 
-`branches_need_decision`: all extractions are merged. The branch was rebased, re-hardened and pushed on 2026-11-05 (head `cf54435a4ef` after decision 1), and is parked on the remaining scope decisions in the [implementation debrief](implementation_debrief.md).
+`branches_need_decision`: all extractions are merged. The branch was rebased, re-hardened and pushed on 2026-11-05 (head `bcbd2de187c` after decisions 1–2), and is parked on the remaining scope decisions in the [implementation debrief](implementation_debrief.md).
 
 No PR.
 

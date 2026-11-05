@@ -6,7 +6,7 @@ record: galaxy/branches/issue_20900_invocation_validation
 
 - No PR yet · [branch record](../../../../repositories/galaxy/branches/active/issue_20900_invocation_validation/index.md) · refs [#20900](https://github.com/galaxyproject/galaxy/issues/20900)
 
-Reject bad workflow invocation requests at the API before creating histories or other side effects. Fork head `cf54435a4ef` (2026-11-05): 5 commits on dev `7e16f446410`, rebased and re-hardened after every extraction merged.
+Reject bad workflow invocation requests at the API before creating histories or other side effects. Fork head `bcbd2de187c` (2026-11-05): 7 commits on dev `7e16f446410`, rebased and re-hardened after every extraction merged.
 
 ## Children
 
@@ -28,7 +28,8 @@ All eight extracted PRs merged; every merge commit is in `dev` (checked 2026-11-
 - `cc2099794c5` and `7e670abd636`: behavior-neutral refactors.
 - `f4d51ef252a`: validate every batch entry before side effects. This covers parameter type, restriction and validator checks; deleted inputs; dataset-vs-collection checks (by id or URL); sample-sheet URIs; and null replacement/resource params.
 - `cf54435a4ef`: landing-request lookup before invocation.
-- The four inherited API reds are fixed. The collection-type comparison was dropped (it rejected valid mapping); that decision is John's.
+- `2aab3a22916`: untyped collection inputs are no longer saved as `list` (new editor nodes still default to `list`).
+- `bcbd2de187c`: collection-type check on collection inputs.
 
 ## Decisions
 
@@ -36,5 +37,6 @@ All eight extracted PRs merged; every merge commit is in `dev` (checked 2026-11-
 - 2026-10-16, John: keep as reference while smaller PRs come out; do not PR as-is.
 - 2026-11-05: extractions all merged; the re-hardened branch moved to `branches_need_decision` on scope (see the branch record's implementation debrief).
 - 2026-11-05, John: reject datasets (by id or URL) given to collection inputs; fix tests that mis-declare such inputs.
+- 2026-11-05, John: a missing collection type defaulting to `list` is a Galaxy bug; fix it (only new editor nodes default to `list`), then enforce declared collection types.
 - Multiple-text per-value validator (`119716e6a2f`) is superseded upstream; drop on rebase, don't extract.
 - 2026-11-02, John: no response to the `no_add_to_history` [decision gist](https://gist.github.com/jmchilton/c68c645a8fa6d8da58af9a5e70f060c1); go with 26.1 server-only, abandon the 26.2 generator branch and describe it in the PR as the path not taken. The generator isn't needed by the remaining #20900 work.
