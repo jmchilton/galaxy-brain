@@ -2,8 +2,9 @@
 # Launch Claude or Codex under vault/agents/<agent_dir> in a new Herdr space (app) or workspace (tui) and send it a prompt.
 # Usage: launch_agent.sh [--host <host> --vault <host's vault>] <agent_dir> <claude|codex> <name> <prompt> [agent args...]
 # An empty prompt just starts the agent. Agent args go to claude/codex, e.g. --model opus --effort xhigh.
-# Flavor: GB_HERDR, else herdr: in ../DISPATCH_CONFIG.yml. app needs the Herdr window open; tui starts a headless server if needed.
-# --host pulls that host's vault first. app runs the agent there as hc machine <host>; tui runs the host's own copy over ssh.
+# Flavor: GB_HERDR, else herdr: in ../DISPATCH_CONFIG.yml. app starts it with hc and names it in the window if open;
+# tui starts a headless server if needed. --host pulls that host's vault first; app runs the agent on hc machine <host>,
+# tui runs the host's own copy over ssh.
 set -eu
 
 PATH="$HOME/.local/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:$PATH"
@@ -49,16 +50,35 @@ else
   [ -d "$cwd" ] || { echo "no agent directory: $cwd" >&2; exit 2; }
 fi
 
+# Herdr and hc names: [a-z][a-z0-9_-]{0,31}, unique among live agents/terminals.
+unique_name() {
+  base=$(printf '%s' "$name" | tr 'A-Z' 'a-z' | tr -c 'a-z0-9_-' '-' | sed 's/^[^a-z]*//' | cut -c1-28)
+  [ -n "$base" ] || base=agent
+  name=$base n=2
+  while printf '%s\n' "$1" | grep -qx "$name"; do name="$base-$n"; n=$((n + 1)); done
+}
+
 if [ "$herdr" = app ]; then
-  herdr-app ls >/dev/null 2>&1 || { echo "Herdr app window is not open (herdr-app ls failed)" >&2; exit 1; }
-  # machine "" is this computer.
-  space=$(jq -nc --arg name "$agent_dir" --arg tab "$name" --arg folder "$cwd" --arg machine "$host" --arg task "$prompt" \
-    '{name: $name, tab: $tab, folder: $folder, argv: $ARGS.positional, machine: $machine} + (if $task == "" then {} else {task: $task} end)' \
-    --args -- "$kind" "$@")
-  out=$(herdr-app do space.new "$space") || { echo "space.new failed: $out" >&2; exit 1; }
-  terminal=$(printf '%s' "$out" | jq -r '.terminal // empty')
-  [ -n "$terminal" ] || { echo "space.new returned no terminal: $out" >&2; exit 1; }
-  echo "Launched $kind${*:+ $*} '$name' in $agent_dir${host:+ on $host}, terminal $terminal"
+  unique_name "$(hc ls 2>/dev/null | jq -r '.terminals[]?.name // empty' 2>/dev/null || true)"
+  # Space and tab ids Herdr doesn't know yet become a new space and tab, so hc alone creates them, window or not.
+  space=sp$(od -An -N16 -tx1 /dev/urandom | tr -d ' \n') tab=tb$(od -An -N16 -tx1 /dev/urandom | tr -d ' \n')
+  described="$kind${*:+ $*}"
+  [ -z "$prompt" ] || set -- "$@" "$prompt"
+  out=$(hc run --bg --json --no-parent --name "$name" --label "herdr.space=$space" --label "herdr.tab=$tab" \
+    --cwd "$cwd" ${host:+--on "$host"} -- "$kind" "$@") || { echo "hc run failed: $out" >&2; exit 1; }
+  terminal=$(printf '%s' "$out" | jq -r '.address // empty')
+  [ -n "$terminal" ] || { echo "hc run returned no terminal: $out" >&2; exit 1; }
+  # Name them once the window shows them; without herdr-app they keep Herdr's names.
+  if command -v herdr-app >/dev/null 2>&1; then
+    n=0
+    until herdr-app do space.rename --id "${host:+$host/}$space" --name "$agent_dir" >/dev/null 2>&1; do
+      n=$((n + 1))
+      [ $n -le 20 ] || { echo "warning: Herdr window didn't show space $space; left unnamed" >&2; break; }
+      sleep 0.25
+    done
+    herdr-app do tab.rename --id "${host:+$host/}$tab" --name "$name" >/dev/null 2>&1 || true
+  fi
+  echo "Launched $described '$name' in $agent_dir${host:+ on $host}, terminal $terminal"
   exit 0
 fi
 
@@ -72,12 +92,7 @@ if ! herdr workspace list >/dev/null 2>&1; then
   done
 fi
 
-# Herdr names: [a-z][a-z0-9_-]{0,31}, unique among live agents.
-base=$(printf '%s' "$name" | tr 'A-Z' 'a-z' | tr -c 'a-z0-9_-' '-' | sed 's/^[^a-z]*//' | cut -c1-28)
-[ -n "$base" ] || base=agent
-taken=$(herdr agent list 2>/dev/null | jq -r '.result.agents[]?.name // empty' 2>/dev/null || true)
-name=$base n=2
-while printf '%s\n' "$taken" | grep -qx "$name"; do name="$base-$n"; n=$((n + 1)); done
+unique_name "$(herdr agent list 2>/dev/null | jq -r '.result.agents[]?.name // empty' 2>/dev/null || true)"
 
 pane=$(herdr workspace create --cwd "$cwd" --label "$agent_dir" --no-focus | jq -r '.result.root_pane.pane_id')
 [ -n "$pane" ] && [ "$pane" != null ] || { echo "workspace create returned no pane" >&2; exit 1; }

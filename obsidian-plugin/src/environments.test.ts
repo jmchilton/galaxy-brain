@@ -78,8 +78,8 @@ describe("launchArgv", () => {
 describe("launch_agent.sh", () => {
 	const prompt = `Read it's "x" '''\nthen $(echo no) \`x\` $HOME\n`;
 
-	/** Runs a copy of the script under a stub agents tree; stub herdr-app, hc and ssh log their argv. */
-	function launch(mode: string, args: string[]): { stdout: string; calls: string[][] } {
+	/** Runs a copy of the script under a stub agents tree; stub herdr-app (unless absent), hc and ssh log their argv. */
+	function launch(mode: string, args: string[], { herdrApp = true } = {}): { stdout: string; calls: string[][] } {
 		const root = mkdtempSync(join(tmpdir(), "launch-agent-"));
 		const bin = join(root, "home/.local/bin");
 		mkdirSync(bin, { recursive: true });
@@ -88,44 +88,56 @@ describe("launch_agent.sh", () => {
 		copyFileSync(new URL(`../../vault/${SCRIPT}`, import.meta.url), join(root, SCRIPT));
 		writeFileSync(join(root, "agents/_shared/DISPATCH_CONFIG.yml"), `herdr: ${mode}\n`);
 		const log = join(root, "calls.jsonl");
-		for (const [cmd, reply] of [
-			["herdr-app", `if [ "$1" = do ]; then echo '{"pane":"p1","terminal":"t7"}'; fi`],
-			["hc", ""],
+		const stubs: [string, string][] = [
+			["hc", `case $1 in run) echo '{"address":"t7"}' ;; ls) echo '{"terminals":[{"name":"br-note"},{}]}' ;; esac`],
 			["ssh", ""],
-		]) {
+		];
+		if (herdrApp) stubs.push(["herdr-app", ""]);
+		for (const [cmd, reply] of stubs) {
 			const stub = `#!/bin/sh\njq -nc '$ARGS.positional' --args -- ${cmd} "$@" >> '${log}'\n${reply}\n`;
 			writeFileSync(join(bin, cmd), stub, { mode: 0o755 });
 		}
-		const stdout = execFileSync(join(root, SCRIPT), args, { encoding: "utf8", env: { ...process.env, HOME: join(root, "home"), GB_HERDR: "" } });
+		const env = { ...process.env, HOME: join(root, "home"), PATH: "/usr/bin:/bin", GB_HERDR: "" };
+		const stdout = execFileSync(join(root, SCRIPT), args, { encoding: "utf8", env });
 		const calls = existsSync(log) ? readFileSync(log, "utf8").trim().split("\n").map((line) => JSON.parse(line)) : [];
 		return { stdout, calls: calls.map((call) => call.map((arg: string) => arg.split(root).join("<root>"))) };
 	}
 
-	it("app: creates a space for the agent dir with the agent and its task", () => {
+	const hcRun = (calls: string[][]) => calls.find((call) => call[0] === "hc" && call[1] === "run")!;
+	const label = (run: string[], key: string) => run.find((arg) => arg.startsWith(`herdr.${key}=`))!.slice(`herdr.${key}=`.length);
+
+	it("app: runs the agent with its prompt in a new space via hc, then names the space and tab", () => {
 		const { stdout, calls } = launch("app", ["gx_branches", "claude", "br-note", prompt, "--model", "opus"]);
-		const [, , command, json] = calls.find((call) => call[1] === "do")!;
-		expect(command).toBe("space.new");
-		expect(JSON.parse(json)).toEqual({
-			name: "gx_branches",
-			tab: "br-note",
-			folder: "<root>/agents/gx_branches",
-			argv: ["claude", "--model", "opus"],
-			task: prompt,
-			machine: "",
-		});
+		const run = hcRun(calls);
+		const space = label(run, "space");
+		const tab = label(run, "tab");
+		expect(space).toMatch(/^sp[0-9a-f]{32}$/);
+		expect(tab).toMatch(/^tb[0-9a-f]{32}$/);
+		expect(run).toEqual(["hc", "run", "--bg", "--json", "--no-parent", "--name", "br-note-2", "--label", `herdr.space=${space}`, "--label", `herdr.tab=${tab}`,
+			"--cwd", "<root>/agents/gx_branches", "--", "claude", "--model", "opus", prompt]);
+		expect(calls).toContainEqual(["herdr-app", "do", "space.rename", "--id", space, "--name", "gx_branches"]);
+		expect(calls).toContainEqual(["herdr-app", "do", "tab.rename", "--id", tab, "--name", "br-note-2"]);
 		expect(stdout).toContain("terminal t7");
 	});
 
-	it("app: omits the task for an empty prompt", () => {
-		const { calls } = launch("app", ["gx_branches", "codex", "x", ""]);
-		expect(JSON.parse(calls.find((call) => call[1] === "do")![3])).not.toHaveProperty("task");
+	it("app: passes no prompt argument for an empty prompt", () => {
+		const run = hcRun(launch("app", ["gx_branches", "codex", "x", ""]).calls);
+		expect(run.slice(run.indexOf("--"))).toEqual(["--", "codex"]);
 	});
 
-	it("app: pulls the remote vault through hc, then creates the space on that machine", () => {
+	it("app: still launches, unnamed, without herdr-app", () => {
+		const { stdout, calls } = launch("app", ["gx_branches", "claude", "br-note", prompt], { herdrApp: false });
+		expect(hcRun(calls)).toBeDefined();
+		expect(calls.some((call) => call[0] === "herdr-app")).toBe(false);
+		expect(stdout).toContain("terminal t7");
+	});
+
+	it("app: pulls the remote vault through hc, then runs on that machine with machine-prefixed renames", () => {
 		const { calls } = launch("app", ["--host", "box", "--vault", "/v", "gx_branches", "claude", "br-note", prompt]);
 		expect(calls).toContainEqual(["hc", "exec", "--on", "box", "git", "-C", "/v", "pull", "-q", "--no-rebase", "--no-edit"]);
-		const space = JSON.parse(calls.find((call) => call[1] === "do")![3]);
-		expect(space).toMatchObject({ machine: "box", folder: "/v/agents/gx_branches", task: prompt });
+		const run = hcRun(calls);
+		expect(run.slice(run.indexOf("--cwd"), run.indexOf("--"))).toEqual(["--cwd", "/v/agents/gx_branches", "--on", "box"]);
+		expect(calls).toContainEqual(["herdr-app", "do", "space.rename", "--id", `box/${label(run, "space")}`, "--name", "gx_branches"]);
 		expect(calls.some((call) => call[0] === "ssh")).toBe(false);
 	});
 
