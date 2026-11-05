@@ -3,7 +3,9 @@ Fix 🎯 #24722 - exact-version API invocation rejects installed Tool Shed tools
 | Step reference (`tp_cat`, `tool_version: 9.11+galaxy0` installed) | Before | After |
 | --- | --- | --- |
 | `…/devteam/text_processing/tp_cat` → `POST /api/workflows/{id}/invocations` | ❌ 400 "required tools are not installed" | ✅ invokes |
+| same → `POST /api/workflows` (create) | ⚠️ 200, but workflow stored with `has_errors` | ✅ no errors |
 | same → `PUT /api/workflows/{id}` (update) | ❌ 400 "This workflow contains missing tools" | ✅ saves, id stored as given |
+| same → workflow editor save | ✅ (editor sends the resolved versioned guid) | ✅ unchanged |
 | `…/tp_cat/9.11+galaxy0` (versioned guid) | ✅ | ✅ unchanged |
 | any id pinned to a version that isn't installed (e.g. `0.0.1`, `0.1.0` installed) | ❌ 400 "… (version 0.0.1)" | ❌ 400 "… (version 0.0.1, installed: 0.1.0)" |
 
@@ -130,7 +132,7 @@ The pre-flight's three-way lookup moved into `_find_workflow_tool`, and the inst
 
 <details><summary>Tests</summary>
 
-- Integration (`test/integration/test_workflow_invocation.py`, eager and cached toolboxes): `test_run_workflow_with_unversioned_shed_tool_id`, `…_exact_version` and `…_wrong_version` cover invocation; `test_update_workflow_with_unversioned_shed_tool_id` covers update (`PUT`, through `ToolModule.__init__`). The baseline tests come first and pass on the base branch; the exact-version ones fail there at their own assertions.
+- Integration (`test/integration/test_workflow_invocation.py`, eager and cached toolboxes): `test_run_workflow_with_unversioned_shed_tool_id`, `…_exact_version` and `…_wrong_version` cover invocation; `test_create_workflow_with_unversioned_shed_tool_id` and `test_update_workflow_with_unversioned_shed_tool_id` cover save (`POST`/`PUT`, through `ToolModule.__init__`). The baseline tests come first and pass on the base branch; the exact-version ones fail there at their own assertions.
 - Unit (`test/unit/app/tools/test_toolbox.py`): `test_exact_lookup_matches_tool_id_not_version` pins the existing `exact` semantics; `test_get_tool_at_version` covers sibling versions, short ids, an uninstalled version (no fallback) and an unknown id.
 - `test_run_workflow_with_missing_tool`, `…_wrong_version` and `test_tool_source_storage.py::test_exact_workflow_invocation_reports_missing_tool_version` expect the new `installed:` suffix.
 
