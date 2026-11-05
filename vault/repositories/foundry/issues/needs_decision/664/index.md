@@ -12,9 +12,18 @@ Not a Foundry change: a bundle of four wrapper bugs in other repos. Work is forw
 - `agent/human`: John decides whether/where to forward; filing upstream is outside the greenlist.
 - `upstream/tools`: the fixes land in tools-iuc and bgruening/galaxytools (label added 2026-10-24).
 
+## Filed upstream (2026-11-05)
+
+Re-verified on current main/master first; no duplicates found. Each body links #664 and carries the wf_foundry agent marker.
+
+1. multiqc qualimap: [tools-iuc#8866](https://github.com/galaxyproject/tools-iuc/issues/8866) (now multiqc 1.35+galaxy5).
+2. salmonquantmerge: [bgruening/galaxytools#2093](https://github.com/bgruening/galaxytools/issues/2093).
+3. agat: [bgruening/galaxytools#2094](https://github.com/bgruening/galaxytools/issues/2094). Confirmed against Galaxy dev: `tool_util/parser/xml.py` prefixes `$`, `tools/actions/__init__.py` swallows the lookup error.
+4. stringtie: [tools-iuc#8867](https://github.com/galaxyproject/tools-iuc/issues/8867) (now stringtie 3.0.3+galaxy3; defaults checked against `stringtie.cpp` at `v3.0.3`; possibly related tools-iuc#5098).
+
 ## Derived status
 
-`needs_decision`, overriding rule 3: nothing is filed upstream yet, so the next move is John's. Becomes `blocked` once upstream issues/PRs exist.
+`needs_decision` (rule 3, staged `issue_tags.md`). Once labels are applied, the upstream issues above become the `upstream/tools` blocker.
 
 ## Upstream check (2026-10-24, current main of each repo)
 
@@ -29,4 +38,4 @@ Repo routing: 1 and 4 tools-iuc; 2 and 3 bgruening/galaxytools (issue says "thre
 
 ## Next
 
-John decides: (a) file four separate upstream issues (one per defect, linking #664), then close #664 or keep as tracker; (b) fix some directly via PRs (2 and 4 are trivial XML). Assign `roadmap/off`, `priority/v2`, `agent/human` on OK.
+John decides: close #664 now that all four are filed upstream, or keep it as a tracker (apply staged labels); optionally fix 3 and 4 directly via PRs (small XML edits).
