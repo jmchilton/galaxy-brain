@@ -42,14 +42,15 @@ John asked on 2026-11-04 for a rebase and re-harden once all eight extracted PRs
   - On the refactor-only commit `7e670abd636`: 297 unit, 25 API and 20 landing tests passed.
   - On `7848553da11`: 297 unit tests passed.
 - The four inherited API reds from earlier drafts are fixed.
-- **One known regression:** integration `test_dataset_copy_metadata_files.py::test_metadata_copied_to_copied_outputs` fails on the branch, with a 400 "a dataset collection is required but a dataset was supplied". It passes with dev's sources (both checked 2026-11-05). See decision 1.
+- **Regression, fixed by decision 1:** integration `test_dataset_copy_metadata_files.py::test_metadata_copied_to_copied_outputs` failed with a 400 "a dataset collection is required but a dataset was supplied". The test's input declaration has been fixed.
 
 ## Decisions for John
 
-1. **Dataset supplied to a collection input.**
-   - The branch rejects `src: hda` there, which breaks dev's integration test `test_metadata_copied_to_copied_outputs`. That test declares `bam_file` as a `list` collection but uploads a `File`; the fix is to declare it `data`. Keeping the check means making that test-data change.
-   - A dataset URI to a collection input is still accepted. Rejecting it too means also fixing `test_run_workflow_from_url_with_implicit_conversion_on_collection`, whose declaration looks swapped.
-   - Recommended: keep the check, reject URIs too, and fix both tests.
+1. **Dataset supplied to a collection input. Decided 2026-11-05 (John): reject it and fix tests that are wrong.**
+   - The check is folded into `f4d51ef252a` (head `cf54435a4ef`; old head kept as `backup/issue_20900_before_uri_kind_20261105`): `InputModule.validate_input_kind`, also applied to `src: url` / `File` requests. New test `test_run_with_dataset_url_for_collection_input_creates_no_history` was red before the fix.
+   - Declarations fixed to `data`: `test_metadata_copied_to_copied_outputs` (integration, 2 passed) and `test_run_workflow_from_url_with_implicit_conversion_on_collection`.
+   - Checks after the change: 32 related API tests passed; 297 unit tests passed, 1 skipped; ruff, black and isort clean; no mypy errors in the changed files.
+   - A static scan of the framework workflow tests and of the workflows embedded in Python tests found no other dataset test data on collection inputs. Fork CI is the remaining check.
 2. **Collection-type check** (dropped).
    - It rejected valid mapping because untyped inputs persist the default `list`.
    - Scope evaluation suggests restoring it for non-`list` declared types via `HistoryQuery` `direct_match`/`can_map_over`. That isn't run yet.
