@@ -1,0 +1,7 @@
+# How scripts/launch_agent.sh starts agents. GB_HERDR overrides it per launch.
+#
+#   herdr: app  the Herdr desktop app (herdr-app + herdr-core `hc`); needs its window open.
+#               Remote hosts run as the hc machine of the same name (`hc machine add <host>`).
+#   herdr: tui  the herdr terminal multiplexer; remote hosts run their own launch_agent.sh over ssh.
+
+herdr: app

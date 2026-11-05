@@ -1,21 +1,66 @@
 #!/bin/sh
-# Launch Claude or Codex in a new Herdr workspace under vault/agents/<agent_dir> and send it a prompt.
-# Usage: launch_agent.sh <agent_dir> <claude|codex> <name> <prompt> [agent args...]
+# Launch Claude or Codex under vault/agents/<agent_dir> in a new Herdr space (app) or workspace (tui) and send it a prompt.
+# Usage: launch_agent.sh [--host <host> --vault <host's vault>] <agent_dir> <claude|codex> <name> <prompt> [agent args...]
 # An empty prompt just starts the agent. Agent args go to claude/codex, e.g. --model opus --effort xhigh.
-# Works outside Herdr (e.g. from Obsidian or over ssh); starts a headless Herdr server if none is running.
+# Flavor: GB_HERDR, else herdr: in ../DISPATCH_CONFIG.yml. app needs the Herdr window open; tui starts a headless server if needed.
+# --host pulls that host's vault first. app runs the agent there as hc machine <host>; tui runs the host's own copy over ssh.
 set -eu
 
 PATH="$HOME/.local/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:$PATH"
 
-[ $# -ge 4 ] || { echo "usage: $0 <agent_dir> <claude|codex> <name> <prompt> [agent args...]" >&2; exit 2; }
+usage() { echo "usage: $0 [--host <host> --vault <host's vault>] <agent_dir> <claude|codex> <name> <prompt> [agent args...]" >&2; exit 2; }
+
+host= vault=
+while [ $# -ge 2 ]; do
+  case $1 in --host) host=$2 ;; --vault) vault=$2 ;; *) break ;; esac
+  shift 2
+done
+[ -z "$host" ] || [ -n "$vault" ] || usage
+[ $# -ge 4 ] || usage
 agent_dir=$1 kind=$2 name=$3 prompt=$4
 shift 4
 
 case $kind in claude|codex) ;; *) echo "kind must be claude or codex: $kind" >&2; exit 2 ;; esac
 
-agents_root=$(cd "$(dirname "$0")/../.." && pwd)
-cwd="$agents_root/$agent_dir"
-[ -d "$cwd" ] || { echo "no agent directory: $cwd" >&2; exit 2; }
+shared=$(cd "$(dirname "$0")/.." && pwd)
+config="$shared/DISPATCH_CONFIG.yml"
+herdr=${GB_HERDR:-$(sed -n 's/^herdr:[[:space:]]*\([a-z]*\).*/\1/p' "$config" 2>/dev/null)}
+case ${herdr:=tui} in app|tui) ;; *) echo "herdr must be app or tui (GB_HERDR or $config): $herdr" >&2; exit 2 ;; esac
+
+# Single-quotes each argument for a POSIX shell.
+quote() {
+  for arg; do
+    q=$(printf '%s' "$arg" | sed "s/'/'\\\\''/g"; printf x)
+    printf " '%s'" "${q%x}"
+  done
+}
+
+if [ -n "$host" ]; then
+  cwd="$vault/agents/$agent_dir"
+  if [ "$herdr" = tui ]; then
+    pull="git -C$(quote "$vault") pull -q --no-rebase --no-edit || echo \"warning: git pull failed in $vault on $host\""
+    exec ssh -o BatchMode=yes -o ConnectTimeout=10 "$host" \
+      "$pull; GB_HERDR=tui$(quote "$vault/agents/_shared/scripts/launch_agent.sh" "$agent_dir" "$kind" "$name" "$prompt" "$@")"
+  fi
+  hc exec --on "$host" git -C "$vault" pull -q --no-rebase --no-edit >/dev/null || echo "warning: git pull failed in $vault on $host" >&2
+  hc exec --on "$host" test -d "$cwd" >/dev/null || { echo "no agent directory on $host: $cwd" >&2; exit 2; }
+else
+  cwd="$(dirname "$shared")/$agent_dir"
+  [ -d "$cwd" ] || { echo "no agent directory: $cwd" >&2; exit 2; }
+fi
+
+if [ "$herdr" = app ]; then
+  herdr-app ls >/dev/null 2>&1 || { echo "Herdr app window is not open (herdr-app ls failed)" >&2; exit 1; }
+  # machine "" is this computer.
+  space=$(jq -nc --arg name "$agent_dir" --arg tab "$name" --arg folder "$cwd" --arg machine "$host" --arg task "$prompt" \
+    '{name: $name, tab: $tab, folder: $folder, argv: $ARGS.positional, machine: $machine} + (if $task == "" then {} else {task: $task} end)' \
+    --args -- "$kind" "$@")
+  out=$(herdr-app do space.new "$space") || { echo "space.new failed: $out" >&2; exit 1; }
+  terminal=$(printf '%s' "$out" | jq -r '.terminal // empty')
+  [ -n "$terminal" ] || { echo "space.new returned no terminal: $out" >&2; exit 1; }
+  echo "Launched $kind${*:+ $*} '$name' in $agent_dir${host:+ on $host}, terminal $terminal"
+  exit 0
+fi
 
 if ! herdr workspace list >/dev/null 2>&1; then
   nohup herdr server >/dev/null 2>&1 </dev/null &

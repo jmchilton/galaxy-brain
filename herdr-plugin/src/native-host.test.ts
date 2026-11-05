@@ -68,12 +68,12 @@ describe("handle", () => {
 		expect([dir, kind, name, prompt, args]).toEqual([review.launchers[0]!.agentDir, "claude", review.launchers[0]!.name, "edited", ["--model", "opus", "--effort", "high"]]);
 	});
 
-	it("launches over ssh in a named environment, Local by default", () => {
+	it("launches in a named environment's host and vault, Local by default", () => {
 		const { runs, host } = deps();
 		expect(lookup(VAULT).environments[0]).toBe("Local");
 		handle({ type: "newAgent", dir: "gx_reviews", environment: "chickenstraws" }, host);
-		expect([runs[0]![0], runs[0]!.at(-2)]).toEqual(["ssh", "chickenstraws"]);
-		expect(runs[0]!.at(-1)).toContain("'/home/ubuntu/projects/repositories/galaxy-brain/vault/agents/_shared/scripts/launch_agent.sh' 'gx_reviews'");
+		expect(runs[0]![0]).toMatch(/launch_agent\.sh$/);
+		expect(runs[0]!.slice(1, 6)).toEqual(["--host", "chickenstraws", "--vault", "/home/ubuntu/projects/repositories/galaxy-brain/vault", "gx_reviews"]);
 		handle({ type: "newAgent", dir: "gx_reviews" }, host);
 		expect(runs[1]![0]).toMatch(/launch_agent\.sh$/);
 		expect(() => handle({ type: "newAgent", dir: "gx_reviews", environment: "Nope" }, host)).toThrow(/unknown environment/);

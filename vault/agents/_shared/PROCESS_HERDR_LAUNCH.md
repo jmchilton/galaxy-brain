@@ -19,9 +19,11 @@ It creates a background workspace, starts the agent, sends the prompt, waits unt
 
 If it fails because the server isn't reachable, say so and stop. If the agent didn't become ready (e.g. a trust/startup dialog), inspect with `herdr agent read <pane-id>` and ask the user before answering it. Never run bare `herdr` - it opens the TUI.
 
+With `herdr: app` in [`DISPATCH_CONFIG.yml`](DISPATCH_CONFIG.yml) it creates a space in the Herdr desktop app instead and prints a terminal address such as `t7` rather than a pane ID. Inspect it with `hc read <terminal> --lines 50` or `hc get <terminal>`. If the window isn't open, say so and stop. Never run bare `hc` or `herdr-app`.
+
 ## Report
 
-Tell the user the kind, name, pane ID, and the prompt sent. Mention they can jump to it with `herdr agent focus <pane-id>` or check progress with `herdr agent read <pane-id> --source recent`. Target the pane ID, not the name - the Claude `herdr-session-name.sh` hook clears agent names on every prompt.
+Tell the user the kind, name, pane ID (or terminal), and the prompt sent. Mention they can jump to it with `herdr agent focus <pane-id>` (app: `herdr-app do agent.focus --terminal <terminal>`) or check progress with `herdr agent read <pane-id> --source recent` (app: `hc read <terminal>`). Target the pane ID, not the name - the Claude `herdr-session-name.sh` hook clears agent names on every prompt.
 
 ## Boundaries
 
