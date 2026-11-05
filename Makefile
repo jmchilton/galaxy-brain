@@ -1,4 +1,4 @@
-.PHONY: validate test pull-screenshots install site-dev site-build site-preview site-deploy dashboard check-dashboard index check-index architecture-views check-architecture-views architecture-update references check-references plugin-build plugin-dev plugin-test herdr-plugin-build herdr-plugin-test chrome-ext-build chrome-native-install site-test diff-review-build diff-review-test
+.PHONY: validate test pull-screenshots install site-dev site-build site-preview site-deploy dashboard check-dashboard index check-index architecture-views check-architecture-views architecture-update references check-references plugin-build plugin-dev plugin-test herdr-plugin-build herdr-plugin-test herdr-app-mod-build herdr-app-mod-test herdr-app-mod-install chrome-ext-build chrome-native-install site-test diff-review-build diff-review-test
 
 DEPS = --with python-frontmatter --with jsonschema --with pyyaml
 
@@ -73,6 +73,15 @@ herdr-plugin-build:
 
 herdr-plugin-test:
 	cd herdr-plugin && npm test
+
+herdr-app-mod-build:
+	cd herdr-app-mod && npm run build
+
+herdr-app-mod-test:
+	cd herdr-app-mod && npm test
+
+herdr-app-mod-install: herdr-app-mod-build herdr-plugin-build
+	herdr-app-mod/install.sh
 
 chrome-ext-build: herdr-plugin-build
 	cd chrome-extension && npm run build

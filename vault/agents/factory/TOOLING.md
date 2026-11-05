@@ -17,7 +17,7 @@ Paths are relative to the galaxy-brain repository root. Note contracts live in [
 - `skill/` contains the `galaxy-brain` lookup skill.
 - `LIBRARY_*.md` are research/planning documents about this library, not vault notes. They need no frontmatter.
 - `site/` contains the Astro static site.
-- `obsidian-plugin/`, `herdr-plugin/`, and `chrome-extension/` provide repository views and agent launchers.
+- `obsidian-plugin/`, `herdr-plugin/`, and `chrome-extension/` provide repository views and agent launchers. `herdr-app-mod/` holds the Herdr app mods: a pane header with suggested prompts and an agents sidebar.
 - `differential-review-lib/` is a Git submodule of the differential review package ([jmchilton/differential-review](https://github.com/jmchilton/differential-review)): a pure core (`src/core/`, no Node imports) shared by the plugins, and a generic snapshot CLI. `differential-review/` is galaxy-brain's CLI on top of it, which agents run after each phase with `--record <record dir>`. See `LIBRARY_DIFFERENTIAL_REVIEW.md`. Its Obsidian view is `obsidian-plugin/src/diff-review-*.ts`, the only writer of `review-state.json`. Plugin builds also need `npm install` in `differential-review-lib/`, and the CLI in `differential-review/`.
 - `galaxy-architecture/` is a Git submodule. `generate_architecture_views.py` renders its topics into `vault/projects/architecture/topics/`.
 - `check_references.py` checks paper manuscript citations against each paper's `references.yml`.
@@ -51,6 +51,9 @@ make plugin-dev                     # watch/rebuild Obsidian plugin
 make plugin-test                    # Obsidian plugin Vitest suite
 make herdr-plugin-build             # typecheck/bundle terminal and native host code
 make herdr-plugin-test              # Herdr plugin Vitest suite
+make herdr-app-mod-build            # typecheck/bundle the Herdr app mods
+make herdr-app-mod-test             # Herdr app mods Vitest suite
+make herdr-app-mod-install          # build, install into ~/.config/herdr-app, create `gb` layout
 make chrome-ext-build               # build Herdr host and Chrome popup
 make chrome-native-install          # register native messaging host for macOS Chrome
 make diff-review-build              # typecheck/bundle differential-review CLI
@@ -84,7 +87,7 @@ make diff-review-test               # differential-review Vitest suite
 - Launch profiles (agent, model, effort, args) come from `vault/agents/_shared/AGENT_PROFILES.yml`, parsed by `obsidian-plugin/src/profiles.ts`.
 - Launch environments come from `vault/agents/_shared/ENVIRONMENTS.yml`, parsed by `obsidian-plugin/src/environments.ts`. Remote ones pass `--host`/`--vault` to the local `launch_agent.sh`, with vault paths in the prompt re-rooted; it pulls the host's vault clone first. Command launchers stay local.
 - `vault/agents/_shared/scripts/launch_agent.sh` starts agents, dispatching on `herdr:` in `vault/agents/_shared/DISPATCH_CONFIG.yml` (`GB_HERDR` overrides). `app` runs the agent with `hc run` under fresh `herdr.space`/`herdr.tab` label ids, which the Herdr desktop app adopts as a new space and tab, then names them with `herdr-app do space.rename`/`tab.rename` when `herdr-app` is installed. It needs no window, so agents on remote hosts can launch too. Remote launches run on the `hc` machine named like the host. `tui` uses herdr workspaces, starting a headless server if none is running, and runs remote launches through the host's own script over ssh (`herdr machine add` shows them locally). An agent directory is one with an `AGENTS.md` and no leading `_`; launchers list exactly those.
-- Agent directories' `SUGGESTED_PROMPTS.md` files feed the separate `suggested-prompts` hooks plugin in `~/projects/repositories/claude-jmchilton-plugins/plugins/suggested-prompts/`.
+- Agent directories' `SUGGESTED_PROMPTS.md` files feed the separate `suggested-prompts` hooks plugin in `~/projects/repositories/claude-jmchilton-plugins/plugins/suggested-prompts/`, and the Herdr app mod.
 
 ### Obsidian plugin
 
@@ -102,6 +105,13 @@ make diff-review-test               # differential-review Vitest suite
 - It reuses the Obsidian plugin's pure modules. Filesystem reads live in `herdr-plugin/src/vault.ts`.
 - `make herdr-plugin-build` bundles into gitignored `dist/`. Run it after cloning/pulling, then `herdr plugin link herdr-plugin` to register. Linking does not build the plugin.
 - `GB_DRY_RUN=1` prints launches instead of running them.
+
+### Herdr app mods
+
+- `herdr-app-mod/` bundles `src/main.ts` into the `gb-pane` mod: a pane header modeled on the app's shipped `pane` mod. Every pane gets 📋 (Send, or Draft in an edit dialog) and emoji quick-send buttons from its folder's `SUGGESTED_PROMPTS.md` plus `../_shared/`'s; agent folders with record launchers add 🚀 (`herdr-plugin` CLI `actions <dir>`, re-rooted for remote panes). Prompts go in with `hc send`, so any agent works.
+- `src/agents.ts` is the `gb-agents` sidebar, in place of the shipped spaces and agents lists: every terminal grouped by agent dir (shells and other folders under Other), each row its program icon, its machine's `icon:` from `ENVIRONMENTS.yml`, launch name · title, and status. The + in the sidebar header (agent dir, machine, ⚡ default or ⚙️ picked profile) and each group's + start blank agents through the `herdr-plugin` CLI's `host` command.
+- Pure logic (`prompts.ts`, `context.ts`, `sidebar.ts`) has Vitest tests; the UI is checked with `herdr-app check` (run by the install) and in the window.
+- `make herdr-app-mod-install` copies both to `~/.config/herdr-app/mods/` and writes layout `gb`: `main` (or the existing `gb`) with `gb-pane` as pane header and `gb-agents` as the sidebar's header (🧠, +, search, collapse) and list. Show it with `herdr-app do layout.switch --name gb`. Tabs opened before a switch keep their old header.
 
 ### Chrome extension
 
