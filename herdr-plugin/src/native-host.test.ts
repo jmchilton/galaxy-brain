@@ -97,8 +97,8 @@ describe("handle", () => {
 		expect(runs).toHaveLength(1);
 	});
 
-	it("lists agent dirs with a CLAUDE.md", () => {
-		expect(agentDirs(VAULT)).toEqual(expect.arrayContaining(["gx_branches", "gx_reviews", "wf_foundry"]));
+	it("lists agent dirs with an AGENTS.md", () => {
+		expect(agentDirs(VAULT)).toEqual(expect.arrayContaining(["factory", "gx_branches", "gx_research", "gx_reviews", "wf_foundry"]));
 		expect(agentDirs(VAULT)).not.toContain("_shared");
 	});
 });

@@ -373,12 +373,12 @@ export default class GalaxyBrainPlugin extends Plugin {
 		await this.confirmTask({ prompt, agentDir, profile: SYNC_PROFILE }, () => {});
 	}
 
-	/** Agent dirs with a CLAUDE.md, not `_`-prefixed. */
+	/** Agent dirs with an AGENTS.md, not `_`-prefixed. */
 	async agentDirs(): Promise<string[]> {
 		const { folders } = await this.app.vault.adapter.list("agents");
 		const names = folders.map((folder) => folder.split("/").pop()!).filter((name) => !name.startsWith("_"));
-		const withClaude = await Promise.all(names.map((name) => this.app.vault.adapter.exists(`agents/${name}/CLAUDE.md`)));
-		return names.filter((_, i) => withClaude[i]).sort();
+		const withAgents = await Promise.all(names.map((name) => this.app.vault.adapter.exists(`agents/${name}/AGENTS.md`)));
+		return names.filter((_, i) => withAgents[i]).sort();
 	}
 
 	/** Cards for a ```gb-tasks block: 🚀 launches (and removes on success), ✖ removes. */

@@ -65,11 +65,11 @@ export function ghHeadBranch(run: HostDeps["run"]): HeadBranch {
 
 const recordKey = (record: RecordRef) => record.dir || `untracked:${record.repo}/${record.kind}/${record.name}`;
 
-/** Agent dirs with a CLAUDE.md, not `_`-prefixed. */
+/** Agent dirs with an AGENTS.md, not `_`-prefixed. */
 export function agentDirs(vaultRoot: string): string[] {
 	const root = join(vaultRoot, "agents");
 	return readdirSync(root, { withFileTypes: true })
-		.filter((entry) => entry.isDirectory() && !entry.name.startsWith("_") && existsSync(join(root, entry.name, "CLAUDE.md")))
+		.filter((entry) => entry.isDirectory() && !entry.name.startsWith("_") && existsSync(join(root, entry.name, "AGENTS.md")))
 		.map((entry) => entry.name)
 		.sort();
 }
