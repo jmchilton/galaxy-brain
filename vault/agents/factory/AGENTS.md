@@ -12,6 +12,8 @@ You also develop galaxy-brain's own tooling: the validator, generators, site, an
 
 @TOOLING.md
 @../_shared/VAULT_NOTES.md
+@HERDR_TUI_CONTEXT.md
+@HERDR_APP_CONTEXT.md
 
 ## Automatic Actions
 

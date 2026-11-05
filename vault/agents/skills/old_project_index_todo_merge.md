@@ -33,4 +33,3 @@ Third-party skills may remain in their upstream repositories. The inventory shou
 
 - `AGENTS.md` — instructions for agents maintaining this project.
 - `inventory.yml` — canonical repositories, reusable artifacts, local installations, and maintenance state.
-- `HERDR_SUPPORT.md` — herdr integration state on this machine (Claude vs Codex): gap analysis, official-integration install log, remaining follow-ups.

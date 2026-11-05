@@ -10,7 +10,7 @@ This directory maintains John's reusable agent skills and plugins, and what each
 - [claude-jmchilton-plugins](https://github.com/jmchilton/claude-jmchilton-plugins) — personal workflows packaged for Claude Code and Codex. Its repository `AGENTS.md` holds the packaging, versioning and release rules; read it before changing the repository.
 - [galaxy-skills](https://github.com/galaxyproject/galaxy-skills) — community-facing Galaxy development skills.
 
-[inventory.yml](inventory.yml) records each skill's canonical home, unresolved local installs, per-machine expected installs and the maintenance backlog. Update it whenever a skill is added, moved, adopted, retired or reviewed. [HERDR_SUPPORT.md](HERDR_SUPPORT.md) tracks herdr integration on John's Mac. John's `~/.zshrc` and `~/.bashrc` source [config/herdr-codex.zsh](config/herdr-codex.zsh) by absolute path, so moving it means updating both.
+[inventory.yml](inventory.yml) records each skill's canonical home, unresolved local installs, per-machine expected installs and the maintenance backlog. Update it whenever a skill is added, moved, adopted, retired or reviewed. John's `~/.zshrc` and `~/.bashrc` source [config/herdr-codex.zsh](config/herdr-codex.zsh) by absolute path, so moving it means updating both.
 
 ## Project settings
 
