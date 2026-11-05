@@ -9,3 +9,11 @@ Labels proposed by triage but not yet on GitHub: one backticked label per bullet
 ## upstream_*.md
 
 A proposed issue for an upstream repository the Foundry issue waits on, named `upstream_<project>_<shortname>.md` and drafted and reviewed per [TRIAGE_ISSUE.md](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/wf_foundry/TRIAGE_ISSUE.md) step 6. Not posted until John asks.
+
+## research_comment.md
+
+The research comment drafted and reviewed per [RESEARCH_ISSUE.md](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/wf_foundry/RESEARCH_ISSUE.md), as posted to the issue.
+
+## design_questions.md
+
+Design questions that stopped [WORK_HORSE.md](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/wf_foundry/WORK_HORSE.md), as posted to the issue.

@@ -59,7 +59,7 @@ Foundry issues carry triage labels on GitHub, defined in Foundry's `content/meta
 10. No `roadmap/*` or no `priority/*` label → `untriaged`.
 11. Otherwise (no `work/*` label yet) → `needs_decision`: John picks the work state.
 
-To triage an issue, follow [TRIAGE_ISSUE.md](TRIAGE_ISSUE.md).
+To triage an issue, follow [TRIAGE_ISSUE.md](TRIAGE_ISSUE.md). To research a `work/ready-research` issue, follow [RESEARCH_ISSUE.md](RESEARCH_ISSUE.md); to implement a `work/ready-implement` one, [WORK_HORSE.md](WORK_HORSE.md).
 
 Mark `priority/mvp` as `(mvp)` and `roadmap/main` as `(large)`. When our research overrides the labels (e.g. an upstream fix landed), say why in the issue's `index.md`.
 

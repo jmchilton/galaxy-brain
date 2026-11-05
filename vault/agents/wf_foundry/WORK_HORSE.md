@@ -10,6 +10,8 @@ If it is a bug - please find a root cause or verify the issue's stated root caus
 
 If this isn't the appropriate repository - compose an upstream issue - post a response on the Foundry issue with the upstream issue text and label it `upstream/<project>`. Then stop.
 
+If the issue can't be completed without significant clarification or important human design decisions, stop: write `design_questions.md` in the record, post the questions as an issue comment, swap `work/in-progress` for `work/needs-review`, and move the record to `needs_decision/` under "Research to review" (`needs_decision_review`).
+
 Otherwise implement the fix or feature following [GENERIC_IMPLEMENTATION.md](../_shared/GENERIC_IMPLEMENTATION.md) for the branch, worktree, local checks, tests and hand off.
 
 After you're done with the implementation - run a "Normal Review Subagent" with your current model and effort level according to [GENERIC_IMPLEMENTATION.md](../_shared/GENERIC_IMPLEMENTATION.md).
