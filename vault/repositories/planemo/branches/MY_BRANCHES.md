@@ -4,6 +4,7 @@ Snapshot: 2026-10-26 (#1763 opened and checked; other entries retain their previ
 
 ## Open Planemo PRs — ready from our side (`ready`)
 
+- [`release_process_polish`](active/release_process_polish/index.md) — `make release` pushes only the release tag and checks the release packages; changelog-step polish. [#1780](https://github.com/galaxyproject/planemo/pull/1780).
 - [`list-param-inputs-not-collections`](active/list-param-inputs-not-collections/index.md) — Passes lists to multiple-value workflow parameter inputs instead of uploading collections. [#1744](https://github.com/galaxyproject/planemo/pull/1744).
 - [`shed_install_timeout`](active/shed_install_timeout/index.md) — Times out Tool Shed installs Galaxy never answers. [#1772](https://github.com/galaxyproject/planemo/pull/1772).
 - [`embedded-user-tool-workflows`](active/embedded-user-tool-workflows/index.md) — Runs local workflows with embedded user tools in managed Galaxy. [#1763](https://github.com/galaxyproject/planemo/pull/1763).

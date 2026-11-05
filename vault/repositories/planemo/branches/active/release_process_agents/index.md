@@ -1,6 +1,7 @@
 ---
 upstream_base_branch: master
 pr: 1773
+related_records: planemo/branches/release_process_polish
 ---
 # Add check-release and document GitHub release step
 
