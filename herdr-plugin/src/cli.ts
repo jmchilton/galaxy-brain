@@ -1,5 +1,6 @@
 // galaxy-brain herdr plugin: `open` (actions) pops up the picker pane; `pick` (the pane) runs the fzf launch flow;
-// `actions <agent_dir>` prints that dir's launchers as prompts (JSON) for the suggested-prompts Claude plugin.
+// `actions <agent_dir>` prints that dir's launchers as prompts (JSON) for the suggested-prompts Claude plugin;
+// `host <request JSON>` answers one Chrome native host request (JSON), for the Herdr app mods.
 
 import { spawnSync } from "node:child_process";
 import { mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
@@ -11,9 +12,11 @@ import { defaultEnvironment, type Environment, launchArgv } from "../../obsidian
 import { defaultProfile, type Profile, profileArgs } from "../../obsidian-plugin/src/profiles";
 import type { RecordSummary } from "../../obsidian-plugin/src/repository";
 import { agentActions } from "./agent-actions";
+import { hostRun } from "./host-run";
 import { fzfKey, fzfLine } from "./fzf-lines";
 import { parseGithubRef, recordsForRef } from "./github-ref";
 import { type OpenLinks, openLinks } from "./open-links";
+import { reply } from "./native-host";
 import { pickerEnv } from "./selection";
 import { loadEnvironments, loadLaunchers, loadProfiles, loadRecords, readVault, vaultFiles } from "./vault";
 
@@ -166,7 +169,8 @@ const command = process.argv[2];
 if (command === "pick") pick();
 else if (command === "open") open();
 else if (command === "actions" && process.argv[3]) console.log(JSON.stringify(agentActions(loadLaunchers(vaultRoot), process.argv[3], vaultRoot)));
+else if (command === "host" && process.argv[3]) console.log(JSON.stringify(reply(JSON.parse(process.argv[3]), { vaultRoot, run: hostRun })));
 else {
-	console.error("usage: galaxy-brain.cjs pick|open|actions <agent_dir>");
+	console.error("usage: galaxy-brain.cjs pick|open|actions <agent_dir>|host <request JSON>");
 	process.exit(2);
 }

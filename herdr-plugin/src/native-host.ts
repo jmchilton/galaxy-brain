@@ -148,6 +148,15 @@ function launch(deps: HostDeps, agentDir: string, profile: Profile | undefined, 
 	return { message: result.stdout.trim() };
 }
 
+/** handle()'s result as `{ ok, result }`, or `{ ok: false, error }`. */
+export function reply(request: Request, deps: HostDeps): { ok: true; result: unknown } | { ok: false; error: string } {
+	try {
+		return { ok: true, result: handle(request, deps) };
+	} catch (error) {
+		return { ok: false, error: error instanceof Error ? error.message : String(error) };
+	}
+}
+
 export function handle(request: Request, deps: HostDeps): unknown {
 	switch (request.type) {
 		case "lookup":

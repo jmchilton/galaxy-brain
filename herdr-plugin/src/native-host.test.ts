@@ -1,6 +1,6 @@
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
-import { agentDirs, ghHeadBranch, handle, type HostDeps, lookup } from "./native-host";
+import { agentDirs, ghHeadBranch, handle, type HostDeps, lookup, reply } from "./native-host";
 
 const VAULT = fileURLToPath(new URL("../../vault", import.meta.url));
 const PR = "https://github.com/galaxyproject/galaxy/pull/24413";
@@ -87,6 +87,13 @@ describe("handle", () => {
 		expect(() => handle({ type: "newAgent", dir: "../etc" }, host)).toThrow(/unknown agent dir/);
 		expect(() => handle({ type: "newAgent", dir: "gx_reviews", profile: "Nope" }, host)).toThrow(/unknown profile/);
 		expect(() => handle({ type: "open", url: "file:///etc/passwd" }, host)).toThrow(/refusing/);
+		expect(runs).toHaveLength(1);
+	});
+
+	it("replies ok with the result, or the error's message", () => {
+		const { runs, host } = deps();
+		expect(reply({ type: "newAgent", dir: "gx_reviews" }, host)).toEqual({ ok: true, result: { message: "Launched" } });
+		expect(reply({ type: "newAgent", dir: "../etc" }, host)).toEqual({ ok: false, error: "unknown agent dir: ../etc" });
 		expect(runs).toHaveLength(1);
 	});
 

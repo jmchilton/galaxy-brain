@@ -106,7 +106,7 @@ make diff-review-test               # differential-review Vitest suite
 ### Chrome extension
 
 - The MV3 popup offers launchers for the current GitHub PR, issue, or branch. Tree/commits/compare pages match branch records by name; a PR from the fork also gets its branch record (head branch via `gh pr view`). It also offers new blank agents for each agent directory.
-- Requests use Chrome native messaging through `herdr-plugin/src/native.ts`, with handlers in `native-host.ts`. Launchers, records, and profiles are resolved again on the host.
+- Requests use Chrome native messaging through `herdr-plugin/src/native.ts`, with handlers in `native-host.ts`. `galaxy-brain.cjs host <request JSON>` answers one request from the command line, for the Herdr app mods. Launchers, records, and profiles are resolved again on the host.
 - After installing dependencies in both `herdr-plugin/` and `chrome-extension/`, run `make chrome-ext-build`, load `chrome-extension/` unpacked, and run `make chrome-native-install` once to register the macOS Chrome host.
 - The manifest key pins extension ID `mkckliibikdomehoflcgoefdhlolgdah`. The installer allows that extension origin. Build output in `dist/` is gitignored.
 
