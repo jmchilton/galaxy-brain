@@ -1,4 +1,4 @@
-(space for John's free style comments - just keep empty)
+These range from fair but minor to just outright nits - sorry. -John
 
 Thanks for addressing the earlier finding in 9ee89b52d9 - moving the allowlist check into `JobWrapper.prepare` resolves it. This round re-reviews the updated PR.
 
