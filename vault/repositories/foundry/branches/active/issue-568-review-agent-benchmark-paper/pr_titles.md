@@ -1,0 +1,4 @@
+- Compare the Foundry with one detailed prompt to a coding agent
+- Comparisons: add the single-prompt contrast from the prompt-to-pipeline study
+- Add Munn and Grenier's agent study to the comparisons page
+- Comparisons: contrast Pipelines of Molds with one long agent prompt
