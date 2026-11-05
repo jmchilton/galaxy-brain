@@ -1,5 +1,7 @@
 # foundry#726 — debug-galaxy-workflow-output has no surface for a workflow import rejection
 
+Closed completed 2026-10-30 by PR [#732](https://github.com/galaxyproject/foundry/pull/732) (merge `eb2de3f1b4`).
+
 [Issue](https://github.com/galaxyproject/foundry/issues/726) · [branch](../../../branches/active/issue-726-import-rejection-surface/index.md)
 
 Labels `roadmap/off`, `priority/mvp`, `agent/implement`. Raised by the ncbi/egapx `/test-pipeline nextflow-to-galaxy` run: Galaxy 26.1.2.dev0 500'd on `POST /api/workflows/upload` (`IntegrityError`); phase 13 improvised surface, evidence location and bisection.

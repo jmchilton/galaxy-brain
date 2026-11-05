@@ -1,5 +1,7 @@
 # foundry#564 — advance-galaxy-draft-step/repair-galaxy-draft-topology can produce step doc: text long enough to crash workflow import on live Galaxy instances; no lint/validate check catches it
 
+Closed completed 2026-10-31 on GitHub (annotation lengths now capped).
+
 [Issue](https://github.com/galaxyproject/foundry/issues/564) · [investigation](investigation.md)
 
 Labels at seeding (2026-10-06): `needs-triage`.

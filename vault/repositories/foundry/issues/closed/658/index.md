@@ -1,5 +1,7 @@
 # #658 planemo workflow_lint crashes on a string-valued `run:` and never passes workflow_directory
 
+Closed completed 2026-11-05 on GitHub (planemo 0.75.48 release fixes it).
+
 [Issue](https://github.com/galaxyproject/foundry/issues/658) — opened by scottcain (AI-assisted), currently only `needs-triage`. No PR or branch addresses it on Foundry.
 
 ## Proposed labels

@@ -1,5 +1,7 @@
 # #664 Four upstream Galaxy tool-wrapper defects found by reading the pinned XML (MultiQC, salmonquantmerge, AGAT, StringTie)
 
+Closed completed 2026-11-05 on GitHub (all 4 upstream issues filed).
+
 [Issue](https://github.com/galaxyproject/foundry/issues/664) — opened by scottcain's AI assistant (nf-core/rnaseq 3.27.0 translation), only `needs-triage`, no comments, no PR or branch.
 
 Not a Foundry change: a bundle of four wrapper bugs in other repos. Work is forwarding them.

@@ -41,3 +41,7 @@ Not verified:
 - Bundle with #730 or land it separately?
 
 Moved to `needs_decision` 2026-11-03: staged labels in `issue_tags.md` await John.
+
+Staged labels applied 2026-11-05: +roadmap/off, +priority/mvp, +work/ready-implement.
+
+Moved to `queued` 2026-11-05: labels applied, `work/ready-implement`.

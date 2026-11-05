@@ -2,21 +2,18 @@
 
 Triage index for `galaxyproject/foundry` issues, per [`MY_ISSUES_INDEX.md`](../../../agents/_shared/MY_ISSUES_INDEX.md); detail lives in `vault/repositories/foundry/issues/`. Statuses are seeded from GitHub labels; see the label mapping in `AGENTS.md`.
 
-GitHub state last refreshed: 2026-10-28. Issues here are unassigned by default and `priority/v2` by default; `(mvp)` marks `priority/mvp`, `(large)` marks `roadmap/main`.
+GitHub state last refreshed: 2026-11-05. Issues here are unassigned by default and `priority/v2` by default; `(mvp)` marks `priority/mvp`, `(large)` marks `roadmap/main`.
 
 ## Labels staged for John (`needs_decision_labels`)
 
 Review `issue_tags.md` in the record, then use 👀 Diff / 🔖 Apply staged labels.
 
 - (mvp) [#591](https://github.com/galaxyproject/foundry/issues/591) — `download?style=ga` emits unversioned tool_ids; saves but 400s on invoke; decide: apply the proposed labels (agent files the Galaxy issue). [notes](needs_decision/591/index.md)
-- (mvp) [#658](https://github.com/galaxyproject/foundry/issues/658) — planemo workflow_lint: string `run:` crash (fixed on master, unreleased) and no workflow_directory; decide: apply the proposed labels (blocked on planemo/gxformat2; work/ready-implement once unblocked). [notes](needs_decision/658/index.md)
-- [#664](https://github.com/galaxyproject/foundry/issues/664) — 4 upstream wrapper bugs (multiqc qualimap, salmonquantmerge, agat, stringtie), all 4 filed upstream; decide: close #664 or keep as tracker. [notes](needs_decision/664/index.md)
 - [#574](https://github.com/galaxyproject/foundry/issues/574) — Tool Shed tool search ignores `repo_name`/`id`, so slug queries miss; decide: apply staged labels, then repo-search retry in discover-shed-tool. [notes](needs_decision/574/index.md)
 - (mvp) [#580](https://github.com/galaxyproject/foundry/issues/580) — frame comments without position/size rejected by real Galaxy import; decide: apply staged labels, then require geometry in 4 template Molds + evals. [notes](needs_decision/580/index.md)
 - (mvp) [#673](https://github.com/galaxyproject/foundry/issues/673) — Runtime Note reads as a blanket source-read ban; phases disagree on reading pinned source; decide: apply staged labels, then generator line + per-Mold fixes. [notes](needs_decision/673/index.md)
 - (mvp) [#674](https://github.com/galaxyproject/foundry/issues/674) — interface notes lack rules for shape-changing params and meta-driven parameterization; decide: apply staged labels, then edit params + channel-shape notes, recast. [notes](needs_decision/674/index.md)
 - (mvp) [#678](https://github.com/galaxyproject/foundry/issues/678) — discovery `status` has no `unsuitable`; capability miss routes to authoring an existing wrapper; decide: apply staged labels, then add status to schema + Molds, coordinate with #669. [notes](needs_decision/678/index.md)
-- (mvp) [#735](https://github.com/galaxyproject/foundry/issues/735) — test-data Molds stage data tables planemo ignores (unsuffixed conf, absolute `.loc`); decide: apply staged labels, then `.xml.test` + `${__HERE__}` recipe in note + Molds. [notes](needs_decision/735/index.md)
 
 ## Waiting on John (`needs_decision`)
 
@@ -41,9 +38,6 @@ Review `issue_tags.md` in the record, then use 👀 Diff / 🔖 Apply staged lab
 - (mvp) (large) [#504](https://github.com/galaxyproject/foundry/issues/504) — Improve Pattern Pages; decide: work state (work/ready-implement, work/ready-research or work/human). [notes](needs_decision/504/index.md)
 - (mvp) [#505](https://github.com/galaxyproject/foundry/issues/505) — Ensure every pattern page has a test workflow.; decide: work state (work/ready-implement, work/ready-research or work/human). [notes](needs_decision/505/index.md)
 - (large) [#507](https://github.com/galaxyproject/foundry/issues/507) — Improved Structure and Schemas for Mold Artifacts; decide: work state (work/ready-implement, work/ready-research or work/human). [notes](needs_decision/507/index.md)
-- [#564](https://github.com/galaxyproject/foundry/issues/564) — advance-galaxy-draft-step/repair-galaxy-draft-topology can produce step doc: text long enough to crash work…; decide: close? galaxy#23579 dropped the annotation index; no lint check yet. [notes](needs_decision/564/index.md)
-- [#191](https://github.com/galaxyproject/foundry/issues/191) — Galaxy sample-sheet column-value charset gate rejects nf-core canonical values; blocked on: a Galaxy change. [notes](needs_decision/191/index.md)
-- (large) [#225](https://github.com/galaxyproject/foundry/issues/225) — Document Galaxy list-of-record collections for reference data; blocked on: a Galaxy change. [notes](needs_decision/225/index.md)
 - [#176](https://github.com/galaxyproject/foundry/issues/176) — Set legacy DSL1 support posture for Nextflow file and set pipelines; decide: work state (no `work/*` label), or close. [notes](needs_decision/176/index.md)
 - (mvp) [#219](https://github.com/galaxyproject/foundry/issues/219) — research: flesh out nextflow-to-galaxy-reference-data-mapping; decide: work state (no `work/*` label), or close. [notes](needs_decision/219/index.md)
 - [#282](https://github.com/galaxyproject/foundry/issues/282) — Galaxy pipeline Molds write fixed filenames to cwd — namespace per-source run; decide: work state (no `work/*` label), or close. [notes](needs_decision/282/index.md)
@@ -63,13 +57,10 @@ None yet.
 - [#548](https://github.com/galaxyproject/foundry/issues/548) — `gxwf draft-validate --concrete`: the other half of #166 — a ParsedTool decode failure's `Error.message` is…; draft PR [#554](https://github.com/galaxyproject/foundry/pull/554). [notes](wip/548/index.md)
 - [#694](https://github.com/galaxyproject/foundry/issues/694) — (large) Build PAPER/INTERVIEW → GALAXY on the Workflow Brief Molds, retire the freeform Galaxy Molds; PR [#696](https://github.com/galaxyproject/foundry/pull/696). [notes](wip/694/index.md)
 - (mvp) [#672](https://github.com/galaxyproject/foundry/issues/672) — UDT authoring note: collection example vs stale gxwf schema, no vendoring recipes, `inputs.x` shape undocumented; draft PR [#710](https://github.com/galaxyproject/foundry/pull/710) (`issue-672-udt-authoring-note`), needs gxwf release with gtu-ts [#198](https://github.com/jmchilton/galaxy-tool-util-ts/pull/198). [notes](wip/672/index.md)
-- [#719](https://github.com/galaxyproject/foundry/issues/719) — Template eval uses plain validate on drafts; draft-loop eval greps whole draft for TODOs mid-loop; PR [#720](https://github.com/galaxyproject/foundry/pull/720). [notes](wip/719/index.md)
-- [#724](https://github.com/galaxyproject/foundry/issues/724) — implement-galaxy-tool-step leaves shed tool_id versionless, failing exact-version invocation; PR [#727](https://github.com/galaxyproject/foundry/pull/727). [notes](wip/724/index.md)
 - [#725](https://github.com/galaxyproject/foundry/issues/725) — Brief Mold has no rule for clear scope that conflicts with source behavior; PR [#728](https://github.com/galaxyproject/foundry/pull/728). [notes](wip/725/index.md)
-- (mvp) [#726](https://github.com/galaxyproject/foundry/issues/726) — debug-galaxy-workflow-output has no surface for a pre-invocation workflow import rejection; PR [#732](https://github.com/galaxyproject/foundry/pull/732). [notes](wip/726/index.md)
 - (mvp) [#730](https://github.com/galaxyproject/foundry/issues/730) — run-workflow-test: no guidance for UDT-embedding workflows (external_galaxy recipe) or empty data tables; PR [#733](https://github.com/galaxyproject/foundry/pull/733). [notes](wip/730/index.md)
 - (mvp) [#731](https://github.com/galaxyproject/foundry/issues/731) — implement-galaxy-workflow-test cross-check overclaims shape/datatype; output cardinality not traced; PR [#734](https://github.com/galaxyproject/foundry/pull/734). [notes](wip/731/index.md)
-- (mvp) [#570](https://github.com/galaxyproject/foundry/issues/570) — Pattern MOCs are cast without the leaf pattern pages they link; draft [#738](https://github.com/galaxyproject/foundry/pull/738) + foundry-lib#139. [notes](wip/570/index.md)
+- (mvp) (assigned) [#570](https://github.com/galaxyproject/foundry/issues/570) — Pattern MOCs are cast without the leaf pattern pages they link; draft [#738](https://github.com/galaxyproject/foundry/pull/738) + foundry-lib#139. [notes](wip/570/index.md)
 
 ## Queued to implement (`queued_implement`)
 
@@ -86,6 +77,7 @@ None yet.
 - (mvp) (large) [#531](https://github.com/galaxyproject/foundry/issues/531) — Prove the IWC maturation pipeline with runnable fixtures and a .ga entry case; next: implement and open a PR. [notes](queued/531/index.md)
 - (mvp) (large) [#535](https://github.com/galaxyproject/foundry/issues/535) — Prove the IWC review pipeline on a real PR and accept its policy pin; next: implement and open a PR. [notes](queued/535/index.md)
 - (mvp) [#568](https://github.com/galaxyproject/foundry/issues/568) — Review New Paper; next: implement and open a PR. [notes](queued/568/index.md)
+- (mvp) [#735](https://github.com/galaxyproject/foundry/issues/735) — test-data Molds stage data tables planemo ignores (unsuffixed conf, absolute `.loc`); next: implement and open a PR. [notes](queued/735/index.md)
 
 ## Queued to research (`queued_research`)
 
@@ -101,10 +93,11 @@ None yet.
 
 - [#271](https://github.com/galaxyproject/foundry/issues/271) — Decide gops_* vs bedtools interval-tool redundancy (interval MOC); blocked on: an IWC workflow using the operation. [notes](queued/271/index.md)
 - [#624](https://github.com/galaxyproject/foundry/issues/624) — API Docs Maybe Should Have Corresponding MCP entrypoints; blocked on: a Galaxy change. [notes](queued/624/index.md)
+- [#191](https://github.com/galaxyproject/foundry/issues/191) — Galaxy sample-sheet column-value charset gate rejects nf-core canonical values; blocked on: a Galaxy change. [notes](queued/191/index.md)
+- (large) [#225](https://github.com/galaxyproject/foundry/issues/225) — Document Galaxy list-of-record collections for reference data; blocked on: a Galaxy change. [notes](queued/225/index.md)
 
 ## Untriaged (`untriaged`)
 
-- [#547](https://github.com/galaxyproject/foundry/issues/547) — Profiling the per-step draft loop: it is model-bound, not network-bound
 - [#552](https://github.com/galaxyproject/foundry/issues/552) — advance-galaxy-draft-step's built-in/stock version branch is circular
 - [#553](https://github.com/galaxyproject/foundry/issues/553) — No reachable route serves a Tool Shed wrapper's raw XML at a pinned changeset
 - [#562](https://github.com/galaxyproject/foundry/issues/562) — Sandbox Support - agent-safehouse
@@ -116,10 +109,8 @@ None yet.
 - [#577](https://github.com/galaxyproject/foundry/issues/577) — `freeform-summary-to-galaxy-test-plan` is silent on being handed a concrete draft and resolved test-data refs
 - [#578](https://github.com/galaxyproject/foundry/issues/578) — tests-format has no way to put a value on an intermediate step's input port
 - [#579](https://github.com/galaxyproject/foundry/issues/579) — No packaged note documents the `sample_sheet` + `rows:` job-input shape
-- [#582](https://github.com/galaxyproject/foundry/issues/582) — No documented path for an authored `GalaxyUserTool` to reach a Planemo-managed toolbox
 - [#584](https://github.com/galaxyproject/foundry/issues/584) — Invocation-failure reference has no tell for a stale toolbox read vs. a real install failure
 - [#586](https://github.com/galaxyproject/foundry/issues/586) — Galaxy's unprivileged-tool lint fails opaquely on an integer input with `value: 0`
-- [#587](https://github.com/galaxyproject/foundry/issues/587) — gxformat2 has no `tool_uuid`, so a step bound to a registered UDT imports unresolved
 - [#588](https://github.com/galaxyproject/foundry/issues/588) — A `sample_sheet` column was wired onto a plain scalar tool port, a binding that can never work
 - [#589](https://github.com/galaxyproject/foundry/issues/589) — `PUT /api/workflows/{id}` defaults `exact_tools` to true and discards the per-step detail it already computed
 - [#590](https://github.com/galaxyproject/foundry/issues/590) — Authoring never checks a wrapped script's own declared input-ordering assumption against the tool it will consume from

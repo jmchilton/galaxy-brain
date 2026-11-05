@@ -1,21 +1,24 @@
-# Foundry issue sync — 2026-10-28
+# Foundry issue sync — 2026-11-05
 
 Agent directory: `vault/agents/wf_foundry`.
 
 ## Closed out
 
-- #573, #585 — closed by PR #714 (merged 2026-10-24); `wip/` → `closed/`. No branch record of ours.
-- #718 — closed by PR #729 (merged 2026-10-27); `wip/` → `closed/`. Branch record moved to `merged/`, worktree removed (clean, pushed).
+- #719, #724, #726 — PRs #720, #727, #732 merged 2026-10-30; `wip/` → `closed/`.
+- #564, #658, #664 — closed on GitHub; `needs_decision/` → `closed/`.
+- #547, #582, #587 — untriaged, closed on GitHub; minimal `closed/` records added, lines removed.
 
-## Moved / updated
+## Moved
 
-- #726, #730, #731 stay `wip`; lines now name PRs #732, #733, #734 instead of branches.
-- #534 line: dropped stale commit/behind counts (CI-ish state belongs in MY_BRANCHES).
+- #735 `needs_decision` → `queued_implement`: staged labels applied (`work/ready-implement`).
+- #191, #225 `needs_decision` → `queued_blocked`: `upstream/galaxy` label (rule 4).
 
-## New untriaged
+## Other
 
-None (no untracked issues assigned to jmchilton).
+- #570 marked `(assigned)` (assignee jmchilton).
+- New untriaged: none. Untracked assigned issues: none.
+- Branch records for closed issues (#719, #724, #726, none for #658) left to branch sync.
 
-## Needs John's decision
+## Decisions for John
 
-- Untracked open PRs #712, #713 (docs recipe verifications, by jmchilton) have no branch records.
+None.
