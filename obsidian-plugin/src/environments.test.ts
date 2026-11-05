@@ -29,6 +29,20 @@ describe("parseEnvironments", () => {
 		expect(parseEnvironments(data)).toEqual([{ name: "Local" }, { name: "Box", host: "box", vault: "/home/me/galaxy-brain/vault" }]);
 	});
 
+	it("keeps a string icon, here or on a host", () => {
+		const data = parse(`environments:
+  - name: Local
+    icon: 🏠
+  - name: Box
+    host: box
+    vault: /v
+    icon: 🐔
+  - name: Odd
+    icon: 7
+`);
+		expect(parseEnvironments(data)).toEqual([{ name: "Local", icon: "🏠" }, { name: "Box", host: "box", vault: "/v", icon: "🐔" }, { name: "Odd" }]);
+	});
+
 	it("returns nothing for a missing or malformed file", () => {
 		expect(parseEnvironments(null)).toEqual([]);
 		expect(parseEnvironments({ environments: "nope" })).toEqual([]);
@@ -39,7 +53,8 @@ describe("parseEnvironments", () => {
 		const data = parse(yaml);
 		const environments = parseEnvironments(data);
 		expect(environments).toHaveLength(data.environments.length);
-		expect(environments[0]).toEqual(LOCAL_ENVIRONMENT);
+		expect(environments[0]).toEqual({ ...LOCAL_ENVIRONMENT, icon: "🏠" });
+		expect(environments.find((one) => one.host === "chickenstraws")?.icon).toBe("🐔");
 	});
 });
 

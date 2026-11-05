@@ -3,15 +3,18 @@
 #   name:  shown in the dropdown
 #   host:  optional ssh target (an alias in John's ~/.ssh/config); unset means this machine
 #   vault: with host, the absolute path of that host's galaxy-brain vault/ clone
+#   icon:  optional mark for the machine (the Herdr app sidebar shows it)
 #
 # Remote launches pull that clone first and swap this vault's paths in the prompt for its own.
 # Set a host up with PROCESS_SETUP_MACHINE.md.
 
 environments:
   - name: Local
+    icon: 🏠
   - name: chickenstraws
     host: chickenstraws
     vault: /home/ubuntu/projects/repositories/galaxy-brain/vault
+    icon: 🐔
   # Off until its stale galaxy-brain clone is updated (local changes from OpenClaw days).
   # - name: jmchilton.net
   #   host: jmchilton.net

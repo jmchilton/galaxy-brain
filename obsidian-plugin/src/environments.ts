@@ -6,6 +6,8 @@ export interface Environment {
 	host?: string;
 	/** Absolute vault path on the host. */
 	vault?: string;
+	/** Short mark for the machine, e.g. an emoji. */
+	icon?: string;
 }
 
 export const LOCAL_ENVIRONMENT: Environment = { name: "Local" };
@@ -20,10 +22,11 @@ export function parseEnvironments(data: unknown): Environment[] {
 	return entries.flatMap((entry: Record<string, unknown>) => {
 		const name = typeof entry?.name === "string" ? entry.name : undefined;
 		if (!name) return [];
-		if (entry.host === undefined) return [{ name }];
+		const icon = typeof entry.icon === "string" ? { icon: entry.icon } : {};
+		if (entry.host === undefined) return [{ name, ...icon }];
 		const { host, vault } = entry;
 		if (typeof host !== "string" || !SAFE_HOST.test(host) || typeof vault !== "string" || !vault.startsWith("/")) return [];
-		return [{ name, host, vault: vault.replace(/\/+$/, "") }];
+		return [{ name, host, vault: vault.replace(/\/+$/, ""), ...icon }];
 	});
 }
 
