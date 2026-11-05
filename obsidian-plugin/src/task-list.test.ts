@@ -1,8 +1,20 @@
 import { describe, expect, it } from "vitest";
 import { parse, stringify } from "yaml";
-import { addDays, byPriority, isSnoozed, localDay, parseTasks, recordIndexPath, refinementPrompt, removeTask, replaceBlockBody, snoozeTask, type Task, taskBlocks } from "./task-list";
+import { addDays, byPriority, isSnoozed, linkLabel, localDay, parseTasks, recordIndexPath, refinementPrompt, removeTask, replaceBlockBody, snoozeTask, type Task, taskBlocks } from "./task-list";
 
 const known = { profiles: ["Opus (high)", "Sonnet (medium)"], agentDirs: ["planemo", "wf_foundry"] };
+
+describe("linkLabel", () => {
+	it("shortens GitHub PRs and issues to owner/repo#N", () => {
+		expect(linkLabel("https://github.com/galaxyproject/galaxy/pull/24361")).toBe("galaxyproject/galaxy#24361");
+		expect(linkLabel("https://github.com/galaxyproject/foundry/issues/735#issuecomment-1")).toBe("galaxyproject/foundry#735");
+	});
+
+	it("drops only the scheme from anything else", () => {
+		expect(linkLabel("https://github.com/galaxyproject/galaxy/tree/dev")).toBe("github.com/galaxyproject/galaxy/tree/dev");
+		expect(linkLabel("http://example.org/a")).toBe("example.org/a");
+	});
+});
 
 describe("parseTasks", () => {
 	it("reads tasks with optional profiles", () => {

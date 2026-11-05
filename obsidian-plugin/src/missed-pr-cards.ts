@@ -1,13 +1,14 @@
+import { setIcon } from "obsidian";
 import type { MissedPr } from "./missed-prs";
 
 export interface MissedPrCardOptions {
-	/** ✔ / ↺; resolves true once the file is updated. */
+	/** Check / undo icon; resolves true once the file is updated. */
 	setReviewed?: (pr: MissedPr, reviewed: boolean) => Promise<boolean>;
 	/** Skip reviewed PRs, and drop cards once marked. */
 	hideReviewed?: boolean;
 }
 
-/** Missed PR cards: linked number and title, ✔ / ↺, author / merger / approvers, summaries, collapsed details and discussion. */
+/** Missed PR cards: linked number and title, reviewed toggle, author / merger / approvers, summaries, collapsed details and discussion. */
 export function renderMissedPrCards(el: HTMLElement, prs: MissedPr[], options: MissedPrCardOptions = {}) {
 	const list = el.createDiv({ cls: "gb-missed-prs" });
 	const empty = (text: string) => list.createDiv({ cls: "gb-missed-prs-empty", text });
@@ -23,9 +24,9 @@ export function renderMissedPrCards(el: HTMLElement, prs: MissedPr[], options: M
 		head.createSpan({ cls: "gb-missed-pr-title", text: pr.title });
 		const { setReviewed } = options;
 		if (setReviewed) {
-			const button = head.createEl("button");
+			const button = head.createEl("button", { cls: "clickable-icon" });
 			const label = () => {
-				button.setText(reviewed ? "↺" : "✔");
+				setIcon(button, reviewed ? "rotate-ccw" : "check");
 				button.setAttr("aria-label", reviewed ? "Mark unreviewed" : "Mark reviewed");
 			};
 			label();

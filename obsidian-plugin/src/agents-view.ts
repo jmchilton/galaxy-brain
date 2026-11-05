@@ -24,6 +24,9 @@ type ListedTask = Task & { source: string };
 
 type AgentsTab = "tasks" | "blockers" | "cracks";
 
+/** A landing page chip: the tab it opens, its count, and the singular noun. */
+type TileCount = [AgentsTab, number, string];
+
 interface AgentsViewState extends Record<string, unknown> {
 	agent?: string;
 	tab?: AgentsTab;
@@ -93,38 +96,34 @@ export class AgentsView extends ItemView {
 		const today = localDay();
 		const root = this.contentEl;
 		root.empty();
-		root.addClass("galaxy-brain-repository");
+		root.addClass("galaxy-brain-repository", "gb-agents");
 
-		const header = root.createDiv({ cls: "gbr-header" });
-		header.createEl("h1", { text: all ? "All agents" : this.agent });
+		const header = root.createDiv({ cls: "gb-agents-header" });
+		header.createEl("h1", { text: all ? "Agents" : this.agent });
 		const select = header.createEl("select", { cls: "dropdown" });
 		select.createEl("option", { text: "All agents", value: ALL_AGENTS }).selected = all;
 		for (const dir of dirs) select.createEl("option", { text: dir, value: dir }).selected = dir === this.agent;
-		select.onchange = () => void this.leaf.setViewState({ type: AGENTS_VIEW, state: { agent: select.value, tab: this.tab } });
+		select.onchange = () => void this.showAgent(select.value, this.tab);
 		const refresh = header.createEl("button", { cls: "clickable-icon", attr: { "aria-label": "Refresh" } });
 		setIcon(refresh, "refresh-cw");
 		refresh.onclick = () => void this.render();
 
 		if (all) {
-			const list = root.createEl("ul");
-			shown.forEach((dir, i) => {
-				const row = list.createEl("li", { cls: "gbr-record" });
-				this.renderRoutineButtons(row.createSpan({ cls: "gbr-actions" }), dir, routines[i]!);
-				const link = row.createEl("a", { text: dir, cls: "internal-link", href: "#" });
-				link.onclick = (event) => {
-					event.preventDefault();
-					void this.leaf.setViewState({ type: AGENTS_VIEW, state: { agent: dir, tab: this.tab } });
-				};
-				const count = lists[i]!.tasks.filter((task) => !isSnoozed(task, today)).length;
-				if (count) row.createSpan({ text: `${count} task${count === 1 ? "" : "s"}`, cls: "gbr-tag" });
-				const blocked = blockers[i]!.length;
-				if (blocked) row.createSpan({ text: `${blocked} blocker${blocked === 1 ? "" : "s"}`, cls: "gbr-tag" });
-				const missed = cracks[i] && unreviewedCount(cracks[i]);
-				if (missed) row.createSpan({ text: `${missed} missed PR${missed === 1 ? "" : "s"}`, cls: "gbr-tag" });
-			});
+			const tiles = shown.map((dir, i) => ({
+				dir,
+				routines: routines[i]!,
+				counts: [
+					["tasks", lists[i]!.tasks.filter((task) => !isSnoozed(task, today)).length, "task"],
+					["blockers", blockers[i]!.length, "blocker"],
+					["cracks", cracks[i] ? unreviewedCount(cracks[i]) : 0, "missed PR"],
+				].filter(([, count]) => (count as number) > 0) as TileCount[],
+			}));
+			const busy = root.createDiv({ cls: "gb-agents-grid" });
+			const quiet = root.createDiv({ cls: "gb-agents-grid gb-agents-grid-quiet" });
+			for (const tile of tiles) this.renderTile(tile.counts.length ? busy : quiet, tile.dir, tile.routines, tile.counts);
 		} else {
-			const bar = root.createDiv({ cls: "gbr-sync" });
-			this.renderRoutineButtons(bar, this.agent, routines[0]!);
+			const bar = root.createDiv({ cls: "gb-agents-routines" });
+			this.renderRoutineButtons(bar, this.agent, routines[0]!, true);
 			const file = this.app.vault.getFileByPath(tasksPath(this.agent));
 			if (file) {
 				const open = bar.createEl("a", { text: "Open TASKS.md", cls: "internal-link", href: "#" });
@@ -140,11 +139,12 @@ export class AgentsView extends ItemView {
 		const hasCracks = cracks.some((days) => days !== undefined);
 		const crackDays = cracks.flatMap((days) => days ?? []).sort((a, b) => b.date.localeCompare(a.date));
 		if (this.tab === "cracks" && !hasCracks) this.tab = "tasks";
-		const bar = root.createDiv({ cls: "gbr-tabs" });
-		const tabs: Array<[AgentsTab, string]> = [["tasks", `Tasks (${tasks.filter((task) => !isSnoozed(task, today)).length})`],["blockers", `Blockers (${allBlockers.length})`]];
-		if (hasCracks) tabs.push(["cracks", `Fell Through the Cracks (${unreviewedCount(crackDays)})`]);
-		for (const [id, label] of tabs) {
-			const button = bar.createEl("button", { text: label, cls: id === this.tab ? "mod-cta" : "" });
+		const bar = root.createDiv({ cls: "gb-agents-tabs" });
+		const tabs: Array<[AgentsTab, string, number]> = [["tasks", "Tasks", tasks.filter((task) => !isSnoozed(task, today)).length], ["blockers", "Blockers", allBlockers.length]];
+		if (hasCracks) tabs.push(["cracks", "Fell Through the Cracks", unreviewedCount(crackDays)]);
+		for (const [id, label, count] of tabs) {
+			const button = bar.createEl("button", { text: label, cls: `gb-agents-tab${id === this.tab ? " is-active" : ""}` });
+			button.createSpan({ text: String(count), cls: "gb-agents-tab-count" });
 			button.onclick = () => {
 				this.tab = id;
 				void this.render();
@@ -171,28 +171,56 @@ export class AgentsView extends ItemView {
 		});
 	}
 
-	/** One row per blocker: its name (opening index.md), agent dir on the landing page, and condition. */
+	private showAgent(agent: string, tab: AgentsTab) {
+		return this.leaf.setViewState({ type: AGENTS_VIEW, state: { agent, tab } });
+	}
+
+	/** An agent on the landing page: opens it when clicked, routine icons, and a chip opening each tab with anything in it. */
+	private renderTile(grid: HTMLElement, dir: string, routines: typeof ROUTINES, pending: TileCount[]) {
+		const tile = grid.createDiv({ cls: "gb-agent-tile" });
+		tile.onclick = () => void this.showAgent(dir, this.tab);
+		const head = tile.createDiv({ cls: "gb-agent-tile-head" });
+		const name = head.createEl("a", { text: dir, cls: "gb-agent-name", href: "#" });
+		name.onclick = (event) => event.preventDefault();
+		const icons = head.createDiv({ cls: "gb-agent-tile-routines" });
+		icons.onclick = (event) => event.stopPropagation();
+		this.renderRoutineButtons(icons, dir, routines, false);
+		if (!pending.length) return;
+		const chips = tile.createDiv({ cls: "gb-agent-counts" });
+		for (const [tab, count, noun] of pending) {
+			const chip = chips.createEl("button", { text: `${count} ${noun}${count === 1 ? "" : "s"}`, cls: `gb-agent-count gb-agent-count-${tab}` });
+			chip.onclick = (event) => {
+				event.stopPropagation();
+				void this.showAgent(dir, tab);
+			};
+		}
+	}
+
+	/** One card per blocker: its name (opening index.md), agent dir on the landing page, and condition. */
 	private renderBlockers(root: HTMLElement, blockers: Blocker[], all: boolean) {
-		if (!blockers.length) return void root.createEl("p", { text: "No blockers.", cls: "gbr-empty" });
-		const list = root.createEl("ul");
+		const list = root.createDiv({ cls: "gb-tasks" });
+		if (!blockers.length) return void list.createDiv({ text: "No blockers.", cls: "gb-tasks-empty" });
 		for (const blocker of blockers) {
-			const row = list.createEl("li", { cls: "gbr-record" });
-			const link = row.createEl("a", { text: blocker.name, cls: "internal-link", href: "#" });
+			const card = list.createDiv({ cls: "gb-task" });
+			const head = card.createDiv({ cls: "gb-task-meta gb-blocker-head" });
+			const link = head.createEl("a", { text: blocker.name, cls: "internal-link gb-blocker-name", href: "#" });
 			link.onclick = (event) => {
 				event.preventDefault();
 				void this.app.workspace.openLinkText(`${blockersPath(blocker.agentDir)}/${blocker.name}/index.md`, "", event.metaKey || event.ctrlKey);
 			};
-			if (all) row.createSpan({ text: blocker.agentDir, cls: "gbr-tag" });
-			if (blocker.condition) row.createSpan({ text: blocker.condition });
+			if (all) head.createSpan({ text: blocker.agentDir });
+			if (blocker.condition) card.createDiv({ text: blocker.condition, cls: "gb-task-prompt" });
 		}
 	}
 
-	/** 🌅 / ⏱️ buttons for the routine files the agent dir has; desktop only. */
-	private renderRoutineButtons(el: HTMLElement, dir: string, routines: typeof ROUTINES) {
+	/** A button per routine file the agent dir has, with its label or icon only; desktop only. */
+	private renderRoutineButtons(el: HTMLElement, dir: string, routines: typeof ROUTINES, labelled: boolean) {
 		if (!Platform.isDesktopApp) return;
 		for (const routine of routines) {
 			const { task, name } = routineLaunch(dir, routine);
-			const button = el.createEl("button", { text: routine.label, attr: { "aria-label": `Launch ${dir} with ./${routine.file}` } });
+			const button = el.createEl("button", { cls: labelled ? "gb-agents-routine" : "clickable-icon", attr: { "aria-label": `${routine.label}: launch ${dir} with ./${routine.file}` } });
+			setIcon(button, routine.icon);
+			if (labelled) button.createSpan({ text: routine.label });
 			button.onclick = () => void this.host.confirmTask(task, () => {}, name);
 		}
 	}

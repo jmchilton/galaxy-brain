@@ -87,6 +87,12 @@ export function isSnoozed(task: Task, day: string): boolean {
 	return task.snoozedUntil !== undefined && task.snoozedUntil > day;
 }
 
+/** `owner/repo#N` for a GitHub PR or issue URL, else the URL without its scheme. */
+export function linkLabel(url: string): string {
+	const item = /^https:\/\/github\.com\/([^/]+\/[^/]+)\/(?:pull|issues)\/(\d+)/.exec(url);
+	return item ? `${item[1]}#${item[2]}` : url.replace(/^https?:\/\//, "");
+}
+
 /** The local calendar date as `YYYY-MM-DD`. */
 export function localDay(date: Date = new Date()): string {
 	return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;

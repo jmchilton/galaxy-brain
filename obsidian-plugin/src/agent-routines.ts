@@ -5,13 +5,15 @@ import type { Task } from "./task-list";
 export interface Routine {
 	file: string;
 	label: string;
+	/** Obsidian icon id. */
+	icon: string;
 	/** Agent name prefix. */
 	prefix: string;
 }
 
 export const ROUTINES: Routine[] = [
-	{ file: "GOOD_MORNING.md", label: "🌅 Good morning", prefix: "gm" },
-	{ file: "TICK.md", label: "⏱️ Tick", prefix: "tick" },
+	{ file: "GOOD_MORNING.md", label: "Good morning", icon: "sun", prefix: "gm" },
+	{ file: "TICK.md", label: "Tick", icon: "timer", prefix: "tick" },
 ];
 
 export const ROUTINE_PROFILE = "Sonnet (medium)";

@@ -392,7 +392,7 @@ export default class GalaxyBrainPlugin extends Plugin {
 		return names.filter((_, i) => withAgents[i]).sort();
 	}
 
-	/** Cards for a ```gb-tasks block: 🚀 launches (and removes on success), ✖ removes. */
+	/** Cards for a ```gb-tasks block: launch removes the task on success. */
 	private async renderTasks(source: string, el: HTMLElement, ctx: MarkdownPostProcessorContext) {
 		const profiles = await this.loadProfiles();
 		let raw: unknown;
