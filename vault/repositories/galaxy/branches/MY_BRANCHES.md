@@ -4,6 +4,7 @@ Snapshot: 2026-11-01 (reclassified from GitHub: 12 merged and archived, #24578 c
 
 ## Open Galaxy PRs — ready from our side (`ready`)
 
+- [`issue_24722_unversioned_tool_preflight_26_2`](active/issue_24722_unversioned_tool_preflight_26_2/index.md) — Exact-version invocation/update accept unversioned shed ids at installed versions; 400 names installed versions. [#24742](https://github.com/galaxyproject/galaxy/pull/24742).
 - [`issue_24438_select_comma_split_25.1`](active/issue_24438_select_comma_split_25.1/index.md) — Preserve commas in single-select tool tests; lint and document multiple-select comma values (#24438). [#24491](https://github.com/galaxyproject/galaxy/pull/24491).
 - [`selenium_tool_form_use_cached_job`](active/selenium_tool_form_use_cached_job/index.md) — Missing E2E test of the tool form's re-use equivalent jobs switch + `tool_form_set_switch` helper. [#24451](https://github.com/galaxyproject/galaxy/pull/24451).
 - [`issue_24221_paged_map_over_options_26.1`](active/issue_24221_paged_map_over_options_26.1/index.md) — Paged collection options keep a collection's map-over entry, and it's selectable with a "(one job per …)" label (#24221). Base `release_26.1`. [#24228](https://github.com/galaxyproject/galaxy/pull/24228).
@@ -99,7 +100,6 @@ None yet.
 
 ## Galaxy branches — ready for final review (`branches_ready_for_final_review`)
 
-- [`issue_24722_unversioned_tool_preflight_26_2`](active/issue_24722_unversioned_tool_preflight_26_2/index.md) — Exact-version invocation/update accept unversioned shed ids at installed versions; 400 names installed versions (#24722). [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:issue_24722_unversioned_tool_preflight_26_2?expand=1).
 
 - [`invocation_graph_embedded_outputs`](active/invocation_graph_embedded_outputs/index.md) — Stage 3: steps can star a preferred output; with Embed Outputs on, a step is drawn as it and the layout grows. [Open PR](https://github.com/jmchilton/galaxy/compare/invocation_graph_embedded_workflow_outputs...invocation_graph_embedded_outputs?expand=1).
 - [`invocation_graph_embedded_workflow_outputs`](active/invocation_graph_embedded_workflow_outputs/index.md) — Stage 2: Embed Outputs shows workflow outputs as cards beside their steps, nudging steps right. [Open PR](https://github.com/jmchilton/galaxy/compare/invocation_graph_output_previews...invocation_graph_embedded_workflow_outputs?expand=1).

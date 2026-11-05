@@ -1,5 +1,6 @@
 ---
 upstream_base_branch: release_26.2
+pr: 24742
 ---
 
 # issue_24722_unversioned_tool_preflight_26_2
@@ -11,9 +12,9 @@ upstream_base_branch: release_26.2
 
 Polished for [#24722](https://github.com/galaxyproject/galaxy/issues/24722) ([issue record](../../../issues/queued/24722/index.md)); ready for final review at `752f657a172` (fork; adds a create-path test to the fix commit). Worktree: `~/projects/worktrees/galaxy/branch/issue_24722_unversioned_tool_preflight_26_2`.
 
-No PR yet.
+PR [#24742](https://github.com/galaxyproject/galaxy/pull/24742) open (not draft), approved at `752f657a172`.
 
-Fork CI on `752f657a172` pending; prior head `0e76ac8e20b` green except a cancelled, unrelated `macOS startup` job.
+Fork CI on `752f657a172` green (CWL/Pulsar skipped).
 
 [PR description](pr_description.md) · [Titles](pr_titles.md) · [Tags](pr_tags.md) · [Checklist](pr_checklist.md) · [Polish debrief](polish_debrief.md)
 

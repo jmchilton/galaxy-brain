@@ -1,0 +1,88 @@
+{
+  "schemaVersion": 1,
+  "kind": "differential-review-state",
+  "updatedAt": "2026-11-05T15:35:06.509Z",
+  "hunks": {
+    "h1:06de3438964c7353": {
+      "snapshotId": "20261105T114736Z-polishing-752f657a1723",
+      "path": "lib/galaxy/tool_util/toolbox/base.py",
+      "reviewedAt": "2026-11-05T15:34:35.729Z"
+    },
+    "h1:f2515d43bc4972a8": {
+      "snapshotId": "20261105T114736Z-polishing-752f657a1723",
+      "path": "lib/galaxy/webapps/galaxy/services/workflows.py",
+      "reviewedAt": "2026-11-05T15:34:37.898Z"
+    },
+    "h1:0111ebeab8db624b": {
+      "snapshotId": "20261105T114736Z-polishing-752f657a1723",
+      "path": "lib/galaxy/webapps/galaxy/services/workflows.py",
+      "reviewedAt": "2026-11-05T15:34:38.358Z"
+    },
+    "h1:9b51b58bbbf776b5": {
+      "snapshotId": "20261105T114736Z-polishing-752f657a1723",
+      "path": "lib/galaxy/webapps/galaxy/services/workflows.py",
+      "reviewedAt": "2026-11-05T15:34:40.427Z"
+    },
+    "h1:fc11bb9c4e8466b8": {
+      "snapshotId": "20261105T114736Z-polishing-752f657a1723",
+      "path": "lib/galaxy/webapps/galaxy/services/workflows.py",
+      "reviewedAt": "2026-11-05T15:34:41.628Z"
+    },
+    "h1:533852d347e1045f": {
+      "snapshotId": "20261105T114736Z-polishing-752f657a1723",
+      "path": "lib/galaxy/workflow/modules.py",
+      "reviewedAt": "2026-11-05T15:34:42.228Z"
+    },
+    "h1:d2c36bdce6919905": {
+      "snapshotId": "20261105T114736Z-polishing-752f657a1723",
+      "path": "test/integration/test_tool_source_storage.py",
+      "reviewedAt": "2026-11-05T15:34:42.820Z"
+    },
+    "h1:4293e8a2bbe155f1": {
+      "snapshotId": "20261105T114736Z-polishing-752f657a1723",
+      "path": "test/integration/test_workflow_invocation.py",
+      "reviewedAt": "2026-11-05T15:34:43.654Z"
+    },
+    "h1:2990fbeeba308afb": {
+      "snapshotId": "20261105T114736Z-polishing-752f657a1723",
+      "path": "test/integration/test_workflow_invocation.py",
+      "reviewedAt": "2026-11-05T15:34:44.296Z"
+    },
+    "h1:087cd1e28aafbd0e": {
+      "snapshotId": "20261105T114736Z-polishing-752f657a1723",
+      "path": "test/integration/test_workflow_invocation.py",
+      "reviewedAt": "2026-11-05T15:34:44.998Z"
+    },
+    "h1:a0d8ab5f14c38f5a": {
+      "snapshotId": "20261105T114736Z-polishing-752f657a1723",
+      "path": "test/unit/app/tools/test_toolbox.py",
+      "reviewedAt": "2026-11-05T15:35:04.709Z"
+    }
+  },
+  "commits": {
+    "3b10625d7934a1eb647e3f581bba7d4352752230": {
+      "sha": "99f05078e1b71c540955cfb6aef8e349e11cd6ed",
+      "subject": "Baseline tests for unversioned shed tool ids in workflow invocation",
+      "snapshotId": "20261105T114736Z-polishing-752f657a1723",
+      "signedOffAt": "2026-11-05T15:35:05.951Z"
+    },
+    "cd120f9e6041a784ef9dbd406fc92d08e2092ea7": {
+      "sha": "215a1c4bb06bf0827d83ce07069087a01a762de4",
+      "subject": "Extract _find_workflow_tool from the workflow invocation tool pre-flight",
+      "snapshotId": "20261105T114736Z-polishing-752f657a1723",
+      "signedOffAt": "2026-11-05T15:35:06.209Z"
+    },
+    "578d60a18d356568603c93eeb438ae03c6d56a8a": {
+      "sha": "25e9da890f9053af6281102370a560f9b261c5f7",
+      "subject": "Accept unversioned shed tool ids for exact-version workflow invocation",
+      "snapshotId": "20261105T114736Z-polishing-752f657a1723",
+      "signedOffAt": "2026-11-05T15:35:06.342Z"
+    },
+    "ccffe834c66cddb6bdde3150e17d7413807202c2": {
+      "sha": "752f657a172376193fe320df2b8a93799b4c1226",
+      "subject": "Name installed versions when an exact-version workflow tool is missing",
+      "snapshotId": "20261105T114736Z-polishing-752f657a1723",
+      "signedOffAt": "2026-11-05T15:35:06.509Z"
+    }
+  }
+}
