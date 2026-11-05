@@ -1,9 +1,9 @@
-// Chrome extension requests: look up a GitHub page's records and launch agents for them.
+// Chrome extension and Herdr app requests: look up records and launch agents for them.
 // Launches name records, launchers, profiles and environments by reference, re-resolved here; only the prompt is free text.
 
 import { existsSync, readdirSync } from "node:fs";
 import { join } from "node:path";
-import { fillTemplate, launchersFor, type RecordRef } from "../../obsidian-plugin/src/launchers";
+import { fillTemplate, type Launcher, launchersFor, type RecordRef } from "../../obsidian-plugin/src/launchers";
 import { defaultEnvironment, type Environment, launchArgv } from "../../obsidian-plugin/src/environments";
 import { defaultProfile, type Profile, profileArgs } from "../../obsidian-plugin/src/profiles";
 import { FORK_OWNER } from "../../site/src/lib/repository-tabs";
@@ -13,7 +13,9 @@ import { loadEnvironments, loadLaunchers, loadProfiles, loadRecords, readVault, 
 
 export type Request =
 	| { type: "lookup"; url?: string }
-	| { type: "launch"; url: string; record: string; launcher: number; profile: string; environment?: string; prompt: string }
+	| { type: "records"; refs: string[] }
+	/** `url` narrows `record` (a key) to that page's records; without it, any record in the vault. */
+	| { type: "launch"; url?: string; record: string; launcher: number; profile: string; environment?: string; prompt: string }
 	| { type: "newAgent"; dir: string; profile?: string; environment?: string }
 	| { type: "open"; url: string };
 
@@ -74,20 +76,60 @@ export function agentDirs(vaultRoot: string): string[] {
 		.sort();
 }
 
+function vaultRecords(vaultRoot: string) {
+	const files = vaultFiles(vaultRoot);
+	const records = loadRecords(vaultRoot, files);
+	const body = (r: RecordRef) => (r.dir ? readVault(vaultRoot, `${r.dir}/index.md`) : "");
+	const titles = new Map(records.map((r) => [r.dir, r.title]));
+	return { files, records, body, titles };
+}
+
+type VaultRecords = ReturnType<typeof vaultRecords>;
+
 /** A PR or issue's records (or an untracked stand-in), or a branch page's branch records. */
 function recordsFor(vaultRoot: string, url: string | undefined, headBranch?: HeadBranch) {
 	const pr = url ? parseGithubRef(url) : null;
 	const branch = url && !pr ? parseBranchUrl(url) : null;
 	const repo = pr?.repo ?? branch?.repo;
 	if (!url || !repo) return null;
-	const files = vaultFiles(vaultRoot);
-	const all = loadRecords(vaultRoot, files);
-	if (!all.some((r) => r.repo === repo)) return null;
-	const body = (r: RecordRef) => (r.dir ? readVault(vaultRoot, `${r.dir}/index.md`) : "");
-	const titles = new Map(all.map((r) => [r.dir, r.title]));
-	const records = pr ? recordsForRef(pr, all, body, headBranch?.(pr)) : branchRecordsForUrl(url, all)!;
+	const vault = vaultRecords(vaultRoot);
+	if (!vault.records.some((r) => r.repo === repo)) return null;
+	const records = pr ? recordsForRef(pr, vault.records, vault.body, headBranch?.(pr)) : branchRecordsForUrl(url, vault.records)!;
 	const name = pr ? String(pr.number) : (records[0]?.name ?? branch!.path);
-	return { ref: { repo, kind: pr?.kind ?? "branches", name }, files, body, titles, records };
+	return { ...vault, ref: { repo, kind: pr?.kind ?? "branches", name }, records };
+}
+
+/** `clicked` is the GitHub URL it was found from, if any. */
+function lookupRecord(vaultRoot: string, vault: Pick<VaultRecords, "body" | "titles">, launchers: Launcher[], profiles: Profile[], record: RecordRef, clicked?: string): LookupRecord {
+	const links = openLinks(record, vault.body(record), vaultRoot, clicked);
+	return {
+		key: recordKey(record),
+		repo: record.repo,
+		kind: record.kind,
+		status: record.status,
+		name: record.name,
+		title: vault.titles.get(record.dir) ?? record.name,
+		...(links.github ? { github: links.github } : {}),
+		...(links.obsidian ? { obsidian: links.obsidian } : {}),
+		launchers: launchersFor(launchers, record).map((l) => ({
+			label: l.label,
+			agentDir: l.agentDir,
+			name: fillTemplate(l.name, record, vaultRoot),
+			prompt: fillTemplate(l.prompt, record, vaultRoot),
+			profile: defaultProfile(profiles, l).name,
+		})),
+	};
+}
+
+/** `<repo>/<kind>/<name>` refs to their records in any status; null when not in this vault. */
+export function recordsByRef(vaultRoot: string, refs: string[]): Array<{ ref: string; record: LookupRecord | null }> {
+	const vault = vaultRecords(vaultRoot);
+	const launchers = loadLaunchers(vaultRoot, vault.files);
+	const profiles = loadProfiles(vaultRoot);
+	return refs.map((ref) => {
+		const record = vault.records.find((r) => `${r.repo}/${r.kind}/${r.name}` === ref);
+		return { ref, record: record ? lookupRecord(vaultRoot, vault, launchers, profiles, record) : null };
+	});
 }
 
 export function lookup(vaultRoot: string, url?: string, headBranch?: HeadBranch): LookupResult {
@@ -102,26 +144,9 @@ export function lookup(vaultRoot: string, url?: string, headBranch?: HeadBranch)
 	if (!found) return result;
 	const launchers = loadLaunchers(vaultRoot, found.files);
 	result.ref = found.ref;
-	result.records = found.records.map((record) => {
-		const links = openLinks(record, found.body(record), vaultRoot, found.ref.kind !== "branches" && record.kind === found.ref.kind ? url : undefined);
-		return {
-			key: recordKey(record),
-			repo: record.repo,
-			kind: record.kind,
-			status: record.status,
-			name: record.name,
-			title: found.titles.get(record.dir) ?? record.name,
-			...(links.github ? { github: links.github } : {}),
-			...(links.obsidian ? { obsidian: links.obsidian } : {}),
-			launchers: launchersFor(launchers, record).map((l) => ({
-				label: l.label,
-				agentDir: l.agentDir,
-				name: fillTemplate(l.name, record, vaultRoot),
-				prompt: fillTemplate(l.prompt, record, vaultRoot),
-				profile: defaultProfile(profiles, l).name,
-			})),
-		};
-	});
+	result.records = found.records.map((record) =>
+		lookupRecord(vaultRoot, found, launchers, profiles, record, found.ref.kind !== "branches" && record.kind === found.ref.kind ? url : undefined),
+	);
 	return result;
 }
 
@@ -161,10 +186,12 @@ export function handle(request: Request, deps: HostDeps): unknown {
 	switch (request.type) {
 		case "lookup":
 			return lookup(deps.vaultRoot, request.url, ghHeadBranch(deps.run));
+		case "records":
+			return recordsByRef(deps.vaultRoot, request.refs);
 		case "launch": {
-			const found = recordsFor(deps.vaultRoot, request.url, ghHeadBranch(deps.run));
+			const found = request.url ? recordsFor(deps.vaultRoot, request.url, ghHeadBranch(deps.run)) : vaultRecords(deps.vaultRoot);
 			const record = found?.records.find((r) => recordKey(r) === request.record);
-			if (!found || !record) throw new Error(`no record ${request.record} for ${request.url}`);
+			if (!found || !record) throw new Error(`no record ${request.record}${request.url ? ` for ${request.url}` : ""}`);
 			const launcher = launchersFor(loadLaunchers(deps.vaultRoot, found.files), record)[request.launcher];
 			if (!launcher) throw new Error(`no launcher ${request.launcher} for ${request.record}`);
 			const profile = findProfile(deps.vaultRoot, request.profile);

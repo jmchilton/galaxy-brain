@@ -1,6 +1,6 @@
 import { fileURLToPath } from "node:url";
 import { describe, expect, it } from "vitest";
-import { agentDirs, ghHeadBranch, handle, type HostDeps, lookup, reply } from "./native-host";
+import { agentDirs, ghHeadBranch, handle, type HostDeps, lookup, type LookupRecord, reply } from "./native-host";
 
 const VAULT = fileURLToPath(new URL("../../vault", import.meta.url));
 const PR = "https://github.com/galaxyproject/galaxy/pull/24413";
@@ -57,6 +57,27 @@ describe("lookup", () => {
 });
 
 describe("handle", () => {
+	it("resolves record refs wherever their status is, null when not in this vault", () => {
+		const { host } = deps();
+		const [found, missing] = handle({ type: "records", refs: ["galaxy/branches/ag_grid_36", "galaxy/branches/not_a_tracked_branch"] }, host) as Array<{ ref: string; record: LookupRecord | null }>;
+		expect(found!.ref).toBe("galaxy/branches/ag_grid_36");
+		expect(found!.record!.key).toBe("repositories/galaxy/branches/active/ag_grid_36");
+		expect(found!.record!.obsidian).toMatch(/ag_grid_36%2Findex\.md$/);
+		expect(found!.record!.launchers.length).toBeGreaterThan(0);
+		expect(missing).toEqual({ ref: "galaxy/branches/not_a_tracked_branch", record: null });
+	});
+
+	it("launches a record's launcher by key without a URL", () => {
+		const { runs, host } = deps();
+		const [{ record }] = handle({ type: "records", refs: ["galaxy/branches/ag_grid_36"] }, host) as Array<{ record: LookupRecord }>;
+		handle({ type: "launch", record: record.key, launcher: 0, profile: "Opus (high)", prompt: "edited" }, host);
+		expect(runs[0]!.slice(1, 5)).toEqual([record.launchers[0]!.agentDir, "claude", record.launchers[0]!.name, "edited"]);
+		handle({ type: "launch", record: record.key, launcher: 0, profile: "Sonnet (medium)", environment: "chickenstraws", prompt: "edited" }, host);
+		expect(runs[1]!.slice(1, 5)).toEqual(["--host", "chickenstraws", "--vault", "/home/ubuntu/projects/repositories/galaxy-brain/vault"]);
+		expect(runs[1]!.slice(-4)).toEqual(["--model", "sonnet", "--effort", "medium"]);
+		expect(() => handle({ type: "launch", record: "repositories/galaxy/branches/active/nope", launcher: 0, profile: "Opus (high)", prompt: "x" }, host)).toThrow(/no record/);
+	});
+
 	it("launches a record's launcher by reference with the profile's args and edited prompt", () => {
 		const { runs, host } = deps();
 		const review = lookup(VAULT, PR).records.find((r) => r.kind === "reviews")!;
