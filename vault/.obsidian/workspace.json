@@ -4,106 +4,24 @@
     "type": "split",
     "children": [
       {
-        "id": "7d9d36fc42ee2005",
+        "id": "6a23a3129159f597",
         "type": "tabs",
         "children": [
           {
-            "id": "a70f7e92b551c489",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "projects/invocation_graph_embedded_outputs/index.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "index"
-            }
-          },
-          {
-            "id": "93ea4169a10d93dd",
-            "type": "leaf",
-            "state": {
-              "type": "galaxy-brain-agents",
-              "state": {
-                "agent": "wf_foundry",
-                "tab": "tasks"
-              },
-              "icon": "bot",
-              "title": "wf_foundry agent"
-            }
-          },
-          {
-            "id": "8d0c0bd0317b91e4",
-            "type": "leaf",
-            "state": {
-              "type": "galaxy-brain-agents",
-              "state": {
-                "agent": "*",
-                "tab": "tasks"
-              },
-              "icon": "bot",
-              "title": "Agents"
-            }
-          },
-          {
-            "id": "5add66bd1c551e92",
+            "id": "a98a7a18ca5e8998",
             "type": "leaf",
             "state": {
               "type": "galaxy-brain-repository",
               "state": {
                 "repo": "foundry",
-                "tab": "issues",
+                "tab": "ready-implement",
                 "recentBy": "created"
               },
               "icon": "library",
               "title": "foundry records"
             }
-          },
-          {
-            "id": "6b71f5c631aa5bbe",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "repositories/foundry/issues/needs_decision/591/index.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "index"
-            }
-          },
-          {
-            "id": "618a895a3523d693",
-            "type": "leaf",
-            "state": {
-              "type": "galaxy-brain-agents",
-              "state": {
-                "agent": "gx_reviews",
-                "tab": "tasks"
-              },
-              "icon": "bot",
-              "title": "gx_reviews agent"
-            }
-          },
-          {
-            "id": "42e905195988ddf9",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "agents/factory/SUGGESTED_PROMPTS.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "SUGGESTED_PROMPTS"
-            }
           }
-        ],
-        "currentTab": 6
+        ]
       }
     ],
     "direction": "vertical"
@@ -282,18 +200,44 @@
       "templater-obsidian:Templater": false
     }
   },
-  "active": "42e905195988ddf9",
+  "active": "a98a7a18ca5e8998",
   "lastOpenFiles": [
-    "agents/factory/LAUNCHERS.md",
-    "agents/factory/AGENTS.md",
-    "repositories/galaxy/reviews/active/24635/initial_review_response.md",
-    "repositories/galaxy/branches/active/issue_24174_invocation_rerun_lineage/pr_titles.md",
-    "repositories/galaxy/branches/active/issue_20900_invocation_validation/thermo_nuclear_review.md",
-    "repositories/galaxy/branches/active/issue_20900_invocation_validation/codex_review.md",
-    "repositories/galaxy/branches/active/issue_24174_invocation_rerun_lineage/pr_tags.md",
-    "repositories/galaxy/branches/active/issue_24174_invocation_rerun_lineage/pr_description.md",
-    "repositories/galaxy/reviews/active/24650/initial_response_action.md",
-    "repositories/galaxy/branches/active/issue_20900_invocation_validation/performance_challenges_debrief.md",
+    "repositories/foundry/branches/active/issue-735-data-table-staging/probe/test-data/tool_data_table_conf.xml.test",
+    "repositories/foundry/branches/active/issue-735-data-table-staging/probe/test-data/mini.fa",
+    "repositories/foundry/branches/active/issue-735-data-table-staging/probe/test-data/all_fasta.loc",
+    "repositories/foundry/branches/active/issue-735-data-table-staging/probe/wf.gxwf.yml",
+    "repositories/foundry/branches/active/issue-735-data-table-staging/probe/wf.gxwf-tests.yml",
+    "repositories/foundry/branches/active/issue-735-data-table-staging/probe/test-data",
+    "repositories/foundry/branches/active/issue-735-data-table-staging/probe/run.sh",
+    "repositories/foundry/branches/active/issue-735-data-table-staging/probe/disc.py",
+    "repositories/foundry/branches/active/issue-735-data-table-staging/probe",
+    "repositories/foundry/branches/active/issue-735-data-table-staging/index.md",
+    "repositories/foundry/branches/active/issue-735-data-table-staging",
+    "repositories/foundry/issues/wip/735/index.md",
+    "repositories/foundry/issues/wip/735",
+    "agents/skills/AGENTS.md",
+    "agents/skills/HERDR_SUPPORT.md",
+    "agents/factory/HERDR_APP_CONTEXT.md",
+    "agents/factory/HERDR_TUI_CONTEXT.md",
+    "repositories/foundry/issues/LAUNCHERS.md",
+    "repositories/foundry/branches/LAUNCHERS.md",
+    "repositories/foundry/reviews/LAUNCHERS.md",
+    "repositories/galaxy/issues/LAUNCHERS.md",
+    "repositories/galaxy/branches/LAUNCHERS.md",
+    "repositories/pulsar/reviews/LAUNCHERS.md",
+    "repositories/pulsar/issues/LAUNCHERS.md",
+    "repositories/pulsar/branches/LAUNCHERS.md",
+    "agents/factory/PLUGIN_FEATURES.md",
+    "repositories/foundry/issues/needs_decision/735/index.md",
+    "repositories/foundry/issues/closed/587/index.md",
+    "repositories/foundry/issues/closed/582/index.md",
+    "repositories/foundry/issues/closed/547/index.md",
+    "repositories/foundry/issues/queued/735/index.md",
+    "repositories/foundry/issues/queued/225/index.md",
+    "repositories/foundry/issues/queued/191/index.md",
+    "repositories/foundry/issues/closed/726/index.md",
+    "repositories/foundry/issues/closed/724/index.md",
+    "repositories/foundry/issues/closed/719/index.md",
     "repositories/galaxy/branches/active/workflow_step_parameter_overrides/screenshots/workflow_rerun_expanded_form_seeded_step.png",
     "repositories/galaxy/branches/active/workflow_step_parameter_overrides/screenshots/step_parameter_overrides_workflow_view_subworkflow.png",
     "repositories/galaxy/branches/active/workflow_step_parameter_overrides/screenshots/step_parameter_overrides_workflow_view.png",
@@ -304,32 +248,6 @@
     "repositories/galaxy/branches/active/workflow_step_parameter_overrides/screenshots/step_parameter_overrides_link_preset_and_dropped.png",
     "repositories/galaxy/branches/active/workflow_step_parameter_overrides/screenshots/step_parameter_overrides_link_expanded_form.png",
     "repositories/galaxy/branches/active/workflow_step_parameter_overrides/screenshots/step_parameter_overrides_cards.png",
-    "repositories/galaxy/branches/active/workflow_step_parameter_overrides/screenshots",
-    "repositories/galaxy/branches/active/issue_24648_shed_field_border/screenshots",
-    "repositories/galaxy/branches/active/issue_24648_shed_field_border/earlier_drafts/1/screenshots",
-    "repositories/galaxy/branches/active/invocation_graph_output_previews/screenshots",
-    "repositories/galaxy/branches/active/invocation_graph_embedded_workflow_outputs/screenshots",
-    "repositories/galaxy/branches/active/invocation_graph_embedded_workflow_outputs/earlier_drafts/1/screenshots",
-    "repositories/galaxy/branches/active/invocation_graph_embedded_outputs/screenshots/presentation/slides",
-    "repositories/galaxy/branches/active/invocation_graph_embedded_outputs/screenshots/presentation/frames",
-    "repositories/galaxy/branches/active/invocation_graph_embedded_outputs/screenshots/presentation",
-    "repositories/galaxy/branches/active/invocation_graph_embedded_outputs/screenshots",
-    "repositories/galaxy/branches/active/issue_24722_unversioned_tool_preflight_26_2/subagents/rescope_review.md",
-    "repositories/galaxy/branches/active/issue_24722_unversioned_tool_preflight_26_2/implementation_rescope_debrief.md",
-    "repositories/galaxy/branches/active/issue_24722_unversioned_tool_preflight_26_2/earlier_drafts/1/thermo_nuclear_review.md",
-    "repositories/galaxy/branches/active/issue_24722_unversioned_tool_preflight_26_2/earlier_drafts/1/test_challenges_debrief.md",
-    "repositories/galaxy/branches/active/issue_24722_unversioned_tool_preflight_26_2/earlier_drafts/1/scope_evaluation.md",
-    "repositories/galaxy/branches/active/issue_24722_unversioned_tool_preflight_26_2/earlier_drafts/1/codex_review.md",
-    "repositories/galaxy/branches/active/issue_24722_unversioned_tool_preflight_26_2/earlier_drafts/1/baseline_refactor.md",
-    "repositories/galaxy/branches/active/issue_24722_unversioned_tool_preflight_26_2/alts/original_scope.md",
-    "repositories/galaxy/reviews/active/24635/round_1/initial_review_response.md",
-    "repositories/galaxy/reviews/active/24635/round_1/verified_findings_checklist.md",
-    "repositories/galaxy/reviews/active/24635/round_1/initial_response_action.md",
-    "repositories/galaxy/reviews/active/24635/round_1/initial_review_agents.md",
-    "repositories/galaxy/reviews/active/24635/round_1/followup_refactor_issue.md",
-    "repositories/galaxy/reviews/active/24635/round_1/filtered_findings.md",
-    "repositories/galaxy/reviews/active/24635/round_1/review_1_branch_details.md",
-    "repositories/galaxy/reviews/active/24635/round_1/verified_review.md",
     "Untitled.canvas",
     "Untitled 1.canvas",
     "Untitled 2.canvas",
