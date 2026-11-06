@@ -14,7 +14,7 @@ import { type ListedTask, localDay, parseAgentTasks } from "../../obsidian-plugi
 import { type RecordFileLinks, recordFileLinks } from "../../site/src/lib/file-docs";
 import { loadFileDocs } from "../../site/src/lib/file-docs-load";
 import { isReviewableRecordKind, recordReviewDir } from "../../site/src/lib/records";
-import { FORK_OWNER } from "../../site/src/lib/repository-tabs";
+import { FORK_OWNER, upstreamOwner } from "../../site/src/lib/repository-tabs";
 import { branchRecordsForUrl, type GithubRef, parseBranchUrl, parseGithubRef, recordsForRef } from "./github-ref";
 import { openLinks } from "./open-links";
 import { loadEnvironments, loadLaunchers, loadProfiles, loadRecords, readVault, vaultFiles } from "./vault";
@@ -225,6 +225,8 @@ export interface RecordPage {
 	links: RecordFileLinks;
 	/** It has a differential review to open. */
 	review: boolean;
+	/** "owner/name" of the upstream repository, whatever `record.github` points at. */
+	upstream: string;
 	/** The first is the default. */
 	profiles: Array<{ name: string }>;
 	environments: Array<{ name: string; icon?: string }>;
@@ -240,7 +242,6 @@ function relatedRecords(vaultRoot: string, body: string, repo: string): RelatedR
 	});
 }
 
-/** Null when the record isn't in this vault. */
 /** A reviewable record with snapshots or saved conversations. */
 function hasReview(vaultRoot: string, record: { kind: string; dir: string }): boolean {
 	if (!isReviewableRecordKind(record.kind)) return false;
@@ -248,6 +249,7 @@ function hasReview(vaultRoot: string, record: { kind: string; dir: string }): bo
 	return existsSync(join(dir, "snapshots")) || existsSync(join(dir, "annotations"));
 }
 
+/** Null when the record isn't in this vault. */
 export function recordPage(vaultRoot: string, ref: string): RecordPage | null {
 	const vault = vaultRecords(vaultRoot);
 	const record = vault.records.find((r) => `${r.repo}/${r.kind}/${r.name}` === ref);
@@ -260,6 +262,7 @@ export function recordPage(vaultRoot: string, ref: string): RecordPage | null {
 		related: relatedRecords(vaultRoot, vault.body(record), record.repo),
 		links: recordFileLinks(files, loadFileDocs(vaultRoot, record.repo, record.kind)),
 		review: hasReview(vaultRoot, record),
+		upstream: `${upstreamOwner(record.repo, [vault.body(record)])}/${record.repo}`,
 		profiles: profiles.map(({ name }) => ({ name })),
 		environments: environmentChoices(vaultRoot),
 	};

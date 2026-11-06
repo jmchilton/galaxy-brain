@@ -9,6 +9,8 @@ export const reviewTabName = (ref: string) => `🔎 ${ref}`;
 /** The text after a leading `# ` heading, which the page's header already shows. */
 export const withoutTitle = (text: string): string => text.replace(/^# .*\n+/, "");
 
+export const isImagePath = (path: string): boolean => /\.(?:png|jpe?g|gif|webp|svg)$/i.test(path);
+
 /** Joins relative to `base` (`/`-separated); null if `..` climbs past the root. */
 function resolve(base: string[], path: string): string[] | null {
 	const parts = [...base];

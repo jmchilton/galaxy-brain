@@ -7,7 +7,10 @@ home=${HERDR_APP_HOME:-$HOME/.config/herdr-app}
 here=$(cd "$(dirname "$0")" && pwd)
 for mod in gb-pane gb-agents gb-board gb-record gb-review; do
   mkdir -p "$home/mods/$mod"
-  cp "$here/dist/$mod/main.js" "$here/dist/$mod/mod.json" "$home/mods/$mod/"
+  # A write hot-reloads every copy of the mod, one per pane for gb-pane: only write what changed.
+  for file in main.js mod.json; do
+    cmp -s "$here/dist/$mod/$file" "$home/mods/$mod/$file" || cp "$here/dist/$mod/$file" "$home/mods/$mod/"
+  done
   herdr-app check "$home/mods/$mod"
 done
 layout="$home/layouts/gb.json"

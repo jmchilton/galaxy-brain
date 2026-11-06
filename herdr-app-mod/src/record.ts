@@ -2,13 +2,15 @@
 // File Docs hints, its launchers (through gb-pane's draft dialog), and index.md or the chosen file.
 
 import { div, View } from "gpui-kit";
-import { h_flex, TextView, v_flex } from "gpui-base";
+import { h_flex, v_flex } from "gpui-base";
 import { exec, notify, openOverlay, props, readTextFile, theme, watchFolder } from "herdr";
 import { withoutFrontmatter } from "../../obsidian-plugin/src/record-frontmatter";
 import { type RecordFileLink, recordFileLabel, type RecordFileLinks } from "../../site/src/lib/file-docs";
 import { chip } from "./chip";
 import { host } from "./host";
-import { linkTarget, withoutTitle } from "./record-page";
+import { type MarkdownBlock, markdownBlocks } from "./markdown-blocks";
+import { type MarkdownHost, renderMarkdown } from "./markdown-view";
+import { isImagePath, linkTarget, withoutTitle } from "./record-page";
 import { openRecordTab, openReviewTab } from "./record-tab";
 
 const VAULT = `${__GB_ROOT__}/vault`;
@@ -32,6 +34,7 @@ interface Page {
 		launchers: Array<{ label: string; prompt: string; profile: string }>;
 	};
 	review: boolean;
+	upstream: string;
 	related: Array<{ text: string; label: string; ref?: string; condition?: string; obsidian?: string }>;
 	links: RecordFileLinks;
 	profiles: Array<{ name: string }>;
@@ -50,8 +53,10 @@ export default class GbRecord extends View {
 	declare page: Page | null;
 	declare error: string | null;
 	declare file: string;
-	/** The file's text; null when it can't be read. */
-	declare text: string | null;
+	/** The file's text, as blocks; null when it can't be read. */
+	declare blocks: MarkdownBlock[] | null;
+	/** `<details>` toggled by hand, by file and place, so a reload keeps them. */
+	declare toggled: Map<string, boolean>;
 	/** The folder link, or OTHER, whose files show. */
 	declare unfolded: string | null;
 
@@ -59,7 +64,8 @@ export default class GbRecord extends View {
 		this.page = null;
 		this.error = null;
 		this.file = INDEX;
-		this.text = null;
+		this.blocks = null;
+		this.toggled = new Map();
 		this.unfolded = null;
 		cx.spawn(async (cx: Cx) => {
 			await this.load(cx);
@@ -82,8 +88,13 @@ export default class GbRecord extends View {
 	async read() {
 		const path = `${VAULT}/${this.page!.record.key}/${this.file}`;
 		const text: string | null = await readTextFile(path).catch(() => null);
-		if (text === null) this.text = null;
-		else this.text = this.file === INDEX ? withoutTitle(withoutFrontmatter(text)) : withoutFrontmatter(text);
+		if (text === null) this.blocks = null;
+		else this.blocks = markdownBlocks(this.file === INDEX ? withoutTitle(withoutFrontmatter(text)) : withoutFrontmatter(text), { repo: this.page!.upstream });
+	}
+
+	/** Opened outside the app: TextView can't load a file's image. */
+	openImage(cx: Cx, path: string) {
+		cx.spawn(async () => exec("open", [`${VAULT}/${path}`]));
 	}
 
 	/** Reloads on changes in the record; polls if its folder can't be watched, as after a status move. */
@@ -112,6 +123,7 @@ export default class GbRecord extends View {
 		const target = linkTarget(url, { vault: VAULT, dir: key, current: this.file, files: allFiles(this.page!.links) });
 		if (!target) return;
 		if ("file" in target) this.show(cx, target.file);
+		else if ("vault" in target && isImagePath(target.vault)) this.openImage(cx, target.vault);
 		else if ("vault" in target) cx.spawn(async () => openUrl(obsidianUrl(target.vault)));
 		else cx.spawn(async () => exec("open", [target.url]));
 	}
@@ -135,12 +147,18 @@ export default class GbRecord extends View {
 				.child(this.renderFiles(t, links))
 				.when(record.launchers.length > 0, (el: El) => el.child(this.renderLaunchers(t)))
 				.child(div().border_b(1).border_color(t.border))
-				.child(
-					this.text === null
-						? div().text_color(t.dim).child(`No ${this.file} in this record.`)
-						: TextView.markdown(`gb-rec-md-${this.file}`, this.text).selectable(true).on_link_click((url: string, cx: Cx) => this.onLink(url, cx)),
-				),
+				.child(this.blocks === null ? div().text_color(t.dim).child(`No ${this.file} in this record.`) : renderMarkdown(t, this.blocks, this.markdownHost())),
 		);
+	}
+
+	markdownHost(): MarkdownHost {
+		const { file, toggled } = this;
+		return {
+			id: `gb-rec-md-${file}`,
+			isOpen: (key, initial) => toggled.get(`${file}#${key}`) ?? initial,
+			setOpen: (key, open) => toggled.set(`${file}#${key}`, open),
+			onLink: (url, cx) => this.onLink(url, cx),
+		};
 	}
 
 	renderHeader(t: any): El {

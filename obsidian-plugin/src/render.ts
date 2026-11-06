@@ -1,4 +1,5 @@
 import MarkdownIt, { type StateCore, type Token } from "markdown-it";
+import { GITHUB_REF, githubRefHref } from "./github-refs";
 
 // GitHub follows CommonMark HTML-block rules: a blank line ends a <details>
 // HTML block, so the markdown between <summary> and </details> is rendered.
@@ -22,17 +23,6 @@ md.core.ruler.after("inline", "github_task_lists", (state) => {
 		tokens[i - 2].attrJoin("class", "task-list-item");
 	}
 });
-
-// GitHub autolinks: owner/repo#123, #123 (needs a default repo), @user.
-const GITHUB_REF =
-	/(?<![\w/@.#])(?:([A-Za-z0-9][\w.-]*\/[\w.-]+)#(\d+)|#(\d+)|@([A-Za-z0-9][A-Za-z0-9-]*))\b/g;
-
-function githubRefHref(match: RegExpExecArray, repo: string | undefined): string | null {
-	const [, refRepo, refNumber, bareNumber, user] = match;
-	if (refRepo) return `https://github.com/${refRepo}/issues/${refNumber}`;
-	if (bareNumber) return repo ? `https://github.com/${repo}/issues/${bareNumber}` : null;
-	return `https://github.com/${user}`;
-}
 
 md.core.ruler.after("linkify", "github_references", (state) => {
 	const repo = (state.env as RenderOptions | undefined)?.repo;

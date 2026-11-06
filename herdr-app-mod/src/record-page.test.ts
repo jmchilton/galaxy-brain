@@ -1,5 +1,12 @@
 import { describe, expect, it } from "vitest";
-import { linkTarget, recordTabName, withoutTitle } from "./record-page";
+import { isImagePath, linkTarget, recordTabName, withoutTitle } from "./record-page";
+
+describe("isImagePath", () => {
+	it("knows image files, in any case", () => {
+		expect(["a.png", "s/b.JPG", "c.jpeg", "d.gif", "e.webp", "f.svg"].every(isImagePath)).toBe(true);
+		expect(["a.md", "png", "a.png.md"].some(isImagePath)).toBe(false);
+	});
+});
 
 describe("linkTarget", () => {
 	const dir = "repositories/galaxy/reviews/active/7";

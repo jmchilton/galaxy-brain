@@ -128,6 +128,15 @@ describe("recordPage", () => {
 		expect(page.environments).toEqual([{ name: "Here", icon: "🏠" }]);
 	});
 
+	it("names the upstream repository, even for a branch that only has a fork link", () => {
+		const branches = vault({
+			"repositories/galaxy/branches/active/b/index.md": "# B\n\n[View on GitHub](https://github.com/jmchilton/galaxy/tree/b)\n",
+			"repositories/tool-util/branches/active/c/index.md": "# C\n\n[PR](https://github.com/jmchilton/tool-util/pull/1)\n",
+		});
+		expect(recordPage(branches, "galaxy/branches/b")!.upstream).toBe("galaxyproject/galaxy");
+		expect(recordPage(branches, "tool-util/branches/c")!.upstream).toBe("jmchilton/tool-util");
+	});
+
 	it("offers a differential review only for a reviewable record that has one", () => {
 		const reviews = vault({
 			"repositories/galaxy/reviews/active/1/index.md": "---\npr: 1\n---\n# One\n",
