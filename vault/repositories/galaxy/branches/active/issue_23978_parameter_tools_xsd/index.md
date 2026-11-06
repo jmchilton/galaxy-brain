@@ -10,9 +10,9 @@ pr: 24302
 
 ## Status
 
-Head `1e5ab3d909d`; undrafted 2026-10-22 on John's request (`ready`).
+Head `9ff979543c6`; rebased onto `dev` 2026-11-06 (undrafted 2026-10-22 on John's request).
 
-PR CI green on head (Playwright, Selenium, tool-form harness, linting all pass).
+Rebase dropped the lint-path/fail-fast commit (landed upstream in `dev`); all 456 targeted tools XSD-valid locally. CI pending on the new head.
 
 ## Review materials
 

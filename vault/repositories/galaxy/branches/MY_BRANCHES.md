@@ -16,6 +16,7 @@ Snapshot: 2026-11-06 (reclassified from GitHub: 11 merged and archived, #24453 u
 - [`issue_3899_pulsar_container_deps`](active/issue_3899_pulsar_container_deps/index.md) — Respects a Pulsar container job’s dependency-resolution opt-in (#3899). [#24555](https://github.com/galaxyproject/galaxy/pull/24555).
 - [`issue_24476_parsed_output_filters_26_1`](active/issue_24476_parsed_output_filters_26_1/index.md) — Preserves filter expressions in parsed data, collection and scalar outputs (#24476). Base `release_26.1`. [#24483](https://github.com/galaxyproject/galaxy/pull/24483).
 - [`selenium_dataset_tags_auto_detect`](active/selenium_dataset_tags_auto_detect/index.md) — Missing E2E tests: history item Add Tags reaching a tool output, Attributes tab metadata Auto-detect. Base `release_26.2`. [#24347](https://github.com/galaxyproject/galaxy/pull/24347).
+- [`issue_23978_parameter_tools_xsd`](active/issue_23978_parameter_tools_xsd/index.md) — Makes framework test tools XSD-valid and validates test-tool subdirectories in CI (#23978). [#24302](https://github.com/galaxyproject/galaxy/pull/24302). Rebased 2026-11-06 at `9ff979543c6`; CI pending.
 
 ## Open Galaxy PRs — needs attention (`attention`)
 
@@ -24,7 +25,6 @@ Snapshot: 2026-11-06 (reclassified from GitHub: 11 merged and archived, #24453 u
 
 - [`selenium_tool_form_helpers`](active/selenium_tool_form_helpers/index.md) — Public tool-form fill/describe helpers on `NavigatesGalaxy`; fixes nested repeats, sections, editor steps. [#24331](https://github.com/galaxyproject/galaxy/pull/24331).
 - [`issue_24328_data_table_mismatch_26.1`](active/issue_24328_data_table_mismatch_26.1/index.md) — Conflicting shed data table halts startup with an actionable error; installs no longer wipe Galaxy's tables (#24328). Base `release_26.1`. [#24349](https://github.com/galaxyproject/galaxy/pull/24349).
-- [`issue_23978_parameter_tools_xsd`](active/issue_23978_parameter_tools_xsd/index.md) — Makes framework test tools XSD-valid and validates test-tool subdirectories in CI (#23978). [#24302](https://github.com/galaxyproject/galaxy/pull/24302).
 - [`issue_24173_invocation_selection_urls`](active/issue_24173_invocation_selection_urls/index.md) — Makes invocation step, job and output selections shareable through URLs (#24173). [#24307](https://github.com/galaxyproject/galaxy/pull/24307). Opened by accident; final read-through still pending.
 
 ## Draft Galaxy PRs — ready to undraft (`draft_ready`)
@@ -67,9 +67,7 @@ None yet.
 
 ## Galaxy branches — implemented, work left, green (`branches_implemented`)
 
-- [`issue_24648_shed_field_border`](active/issue_24648_shed_field_border/index.md) — Tool Shed form fields get 3:1 grey-500 borders and consistent hover and focus states (#24648). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_24648_shed_field_border?expand=1).
 - [`vitest_real_api_calls`](active/vitest_real_api_calls/index.md) — Records real Galaxy API responses for client tests, starting with history and quota usage. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:vitest_real_api_calls?expand=1).
-- [`issue_24532_user_deletion_refusal_25.1`](active/issue_24532_user_deletion_refusal_25.1/index.md) — Delete Account modal explains a config-refused self-deletion (`err_code` 403004, not 403), stays open on failure (BModal closed it on 25.1), disables OK in flight and handles request failures; jest + new Selenium test (`allow_user_deletion=False`) (#24532). Hardened READY (re-scoped once). Base `release_25.1`, head `551bc3a8e7f`; squash plan in baseline_refactor; manual merge-forward to 26.1+. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_25.1...jmchilton:galaxy:issue_24532_user_deletion_refusal_25.1?expand=1).
 - [`issue_24178_subworkflow_step_params_export`](active/issue_24178_subworkflow_step_params_export/index.md) — Exports subworkflow step params as `<index>|name`; unknown/malformed keys 400; subworkflow invocations record their own step params; shared step-param row resolver; schema docs (#24178). Re-scoped 2026-10-16, head `57bf3eebd77`. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_24178_subworkflow_step_params_export?expand=1).
 - [`issue_24175_imported_invocation_step_params`](active/issue_24175_imported_invocation_step_params/index.md) — Re-keys step params on invocation import so Rerun of imported runs works; drops unmappable legacy rows (#24175). Stacked on `issue_24178_subworkflow_step_params_export`; re-scoped, head `10eed573535`. [Open PR](https://github.com/galaxyproject/galaxy/compare/issue_24178_subworkflow_step_params_export...jmchilton:galaxy:issue_24175_imported_invocation_step_params?expand=1).
 - [`workflow_step_parameter_overrides`](active/workflow_step_parameter_overrides/index.md) — Nested `step_parameter_overrides` run field; run-form picker with pop-out workflow view (#24454). [Open PR](https://github.com/galaxyproject/galaxy/compare/issue_24177_rerun_step_params_full_form...jmchilton:galaxy:workflow_step_parameter_overrides?expand=1).
@@ -85,6 +83,8 @@ None yet.
 
 ## Galaxy branches — needs polish (`branches_need_polish`)
 
+- [`issue_24532_user_deletion_refusal_25.1`](active/issue_24532_user_deletion_refusal_25.1/index.md) — Delete Account modal explains a config-refused self-deletion and stays open on failure (#24532). [Open PR](https://github.com/galaxyproject/galaxy/compare/release_25.1...jmchilton:galaxy:issue_24532_user_deletion_refusal_25.1?expand=1).
+- [`issue_24648_shed_field_border`](active/issue_24648_shed_field_border/index.md) — Tool Shed form fields get 3:1 grey-500 borders and consistent hover and focus states (#24648). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_24648_shed_field_border?expand=1).
 - [`converted_dataset_lookup_via_manager_26.0`](active/converted_dataset_lookup_via_manager_26.0/index.md) — Existing implicit conversions looked up via `DatasetAssociationManager.get_accessible_converted`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.0...jmchilton:galaxy:converted_dataset_lookup_via_manager_26.0?expand=1).
 
 ## Galaxy branches — ready for final review (`branches_ready_for_final_review`)
