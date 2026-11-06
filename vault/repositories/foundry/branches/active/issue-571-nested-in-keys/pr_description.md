@@ -1,31 +1,54 @@
-Agents had been inferring two things about gxformat2 wiring, and one run hit 96 topology errors on the second:
+States two gxformat2 wiring rules agents had been inferring. One run hit 96 topology errors on the second.
 
-- how a step's `in:` key addresses a nested parameter
-- what the step part of a `source` or `outputSource` names
+Closes #571.
+
+## The two rules
+
+Sketch, not a runnable workflow:
+
+```yaml
+steps:
+  - id: fastp_1
+    label: trim
+  - id: merge
+    in:
+      - id: input_type|i       # parameter in a conditional or section: |-joined path
+        source: trim/out1      # list form: the step part is the label, not fastp_1
+      - id: pick_from_0|value  # repeat instance: _N
+        source: trim/out2
+    state:
+      pick_from:
+        - {}                   # _0 needs this entry, or the connection does nothing
+```
 
 ## What changed
 
 **`gxformat2-schema` (rev 5)**
 
-- `in:` keys use a `|`-joined path for a parameter nested in a conditional or section, and `_N` for a repeat instance.
-- Each `_N` connection needs its own entry in the repeat in `state`. Without it the connection does nothing and the job can still succeed. All 917 repeat-instance connections in IWC at `980fc00` have one.
+- States the nested key, `_N` and repeat entry rules. Without the entry the job can still succeed. All 917 repeat-instance connections in IWC at `980fc00` have one.
 - A connection's step part is the `label` when one is present, otherwise the `id`, in list form. In map form, for a step with no `label`, it is the map key.
 
 **`implement-galaxy-tool-step` (rev 13)**
 
-- Step 3 states the nested key rule. IWC uses a nested connection key on about a third of its tool steps, so it shouldn't depend on loading a note.
-- `[[gxformat2-schema]]` is now an on-demand reference, for connection step names and dataset `rename:`. Step 5 already cited the note, but the note wasn't in the cast.
+- Step 3 states the nested key rule directly. A domain-review scan, whose script I read but didn't rerun, found a `|` key on 1,157 of 3,258 IWC tool steps, so it shouldn't depend on loading a note.
+- `[[gxformat2-schema]]` becomes an on-demand reference, for connection step names and dataset `rename:`. Step 5 already cited the note, which wasn't in the cast.
 - A new eval property checks the repeat entry, which `draft-validate` doesn't catch.
 
-Casts and the Dashboard are regenerated. About 4,000 of the diff's lines are the note and its vendored `gxformat2.schema.json`, copied into this Mold's bundle because companions travel with their note. At runtime `SKILL.md` gains two lines, and the files cost context only if opened.
+**Generated:** casts and the Dashboard. About 4,000 diff lines are the note and its vendored `gxformat2.schema.json`, because companions travel with their note. `SKILL.md` gains two lines, and the files cost context only if opened. `repair`'s bundle also takes the new note text, through its reference from #753.
 
-## What this leaves out
+## For John
 
-The note says nothing about a map-form step whose `label` differs from its key, because the tools disagree and no reference to such a step passes both. That looks like a gxformat2 bug and should be fixed there, so it isn't documented here as guidance. The worked example in `galaxy-workflow-draft-format` has this shape, and this PR doesn't change it.
+- **File the gxformat2 issue?** The draft says to check a live Galaxy import first.
+- **Change the `galaxy-workflow-draft-format` worked example?** It has the map-form shape below, and this PR leaves it alone.
 
-It also leaves out the rule #571's comment suggests, that labels must not contain `/`. `gxwf draft-validate` 1.15.0 accepts a list-form reference to a label containing `/`, so that check gives no reason for the rule. Conversion wasn't checked for this case.
+## Left out
 
-## Reproductions
+- **A map-form step whose `label` differs from its key:** no reference to it passes both validation and conversion. That looks like a gxformat2 bug, so the note gives no guidance on it.
+- **"Labels must not contain `/`", from #571's comment:** `gxwf draft-validate` 1.15.0 accepts a list-form reference to such a label. Conversion wasn't checked.
+- **Eval properties for nested keys and step names:** a reviewer reports `--concrete` already rejects wrong keys, which I didn't rerun. A step-name property should wait for the resolvers to agree.
+- **Dropping the reference or using a small stub note, suggested in domain review:** step 5 cites the note, and a stub saves only disk.
+
+## Evidence
 
 `gxwf` 1.15.0 `draft-validate`, and gxformat2 `validate_draft` and `python_to_workflow` on 0.28.0 and 0.29.1 (the versions agree):
 
@@ -40,25 +63,20 @@ It also leaves out the rule #571's comment suggests, that labels must not contai
 | Map | `label`, or `id` and `label` | key | **resolves** | **`ValueError`** |
 | Map | `label`, or `id` and `label` | label | **`references unknown step`** | **converts** |
 
-The two bold rows are the disagreement.
+The bold rows are the disagreement.
 
-## What didn't run
+**Didn't run**
 
-- No import into a live Galaxy. `python_to_workflow` is the function Galaxy's import calls, but the conversion results come from calling it directly.
-- Most of CI's `test` job, which stops at `validate:roadmap`. See below.
+- No import into a live Galaxy. `python_to_workflow` is the function Galaxy's import calls, but these results come from calling it directly.
 - The new eval property hasn't been run against a Mold run.
 
-## Local gate
+**CI at `3b9f559f`:** `test` and `changeset` pass.
 
-`make -k check`: everything passes (496 tests) except two targets:
+**`make -k check`:** everything passes (496 tests) except `check-vendored`, a known failure on this machine.
 
-- `check-vendored`, a known failure on this machine.
-- `validate-roadmap`, which reads live GitHub labels and fails the same way on clean `main`.
+## Collisions
 
-## CI
-
-`changeset` passes. `test` is red at `validate:roadmap`, the step that also fails on `main` at this PR's base, so the job skips every later step. I ran the skipped steps `make -k check` doesn't cover at this head: `check:kinds`, `typecheck`, package tests (16 skipped), `smoke:packages`, `format`, `lint` and `site:build` all pass. Two skipped steps have no passing run: the Pi container boundary test wasn't run, and `check-vendored` is the failure above.
-
-Closes #571.
+- **#755:** both regenerate three `_provenance.json` files, so whichever lands second needs a recast.
+- **#678:** any later edit to `implement` conflicts only in frontmatter.
 
 🤖 Generated with [Claude Code](https://claude.com/claude-code)

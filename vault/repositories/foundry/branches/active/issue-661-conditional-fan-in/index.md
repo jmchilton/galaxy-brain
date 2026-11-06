@@ -10,11 +10,11 @@ pr: 755
 
 ## Status
 
-Branch on `jmchilton`, base `origin/main` at `7453431d`, head `bac5ae4b`, reviewed and fixed. Worktree `~/projects/worktrees/foundry/branch/issue-661-conditional-fan-in`.
+Branch on `jmchilton`, merged with `origin/main` at `195b4a6a`, head `5f1f34db`, reviewed and fixed. Worktree `~/projects/worktrees/foundry/branch/issue-661-conditional-fan-in`.
 
-Draft PR [#755](https://github.com/galaxyproject/foundry/pull/755), in conflict with `main` since #753 merged, in generated files only (cast `_provenance.json`); body is [pr_description.md](pr_description.md).
+Draft PR [#755](https://github.com/galaxyproject/foundry/pull/755), mergeable; body is [pr_description.md](pr_description.md).
 
-Local `make -k check` green except `check-vendored` (machine-only) and `validate-roadmap` (live GitHub labels, also fails on `origin/main`); `planemo test` passes on `release_26.1`. CI at `bac5ae4b`: unrelated only. `planemo` passes; `test` stops at `validate:roadmap` (also red on `main` at `7453431d`, so no rerun); its skipped steps pass locally except the unrun Pi container test and `check-vendored`.
+Local `make -k check` green at `5f1f34db` except `check-vendored` (machine-only). CI at `5f1f34db`: `test` and `changeset` pass, `planemo` running.
 
 ## Supporting files
 
@@ -27,4 +27,4 @@ Local `make -k check` green except `check-vendored` (machine-only) and `validate
 
 None of the four. For John: this uses `the_only_non_null` and `pick_style: only` where #661 proposed `first_or_error`, following the page's own guidance.
 
-Part of #661, which stays open until #753 and #738 land. Plan: [skunkworks_plan.md](../../../issues/needs_decision/670/skunkworks_plan.md).
+Part of #661, which stays open until #738 lands. Plan: [skunkworks_plan.md](../../../issues/needs_decision/670/skunkworks_plan.md).

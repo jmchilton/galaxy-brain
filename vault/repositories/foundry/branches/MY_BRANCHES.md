@@ -23,17 +23,16 @@ Snapshot: 2026-10-28 (originally recovered from live GitHub state, local worktre
 
 ## Draft Foundry PRs — ready to undraft (`draft_ready`)
 
-None yet.
+- [`issue-571-nested-in-keys`](active/issue-571-nested-in-keys/index.md) — Documents nested `in:` keys and what a connection's step part names (#571). [#754](https://github.com/galaxyproject/foundry/pull/754).
 
 ## Draft Foundry PRs — waiting for CI (`ci_wait`)
 
+- [`issue-661-conditional-fan-in`](active/issue-661-conditional-fan-in/index.md) — Route pattern covers mapped `when`-gated branches, verified on `release_26.1` (#661). [#755](https://github.com/galaxyproject/foundry/pull/755).
 - [`issue-568-review-agent-benchmark-paper`](active/issue-568-review-agent-benchmark-paper/index.md) — Comparisons page: contrast with one detailed prompt, from the Munn and Grenier study (#568). [#750](https://github.com/galaxyproject/foundry/pull/750).
 
 ## Draft Foundry PRs — needs author work (`author_work`)
 
 - [`issue-570-cast-moc-leaf-patterns`](active/issue-570-cast-moc-leaf-patterns/index.md) — Cast pattern maps of content with the leaf pattern pages they list (#570); needs foundry-lib#139 released. [#738](https://github.com/galaxyproject/foundry/pull/738).
-- [`issue-571-nested-in-keys`](active/issue-571-nested-in-keys/index.md) — Documents nested `in:` keys and what a connection's step part names (#571). [#754](https://github.com/galaxyproject/foundry/pull/754).
-- [`issue-661-conditional-fan-in`](active/issue-661-conditional-fan-in/index.md) — Route pattern covers mapped `when`-gated branches, verified on `release_26.1` (#661). [#755](https://github.com/galaxyproject/foundry/pull/755).
 
 ## Foundry branches — implemented, work left (`branches_implemented_needs_ci`)
 
