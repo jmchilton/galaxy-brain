@@ -2,7 +2,7 @@ import { mkdirSync, mkdtempSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { describe, expect, it } from "vitest";
-import { agentsOverview, handle, type HostDeps, lookup } from "./native-host";
+import { agentsOverview, handle, type HostDeps, lookup, recordPage } from "./native-host";
 
 function vault(files: Record<string, string>) {
 	const root = mkdtempSync(join(tmpdir(), "gb-vault-"));
@@ -102,5 +102,64 @@ describe("newAgent", () => {
 		const { runs, deps } = run();
 		handle({ type: "newAgent", dir: "alpha" }, deps(vault({ "agents/alpha/AGENTS.md": "" })));
 		expect(runs[0]).toEqual(expect.arrayContaining(["alpha", "alpha", ""]));
+	});
+});
+
+describe("recordPage", () => {
+	const root = vault({
+		"repositories/_defaults/reviews/FILE_DOCS.md": "## review.md\nThe review.\n\n## subagents/**\nDebriefs.\n",
+		"repositories/galaxy/reviews/LAUNCHERS.md": "## 💬 Respond\nstatus: active\nagent_dir: gx_reviews\nprofile: Sonnet (medium)\n\nRespond to {name}\n\n## 🗄️ Archived only\nstatus: archived\nagent_dir: gx_reviews\n\nNope\n",
+		"repositories/galaxy/reviews/active/7/index.md": "---\npr: 7\n---\n# Seven\n",
+		"repositories/galaxy/reviews/active/7/review.md": "r",
+		"repositories/galaxy/reviews/active/7/subagents/a.md": "a",
+		"repositories/galaxy/reviews/active/7/plan.md": "p",
+		"repositories/galaxy/reviews/active/70/review.md": "other record",
+		"agents/_shared/ENVIRONMENTS.yml": "environments:\n  - name: Here\n    icon: 🏠\n",
+	});
+
+	it("gives a record's title, matching launchers and files split by File Docs", () => {
+		const page = recordPage(root, "galaxy/reviews/7")!;
+		expect(page.record).toMatchObject({ key: "repositories/galaxy/reviews/active/7", title: "Seven", status: "active" });
+		expect(page.record.launchers.map((one) => [one.label, one.prompt])).toEqual([["💬 Respond", "Respond to 7"]]);
+		expect(page.links).toEqual({
+			documented: [{ path: "review.md", hint: "The review." }, { path: "subagents/", files: ["subagents/a.md"], hint: "Debriefs." }],
+			other: [{ path: "plan.md" }],
+		});
+		expect(page.environments).toEqual([{ name: "Here", icon: "🏠" }]);
+	});
+
+	it("offers a differential review only for a reviewable record that has one", () => {
+		const reviews = vault({
+			"repositories/galaxy/reviews/active/1/index.md": "---\npr: 1\n---\n# One\n",
+			"repositories/galaxy/reviews/active/1/differential-review/snapshots/s.json": "{}",
+			"repositories/galaxy/reviews/active/2/index.md": "---\npr: 2\n---\n# Two\n",
+			"repositories/galaxy/reviews/active/3/index.md": "---\npr: 3\n---\n# Three\n",
+			"repositories/galaxy/reviews/active/3/differential-review/annotations/threads/t.json": "{}",
+			"repositories/galaxy/issues/open/4/index.md": "---\nissue: 4\n---\n# Four\n",
+			"repositories/galaxy/issues/open/4/differential-review/snapshots/s.json": "{}",
+		});
+		expect(["reviews/1", "reviews/2", "reviews/3", "issues/4"].map((id) => recordPage(reviews, `galaxy/${id}`)?.review)).toEqual([true, false, true, false]);
+	});
+
+	it("gives its related records, and agent blockers' conditions and Obsidian links", () => {
+		const related = vault({
+			"agents/gx_reviews/blockers/wait/condition.md": "It merged.\n",
+			"repositories/galaxy/reviews/active/9/index.md": "---\nblockers: [gx_reviews/wait, galaxy/issues/1]\nrelated_records: galaxy/branches/b\n---\n# Nine\n",
+		});
+		expect(recordPage(related, "galaxy/reviews/9")!.related).toEqual([
+			{ text: "🔒 gx_reviews/wait", label: "Blocked: gx_reviews/wait", condition: "It merged.", obsidian: `obsidian://open?path=${encodeURIComponent(`${related}/agents/gx_reviews/blockers/wait/index.md`)}` },
+			{ text: "🔒 galaxy/issues/1", label: "Blocked by galaxy/issues/1", ref: "galaxy/issues/1" },
+			{ text: "🔗 galaxy/branches/b", label: "Related: galaxy/branches/b", ref: "galaxy/branches/b" },
+		]);
+		expect(recordPage(root, "galaxy/reviews/7")!.related).toEqual([]);
+	});
+
+	it("is null for a record not in this vault", () => {
+		expect(recordPage(root, "galaxy/reviews/8")).toBeNull();
+	});
+
+	it("is what the recordPage request returns", () => {
+		const deps: HostDeps = { vaultRoot: root, run: () => ({ status: 0, stdout: "", stderr: "" }) };
+		expect(handle({ type: "recordPage", ref: "galaxy/reviews/7" }, deps)).toEqual(recordPage(root, "galaxy/reviews/7"));
 	});
 });

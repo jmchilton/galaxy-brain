@@ -10,6 +10,7 @@ import { addDays, linkLabel, type ListedTask, localDay, refinementPrompt, SNOOZE
 import { boardChanged, boardCracks, boardTasks, crackKey, splitAgents, taskKey } from "./board-model";
 import { host } from "./host";
 import { markPrReviewed, removeListedTask, snoozeListedTask } from "./note-edits";
+import { openRecordTab } from "./record-tab";
 
 export const BOARD_MOD = "gb-board";
 const AGENTS_DIR = `${__GB_ROOT__}/vault/agents`;
@@ -294,7 +295,7 @@ export default class GbBoard extends View {
 					.when(human, (el: El) => el.child(badge("for John", t.foreground)))
 					.child(div().flex_none().child(task.agentDir))
 					.when(!human && Boolean(profile), (el: El) => el.child(div().flex_none().child(profile)))
-					.when(Boolean(ref), (el: El) => el.child(this.action(t, `gb-b-rec-${i}`, `📓 ${ref}`, "Open in Obsidian", (cx) => cx.spawn(async () => this.openRecord(ref!)))))
+					.when(Boolean(ref), (el: El) => el.child(this.action(t, `gb-b-rec-${i}`, `📓 ${ref}`, "Open record", () => openRecordTab(ref!))))
 					.when(Boolean(link), (el: El) => el.child(this.action(t, `gb-b-link-${i}`, `🔗 ${linkLabel(link ?? "")}`, "Open on GitHub", (cx) => cx.spawn(async () => openUrl(link!))))),
 			)
 			.when(Boolean(task.description), (el: El) =>
@@ -422,16 +423,6 @@ export default class GbBoard extends View {
 				...(listed ? { task: listed } : {}),
 			},
 		});
-	}
-
-	async openRecord(ref: string) {
-		try {
-			const [found]: Array<{ record: { obsidian?: string } | null }> = await host({ type: "records", refs: [ref] });
-			if (found?.record?.obsidian) await openUrl(found.record.obsidian);
-			else notify({ title: `${ref} isn't in this vault`, level: "info", timeout: 3000 });
-		} catch (error) {
-			notify({ title: "Not opened", body: String(error), level: "error" });
-		}
 	}
 
 	// Popup: how long to snooze.

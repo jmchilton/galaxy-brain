@@ -12,7 +12,10 @@ differential-review/          galaxy-brain's CLI: the package's commands with --
   src/record.ts               index.md frontmatter, parent_branch / upstream_base_branch base choice
   src/run.ts                  RECORD_TARGET: createCli() targeted at vault records
   bin/differential-review     sh wrapper around dist/differential-review.cjs; follows symlinks
-obsidian-plugin/src/diff-review-*.ts   the review view, the only writer of review-state.json
+obsidian-plugin/src/diff-review-*.ts   the Obsidian review view; writes review-state.json
+obsidian-plugin/src/diff-highlight.ts  syntax tokens for diff lines, shared with the Herdr app
+herdr-plugin/src/review-host.ts        the Herdr app's review, in Node (`review` CLI command); writes review-state.json
+herdr-app-mod/src/review*.ts           the Herdr app's review tab (`gb-review`)
 site/src/lib/records.ts       REVIEWABLE_RECORD_KINDS, isReviewableRecordKind, recordReviewDir
 ```
 
@@ -88,7 +91,7 @@ Exit codes are 0 for ok and 1 for an error. Errors include git failures, a missi
 ```
 <record>/differential-review/
   snapshots/<YYYYMMDDTHHMMSSZ>-<phase>-<head12>.json   immutable, CLI-written
-  review-state.json                                     reviewer-written via the plugin
+  review-state.json                                     reviewer-written via the Obsidian or Herdr review view
 ```
 
 Snapshots are gitignored (`/vault/repositories/**/{branches,reviews}/**/differential-review/snapshots/`); `review-state.json` is tracked. Snapshot IDs contain no colons, which break Obsidian sync and mobile. Immutability, idempotent reruns and the read-only guarantee for `review-state.json` are the package's; see its design doc.
@@ -197,13 +200,16 @@ created …/differential-review/snapshots/20261026T053715Z-hardening-b88e76ad2ca
   - `matchHunks` memoizes fuzzy similarity per content-hash pair. On a synthetic 1.2 MB, 2400-hunk snapshot with 900 changed hunks, deriving the view took about 1.7 s cold and about 85 ms per check-off after that.
 - **Theme.** diff2html's light-scheme `--d2h-*` variables are mapped onto Obsidian tokens (`--background-*`, `--color-*-rgb`), scoped to `.gbdr`, so light and dark themes both follow Obsidian. `esbuild.config.mjs` concatenates `styles.css`, diff2html's CSS and `src/diff-review.css` into the built `styles.css`.
 
+- **Syntax highlighting.** `diff-highlight.ts` runs highlight.js over each side of a hunk as one block, so a docstring or block comment spanning lines stays one string, and splits the result into tokens per line. A hunk that starts inside a docstring would run on to its end, so one that ends inside a string or comment highlights line by line instead. `.vue` hunks without markup are taken as script. `diff-review-render.ts` wraps the text nodes diff2html produced, inside its word-diff `<ins>`/`<del>`, and caches the colored markup per patch. `.hljs-*` classes map to Obsidian's `--code-*` variables, with no highlight.js theme. Only the languages in these repos are registered; others, and hunks over 200,000 characters, stay plain.
+- **Layout.** Line numbers are a real table column rather than diff2html's absolute overlay, so long lines wrap instead of scrolling each hunk sideways. Paths dim their directory, files total their `+`/`−`, and a hunk bar shows the enclosing scope git named as code.
+
 **Write safety.** Check-offs write only `review-state.json`. Thread and reply writes use the separate annotation store below.
 - Each check-off is queued on one promise chain per view. Each queued write re-reads the file from disk, applies the pure mutation (core `updateReviewState`) and writes the result. A concurrent writer's check-offs on other keys survive, unless its write lands between the read and the write (milliseconds).
 - The first write creates the `differential-review/` dir.
 - Vault `create`, `modify`, `delete` and `rename` events under `<record>/differential-review/` reload the view, debounced. This picks up new agent snapshots and edits by other writers. The view ignores modify events whose content equals its own last write.
 - A failed write shows a Notice and reloads from disk.
 
-**Build.** diff2html 3.4.56 is pinned and bundled; it pulls its own `diff@8` alongside core's `diff@9.0.0`. The bundle grows from about 41 KB to about 210 KB. Core's `import "diff"` resolves from `differential-review-lib/node_modules`, so `npm install` must run there before `make plugin-build` or `make plugin-test`. Render tests use happy-dom 20.14.6.
+**Build.** diff2html 3.4.56 is pinned and bundled; it pulls its own `diff@8` alongside core's `diff@9.0.0`. The bundle grows from about 41 KB to about 210 KB; highlight.js (pinned, with eleven languages) took the plugin's `main.js` from about 300 KB to about 470 KB. Core's `import "diff"` resolves from `differential-review-lib/node_modules`, so `npm install` must run there before `make plugin-build` or `make plugin-test`. Render tests use happy-dom 20.14.6.
 
 **Remaining gaps.**
 - There is no snapshot picker. Older snapshots can only serve as baselines; the view never shows them as the reviewed target.
@@ -213,6 +219,18 @@ created …/differential-review/snapshots/20261026T053715Z-hardening-b88e76ad2ca
 - Writes aren't atomic: `adapter.write` has no temp-file rename. There is no compare-and-swap; John judged re-reading enough.
 - The repository view re-renders only on markdown changes, so a branch's git-compare icon appears at its next re-render after the first snapshot lands.
 - It hasn't been exercised inside a live Obsidian yet, and theme tokens were checked only with stand-in values. DOM tests run under happy-dom, plus a static harness rendered in Chromium in light and dark.
+
+## Herdr app view
+
+`herdr-app-mod/src/review.ts` is the `gb-review` mod, a tab opened from 🔎 Review on a record's `gb-record` page. It shows the same snapshots, check-offs and threads as Obsidian, and writes the same files.
+
+**Where the work runs.** Herdr's script runtime stops a call after about 500 ms, and parsing a 763 KB diff alone exceeds that. The tab therefore doesn't run the core. `herdr-plugin/src/review-host.ts`, behind the plugin CLI's `review <request JSON>`, loads the snapshots in Node, applies any check-off or comment through the same core and `diff-review-model.ts` as Obsidian, and replies with just what the tab draws (`review-types.ts`). `compare_runs`, the largest record, answers in about 0.25 s with 2.3 MB; `exec`'s 8 MiB output limit is the ceiling. The command isn't a native host request, so the Chrome extension gets no way to write check-offs.
+
+**Layout.** A virtual list's rows can't have click handlers of their own, only one per row through `on_item_click`, so the page follows the app's `changes` mod rather than Obsidian's nested sections: threads, files and commits on the left, the selected one's diff on the right. A hunk's bar checks it off, and a code line starts a comment; another line in the same hunk and side extends the range, where Obsidian uses Shift-click.
+
+**Highlighting** runs in the tab: code draws plain, then one run of lines is colored per timer tick (`highlightLoop`) so each stays inside the time limit. A run over 40,000 characters stays plain. Tokens map to `theme()`'s ANSI colors through `syntaxGroup`.
+
+**Gaps against Obsidian.** No word-level diff highlighting within a line, code can't be selected and copied, a long line scrolls rather than wraps, threads don't show when a record has no snapshots, and the baseline and "Hide reviewed" aren't saved with the tab.
 
 ## Persistent diff comments
 
@@ -235,7 +253,7 @@ Verification covers source ranges, moved/changed/missing code, ambiguous repeats
 - **Reworded commit messages keep their sign-off.** Patch-id behavior is fine.
 - **Generic flows aren't wired.**
 - **"Hide reviewed" on by default** is fine.
-- **Chrome is tabled**, including the 1 MB native-messaging cap (chunked reads vs. host-side derivation vs. dropping per-commit diffs).
+- **Chrome is tabled** (the Herdr app's reply is built host-side, which is one of the options below), including the 1 MB native-messaging cap (chunked reads vs. host-side derivation vs. dropping per-commit diffs).
 - Unwired Recover / Parking paths and the unbounded similarity memo in `match.ts` are fine for now.
 
 ## Open questions for John

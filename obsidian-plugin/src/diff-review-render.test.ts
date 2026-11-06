@@ -12,7 +12,8 @@ import {
 	signOffCommit,
 	type Snapshot,
 } from "../../differential-review-lib/src/core";
-import { handleReviewKey, newReviewUi, type ReviewActions, renderReview, summaryText } from "./diff-review-render";
+import { summaryText } from "./diff-review-model";
+import { handleReviewKey, newReviewUi, type ReviewActions, renderReview } from "./diff-review-render";
 
 // happy-dom replaces URL, so resolve the fixture dir as a path.
 const DIR = join(fileURLToPath(import.meta.url), "../../../differential-review-lib/src/core/fixtures/view-fixtures");
@@ -76,6 +77,33 @@ describe("renderReview", () => {
 
 		hunks[0].querySelector<HTMLInputElement>(".gbdr-check")!.click();
 		expect(act.toggleHunk).toHaveBeenCalledWith(expect.objectContaining({ path: "app.py" }), expect.objectContaining({ state: "changed" }));
+	});
+
+	it("colors code without losing word-diff marks, line-number buttons or text", () => {
+		const view = buildReviewView([impl, hard], reviewAll(impl), { hideReviewed: true })!;
+		const ui = newReviewUi();
+		ui.expanded.add("file:app.py");
+		const root = mount();
+		renderReview(root, view, ui, { ...actions(), annotations: { createThread: vi.fn(), reply: vi.fn(), resolve: vi.fn(), refresh: vi.fn() } });
+		const table = root.querySelector(".gbdr-hunk .d2h-diff-table")!;
+		expect(table.querySelector(".hljs-built_in")!.textContent).toBe("print");
+		const changed = [...table.querySelectorAll(".d2h-code-line-ctn")].find((line) => line.querySelector("ins, del"))!;
+		expect(changed.querySelector("ins span[class^=hljs-], del span[class^=hljs-]")).not.toBeNull();
+		expect(changed.querySelector("span[class^=hljs-] ins, span[class^=hljs-] del")).toBeNull();
+		expect(table.textContent).toContain("print(greeting.upper())");
+		expect(table.querySelector(".gbdr-comment-line")).not.toBeNull();
+
+		const cached = [...ui.htmlCache.values()].join("");
+		expect(cached).toContain("hljs-built_in");
+	});
+
+	it("dims the directory and totals a file's changes", () => {
+		const view = buildReviewView([impl], null)!;
+		const root = mount();
+		renderReview(root, view, newReviewUi(false), actions());
+		const summary = [...root.querySelectorAll<HTMLElement>(".gbdr-section > summary")].find((s) => s.dataset.key === "file:app.py")!;
+		expect(summary.querySelector(".gbdr-name")!.textContent).toBe("app.py");
+		expect(summary.querySelector(".gbdr-added")!.textContent).toMatch(/^\+\d+$/);
 	});
 
 	it("shows only differing hunks for a changed commit", () => {

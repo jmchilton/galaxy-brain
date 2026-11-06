@@ -48,6 +48,8 @@ Superseded copies, numbered by round. Don't edit.
 - `FileTree`: first sentence of each child's resolved section as a hover title (optional `hint` prop; project pages pass none).
 - `make site-build` smoke: a Galaxy branch record shows `index.md`, `pr_description.md`, and `subagents/` help; a Pulsar review shows its repository-specific `index.md` help.
 
+- Record landing pages use the same resolver: `recordFileLinks()` turns a record's files into links, documented ones in section order with first-sentence hints. The site's record roots, Obsidian's `index.md` strip and the Herdr `gb-record` tab all render it; the plugins add matching launchers.
+
 ## F3 — Seed docs
 
 - `_defaults/{branches,issues,reviews}/FILE_DOCS.md` from the "Contents" sections of `vault/agents/_shared/REPOSITORY_{BRANCHES,ISSUES,REVIEWS}.md`. Review names (`review.md`, `review-*.md`, `draft-review.md`) are shared by Galaxy and Pulsar, so they live in the defaults rather than per-repository files.

@@ -19,7 +19,7 @@
 	--d2h-del-border-color: rgba(var(--color-red-rgb), 0.4);
 	--d2h-del-highlight-bg-color: rgba(var(--color-red-rgb), 0.35);
 	--d2h-del-label-color: var(--color-red);
-	--d2h-change-del-color: rgba(var(--color-yellow-rgb), 0.15);
+	--d2h-change-del-color: rgba(var(--color-red-rgb), 0.12);
 	--d2h-change-ins-color: rgba(var(--color-green-rgb), 0.2);
 	--d2h-info-bg-color: rgba(var(--color-blue-rgb), 0.08);
 	--d2h-info-border-color: rgba(var(--color-blue-rgb), 0.3);
@@ -31,15 +31,33 @@
 
 .gbdr .d2h-wrapper { color: var(--text-normal); }
 .gbdr .d2h-file-header { display: none; }
-/* diff2html's line numbers are position: absolute; anchor them inside the scrolling view, not Obsidian's leaf. */
-.gbdr .d2h-file-wrapper { position: relative; margin-bottom: 0; border-radius: 0; border-width: 1px 0 0; }
-.gbdr .d2h-diff-table { font-family: var(--font-monospace); font-size: var(--code-size); }
-.gbdr .d2h-code-linenumber { background-color: var(--background-primary); }
+.gbdr .d2h-file-wrapper { margin-bottom: 0; border-radius: 0; border-width: 0; }
+.gbdr .d2h-diff-table { font-family: var(--font-monospace); font-size: var(--code-size); line-height: 1.45; }
+/* Line numbers as a real column instead of diff2html's absolute overlay, so long lines can wrap beside them. */
+.gbdr .d2h-code-linenumber { position: static; display: table-cell; direction: ltr; width: 1%; white-space: nowrap; vertical-align: top; padding: 0 var(--size-4-2) 0 var(--size-4-1); color: var(--text-faint); border: 0; background-color: transparent; user-select: none; }
+.gbdr .d2h-code-linenumber .line-num1, .gbdr .d2h-code-linenumber .line-num2 { display: inline-block; float: none; width: 3.2em; text-align: right; padding: 0; }
+.gbdr .d2h-code-line { display: block; width: auto; padding: 0 var(--size-4-2); white-space: normal; }
+.gbdr .d2h-code-line-prefix { display: inline-block; width: 1.2em; color: var(--text-faint); user-select: none; }
+.gbdr .d2h-code-line-ctn { display: inline; width: auto; white-space: pre-wrap; overflow-wrap: anywhere; }
+.gbdr .d2h-code-line-ctn ins, .gbdr .d2h-code-line-ctn del { display: inline; border-radius: 2px; }
+/* Token colors wash out on a light theme's word-diff background. */
+.theme-light .gbdr .d2h-code-line-ctn :is(ins, del) span { color: inherit; font-style: normal; }
+/* Syntax colors follow the theme's code colors. */
+.gbdr .hljs-keyword, .gbdr .hljs-doctag, .gbdr .hljs-selector-tag { color: var(--code-keyword); }
+.gbdr .hljs-string, .gbdr .hljs-regexp, .gbdr .hljs-symbol, .gbdr .hljs-link, .gbdr .hljs-code { color: var(--code-string); }
+.gbdr .hljs-comment, .gbdr .hljs-quote { color: var(--code-comment); font-style: italic; }
+.gbdr .hljs-title, .gbdr .hljs-section { color: var(--code-function); }
+.gbdr .hljs-built_in, .gbdr .hljs-type, .gbdr .hljs-selector-class, .gbdr .hljs-selector-id { color: var(--code-important); }
+.gbdr .hljs-number, .gbdr .hljs-literal { color: var(--code-value); }
+.gbdr .hljs-name, .gbdr .hljs-tag { color: var(--code-tag); }
+.gbdr .hljs-attr, .gbdr .hljs-attribute, .gbdr .hljs-property, .gbdr .hljs-variable, .gbdr .hljs-params { color: var(--code-property); }
+.gbdr .hljs-meta, .gbdr .hljs-bullet { color: var(--code-comment); }
 /* The hunk bar already shows the @@ header. */
 .gbdr-hunk-body > .gbdr-diff tr:has(> td.d2h-info) { display: none; }
 
 .gbdr-header { position: sticky; top: calc(-1 * var(--size-4-4)); z-index: 2; background: var(--background-primary); padding-bottom: var(--size-4-2); border-bottom: 1px solid var(--background-modifier-border); margin-bottom: var(--size-4-2); }
-.gbdr-header h2 { margin: 0 0 var(--size-4-1); }
+.gbdr-header h2 { margin: 0 0 var(--size-4-1); font-size: var(--h4-size, 1.15em); }
+.gbdr h3 { margin: var(--size-4-3) 0 var(--size-4-2); font-size: var(--font-ui-small); text-transform: uppercase; letter-spacing: 0.05em; color: var(--text-muted); }
 .gbdr-meta, .gbdr-caption, .gbdr-hidden, .gbdr-keys, .gbdr-stat { color: var(--text-muted); font-size: var(--font-ui-smaller); }
 .gbdr-progress, .gbdr-controls { display: flex; flex-wrap: wrap; align-items: center; gap: var(--size-4-3); margin-top: var(--size-4-2); font-size: var(--font-ui-small); }
 .gbdr-progress-item { display: inline-flex; align-items: center; gap: var(--size-4-1); }
@@ -62,13 +80,21 @@
 .gbdr-section > summary.gbdr-state-reviewed { border-left: 3px solid var(--color-green); opacity: 0.75; }
 .gbdr-section-body { padding: 0 var(--size-4-2) var(--size-4-2); }
 .gbdr-path { font-family: var(--font-monospace); font-size: var(--font-ui-small); overflow-wrap: anywhere; }
+.gbdr-dir { color: var(--text-muted); }
+.gbdr-name { font-weight: var(--font-semibold, 600); }
+.gbdr-added { color: var(--color-green); }
+.gbdr-removed { color: var(--color-red); }
+.gbdr-stat { display: inline-flex; gap: var(--size-4-1); font-family: var(--font-monospace); }
+.gbdr-section > summary .gbdr-stat { margin-left: auto; }
 .gbdr-sha { color: var(--text-muted); }
 .gbdr-check { margin: 0; }
 
 .gbdr-hunk { margin-top: var(--size-4-2); border: 1px solid var(--background-modifier-border); border-radius: 4px; overflow: hidden; }
 .gbdr-hunk-bar { display: flex; align-items: center; gap: var(--size-4-2); flex-wrap: wrap; padding: 2px var(--size-4-2); background: var(--background-secondary); }
 .gbdr-hunk.gbdr-state-reviewed .gbdr-hunk-body { opacity: 0.6; }
-.gbdr-hunk-header { font-size: var(--font-ui-smaller); color: var(--text-muted); background: none; overflow-wrap: anywhere; }
+.gbdr-hunk-header { font-size: var(--font-ui-smaller); color: var(--text-faint); background: none; overflow-wrap: anywhere; }
+.gbdr-hunk-context { color: var(--text-normal); }
+.gbdr-hunk-bar .gbdr-stat { margin-left: auto; }
 .gbdr-nav:focus-visible, .gbdr-nav:focus { outline: 2px solid var(--interactive-accent); outline-offset: -2px; }
 .gbdr-link { font-size: var(--font-ui-smaller); padding: 0 6px; height: auto; }
 .gbdr-interdiff { border-bottom: 2px dashed var(--color-orange); padding-bottom: var(--size-4-1); }
@@ -79,7 +105,7 @@
 .gbdr-empty { color: var(--text-muted); }
 
 /* Persistent review conversations. */
-.gbdr .gbdr-thread-toolbar, .gbdr .gbdr-thread-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 0.65rem; margin: 0.75rem 0; }
+.gbdr .gbdr-thread-toolbar, .gbdr .gbdr-thread-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 0.65rem; margin: 0.5rem 0; font-size: var(--font-ui-small); }
 .gbdr .gbdr-thread-index { display: flex; flex-direction: column; align-items: flex-start; gap: 0.3rem; margin-bottom: 1rem; }
 .gbdr .gbdr-thread-link { max-width: 100%; height: auto; text-align: left; white-space: normal; }
 .gbdr .gbdr-comment-line { all: unset; cursor: pointer; color: var(--text-muted); display: block; width: 100%; text-align: right; }

@@ -12,6 +12,7 @@ import { host } from "./host";
 import { mergePrompts, parsePrompts, quickEmoji, type SuggestedPrompt } from "./prompts";
 import { machineIcon } from "./sidebar";
 import { removeListedTask } from "./note-edits";
+import { openRecordTab } from "./record-tab";
 
 const MOD = "gb-pane";
 const ACTIONS_CLI = `${__GB_ROOT__}/herdr-plugin/bin/run.sh`;
@@ -297,6 +298,10 @@ export default class GbPane extends View {
 								.items_center()
 								.child(div().flex_1().truncate().font_medium().child(record.title))
 								.child(div().flex_none().text_size(11).text_color(t.dim).child(`${record.kind} · ${record.status}`))
+								.child(textButton(t, `gb-rec-p-${i}`, "Page", false, () => {
+									close();
+									openRecordTab(ref);
+								}))
 								.when(Boolean(obsidian), (el: El) =>
 									el.child(textButton(t, `gb-rec-o-${i}`, "Obsidian", false, (cx) => {
 										close();

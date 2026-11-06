@@ -4,7 +4,7 @@ Agent branches keep moving after John first reads them: hardening adds commits, 
 
 ## Overview
 
-Agents take a snapshot of the branch after each phase. John reads the latest snapshot in Obsidian and checks off hunks, files or commits. The next snapshot is matched against everything already checked off, so a clean rebase leaves nothing to read and an amended commit shows only its differing hunks.
+Agents take a snapshot of the branch after each phase. John reads the latest snapshot in Obsidian or the Herdr app and checks off hunks, files or commits. The next snapshot is matched against everything already checked off, so a clean rebase leaves nothing to read and an amended commit shows only its differing hunks.
 
 ```mermaid
 flowchart LR
@@ -13,7 +13,7 @@ flowchart LR
     I["implementation"] --> H["hardening"] --> P["polishing"] --> R["revision<br/>rebase, requested changes"]
   end
   Agents -->|"snapshot CLI"| S[("snapshots/<br/>immutable, one per head")]
-  S --> V["Obsidian review view"]
+  S --> V["Obsidian or Herdr review view"]
   V --> J{{"John checks off<br/>hunks, files, commits"}}
   J --> RS[("review-state.json")]
   RS --> V
@@ -23,7 +23,8 @@ flowchart LR
 | --- | --- |
 | [Snapshot step](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/PROCESS_DIFFERENTIAL_REVIEW_SNAPSHOT.md) | Agents run it at the end of implementation, hardening, polishing and every later revision. Review agents run it at the start of each round on someone else's PR. |
 | [`differential-review`](https://github.com/jmchilton/differential-review) | A standalone package: the snapshot CLI and a pure TypeScript library for diff parsing, hunk fingerprints, commit and hunk matching, and review-state derivation. |
-| [Obsidian view](https://github.com/jmchilton/galaxy-brain/blob/main/obsidian-plugin/src/diff-review-view.ts) | The only thing that writes review state. Opened from the git-compare icon on a branch or review record. |
+| [Obsidian view](https://github.com/jmchilton/galaxy-brain/blob/main/obsidian-plugin/src/diff-review-view.ts) | Reads the diffs and writes review state. Opened from the git-compare icon on a branch or review record. |
+| [Herdr app tab](https://github.com/jmchilton/galaxy-brain/blob/main/herdr-app-mod/src/review.ts) | The same review and review state, without leaving Herdr. Opened from 🔎 Review on a record's page. |
 
 ## What a snapshot holds
 
@@ -50,9 +51,9 @@ Every item is one of `reviewed`, `new` or `changed`. The view hides reviewed ite
 
 ## Comments and replies
 
-Click an old or new line number in Obsidian to write a comment. Shift-click another line in the same hunk to select a range. The comment keeps the original snapshot, selected code and a little surrounding text. Open comments stay accessible when reviewed hunks or unchanged baseline hunks would otherwise be hidden. Use **Open threads only**, the thread links, or `[` / `]` to navigate them.
+Click an old or new line number in Obsidian to write a comment. Shift-click another line in the same hunk to select a range. In the Herdr app, click a code line, then click another in the same hunk for a range. The comment keeps the original snapshot, selected code and a little surrounding text. Open comments stay accessible when reviewed hunks or unchanged baseline hunks would otherwise be hidden. Use **Open threads only**, the thread links, or `[` / `]` to navigate them.
 
-Select **Address diff comments** on a Galaxy branch or review record to hand the open threads to an agent. The agent can read and reply through the CLI while Obsidian is closed. Replies can name the snapshot containing the change. John inspects that revision and selects **Resolve**, or **Reopen** for another round. Resolving a thread and checking off code are separate actions.
+Select **Address diff comments** on a Galaxy branch or review record to hand the open threads to an agent. The agent can read and reply through the CLI with neither app open. Replies can name the snapshot containing the change. John inspects that revision and selects **Resolve**, or **Reopen** for another round. Resolving a thread and checking off code are separate actions.
 
 When the quoted code moves, the thread follows an unambiguous text match. Changed or ambiguous code keeps its original excerpt and a placement warning. Missing code never resolves a request automatically. Comments and replies remain readable even when their original snapshots are unavailable.
 

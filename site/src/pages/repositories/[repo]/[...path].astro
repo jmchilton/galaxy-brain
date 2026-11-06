@@ -1,4 +1,5 @@
 ---
+import fs from 'node:fs';
 import path from 'node:path';
 import { getCollection, render } from 'astro:content';
 import type { CollectionEntry } from 'astro:content';
@@ -13,9 +14,12 @@ import {
   statusLabel,
 } from '../../../lib/repository-records';
 import type { RepositoryPage } from '../../../lib/repository-records';
-import { fileDocSummary, loadFileDocs, recordRelPath, resolveFileDoc } from '../../../lib/file-docs';
+import { fileDocSummary, recordFileLabel, recordFileLinks, recordRelPath, resolveFileDoc } from '../../../lib/file-docs';
+import { loadFileDocs } from '../../../lib/file-docs-load';
+import { originalRelPath } from '../../../lib/project-paths';
 import { findRecordCollisions, vaultPathToSlug } from '../../../lib/vault-urls';
 import { marked } from 'marked';
+import { isAgentBlocker, recordIdLabel, recordLinks } from '../../../../../obsidian-plugin/src/blockers';
 
 export async function getStaticPaths() {
   const collisions = findRecordCollisions(path.resolve('../vault'));
@@ -49,6 +53,15 @@ const isFolder = children !== undefined;
 const fileDocs = record ? loadFileDocs(path.resolve('../vault'), record.repo, record.kind) : [];
 const fileDoc = record && resolveFileDoc(fileDocs, recordRelPath(record.originalDir, originalPath, isFolder));
 const fileDocHtml = fileDoc && marked.parse(fileDoc.section.body, { async: false }) as string;
+// Undocumented files stay in the tree below.
+const fileLinks = isRecordRoot
+  ? recordFileLinks((children ?? []).map(child => `${originalRelPath(child).slice(record.originalDir.length + 1)}.md`), fileDocs).documented
+  : [];
+// Parsed frontmatter isn't in the shape recordLinks reads, so read the note; agents/ isn't published, so agent blockers have no link.
+const relatedLinks = isRecordRoot && entry?.filePath ? recordLinks(fs.readFileSync(entry.filePath, 'utf-8'), record.repo) : [];
+const relatedHref = (link: (typeof relatedLinks)[number]) =>
+  isAgentBlocker(link.target) ? undefined : `${base}/repositories/${recordIdLabel(link.target)}/`;
+const fileLinkHref = (rel: string) => `${base}/${vaultPathToSlug(`${record!.originalDir}/${rel.replace(/\/$/, '')}`)}/`;
 const fileDocHint = (childPath: string, childIsFolder: boolean) => {
   const doc = record && resolveFileDoc(fileDocs, recordRelPath(record.originalDir, childPath, childIsFolder));
   return doc ? fileDocSummary(doc.section.body) : undefined;
@@ -62,6 +75,27 @@ const fileDocHint = (childPath: string, childIsFolder: boolean) => {
       <span class={statusBadgeClass(record.status)}>{statusLabel(record.status)}</span>
       <span class="ml-2">{repo.name} · {KIND_LABELS[record.kind].toLowerCase()} · {record.name}</span>
     </p>
+  )}
+
+  {relatedLinks.length > 0 && (
+    <nav aria-label="Related records" class="mb-2 flex flex-wrap gap-1.5 text-sm">
+      {relatedLinks.map(link => {
+        const href = relatedHref(link);
+        return href
+          ? <a href={href} title={link.label} class="rounded border border-(--color-border) px-2 py-0.5 text-(--color-link) no-underline hover:bg-(--color-surface-hover)">{link.text}</a>
+          : <span title={link.label} class="rounded border border-(--color-border) px-2 py-0.5 text-(--color-text-secondary)">{link.text}</span>;
+      })}
+    </nav>
+  )}
+
+  {fileLinks.length > 0 && (
+    <nav aria-label="Record files" class="mb-4 flex flex-wrap gap-1.5 text-sm">
+      {fileLinks.map(link => (
+        <a href={fileLinkHref(link.path)} title={link.hint} class="rounded border border-(--color-border) px-2 py-0.5 text-(--color-link) no-underline hover:bg-(--color-surface-hover)">
+          {recordFileLabel(link)}
+        </a>
+      ))}
+    </nav>
   )}
 
   {fileDoc && (

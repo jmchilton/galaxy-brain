@@ -1,5 +1,6 @@
 import {
 	App,
+	debounce,
 	FileSystemAdapter,
 	FuzzySuggestModal,
 	type MarkdownPostProcessorContext,
@@ -33,6 +34,7 @@ import { cracksPath, parseMissedPrs } from "./missed-prs";
 import { renderTaskCards } from "./task-cards";
 import { parseTasks, recordIndexPath, refinementPrompt, replaceBlockBody, type Task, type TaskRecord } from "./task-list";
 import { ALL_REPOS, REPOSITORY_VIEW, RepositoryView } from "./repository-view";
+import { renderRecordStrip } from "./record-strip";
 
 const PROFILES_PATH = "agents/_shared/AGENT_PROFILES.yml";
 const ENVIRONMENTS_PATH = "agents/_shared/ENVIRONMENTS.yml";
@@ -45,6 +47,7 @@ const CLI_BIN_DIRS = ["/usr/local/bin", "/opt/homebrew/bin", "/Applications/Visu
 export default class GalaxyBrainPlugin extends Plugin {
 	private recordActions = new WeakMap<MarkdownView, { kind: string; actions: HTMLElement[] }>();
 	private agentActions = new WeakMap<MarkdownView, { agent: string; actions: HTMLElement[] }>();
+	private recordStrips = new WeakMap<MarkdownView, { path: string; el: HTMLElement }>();
 
 	async onload() {
 		registerDifferentialReview(this);
@@ -94,6 +97,7 @@ export default class GalaxyBrainPlugin extends Plugin {
 		this.registerMarkdownCodeBlockProcessor("gb-tasks", (source, el, ctx) => this.renderTasks(source, el, ctx));
 		this.registerMarkdownCodeBlockProcessor("gb-missed-prs", (source, el, ctx) => this.renderMissedPrs(source, el, ctx.sourcePath));
 		this.registerMarkdownCodeBlockProcessor("gb-missed-prs-feed", (source, el, ctx) => this.renderMissedPrsFeed(source, el, ctx));
+		this.registerRecordStrips();
 
 		if (!Platform.isDesktopApp) return;
 
@@ -125,6 +129,69 @@ export default class GalaxyBrainPlugin extends Plugin {
 		} catch (error) {
 			new Notice(`Could not copy ${file.name}: ${error}`);
 		}
+	}
+
+	/** Keeps the landing strips on open record index.md notes current. */
+	private registerRecordStrips() {
+		const refresh = () => this.refreshRecordStrips();
+		this.registerEvent(this.app.workspace.on("file-open", refresh));
+		this.registerEvent(this.app.workspace.on("layout-change", refresh));
+		this.register(() => {
+			for (const leaf of this.app.workspace.getLeavesOfType("markdown")) {
+				if (leaf.view instanceof MarkdownView) this.recordStrips.get(leaf.view)?.el.remove();
+			}
+		});
+		const redraw = debounce(() => this.refreshRecordStrips(true), 300, true);
+		const onFile = ({ path }: { path: string }) => {
+			if (path.startsWith("repositories/")) redraw();
+		};
+		// Only files that decide what a strip shows.
+		const onModify = ({ path }: { path: string }) => {
+			if (path.startsWith("repositories/") && /\/(FILE_DOCS|LAUNCHERS|MY_[A-Z]+|index)\.md$/.test(path)) redraw();
+		};
+		this.app.workspace.onLayoutReady(() => {
+			refresh();
+			this.registerEvent(this.app.vault.on("create", onFile));
+			this.registerEvent(this.app.vault.on("delete", onFile));
+			this.registerEvent(this.app.vault.on("rename", onFile));
+			this.registerEvent(this.app.vault.on("modify", onModify));
+		});
+	}
+
+	/** A record's index.md gets its landing strip above the note; redraw refills strips already showing. */
+	private refreshRecordStrips(redraw = false) {
+		for (const leaf of this.app.workspace.getLeavesOfType("markdown")) {
+			const view = leaf.view;
+			if (!(view instanceof MarkdownView)) continue;
+			const path = view.file?.path;
+			const record = path ? recordFromPath(path) : null;
+			const landing = record && path === `${record.dir}/index.md` ? path : null;
+			const existing = this.recordStrips.get(view);
+			if (existing && existing.path === landing) {
+				if (redraw && record) void this.fillRecordStrip(existing.el, record);
+				continue;
+			}
+			existing?.el.remove();
+			this.recordStrips.delete(view);
+			if (!record || !landing) continue;
+			const el = createDiv({ cls: "gb-record-strip" });
+			view.contentEl.before(el);
+			this.recordStrips.set(view, { path: landing, el });
+			void this.fillRecordStrip(el, record);
+		}
+	}
+
+	private async fillRecordStrip(el: HTMLElement, record: RecordRef) {
+		const launchers = Platform.isDesktopApp ? await this.launchersFor(record) : [];
+		// Filled off-screen and swapped in, so edits to index.md don't make it flicker.
+		const filled = createDiv();
+		await renderRecordStrip(
+			this.app,
+			filled,
+			record,
+			launchers.map((launcher) => ({ label: launcher.label, tooltip: launcher.command ?? launcher.prompt, run: () => void this.confirmLaunch(launcher, record) })),
+		);
+		el.replaceChildren(...Array.from(filled.childNodes));
 	}
 
 	/** Code, GitHub (not issue incubator), agent, (branches/reviews) differential review and (branches) compare icons in the header of notes inside a repository record. */

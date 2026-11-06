@@ -5,12 +5,15 @@ import { existsSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 import { parse } from "yaml";
 import { type AgentCount, agentCounts, agentRoutines, type Routine, tasksPath } from "../../obsidian-plugin/src/agent-routines";
-import { type Blocker, blockersPath } from "../../obsidian-plugin/src/blockers";
+import { type Blocker, blockersPath, isAgentBlocker, recordIdLabel, recordLinks } from "../../obsidian-plugin/src/blockers";
 import { agentLaunchersPath, fillTemplate, type Launcher, launchersFor, type RecordRef } from "../../obsidian-plugin/src/launchers";
 import { defaultEnvironment, type Environment, launchArgv } from "../../obsidian-plugin/src/environments";
 import { type CrackDay, crackFiles, cracksPath, parseCrackDay, unreviewedCount } from "../../obsidian-plugin/src/missed-prs";
 import { defaultProfile, type Profile, profileArgs } from "../../obsidian-plugin/src/profiles";
 import { type ListedTask, localDay, parseAgentTasks } from "../../obsidian-plugin/src/task-list";
+import { type RecordFileLinks, recordFileLinks } from "../../site/src/lib/file-docs";
+import { loadFileDocs } from "../../site/src/lib/file-docs-load";
+import { isReviewableRecordKind, recordReviewDir } from "../../site/src/lib/records";
 import { FORK_OWNER } from "../../site/src/lib/repository-tabs";
 import { branchRecordsForUrl, type GithubRef, parseBranchUrl, parseGithubRef, recordsForRef } from "./github-ref";
 import { openLinks } from "./open-links";
@@ -19,6 +22,8 @@ import { loadEnvironments, loadLaunchers, loadProfiles, loadRecords, readVault, 
 export type Request =
 	| { type: "lookup"; url?: string }
 	| { type: "records"; refs: string[] }
+	/** A `<repo>/<kind>/<name>` record's landing page. */
+	| { type: "recordPage"; ref: string }
 	/** `url` narrows `record` (a key) to that page's records; without it, any record in the vault. */
 	| { type: "launch"; url?: string; record: string; launcher: number; profile: string; environment?: string; prompt: string }
 	/** Blank and named for its dir unless given a prompt and name. */
@@ -145,7 +150,7 @@ export function agentsOverview(vaultRoot: string, today = localDay()): AgentsOve
 			...(error ? { error } : {}),
 		};
 	});
-	return { agents, profiles, environments: loadEnvironments(vaultRoot).map(({ name, icon }) => ({ name, ...(icon ? { icon } : {}) })) };
+	return { agents, profiles, environments: environmentChoices(vaultRoot) };
 }
 
 function vaultRecords(vaultRoot: string) {
@@ -202,6 +207,62 @@ export function recordsByRef(vaultRoot: string, refs: string[]): Array<{ ref: st
 		const record = vault.records.find((r) => `${r.repo}/${r.kind}/${r.name}` === ref);
 		return { ref, record: record ? lookupRecord(vaultRoot, vault, launchers, profiles, record) : null };
 	});
+}
+
+/** A frontmatter reference: `ref` for a record, `condition` and `obsidian` for an agent blocker. */
+export interface RelatedRecord {
+	text: string;
+	label: string;
+	ref?: string;
+	condition?: string;
+	obsidian?: string;
+}
+
+export interface RecordPage {
+	/** Its `key` is its vault-relative directory. */
+	record: LookupRecord;
+	related: RelatedRecord[];
+	links: RecordFileLinks;
+	/** It has a differential review to open. */
+	review: boolean;
+	/** The first is the default. */
+	profiles: Array<{ name: string }>;
+	environments: Array<{ name: string; icon?: string }>;
+}
+
+const environmentChoices = (vaultRoot: string) => loadEnvironments(vaultRoot).map(({ name, icon }) => ({ name, ...(icon ? { icon } : {}) }));
+
+function relatedRecords(vaultRoot: string, body: string, repo: string): RelatedRecord[] {
+	return recordLinks(body, repo).map(({ target, text, label }) => {
+		if (!isAgentBlocker(target)) return { text, label, ref: recordIdLabel(target) };
+		const dir = `${blockersPath(target.agentDir)}/${target.name}`;
+		return { text, label, condition: readVault(vaultRoot, `${dir}/condition.md`).trim(), obsidian: obsidianUrl(vaultRoot, `${dir}/index.md`) };
+	});
+}
+
+/** Null when the record isn't in this vault. */
+/** A reviewable record with snapshots or saved conversations. */
+function hasReview(vaultRoot: string, record: { kind: string; dir: string }): boolean {
+	if (!isReviewableRecordKind(record.kind)) return false;
+	const dir = join(vaultRoot, recordReviewDir(record.dir));
+	return existsSync(join(dir, "snapshots")) || existsSync(join(dir, "annotations"));
+}
+
+export function recordPage(vaultRoot: string, ref: string): RecordPage | null {
+	const vault = vaultRecords(vaultRoot);
+	const record = vault.records.find((r) => `${r.repo}/${r.kind}/${r.name}` === ref);
+	if (!record) return null;
+	const profiles = loadProfiles(vaultRoot);
+	const prefix = `${record.dir}/`;
+	const files = vault.files.filter((file) => file.path.startsWith(prefix)).map((file) => file.path.slice(prefix.length));
+	return {
+		record: lookupRecord(vaultRoot, vault, loadLaunchers(vaultRoot, vault.files), profiles, record),
+		related: relatedRecords(vaultRoot, vault.body(record), record.repo),
+		links: recordFileLinks(files, loadFileDocs(vaultRoot, record.repo, record.kind)),
+		review: hasReview(vaultRoot, record),
+		profiles: profiles.map(({ name }) => ({ name })),
+		environments: environmentChoices(vaultRoot),
+	};
 }
 
 export function lookup(vaultRoot: string, url?: string, headBranch?: HeadBranch): LookupResult {
@@ -262,6 +323,8 @@ export function handle(request: Request, deps: HostDeps): unknown {
 			return lookup(deps.vaultRoot, request.url, ghHeadBranch(deps.run));
 		case "records":
 			return recordsByRef(deps.vaultRoot, request.refs);
+		case "recordPage":
+			return recordPage(deps.vaultRoot, request.ref);
 		case "launch": {
 			const found = request.url ? recordsFor(deps.vaultRoot, request.url, ghHeadBranch(deps.run)) : vaultRecords(deps.vaultRoot);
 			const record = found?.records.find((r) => recordKey(r) === request.record);

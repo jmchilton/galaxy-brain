@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { recordFrontmatter } from "./record-frontmatter";
+import { recordFrontmatter, withoutFrontmatter } from "./record-frontmatter";
 
 describe("recordFrontmatter", () => {
 	it("reads scalar fields, unquoting and coercing pr to a number", () => {
@@ -30,5 +30,12 @@ describe("recordFrontmatter", () => {
 	it("is empty without leading frontmatter, and drops a non-numeric pr", () => {
 		expect(recordFrontmatter("# B\n---\npr: 3\n---\n")).toEqual({});
 		expect(recordFrontmatter("---\npr: soon\n---\n")).toEqual({});
+	});
+});
+
+describe("withoutFrontmatter", () => {
+	it("drops a leading block only", () => {
+		expect(withoutFrontmatter("---\npr: 1\n---\n\n# Title\n\n---\nmore\n")).toBe("# Title\n\n---\nmore\n");
+		expect(withoutFrontmatter("# Title\n\n---\nx: 1\n---\n")).toBe("# Title\n\n---\nx: 1\n---\n");
 	});
 });

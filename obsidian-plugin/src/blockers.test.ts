@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { blockerFromPath, blockersPath, recordBlockers, recordIdLabel, recordIndexPath, recordRefs, relatedBranches } from "./blockers";
+import { blockerFromPath, blockersPath, recordBlockers, recordIdLabel, recordIndexPath, recordLinks, recordRefs, relatedBranches } from "./blockers";
 
 describe("blockersPath", () => {
 	it("is blockers/ in the agent dir", () => {
@@ -79,5 +79,31 @@ describe("recordIndexPath", () => {
 describe("recordIdLabel", () => {
 	it("is the frontmatter reference", () => {
 		expect(recordIdLabel({ repo: "galaxy", kind: "reviews", name: "24484" })).toBe("galaxy/reviews/24484");
+	});
+});
+
+describe("recordLinks", () => {
+	it("lists blockers, blocked and related records, then parent and child branches", () => {
+		const body = "---\nblockers: [gx_branches/wait, galaxy/reviews/1]\nblocking: galaxy/issues/2\nrelated_records: [foundry/issues/3]\nparent_branch: base\nchild_branches: [kid]\n---\n# T\n";
+		expect(recordLinks(body, "galaxy").map(({ text, label, icon }) => [text, label, icon])).toEqual([
+			["🔒 gx_branches/wait", "Blocked: gx_branches/wait", "lock"],
+			["🔒 galaxy/reviews/1", "Blocked by galaxy/reviews/1", "lock"],
+			["🚫 galaxy/issues/2", "Blocking galaxy/issues/2", "ban"],
+			["🔗 foundry/issues/3", "Related: foundry/issues/3", "link"],
+			["↑ base", "Parent branch: base", "arrow-up"],
+			["↓ kid", "Child branch: kid", "arrow-down"],
+		]);
+	});
+
+	it("targets the blocker or record each one names", () => {
+		const [agent, record, parent] = recordLinks("---\nblockers: [gx_branches/wait, galaxy/reviews/1]\nparent_branch: base\n---\n", "foundry");
+		expect(agent!.target).toEqual({ agentDir: "gx_branches", name: "wait" });
+		expect(record!.target).toEqual({ repo: "galaxy", kind: "reviews", name: "1" });
+		expect(parent!.target).toEqual({ repo: "foundry", kind: "branches", name: "base" });
+	});
+
+	it("is empty without those fields", () => {
+		expect(recordLinks("---\npr: 1\n---\n# T\n", "galaxy")).toEqual([]);
+		expect(recordLinks("# T\n", "galaxy")).toEqual([]);
 	});
 });

@@ -58,6 +58,32 @@ export function relatedBranches(body: string, repo: string): { parents: RecordId
 	return { parents: parent_branch ? [branch(parent_branch)] : [], children: child_branches.map(branch) };
 }
 
+/** One record frontmatter reference, as shown on a record's row or landing page. */
+export interface RecordLink {
+	target: BlockerRef | RecordId;
+	/** Emoji and name, for a chip. */
+	text: string;
+	/** What it means, for a tooltip. */
+	label: string;
+	/** Obsidian icon id. */
+	icon: string;
+}
+
+/** A record's blockers, the records it blocks, related records, then parent and child branches. */
+export function recordLinks(body: string, repo: string): RecordLink[] {
+	const { parents, children } = relatedBranches(body, repo);
+	return [
+		...recordBlockers(body).map((target) => {
+			const name = isAgentBlocker(target) ? `${target.agentDir}/${target.name}` : recordIdLabel(target);
+			return { target, text: `🔒 ${name}`, label: isAgentBlocker(target) ? `Blocked: ${name}` : `Blocked by ${name}`, icon: "lock" };
+		}),
+		...recordRefs(body, "blocking").map((target) => ({ target, text: `🚫 ${recordIdLabel(target)}`, label: `Blocking ${recordIdLabel(target)}`, icon: "ban" })),
+		...recordRefs(body, "related_records").map((target) => ({ target, text: `🔗 ${recordIdLabel(target)}`, label: `Related: ${recordIdLabel(target)}`, icon: "link" })),
+		...parents.map((target) => ({ target, text: `↑ ${target.name}`, label: `Parent branch: ${target.name}`, icon: "arrow-up" })),
+		...children.map((target) => ({ target, text: `↓ ${target.name}`, label: `Child branch: ${target.name}`, icon: "arrow-down" })),
+	];
+}
+
 /** The vault path of a referenced record's index.md, under whichever status it has. */
 export function recordIndexPath(paths: string[], { repo, kind, name }: RecordId): string | undefined {
 	return paths.find((path) => {

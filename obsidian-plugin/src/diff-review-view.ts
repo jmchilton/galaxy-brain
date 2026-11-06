@@ -3,30 +3,23 @@ import { type App, debounce, ItemView, Notice, type Plugin, type ViewStateResult
 import {
 	type Baseline,
 	annotationStore,
-	createReviewThread,
-	parseReviewReply,
-	setThreadResolved,
 	type AnnotationStore,
 	type ReviewAnnotations,
 	buildReviewView,
-	markFileReviewed,
-	markHunksReviewed,
-	revokeCommitSignoff,
 	reviewStatePath,
 	type ReviewState,
 	type ReviewStateStore,
 	reviewStateStore,
 	type ReviewView,
-	signOffCommit,
 	type Snapshot,
 	type SnapshotReader,
 	snapshotReader,
 	snapshotsDir,
-	unmarkHunks,
 	updateReviewState,
 } from "../../differential-review-lib/src/core";
 import { isReviewableRecordKind, recordReviewDir } from "../../site/src/lib/records";
-import { AUTO_EXPAND_LINES, focusedItem, handleReviewKey, newReviewUi, renderReview, restoreFocus, type ReviewUi, visibleLineCount } from "./diff-review-render";
+import { AUTO_EXPAND_LINES, refreshSnapshots, saveNewThread, saveReply, saveResolved, toggleCommitReview, toggleFileReview, toggleHunkReview, visibleLineCount } from "./diff-review-model";
+import { focusedItem, handleReviewKey, newReviewUi, renderReview, restoreFocus, type ReviewUi } from "./diff-review-render";
 import { renderThread, type AnnotationActions } from "./diff-review-threads";
 import { HUMAN_REVIEW_FILE, humanReviewStatus } from "./diff-review-status";
 import { vaultFileAdapter } from "./diff-review-storage";
@@ -169,11 +162,8 @@ export class DiffReviewView extends ItemView {
 		const { reader, store, annotationsStore, recordDir } = this;
 		if (!reader || !store || !annotationsStore || !recordDir) return;
 		const token = ++this.loadToken;
-		const snapshots = new Map(this.snapshots);
 		try {
-			const ids = await reader.listSnapshotIds();
-			for (const id of [...snapshots.keys()]) if (!ids.includes(id)) snapshots.delete(id);
-			for (const id of ids) if (!snapshots.has(id)) snapshots.set(id, await reader.readSnapshot(id));
+			const snapshots = await refreshSnapshots(reader, this.snapshots);
 			const reviewState = await store.readReviewState();
 			const annotations = await annotationsStore.read();
 			if (token !== this.loadToken || recordDir !== this.recordDir) return;
@@ -220,22 +210,9 @@ export class DiffReviewView extends ItemView {
 		} : null;
 		renderReview(root, this.view, this.ui, {
 			annotations: this.annotationActions(),
-			toggleHunk: (file, hunk) =>
-				this.mutate((state, snapshot, now) =>
-					hunk.state === "reviewed"
-						? unmarkHunks(state, [hunk.id, ...(hunk.reviewedAs ? [hunk.reviewedAs.hunkId] : [])], now)
-						: markHunksReviewed(state, snapshot, [hunk.id], now),
-				),
-			toggleFile: (file) =>
-				this.mutate((state, snapshot, now) =>
-					file.state === "reviewed"
-						? unmarkHunks(state, file.hunks.flatMap((h) => [h.id, ...(h.reviewedAs ? [h.reviewedAs.hunkId] : [])]), now)
-						: markFileReviewed(state, snapshot, file.path, now),
-				),
-			toggleCommit: (commit) =>
-				this.mutate((state, snapshot, now) =>
-					commit.state === "reviewed" && commit.signoff ? revokeCommitSignoff(state, commit.signoff.key, now) : signOffCommit(state, snapshot, commit.sha, now),
-				),
+			toggleHunk: (_file, hunk) => this.mutate((state, snapshot, now) => toggleHunkReview(state, snapshot, hunk, now)),
+			toggleFile: (file) => this.mutate((state, snapshot, now) => toggleFileReview(state, snapshot, file, now)),
+			toggleCommit: (commit) => this.mutate((state, snapshot, now) => toggleCommitReview(state, snapshot, commit, now)),
 			setBaseline: (baseline) => {
 				this.baseline = baseline;
 				this.app.workspace.requestSaveLayout();
@@ -254,23 +231,12 @@ export class DiffReviewView extends ItemView {
 
 	private annotationActions(): AnnotationActions {
 		return {
-			createThread: (origin, body) => this.writeAnnotation(async (store) => {
-				await store.writeThread(createReviewThread({ id: crypto.randomUUID(), origin, body, author: "John", createdAt: new Date().toISOString() }));
-			}),
+			createThread: (origin, body) => this.writeAnnotation((store) => saveNewThread(store, origin, body)),
 			reply: (threadId, body) => {
 				const snapshotId = this.view?.snapshot.id;
-				return this.writeAnnotation(async (store) => {
-					const annotations = await store.read();
-					if (!annotations.threads.some((t) => t.id === threadId)) throw new Error("This thread no longer exists; reload the review.");
-					await store.writeReply(parseReviewReply({ schemaVersion: 1, kind: "differential-review-reply", id: crypto.randomUUID(), threadId, body, author: "John", source: "human", createdAt: new Date().toISOString(), ...(snapshotId ? { snapshotId } : {}) }));
-				});
+				return this.writeAnnotation((store) => saveReply(store, threadId, body, snapshotId));
 			},
-			resolve: (threadId, resolved) => this.writeAnnotation(async (store) => {
-				const annotations = await store.read();
-				const thread = annotations.threads.find((t) => t.id === threadId);
-				if (!thread) throw new Error("This thread no longer exists; reload the review.");
-				await store.writeThread(setThreadResolved(thread, resolved, new Date().toISOString()));
-			}),
+			resolve: (threadId, resolved) => this.writeAnnotation((store) => saveResolved(store, threadId, resolved)),
 			refresh: () => { void this.reload(); },
 		};
 	}

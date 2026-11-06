@@ -1,11 +1,11 @@
 #!/bin/sh
-# Installs the built gb-pane, gb-agents and gb-board mods into the Herdr app, plus a `gb` layout:
+# Installs the built gb-pane, gb-agents, gb-board, gb-record and gb-review mods into the Herdr app, plus a `gb` layout:
 # `main` with gb-pane as its pane header and gb-agents as the sidebar's header and list, in place of the spaces and agents lists,
 # and no tab or status bar.
 set -eu
 home=${HERDR_APP_HOME:-$HOME/.config/herdr-app}
 here=$(cd "$(dirname "$0")" && pwd)
-for mod in gb-pane gb-agents gb-board; do
+for mod in gb-pane gb-agents gb-board gb-record gb-review; do
   mkdir -p "$home/mods/$mod"
   cp "$here/dist/$mod/main.js" "$here/dist/$mod/mod.json" "$home/mods/$mod/"
   herdr-app check "$home/mods/$mod"

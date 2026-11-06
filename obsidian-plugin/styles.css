@@ -325,3 +325,59 @@
 .gb-ci-running a { color: var(--text-warning); }
 .gb-ci-counts { color: var(--text-success); }
 .gb-ci-error { color: var(--text-error); white-space: pre-wrap; }
+
+/* Landing strip above a record's index.md. A sibling of .view-content, which shrinks to fit. */
+.gb-record-strip {
+	flex: none;
+	max-height: 35%;
+	overflow-y: auto;
+	display: flex;
+	flex-direction: column;
+	gap: var(--size-4-1);
+	padding: var(--size-4-2) var(--size-4-3);
+	border-bottom: var(--border-width) solid var(--background-modifier-border);
+}
+
+.gb-record-strip:empty {
+	display: none;
+}
+
+.gb-record-row {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: var(--size-4-1);
+}
+
+.gb-record-where {
+	margin-right: var(--size-4-2);
+	font-size: var(--font-ui-smaller);
+	color: var(--text-faint);
+}
+
+.gb-record-chip,
+.gb-record-chip:not(.clickable-icon) {
+	height: auto;
+	padding: 1px var(--size-4-2);
+	font-size: var(--font-ui-smaller);
+	font-weight: var(--font-normal);
+	color: var(--text-muted);
+	background: transparent;
+	border: var(--border-width) solid var(--background-modifier-border);
+	box-shadow: none;
+}
+
+.gb-record-chip:hover {
+	color: var(--text-normal);
+	background: var(--background-modifier-hover);
+}
+
+.gb-record-chip.gb-record-chip-quiet {
+	color: var(--text-faint);
+	border-style: dashed;
+}
+
+.gb-record-chip.gb-record-chip-launch {
+	color: var(--text-normal);
+	background: var(--background-secondary);
+}

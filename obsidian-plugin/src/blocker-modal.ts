@@ -1,5 +1,13 @@
-import { type App, Component, MarkdownRenderer, Modal } from "obsidian";
-import { type BlockerRef, blockersPath } from "./blockers";
+import { type App, Component, MarkdownRenderer, Modal, Notice } from "obsidian";
+import { type BlockerRef, blockersPath, isAgentBlocker, recordIdLabel, recordIndexPath, type RecordLink } from "./blockers";
+
+/** An agent blocker's condition and follow-up, or the named record's index.md. */
+export function openRecordLink(app: App, { target }: RecordLink, event: MouseEvent) {
+	if (isAgentBlocker(target)) return void new BlockerModal(app, target).open();
+	const path = recordIndexPath(app.vault.getMarkdownFiles().map((file) => file.path), target);
+	if (path) void app.workspace.openLinkText(path, "", event.metaKey || event.ctrlKey);
+	else new Notice(`${recordIdLabel(target)} not found`);
+}
 
 /** A record's blocker: its condition.md and follow_up.md, with a link to its index.md. */
 export class BlockerModal extends Modal {

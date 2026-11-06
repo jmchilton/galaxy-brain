@@ -6,11 +6,13 @@ import {
   fileDocPath,
   fileDocSummary,
   globToRegExp,
-  loadFileDocs,
   parseFileDocs,
+  recordFileLabel,
+  recordFileLinks,
   recordRelPath,
   resolveFileDoc,
 } from './file-docs';
+import { loadFileDocs } from './file-docs-load';
 
 const GALAXY = `# Galaxy Branch File Docs
 
@@ -162,5 +164,54 @@ describe('loadFileDocs', () => {
   it('skips missing files', () => {
     expect(loadFileDocs(vault, 'pulsar', 'branches').map(d => d.source)).toEqual([fileDocPath('_defaults', 'branches')]);
     expect(loadFileDocs(vault, 'pulsar', 'reviews')).toEqual([]);
+  });
+});
+
+describe('recordFileLinks', () => {
+  const sources = [
+    {
+      source: 'repositories/galaxy/branches/FILE_DOCS',
+      docs: parseFileDocs('## pr_description.md\nProposed PR text. Second sentence.\n\n## subagents/**\nSubagent debriefs.\n\n## alts/*.md\nOne per alt branch.\n'),
+    },
+    {
+      source: 'repositories/_defaults/branches/FILE_DOCS',
+      docs: parseFileDocs('## index.md\nDebrief.\n\n## review-*.md\nDated review.\n\n## pr_description.md\nDefault text.\n'),
+    },
+  ];
+
+  it('orders documented files by File Docs section, repository first, with first-sentence hints', () => {
+    const { documented } = recordFileLinks(['review-2.md', 'pr_description.md', 'review-1.md'], sources);
+    expect(documented).toEqual([
+      { path: 'pr_description.md', hint: 'Proposed PR text.' },
+      { path: 'review-1.md', hint: 'Dated review.' },
+      { path: 'review-2.md', hint: 'Dated review.' },
+    ]);
+  });
+
+  it('leaves out index.md, which is the page itself', () => {
+    const { documented, other } = recordFileLinks(['index.md'], sources);
+    expect([...documented, ...other]).toEqual([]);
+  });
+
+  it('collapses a folder to one link listing its files', () => {
+    const { documented } = recordFileLinks(['subagents/b.md', 'subagents/deep/a.md'], sources);
+    expect(documented).toEqual([{ path: 'subagents/', files: ['subagents/b.md', 'subagents/deep/a.md'], hint: 'Subagent debriefs.' }]);
+  });
+
+  it('documents a folder through its files when no pattern matches the folder itself', () => {
+    const { documented } = recordFileLinks(['alts/original_scope.md'], sources);
+    expect(documented).toEqual([{ path: 'alts/', files: ['alts/original_scope.md'], hint: 'One per alt branch.' }]);
+  });
+
+  it('sorts undocumented files and folders into other, without hints', () => {
+    const { documented, other } = recordFileLinks(['plan.md', 'notes/a.md', 'extra.md'], sources);
+    expect(documented).toEqual([]);
+    expect(other).toEqual([{ path: 'extra.md' }, { path: 'notes/', files: ['notes/a.md'] }, { path: 'plan.md' }]);
+  });
+
+  it('labels files without .md and folders with a count', () => {
+    expect(recordFileLabel({ path: 'pr_description.md' })).toBe('pr_description');
+    expect(recordFileLabel({ path: 'shot.png' })).toBe('shot.png');
+    expect(recordFileLabel({ path: 'subagents/', files: ['subagents/a.md', 'subagents/b.md'] })).toBe('subagents/ (2)');
   });
 });

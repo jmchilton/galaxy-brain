@@ -49,3 +49,6 @@ export function recordFrontmatter(body: string): RecordFrontmatter {
 	if (pr && /^\d+$/.test(pr)) fields.pr = Number(pr);
 	return fields;
 }
+
+/** The note's text after a leading `---` block. */
+export const withoutFrontmatter = (body: string): string => body.replace(/^---\n[\s\S]*?^---[ \t]*\n+/m, (block, index: number) => (index === 0 ? "" : block));

@@ -15,9 +15,10 @@ import {
 	type ReviewView,
 	snapshotFiles,
 	snapshotLabel,
-	type SnapshotSummary,
 } from "../../differential-review-lib/src/core";
 
+import { type CodeToken, type DiffLine, type DiffLineKind, highlightDiff, highlightLines, languageForPath, splitHunkHeader } from "./diff-highlight";
+import { fileShown, hunkShown, reviewMetaText, summaryText } from "./diff-review-model";
 import { annotateHunk, newThreadUi, renderCommentDraft, renderThread, type AnnotationActions, type ThreadUi } from "./diff-review-threads";
 
 export interface ReviewActions {
@@ -45,8 +46,6 @@ export function newReviewUi(hideReviewed = true): ReviewUi {
 }
 
 const STATE_LABELS: Record<ReviewStatus, string> = { reviewed: "reviewed", new: "new", changed: "changed" };
-/** Below this many visible diff lines, files open expanded. */
-export const AUTO_EXPAND_LINES = 400;
 
 function el<K extends keyof HTMLElementTagNameMap>(parent: HTMLElement | null, tag: K, cls?: string, text?: string): HTMLElementTagNameMap[K] {
 	const node = document.createElement(tag);
@@ -71,42 +70,67 @@ function checkbox(parent: HTMLElement, checked: boolean, label: string, onChange
 	return box;
 }
 
-function renderPatch(parent: HTMLElement, patch: string, ui: ReviewUi) {
-	let markup = ui.htmlCache.get(patch);
-	if (markup === undefined) {
-		markup = diffHtml(patch, { drawFileList: false, outputFormat: "line-by-line", matching: "lines", diffStyle: "word" });
-		ui.htmlCache.set(patch, markup);
+/** Wraps a line's text nodes in token spans, inside diff2html's word-diff `<ins>`/`<del>`. */
+function paintTokens(line: HTMLElement, tokens: CodeToken[]) {
+	let index = 0;
+	let used = 0;
+	const walk = (node: ChildNode) => {
+		if (node.nodeType !== 3) {
+			[...node.childNodes].forEach(walk);
+			return;
+		}
+		const pieces = document.createDocumentFragment();
+		let rest = node.textContent ?? "";
+		while (rest && index < tokens.length) {
+			const token = tokens[index]!;
+			const take = rest.slice(0, token.text.length - used);
+			pieces.append(token.scope ? el(null, "span", token.scope, take) : take);
+			rest = rest.slice(take.length);
+			used += take.length;
+			if (used === token.text.length) {
+				index++;
+				used = 0;
+			}
+		}
+		if (rest) pieces.append(rest);
+		node.replaceWith(pieces);
+	};
+	[...line.childNodes].forEach(walk);
+}
+
+const ROW_KINDS: Array<[string, DiffLineKind]> = [
+	["d2h-ins", "add"],
+	["d2h-del", "del"],
+	["d2h-cntx", "context"],
+];
+
+/** Colors the code lines of a rendered patch; diff2html may reorder rows, but each side keeps its order. */
+function highlightPatch(root: HTMLElement, path: string) {
+	const rows: Array<DiffLine & { line: HTMLElement }> = [];
+	for (const line of root.querySelectorAll<HTMLElement>(".d2h-code-line-ctn")) {
+		const cell = line.closest("td");
+		const kind = ROW_KINDS.find(([cls]) => cell?.classList.contains(cls))?.[1];
+		if (kind) rows.push({ kind, text: line.textContent ?? "", line });
 	}
-	el(parent, "div", "gbdr-diff").innerHTML = markup;
+	highlightDiff(path, rows)?.forEach((tokens, i) => paintTokens(rows[i]!.line, tokens));
+}
+
+function renderPatch(parent: HTMLElement, patch: string, path: string, ui: ReviewUi) {
+	const box = el(parent, "div", "gbdr-diff");
+	const cached = ui.htmlCache.get(patch);
+	if (cached !== undefined) {
+		box.innerHTML = cached;
+		return;
+	}
+	box.innerHTML = diffHtml(patch, { drawFileList: false, outputFormat: "line-by-line", matching: "lines", diffStyle: "word" });
+	highlightPatch(box, path);
+	ui.htmlCache.set(patch, box.innerHTML);
 }
 
 function renderHunkBody(parent: HTMLElement, source: HunkSource, ui: ReviewUi) {
 	const patch = hunkPatch(source);
-	if (patch) renderPatch(parent, patch, ui);
+	if (patch) renderPatch(parent, patch, source.file.path, ui);
 	else el(parent, "pre", "gbdr-meta-lines", source.hunk.lines.join("\n"));
-}
-
-/** Diff lines the visible hunks would render; decides whether files open expanded. */
-export function visibleLineCount(view: ReviewView): number {
-	const files = snapshotFiles(view.snapshot);
-	let n = 0;
-	for (const file of view.files) {
-		for (const hunk of file.hunks) if (hunk.visible) n += findHunk(files, hunk.id)?.hunk.lines.length ?? 0;
-	}
-	return n;
-}
-
-/** "Since <previous>: …" only when the last snapshot changed something beyond a clean rebase. */
-export function summaryText(summary: SnapshotSummary, previousLabel: string | null): string | null {
-	const { commits, hunks } = summary;
-	if (!summary.previousSnapshotId) return null;
-	if (!commits.changed && !commits.new && !commits.dropped && !hunks.changed && !hunks.new && !hunks.dropped) return null;
-	const parts = (counts: Record<string, number>) =>
-		Object.entries(counts)
-			.filter(([, n]) => n > 0)
-			.map(([k, n]) => `${n} ${k}`)
-			.join(", ");
-	return `Since ${previousLabel ?? summary.previousSnapshotId}: commits ${parts(commits) || "none"}; hunks ${parts(hunks) || "none"}.`;
 }
 
 function progress(parent: HTMLElement, label: string, counts: Record<ReviewStatus, number>) {
@@ -122,7 +146,7 @@ function renderHeader(root: HTMLElement, view: ReviewView, ui: ReviewUi, actions
 	const { snapshot } = view;
 	const header = el(root, "div", "gbdr-header");
 	el(header, "h2", undefined, `Review ${snapshot.branch}`);
-	el(header, "div", "gbdr-meta", `${snapshotLabel(snapshot)} vs ${snapshot.base.ref} (merge-base ${snapshot.base.mergeBase.slice(0, 8)}) · ${view.snapshots.length} snapshot(s)`);
+	el(header, "div", "gbdr-meta", reviewMetaText(view));
 
 	const bar = el(header, "div", "gbdr-progress");
 	progress(bar, "Hunks", view.counts.hunks);
@@ -156,6 +180,32 @@ function renderHeader(root: HTMLElement, view: ReviewView, ui: ReviewUi, actions
 	}
 }
 
+function renderPath(parent: HTMLElement, file: Pick<FileView, "path" | "oldPath">) {
+	if (file.oldPath && file.oldPath !== file.path) parent.append(`${file.oldPath} → `);
+	const slash = file.path.lastIndexOf("/") + 1;
+	if (slash) el(parent, "span", "gbdr-dir", file.path.slice(0, slash));
+	el(parent, "span", "gbdr-name", file.path.slice(slash));
+}
+
+function changeStat(parent: HTMLElement, added: number, removed: number): HTMLElement {
+	const stat = el(parent, "span", "gbdr-stat");
+	if (added) el(stat, "span", "gbdr-added", `+${added}`);
+	if (removed) el(stat, "span", "gbdr-removed", `−${removed}`);
+	return stat;
+}
+
+/** The `@@` range stays quiet; the enclosing function or class it names reads as code. */
+function renderHunkHeader(parent: HTMLElement, path: string, header: string) {
+	const code = el(parent, "code", "gbdr-hunk-header");
+	const { range, context } = splitHunkHeader(header);
+	code.append(range);
+	if (!context) return;
+	code.append(" ");
+	const name = el(code, "span", "gbdr-hunk-context", context);
+	const language = languageForPath(path);
+	if (language) paintTokens(name, highlightLines(language, [context])[0]!);
+}
+
 function hiddenNote(parent: HTMLElement, n: number, what: string) {
 	if (n > 0) el(parent, "p", "gbdr-hidden", `${n} ${what} hidden (reviewed or unchanged since the baseline).`);
 }
@@ -171,7 +221,7 @@ function interdiffToggle(parent: HTMLElement, body: HTMLElement, view: ReviewVie
 	const show = () => {
 		panel.replaceChildren();
 		el(panel, "div", "gbdr-caption", `How this hunk's changed lines differ from the version ${against === "reviewed" ? "you reviewed" : "in the baseline"}:`);
-		renderPatch(panel, interdiffPatch(file.path, before.hunk, after.hunk), ui);
+		renderPatch(panel, interdiffPatch(file.path, before.hunk, after.hunk), file.path, ui);
 		body.prepend(panel);
 	};
 	button.onclick = (event) => {
@@ -193,8 +243,8 @@ function renderHunk(parent: HTMLElement, view: ReviewView, file: FileView, hunk:
 	bar.dataset.key = `hunk:${hunk.id}`;
 	checkbox(bar, hunk.state === "reviewed", "Hunk reviewed (x)", () => actions.toggleHunk(file, hunk));
 	badge(bar, hunk.state);
-	el(bar, "code", "gbdr-hunk-header", hunk.header);
-	if (hunk.kind === "text") el(bar, "span", "gbdr-stat", `+${hunk.added} −${hunk.removed}`);
+	renderHunkHeader(bar, file.path, hunk.header);
+	if (hunk.kind === "text") changeStat(bar, hunk.added, hunk.removed);
 	if (hunk.whitespaceOnly) el(bar, "span", "gbdr-tag", "whitespace only");
 	if (hunk.sinceBaseline && hunk.sinceBaseline !== "carried") el(bar, "span", "gbdr-tag", `${hunk.sinceBaseline} since baseline`);
 	const body = el(box, "div", "gbdr-hunk-body");
@@ -230,17 +280,17 @@ function section(parent: HTMLElement, key: string, ui: ReviewUi, fill: (body: HT
 
 function renderFile(parent: HTMLElement, view: ReviewView, file: FileView, ui: ReviewUi, actions: ReviewActions) {
 	const { summary } = section(parent, `file:${file.path}`, ui, (body) => {
-		for (const hunk of file.hunks) if (hunk.visible && (!ui.openThreadsOnly || view.threads.some((t) => t.thread.status === "open" && t.placement.hunkId === hunk.id))) renderHunk(body, view, file, hunk, ui, actions);
+		for (const hunk of file.hunks) if (hunkShown(view, hunk, ui.openThreadsOnly)) renderHunk(body, view, file, hunk, ui, actions);
 		hiddenNote(body, file.hunks.filter((h) => !h.visible).length, "hunk(s)");
 	});
 	summary.classList.add(`gbdr-state-${file.state}`);
 	checkbox(summary, file.state === "reviewed", "File reviewed (x)", () => actions.toggleFile(file));
 	badge(summary, file.state);
-	el(summary, "span", "gbdr-path", file.oldPath && file.oldPath !== file.path ? `${file.oldPath} → ${file.path}` : file.path);
+	renderPath(el(summary, "span", "gbdr-path"), file);
 	if (file.status !== "modified") el(summary, "span", "gbdr-tag", file.status);
 	if (file.binary) el(summary, "span", "gbdr-tag", "binary");
-	const total = file.hunks.length;
-	el(summary, "span", "gbdr-stat", `${file.counts.reviewed}/${total} hunk(s) reviewed`);
+	const stat = changeStat(summary, file.hunks.reduce((n, h) => n + h.added, 0), file.hunks.reduce((n, h) => n + h.removed, 0));
+	stat.prepend(`${file.counts.reviewed}/${file.hunks.length} hunk(s) reviewed `);
 }
 
 function renderCommit(parent: HTMLElement, view: ReviewView, commit: CommitView, ui: ReviewUi, actions: ReviewActions) {
@@ -305,7 +355,7 @@ export function renderReview(root: HTMLElement, view: ReviewView, ui: ReviewUi, 
 
 	el(root, "h3", undefined, "Files");
 	const files = el(root, "div", "gbdr-files");
-	for (const file of view.files) if (file.visible && (!ui.openThreadsOnly || view.threads.some((t) => t.thread.status === "open" && t.placement.path === file.path && t.placement.hunkId))) renderFile(files, view, file, ui, actions);
+	for (const file of view.files) if (fileShown(view, file, ui.openThreadsOnly)) renderFile(files, view, file, ui, actions);
 	if (!view.files.some((f) => f.visible)) el(files, "p", "gbdr-empty", "Nothing to review in the branch diff.");
 	hiddenNote(files, view.hidden.files, "file(s)");
 

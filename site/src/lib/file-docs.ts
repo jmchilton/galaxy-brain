@@ -1,11 +1,10 @@
-import fs from 'node:fs';
-import path from 'node:path';
 import { DEFAULTS_REPO } from './records';
 
 // File Docs describe the files inside repository records. Each
 // `repositories/<repo>/<kind>/FILE_DOCS.md` (and the `_defaults` repository's,
 // as fallback) is a `# ` title followed by one `## <glob>` section per file
 // pattern, relative to the record directory. See LIBRARY_RECORD_FILE_DOCS.md.
+// No Node imports: the plugins bundle this too.
 
 export { DEFAULTS_REPO } from './records';
 
@@ -50,7 +49,7 @@ export function parseFileDocs(text: string): FileDocs {
       current = { heading: h2[1], lines: [] };
       continue;
     }
-    const h1 = !inFence && !current && title === null && line.match(/^#\s+(.+?)\s*$/);
+    const h1: RegExpMatchArray | null | false = !inFence && !current && title === null && line.match(/^#\s+(.+?)\s*$/);
     if (h1) {
       title = h1[1];
       continue;
@@ -118,15 +117,52 @@ export function fileDocPath(repo: string, kind: string): string {
   return `repositories/${repo}/${kind}/FILE_DOCS`;
 }
 
-/** The repository's File Docs for a kind, then the defaults; missing files are skipped. */
-export function loadFileDocs(vaultDir: string, repo: string, kind: string): FileDocsSource[] {
-  const repos = repo === DEFAULTS_REPO ? [repo] : [repo, DEFAULTS_REPO];
-  return repos.flatMap(r => {
-    const source = fileDocPath(r, kind);
-    try {
-      return [{ source, docs: parseFileDocs(fs.readFileSync(path.join(vaultDir, `${source}.md`), 'utf-8')) }];
-    } catch {
-      return [];
+/** `source` paths for a kind, in resolution order: the repository's, then the defaults. */
+export function fileDocSources(repo: string, kind: string): string[] {
+  return (repo === DEFAULTS_REPO ? [repo] : [repo, DEFAULTS_REPO]).map(r => fileDocPath(r, kind));
+}
+
+export interface RecordFileLink {
+  /** Record-relative; a folder's ends in `/`. */
+  path: string;
+  /** Record-relative files under a folder. */
+  files?: string[];
+  /** First sentence of its File Docs section; absent when undocumented. */
+  hint?: string;
+}
+
+export interface RecordFileLinks {
+  /** In File Docs section order. */
+  documented: RecordFileLink[];
+  other: RecordFileLink[];
+}
+
+/** A record's files as links for its landing page: `index.md` left out, folders collapsed to one link. */
+export function recordFileLinks(files: string[], sources: FileDocsSource[]): RecordFileLinks {
+  const sections = sources.flatMap(({ docs }) => docs.sections);
+  const links = new Map<string, RecordFileLink>();
+  for (const file of [...files].sort()) {
+    if (file === 'index.md') continue;
+    const slash = file.indexOf('/');
+    if (slash < 0) {
+      links.set(file, { path: file });
+    } else {
+      const path = file.slice(0, slash + 1);
+      const folder = links.get(path) ?? { path, files: [] };
+      folder.files!.push(file);
+      links.set(path, folder);
     }
-  });
+  }
+  const documented: { link: RecordFileLink; order: number }[] = [];
+  const other: RecordFileLink[] = [];
+  for (const link of links.values()) {
+    const doc = [link.path, ...(link.files ?? [])].map(rel => resolveFileDoc(sources, rel)).find(Boolean);
+    if (doc) documented.push({ link: { ...link, hint: fileDocSummary(doc.section.body) }, order: sections.indexOf(doc.section) });
+    else other.push(link);
+  }
+  return { documented: documented.sort((a, b) => a.order - b.order).map(({ link }) => link), other };
+}
+
+export function recordFileLabel({ path, files }: RecordFileLink): string {
+  return files ? `${path} (${files.length})` : path.replace(/\.md$/, '');
 }

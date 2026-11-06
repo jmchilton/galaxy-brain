@@ -3,8 +3,8 @@ import { type GroupingSection, groupingFor, isReviewableRecordKind, KIND_LABELS,
 import { type GithubTab, githubListTitle, githubListUrl, repositoryTabs, searchTabs, upstreamOwner } from "../../site/src/lib/repository-tabs";
 import { type Launcher, launchersFor, type RecordRef, untrackedRecord } from "./launchers";
 import { type FeedItem, type FeedList, type Feeds, feedArgs, matchRecords, parseFeeds } from "./github-feed";
-import { BlockerModal } from "./blocker-modal";
-import { isAgentBlocker, type RecordId, recordBlockers, recordIdLabel, recordIndexPath, recordRefs, relatedBranches } from "./blockers";
+import { openRecordLink } from "./blocker-modal";
+import { recordLinks } from "./blockers";
 import { hasDifferentialReview, openDifferentialReview } from "./diff-review-view";
 import { compareUrl, githubUrl } from "./record-links";
 import { SYNC_PROCESSES, SYNC_PROFILE } from "./record-agents";
@@ -435,20 +435,7 @@ export class RepositoryView extends ItemView {
 
 	/** 🔒 per blocker (agent blockers open their condition, records their index.md), 🚫 per record this one blocks, 🔗 per related record, ↑/↓ per parent/child branch. */
 	private recordRefActions(repo: string, body: string, action: (icon: string, label: string, onClick: (event: MouseEvent) => void) => void) {
-		const openRecord = (id: RecordId, event: MouseEvent) => {
-			const path = recordIndexPath(this.app.vault.getMarkdownFiles().map((f) => f.path), id);
-			if (path) void this.app.workspace.openLinkText(path, "", event.metaKey || event.ctrlKey);
-			else new Notice(`${recordIdLabel(id)} not found`);
-		};
-		for (const blocker of recordBlockers(body)) {
-			if (isAgentBlocker(blocker)) action("lock", `Blocked: ${blocker.agentDir}/${blocker.name}`, () => new BlockerModal(this.app, blocker).open());
-			else action("lock", `Blocked by ${recordIdLabel(blocker)}`, (event) => openRecord(blocker, event));
-		}
-		for (const blocked of recordRefs(body, "blocking")) action("ban", `Blocking ${recordIdLabel(blocked)}`, (event) => openRecord(blocked, event));
-		for (const related of recordRefs(body, "related_records")) action("link", `Related: ${recordIdLabel(related)}`, (event) => openRecord(related, event));
-		const { parents, children } = relatedBranches(body, repo);
-		for (const parent of parents) action("arrow-up", `Parent branch: ${parent.name}`, (event) => openRecord(parent, event));
-		for (const child of children) action("arrow-down", `Child branch: ${child.name}`, (event) => openRecord(child, event));
+		for (const link of recordLinks(body, repo)) action(link.icon, link.label, (event) => openRecordLink(this.app, link, event));
 	}
 
 	private renderRecord(
