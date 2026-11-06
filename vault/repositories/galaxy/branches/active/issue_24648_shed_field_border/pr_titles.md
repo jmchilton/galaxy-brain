@@ -1,4 +1,1 @@
-- Give Tool Shed form fields a 3:1 border
-- Fix low-contrast Tool Shed form field borders
 - Make Tool Shed field borders meet WCAG 1.4.11 contrast
-- Tool Shed form fields: 3:1 borders and consistent hover and focus states

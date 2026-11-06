@@ -1,4 +1,4 @@
-# Galaxy Branch File Docs
+	# Galaxy Branch File Docs
 
 Galaxy conventions for files in `repositories/galaxy/branches/<status>/<branch>/`. Sections here replace the [default Branch File Docs](../../_defaults/branches/FILE_DOCS.md) with the same pattern; other files fall through to them.
 

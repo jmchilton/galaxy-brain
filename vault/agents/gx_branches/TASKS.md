@@ -1,46 +1,7 @@
 # Tasks
 
 ```gb-tasks
-- prompt: |
-    Read `blockers/deployment_test_fixes_merged/previous_session.md`. Parent PR galaxyproject/galaxy#24489 is merged. For branch `deployment_test_docs_decorators_26_2` (record vault/repositories/galaxy/branches/active/deployment_test_docs_decorators_26_2): rebase onto `origin/release_26.2` dropping parent commits, push to jmchilton fork, remove `parent_branch` from the record's index.md and `child_branches` from the parent record's and fix the Open PR compare link in the record and MY_BRANCHES.md, then check fork CI and report. Finally delete `blockers/deployment_test_fixes_merged/` and the record's `blockers:` entry.
-  agent_dir: gx_branches
-  record: galaxy/branches/deployment_test_docs_decorators_26_2
-  link: https://github.com/galaxyproject/galaxy/pull/24489
-  description: |
-    🔓 deployment_test_fixes_merged: galaxyproject/galaxy#24489 (`deployment_test_fixes_26_2`) is merged.
-  status: recommended
-  suggested_by: gx_branches/SUGGESTED_TASKS.md#Unblocked
-- prompt: "De-conflict branch issue_23978_parameter_tools_xsd. BRANCH_DIRECTORY is vault/repositories/galaxy/branches/active/issue_23978_parameter_tools_xsd/. Rebase it onto its actual base branch (`parent_branch` when present, otherwise `upstream_base_branch`, per ../_shared/REPOSITORY_BRANCHES.md), reconciling any disagreement with the PR's `baseRefName` first. Resolve mechanical and clear conflicts, and stop and ask me about substantial ones. Force-push with `--force-with-lease` to the `jmchilton` fork, update the SHA in the branch record and queue, and take a `revision` snapshot per ../_shared/PROCESS_DIFFERENTIAL_REVIEW_SNAPSHOT.md."
-  agent_dir: gx_branches
-  link: https://github.com/galaxyproject/galaxy/pull/24302
-  record: galaxy/branches/issue_23978_parameter_tools_xsd
-  profile: Sonnet (high)
-  description: |
-    🔀 Makes framework test tools XSD-valid and validates test-tool subdirectories in CI (#23978). Conflicts: .ci/validate_test_tools.sh
-  status: recommended
-  priority: high
-  suggested_by: gx_branches/SUGGESTED_TASKS.md#De-conflict Branches
-- prompt: "De-conflict branch selenium_dataset_tags_auto_detect. BRANCH_DIRECTORY is vault/repositories/galaxy/branches/active/selenium_dataset_tags_auto_detect/. Rebase it onto its actual base branch (`parent_branch` when present, otherwise `upstream_base_branch`, per ../_shared/REPOSITORY_BRANCHES.md), reconciling any disagreement with the PR's `baseRefName` first. Resolve mechanical and clear conflicts, and stop and ask me about substantial ones. Force-push with `--force-with-lease` to the `jmchilton` fork, update the SHA in the branch record and queue, and take a `revision` snapshot per ../_shared/PROCESS_DIFFERENTIAL_REVIEW_SNAPSHOT.md."
-  agent_dir: gx_branches
-  link: https://github.com/galaxyproject/galaxy/pull/24347
-  record: galaxy/branches/selenium_dataset_tags_auto_detect
-  profile: Sonnet (high)
-  description: |
-    🔀 Missing E2E tests: history item Add Tags reaching a tool output, Attributes tab metadata Auto-detect. Approved. Conflicts: navigation.yml, test_dataset.py
-  status: recommended
-  priority: high
-  suggested_by: gx_branches/SUGGESTED_TASKS.md#De-conflict Branches
-- prompt: "De-conflict branch selenium_tool_form_helpers. BRANCH_DIRECTORY is vault/repositories/galaxy/branches/active/selenium_tool_form_helpers/. Rebase it onto its actual base branch (`parent_branch` when present, otherwise `upstream_base_branch`, per ../_shared/REPOSITORY_BRANCHES.md), reconciling any disagreement with the PR's `baseRefName` first. Resolve mechanical and clear conflicts, and stop and ask me about substantial ones. Force-push with `--force-with-lease` to the `jmchilton` fork, update the SHA in the branch record and queue, and take a `revision` snapshot per ../_shared/PROCESS_DIFFERENTIAL_REVIEW_SNAPSHOT.md."
-  agent_dir: gx_branches
-  link: https://github.com/galaxyproject/galaxy/pull/24331
-  record: galaxy/branches/selenium_tool_form_helpers
-  profile: Sonnet (high)
-  description: |
-    🔀 Public tool-form fill/describe helpers on `NavigatesGalaxy`; fixes nested repeats, sections, editor steps. Conflicts: navigation.yml, navigates_galaxy.py, framework.py
-  status: recommended
-  priority: high
-  suggested_by: gx_branches/SUGGESTED_TASKS.md#De-conflict Branches
-- prompt: "De-conflict branch vitest_readability. BRANCH_DIRECTORY is vault/repositories/galaxy/branches/active/vitest_readability/. Rebase it onto its actual base branch (`parent_branch` when present, otherwise `upstream_base_branch`, per ../_shared/REPOSITORY_BRANCHES.md), reconciling any disagreement with the PR's `baseRefName` first. Resolve mechanical and clear conflicts, and stop and ask me about substantial ones. Force-push with `--force-with-lease` to the `jmchilton` fork, update the SHA in the branch record and queue, and take a `revision` snapshot per ../_shared/PROCESS_DIFFERENTIAL_REVIEW_SNAPSHOT.md."
+- prompt: De-conflict branch vitest_readability. BRANCH_DIRECTORY is vault/repositories/galaxy/branches/active/vitest_readability/. Rebase it onto its actual base branch (`parent_branch` when present, otherwise `upstream_base_branch`, per ../_shared/REPOSITORY_BRANCHES.md), reconciling any disagreement with the PR's `baseRefName` first. Resolve mechanical and clear conflicts, and stop and ask me about substantial ones. Force-push with `--force-with-lease` to the `jmchilton` fork, update the SHA in the branch record and queue, and take a `revision` snapshot per ../_shared/PROCESS_DIFFERENTIAL_REVIEW_SNAPSHOT.md.
   agent_dir: gx_branches
   link: https://github.com/galaxyproject/galaxy/pull/24038
   record: galaxy/branches/vitest_readability
@@ -49,7 +10,7 @@
     🔀 Rewrites client tests for readability, shared fixtures and stronger assertions. Conflicts: 7 test files (DatasetView, HistoryDatasetDisplay, SelectionDialog, Editor Index, WorkflowList, historyStore, ...)
   status: recommended
   suggested_by: gx_branches/SUGGESTED_TASKS.md#De-conflict Branches
-- prompt: "De-conflict branch fix_copied_datasets. BRANCH_DIRECTORY is vault/repositories/galaxy/branches/active/fix_copied_datasets/. Rebase it onto its actual base branch (`parent_branch` when present, otherwise `upstream_base_branch`, per ../_shared/REPOSITORY_BRANCHES.md), reconciling any disagreement with the PR's `baseRefName` first. Resolve mechanical and clear conflicts, and stop and ask me about substantial ones. Force-push with `--force-with-lease` to the `jmchilton` fork, update the SHA in the branch record and queue, and take a `revision` snapshot per ../_shared/PROCESS_DIFFERENTIAL_REVIEW_SNAPSHOT.md."
+- prompt: De-conflict branch fix_copied_datasets. BRANCH_DIRECTORY is vault/repositories/galaxy/branches/active/fix_copied_datasets/. Rebase it onto its actual base branch (`parent_branch` when present, otherwise `upstream_base_branch`, per ../_shared/REPOSITORY_BRANCHES.md), reconciling any disagreement with the PR's `baseRefName` first. Resolve mechanical and clear conflicts, and stop and ask me about substantial ones. Force-push with `--force-with-lease` to the `jmchilton` fork, update the SHA in the branch record and queue, and take a `revision` snapshot per ../_shared/PROCESS_DIFFERENTIAL_REVIEW_SNAPSHOT.md.
   agent_dir: gx_branches
   link: https://github.com/galaxyproject/galaxy/pull/21806
   record: galaxy/branches/fix_copied_datasets
@@ -58,7 +19,7 @@
     🔀 Fixes workflow extraction for datasets copied across histories. Conflicts: extract.py, test_workflow_extraction.py, test_extract_summary.py
   status: recommended
   suggested_by: gx_branches/SUGGESTED_TASKS.md#De-conflict Branches
-- prompt: "De-conflict branch collection_restructure_panel. BRANCH_DIRECTORY is vault/repositories/galaxy/branches/active/collection_restructure_panel/. Rebase it onto its actual base branch (`parent_branch` when present, otherwise `upstream_base_branch`, per ../_shared/REPOSITORY_BRANCHES.md), reconciling any disagreement with the PR's `baseRefName` first. Resolve mechanical and clear conflicts, and stop and ask me about substantial ones. Force-push with `--force-with-lease` to the `jmchilton` fork, update the SHA in the branch record and queue, and take a `revision` snapshot per ../_shared/PROCESS_DIFFERENTIAL_REVIEW_SNAPSHOT.md."
+- prompt: De-conflict branch collection_restructure_panel. BRANCH_DIRECTORY is vault/repositories/galaxy/branches/active/collection_restructure_panel/. Rebase it onto its actual base branch (`parent_branch` when present, otherwise `upstream_base_branch`, per ../_shared/REPOSITORY_BRANCHES.md), reconciling any disagreement with the PR's `baseRefName` first. Resolve mechanical and clear conflicts, and stop and ask me about substantial ones. Force-push with `--force-with-lease` to the `jmchilton` fork, update the SHA in the branch record and queue, and take a `revision` snapshot per ../_shared/PROCESS_DIFFERENTIAL_REVIEW_SNAPSHOT.md.
   agent_dir: gx_branches
   link: https://github.com/galaxyproject/galaxy/pull/12238
   record: galaxy/branches/collection_restructure_panel
@@ -67,7 +28,7 @@
     🔀 Adds a panel for transforming dataset collection layouts. Conflicts: DscMenu.vue, DscUI.vue, debugging_galaxy.md, debugging_tests.md
   status: recommended
   suggested_by: gx_branches/SUGGESTED_TASKS.md#De-conflict Branches
-- prompt: "De-conflict branch pulsar-mq-pull. BRANCH_DIRECTORY is vault/repositories/galaxy/branches/active/pulsar-mq-pull/. Rebase it onto its actual base branch (`parent_branch` when present, otherwise `upstream_base_branch`, per ../_shared/REPOSITORY_BRANCHES.md), reconciling any disagreement with the PR's `baseRefName` first. Resolve mechanical and clear conflicts, and stop and ask me about substantial ones. Force-push with `--force-with-lease` to the `jmchilton` fork, update the SHA in the branch record and queue, and take a `revision` snapshot per ../_shared/PROCESS_DIFFERENTIAL_REVIEW_SNAPSHOT.md."
+- prompt: De-conflict branch pulsar-mq-pull. BRANCH_DIRECTORY is vault/repositories/galaxy/branches/active/pulsar-mq-pull/. Rebase it onto its actual base branch (`parent_branch` when present, otherwise `upstream_base_branch`, per ../_shared/REPOSITORY_BRANCHES.md), reconciling any disagreement with the PR's `baseRefName` first. Resolve mechanical and clear conflicts, and stop and ask me about substantial ones. Force-push with `--force-with-lease` to the `jmchilton` fork, update the SHA in the branch record and queue, and take a `revision` snapshot per ../_shared/PROCESS_DIFFERENTIAL_REVIEW_SNAPSHOT.md.
   agent_dir: gx_branches
   link: https://github.com/galaxyproject/galaxy/pull/9911
   record: galaxy/branches/pulsar-mq-pull
@@ -76,25 +37,11 @@
     🔀 Polls for Pulsar MQ jobs missed by normal event handling. Conflicts: jobs/__init__.py, runners/__init__.py, runners/pulsar.py
   status: recommended
   suggested_by: gx_branches/SUGGESTED_TASKS.md#De-conflict Branches
-- prompt: Run ./POLISH_BRANCH.md issue_24648_shed_field_border
-  agent_dir: gx_branches
-  record: galaxy/branches/issue_24648_shed_field_border
-  description: |
-    ✨ Tool Shed form fields get 3:1 grey-500 borders and consistent hover and focus states (#24648).
-  status: recommended
-  suggested_by: gx_branches/SUGGESTED_TASKS.md#Polish Branches
 - prompt: Run ./POLISH_BRANCH.md vitest_real_api_calls
   agent_dir: gx_branches
   record: galaxy/branches/vitest_real_api_calls
   description: |
     ✨ Records real Galaxy API responses for client tests, starting with history and quota usage.
-  status: recommended
-  suggested_by: gx_branches/SUGGESTED_TASKS.md#Polish Branches
-- prompt: Run ./POLISH_BRANCH.md issue_24532_user_deletion_refusal_25.1
-  agent_dir: gx_branches
-  record: galaxy/branches/issue_24532_user_deletion_refusal_25.1
-  description: |
-    ✨ Delete Account modal explains a config-refused self-deletion and stays open on failure (#24532). Base `release_25.1`.
   status: recommended
   suggested_by: gx_branches/SUGGESTED_TASKS.md#Polish Branches
 - prompt: Run ./POLISH_BRANCH.md issue_24178_subworkflow_step_params_export
