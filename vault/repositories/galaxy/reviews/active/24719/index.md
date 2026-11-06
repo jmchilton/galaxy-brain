@@ -4,6 +4,6 @@
 
 ## Status
 
-Initial review ready on `e2c3677d3ae`, unposted: one P2 and four P3s, all fixed on `pr_24719_review_0` (fork, not pushed into PR).
+Approved 2026-11-06 on `e2c3677d3ae` with the initial review response posted; awaiting merge. Findings: one P2 and four P3s, all fixed on `pr_24719_review_0` (fork, not pushed into PR).
 
 PR open against `dev`, out of draft; CI 49 passing, 5 skipped at last check.
