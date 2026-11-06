@@ -84,10 +84,10 @@ None yet.
 ## Galaxy branches — needs polish (`branches_need_polish`)
 
 - [`converted_dataset_lookup_via_manager_26.0`](active/converted_dataset_lookup_via_manager_26.0/index.md) — Existing implicit conversions looked up via `DatasetAssociationManager.get_accessible_converted`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.0...jmchilton:galaxy:converted_dataset_lookup_via_manager_26.0?expand=1).
-- [`selenium_apply_rules_nest_menus`](active/selenium_apply_rules_nest_menus/index.md) — E2E test of Apply rules through rule builder menus; pins rule source on GTN examples 3/4. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:selenium_apply_rules_nest_menus?expand=1).
 
 ## Galaxy branches — ready for final review (`branches_ready_for_final_review`)
 
+- [`selenium_apply_rules_nest_menus`](active/selenium_apply_rules_nest_menus/index.md) — E2E test of Apply rules through rule builder menus; pins rule source on GTN examples 3/4. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:selenium_apply_rules_nest_menus?expand=1).
 - [`issue_24532_user_deletion_refusal_25.1`](active/issue_24532_user_deletion_refusal_25.1/index.md) — Delete Account modal explains a config-refused self-deletion and stays open on failure (#24532). [Open PR](https://github.com/galaxyproject/galaxy/compare/release_25.1...jmchilton:galaxy:issue_24532_user_deletion_refusal_25.1?expand=1).
 - [`issue_24648_shed_field_border`](active/issue_24648_shed_field_border/index.md) — Tool Shed form fields get 3:1 grey-500 borders and consistent hover and focus states (#24648). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_24648_shed_field_border?expand=1).
 
