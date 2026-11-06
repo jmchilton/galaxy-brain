@@ -11,7 +11,7 @@ Draft correction for the issue: [scope_correction_comment.md](scope_correction_c
 ### Status and claim
 
 - GitHub has `work/in-progress`, so the label mapping says `wip` (rule 2). The directory and index line stay in `needs_decision` until the claim below settles, to avoid colliding with its holder's move.
-- A comment at 12:49Z claims branch `issue-674-shape-changing-params`, "per the Expected section". At last check there was no worktree, no branch on either remote, and no record move. Holder unknown; asked busy sessions wf-foundry-4e, -cb and -70 to hold. No reply yet.
+- The 12:49Z comment claiming branch `issue-674-shape-changing-params` came from WORK_HORSE in session wf-foundry-95, which reached the same findings independently and stopped before editing any note. The branch had no commits and is gone, along with its worktree; nothing was pushed. Only the `work/in-progress` label remains, left on so no agent picks up Expected as written. It posted no questions, to avoid competing with the scope comment.
 
 ### Labels
 
@@ -26,6 +26,12 @@ Draft correction for the issue: [scope_correction_comment.md](scope_correction_c
 - **Evidence tier.** Galaxy tests, not IWC: 43 IWC workflows use `param_value_from_file`, 0 fed directly by a collection input. Heuristic; misses those fed through a mapped intermediate step.
 - **Foundry text to sharpen, not delete.** `iwc-map-over-lifecycle-survey` ("`when` is step-level, not arbitrary per-element"), `cleanup-sync-and-publish-nonempty-results` ("Do not gate per-element routing with Galaxy `when`"), and possibly `galaxy-conditionals-patterns` ("a `when` gate skips a whole step"). A mapped `when` does skip individual elements, but they stay in the output as nulls (#661), so the filter/classifier advice for routing data still holds.
 - **Kept from the issue.** The step-set vs step-argument test is useful. Carrying one path with `kind: dropped` entries is legitimate, as a scope choice rather than a Galaxy limit. Sibling workflows remain an option; the conditional note notes IWC reviewers prefer them and that runtime tool selection wasn't observed in IWC (2026-05 claim, not re-verified).
+
+### Live verification (2026-11-06, added by WORK_HORSE)
+
+- [Workflow and test](verification/): a mapped `param_value_from_file` feeds a mapped `Show beginning1`'s `lineNum` from a list holding 1 and 3. Passed on Planemo 0.75.47, Galaxy `release_26.1`, and the jobs ran `head -n 1` and `head -n 3`. Promote to Foundry's `verification/workflows/` with a README. It tests an integer parameter, not a `select` or a conditional's test parameter, so the #661/#667 question stays open.
+- IWC does have the wiring, through the intermediate step the scan above misses: `epigenetics/consensus-peaks/consensus-peaks-atac-cutandrun` steps 18 to 20 go `split_file_to_collection`, mapped `param_value_from_file`, mapped `samtools_view` `target`. Its values are identical across elements, so it shows the wiring, not varying values.
+- Elements pair by index, not identifier (`_walk_collections` in `lib/galaxy/model/dataset_collections/structure.py`), so the value collection must match the data collection in structure and order. The channel-shape row should say so.
 
 ### Known bugs to cite rather than encode (open as of today)
 
@@ -56,6 +62,7 @@ Overlap: #661 owns the fan-in recipe; link it, don't duplicate. Skim #267 and #7
 - Is the §1 "second workflow" line the prohibition you meant?
 - Post the scope comment, or edit the issue body?
 - Keep §2 here, or split the test-param route out as `work/ready-research`?
+- When a run's scope doesn't settle carry-all vs pin-one, does the interface Mold need a default, or does the harness always decide? Suggestion if a default is wanted: pin tool-choice enums, since IWC has no tool-selection exemplar (2026-05 claim), and keep optional-analysis flags as `when:` gates, which IWC does routinely.
 
 ## Proposed labels (2026-10-24 triage, applied)
 

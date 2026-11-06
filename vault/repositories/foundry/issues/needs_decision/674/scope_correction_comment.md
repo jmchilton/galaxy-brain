@@ -11,7 +11,7 @@ The actual gap is that `nextflow-summary-to-galaxy-interface` references neither
 - `lib/galaxy_test/workflow/map_over_expression.gxwf.yml` feeds one to a tool parameter, with per-element output.
 - `test_run_workflow_conditional_step_map_over_expression_tool` skips one of two elements through a mapped `when`.
 
-Both are on `release_24.2` through dev. This is attested by Galaxy's tests rather than IWC. A direct-connection scan of IWC found no such use, though it misses values fed through an intermediate mapped step. No workflow was run for this re-triage.
+Both are on `release_24.2` through dev. A [live run](https://github.com/jmchilton/galaxy-brain/tree/main/vault/repositories/foundry/issues/needs_decision/674/verification) confirms differing values reach their own elements: a list holding 1 and 3 ran `head -n 1` and `head -n 3` (Planemo 0.75.47, Galaxy `release_26.1`). IWC has the wiring through an intermediate mapped step in `epigenetics/consensus-peaks/consensus-peaks-atac-cutandrun`, where the values happen to be identical. Elements pair by index, not identifier, so the value collection must match the data collection in structure and order.
 
 **Known bugs belong in tracked fixes, not in a prohibition:** #653, #661, #667, galaxyproject/galaxy#22817. One point is still open: #661 reports a 500 connecting into a tool conditional's test parameter, while #667 reports that kind of edge running green on usegalaxy.org. Per-element strandedness into salmon's `--libType` depends on it.
 
