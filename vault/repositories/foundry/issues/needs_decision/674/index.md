@@ -10,7 +10,7 @@ Decision (John, 2026-11-06): Galaxy has conditionals and we should use them. A s
 
 [John's comment on the issue](https://github.com/galaxyproject/foundry/issues/674#issuecomment-6697972255) (2026-11-06) says so directly for future agents: the second-workflow line is "very much not a design goal". IWC workflows don't typically dispatch on different tools, but "we very much should support that pattern", especially when porting workflows that already do this. IWC's lack of tool-selection exemplars is therefore not a reason to split.
 
-Remaining draft for the issue: [scope_correction_comment.md](scope_correction_comment.md), covering §2, the false premises and the revised scope. Not posted.
+[Scope comment posted](https://github.com/galaxyproject/foundry/issues/674#issuecomment-6698012750) 2026-11-06, covering §2, the false premises and the revised scope. Source: [scope_correction_comment.md](scope_correction_comment.md).
 
 ### Status and claim
 
@@ -63,7 +63,7 @@ Overlap: #661 owns the fan-in recipe; link it, don't duplicate. Skim #267 and #7
 
 ### Open questions for John
 
-- Post the remaining scope comment? Expected's §2 still states "NO Galaxy expression" with no correction on the issue.
+- Release the claim to `work/ready-implement`?
 - Keep §2 here, or split the test-param route out as `work/ready-research`?
 
 ## Proposed labels (2026-10-24 triage, applied)

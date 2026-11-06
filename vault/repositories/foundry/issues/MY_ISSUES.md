@@ -18,7 +18,7 @@ Review `issue_tags.md` in the record, then use 👀 Diff / 🔖 Apply staged lab
 ## Waiting on John (`needs_decision`)
 
 - (mvp) [#670](https://github.com/galaxyproject/foundry/issues/670) — topology repair forbade interface edits; #753 merged; decide: close it, or keep it open for what's left. [notes](needs_decision/670/index.md)
-- (mvp) [#674](https://github.com/galaxyproject/foundry/issues/674) — interface notes lack shape-changing and per-element param rules; Expected's prohibition is wrong; decide: release claim, post scope comment. [notes](needs_decision/674/index.md)
+- (mvp) [#674](https://github.com/galaxyproject/foundry/issues/674) — interface notes lack shape-changing and per-element param rules; Expected corrected on the issue; decide: release claim to `work/ready-implement`. [notes](needs_decision/674/index.md)
 - (mvp) (large) [#59](https://github.com/galaxyproject/foundry/issues/59) — Research Nextflow process to Galaxy tool wrapper mapping; decide: work state (work/ready-implement, work/ready-research or work/human). [notes](needs_decision/59/index.md)
 - (mvp) (large) [#66](https://github.com/galaxyproject/foundry/issues/66) — Research Nextflow test fixtures to Galaxy job inputs; decide: work state (work/ready-implement, work/ready-research or work/human). [notes](needs_decision/66/index.md)
 - (mvp) (large) [#90](https://github.com/galaxyproject/foundry/issues/90) — Survey: Galaxy reporting and publishing patterns; decide: work state (work/ready-implement, work/ready-research or work/human). [notes](needs_decision/90/index.md)
