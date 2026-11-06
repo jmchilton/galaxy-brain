@@ -4,6 +4,6 @@
 
 ## Status
 
-Initial review on `db8d06be733` complete (two P2s + three P3s, all fixed on `pr_24693_review_0`); not delivered.
+Initial review on `db8d06be733` complete (two P2s + three P3s, all fixed on `pr_24693_review_0`); approved with response, delivered 2026-11-06. Awaiting merge.
 
 PR open against `release_26.2`; some CI jobs red, sampled logs show `galaxy-static-*` cache restore failures.
