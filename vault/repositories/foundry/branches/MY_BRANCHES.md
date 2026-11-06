@@ -22,14 +22,13 @@ Snapshot: 2026-10-28 (originally recovered from live GitHub state, local worktre
 
 ## Draft Foundry PRs — ready to undraft (`draft_ready`)
 
-None yet.
+- [`issue-669-repair-contract`](active/issue-669-repair-contract/index.md) — Repair runs on any blocking entry a structural edit closes, with a post-edit check and real fixtures (#669). [#753](https://github.com/galaxyproject/foundry/pull/753).
+- [`issue-571-nested-in-keys`](active/issue-571-nested-in-keys/index.md) — Documents nested `in:` keys and what a connection's step part names (#571). [#754](https://github.com/galaxyproject/foundry/pull/754).
+- [`issue-661-conditional-fan-in`](active/issue-661-conditional-fan-in/index.md) — Route pattern covers mapped `when`-gated branches, verified on `release_26.1` (#661). [#755](https://github.com/galaxyproject/foundry/pull/755).
 
 ## Draft Foundry PRs — waiting for CI (`ci_wait`)
 
 - [`issue-568-review-agent-benchmark-paper`](active/issue-568-review-agent-benchmark-paper/index.md) — Comparisons page: contrast with one detailed prompt, from the Munn and Grenier study (#568). [#750](https://github.com/galaxyproject/foundry/pull/750).
-- [`issue-669-repair-contract`](active/issue-669-repair-contract/index.md) — Repair runs on any blocking entry a structural edit closes, with a post-edit check and real fixtures (#669). [#753](https://github.com/galaxyproject/foundry/pull/753).
-- [`issue-571-nested-in-keys`](active/issue-571-nested-in-keys/index.md) — Documents nested `in:` keys and what a connection's step part names (#571). [#754](https://github.com/galaxyproject/foundry/pull/754).
-- [`issue-661-conditional-fan-in`](active/issue-661-conditional-fan-in/index.md) — Route pattern covers mapped `when`-gated branches, verified on `release_26.1` (#661). [#755](https://github.com/galaxyproject/foundry/pull/755).
 
 ## Draft Foundry PRs — needs author work (`author_work`)
 

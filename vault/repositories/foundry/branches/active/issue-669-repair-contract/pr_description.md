@@ -71,12 +71,14 @@ From the records, no agent involved:
 **Didn't run**
 
 - No live Galaxy run of any repaired draft.
-- No CI yet.
+- Most of CI's `test` job, which stops at `validate:roadmap`. See below.
 - The `advance` budget and third-bucket properties have no agent run, and neither does `star-sa-index-input` on the final contract.
 - No case covers a consumer that truly needs a removed output, or a realized step whose only remedy is removal. No fixture has a `rename` or `change_datatype`, a copied step, `replace-tool` or `expose-output`.
 - `make check-fixtures` doesn't reach these fixtures, because `repair`'s `_verify.json` has no entries. I ran `gxwf draft-validate` 1.15.0 on them by hand.
 
 **`make -k check`:** everything passes (496 tests, casts, verify, pipelines, fixtures) except two known failures. `check-vendored` fails on this machine only. `validate-roadmap` reads live GitHub labels, and fails the same way on clean `main`.
+
+**CI:** `changeset` passes. `test` is red at `validate:roadmap`, the step that also fails on `main` at this PR's base, so the job skips every later step. I ran the skipped steps `make -k check` doesn't cover at this head: `check:kinds`, `typecheck`, package tests (16 skipped), `smoke:packages`, `format`, `lint` and `site:build` all pass. Two skipped steps have no passing run: the Pi container boundary test wasn't run, and `check-vendored` is the failure above.
 
 ## Collisions and dependencies
 

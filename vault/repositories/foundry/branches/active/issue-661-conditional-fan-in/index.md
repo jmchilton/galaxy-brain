@@ -14,7 +14,7 @@ Branch on `jmchilton`, base `origin/main` at `7453431d`, head `bac5ae4b`, review
 
 Draft PR [#755](https://github.com/galaxyproject/foundry/pull/755); body is [pr_description.md](pr_description.md).
 
-Local `make -k check` green except `check-vendored` (machine-only) and `validate-roadmap` (live GitHub labels, also fails on `origin/main`); `planemo test` passes on `release_26.1`; CI started when the PR opened.
+Local `make -k check` green except `check-vendored` (machine-only) and `validate-roadmap` (live GitHub labels, also fails on `origin/main`); `planemo test` passes on `release_26.1`. CI at `bac5ae4b`: unrelated only. `planemo` passes; `test` stops at `validate:roadmap` (also red on `main` at `7453431d`, so no rerun); its skipped steps pass locally except the unrun Pi container test and `check-vendored`.
 
 ## Supporting files
 

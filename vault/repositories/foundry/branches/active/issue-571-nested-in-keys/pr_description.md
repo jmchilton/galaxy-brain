@@ -45,7 +45,7 @@ The two bold rows are the disagreement.
 ## What didn't run
 
 - No import into a live Galaxy. `python_to_workflow` is the function Galaxy's import calls, but the conversion results come from calling it directly.
-- No CI yet. It starts when this PR opens.
+- Most of CI's `test` job, which stops at `validate:roadmap`. See below.
 - The new eval property hasn't been run against a Mold run.
 
 ## Local gate
@@ -54,6 +54,10 @@ The two bold rows are the disagreement.
 
 - `check-vendored`, a known failure on this machine.
 - `validate-roadmap`, which reads live GitHub labels and fails the same way on clean `main`.
+
+## CI
+
+`changeset` passes. `test` is red at `validate:roadmap`, the step that also fails on `main` at this PR's base, so the job skips every later step. I ran the skipped steps `make -k check` doesn't cover at this head: `check:kinds`, `typecheck`, package tests (16 skipped), `smoke:packages`, `format`, `lint` and `site:build` all pass. Two skipped steps have no passing run: the Pi container boundary test wasn't run, and `check-vendored` is the failure above.
 
 Closes #571.
 

@@ -42,9 +42,11 @@ Part of #661.
 - A mix of skipped and live elements within one arm. Gates here are workflow-level booleans. Galaxy's `pick_value_mapped_mixed_skip_pja`, on `dev`, covers it for the built-in.
 - `planemo lint` checks nothing on these workflows: it exits 2 with no output, as it does on the existing `route-between-alternatives`, and CI runs it under `continue-on-error`. `planemo workflow_lint` passes tests, tool ids and tool versions, with missing-annotation warnings. `gxwf validate` passes with tool state.
 
-CI hasn't run, since it starts when this PR opens. The new workflows add one Galaxy boot each to `verification-workflows.yml`.
+CI's `planemo` job passes all five tests on `release_26.1`. The new workflows add one Galaxy boot each to `verification-workflows.yml`.
 
 `make -k check` passes everything except two failures that also occur on clean `main`: `check-vendored` (this machine's upstream checkouts) and `validate-roadmap` (live GitHub labels; a 403 rate limit on this run).
+
+CI's `changeset` passes. Its `test` job is red at `validate:roadmap`, the step that also fails on `main` at this PR's base, so it skips every later step. I ran the skipped steps `make -k check` doesn't cover at this head: `check:kinds`, `typecheck`, package tests (16 skipped), `smoke:packages`, `format`, `lint` and `site:build` all pass. Two skipped steps have no passing run: the Pi container boundary test wasn't run, and `check-vendored` is the failure above.
 
 ## Limits of this PR
 
