@@ -72,3 +72,5 @@ Questions for John:
 - Post the corrected defect 2 and new defects A and B as a comment on #666? Not posted.
 
 Reproduce: `summarize-nextflow <clone> --no-with-nextflow --profile test --out summary.json`.
+
+Staged labels applied 2026-11-06: +roadmap/off, +priority/mvp, +work/ready-implement.
