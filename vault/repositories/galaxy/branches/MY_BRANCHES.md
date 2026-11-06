@@ -17,6 +17,7 @@ Snapshot: 2026-11-06 (reclassified from GitHub: 11 merged and archived, #24453 u
 - [`issue_24476_parsed_output_filters_26_1`](active/issue_24476_parsed_output_filters_26_1/index.md) — Preserves filter expressions in parsed data, collection and scalar outputs (#24476). Base `release_26.1`. [#24483](https://github.com/galaxyproject/galaxy/pull/24483).
 - [`selenium_dataset_tags_auto_detect`](active/selenium_dataset_tags_auto_detect/index.md) — Missing E2E tests: history item Add Tags reaching a tool output, Attributes tab metadata Auto-detect. Base `release_26.2`. [#24347](https://github.com/galaxyproject/galaxy/pull/24347).
 - [`issue_23978_parameter_tools_xsd`](active/issue_23978_parameter_tools_xsd/index.md) — Makes framework test tools XSD-valid and validates test-tool subdirectories in CI (#23978). [#24302](https://github.com/galaxyproject/galaxy/pull/24302). Rebased 2026-11-06 at `9ff979543c6`; CI pending.
+- [`issue_24648_shed_field_border`](active/issue_24648_shed_field_border/index.md) — Tool Shed form fields get 3:1 grey-500 borders and consistent hover and focus states. [#24771](https://github.com/galaxyproject/galaxy/pull/24771).
 
 ## Open Galaxy PRs — needs attention (`attention`)
 
@@ -89,7 +90,6 @@ None yet.
 
 - [`selenium_apply_rules_nest_menus`](active/selenium_apply_rules_nest_menus/index.md) — E2E test of Apply rules through rule builder menus; pins rule source on GTN examples 3/4. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:selenium_apply_rules_nest_menus?expand=1).
 - [`issue_24532_user_deletion_refusal_25.1`](active/issue_24532_user_deletion_refusal_25.1/index.md) — Delete Account modal explains a config-refused self-deletion and stays open on failure (#24532). [Open PR](https://github.com/galaxyproject/galaxy/compare/release_25.1...jmchilton:galaxy:issue_24532_user_deletion_refusal_25.1?expand=1).
-- [`issue_24648_shed_field_border`](active/issue_24648_shed_field_border/index.md) — Tool Shed form fields get 3:1 grey-500 borders and consistent hover and focus states (#24648). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_24648_shed_field_border?expand=1).
 
 - [`invocation_graph_embedded_outputs`](active/invocation_graph_embedded_outputs/index.md) — Stage 3: steps can star a preferred output; with Embed Outputs on, a step is drawn as it and the layout grows. [Open PR](https://github.com/jmchilton/galaxy/compare/invocation_graph_embedded_workflow_outputs...invocation_graph_embedded_outputs?expand=1).
 - [`invocation_graph_embedded_workflow_outputs`](active/invocation_graph_embedded_workflow_outputs/index.md) — Stage 2: Embed Outputs shows workflow outputs as cards beside their steps, nudging steps right. [Open PR](https://github.com/jmchilton/galaxy/compare/invocation_graph_output_previews...invocation_graph_embedded_workflow_outputs?expand=1).

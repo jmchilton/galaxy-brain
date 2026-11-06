@@ -1,5 +1,6 @@
 ---
 upstream_base_branch: dev
+pr: 24771
 ---
 # Tool Shed form fields keep a low-contrast border (#24648)
 
@@ -8,7 +9,9 @@ upstream_base_branch: dev
 
 ## Status
 
-Polished at `85ca630bac6`; waiting for John's final review.
+Approved and pushed at `85ca630bac6`.
+
+PR [#24771](https://github.com/galaxyproject/galaxy/pull/24771) opened 2026-11-06, not draft.
 
 Fork CI has only unrelated reds.
 
