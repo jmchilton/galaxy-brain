@@ -24,7 +24,7 @@ Draft correction for the issue: [scope_correction_comment.md](scope_correction_c
 - **§1 root cause.** `nextflow-summary-to-galaxy-interface` references neither conditional note; only the data-flow and template Molds do. The interface tier reads "keep as scalar" with no route to how. It does load the ledger, whose `kind: dropped` rule already covers recording a cut.
 - **§2 premise false.** Mapped `param_value_from_file` gives per-element values. `map_over_expression.gxwf.yml` feeds one to a tool param (outputs A, B per element); `test_run_workflow_conditional_step_map_over_expression_tool` skips 1 of 2 elements via a mapped `when`. Both are on `release_24.2`, `release_25.1`, `release_26.0` and dev.
 - **Evidence tier.** Galaxy tests, not IWC: 43 IWC workflows use `param_value_from_file`, 0 fed directly by a collection input. Heuristic; misses those fed through a mapped intermediate step.
-- **Stale Foundry text this contradicts.** `iwc-map-over-lifecycle-survey` ("`when` is step-level, not arbitrary per-element"), `cleanup-sync-and-publish-nonempty-results` ("Do not gate per-element routing with Galaxy `when`"), and possibly `galaxy-conditionals-patterns` ("a `when` gate skips a whole step"). Correct with this issue.
+- **Foundry text to sharpen, not delete.** `iwc-map-over-lifecycle-survey` ("`when` is step-level, not arbitrary per-element"), `cleanup-sync-and-publish-nonempty-results` ("Do not gate per-element routing with Galaxy `when`"), and possibly `galaxy-conditionals-patterns` ("a `when` gate skips a whole step"). A mapped `when` does skip individual elements, but they stay in the output as nulls (#661), so the filter/classifier advice for routing data still holds.
 - **Kept from the issue.** The step-set vs step-argument test is useful. Carrying one path with `kind: dropped` entries is legitimate, as a scope choice rather than a Galaxy limit. Sibling workflows remain an option; the conditional note notes IWC reviewers prefer them and that runtime tool selection wasn't observed in IWC (2026-05 claim, not re-verified).
 
 ### Known bugs to cite rather than encode (open as of today)
@@ -46,7 +46,7 @@ Scope for the implementer, after the claim is released and John OKs:
 
 1. `nextflow-params-to-galaxy-inputs`: split step-set from step-argument params. Link the conditional notes for routing. Say carry-all vs pin-one is a run-scope choice; a cut gets a `kind: dropped` entry.
 2. `nextflow-to-galaxy-channel-shape-mapping`: add a meta-driven parameterization row built on mapped `param_value_from_file`, with evidence tier and open bugs. Run-once-and-re-run becomes a fallback, not the rule.
-3. Correct the stale `when` text above; update `nextflow-workflow-io-semantics`.
+3. Sharpen the `when` text above, keeping its data-routing advice; update `nextflow-workflow-io-semantics`.
 4. Reference the conditional note from `nextflow-summary-to-galaxy-interface`; recast; `make check`.
 
 Overlap: #661 owns the fan-in recipe; link it, don't duplicate. Skim #267 and #725.
