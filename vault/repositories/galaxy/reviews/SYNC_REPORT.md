@@ -1,18 +1,16 @@
-# Galaxy review sync — 2026-11-05 (gx_reviews)
+# Galaxy review sync — 2026-11-06 (gx_reviews)
 
 ## Archived (merged)
-#24650 (merged 2026-11-05T11:33:57Z, head `ec1ef07e0dd`, CI 53/0/0).
+#24511 (11-05), #24704 (11-05), #24361 (11-06), #24420 (11-05). Worktrees removed (clean, pushed).
 
-## Needs re-review (new head)
-- #24288 5252d0cf037; #24586 1a5ce23b263 (new this sync); #24484 380309990e5; #24361 15da7456dad; #24222 b1bdb4a3271; #24511 4b3de9ed5c4; #24647 59f6bfe152b.
-
-## Status changes
-- #24635: round 1 response delivered as John's comment 2026-11-04T22:13Z (approval stands); entry and record updated from "unposted".
-- #24420: jmchilton push 8d15ef63266 (2026-11-03); Test Galaxy packages 3.10 + 3.14 still failing (49/2/0).
+## Re-review needed (new head since review)
+#24101 → 93f7cdb03a5; #24586 → 1a5ce23b263; #24484 → 380309990e5; #24288 → 5252d0cf037; #24222 → b1bdb4a3271; #24290 → b8eb71665f2; #24415 → 469ab3d3131; #24407 → 4c49b5d9c78; #24409 → 9a08fe4a2db (already flagged in queue except #24101, updated).
 
 ## Mismatches
-- active/23676 has no MY_REVIEWS.md entry (unposted architectural assessment, 2026-10-15; draft PR, 0/1/0 checks).
+Active records with no queue entry: #23676, #24747. Not added/dropped.
 
-## Worktrees
-- Removed clean merged worktrees: 24650 (HEAD pushed to fork), 24668 (HEAD now on davelopez remote branch).
-- `pr/24646` exists with no queue entry or record; left alone.
+## Failing checks
+#24407 (10), #24484 (7), #24409 (6), #24415 (5), #23560 draft (8), #24647 (2).
+
+## Removable worktrees
+None beyond those removed.

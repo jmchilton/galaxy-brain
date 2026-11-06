@@ -154,7 +154,7 @@ The standing remedy is a recalculation, which the dashboard exposes as "Refresh"
 
 ## Proposed by #24511 (open, `[25.1]`)
 
-Described from the PR diff at head `46102a0d363`. This is **not** on `dev`. Refresh this section against the merged code and its forward-merge, where `HistoryManager.purge` will have to reconcile with #22180's batch task. The jmchilton review branch `pr_24511_review_0` adds further changes, listed in `vault/repositories/galaxy/reviews/active/24511/review_0_branch_details.md`.
+Described from the PR diff at head `46102a0d363`. This is **not** on `dev`. Refresh this section against the merged code and its forward-merge, where `HistoryManager.purge` will have to reconcile with #22180's batch task. The jmchilton review branch `pr_24511_review_0` adds further changes, listed in `vault/repositories/galaxy/reviews/archived/24511/review_0_branch_details.md`.
 
 ### One charging rule, set-based
 
@@ -189,7 +189,7 @@ Described from the PR diff at head `46102a0d363`. This is **not** on `dev`. Refr
 
 ### What the PR leaves alone
 
-It doesn't repair usage that is already wrong. The PR body tells admins to run `scripts/set_user_disk_usage.py` and users to press Refresh. It also changes quota policy on a release branch, because copies of others' data, cache hits and imports now count right away. The risk and performance discussion is in `vault/repositories/galaxy/reviews/active/24511/` (`risks.md`, `performance_challenges_review.md`). Follow-up refactors (caller-owned commit in `mark_purged`, folding `quota_amount` into `sole_dataset_sizes`) are drafted there in `followup_refactor_issue.md`.
+It doesn't repair usage that is already wrong. The PR body tells admins to run `scripts/set_user_disk_usage.py` and users to press Refresh. It also changes quota policy on a release branch, because copies of others' data, cache hits and imports now count right away. The risk and performance discussion is in `vault/repositories/galaxy/reviews/archived/24511/` (`risks.md`, `performance_challenges_review.md`). Follow-up refactors (caller-owned commit in `mark_purged`, folding `quota_amount` into `sole_dataset_sizes`) are drafted there in `followup_refactor_issue.md`.
 
 ## Tests
 
@@ -214,4 +214,4 @@ It doesn't repair usage that is already wrong. The PR body tells admins to run `
 - [[Component - Job Completion Lifecycle]]: `finish()`'s disk accounting step, its transaction, and #24511's `_charge_outputs`.
 - [[Component - Private Object Stores]]: BYOS quota exemption and `QuotaSourceMap` for user stores.
 - [[Component - Jobs API and Job Cache]]: the job cache paths whose outputs share datasets and skip `finish()`.
-- Review records: `vault/repositories/galaxy/reviews/active/24511/`.
+- Review records: `vault/repositories/galaxy/reviews/archived/24511/`.

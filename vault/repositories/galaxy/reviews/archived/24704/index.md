@@ -7,3 +7,7 @@
 Round 0 review on `8c28063331f` complete, not delivered: one P3 (comment fix on `pr_24704_review_0`, pushed to fork only).
 
 PR open against `release_26.2`, by mvdbeek.
+
+## Archived 2026-11-06
+
+PR merged on GitHub (state MERGED); tracking ended.

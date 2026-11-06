@@ -19,7 +19,7 @@ Leave out quota *enforcement* UI and admin quota CRUD beyond a pointer. If #2451
 
 ## Requested by
 
-- vault/repositories/galaxy/reviews/active/24511/: charging rule, purge two-phase, recalc concurrency for the negative-usage fix
+- vault/repositories/galaxy/reviews/archived/24511/: charging rule, purge two-phase, recalc concurrency for the negative-usage fix
 
 ## Debrief
 

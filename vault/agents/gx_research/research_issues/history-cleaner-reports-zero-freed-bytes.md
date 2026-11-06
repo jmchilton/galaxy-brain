@@ -29,4 +29,4 @@ Read `int(history.disk_size)` before calling `purge()`. Open PR #24511 (`[25.1]`
 
 ## Related
 
-- `vault/repositories/galaxy/reviews/active/24511/`
+- `vault/repositories/galaxy/reviews/archived/24511/`

@@ -95,7 +95,7 @@
   status: idea
   priority: low
   suggested_by: gx_reviews/SUGGESTED_TASKS.md#Review New PRs
-- prompt: Follow up on galaxyproject/galaxy#24361 (vault/repositories/galaxy/reviews/active/24361/).
+- prompt: Follow up on galaxyproject/galaxy#24361 (vault/repositories/galaxy/reviews/archived/24361/).
   agent_dir: gx_reviews
   link: https://github.com/galaxyproject/galaxy/pull/24361
   record: galaxy/reviews/24361
@@ -125,4 +125,44 @@
   status: recommended
   priority: high
   suggested_by: gx_reviews/SUGGESTED_TASKS.md#Needs Follow Ups
+- prompt: Launch a review of galaxyproject/galaxy#24757
+  agent_dir: gx_reviews
+  link: https://github.com/galaxyproject/galaxy/pull/24757
+  description: |
+    🔎 mvdbeek: [25.1] don't return 404 while a dataset is being purged; backend/datasets, ready, no other reviewer requested.
+  status: recommended
+  priority: low
+  suggested_by: gx_reviews/SUGGESTED_TASKS.md#Review New PRs
+- prompt: Launch a review of galaxyproject/galaxy#24741
+  agent_dir: gx_reviews
+  link: https://github.com/galaxyproject/galaxy/pull/24741
+  description: |
+    🔎 mvdbeek: at most one Celery disk usage recalculation per user; backend/celery, ready.
+  status: recommended
+  priority: low
+  suggested_by: gx_reviews/SUGGESTED_TASKS.md#Review New PRs
+- prompt: Launch a review of galaxyproject/galaxy#24739
+  agent_dir: gx_reviews
+  link: https://github.com/galaxyproject/galaxy/pull/24739
+  description: |
+    🔎 mvdbeek: [26.2] decrease owners' disk usage on admin dataset cleanup; backend, ready; related to merged #24511 review.
+  status: recommended
+  priority: low
+  suggested_by: gx_reviews/SUGGESTED_TASKS.md#Review New PRs
+- prompt: Launch a review of galaxyproject/galaxy#24750
+  agent_dir: gx_reviews
+  link: https://github.com/galaxyproject/galaxy/pull/24750
+  description: |
+    🔎 mvdbeek: [26.2] batch session cleanup with read-only previews and retention; admin/database, ready.
+  status: recommended
+  priority: low
+  suggested_by: gx_reviews/SUGGESTED_TASKS.md#Review New PRs
+- prompt: Launch a review of galaxyproject/galaxy#24756
+  agent_dir: gx_reviews
+  link: https://github.com/galaxyproject/galaxy/pull/24756
+  description: |
+    🔎 nsoranzo: [26.2] COMPLIANCE logger gets user ID, drop relative compliance.log handler; admin/logging, ready.
+  status: idea
+  priority: low
+  suggested_by: gx_reviews/SUGGESTED_TASKS.md#Review New PRs
 ```

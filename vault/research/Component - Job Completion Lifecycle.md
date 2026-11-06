@@ -245,4 +245,4 @@ There are no unit tests for exceptions from `task_wrapper.delay()` or `_report_e
 - [[Component - Pulsar Input Staging]]: how a Pulsar job's outputs are posted back through the job files API before `finish()`.
 - [[Component - Private Object Stores]]: quota sources and which stores count toward usage.
 - [[Component - User Disk Usage Accounting]]: the charging rule, every charger and freer, and recalculation.
-- Review records: `vault/repositories/galaxy/reviews/archived/24465/`, `vault/repositories/galaxy/reviews/active/24511/`.
+- Review records: `vault/repositories/galaxy/reviews/archived/24465/`, `vault/repositories/galaxy/reviews/archived/24511/`.

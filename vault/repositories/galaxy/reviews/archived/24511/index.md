@@ -9,3 +9,7 @@ Round 0 on `46102a0d363`: two P2s (both reproduced) + seven P3s; eight fixed on 
 [Verified review](verified_review.md) · [Response](initial_review_response.md) · [Action](initial_response_action.md) · [Findings checklist](verified_findings_checklist.md) · [Branch details](review_0_branch_details.md) · [Filtered](filtered_findings.md) · [Follow-up issue](followup_refactor_issue.md) · [Risks](risks.md) · [Agents](initial_review_agents.md)
 
 Reports: [default](initial_review.md) · [thermo](thermo_review.md) · [tests](test_challenges_review.md) · [perf](performance_challenges_review.md) · [learning](learning_galaxy.md)
+
+## Archived 2026-11-06
+
+PR merged on GitHub (state MERGED); tracking ended.

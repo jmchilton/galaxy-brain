@@ -34,5 +34,5 @@ Skip purged outputs (`continue`) instead of resetting the sum. Open PR #24511 (`
 
 ## Related
 
-- `vault/repositories/galaxy/reviews/active/24511/`
+- `vault/repositories/galaxy/reviews/archived/24511/`
 - [[Component - User Disk Usage Accounting]] (from the `user_disk_usage_accounting` request, now in `vault/agents/gx_research/archive/`)
