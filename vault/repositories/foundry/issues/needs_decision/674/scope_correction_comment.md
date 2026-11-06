@@ -2,9 +2,9 @@ Re-triaged. The gap is real: the interface tier has no rule for shape-changing p
 
 **Correction 1: "a second tool choice is a SECOND Galaxy workflow".** Galaxy does select subgraphs at runtime: `when:` works on tool and subworkflow steps, and `conditional-route-between-alternative-outputs` documents one-of-N routing (enum, `map_param_value` booleans, gated alternatives, `pick_value`) with IWC exemplars. `nextflow-conditional-to-galaxy-subworkflow-when` already sets the v1 posture as one Galaxy workflow per source.
 
-One caveat: routing between different tools is supported by the engine but not attested in IWC. That note records no observed `when:`-driven tool selection in IWC and says IWC reviewers prefer sibling workflows (a May claim, not re-checked here). So the notes shouldn't hard-code either posture; the run picks.
+One caveat: routing between different tools is supported by the engine but not attested in IWC. That note records no observed `when:`-driven tool selection in IWC and says IWC reviewers prefer sibling workflows (a May claim, not re-checked here). That isn't a reason to split: a different tool choice shouldn't require a second workflow, and the notes should say to capture as much of the source's scope as possible in one workflow, using conditionals.
 
-The actual gap is that `nextflow-summary-to-galaxy-interface` references neither conditional note, so "keep as scalar" reaches it with no route to how. Carrying one path with `kind: dropped` entries remains legitimate, but as a scope choice the run makes, not a Galaxy limit the notes should state.
+The actual gap is that `nextflow-summary-to-galaxy-interface` references neither conditional note, so "keep as scalar" reaches it with no route to how. Carrying one path with `kind: dropped` entries remains available for branches that can't be carried, but it's the fallback, not the default and not a Galaxy limit.
 
 **Correction 2: "NO Galaxy expression" for per-element parameters.** A mapped `param_value_from_file` gives per-element values:
 
@@ -17,7 +17,7 @@ Both are on `release_24.2` through dev. A [live run](https://github.com/jmchilto
 
 **Revised scope:**
 
-1. `nextflow-params-to-galaxy-inputs`: keep the step-set vs step-argument test. Link the conditional notes for routing. Say carry-all vs pin-one is a run-scope choice, and a cut gets a `kind: dropped` entry.
+1. `nextflow-params-to-galaxy-inputs`: keep the step-set vs step-argument test. Link the conditional notes for routing. Default to one workflow that carries as much of the source's scope as conditionals allow; a tool choice doesn't require a sibling workflow. A cut is the exception and gets a `kind: dropped` entry with its reason.
 2. `nextflow-to-galaxy-channel-shape-mapping`: add meta-driven parameterization built on mapped `param_value_from_file`, with its evidence tier and open bugs. Run-once-and-re-run becomes a fallback.
 3. Correct the "`when` is step-level" framing in `iwc-map-over-lifecycle-survey` and `cleanup-sync-and-publish-nonempty-results`, and check `galaxy-conditionals-patterns`: a mapped `when` can skip individual elements. Keep the filter/classifier advice for routing data, because skipped elements stay in the output collection as nulls (#661). Update `nextflow-workflow-io-semantics`.
 4. Reference the conditional note from `nextflow-summary-to-galaxy-interface`, then recast.
