@@ -4,54 +4,69 @@ related_records: foundry/issues/723
 
 # #678 `galaxy-tool-discovery` `status` has no `unsuitable` case; a capability miss routes to authoring a wrapper that exists
 
-[Issue](https://github.com/galaxyproject/foundry/issues/678) — opened by scottcain's AI assistant, currently only `needs-triage`. No comments, no PR or branch addresses it (`gh pr list --search 678` empty; no `*678*` branch).
+[Issue](https://github.com/galaxyproject/foundry/issues/678) — opened by scottcain's AI assistant. Labels: `roadmap/substep`, `priority/mvp`, `work/needs-review`. Parent: #318. No PR or branch implements it. #686 and #689 edit the same routing lines.
 
-## Proposed labels
-
-- `roadmap/substep`: a contract gap in one schema and its routing, not backbone work.
-- Parent: #318 "Revise how skills working on draft coordinate - more direct, more deterministic, more YAML" (`roadmap/main`, `priority/mvp`). Its research comment has discovery outcomes pick the next Mold (recommendation 3) and floats a `kind` enum including `repair-topology`, which is where this status would map. #501 is weaker: this issue is about not authoring. #723 is staged under #501, so a merge would change this parent.
-- `priority/mvp`: wrong routing yields wrong results. #723's rnaseq run shows the outcome, duplicate UDTs for wrappers that exist.
-- `work/ready-research`: more than the status name is open (see Findings), so an implementer would stop on design questions. A comment settling them comes first.
-- No blocker labels.
+- [Research comment](https://github.com/galaxyproject/foundry/issues/678#issuecomment-6690347893) ([local draft](research_comment.md), identical except for the agent marker), posted 2026-11-06 against `origin/main` `51338d1d`.
 
 ## Derived status
 
-`needs_decision` (`needs_decision_labels`), rule 3: labels are staged in `issue_tags.md`. Once applied as proposed it becomes `queued_research`.
+`needs_decision` (`needs_decision_review`), rule 8: John answers the research comment.
 
-## Findings
+## Research result
 
-Verified on `origin/main` `51338d1d`, 2026-11-06.
+- No new status. Discovery classifies on whether a wrapper runs what the need names; `rna_star` is `hit` or `weak`.
+- `implement-galaxy-tool-step` raises a blocking ledger entry after summarize; `advance-galaxy-draft-step` step 5 escalates to repair.
+- `weak` stops falling through to authoring. `author-galaxy-tool-wrapper` stops on an alternate that does the work or an open blocking entry on the step.
+- Sequence: #669 plus a fold clause, then #678, then #723 split. #686 conflicts textually, not in design.
 
-- Schema: `status` enum `["hit","weak","miss"]` at `packages/gxwf-foundry/src/schemas/galaxy-tool-discovery/galaxy-tool-discovery.schema.json:18`. The allOf branch at :47 requires `candidate` for `hit`/`weak`; :56 forces `candidate: null` for `miss`. So a `miss` can't carry the right wrapper, as the issue says.
-- `content/molds/discover-shed-tool/index.md:105-107` and :158-160 define the statuses; `miss` means "falls through to author-galaxy-tool-wrapper".
-- **Discovery can't currently detect this case.** Its inputs are a free-text need and hints (no draft, no `input_artifacts`), it classifies from search score and pin resolution, and it never reads the wrapper. The port contract only appears at `summarize-galaxy-tool`, in `advance-galaxy-draft-step` step 3. So `unsuitable` needs either a capability check added to discovery or a different emitter.
-- **The routing fix is mostly not in the schema.** `advance-galaxy-draft-step` never mentions `hit`/`weak`/`miss`. It routes in prose: `:169` "if no acceptable shed candidate emerges, fall through", and `:182` a wrapper-choice mismatch goes back to discovery or to authoring. Neither offers topology repair. Only `discover-shed-tool` and `author-galaxy-tool-wrapper` (`:67`, `:84`) name the statuses in routing text.
-- **Topology repair excludes this case.** `repair-galaxy-draft-topology/index.md:92` says wrapper-tier gaps "are not this case", and `implement-galaxy-tool-step/index.md:161` says the same for a missing wrapper. #669 reports the same trigger problem and the missing deletion shape, which this issue's fold-into-consumer repair needs.
-- Corrected from the earlier triage: `harness-pipelines.md`, `glossary.md` and `implement-galaxy-tool-step` use discover-or-author language but don't name the statuses. `molds.md` and `roadmap.md` don't touch this routing. `build-cli/src/lib/run-preview.ts` has no status literals.
-- Status text a change must touch: `content/schemas/galaxy-tool-discovery.md`, `content/cli/foundry/validate-galaxy-tool-discovery.md:33-34`, `packages/gxwf-foundry/test/galaxy-tool-discovery.test.ts`, and the cast copies `casts/claude/skills/discover-shed-tool/SKILL.md:86-88` and `references/schemas/galaxy-tool-discovery.schema.json`.
-- The STAR example holds: `iuc/rgrnastar` `rna_star` with a history genome runs `--runMode genomeGenerate` inside the alignment job (`tools/rgrnastar/macros.xml:84-93`) and has no index output.
-- Changeset `d8d32326fbfb` from the issue isn't among today's 24 installable `iuc/rgrnastar` revisions. `gxwf tool-revisions` resolves `2.7.11b+galaxy1` to `6e8618432bea`. The repo updated 2026-10-26, after the issue, so this may just be a newer revision. Doesn't affect this issue; #645 covers installable-pin checking.
+Questions for John, also under "Unresolved" in the comment:
 
-Not verified: `galaxy-tool-pin.R7.json` and the claim that STAR was already pinned elsewhere in that workflow. The run artifacts aren't linked. The run itself is presumably the nf-core/rnaseq one behind #655 and #669.
+1. Dead end: a step repair can't close stays drafty and is re-picked, so a labelled gap can't happen today. Repair deletes the step and records `kind: dropped` (recommended), or an upstream skip in `nextDraftStep`?
+2. Should a required index with no consumer to fold into end the run blocked, not as a UDT?
+3. `test-pipeline` under #686: a STAR-style step ends `loop_blocked` because the worker can't run repair. Accept, or add a repair worker?
+4. Broken or deprecated wrappers: exception to #723's invariant?
+5. Should capability gaps share the `topology_repair` budget?
 
-Related, all open:
+## Verified
 
-- #723: asks to separate existence from installation, version and capability, and bans UDTs when a tool exists. Close to a superset. It would send a capability gap to a wrapper enhancement or an unresolved requirement, where this issue sends it to topology repair.
-- #669: the repair path this issue routes to.
-- #655: other gaps in the same `advance-galaxy-draft-step` step 2 cascade.
-- #318: recommendation 3 would make discovery write its outcome into the draft, so a new status must fit that.
+Review round: one fresh subagent, whose findings changed the route (dead end, insert path, `weak`, `author` inputs). I rechecked the main ones against source before applying them.
+
+- Against code at `51338d1d`: Mold, schema, note and eval citations in the comment.
+- Against PRs: #686, #689 (merged into #686's branch, not main), #545, #696, using full file lists.
+- Live Tool Shed, 2026-11-06: `galaxy-tool-cache summarize` on `rna_star` `2.7.11b+galaxy1`; `gxwf tool-search` results and row keys.
+- tools-iuc `274f6fe0`: `tools/rgrnastar/macros.xml:82-93`, `rg_rnaStar.xml:24`.
+
+## Not verified
+
+- `galaxy-tool-pin.R7.json`, its need text and search history. It isn't linked, and GitHub code search and `nekrut/foundry-paper` found nothing.
+- That the issue's run is the nf-core/rnaseq run behind #655 and #669. Likely, not proven.
+- Search rankings under the cast's pinned `gxwf ^1.15.0`. Local reports 1.0.0.
+- The once-per-sample index rebuild cost, inferred from `@TEMPINDEX@`, not measured.
+- That the reference-data rule (`nextflow-to-galaxy-reference-data-mapping/index.md:95`) produced R7's step.
+- #669's tx2gene, #723's Salmon selector and `vsearch --sintax`, cited from the issues or a pin's rationale.
+- `make casts` and `make check` weren't run; nothing was implemented.
+
+## Corrections to the earlier triage
+
+- `d8d32326fbfb` is listed in usegalaxy-eu's `tools_iuc.not-installable-revisions.yaml`, so it's likely not just a newer revision. `tool-revisions` resolves `2.7.11b+galaxy1` only to `6e8618432bea`. This is #645 territory and stays out of the comment.
+- "No PR addresses it" missed #686 and #689, which edit `advance:169`, `advance:174` and `repair:92`.
+- `advance:182` is a red-validate bucket and the wrong hook. The route is `implement:161` to `advance:174`.
+- "Topology repair excludes this case" was too strong. The exclusions cover no wrapper picked and a missing wrapper. The positive trigger is what shuts STAR out.
+- "Implementation adds the status to the schema" is reversed: description text only.
+- `:19` of the schema JSON also says `weak` "may fall through" and needs rewording.
+
+## Related, all open
+
+- #723: close to a superset; its requirement 2 needs this route. Its own record still asks the merge question, and this research recommends sequencing.
+- #669: the deletion shape this needs, plus a fold clause.
+- #655: other gaps in the same `advance-galaxy-draft-step` step 2 cascade; correction 8 needs reconciling with #723.
+- #318: its recommendation 3 sends `weak` to authoring, which this research changes.
+- #686: `test-pipeline` controller, carries #689. #545 touches `author` frontmatter.
 
 Closed and related: #549 (reuse an already-pinned wrapper), #573.
 
-Not an upstream issue: the schema and Molds are Foundry-owned, so no upstream drafts.
+Not an upstream issue, unless the dead-end answer picks the `nextDraftStep` skip (`@galaxy-tool-util/schema`).
 
 ## Next
 
-After labels: research comment answering the questions below, with the file list above as scope. Implementation then adds the status to the schema (candidate required, like `hit`/`weak`), the routing text and repair trigger, evals, a validator fixture and a recast.
-
-Questions for John:
-
-1. Merge into #723, or sequence? Same question as #723's question 1. If separate, #678 can supply the enum #723 builds on.
-2. Who emits the status: discovery with a new wrapper check, or `advance-galaxy-draft-step` after summarize, with no schema change at all? The second fits the existing `:182` route.
-3. Where does a capability gap go: topology repair (this issue), or an enhancement note or open requirement (#723)? Possibly both, depending on whether a rewire can absorb the gap.
-4. Name: `unsuitable` or `capability-miss`? Only matters if the answer to 2 keeps a status.
+After John answers: implement per the comment's change list, once #669 and its fold clause are settled.

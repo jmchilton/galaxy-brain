@@ -48,7 +48,7 @@ Review `issue_tags.md` in the record, then use 👀 Diff / 🔖 Apply staged lab
 
 ## Research to review (`needs_decision_review`)
 
-None yet.
+- (mvp) [#678](https://github.com/galaxyproject/foundry/issues/678) — discovery `status` has no `unsuitable`; capability miss routes to authoring an existing wrapper; decide: review [research comment](https://github.com/galaxyproject/foundry/issues/678#issuecomment-6690347893) (no new status; dead-end handling). [notes](needs_decision/678/index.md)
 
 ## John drives (`needs_decision_human`)
 
@@ -67,7 +67,6 @@ None yet.
 - (mvp) [#735](https://github.com/galaxyproject/foundry/issues/735) — test-data Molds stage data tables planemo ignores (unsuffixed conf, absolute `.loc`); draft PR [#749](https://github.com/galaxyproject/foundry/pull/749). [notes](wip/735/index.md)
 - (mvp) (large) [#535](https://github.com/galaxyproject/foundry/issues/535) — Prove the IWC review pipeline on a real PR and accept its policy pin; [#752](https://github.com/galaxyproject/foundry/pull/752) merged (items 1, 2, 5); real run, gates and fixtures remain. [notes](wip/535/index.md)
 - (mvp) [#568](https://github.com/galaxyproject/foundry/issues/568) — Review the prompt-to-pipeline agent benchmark preprint for comparisons and lessons; draft PR [#750](https://github.com/galaxyproject/foundry/pull/750). [notes](wip/568/index.md)
-- (mvp) [#678](https://github.com/galaxyproject/foundry/issues/678) — discovery `status` has no `unsuitable`; capability miss routes to authoring an existing wrapper; research in progress. [notes](wip/678/index.md)
 
 ## Queued to implement (`queued_implement`)
 
