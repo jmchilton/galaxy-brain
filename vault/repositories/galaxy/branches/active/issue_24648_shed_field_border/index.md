@@ -8,7 +8,11 @@ upstream_base_branch: dev
 
 ## Status
 
-Implemented and hardened (READY); pushed to the fork at `85ca630bac6`.
+Polished at `85ca630bac6`; waiting for John's final review.
+
+Fork CI has only unrelated reds.
+
+- [PR description](pr_description.md), [titles](pr_titles.md), [tags](pr_tags.md), [polish debrief](polish_debrief.md)
 
 ## Decisions
 
@@ -16,4 +20,4 @@ Targets `dev`: `release_26.2` has the low-contrast rule but not #24569's grey-50
 
 ## CI Diagnosis (`85ca630bac6`, 2026-11-06)
 
-Unrelated (on base): `Test Galaxy packages` mypy `kombu` `Queue` error. `macOS startup`/`first startup`: client cache restore failure (infra). CSS-only change.
+Unrelated: `Test Galaxy packages` mypy `kombu` `Queue` error, and `macOS startup`, neither failing in dev's last 3 runs. CSS-only change.

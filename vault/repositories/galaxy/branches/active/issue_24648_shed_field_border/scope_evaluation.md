@@ -4,19 +4,19 @@ Run via Claude Opus 5.5 at high effort.
 
 ## As implemented (Scope B, re-scoped)
 
-The input rule in `shed.css` no longer sets a border colour, so GFormInput's grey-500 applies again, along with its valid/invalid colours. The Quasar outlined/filled `::before` border uses grey-500. Inputs and selects get a grey-700 hover border that skips focused, valid/invalid and error fields. A focused, hovered select keeps its primary border. The unused textarea selector is gone.
+The input rule in `shed.css` no longer sets a border colour, so GFormInput's grey-500 applies again. The Quasar outlined/filled `::before` border uses grey-500. Inputs and selects get a grey-700 hover border that skips focused, valid/invalid and error fields. A focused, hovered select keeps its primary border. The unused textarea selector is gone.
 
 | Pros | Cons |
 |---|---|
-| - Covers every Tool Shed form field, not only the issue's input<br>- Fixes the related focused-and-hovered select bug in the same rules<br>- Restores GFormInput's valid/invalid colours, which shed.css had overridden<br>- Colours measured in a browser; CSS-only and easy to review | - Slightly more than the issue literally asks (the hover and select changes)<br>- Targets dev only |
+| - Covers every Tool Shed form field, not only the issue's input<br>- Fixes the related focused-and-hovered select bug in the same rules<br>- Keeps GFormInput's valid/invalid colours on hover, which shed.css had overridden<br>- Colours measured in a browser; CSS-only and easy to review | - Slightly more than the issue literally asks (the hover and select changes)<br>- Targets dev only |
 
 ## Original scope (alt `issue_24648_shed_field_border_alt_original_scope`)
 
-Drop the ebony-clay-200 border colour from the input rule, and nothing more.
+Drop the input border colour and hover rule, and give the Quasar select border grey-500 (corrected while polishing: this report first said selects stayed at 1.8:1).
 
 | Pros | Cons |
 |---|---|
-| - Smallest possible fix for the reported symptom | - Selects keep the same ~1.8:1 border, so the bug is only half fixed<br>- Removes input hover feedback with nothing to replace it<br>- Leaves the existing focused-and-hovered select bug in place |
+| - Smallest possible fix for the reported symptom | - Removes input hover feedback with nothing to replace it<br>- Leaves the existing focused-and-hovered select bug in place |
 
 ## Scope C: shed-wide contrast/token sweep
 
