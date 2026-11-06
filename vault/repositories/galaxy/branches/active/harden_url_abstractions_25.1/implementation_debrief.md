@@ -2,7 +2,7 @@ Run via Claude Opus 5.5.
 
 # harden_url_abstractions_25.1: implementation debrief
 
-**STATUS: BLOCKED** on a scope decision from John. The second [scope evaluation](scope_evaluation.md) recommends one more item. Under the process a second recommendation parks the branch rather than re-scoping again. Apart from that, the branch is hardened.
+**STATUS: READY.** John decided 2026-11-06 against the DRS item below, so it does not block this branch. Originally blocked on a scope decision from John. The second [scope evaluation](scope_evaluation.md) recommends one more item. Under the process a second recommendation parks the branch rather than re-scoping again. Apart from that, the branch is hardened.
 
 ```
 created .../differential-review/snapshots/20261103T033143Z-hardening-3355e25a9b2e.json

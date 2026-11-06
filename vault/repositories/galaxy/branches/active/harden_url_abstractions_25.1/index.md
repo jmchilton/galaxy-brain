@@ -8,10 +8,14 @@ upstream_base_branch: release_25.1
 
 ## Status
 
-Status: BLOCKED on a scope decision (route DRS lookups through `ValidatingSession`?); see [implementation debrief](implementation_debrief.md). Base: `release_25.1` (`83296278444`), head `3355e25a9b2`. Worktree: `~/projects/worktrees/galaxy/branch/harden_url_abstractions_25.1`. Alt: `harden_url_abstractions_25.1_alt_original_scope` ([alts/original_scope.md](alts/original_scope.md)).
+Status: READY. John decided 2026-11-06 not to route DRS lookups through `ValidatingSession` on this branch. Base: `release_25.1` (`7650883076c`), head `1b9fe0309ce`. Worktree: `~/projects/worktrees/galaxy/branch/harden_url_abstractions_25.1`. Alt: `harden_url_abstractions_25.1_alt_original_scope` ([alts/original_scope.md](alts/original_scope.md)).
 
-No PR yet. CI not yet seen.
+No PR yet. Fork CI pending on `1b9fe0309ce`.
 
 ## Scope
 
 Part of [URL Abstraction Hardening](../../../../../projects/url_abstraction_hardening/index.md). `validate_non_local` reads the scheme and host the way Galaxy's HTTP clients do, and the http file source, TRS proxy and remote ZIP source check each redirect hop with it before following it.
+
+## Rebase 2026-11-06
+
+Onto `release_25.1` `7650883076c`, which added the TRS bounded timeout and error handling (`e93f3b56572`, `272d9957804`). `TrsServer._get` keeps them inside the session factory. `test_slow_server_reported_as_timeout` now allowlists `127.0.0.1` because `ValidatingSession` blocks local user URLs. `test_trs_proxy.py` + `test/unit/files`: 185 passed, 17 skipped.
