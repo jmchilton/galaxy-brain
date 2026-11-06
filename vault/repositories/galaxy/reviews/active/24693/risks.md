@@ -1,0 +1,1 @@
+Risks are minimal - this change only tightens a test-verifier check and adds no API, tool, or workflow format surface, so it doesn't lock Galaxy into particular difficult to change choices (a two-way door). Tool and workflow tests that passed on failed or unpopulated collections will now fail, but the check can be relaxed in a later release if that proves too strict.
