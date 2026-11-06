@@ -1,0 +1,76 @@
+--- lock row
+                                                            QUERY PLAN                                                            
+----------------------------------------------------------------------------------------------------------------------------------
+ LockRows (actual time=0.015..0.015 rows=1 loops=1)
+   Buffers: shared hit=2 read=3 dirtied=1
+   ->  Index Scan using history_dataset_association_pkey on history_dataset_association (actual time=0.011..0.012 rows=1 loops=1)
+         Index Cond: (id = 500000)
+         Buffers: shared hit=1 read=3
+ Planning:
+   Buffers: shared hit=68 read=12
+ Planning Time: 6.005 ms
+ Execution Time: 0.024 ms
+(9 rows)
+
+--- lock outputs in id order
+                                                            QUERY PLAN                                                            
+----------------------------------------------------------------------------------------------------------------------------------
+ LockRows (actual time=0.013..0.015 rows=3 loops=1)
+   Buffers: shared hit=16
+   ->  Index Scan using history_dataset_association_pkey on history_dataset_association (actual time=0.009..0.010 rows=3 loops=1)
+         Index Cond: (id = ANY ('{500000,500001,500002}'::integer[]))
+         Buffers: shared hit=13
+ Planning Time: 0.064 ms
+ Execution Time: 0.023 ms
+(7 rows)
+
+--- committed copies, in-flight dataset
+                                                                 QUERY PLAN                                                                 
+--------------------------------------------------------------------------------------------------------------------------------------------
+ Nested Loop Left Join (actual time=0.204..0.204 rows=0 loops=1)
+   Buffers: shared hit=2 read=2
+   ->  Index Scan using ix_history_dataset_association_dataset_id on history_dataset_association h (actual time=0.204..0.204 rows=0 loops=1)
+         Index Cond: (dataset_id = 500000)
+         Filter: (copied_from_history_dataset_association_id = 500000)
+         Rows Removed by Filter: 1
+         Buffers: shared hit=2 read=2
+   ->  Index Scan using dataset_pkey on dataset d (never executed)
+         Index Cond: (id = 500000)
+ Planning:
+   Buffers: shared hit=166 read=20
+ Planning Time: 8.677 ms
+ Execution Time: 0.227 ms
+(13 rows)
+
+--- committed copies, popular dataset (worst case; not expected for in-flight output)
+                                                                          QUERY PLAN                                                        
+--------------------------------------------------------------------------------------------------------------------------------------------
+ Nested Loop Left Join (actual time=35.202..36.313 rows=0 loops=1)
+   Buffers: shared hit=10221 read=279
+   ->  Gather (actual time=35.202..36.313 rows=0 loops=1)
+         Workers Planned: 2
+         Workers Launched: 2
+         Buffers: shared hit=10221 read=279
+         ->  Parallel Index Scan using ix_history_dataset_association_dataset_id on history_dataset_association h (actual time=17.916..17.91
+               Index Cond: (dataset_id = 1000001)
+               Filter: (copied_from_history_dataset_association_id = 500000)
+               Rows Removed by Filter: 333333
+               Buffers: shared hit=10221 read=279
+   ->  Index Scan using dataset_pkey on dataset d (never executed)
+         Index Cond: (id = 1000001)
+ Planning Time: 0.063 ms
+ Execution Time: 36.324 ms
+(15 rows)
+
+--- key share
+                                                            QUERY PLAN                                                            
+----------------------------------------------------------------------------------------------------------------------------------
+ LockRows (actual time=0.011..0.011 rows=1 loops=1)
+   Buffers: shared hit=5
+   ->  Index Scan using history_dataset_association_pkey on history_dataset_association (actual time=0.007..0.007 rows=1 loops=1)
+         Index Cond: (id = 500000)
+         Buffers: shared hit=4
+ Planning Time: 0.046 ms
+ Execution Time: 0.017 ms
+(7 rows)
+

@@ -1,7 +1,7 @@
 ## PRs to review (`to_review`)
 
 - [#24693](https://github.com/galaxyproject/galaxy/pull/24693) — initial review ready on `db8d06be733`, unposted (two P2s + three P3s; all fixed on `pr_24693_review_0`). [notes](active/24693/index.md)
-- [#24673](https://github.com/galaxyproject/galaxy/pull/24673) — initial review running on `7db61c5f53a`. [notes](active/24673/index.md)
+- [#24673](https://github.com/galaxyproject/galaxy/pull/24673) — initial review ready on `7db61c5f53a`, unposted (two P2s + seven P3s; eight fixed on `pr_24673_review_0`). [notes](active/24673/index.md)
 - [#24747](https://github.com/galaxyproject/galaxy/pull/24747) — initial review ready on `f76e9ce6925`, undelivered (five P2s + six P3s, all fixed on `pr_24747_review_0`). [notes](active/24747/index.md)
 - [#24598](https://github.com/galaxyproject/galaxy/pull/24598) — approved + review branch `e278e8edcea` pushed into PR; awaiting merge. [notes](active/24598/index.md)
 - [#24647](https://github.com/galaxyproject/galaxy/pull/24647) — review delivered 2026-11-04 as APPROVE on `7247fea9983` (P2 integration test + three P3s; three fixed on `pr_24647_review_0`). Also approved by davelopez; head now 59f6bfe152b; awaiting merge. [notes](active/24647/index.md)

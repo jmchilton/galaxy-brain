@@ -1,0 +1,122 @@
+{
+ "S1_copy_each_queued/1000": {
+  "stmts": 4001,
+  "locks": 1000,
+  "selects": 4000,
+  "sec": 1.459,
+  "ms_per": null,
+  "wal_bytes": 943344,
+  "n": 1000
+ },
+ "S3_copy_each_ok_control/1000": {
+  "stmts": 3001,
+  "locks": 0,
+  "selects": 3000,
+  "sec": 0.792,
+  "ms_per": null,
+  "wal_bytes": 943288,
+  "n": 1000
+ },
+ "S2_cross_product_queued/1000": {
+  "stmts": 2048,
+  "locks": 1922,
+  "selects": 2046,
+  "sec": 0.599,
+  "ms_per": null,
+  "copies": 1922,
+  "sources": 62,
+  "n": 1000
+ },
+ "S4_history_copy_queued/1000": {
+  "stmts": 4008,
+  "locks": 1000,
+  "selects": 4006,
+  "sec": 0.897,
+  "ms_per": null,
+  "n": 1000
+ },
+ "S5_hdca_copy_queued/1000": {
+  "stmts": 4010,
+  "locks": 1000,
+  "selects": 4005,
+  "sec": 1.168,
+  "ms_per": null,
+  "n": 1000
+ },
+ "S6_copy_from_each_element/1000": {
+  "stmts": 5003,
+  "locks": 1000,
+  "selects": 5001,
+  "sec": 1.249,
+  "ms_per": null,
+  "n": 1000
+ },
+ "S7_copy_from_with_n_copies/1000": {
+  "stmts": 3009,
+  "locks": 1001,
+  "selects": 3006,
+  "sec": 0.92,
+  "ms_per": null,
+  "n": 1000
+ },
+ "S1_copy_each_queued/10000": {
+  "stmts": 40010,
+  "locks": 10000,
+  "selects": 40000,
+  "sec": 12.658,
+  "ms_per": null,
+  "wal_bytes": 9438872,
+  "n": 10000
+ },
+ "S3_copy_each_ok_control/10000": {
+  "stmts": 30010,
+  "locks": 0,
+  "selects": 30000,
+  "sec": 12.996,
+  "ms_per": null,
+  "wal_bytes": 9444440,
+  "n": 10000
+ },
+ "S2_cross_product_queued/10000": {
+  "stmts": 20420,
+  "locks": 20000,
+  "selects": 20400,
+  "sec": 6.726,
+  "ms_per": null,
+  "copies": 20000,
+  "sources": 200,
+  "n": 10000
+ },
+ "S4_history_copy_queued/10000": {
+  "stmts": 40017,
+  "locks": 10000,
+  "selects": 40006,
+  "sec": 8.842,
+  "ms_per": null,
+  "n": 10000
+ },
+ "S5_hdca_copy_queued/10000": {
+  "stmts": 40028,
+  "locks": 10000,
+  "selects": 40005,
+  "sec": 13.767,
+  "ms_per": null,
+  "n": 10000
+ },
+ "S6_copy_from_each_element/10000": {
+  "stmts": 50003,
+  "locks": 10000,
+  "selects": 50001,
+  "sec": 14.075,
+  "ms_per": null,
+  "n": 10000
+ },
+ "S7_copy_from_with_n_copies/10000": {
+  "stmts": 30009,
+  "locks": 10001,
+  "selects": 30006,
+  "sec": 21.547,
+  "ms_per": null,
+  "n": 10000
+ }
+}
