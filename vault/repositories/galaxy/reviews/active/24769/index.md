@@ -4,6 +4,6 @@
 
 ## Status
 
-Initial review on `b4d1c730ac7` drafted, not delivered: one P2 and one P3, both fixed on `pr_24769_review_0`, which is pushed to the fork but not into the PR.
+Approved with review posted 2026-11-06 on `b4d1c730ac7`; awaiting merge. Findings: one P2 and one P3, both fixed on `pr_24769_review_0`, which is on the fork, not pushed into the PR.
 
 PR open against `release_26.2`; CI 46 passing, 3 pending, none failing at last check.
