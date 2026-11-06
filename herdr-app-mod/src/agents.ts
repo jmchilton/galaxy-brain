@@ -1,12 +1,13 @@
 // galaxy-brain sidebar for the Herdr app: every terminal grouped by agent dir, each row
 // harness icon, machine icon, launch name · title, and status. Modeled on the shipped `agents` mod.
-// + starts a new agent (the Chrome native host's newAgent, through the herdr-plugin CLI); the same
-// mod draws the sidebar header and the New agent popup, chosen by props().view.
+// + and each agent dir's routines start a new agent (the Chrome native host's newAgent, through the
+// herdr-plugin CLI); the same mod draws the sidebar header and the New agent popup, chosen by props().view.
 
 import { div, image, svg, View } from "gpui-kit";
 import { h_flex, v_flex } from "gpui-base";
 import { closeOverlay, focused, layout, notify, openOverlay, panes, props, readTextFile, run, setAgentOrder, setShared, shared, spaces, terminals, theme, window } from "herdr";
 import { parse } from "yaml";
+import type { Routine } from "../../obsidian-plugin/src/agent-routines";
 import { type Environment, parseEnvironments } from "../../obsidian-plugin/src/environments";
 import { machineOf } from "./context";
 import { host } from "./host";
@@ -20,15 +21,25 @@ interface NewAgentOptions {
 	profiles: { name: string; agent: string }[];
 	/** Names; the first is the default. */
 	environments: string[];
+	/** Per agent dir. */
+	routines: Record<string, Routine[]>;
+}
+
+/** Shows the agent board's tab, opening it if needed. */
+function openBoard() {
+	const open = panes().find((p: any) => p.mod === "gb-board");
+	if (open) run("pane.focus", { pane: open.pane });
+	else run("tab.new", { name: "🧠 Agents", mod: "gb-board" });
 }
 
 /** Starts a blank agent in the dir; a toast says how it went. */
-async function newAgent(dir: string, profile?: string, environment?: string): Promise<void> {
-	notify({ title: `Starting ${dir}`, body: [profile, environment].filter(Boolean).join(" · ") || undefined, level: "info", timeout: 3000 });
+async function newAgent(dir: string, profile?: string, environment?: string, routine?: Routine): Promise<void> {
+	const label = routine ? `${routine.label} · ${dir}` : dir;
+	notify({ title: `Starting ${label}`, body: [profile, environment].filter(Boolean).join(" · ") || undefined, level: "info", timeout: 3000 });
 	try {
-		await host({ type: "newAgent", dir, ...(profile ? { profile } : {}), ...(environment ? { environment } : {}) });
+		await host({ type: "newAgent", dir, ...(profile ? { profile } : {}), ...(environment ? { environment } : {}), ...(routine ? { name: routine.name, prompt: routine.task.prompt } : {}) });
 	} catch (error) {
-		notify({ title: `${dir} not started`, body: error instanceof Error ? error.message : String(error), level: "error" });
+		notify({ title: `${label} not started`, body: error instanceof Error ? error.message : String(error), level: "error" });
 	}
 }
 
@@ -176,11 +187,30 @@ export default class GbAgents extends View {
 			.when(mac && !window()?.fullscreen && !collapsed, (el: El) => el.pl(76))
 			.when(!collapsed, (el: El) =>
 				el
-					.child(div().flex_1().text_size(18).child("🧠"))
+					.child(
+						div()
+							.flex_1()
+							.child(
+								div()
+									.id("gb-ag-board")
+									.w(26)
+									.text_size(18)
+									.cursor_pointer()
+									.tooltip("Agent board")
+									.on_mouse_down("left", (_e: unknown, cx: Cx) => cx.stop_propagation())
+									.on_click(openBoard)
+									.child("🧠"),
+							),
+					)
 					.child(button("gb-ag-new", "New agent", "plus", () => openOverlay({ mod: MOD, kind: "popup", width: 340, props: { view: "new" } })))
 					.child(button("gb-ag-search", "Search", "search", () => run("mod.open", { name: "picker" }))),
 			)
 			.when(!(collapsed && mac), (el: El) => el.child(button("gb-ag-toggle", "Collapse sidebar", "sidebar", toggleSidebar)));
+	}
+
+	/** A button per routine the agent dir has. */
+	routineButtons(t: any, key: string, dir: string, start: (cx: Cx, routine: Routine) => void): El[] {
+		return (this.options?.routines?.[dir] ?? []).map((routine, i) => smallButton(t, `gb-rt-${key}-${dir}-${i}`, routine.emoji, `${routine.label} · ${dir}: ${routine.task.prompt}`, (cx) => start(cx, routine)));
 	}
 
 	// A group's header folds it; folded, it shows the count and the most urgent state.
@@ -208,7 +238,9 @@ export default class GbAgents extends View {
 			.child(div().child(String(g.rows.length)))
 			.child(div().flex_1())
 			.when(g.label !== OTHER && Boolean(this.options?.agentDirs.includes(g.label)), (el: El) =>
-				el.child(smallButton(t, `gb-ag-add-${g.label}`, "+", `New ${g.label} agent`, () => void newAgent(g.label))),
+				el
+					.children(this.routineButtons(t, "group", g.label, (cx, routine) => cx.spawn(async () => newAgent(g.label, routine.task.profile, undefined, routine))))
+					.child(smallButton(t, `gb-ag-add-${g.label}`, "+", `New ${g.label} agent`, () => void newAgent(g.label))),
 			)
 			.when(!open, (el: El) =>
 				el
@@ -266,14 +298,14 @@ export default class GbAgents extends View {
 			.child(h_flex().w(14).flex_none().items_center().justify_center().child(statusMark(t, r.status, true)));
 	}
 
-	// Popup: the machine, then each agent dir with ⚡ (default profile) and ⚙️ (pick a profile).
+	// Popup: the machine, then each agent dir with its routines, ⚡ (default profile) and ⚙️ (pick a profile).
 	renderNew(t: any): El {
 		const options = this.options;
 		const overlay = props()?.overlay;
-		const start = (cx: Cx, dir: string, profile?: string) => {
+		const start = (cx: Cx, dir: string, profile?: string, routine?: Routine) => {
 			const environment = this.environment ?? undefined;
 			closeOverlay(overlay);
-			cx.spawn(async () => newAgent(dir, profile, environment));
+			cx.spawn(async () => newAgent(dir, profile, environment, routine));
 		};
 		const row = (id: string, label: El) => h_flex().id(id).h(28).px(8).gap(6).items_center().rounded(6).hover((s: El) => s.bg(t.hover)).child(label);
 		const machines = (options?.environments ?? []).map((name) => {
@@ -314,6 +346,7 @@ export default class GbAgents extends View {
 					]
 				: options.agentDirs.map((dir) =>
 						row(`gb-dir-${dir}`, div().flex_1().truncate().child(dir))
+							.children(this.routineButtons(t, "new", dir, (cx, routine) => start(cx, dir, routine.task.profile, routine)))
 							.child(smallButton(t, `gb-dir-go-${dir}`, "⚡", "Blank agent, default profile", (cx) => start(cx, dir)))
 							.child(
 								smallButton(t, `gb-dir-pf-${dir}`, "⚙️", "Pick a profile", (cx) => {

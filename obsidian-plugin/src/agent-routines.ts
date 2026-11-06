@@ -1,29 +1,53 @@
-// Routine prompts (GOOD_MORNING.md, TICK.md) and suggested-task files in agent dirs.
+// Routines (agent launchers marked `routine: true`) and suggested-task files in agent dirs.
 
-import type { Task } from "./task-list";
+import { fillAgentTemplate, parseAgentLaunchers, quickEmoji } from "./launchers";
+import { isSnoozed, type Task } from "./task-list";
 
 export interface Routine {
-	file: string;
+	/** Without its leading emoji. */
 	label: string;
-	/** Obsidian icon id. */
-	icon: string;
-	/** Agent name prefix. */
-	prefix: string;
+	emoji: string;
+	/** Obsidian icon id; the emoji shows without one. */
+	icon?: string;
+	/** Agent name. */
+	name: string;
+	task: Task;
 }
 
-export const ROUTINES: Routine[] = [
-	{ file: "GOOD_MORNING.md", label: "Good morning", icon: "sun", prefix: "gm" },
-	{ file: "TICK.md", label: "Tick", icon: "timer", prefix: "tick" },
-];
+/** The dir's routines from its LAUNCHERS.md; one needing an open note ({file}) can't run from a button. */
+export function agentRoutines(launchers: string | null, agent: string): Routine[] {
+	return parseAgentLaunchers(launchers ?? "", agent)
+		.filter((launcher) => launcher.routine && !launcher.prompt.includes("{file}"))
+		.map(({ label, icon, name, prompt, agentDir, profile }) => {
+			const emoji = quickEmoji(label);
+			return {
+				label: emoji ? label.slice(emoji.length).trim() : label,
+				emoji: emoji ?? "▶️",
+				...(icon ? { icon } : {}),
+				name: fillAgentTemplate(name, agent, ""),
+				task: { prompt: fillAgentTemplate(prompt, agent, ""), agentDir, ...(profile ? { profile } : {}) },
+			};
+		});
+}
 
-export const ROUTINE_PROFILE = "Sonnet (medium)";
+export type AgentsTab = "tasks" | "blockers" | "cracks";
+
+/** A landing page chip: the tab it opens, and its text. */
+export interface AgentCount {
+	tab: AgentsTab;
+	count: number;
+	label: string;
+}
+
+/** What's pending for an agent, skipping snoozed tasks and zeros. */
+export function agentCounts(tasks: Task[], blockers: number, missed: number, today: string): AgentCount[] {
+	const counts: Array<[AgentsTab, number, string]> = [
+		["tasks", tasks.filter((task) => !isSnoozed(task, today)).length, "task"],
+		["blockers", blockers, "blocker"],
+		["cracks", missed, "missed PR"],
+	];
+	return counts.filter(([, count]) => count > 0).map(([tab, count, noun]) => ({ tab, count, label: `${count} ${noun}${count === 1 ? "" : "s"}` }));
+}
 
 /** Where PROCESS_COLLECT_SUGGESTED_TASKS.md appends an agent dir's tasks. */
 export const tasksPath = (agentDir: string) => `agents/${agentDir}/TASKS.md`;
-
-export function routineLaunch(agentDir: string, routine: Routine): { task: Task; name: string } {
-	return {
-		task: { prompt: `Run ./${routine.file}`, agentDir, profile: ROUTINE_PROFILE },
-		name: `${routine.prefix}-${agentDir}`,
-	};
-}

@@ -1,5 +1,5 @@
 import { setIcon } from "obsidian";
-import type { MissedPr } from "./missed-prs";
+import { type MissedPr, missedPrMeta } from "./missed-prs";
 
 export interface MissedPrCardOptions {
 	/** Check / undo icon; resolves true once the file is updated. */
@@ -45,13 +45,7 @@ export function renderMissedPrCards(el: HTMLElement, prs: MissedPr[], options: M
 				label();
 			};
 		}
-		const meta = [
-			pr.author && `by ${pr.author}`,
-			pr.mergedBy && `merged by ${pr.mergedBy}`,
-			pr.approvers.length ? `approved by ${pr.approvers.join(", ")}` : "no approvals",
-			pr.mergedAt?.slice(0, 10),
-		];
-		card.createDiv({ cls: "gb-missed-pr-meta", text: meta.filter(Boolean).join(" · ") });
+		card.createDiv({ cls: "gb-missed-pr-meta", text: missedPrMeta(pr) });
 		if (pr.summary) card.createDiv({ cls: "gb-missed-pr-summary", text: pr.summary.trim() });
 		if (pr.discussionSummary) card.createDiv({ cls: "gb-missed-pr-discussion-summary", text: `💬 ${pr.discussionSummary.trim()}` });
 		for (const [label, text] of [["Details", pr.details], ["Discussion", pr.discussion]] as const) {

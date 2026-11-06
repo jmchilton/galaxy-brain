@@ -17,3 +17,5 @@ In a Herdr app pane in an `agent_dir`, the header's 🚀 menu offers that dir's 
 ## Agent launchers
 
 `vault/agents/<agent>/LAUNCHERS.md` holds launchers for notes in that agent dir; the plugin shows a 🤖 launch button and an "Agents: routines and tasks" button (opens that agent's view) in the header of any note under `agents/<agent>/`. Same format, but `agent_dir:` defaults to `<agent>`, `status:` is ignored, and `command:` launchers are dropped. Placeholders: `{agent}`, `{file}` (absolute path of the open note).
+
+`routine: true` also offers a launcher wherever that agent can be started: the Agents view in Obsidian, and the agent board, New agent popup and sidebar group headers in the Herdr app. Its button is the label's leading emoji, or in Obsidian the Lucide icon named by `icon:`. A routine can't use `{file}`.

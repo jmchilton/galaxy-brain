@@ -1,6 +1,6 @@
 // ```gb-missed-prs blocks of merged PRs John missed; format in vault/agents/gx_reviews/the_cracks/FELL_THROUGH_THE_CRACKS_NOTE_FORMAT.md.
 
-import { editBlockEntry } from "./task-list";
+import { editBlockEntry, fencedBlocks } from "./task-list";
 
 export interface MissedPr {
 	pr: number;
@@ -80,6 +80,33 @@ export function setMissedPrReviewed(
 		parse,
 		stringify,
 	);
+}
+
+/** One merge-date file's PRs; agentDir is set when days from several agents are merged. */
+export interface CrackDay {
+	path: string;
+	date: string;
+	agentDir?: string;
+	prs: MissedPr[];
+	error?: string;
+}
+
+/** A merge-date note's PRs, or its parse error. */
+export function parseCrackDay(file: { path: string; date: string }, note: string, parse: (source: string) => unknown, agentDir?: string): CrackDay {
+	const day: CrackDay = { ...file, prs: [], ...(agentDir ? { agentDir } : {}) };
+	try {
+		day.prs = fencedBlocks(note, "gb-missed-prs").flatMap((block) => parseMissedPrs(parse(block.source)));
+	} catch (error) {
+		day.error = error instanceof Error ? error.message : String(error);
+	}
+	return day;
+}
+
+export const unreviewedCount = (days: CrackDay[]) => days.reduce((count, day) => count + day.prs.filter((pr) => !pr.reviewed).length, 0);
+
+/** A card's line of who wrote, merged and approved it, and when. */
+export function missedPrMeta(pr: MissedPr): string {
+	return [pr.author && `by ${pr.author}`, pr.mergedBy && `merged by ${pr.mergedBy}`, pr.approvers.length ? `approved by ${pr.approvers.join(", ")}` : "no approvals", pr.mergedAt?.slice(0, 10)].filter(Boolean).join(" · ");
 }
 
 /** Merge-date files (`YYYY-MM-DD.md`) directly in dir, newest first. */

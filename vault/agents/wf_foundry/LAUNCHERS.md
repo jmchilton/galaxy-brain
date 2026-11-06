@@ -2,11 +2,17 @@ Launchers for notes in the wf_foundry agent dir; format in [LAUNCHERS.md](../_sh
 
 ## ☀️ Good morning
 name: wf-morning
+profile: Sonnet (medium)
+routine: true
+icon: sun
 
 Run ./GOOD_MORNING.md
 
 ## ⏱️ Tick
 name: wf-tick
+profile: Sonnet (medium)
+routine: true
+icon: timer
 
 Run ./TICK.md
 

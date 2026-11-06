@@ -1,36 +1,17 @@
 import { type App, Notice, parseYaml, stringifyYaml } from "obsidian";
 import { renderMissedPrCards } from "./missed-pr-cards";
-import { crackFiles, type MissedPr, parseMissedPrs, setMissedPrReviewed } from "./missed-prs";
-import { fencedBlocks } from "./task-list";
-
-/** One merge-date file's PRs; agentDir is set when days from several agents are merged. */
-export interface CrackDay {
-	path: string;
-	date: string;
-	agentDir?: string;
-	prs: MissedPr[];
-	error?: string;
-}
+import { type CrackDay, crackFiles, type MissedPr, parseCrackDay, setMissedPrReviewed } from "./missed-prs";
 
 /** Merge-date files in dir, newest first, with their parsed PRs or parse error. */
 export async function readCrackDays(app: App, dir: string, agentDir?: string): Promise<CrackDay[]> {
 	const files = crackFiles(app.vault.getMarkdownFiles().map((file) => file.path), dir);
 	return Promise.all(
-		files.map(async ({ path, date }) => {
-			const day: CrackDay = { path, date, prs: [], ...(agentDir ? { agentDir } : {}) };
-			const file = app.vault.getFileByPath(path);
-			if (!file) return day;
-			try {
-				day.prs = fencedBlocks(await app.vault.cachedRead(file), "gb-missed-prs").flatMap((block) => parseMissedPrs(parseYaml(block.source)));
-			} catch (error) {
-				day.error = error instanceof Error ? error.message : String(error);
-			}
-			return day;
+		files.map(async (found) => {
+			const file = app.vault.getFileByPath(found.path);
+			return parseCrackDay(found, file ? await app.vault.cachedRead(file) : "", parseYaml, agentDir);
 		}),
 	);
 }
-
-export const unreviewedCount = (days: CrackDay[]) => days.reduce((count, day) => count + day.prs.filter((pr) => !pr.reviewed).length, 0);
 
 /** Sets pr's `reviewed` in the note at path; false (with a notice) if the note or entry is gone. */
 export async function setReviewedInFile(app: App, path: string, pr: MissedPr, reviewed: boolean): Promise<boolean> {

@@ -28,6 +28,7 @@ Daily drivers for one project or a set of related projects. Each one reviews, im
 - Queue files — `MY_BRANCHES.md`, `MY_ISSUES.md`, `MY_REVIEWS.md` — live with their records in `vault/repositories/PROJECT/{branches,issues,reviews}/`, not in the agent directory. One line per item, linking to its record. Queues stay thin; detail lives in records.
 - `TICK.md` — the prompt for a recurring loop. Usually "take every Automatic Action" plus a few checks.
 - `GOOD_MORNING.md` — the daily triage prompt. May include `TICK.md`, then surfaces what needs John and offers next tasks.
+- `LAUNCHERS.md` — launch buttons for the agent. Those marked `routine: true`, usually the two above, show wherever the agent can be started.
 
 Anything else in an agent directory is working material (process docs, PR description drafts, dated plans).
 

@@ -66,6 +66,14 @@ describe("agent launchers", () => {
 		expect(fillAgentTemplate(tidy!.prompt, "gx_branches", "/v/agents/gx_branches/TODO.md")).toBe("Tidy /v/agents/gx_branches/TODO.md for gx_branches");
 	});
 
+	it("reads routine and icon, leaving other launchers without them", () => {
+		const markdown = "## ☀️ Morning\nroutine: true\nicon: sun\n\nRun it\n\n## 🧹 Tidy\nroutine: false\n\nTidy\n";
+		const [morning, tidy] = parseAgentLaunchers(markdown, "pulsar");
+		expect(morning).toMatchObject({ routine: true, icon: "sun", prompt: "Run it" });
+		expect(tidy).not.toHaveProperty("routine");
+		expect(tidy).not.toHaveProperty("icon");
+	});
+
 	it("parses the vault's wf_foundry launchers", () => {
 		const markdown = readFileSync(new URL("../../vault/agents/wf_foundry/LAUNCHERS.md", import.meta.url), "utf8");
 		expect(parseAgentLaunchers(markdown, "wf_foundry").map((l) => [l.label, l.agentDir])).toEqual([

@@ -82,6 +82,33 @@ export function parseTasks(data: unknown, known: { profiles: string[]; agentDirs
 	});
 }
 
+/** A task and the agent dir whose TASKS.md holds it (not necessarily its `agent_dir`). */
+export type ListedTask = Task & { source: string };
+
+/** Every task in an agent dir's TASKS.md (null when it has none); a bad block is reported, not thrown. */
+export function parseAgentTasks(
+	source: string,
+	note: string | null,
+	known: { profiles: string[]; agentDirs: string[] },
+	parse: (text: string) => unknown,
+): { source: string; tasks: ListedTask[]; error?: string } {
+	if (note === null) return { source, tasks: [] };
+	try {
+		const tasks = taskBlocks(note).flatMap((block) => parseTasks(parse(block.source), known));
+		return { source, tasks: tasks.map((task) => ({ ...task, source })) };
+	} catch (error) {
+		return { source, tasks: [], error: error instanceof Error ? error.message : String(error) };
+	}
+}
+
+/** Snooze choices: label and days. */
+export const SNOOZES: Array<[string, number]> = [
+	["1 day", 1],
+	["3 days", 3],
+	["1 week", 7],
+	["2 weeks", 14],
+];
+
 /** Whether the task is hidden on day (`YYYY-MM-DD`). */
 export function isSnoozed(task: Task, day: string): boolean {
 	return task.snoozedUntil !== undefined && task.snoozedUntil > day;

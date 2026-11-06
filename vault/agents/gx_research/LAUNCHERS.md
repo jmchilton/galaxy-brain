@@ -1,5 +1,13 @@
 Launchers for notes in the gx_research agent dir; format in [LAUNCHERS.md](../_shared/LAUNCHERS.md#agent-launchers).
 
+## ⏱️ Tick
+name: rs-tick
+profile: Sonnet (medium)
+routine: true
+icon: timer
+
+Run ./TICK.md
+
 ## 🧠 Work this request
 name: rs-request
 profile: Opus (medium)

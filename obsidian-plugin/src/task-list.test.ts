@@ -1,8 +1,30 @@
 import { describe, expect, it } from "vitest";
 import { parse, stringify } from "yaml";
-import { addDays, byPriority, isSnoozed, linkLabel, localDay, parseTasks, recordIndexPath, refinementPrompt, removeTask, replaceBlockBody, snoozeTask, type Task, taskBlocks } from "./task-list";
+import { addDays, byPriority, isSnoozed, linkLabel, localDay, parseAgentTasks, parseTasks, recordIndexPath, refinementPrompt, removeTask, replaceBlockBody, snoozeTask, type Task, taskBlocks } from "./task-list";
 
 const known = { profiles: ["Opus (high)", "Sonnet (medium)"], agentDirs: ["planemo", "wf_foundry"] };
+
+describe("parseAgentTasks", () => {
+	it("lists every block's tasks, tagged with the dir holding them", () => {
+		const note = "```gb-tasks\n- prompt: a\n  agent_dir: planemo\n```\ntext\n```gb-tasks\n- prompt: b\n  agent_dir: wf_foundry\n```\n";
+		expect(parseAgentTasks("planemo", note, known, parse)).toEqual({
+			source: "planemo",
+			tasks: [
+				{ prompt: "a", agentDir: "planemo", source: "planemo" },
+				{ prompt: "b", agentDir: "wf_foundry", source: "planemo" },
+			],
+		});
+	});
+
+	it("has no tasks without a note", () => {
+		expect(parseAgentTasks("planemo", null, known, parse)).toEqual({ source: "planemo", tasks: [] });
+	});
+
+	it("reports a bad block instead of throwing", () => {
+		const note = "```gb-tasks\n- prompt: a\n  agent_dir: nope\n```\n";
+		expect(parseAgentTasks("planemo", note, known, parse)).toEqual({ source: "planemo", tasks: [], error: "task 1: unknown agent_dir nope" });
+	});
+});
 
 describe("linkLabel", () => {
 	it("shortens GitHub PRs and issues to owner/repo#N", () => {

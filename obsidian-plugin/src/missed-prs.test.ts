@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { parse, stringify } from "yaml";
-import { crackFiles, cracksPath, isCrackFile, parseMissedPrs, setMissedPrReviewed } from "./missed-prs";
+import { crackFiles, cracksPath, isCrackFile, missedPrMeta, parseCrackDay, parseMissedPrs, setMissedPrReviewed, unreviewedCount } from "./missed-prs";
 
 const url = "https://github.com/galaxyproject/galaxy/pull/24561";
 
@@ -94,6 +94,36 @@ describe("setMissedPrReviewed", () => {
 
 	it("returns undefined when no entry has that number", () => {
 		expect(setMissedPrReviewed(day, 3, true, parse, stringify)).toBeUndefined();
+	});
+});
+
+describe("parseCrackDay", () => {
+	const file = { path: "agents/gx_reviews/the_cracks/2026-11-04.md", date: "2026-11-04" };
+	const entry = (pr: number, extra = "") => `- pr: ${pr}\n  title: t\n  url: https://github.com/o/r/pull/${pr}\n${extra}`;
+
+	it("gathers every block's PRs, and counts the unreviewed", () => {
+		const note = `\`\`\`gb-missed-prs\n${entry(1, "  reviewed: true\n")}\`\`\`\ntext\n\`\`\`gb-missed-prs\n${entry(2)}\`\`\`\n`;
+		const day = parseCrackDay(file, note, parse, "gx_reviews");
+		expect(day).toMatchObject({ ...file, agentDir: "gx_reviews" });
+		expect(day.prs.map((pr) => pr.pr)).toEqual([1, 2]);
+		expect(unreviewedCount([day, day])).toBe(2);
+	});
+
+	it("reports a bad note as the day's error, with no PRs", () => {
+		const day = parseCrackDay(file, "```gb-missed-prs\n- pr: nope\n```\n", parse);
+		expect(day).toEqual({ ...file, prs: [], error: "entry 1: missing pr" });
+	});
+});
+
+describe("missedPrMeta", () => {
+	const pr = { pr: 1, title: "t", url: "u", approvers: [] as string[], reviewed: false };
+
+	it("joins what's known", () => {
+		expect(missedPrMeta({ ...pr, author: "a", mergedBy: "m", approvers: ["x", "y"], mergedAt: "2026-11-04T10:00:00Z" })).toBe("by a · merged by m · approved by x, y · 2026-11-04");
+	});
+
+	it("says when nobody approved", () => {
+		expect(missedPrMeta(pr)).toBe("no approvals");
 	});
 });
 

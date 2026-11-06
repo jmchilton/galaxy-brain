@@ -1,12 +1,5 @@
 import { Menu, setIcon } from "obsidian";
-import { addDays, isSnoozed, linkLabel, localDay, type Task, type TaskRecord } from "./task-list";
-
-const SNOOZES: Array<[string, number]> = [
-	["1 day", 1],
-	["3 days", 3],
-	["1 week", 7],
-	["2 weeks", 14],
-];
+import { addDays, isSnoozed, linkLabel, localDay, SNOOZES, type Task, type TaskRecord } from "./task-list";
 
 export interface TaskCardActions {
 	/** Profile named on cards whose task sets none. */

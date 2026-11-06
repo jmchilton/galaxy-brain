@@ -850,20 +850,6 @@ function checkList(el3, checks, cls) {
 // src/agents-view.ts
 var import_obsidian5 = require("obsidian");
 
-// src/agent-routines.ts
-var ROUTINES = [
-  { file: "GOOD_MORNING.md", label: "Good morning", icon: "sun", prefix: "gm" },
-  { file: "TICK.md", label: "Tick", icon: "timer", prefix: "tick" }
-];
-var ROUTINE_PROFILE = "Sonnet (medium)";
-var tasksPath = (agentDir) => `agents/${agentDir}/TASKS.md`;
-function routineLaunch(agentDir, routine) {
-  return {
-    task: { prompt: `Run ./${routine.file}`, agentDir, profile: ROUTINE_PROFILE },
-    name: `${routine.prefix}-${agentDir}`
-  };
-}
-
 // ../site/src/lib/records.ts
 var RECORD_KINDS = ["branches", "issues", "issues_incubator", "reviews"];
 var DEFAULTS_REPO = "_defaults";
@@ -978,97 +964,113 @@ function groupBySections(records, kind, grouping) {
   return { sections, rest: ofKind.filter((record) => !listed.has(record.name)) };
 }
 
-// src/blockers.ts
-var blockersPath = (agentDir) => `agents/${agentDir}/blockers`;
-var isAgentBlocker = (blocker) => "agentDir" in blocker;
-var recordIdLabel = ({ repo, kind, name }) => `${repo}/${kind}/${name}`;
-function blockerFromPath(path) {
-  const m = path.match(/^agents\/([^/]+)\/blockers\/([^/]+)(?:\/|$)/);
-  return m ? { agentDir: m[1], name: m[2] } : null;
+// src/launchers.ts
+var KEY_LINE = /^(status|agent_dir|name|profile|command|routine|icon):\s*(.*)$/;
+var list = (value) => value.split(",").map((item2) => item2.trim()).filter(Boolean);
+function launcherScope(path) {
+  const [root, repo, kind, file, ...rest] = path.split("/");
+  if (root !== "repositories" || file !== "LAUNCHERS.md" || rest.length || !repo) return null;
+  if (!RECORD_KINDS.includes(kind)) return null;
+  return { repo: repo === DEFAULTS_REPO ? null : repo, kind };
 }
-function recordId(ref) {
-  const m = /^([^\s/]+)\/([^\s/]+)\/([^\s/]+)$/.exec(ref);
-  return m && RECORD_KINDS.includes(m[2]) ? { repo: m[1], kind: m[2], name: m[3] } : null;
+function agentFromPath(path) {
+  const [root, agent, ...rest] = path.split("/");
+  return root === "agents" && agent && !agent.startsWith("_") && rest.length ? agent : null;
 }
-function recordBlockers(body) {
-  return (recordFrontmatter(body).blockers ?? []).flatMap((ref) => {
-    const agent = /^([^\s/]+)\/([^\s/]+)$/.exec(ref);
-    const blocker = agent ? { agentDir: agent[1], name: agent[2] } : recordId(ref);
-    return blocker ? [blocker] : [];
-  });
+var agentLaunchersPath = (agent) => `agents/${agent}/LAUNCHERS.md`;
+function quickEmoji(label) {
+  return /^(\p{Extended_Pictographic}️?(?:‍\p{Extended_Pictographic}️?)*)\s+(?!\p{Extended_Pictographic})/u.exec(label)?.[1];
 }
-function recordRefs(body, field) {
-  return (recordFrontmatter(body)[field] ?? []).flatMap((ref) => recordId(ref) ?? []);
+function parseAgentLaunchers(markdown, agent) {
+  return parseLaunchers(markdown, { repo: null, kind: null }, agent).filter((launcher) => !launcher.command);
 }
-function relatedBranches(body, repo) {
-  const { parent_branch, child_branches = [] } = recordFrontmatter(body);
-  const branch = (name) => ({ repo, kind: "branches", name });
-  return { parents: parent_branch ? [branch(parent_branch)] : [], children: child_branches.map(branch) };
+function fillAgentTemplate(template, agent, file) {
+  const values = { agent, file };
+  return template.replace(/\{(\w+)\}/g, (whole, key2) => values[key2] ?? whole);
 }
-function recordIndexPath(paths, { repo, kind, name }) {
-  return paths.find((path) => {
-    const parsed = parseRecordPath(path);
-    return parsed?.repo === repo && parsed.kind === kind && parsed.id === name && parsed.rest === "index.md";
-  });
-}
-
-// src/cracks-feed.ts
-var import_obsidian3 = require("obsidian");
-
-// src/missed-pr-cards.ts
-var import_obsidian2 = require("obsidian");
-function renderMissedPrCards(el3, prs, options = {}) {
-  const list2 = el3.createDiv({ cls: "gb-missed-prs" });
-  const empty2 = (text2) => list2.createDiv({ cls: "gb-missed-prs-empty", text: text2 });
-  const shown = options.hideReviewed ? prs.filter((pr) => !pr.reviewed) : prs;
-  if (prs.length === 0) empty2("No missed PRs.");
-  else if (shown.length === 0) empty2("All reviewed.");
-  for (const pr of shown) {
-    let reviewed = pr.reviewed;
-    const card = list2.createDiv({ cls: "gb-missed-pr" });
-    card.toggleClass("gb-missed-pr-reviewed", reviewed);
-    const head = card.createDiv({ cls: "gb-missed-pr-head" });
-    head.createEl("a", { text: `#${pr.pr}`, href: pr.url, cls: "external-link", attr: { target: "_blank", rel: "noopener" } });
-    head.createSpan({ cls: "gb-missed-pr-title", text: pr.title });
-    const { setReviewed } = options;
-    if (setReviewed) {
-      const button2 = head.createEl("button", { cls: "clickable-icon" });
-      const label = () => {
-        (0, import_obsidian2.setIcon)(button2, reviewed ? "rotate-ccw" : "check");
-        button2.setAttr("aria-label", reviewed ? "Mark unreviewed" : "Mark reviewed");
-      };
-      label();
-      button2.onclick = async () => {
-        card.addClass("gb-missed-pr-pending");
-        const ok = await setReviewed(pr, !reviewed);
-        card.removeClass("gb-missed-pr-pending");
-        if (!ok) return;
-        reviewed = !reviewed;
-        if (options.hideReviewed && reviewed) {
-          card.remove();
-          if (!list2.querySelector(".gb-missed-pr")) empty2("All reviewed.");
-          return;
-        }
-        card.toggleClass("gb-missed-pr-reviewed", reviewed);
-        label();
-      };
+function parseLaunchers(markdown, scope, defaultAgentDir) {
+  const launchers = [];
+  for (const section2 of markdown.split(/^## /m).slice(1)) {
+    const [heading = "", ...lines] = section2.split("\n");
+    const fields = {};
+    let i = 0;
+    for (; i < lines.length; i++) {
+      const match = KEY_LINE.exec(lines[i].trim());
+      if (!match) break;
+      fields[match[1]] = match[2].trim();
     }
-    const meta = [
-      pr.author && `by ${pr.author}`,
-      pr.mergedBy && `merged by ${pr.mergedBy}`,
-      pr.approvers.length ? `approved by ${pr.approvers.join(", ")}` : "no approvals",
-      pr.mergedAt?.slice(0, 10)
-    ];
-    card.createDiv({ cls: "gb-missed-pr-meta", text: meta.filter(Boolean).join(" \xB7 ") });
-    if (pr.summary) card.createDiv({ cls: "gb-missed-pr-summary", text: pr.summary.trim() });
-    if (pr.discussionSummary) card.createDiv({ cls: "gb-missed-pr-discussion-summary", text: `\u{1F4AC} ${pr.discussionSummary.trim()}` });
-    for (const [label, text2] of [["Details", pr.details], ["Discussion", pr.discussion]]) {
-      if (!text2) continue;
-      const details = card.createEl("details", { cls: "gb-missed-pr-more" });
-      details.createEl("summary", { text: label });
-      details.createDiv({ cls: "gb-missed-pr-text", text: text2.trim() });
+    const prompt = lines.slice(i).join("\n").trim();
+    const label = heading.trim();
+    if (!label) continue;
+    if (fields.command) {
+      launchers.push({ label, ...scope, statuses: list(fields.status ?? ""), agentDir: "", name: "", prompt: "", command: fields.command });
+      continue;
     }
+    const agentDir = fields.agent_dir || defaultAgentDir;
+    if (!agentDir || !prompt) continue;
+    launchers.push({
+      label,
+      ...scope,
+      statuses: list(fields.status ?? ""),
+      agentDir,
+      name: fields.name || agentDir,
+      ...fields.profile ? { profile: fields.profile } : {},
+      ...fields.routine === "true" ? { routine: true } : {},
+      ...fields.icon ? { icon: fields.icon } : {},
+      prompt
+    });
   }
+  return launchers;
+}
+function recordFromPath(path) {
+  const parsed = parseRecordPath(path);
+  if (!parsed?.rest) return null;
+  const { repo, kind, status, id: name } = parsed;
+  return { repo, kind, status, name, dir: ["repositories", repo, kind, status, name].join("/") };
+}
+var UNTRACKED = "untracked";
+function untrackedRecord(repo, kind, number) {
+  return { repo, kind, status: UNTRACKED, name: String(number), dir: "" };
+}
+function withSection(record, grouping) {
+  const section2 = grouping?.find((s) => s.names.includes(record.name))?.key;
+  return section2 ? { ...record, section: section2 } : record;
+}
+var queuePaths = (records) => [
+  ...new Set(records.flatMap((record) => groupingFor(record.repo, record.kind) ?? []))
+];
+function withSections(records, read) {
+  const groupings = /* @__PURE__ */ new Map();
+  return records.map((record) => {
+    const path = groupingFor(record.repo, record.kind);
+    if (!path) return record;
+    if (!groupings.has(path)) {
+      const text2 = read(path);
+      groupings.set(path, text2 === void 0 ? void 0 : parseGrouping(text2, path, record.repo, record.kind));
+    }
+    return withSection(record, groupings.get(path));
+  });
+}
+function launchersFor(launchers, record) {
+  const live = record.labels?.map((label) => `label:${label}`);
+  const matches = (statuses) => statuses.includes(record.status) || (live ? live.some((label) => statuses.includes(label)) : record.section !== void 0 && statuses.includes(record.section));
+  return launchers.filter(
+    (launcher) => (launcher.repo ?? record.repo) === record.repo && launcher.kind === record.kind && (matches(launcher.statuses) || launcher.statuses.length === 0 && record.status !== UNTRACKED)
+  );
+}
+function fillTemplate(template, record, vaultRoot) {
+  const values = {
+    repo: record.repo,
+    kind: record.kind,
+    status: record.status,
+    name: record.name,
+    record: record.dir ? `${vaultRoot}/${record.dir}` : ""
+  };
+  return template.replace(/\{(\w+)\}/g, (whole, key2) => values[key2] ?? whole);
+}
+function commandArgs(launcher, record, vaultRoot) {
+  const [executable = "", ...args] = (launcher.command ?? "").trim().split(/\s+/);
+  return [`${vaultRoot}/${executable}`, ...args.map((arg) => fillTemplate(arg, record, vaultRoot))];
 }
 
 // src/task-list.ts
@@ -1117,6 +1119,21 @@ function parseTasks(data, known) {
     };
   });
 }
+function parseAgentTasks(source, note, known, parse2) {
+  if (note === null) return { source, tasks: [] };
+  try {
+    const tasks = taskBlocks(note).flatMap((block) => parseTasks(parse2(block.source), known));
+    return { source, tasks: tasks.map((task) => ({ ...task, source })) };
+  } catch (error) {
+    return { source, tasks: [], error: error instanceof Error ? error.message : String(error) };
+  }
+}
+var SNOOZES = [
+  ["1 day", 1],
+  ["3 days", 3],
+  ["1 week", 7],
+  ["2 weeks", 14]
+];
 function isSnoozed(task, day) {
   return task.snoozedUntil !== void 0 && task.snoozedUntil > day;
 }
@@ -1178,7 +1195,7 @@ function replaceBlockBody(note, fenceStart, fenceEnd, body) {
   lines.splice(fenceStart + 1, fenceEnd - fenceStart - 1, ...bodyLines);
   return lines.join("\n");
 }
-function recordIndexPath2(record, paths) {
+function recordIndexPath(record, paths) {
   const prefix = `repositories/${record.repo}/${record.kind}/`;
   const suffix = `/${record.name}/index.md`;
   return paths.find((path) => path.startsWith(prefix) && path.endsWith(suffix) && !path.slice(prefix.length, -suffix.length).includes("/"));
@@ -1194,6 +1211,69 @@ function refinementPrompt(task) {
   lines.push("", "Prompt:", task.prompt.trim());
   return lines.join("\n");
 }
+
+// src/agent-routines.ts
+function agentRoutines(launchers, agent) {
+  return parseAgentLaunchers(launchers ?? "", agent).filter((launcher) => launcher.routine && !launcher.prompt.includes("{file}")).map(({ label, icon, name, prompt, agentDir, profile }) => {
+    const emoji = quickEmoji(label);
+    return {
+      label: emoji ? label.slice(emoji.length).trim() : label,
+      emoji: emoji ?? "\u25B6\uFE0F",
+      ...icon ? { icon } : {},
+      name: fillAgentTemplate(name, agent, ""),
+      task: { prompt: fillAgentTemplate(prompt, agent, ""), agentDir, ...profile ? { profile } : {} }
+    };
+  });
+}
+function agentCounts(tasks, blockers, missed, today) {
+  const counts = [
+    ["tasks", tasks.filter((task) => !isSnoozed(task, today)).length, "task"],
+    ["blockers", blockers, "blocker"],
+    ["cracks", missed, "missed PR"]
+  ];
+  return counts.filter(([, count]) => count > 0).map(([tab, count, noun]) => ({ tab, count, label: `${count} ${noun}${count === 1 ? "" : "s"}` }));
+}
+var tasksPath = (agentDir) => `agents/${agentDir}/TASKS.md`;
+
+// src/blockers.ts
+var blockersPath = (agentDir) => `agents/${agentDir}/blockers`;
+var isAgentBlocker = (blocker) => "agentDir" in blocker;
+var recordIdLabel = ({ repo, kind, name }) => `${repo}/${kind}/${name}`;
+function blockerFromPath(path) {
+  const m = path.match(/^agents\/([^/]+)\/blockers\/([^/]+)(?:\/|$)/);
+  return m ? { agentDir: m[1], name: m[2] } : null;
+}
+function recordId(ref) {
+  const m = /^([^\s/]+)\/([^\s/]+)\/([^\s/]+)$/.exec(ref);
+  return m && RECORD_KINDS.includes(m[2]) ? { repo: m[1], kind: m[2], name: m[3] } : null;
+}
+function recordBlockers(body) {
+  return (recordFrontmatter(body).blockers ?? []).flatMap((ref) => {
+    const agent = /^([^\s/]+)\/([^\s/]+)$/.exec(ref);
+    const blocker = agent ? { agentDir: agent[1], name: agent[2] } : recordId(ref);
+    return blocker ? [blocker] : [];
+  });
+}
+function recordRefs(body, field) {
+  return (recordFrontmatter(body)[field] ?? []).flatMap((ref) => recordId(ref) ?? []);
+}
+function relatedBranches(body, repo) {
+  const { parent_branch, child_branches = [] } = recordFrontmatter(body);
+  const branch = (name) => ({ repo, kind: "branches", name });
+  return { parents: parent_branch ? [branch(parent_branch)] : [], children: child_branches.map(branch) };
+}
+function recordIndexPath2(paths, { repo, kind, name }) {
+  return paths.find((path) => {
+    const parsed = parseRecordPath(path);
+    return parsed?.repo === repo && parsed.kind === kind && parsed.id === name && parsed.rest === "index.md";
+  });
+}
+
+// src/cracks-feed.ts
+var import_obsidian3 = require("obsidian");
+
+// src/missed-pr-cards.ts
+var import_obsidian2 = require("obsidian");
 
 // src/missed-prs.ts
 var cracksPath = (agentDir) => `agents/${agentDir}/the_cracks`;
@@ -1244,28 +1324,82 @@ function setMissedPrReviewed(note, pr, reviewed, parse2, stringify) {
     stringify
   );
 }
+function parseCrackDay(file, note, parse2, agentDir) {
+  const day = { ...file, prs: [], ...agentDir ? { agentDir } : {} };
+  try {
+    day.prs = fencedBlocks(note, "gb-missed-prs").flatMap((block) => parseMissedPrs(parse2(block.source)));
+  } catch (error) {
+    day.error = error instanceof Error ? error.message : String(error);
+  }
+  return day;
+}
+var unreviewedCount = (days) => days.reduce((count, day) => count + day.prs.filter((pr) => !pr.reviewed).length, 0);
+function missedPrMeta(pr) {
+  return [pr.author && `by ${pr.author}`, pr.mergedBy && `merged by ${pr.mergedBy}`, pr.approvers.length ? `approved by ${pr.approvers.join(", ")}` : "no approvals", pr.mergedAt?.slice(0, 10)].filter(Boolean).join(" \xB7 ");
+}
 function crackFiles(paths, dir) {
   return paths.filter((path) => path.startsWith(`${dir}/`)).map((path) => ({ path, match: DATE_FILE.exec(path.slice(dir.length + 1)) })).filter((file) => file.match).map(({ path, match }) => ({ path, date: match[1] })).sort((a, b) => b.date.localeCompare(a.date));
+}
+
+// src/missed-pr-cards.ts
+function renderMissedPrCards(el3, prs, options = {}) {
+  const list2 = el3.createDiv({ cls: "gb-missed-prs" });
+  const empty2 = (text2) => list2.createDiv({ cls: "gb-missed-prs-empty", text: text2 });
+  const shown = options.hideReviewed ? prs.filter((pr) => !pr.reviewed) : prs;
+  if (prs.length === 0) empty2("No missed PRs.");
+  else if (shown.length === 0) empty2("All reviewed.");
+  for (const pr of shown) {
+    let reviewed = pr.reviewed;
+    const card = list2.createDiv({ cls: "gb-missed-pr" });
+    card.toggleClass("gb-missed-pr-reviewed", reviewed);
+    const head = card.createDiv({ cls: "gb-missed-pr-head" });
+    head.createEl("a", { text: `#${pr.pr}`, href: pr.url, cls: "external-link", attr: { target: "_blank", rel: "noopener" } });
+    head.createSpan({ cls: "gb-missed-pr-title", text: pr.title });
+    const { setReviewed } = options;
+    if (setReviewed) {
+      const button2 = head.createEl("button", { cls: "clickable-icon" });
+      const label = () => {
+        (0, import_obsidian2.setIcon)(button2, reviewed ? "rotate-ccw" : "check");
+        button2.setAttr("aria-label", reviewed ? "Mark unreviewed" : "Mark reviewed");
+      };
+      label();
+      button2.onclick = async () => {
+        card.addClass("gb-missed-pr-pending");
+        const ok = await setReviewed(pr, !reviewed);
+        card.removeClass("gb-missed-pr-pending");
+        if (!ok) return;
+        reviewed = !reviewed;
+        if (options.hideReviewed && reviewed) {
+          card.remove();
+          if (!list2.querySelector(".gb-missed-pr")) empty2("All reviewed.");
+          return;
+        }
+        card.toggleClass("gb-missed-pr-reviewed", reviewed);
+        label();
+      };
+    }
+    card.createDiv({ cls: "gb-missed-pr-meta", text: missedPrMeta(pr) });
+    if (pr.summary) card.createDiv({ cls: "gb-missed-pr-summary", text: pr.summary.trim() });
+    if (pr.discussionSummary) card.createDiv({ cls: "gb-missed-pr-discussion-summary", text: `\u{1F4AC} ${pr.discussionSummary.trim()}` });
+    for (const [label, text2] of [["Details", pr.details], ["Discussion", pr.discussion]]) {
+      if (!text2) continue;
+      const details = card.createEl("details", { cls: "gb-missed-pr-more" });
+      details.createEl("summary", { text: label });
+      details.createDiv({ cls: "gb-missed-pr-text", text: text2.trim() });
+    }
+  }
 }
 
 // src/cracks-feed.ts
 async function readCrackDays(app, dir, agentDir) {
   const files = crackFiles(app.vault.getMarkdownFiles().map((file) => file.path), dir);
   return Promise.all(
-    files.map(async ({ path, date }) => {
-      const day = { path, date, prs: [], ...agentDir ? { agentDir } : {} };
-      const file = app.vault.getFileByPath(path);
-      if (!file) return day;
-      try {
-        day.prs = fencedBlocks(await app.vault.cachedRead(file), "gb-missed-prs").flatMap((block) => parseMissedPrs((0, import_obsidian3.parseYaml)(block.source)));
-      } catch (error) {
-        day.error = error instanceof Error ? error.message : String(error);
-      }
-      return day;
+    files.map(async (found) => {
+      const file = app.vault.getFileByPath(found.path);
+      return parseCrackDay(found, file ? await app.vault.cachedRead(file) : "", import_obsidian3.parseYaml, agentDir);
     })
   );
 }
-var unreviewedCount = (days) => days.reduce((count, day) => count + day.prs.filter((pr) => !pr.reviewed).length, 0);
 async function setReviewedInFile(app, path, pr, reviewed) {
   const file = app.vault.getFileByPath(path);
   let found = false;
@@ -1301,12 +1435,6 @@ function renderCrackDays(app, el3, days, sourcePath) {
 
 // src/task-cards.ts
 var import_obsidian4 = require("obsidian");
-var SNOOZES = [
-  ["1 day", 1],
-  ["3 days", 3],
-  ["1 week", 7],
-  ["2 weeks", 14]
-];
 function actionButton(el3, icon, label, cls, onclick) {
   const button2 = el3.createEl("button", { cls: `clickable-icon gb-task-action ${cls}`, attr: { "aria-label": label } });
   (0, import_obsidian4.setIcon)(button2, icon);
@@ -1397,7 +1525,8 @@ var AgentsView = class extends import_obsidian5.ItemView {
   }
   async onOpen() {
     const onChange = (file) => {
-      if (file.path.startsWith("agents/") && file.path.endsWith("/TASKS.md") || blockerFromPath(file.path) || isCrackFile(file.path)) this.scheduleRender();
+      const agent = agentFromPath(file.path);
+      if (agent && (file.path === tasksPath(agent) || file.path === agentLaunchersPath(agent)) || blockerFromPath(file.path) || isCrackFile(file.path)) this.scheduleRender();
     };
     this.registerEvent(this.app.vault.on("create", onChange));
     this.registerEvent(this.app.vault.on("modify", onChange));
@@ -1432,18 +1561,12 @@ var AgentsView = class extends import_obsidian5.ItemView {
     (0, import_obsidian5.setIcon)(refresh, "refresh-cw");
     refresh.onclick = () => void this.render();
     if (all) {
-      const tiles = shown.map((dir, i) => ({
-        dir,
-        routines: routines[i],
-        counts: [
-          ["tasks", lists[i].tasks.filter((task) => !isSnoozed(task, today)).length, "task"],
-          ["blockers", blockers[i].length, "blocker"],
-          ["cracks", cracks[i] ? unreviewedCount(cracks[i]) : 0, "missed PR"]
-        ].filter(([, count]) => count > 0)
-      }));
       const busy = root.createDiv({ cls: "gb-agents-grid" });
       const quiet = root.createDiv({ cls: "gb-agents-grid gb-agents-grid-quiet" });
-      for (const tile of tiles) this.renderTile(tile.counts.length ? busy : quiet, tile.dir, tile.routines, tile.counts);
+      shown.forEach((dir, i) => {
+        const counts = agentCounts(lists[i].tasks, blockers[i].length, cracks[i] ? unreviewedCount(cracks[i]) : 0, today);
+        this.renderTile(counts.length ? busy : quiet, dir, routines[i], counts);
+      });
     } else {
       const bar2 = root.createDiv({ cls: "gb-agents-routines" });
       this.renderRoutineButtons(bar2, this.agent, routines[0], true);
@@ -1503,8 +1626,8 @@ var AgentsView = class extends import_obsidian5.ItemView {
     this.renderRoutineButtons(icons, dir, routines, false);
     if (!pending.length) return;
     const chips = tile.createDiv({ cls: "gb-agent-counts" });
-    for (const [tab, count, noun] of pending) {
-      const chip = chips.createEl("button", { text: `${count} ${noun}${count === 1 ? "" : "s"}`, cls: `gb-agent-count gb-agent-count-${tab}` });
+    for (const { tab, label } of pending) {
+      const chip = chips.createEl("button", { text: label, cls: `gb-agent-count gb-agent-count-${tab}` });
       chip.onclick = (event) => {
         event.stopPropagation();
         void this.showAgent(dir, tab);
@@ -1527,21 +1650,21 @@ var AgentsView = class extends import_obsidian5.ItemView {
       if (blocker.condition) card.createDiv({ text: blocker.condition, cls: "gb-task-prompt" });
     }
   }
-  /** A button per routine file the agent dir has, with its label or icon only; desktop only. */
+  /** A button per routine, with its label or icon only; desktop only. */
   renderRoutineButtons(el3, dir, routines, labelled) {
     if (!import_obsidian5.Platform.isDesktopApp) return;
     for (const routine of routines) {
-      const { task, name } = routineLaunch(dir, routine);
-      const button2 = el3.createEl("button", { cls: labelled ? "gb-agents-routine" : "clickable-icon", attr: { "aria-label": `${routine.label}: launch ${dir} with ./${routine.file}` } });
-      (0, import_obsidian5.setIcon)(button2, routine.icon);
+      const button2 = el3.createEl("button", { cls: labelled ? "gb-agents-routine" : "clickable-icon", attr: { "aria-label": `${routine.label} \xB7 ${dir}: ${routine.task.prompt}` } });
+      if (routine.icon) (0, import_obsidian5.setIcon)(button2, routine.icon);
+      else button2.createSpan({ text: routine.emoji });
       if (labelled) button2.createSpan({ text: routine.label });
-      button2.onclick = () => void this.host.confirmTask(task, () => {
-      }, name);
+      button2.onclick = () => void this.host.confirmTask(routine.task, () => {
+      }, routine.name);
     }
   }
   async routinesFor(dir) {
-    const present = await Promise.all(ROUTINES.map((routine) => this.app.vault.adapter.exists(`agents/${dir}/${routine.file}`)));
-    return ROUTINES.filter((_, i) => present[i]);
+    const file = this.app.vault.getFileByPath(agentLaunchersPath(dir));
+    return agentRoutines(file ? await this.app.vault.cachedRead(file) : null, dir);
   }
   async readBlockers(dir) {
     const folder = this.app.vault.getFolderByPath(blockersPath(dir));
@@ -1560,14 +1683,7 @@ var AgentsView = class extends import_obsidian5.ItemView {
   }
   async readTasks(dir, known) {
     const file = this.app.vault.getFileByPath(tasksPath(dir));
-    if (!file) return { source: dir, tasks: [] };
-    try {
-      const blocks = taskBlocks(await this.app.vault.cachedRead(file));
-      const tasks = blocks.flatMap((block) => parseTasks((0, import_obsidian5.parseYaml)(block.source), known));
-      return { source: dir, tasks: tasks.map((task) => ({ ...task, source: dir })) };
-    } catch (error) {
-      return { source: dir, tasks: [], error: error instanceof Error ? error.message : String(error) };
-    }
+    return parseAgentTasks(dir, file ? await this.app.vault.cachedRead(file) : null, known, import_obsidian5.parseYaml);
   }
   async remove(task) {
     const file = this.app.vault.getFileByPath(tasksPath(task.source));
@@ -1592,110 +1708,6 @@ var AgentsView = class extends import_obsidian5.ItemView {
     if (!found) new import_obsidian5.Notice("Task already removed");
   }
 };
-
-// src/launchers.ts
-var KEY_LINE = /^(status|agent_dir|name|profile|command):\s*(.*)$/;
-var list = (value) => value.split(",").map((item2) => item2.trim()).filter(Boolean);
-function launcherScope(path) {
-  const [root, repo, kind, file, ...rest] = path.split("/");
-  if (root !== "repositories" || file !== "LAUNCHERS.md" || rest.length || !repo) return null;
-  if (!RECORD_KINDS.includes(kind)) return null;
-  return { repo: repo === DEFAULTS_REPO ? null : repo, kind };
-}
-function agentFromPath(path) {
-  const [root, agent, ...rest] = path.split("/");
-  return root === "agents" && agent && !agent.startsWith("_") && rest.length ? agent : null;
-}
-var agentLaunchersPath = (agent) => `agents/${agent}/LAUNCHERS.md`;
-function parseAgentLaunchers(markdown, agent) {
-  return parseLaunchers(markdown, { repo: null, kind: null }, agent).filter((launcher) => !launcher.command);
-}
-function fillAgentTemplate(template, agent, file) {
-  const values = { agent, file };
-  return template.replace(/\{(\w+)\}/g, (whole, key2) => values[key2] ?? whole);
-}
-function parseLaunchers(markdown, scope, defaultAgentDir) {
-  const launchers = [];
-  for (const section2 of markdown.split(/^## /m).slice(1)) {
-    const [heading = "", ...lines] = section2.split("\n");
-    const fields = {};
-    let i = 0;
-    for (; i < lines.length; i++) {
-      const match = KEY_LINE.exec(lines[i].trim());
-      if (!match) break;
-      fields[match[1]] = match[2].trim();
-    }
-    const prompt = lines.slice(i).join("\n").trim();
-    const label = heading.trim();
-    if (!label) continue;
-    if (fields.command) {
-      launchers.push({ label, ...scope, statuses: list(fields.status ?? ""), agentDir: "", name: "", prompt: "", command: fields.command });
-      continue;
-    }
-    const agentDir = fields.agent_dir || defaultAgentDir;
-    if (!agentDir || !prompt) continue;
-    launchers.push({
-      label,
-      ...scope,
-      statuses: list(fields.status ?? ""),
-      agentDir,
-      name: fields.name || agentDir,
-      ...fields.profile ? { profile: fields.profile } : {},
-      prompt
-    });
-  }
-  return launchers;
-}
-function recordFromPath(path) {
-  const parsed = parseRecordPath(path);
-  if (!parsed?.rest) return null;
-  const { repo, kind, status, id: name } = parsed;
-  return { repo, kind, status, name, dir: ["repositories", repo, kind, status, name].join("/") };
-}
-var UNTRACKED = "untracked";
-function untrackedRecord(repo, kind, number) {
-  return { repo, kind, status: UNTRACKED, name: String(number), dir: "" };
-}
-function withSection(record, grouping) {
-  const section2 = grouping?.find((s) => s.names.includes(record.name))?.key;
-  return section2 ? { ...record, section: section2 } : record;
-}
-var queuePaths = (records) => [
-  ...new Set(records.flatMap((record) => groupingFor(record.repo, record.kind) ?? []))
-];
-function withSections(records, read) {
-  const groupings = /* @__PURE__ */ new Map();
-  return records.map((record) => {
-    const path = groupingFor(record.repo, record.kind);
-    if (!path) return record;
-    if (!groupings.has(path)) {
-      const text2 = read(path);
-      groupings.set(path, text2 === void 0 ? void 0 : parseGrouping(text2, path, record.repo, record.kind));
-    }
-    return withSection(record, groupings.get(path));
-  });
-}
-function launchersFor(launchers, record) {
-  const live = record.labels?.map((label) => `label:${label}`);
-  const matches = (statuses) => statuses.includes(record.status) || (live ? live.some((label) => statuses.includes(label)) : record.section !== void 0 && statuses.includes(record.section));
-  return launchers.filter(
-    (launcher) => (launcher.repo ?? record.repo) === record.repo && launcher.kind === record.kind && (matches(launcher.statuses) || launcher.statuses.length === 0 && record.status !== UNTRACKED)
-  );
-}
-function fillTemplate(template, record, vaultRoot) {
-  const values = {
-    repo: record.repo,
-    kind: record.kind,
-    status: record.status,
-    name: record.name,
-    record: record.dir ? `${vaultRoot}/${record.dir}` : ""
-  };
-  return template.replace(/\{(\w+)\}/g, (whole, key2) => values[key2] ?? whole);
-}
-function commandArgs(launcher, record, vaultRoot) {
-  const [executable = "", ...args] = (launcher.command ?? "").trim().split(/\s+/);
-  return [`${vaultRoot}/${executable}`, ...args.map((arg) => fillTemplate(arg, record, vaultRoot))];
-}
 
 // src/profiles.ts
 var FALLBACK_PROFILES = [
@@ -6689,7 +6701,7 @@ var RepositoryView = class extends import_obsidian8.ItemView {
   /** 🔒 per blocker (agent blockers open their condition, records their index.md), 🚫 per record this one blocks, 🔗 per related record, ↑/↓ per parent/child branch. */
   recordRefActions(repo, body, action) {
     const openRecord = (id, event) => {
-      const path = recordIndexPath(this.app.vault.getMarkdownFiles().map((f) => f.path), id);
+      const path = recordIndexPath2(this.app.vault.getMarkdownFiles().map((f) => f.path), id);
       if (path) void this.app.workspace.openLinkText(path, "", event.metaKey || event.ctrlKey);
       else new import_obsidian8.Notice(`${recordIdLabel(id)} not found`);
     };
@@ -7102,7 +7114,7 @@ var GalaxyBrainPlugin = class extends import_obsidian9.Plugin {
   }
   /** Opens a task's record index.md, wherever its status puts it. */
   openTaskRecord(record, newLeaf) {
-    const path = recordIndexPath2(record, this.app.vault.getMarkdownFiles().map((file) => file.path));
+    const path = recordIndexPath(record, this.app.vault.getMarkdownFiles().map((file) => file.path));
     if (!path) return void new import_obsidian9.Notice(`No record ${record.repo}/${record.kind}/${record.name}`);
     void this.app.workspace.openLinkText(path, "", newLeaf);
   }

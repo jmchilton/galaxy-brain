@@ -19,6 +19,10 @@ export interface Launcher {
 	prompt: string;
 	/** Vault-relative executable and args, run directly instead of an agent; agentDir, name and prompt are empty. */
 	command?: string;
+	/** Agent launcher offered wherever that agent can be started. */
+	routine?: boolean;
+	/** Obsidian icon id for a routine's button. */
+	icon?: string;
 }
 
 export interface RecordRef {
@@ -34,7 +38,7 @@ export interface RecordRef {
 	labels?: string[];
 }
 
-const KEY_LINE = /^(status|agent_dir|name|profile|command):\s*(.*)$/;
+const KEY_LINE = /^(status|agent_dir|name|profile|command|routine|icon):\s*(.*)$/;
 
 const list = (value: string) =>
 	value
@@ -59,6 +63,11 @@ export function agentFromPath(path: string): string | null {
 }
 
 export const agentLaunchersPath = (agent: string) => `agents/${agent}/LAUNCHERS.md`;
+
+/** The label's leading emoji when it starts with exactly one, then a space. */
+export function quickEmoji(label: string): string | undefined {
+	return /^(\p{Extended_Pictographic}️?(?:‍\p{Extended_Pictographic}️?)*)\s+(?!\p{Extended_Pictographic})/u.exec(label)?.[1];
+}
 
 /** Launchers in `agents/<agent>/LAUNCHERS.md`; agent_dir defaults to that agent, command launchers are dropped. */
 export function parseAgentLaunchers(markdown: string, agent: string): Launcher[] {
@@ -98,6 +107,8 @@ export function parseLaunchers(markdown: string, scope: LauncherScope, defaultAg
 			agentDir,
 			name: fields.name || agentDir,
 			...(fields.profile ? { profile: fields.profile } : {}),
+			...(fields.routine === "true" ? { routine: true } : {}),
+			...(fields.icon ? { icon: fields.icon } : {}),
 			prompt,
 		});
 	}

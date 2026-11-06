@@ -11,6 +11,7 @@ import { agentContext, folderName, machineOf, promptFiles, recordRefs, reroot } 
 import { host } from "./host";
 import { mergePrompts, parsePrompts, quickEmoji, type SuggestedPrompt } from "./prompts";
 import { machineIcon } from "./sidebar";
+import { removeListedTask } from "./note-edits";
 
 const MOD = "gb-pane";
 const ACTIONS_CLI = `${__GB_ROOT__}/herdr-plugin/bin/run.sh`;
@@ -81,10 +82,16 @@ async function openUrl(url: string): Promise<void> {
 	await host({ type: "open", url }).catch((error: unknown) => notify({ title: "Not opened", body: String(error), level: "error" }));
 }
 
-/** Starts a record's launcher as a new agent; a toast says how it went. */
-async function launch(request: object, label: string, prompt: string): Promise<void> {
+/** Starts a new agent: a record's launcher, or `request.type` when it says otherwise. A toast says how it went. */
+async function launch(request: object, label: string, prompt: string): Promise<boolean> {
 	notify({ title: `Starting ${label}`, level: "info", timeout: 3000 });
-	await host({ type: "launch", ...request, prompt }).catch((error: unknown) => notify({ title: `${label} not started`, body: String(error), level: "error" }));
+	try {
+		await host({ type: "launch", ...request, prompt });
+		return true;
+	} catch (error) {
+		notify({ title: `${label} not started`, body: String(error), level: "error" });
+		return false;
+	}
 }
 
 function button(t: any, id: string, label: El, action: (cx: Cx) => void): El {
@@ -179,7 +186,8 @@ export default class GbPane extends View {
 		this.reload(cx, p.cwd, machine);
 		const pic = programIcon(p.program, 14, t.dim);
 		// An agent's icon stands for its name.
-		const name = p.program?.agent && pic ? null : (p.program?.shell && p.program.name) || p.title || p.program?.name || "shell";
+		const tabName = p.mod ? spaces().flatMap((space: any) => space.tabs).find((tab: any) => tab.id === p.tab)?.name : null;
+		const name = p.program?.agent && pic ? null : tabName || (p.program?.shell && p.program.name) || p.title || p.program?.name || "shell";
 		const where = machineIcon(machine, this.environments);
 		const pane = p.pane;
 		const terminal = p.terminal;
@@ -466,6 +474,9 @@ export default class GbPane extends View {
 		closeOverlay(p.overlay);
 		if (!text.trim()) return;
 		const request = { ...p.launch, profile: this.profile, environment: this.environment };
-		cx.spawn(async () => (p.launch ? launch(request, p.label, text) : send(p.terminal, p.pane, text)));
+		cx.spawn(async () => {
+			if (!p.launch) return send(p.terminal, p.pane, text);
+			if ((await launch(request, p.label, text)) && p.task) await removeListedTask(p.task);
+		});
 	}
 }

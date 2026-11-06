@@ -2,11 +2,17 @@ Launchers for notes in the gx_branches agent dir; format in [LAUNCHERS.md](../_s
 
 ## ☀️ Good morning
 name: br-morning
+profile: Sonnet (medium)
+routine: true
+icon: sun
 
 Run ./GOOD_MORNING.md
 
 ## ⏱️ Tick
 name: br-tick
+profile: Sonnet (medium)
+routine: true
+icon: timer
 
 Run ./TICK.md
 

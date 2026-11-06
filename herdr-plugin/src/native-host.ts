@@ -3,9 +3,14 @@
 
 import { existsSync, readdirSync } from "node:fs";
 import { join } from "node:path";
-import { fillTemplate, type Launcher, launchersFor, type RecordRef } from "../../obsidian-plugin/src/launchers";
+import { parse } from "yaml";
+import { type AgentCount, agentCounts, agentRoutines, type Routine, tasksPath } from "../../obsidian-plugin/src/agent-routines";
+import { type Blocker, blockersPath } from "../../obsidian-plugin/src/blockers";
+import { agentLaunchersPath, fillTemplate, type Launcher, launchersFor, type RecordRef } from "../../obsidian-plugin/src/launchers";
 import { defaultEnvironment, type Environment, launchArgv } from "../../obsidian-plugin/src/environments";
+import { type CrackDay, crackFiles, cracksPath, parseCrackDay, unreviewedCount } from "../../obsidian-plugin/src/missed-prs";
 import { defaultProfile, type Profile, profileArgs } from "../../obsidian-plugin/src/profiles";
+import { type ListedTask, localDay, parseAgentTasks } from "../../obsidian-plugin/src/task-list";
 import { FORK_OWNER } from "../../site/src/lib/repository-tabs";
 import { branchRecordsForUrl, type GithubRef, parseBranchUrl, parseGithubRef, recordsForRef } from "./github-ref";
 import { openLinks } from "./open-links";
@@ -16,7 +21,9 @@ export type Request =
 	| { type: "records"; refs: string[] }
 	/** `url` narrows `record` (a key) to that page's records; without it, any record in the vault. */
 	| { type: "launch"; url?: string; record: string; launcher: number; profile: string; environment?: string; prompt: string }
-	| { type: "newAgent"; dir: string; profile?: string; environment?: string }
+	/** Blank and named for its dir unless given a prompt and name. */
+	| { type: "newAgent"; dir: string; profile?: string; environment?: string; name?: string; prompt?: string }
+	| { type: "agents" }
 	| { type: "open"; url: string };
 
 export interface HostDeps {
@@ -45,6 +52,8 @@ export interface LookupResult {
 	/** Names; the first is the default. */
 	environments: string[];
 	agentDirs: string[];
+	/** Per agent dir. */
+	routines: Record<string, Routine[]>;
 }
 
 /** A PR's head branch when it's on the fork, so its branch record matches. */
@@ -74,6 +83,69 @@ export function agentDirs(vaultRoot: string): string[] {
 		.filter((entry) => entry.isDirectory() && !entry.name.startsWith("_") && existsSync(join(root, entry.name, "AGENTS.md")))
 		.map((entry) => entry.name)
 		.sort();
+}
+
+export interface AgentOverview {
+	dir: string;
+	routines: Routine[];
+	tasks: ListedTask[];
+	blockers: Array<Blocker & { obsidian: string }>;
+	/** Absent without a the_cracks/. */
+	cracks?: Array<CrackDay & { obsidian: string }>;
+	counts: AgentCount[];
+	/** Why its TASKS.md didn't parse. */
+	error?: string;
+}
+
+export interface AgentsOverview {
+	agents: AgentOverview[];
+	/** The first is the default. */
+	profiles: Array<{ name: string }>;
+	environments: Array<{ name: string; icon?: string }>;
+}
+
+const childNames = (dir: string, directories: boolean) =>
+	existsSync(dir) ? readdirSync(dir, { withFileTypes: true }).filter((entry) => entry.isDirectory() === directories).map((entry) => entry.name).sort() : [];
+
+const obsidianUrl = (vaultRoot: string, path: string) => `obsidian://open?path=${encodeURIComponent(`${vaultRoot}/${path}`)}`;
+
+const routinesFor = (vaultRoot: string, dir: string) => agentRoutines(readVault(vaultRoot, agentLaunchersPath(dir)), dir);
+
+/** The agent's the_cracks/ days, newest first; undefined without the directory. */
+function crackDays(vaultRoot: string, dir: string): AgentOverview["cracks"] {
+	const path = cracksPath(dir);
+	if (!existsSync(join(vaultRoot, path))) return undefined;
+	const files = crackFiles(childNames(join(vaultRoot, path), false).map((name) => `${path}/${name}`), path);
+	return files.map((file) => ({ ...parseCrackDay(file, readVault(vaultRoot, file.path), parse, dir), obsidian: obsidianUrl(vaultRoot, file.path) }));
+}
+
+/** Each agent dir's routines, TASKS.md tasks, blockers and pending counts, as the Agents views show them. */
+export function agentsOverview(vaultRoot: string, today = localDay()): AgentsOverview {
+	const dirs = agentDirs(vaultRoot);
+	const profiles = loadProfiles(vaultRoot).map(({ name }) => ({ name }));
+	const known = { profiles: profiles.map((one) => one.name), agentDirs: dirs };
+	const agents = dirs.map((dir): AgentOverview => {
+		const note = existsSync(join(vaultRoot, tasksPath(dir))) ? readVault(vaultRoot, tasksPath(dir)) : null;
+		const { tasks, error } = parseAgentTasks(dir, note, known, parse);
+		const path = blockersPath(dir);
+		const blockers = childNames(join(vaultRoot, path), true).map((name) => ({
+			agentDir: dir,
+			name,
+			condition: readVault(vaultRoot, `${path}/${name}/condition.md`).trim(),
+			obsidian: obsidianUrl(vaultRoot, `${path}/${name}/index.md`),
+		}));
+		const cracks = crackDays(vaultRoot, dir);
+		return {
+			dir,
+			routines: routinesFor(vaultRoot, dir),
+			tasks,
+			blockers,
+			...(cracks ? { cracks } : {}),
+			counts: agentCounts(tasks, blockers.length, unreviewedCount(cracks ?? []), today),
+			...(error ? { error } : {}),
+		};
+	});
+	return { agents, profiles, environments: loadEnvironments(vaultRoot).map(({ name, icon }) => ({ name, ...(icon ? { icon } : {}) })) };
 }
 
 function vaultRecords(vaultRoot: string) {
@@ -134,11 +206,13 @@ export function recordsByRef(vaultRoot: string, refs: string[]): Array<{ ref: st
 
 export function lookup(vaultRoot: string, url?: string, headBranch?: HeadBranch): LookupResult {
 	const profiles = loadProfiles(vaultRoot);
+	const dirs = agentDirs(vaultRoot);
 	const result: LookupResult = {
 		records: [],
 		profiles: profiles.map((p) => ({ name: p.name, agent: p.agent, args: profileArgs(p) })),
 		environments: loadEnvironments(vaultRoot).map((e) => e.name),
-		agentDirs: agentDirs(vaultRoot),
+		agentDirs: dirs,
+		routines: Object.fromEntries(dirs.map((dir) => [dir, routinesFor(vaultRoot, dir)])),
 	};
 	const found = recordsFor(vaultRoot, url, headBranch);
 	if (!found) return result;
@@ -202,8 +276,10 @@ export function handle(request: Request, deps: HostDeps): unknown {
 			if (!agentDirs(deps.vaultRoot).includes(request.dir)) throw new Error(`unknown agent dir: ${request.dir}`);
 			const profile = request.profile ? findProfile(deps.vaultRoot, request.profile) : undefined;
 			const environment = findEnvironment(deps.vaultRoot, request.environment);
-			return launch(deps, request.dir, profile, environment, request.dir, "");
+			return launch(deps, request.dir, profile, environment, request.name ?? request.dir, request.prompt ?? "");
 		}
+		case "agents":
+			return agentsOverview(deps.vaultRoot);
 		case "open": {
 			if (!/^(https:\/\/github\.com\/|obsidian:\/\/open\?)/.test(request.url)) throw new Error(`refusing to open ${request.url}`);
 			deps.run(["open", request.url]);

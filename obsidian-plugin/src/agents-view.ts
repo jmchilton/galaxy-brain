@@ -1,11 +1,12 @@
 import { debounce, ItemView, Notice, parseYaml, Platform, setIcon, stringifyYaml, TFolder, type ViewStateResult, type WorkspaceLeaf } from "obsidian";
-import { ROUTINES, routineLaunch, tasksPath } from "./agent-routines";
+import { type AgentCount, agentCounts, agentRoutines, type AgentsTab, type Routine, tasksPath } from "./agent-routines";
 import { type Blocker, blockerFromPath, blockersPath } from "./blockers";
-import { type CrackDay, readCrackDays, renderCrackDays, unreviewedCount } from "./cracks-feed";
-import { cracksPath, isCrackFile } from "./missed-prs";
+import { readCrackDays, renderCrackDays } from "./cracks-feed";
+import { agentLaunchersPath, agentFromPath } from "./launchers";
+import { type CrackDay, cracksPath, isCrackFile, unreviewedCount } from "./missed-prs";
 import type { Profile } from "./profiles";
 import { renderTaskCards } from "./task-cards";
-import { byPriority, isSnoozed, localDay, parseTasks, removeTask, snoozeTask, type Task, type TaskRecord, taskBlocks } from "./task-list";
+import { byPriority, isSnoozed, type ListedTask, localDay, parseAgentTasks, removeTask, snoozeTask, type Task, type TaskRecord } from "./task-list";
 
 export const AGENTS_VIEW = "galaxy-brain-agents";
 /** `agent` state for the landing page across every agent dir. */
@@ -19,20 +20,12 @@ export interface AgentHost {
 	openTaskRecord(record: TaskRecord, newLeaf: boolean): void;
 }
 
-/** A task and the agent dir whose TASKS.md holds it (not necessarily its `agent_dir`). */
-type ListedTask = Task & { source: string };
-
-type AgentsTab = "tasks" | "blockers" | "cracks";
-
-/** A landing page chip: the tab it opens, its count, and the singular noun. */
-type TileCount = [AgentsTab, number, string];
-
 interface AgentsViewState extends Record<string, unknown> {
 	agent?: string;
 	tab?: AgentsTab;
 }
 
-/** Agent dirs' routines (good morning, tick), TASKS.md task lists, blockers and the_cracks/ unreviewed PRs: merged on the landing page, or one agent's. */
+/** Agent dirs' routines (LAUNCHERS.md), TASKS.md task lists, blockers and the_cracks/ unreviewed PRs: merged on the landing page, or one agent's. */
 export class AgentsView extends ItemView {
 	private agent = ALL_AGENTS;
 	private tab: AgentsTab = "tasks";
@@ -70,7 +63,8 @@ export class AgentsView extends ItemView {
 
 	async onOpen() {
 		const onChange = (file: { path: string }) => {
-			if ((file.path.startsWith("agents/") && file.path.endsWith("/TASKS.md")) || blockerFromPath(file.path) || isCrackFile(file.path)) this.scheduleRender();
+			const agent = agentFromPath(file.path);
+			if ((agent && (file.path === tasksPath(agent) || file.path === agentLaunchersPath(agent))) || blockerFromPath(file.path) || isCrackFile(file.path)) this.scheduleRender();
 		};
 		this.registerEvent(this.app.vault.on("create", onChange));
 		this.registerEvent(this.app.vault.on("modify", onChange));
@@ -109,18 +103,12 @@ export class AgentsView extends ItemView {
 		refresh.onclick = () => void this.render();
 
 		if (all) {
-			const tiles = shown.map((dir, i) => ({
-				dir,
-				routines: routines[i]!,
-				counts: [
-					["tasks", lists[i]!.tasks.filter((task) => !isSnoozed(task, today)).length, "task"],
-					["blockers", blockers[i]!.length, "blocker"],
-					["cracks", cracks[i] ? unreviewedCount(cracks[i]) : 0, "missed PR"],
-				].filter(([, count]) => (count as number) > 0) as TileCount[],
-			}));
 			const busy = root.createDiv({ cls: "gb-agents-grid" });
 			const quiet = root.createDiv({ cls: "gb-agents-grid gb-agents-grid-quiet" });
-			for (const tile of tiles) this.renderTile(tile.counts.length ? busy : quiet, tile.dir, tile.routines, tile.counts);
+			shown.forEach((dir, i) => {
+				const counts = agentCounts(lists[i]!.tasks, blockers[i]!.length, cracks[i] ? unreviewedCount(cracks[i]) : 0, today);
+				this.renderTile(counts.length ? busy : quiet, dir, routines[i]!, counts);
+			});
 		} else {
 			const bar = root.createDiv({ cls: "gb-agents-routines" });
 			this.renderRoutineButtons(bar, this.agent, routines[0]!, true);
@@ -176,7 +164,7 @@ export class AgentsView extends ItemView {
 	}
 
 	/** An agent on the landing page: opens it when clicked, routine icons, and a chip opening each tab with anything in it. */
-	private renderTile(grid: HTMLElement, dir: string, routines: typeof ROUTINES, pending: TileCount[]) {
+	private renderTile(grid: HTMLElement, dir: string, routines: Routine[], pending: AgentCount[]) {
 		const tile = grid.createDiv({ cls: "gb-agent-tile" });
 		tile.onclick = () => void this.showAgent(dir, this.tab);
 		const head = tile.createDiv({ cls: "gb-agent-tile-head" });
@@ -187,8 +175,8 @@ export class AgentsView extends ItemView {
 		this.renderRoutineButtons(icons, dir, routines, false);
 		if (!pending.length) return;
 		const chips = tile.createDiv({ cls: "gb-agent-counts" });
-		for (const [tab, count, noun] of pending) {
-			const chip = chips.createEl("button", { text: `${count} ${noun}${count === 1 ? "" : "s"}`, cls: `gb-agent-count gb-agent-count-${tab}` });
+		for (const { tab, label } of pending) {
+			const chip = chips.createEl("button", { text: label, cls: `gb-agent-count gb-agent-count-${tab}` });
 			chip.onclick = (event) => {
 				event.stopPropagation();
 				void this.showAgent(dir, tab);
@@ -213,21 +201,21 @@ export class AgentsView extends ItemView {
 		}
 	}
 
-	/** A button per routine file the agent dir has, with its label or icon only; desktop only. */
-	private renderRoutineButtons(el: HTMLElement, dir: string, routines: typeof ROUTINES, labelled: boolean) {
+	/** A button per routine, with its label or icon only; desktop only. */
+	private renderRoutineButtons(el: HTMLElement, dir: string, routines: Routine[], labelled: boolean) {
 		if (!Platform.isDesktopApp) return;
 		for (const routine of routines) {
-			const { task, name } = routineLaunch(dir, routine);
-			const button = el.createEl("button", { cls: labelled ? "gb-agents-routine" : "clickable-icon", attr: { "aria-label": `${routine.label}: launch ${dir} with ./${routine.file}` } });
-			setIcon(button, routine.icon);
+			const button = el.createEl("button", { cls: labelled ? "gb-agents-routine" : "clickable-icon", attr: { "aria-label": `${routine.label} · ${dir}: ${routine.task.prompt}` } });
+			if (routine.icon) setIcon(button, routine.icon);
+			else button.createSpan({ text: routine.emoji });
 			if (labelled) button.createSpan({ text: routine.label });
-			button.onclick = () => void this.host.confirmTask(task, () => {}, name);
+			button.onclick = () => void this.host.confirmTask(routine.task, () => {}, routine.name);
 		}
 	}
 
-	private async routinesFor(dir: string): Promise<typeof ROUTINES> {
-		const present = await Promise.all(ROUTINES.map((routine) => this.app.vault.adapter.exists(`agents/${dir}/${routine.file}`)));
-		return ROUTINES.filter((_, i) => present[i]);
+	private async routinesFor(dir: string): Promise<Routine[]> {
+		const file = this.app.vault.getFileByPath(agentLaunchersPath(dir));
+		return agentRoutines(file ? await this.app.vault.cachedRead(file) : null, dir);
 	}
 
 	private async readBlockers(dir: string): Promise<Blocker[]> {
@@ -247,16 +235,9 @@ export class AgentsView extends ItemView {
 		return readCrackDays(this.app, cracksPath(dir), tagged ? dir : undefined);
 	}
 
-	private async readTasks(dir: string, known: { profiles: string[]; agentDirs: string[] }): Promise<{ source: string; tasks: ListedTask[]; error?: string }> {
+	private async readTasks(dir: string, known: { profiles: string[]; agentDirs: string[] }) {
 		const file = this.app.vault.getFileByPath(tasksPath(dir));
-		if (!file) return { source: dir, tasks: [] };
-		try {
-			const blocks = taskBlocks(await this.app.vault.cachedRead(file));
-			const tasks = blocks.flatMap((block) => parseTasks(parseYaml(block.source), known));
-			return { source: dir, tasks: tasks.map((task) => ({ ...task, source: dir })) };
-		} catch (error) {
-			return { source: dir, tasks: [], error: error instanceof Error ? error.message : String(error) };
-		}
+		return parseAgentTasks(dir, file ? await this.app.vault.cachedRead(file) : null, known, parseYaml);
 	}
 
 	private async remove(task: ListedTask) {

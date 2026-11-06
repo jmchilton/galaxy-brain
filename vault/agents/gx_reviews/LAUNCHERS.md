@@ -2,11 +2,17 @@ Launchers for notes in the gx_reviews agent dir; format in [LAUNCHERS.md](../_sh
 
 ## ☀️ Good morning
 name: gx-review-morning
+profile: Sonnet (medium)
+routine: true
+icon: sun
 
 Run ./GOOD_MORNING.md
 
 ## ⏱️ Tick
 name: gx-review-tick
+profile: Sonnet (medium)
+routine: true
+icon: timer
 
 Run ./TICK.md
 

@@ -1,6 +1,8 @@
 // SUGGESTED_PROMPTS.md: `## Label` sections (body is the prompt, the label when empty), else top-level bullets.
 // Same format as the suggested-prompts Claude plugin.
 
+export { quickEmoji } from "../../obsidian-plugin/src/launchers";
+
 export interface SuggestedPrompt {
 	label: string;
 	text: string;
@@ -38,11 +40,6 @@ export function parsePrompts(markdown: string): SuggestedPrompt[] {
 
 function unfence(text: string): string {
 	return /^```[^\n]*\n([\s\S]*?)\n```$/.exec(text)?.[1] ?? text;
-}
-
-/** The label's leading emoji when it starts with exactly one, then a space. */
-export function quickEmoji(label: string): string | undefined {
-	return /^(\p{Extended_Pictographic}️?(?:‍\p{Extended_Pictographic}️?)*)\s+(?!\p{Extended_Pictographic})/u.exec(label)?.[1];
 }
 
 /** Prompt lists in order, skipping any whose text an earlier one already has. */
