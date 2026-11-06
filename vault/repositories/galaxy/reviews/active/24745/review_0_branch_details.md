@@ -1,0 +1,12 @@
+Branch `pr_24745_review_0`, from reviewed commit `5fad7684e37`. It stops a purge from deleting a metadata file that a live dataset still uses under `store_by: uuid`, in both `full_delete()` and pgcleanup. It also makes the API library purge cover every version, adds file removal to the two history purge actions that only set the flag, and stops library serialization recreating purged files. Deletion now lives on `MetadataFile`, the API tests moved to the integration layer, and the PR's untested claims have tests. It leaves P3 5 (`--force-retry` can't retry a failed removal) alone, because that's the author's call. The uuid check adds one `SELECT` to `full_delete()` when a dataset has metadata files to purge.
+
+- `524faa56088` Keep metadata file object store addressing on MetadataFile. Adds `_object_store_kwargs()` and `purge()`, used by `get_file_name()` and `full_delete()` (P3 1).
+- `cd9c566c716` Move metadata file purge tests from API to integration layer. Adds `test/integration/test_metadata_file_purge.py` and a shared helper in `test/integration/_metadata_files.py` (P3 6).
+- `48be02af2d9` Keep metadata files another unpurged row names by the same uuid. Adds `MetadataFile.purge_all()` and `RemovesMetadataFiles._uuid_in_use()`, with tests on both paths and for `store_by: id` (P1 1).
+- `ee14dc7a63a` Purge metadata files of all versions on API library purge. Adds `LibraryDataset.purge_metadata_files()`, called from `LibraryContentsService.delete` (P2 1).
+- `612864032f1` Don't recreate purged metadata files when serializing. Guards `LibraryDataset.to_dict`, `LDDA.to_dict` and `HDA.to_dict` (P3 2).
+- `5c5b52aefd8` Remove metadata files when purging HDAs of purged histories. Adds `RemovesMetadataFiles` to `PurgeHDAsOfPurgedHistories` and `PurgeDeletedHistories` (P2 2).
+- `3923e6124b2` Test library metadata purge against shared datasets and versions. Covers the deviation from legacy, versions, multiple files, events, repeat runs, NULL `purged` and the soft delete and retention steps (P2 3).
+- `b21bf849896` Skip already purged metadata files in full_delete. Adds a `purged` filter to the query (P3 3).
+- `d1e589b0560` Skip metadata file query when a dataset has no associations. Returns early, which takes `copy_from` from 5 statements to 4 (P3 4).
+- `e65a882b95c` Release a uuid-named metadata file when a batch purges all its rows. `purge_datasets` commits once per batch and the session doesn't autoflush, so `purge_all()` now reads purged state from the session's instances; follow-up to `48be02af2d9` (P1 1).

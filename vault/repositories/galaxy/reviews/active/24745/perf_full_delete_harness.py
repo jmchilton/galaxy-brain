@@ -20,6 +20,7 @@ class Store:
 model.Dataset.object_store = Store()
 PR = model.Dataset._delete_metadata_files
 
+# Unsafe under Galaxy's autoflush=False: see swap_check.py
 def alt(self, user=None):
     session = object_session(self)
     if session is None:
@@ -35,7 +36,11 @@ def alt(self, user=None):
         self.object_store.delete(mf, extra_dir="_metadata_files", extra_dir_at_root=True, alt_name=f"metadata_{getattr(mf, store_by)}.dat")
         mf.deleted = True
         mf.purged = True
-VARIANTS = {"baseline": lambda self, user=None: None, "PR": PR, "subquery": alt}
+def early(self, user=None):
+    if not self.history_associations and not self.library_associations:
+        return
+    PR(self, user=user)
+VARIANTS = {"baseline": lambda self, user=None: None, "PR": PR, "subquery": alt, "early": early}
 
 def build(n_datasets, n_copies, purged=True):
     s = m.session_factory() if hasattr(m, "session_factory") else m.session()

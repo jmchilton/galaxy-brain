@@ -13,6 +13,9 @@ def sql_of(src):
 pr = sql_of(open(f"{WT}/scripts/cleanup_datasets/pgcleanup.py").read())
 base = sql_of(subprocess.check_output(["git","-C",WT,"show",f"{BASE}:scripts/cleanup_datasets/pgcleanup.py"],text=True))
 URL = sys.argv[1]
+# Truncates tables: scratch databases only
+if "host=/" not in URL:
+    sys.exit("refusing non-local-socket database URL")
 m = mapping.init(tempfile.mkdtemp(), URL, create_tables=True)
 N = 200000
 with m.engine.begin() as c:
