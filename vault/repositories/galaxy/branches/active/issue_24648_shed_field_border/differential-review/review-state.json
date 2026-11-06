@@ -1,0 +1,23 @@
+{
+  "schemaVersion": 1,
+  "kind": "differential-review-state",
+  "updatedAt": "2026-11-06T17:57:02.938Z",
+  "hunks": {
+    "h1:3cbff779c3c65e7c": {
+      "snapshotId": "20261106T165853Z-polishing-85ca630bac61",
+      "path": "lib/tool_shed/webapp/frontend/src/styles/shed.css",
+      "reviewedAt": "2026-11-06T17:57:02.938Z"
+    },
+    "h1:dd1d66ca89e1fd35": {
+      "snapshotId": "20261106T165853Z-polishing-85ca630bac61",
+      "path": "lib/tool_shed/webapp/frontend/src/styles/shed.css",
+      "reviewedAt": "2026-11-06T17:57:02.938Z"
+    },
+    "h1:2e8193c883f4cc34": {
+      "snapshotId": "20261106T165853Z-polishing-85ca630bac61",
+      "path": "lib/tool_shed/webapp/frontend/src/styles/shed.css",
+      "reviewedAt": "2026-11-06T17:57:02.938Z"
+    }
+  },
+  "commits": {}
+}

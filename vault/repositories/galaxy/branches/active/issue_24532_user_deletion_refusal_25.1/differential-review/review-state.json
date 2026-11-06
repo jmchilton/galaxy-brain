@@ -1,0 +1,68 @@
+{
+  "schemaVersion": 1,
+  "kind": "differential-review-state",
+  "updatedAt": "2026-11-06T17:42:16.979Z",
+  "hunks": {
+    "h1:cdaea07fe4eb52ec": {
+      "snapshotId": "20261106T171030Z-polishing-cc83de7a7598",
+      "path": "test/integration_selenium/test_user_deletion_disabled.py",
+      "reviewedAt": "2026-11-06T17:41:58.228Z"
+    },
+    "h1:6e03d04c36d02094": {
+      "snapshotId": "20261106T171030Z-polishing-cc83de7a7598",
+      "path": "lib/galaxy_test/selenium/test_personal_information.py",
+      "reviewedAt": "2026-11-06T17:42:00.693Z"
+    },
+    "h1:a61dd85662768521": {
+      "snapshotId": "20261106T171030Z-polishing-cc83de7a7598",
+      "path": "lib/galaxy/selenium/navigates_galaxy.py",
+      "reviewedAt": "2026-11-06T17:42:02.355Z"
+    },
+    "h1:be20e5cb554ecf4e": {
+      "snapshotId": "20261106T171030Z-polishing-cc83de7a7598",
+      "path": "client/src/utils/navigation/navigation.yml",
+      "reviewedAt": "2026-11-06T17:42:04.358Z"
+    },
+    "h1:7c18ae78c79750f4": {
+      "snapshotId": "20261106T171030Z-polishing-cc83de7a7598",
+      "path": "client/src/components/User/UserDeletion.vue",
+      "reviewedAt": "2026-11-06T17:42:16.979Z"
+    },
+    "h1:5537cf0b8798e5a0": {
+      "snapshotId": "20261106T171030Z-polishing-cc83de7a7598",
+      "path": "client/src/components/User/UserDeletion.vue",
+      "reviewedAt": "2026-11-06T17:42:16.979Z"
+    },
+    "h1:f7776e708e5db2f1": {
+      "snapshotId": "20261106T171030Z-polishing-cc83de7a7598",
+      "path": "client/src/components/User/UserDeletion.vue",
+      "reviewedAt": "2026-11-06T17:42:16.979Z"
+    },
+    "h1:7f8dbe0eac9b3602": {
+      "snapshotId": "20261106T171030Z-polishing-cc83de7a7598",
+      "path": "client/src/components/User/UserDeletion.vue",
+      "reviewedAt": "2026-11-06T17:42:16.979Z"
+    },
+    "h1:d5dcea2418336efc": {
+      "snapshotId": "20261106T171030Z-polishing-cc83de7a7598",
+      "path": "client/src/components/User/UserDeletion.test.ts",
+      "reviewedAt": "2026-11-06T17:42:16.438Z"
+    },
+    "h1:89145f1008f89b83": {
+      "snapshotId": "20261106T171030Z-polishing-cc83de7a7598",
+      "path": "client/src/components/User/UserDeletion.test.ts",
+      "reviewedAt": "2026-11-06T17:42:16.438Z"
+    },
+    "h1:b999aac8b5f81f1a": {
+      "snapshotId": "20261106T171030Z-polishing-cc83de7a7598",
+      "path": "client/src/components/User/UserDeletion.vue",
+      "reviewedAt": "2026-11-06T17:42:16.979Z"
+    },
+    "h1:a48e3d6d512bd054": {
+      "snapshotId": "20261106T171030Z-polishing-cc83de7a7598",
+      "path": "client/src/components/User/UserDeletion.vue",
+      "reviewedAt": "2026-11-06T17:42:16.979Z"
+    }
+  },
+  "commits": {}
+}
