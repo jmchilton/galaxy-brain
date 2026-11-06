@@ -1,10 +1,10 @@
 # #668 Loop CLI surfaces: errors hidden below empty `*_errors` arrays, in-port wiring unreported, `--connections` unpackaged
 
-[Issue](https://github.com/galaxyproject/foundry/issues/668) — opened by scottcain's AI assistant, currently only `needs-triage`. No comments, and no PR or branch addresses it (`gh pr list --search 668` only hits #750, whose body happens to contain the number 668).
+[Issue](https://github.com/galaxyproject/foundry/issues/668) — opened by scottcain's AI assistant. No comments, and no PR or branch addresses it (`gh pr list --search 668` only hits #750, whose body happens to contain the number 668).
 
-Proposed gxwf issues, not posted: [in-port and out-port edges](upstream_gxwf_in_port_sources.md), [concrete diagnostics](upstream_gxwf_concrete_diagnostics.md).
+gxwf issues, filed 2026-11-06: [gxwf#215](https://github.com/jmchilton/galaxy-tool-util-ts/issues/215) in-port and out-port edges ([source](upstream_gxwf_in_port_sources.md)), [gxwf#216](https://github.com/jmchilton/galaxy-tool-util-ts/issues/216) concrete diagnostics ([source](upstream_gxwf_concrete_diagnostics.md)).
 
-## Proposed labels
+## Labels
 
 - `roadmap/substep`: loop CLI and Mold contract gaps, not backbone work.
 - Parent: #318 "Revise how skills working on draft coordinate - more direct, more deterministic, more YAML" (`roadmap/main`, `priority/mvp`). It wants the "next piece of work" to be definitive, and these are the reports that say what the next work is. #678 is staged under the same parent.
@@ -14,7 +14,7 @@ Proposed gxwf issues, not posted: [in-port and out-port edges](upstream_gxwf_in_
 
 ## Derived status
 
-`needs_decision` (`needs_decision_labels`), rule 3: the labels are staged in `issue_tags.md` and none are on GitHub yet.
+`queued` (`queued_implement`), rule 6: `work/ready-implement` is on GitHub.
 
 ## Findings
 
@@ -55,7 +55,7 @@ Checked on Foundry `origin/main` (51338d1d) and gxwf `origin/main` (f5470fe5, 1.
 One round each, per TRIAGE_ISSUE step 6.
 
 - **In-port draft:** the reviewer pushed back on the drafty-source pitch and the missed gxformat2 sync rather than editing. I confirmed both against the code and rewrote it around edges on both sides, plus rejecting unwired ports. The rewrite hasn't had a second review.
-- **Concrete diagnostics draft:** the reviewer revised it in place. Please check its design change: `concrete_errors` entries carry no `step`, only `label`, so the array doesn't mix two numberings.
+- **Concrete diagnostics draft:** the reviewer revised it in place. Its design change is still worth checking on gxwf#216: `concrete_errors` entries carry no `step`, only `label`, so the array doesn't mix two numberings.
 
 Seen along the way, not in either draft (from reviewers unless noted):
 
@@ -66,13 +66,13 @@ Seen along the way, not in either draft (from reviewers unless noted):
 
 ## Next
 
-1. John: review and apply `issue_tags.md`.
-2. John: decide whether to file `upstream_gxwf_in_port_sources.md` (gxformat2 first) and `upstream_gxwf_concrete_diagnostics.md`. Neither has been posted.
-3. Foundry PR, which needs no gxwf release: document the `draft-validate` and `validate --connections` report shapes, add the topology-act sentence to the format note, and add `--connections` plus the reduce/map-over assertion to step 6 once tried on a real draft. Regenerate casts, and update the Mold evals.
-4. After the gxwf and gxformat2 changes release: bump Foundry's pin and pick up the new work-item text.
+1. Foundry PR, which needs no gxwf release: document the `draft-validate` and `validate --connections` report shapes, add the topology-act sentence to the format note, and add `--connections` plus the reduce/map-over assertion to step 6 once tried on a real draft. Regenerate casts, and update the Mold evals.
+2. gxwf#215 (starts in gxformat2, which has no issue of its own yet) and gxwf#216.
+3. After those release: bump Foundry's pin and pick up the new work-item text.
 
 Questions for John:
 
 - Should this be split? The Foundry half can land now, and the gxwf half is separate work.
-- Should `TODO_x: {}` be rejected? The contract says yes, and the in-port draft proposes it, but I haven't checked whether any template emits that form.
-- Is docs-only enough for part 1, or do we also want `concrete_errors`? I recommend both: the docs are needed anyway, and only the gxwf change removes the trap.
+- Should `TODO_x: {}` be rejected? The contract says yes, and gxwf#215 proposes it, but I haven't checked whether any template emits that form.
+
+Staged labels applied 2026-11-06: +roadmap/substep, +priority/mvp, +work/ready-implement; parent #318.

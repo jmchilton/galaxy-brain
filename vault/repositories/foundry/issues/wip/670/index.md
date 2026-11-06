@@ -6,7 +6,15 @@ related_records:
 ---
 # #670 Topology repair forbids both interface edits (input and output promotion) and has no gate for either
 
-[Issue](https://github.com/galaxyproject/foundry/issues/670) — opened by scottcain's AI assistant, currently only `needs-triage`. No comments, no PR or branch addresses it (`gh pr list --search 670` empty).
+[Issue](https://github.com/galaxyproject/foundry/issues/670) — opened by scottcain's AI assistant. John asked on 2026-11-06 for #654, #660, #661, #669 and #670 to be worked together, without waiting on triage.
+
+## Skunkworks status
+
+[Research](skunkworks_research.md), [plan](skunkworks_plan.md), [plan review](skunkworks_plan_review.md). Draft PRs: [#753](https://github.com/galaxyproject/foundry/pull/753) (repair contract), [#755](https://github.com/galaxyproject/foundry/pull/755) (conditional fan-in), [#754](https://github.com/galaxyproject/foundry/pull/754) (nested `in:` keys). Unposted upstream text: [gxformat2](upstream_gxformat2_validate_draft_warnings.md), [galaxy-tool-util-ts](upstream_galaxy_tool_util_ts_validate_draft_warnings.md), plus drafts in the #754 and #755 branch records.
+
+Answers to the questions below, taken as defaults for John to confirm on #753: repair owns an interface edit a blocking entry names as its remedy, non-blocking output promotion stays out of repair, the hide rule is dropped in favor of "unhide" as part of exposing an output, and this issue isn't split. #670 stays open after #753 merges, for John to close with that explanation.
+
+No labels or comments were changed on GitHub for this work.
 
 ## Proposed labels
 

@@ -1,26 +1,29 @@
 ---
 upstream_base_branch: main
 related_records: foundry/issues/670
+pr: 754
 ---
 # Document nested `in:` keys and connection step names
 
-- [Open PR](https://github.com/galaxyproject/foundry/compare/main...jmchilton:foundry:issue-571-nested-in-keys)
+- [PR #754](https://github.com/galaxyproject/foundry/pull/754)
 - [View on GitHub](https://github.com/jmchilton/foundry/tree/issue-571-nested-in-keys)
 
 ## Status
 
-Branch on `jmchilton`, base `origin/main` at `7453431d`, head `fd8662cc`. Worktree `~/projects/worktrees/foundry/branch/issue-571-nested-in-keys`.
+Branch on `jmchilton`, base `origin/main` at `7453431d`, head `a0c22945`, reviewed and fixed. Worktree `~/projects/worktrees/foundry/branch/issue-571-nested-in-keys`.
 
-No PR yet; a reviewer pass comes first.
+Draft PR [#754](https://github.com/galaxyproject/foundry/pull/754); body is [pr_description.md](pr_description.md).
 
-Local `make -k check` green except `check-vendored` (machine-only) and `validate-roadmap` (live GitHub labels, also fails on `origin/main`). CI runs once the PR opens.
+Local `make -k check` green at `a0c22945` except `check-vendored` (machine-only) and `validate-roadmap` (live GitHub labels, also fails on `origin/main`). CI started when the PR opened.
 
 ## Supporting files
 
 - [Implementation debrief](implementation_debrief.md)
+- [Review debrief](subagents/review_debrief.md)
+- [Draft gxformat2 issue](upstream_issue_gxformat2.md), not filed
 
 ## Decision taken by default
 
 None.
 
-Part of the skunkworks effort for #670: [plan](../../../issues/needs_decision/670/skunkworks_plan.md).
+Part of the skunkworks effort for #670: [plan](../../../issues/wip/670/skunkworks_plan.md).
