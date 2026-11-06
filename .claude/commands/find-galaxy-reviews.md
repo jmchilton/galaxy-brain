@@ -32,7 +32,7 @@ can outweigh it. Briefly mention the existing request if surfacing the PR anyway
 ## Skip
 
 - Anything with a record in `vault/repositories/galaxy/reviews/active/<number>/` or `archived/<number>/`, or a PR linked in `vault/repositories/galaxy/reviews/MY_REVIEWS.md`. Those are reviewed or in flight. The queue uses linked PR numbers; read their URLs rather than relying on the old bare-number format.
-- Anything the user has already commented on or reviewed.
+- Anything the user has already commented on or reviewed, unless they are directly in `reviewRequests` again (not via a team) or a comment newer than their latest review or comment asks them to look again. Those are asks too, so foreground them.
 
 ## Finding them
 
