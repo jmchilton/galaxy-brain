@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "kind": "differential-review-state",
+  "updatedAt": "2026-11-06T18:45:52.720Z",
+  "hunks": {
+    "h1:79c121540c309cac": {
+      "snapshotId": "20261106T181443Z-review-b4d1c730ac79",
+      "path": "lib/galaxy/jobs/runners/util/job_script/__init__.py",
+      "reviewedAt": "2026-11-06T18:45:32.541Z"
+    },
+    "h1:40cafd34f6d497ba": {
+      "snapshotId": "20261106T181443Z-review-b4d1c730ac79",
+      "path": "test/unit/app/jobs/test_job_script.py",
+      "reviewedAt": "2026-11-06T18:45:45.560Z"
+    },
+    "h1:de1c1103299f88b6": {
+      "snapshotId": "20261106T181443Z-review-b4d1c730ac79",
+      "path": "test/unit/app/jobs/test_job_script.py",
+      "reviewedAt": "2026-11-06T18:45:45.560Z"
+    }
+  },
+  "commits": {
+    "114410795d7a520f104579f705f3077158956727": {
+      "sha": "b4d1c730ac79cd2c2842de6349c160470adb9f94",
+      "subject": "Make job script resubmission backup of job dirs atomic",
+      "snapshotId": "20261106T181443Z-review-b4d1c730ac79",
+      "signedOffAt": "2026-11-06T18:45:52.720Z"
+    }
+  }
+}
