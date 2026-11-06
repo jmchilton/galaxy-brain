@@ -1,4 +1,4 @@
-
+Thanks so much! Findings below read a little nit-y to me but not obviously wrong. Probably worth looking at - especially keeping the state in sync and the E2E test. -John
 
 <details><summary>Automated Review Details</summary>
 
