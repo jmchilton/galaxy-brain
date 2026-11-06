@@ -11,11 +11,11 @@ upstream_base_branch: dev
 
 ## Status
 
-`attention`: review points fixed at `38c2ac06b3c` ([replies posted](review_response_mvdbeek_1.md)); the two CI regressions they caused are fixed at `be0eec1ac9b`.
+`attention`: review points fixed and rebased onto `dev` (2026-11-06) at `438b14a9fa5`; `ci_diagnosis.md` covers the older `38c2ac06b3c` reds.
 
 [#24331](https://github.com/galaxyproject/galaxy/pull/24331) open, not draft.
 
-CI is pending on `be0eec1ac9b`; the `38c2ac06b3c` reds are diagnosed in [ci_diagnosis.md](ci_diagnosis.md).
+CI is not yet run on `438b14a9fa5`.
 
 ## Scope
 
@@ -34,5 +34,6 @@ The original scope is kept as `selenium_tool_form_helpers_alt_original_scope` ([
 - 2026-10-21, John: keep 7f here; one PR with history compacted to thematic commits (`scope_evaluation.md` Option D).
 - Open for John: repeat insert needs 26.2+ (`data-repeat-name`), so no released server can insert repeats; revisit scope E1? Keep `repeat_insert_named` as an alias? See `polish_debrief.md`.
 - Every SHA was rewritten, so `galaxy_ui_driver`'s dev-only merge of the old SHAs is stale and will need a restack. On restack, take this branch's `test/unit/selenium/test_tool_form_fill.py`.
+- 2026-11-06 rebase: `tool_form_set_parameter` now delegates to `dev`'s shared `form_element_set_value` (adds radio; old `_detect_param_type`/`_set_*` dropped). Fixtures `nested_repeat.html`/`sections.html` gained `.ui-form-field` wrappers (John-approved).
 
 Pulled out of [`galaxy_ui_driver`](../galaxy_ui_driver/index.md) per [the upstreaming plan](../../../../../projects/playwright/GALAXY_UI_DRIVER_UPSTREAM.md).
