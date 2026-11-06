@@ -17,6 +17,7 @@ Review `issue_tags.md` in the record, then use 👀 Diff / 🔖 Apply staged lab
 
 ## Waiting on John (`needs_decision`)
 
+- (mvp) [#670](https://github.com/galaxyproject/foundry/issues/670) — topology repair forbade interface edits; #753 merged; decide: close it, or keep it open for what's left. [notes](needs_decision/670/index.md)
 - (mvp) [#674](https://github.com/galaxyproject/foundry/issues/674) — interface notes lack shape-changing and per-element param rules; Expected's prohibition is wrong; decide: release claim, post scope comment. [notes](needs_decision/674/index.md)
 - (mvp) (large) [#59](https://github.com/galaxyproject/foundry/issues/59) — Research Nextflow process to Galaxy tool wrapper mapping; decide: work state (work/ready-implement, work/ready-research or work/human). [notes](needs_decision/59/index.md)
 - (mvp) (large) [#66](https://github.com/galaxyproject/foundry/issues/66) — Research Nextflow test fixtures to Galaxy job inputs; decide: work state (work/ready-implement, work/ready-research or work/human). [notes](needs_decision/66/index.md)
@@ -54,7 +55,6 @@ None yet.
 
 ## In motion (`wip`)
 
-- (mvp) [#670](https://github.com/galaxyproject/foundry/issues/670) — topology repair forbids input and output promotion and has no gate for either; draft PR [#753](https://github.com/galaxyproject/foundry/pull/753). [notes](wip/670/index.md)
 - [#534](https://github.com/galaxyproject/foundry/issues/534) — Replace abstract summarize-nextflow scenarios with concrete pinned fixtures; branch `issue-534-concrete-nextflow-scenarios`. [notes](wip/534/index.md)
 - [#548](https://github.com/galaxyproject/foundry/issues/548) — `gxwf draft-validate --concrete`: the other half of #166 — a ParsedTool decode failure's `Error.message` is…; draft PR [#554](https://github.com/galaxyproject/foundry/pull/554). [notes](wip/548/index.md)
 - [#694](https://github.com/galaxyproject/foundry/issues/694) — (large) Build PAPER/INTERVIEW → GALAXY on the Workflow Brief Molds, retire the freeform Galaxy Molds; PR [#696](https://github.com/galaxyproject/foundry/pull/696). [notes](wip/694/index.md)
