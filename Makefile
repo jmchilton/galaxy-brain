@@ -7,7 +7,7 @@ validate:
 	uv run $(DEPS) python validate_records.py
 
 test:
-	uv run $(DEPS) --with pytest pytest test_validate_frontmatter.py test_validate_records.py test_check_references.py test_pull_screenshots.py -v $(ARGS)
+	uv run $(DEPS) --with pytest pytest test_validate_frontmatter.py test_validate_records.py test_check_references.py test_pull_screenshots.py vault/agents/_shared/scripts/test_launch_agent.py -v $(ARGS)
 
 pull-screenshots:
 	uv run pull_screenshots.py $(ARGS)

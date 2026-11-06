@@ -58,13 +58,22 @@ unique_name() {
   while printf '%s\n' "$1" | grep -qx "$name"; do name="$base-$n"; n=$((n + 1)); done
 }
 
+# The records the prompt names, as hc run labels for the Herdr app's 📎 menu.
+record_labels() {
+  now=$(date +%s)
+  printf '%s\n' "$prompt" \
+    | grep -oE 'repositories/[A-Za-z0-9._-]+/(branches|issues|issues_incubator|reviews)/[A-Za-z0-9._-]+/[A-Za-z0-9._-]*[A-Za-z0-9_-]' \
+    | sed -E "s#^repositories/([^/]+)/([^/]+)/[^/]+/(.*)#--label gb.record.\1/\2/\3=$now#" | sort -u
+}
+
 if [ "$herdr" = app ]; then
   unique_name "$(hc ls 2>/dev/null | jq -r '.terminals[]?.name // empty' 2>/dev/null || true)"
   # Space and tab ids Herdr doesn't know yet become a new space and tab, so hc alone creates them, window or not.
   space=sp$(od -An -N16 -tx1 /dev/urandom | tr -d ' \n') tab=tb$(od -An -N16 -tx1 /dev/urandom | tr -d ' \n')
   described="$kind${*:+ $*}"
+  labels=$(record_labels)
   [ -z "$prompt" ] || set -- "$@" "$prompt"
-  out=$(hc run --bg --json --no-parent --name "$name" --label "herdr.space=$space" --label "herdr.tab=$tab" \
+  out=$(hc run --bg --json --no-parent --name "$name" --label "herdr.space=$space" --label "herdr.tab=$tab" $labels \
     --cwd "$cwd" ${host:+--on "$host"} -- "$kind" "$@") || { echo "hc run failed: $out" >&2; exit 1; }
   terminal=$(printf '%s' "$out" | jq -r '.address // empty')
   [ -n "$terminal" ] || { echo "hc run returned no terminal: $out" >&2; exit 1; }
