@@ -1,24 +1,26 @@
 ---
 upstream_base_branch: main
 related_records: foundry/issues/670
+pr: 753
 ---
 # Replace `repair-galaxy-draft-topology`'s contract
 
-- [Open PR](https://github.com/galaxyproject/foundry/compare/main...jmchilton:foundry:issue-669-repair-contract)
+- [PR #753](https://github.com/galaxyproject/foundry/pull/753)
 - [View on GitHub](https://github.com/jmchilton/foundry/tree/issue-669-repair-contract)
 
 ## Status
 
-Branch on `jmchilton`, base `origin/main` at `7453431d`, head `6f5be153`. Worktree `~/projects/worktrees/foundry/branch/issue-669-repair-contract`.
+Branch on `jmchilton`, base `origin/main` at `7453431d`, head `c9235876`, reviewed and fixed. Worktree `~/projects/worktrees/foundry/branch/issue-669-repair-contract`.
 
-No PR yet; a reviewer pass comes first.
+Draft PR [#753](https://github.com/galaxyproject/foundry/pull/753); body is [pr_description.md](pr_description.md).
 
-Local `make -k check` green except `check-vendored` (machine-only) and `validate-roadmap` (live GitHub labels, also fails on `origin/main`). CI runs once the PR opens.
+Local `make -k check` green except `check-vendored` (machine-only) and `validate-roadmap` (live GitHub labels, also fails on `origin/main`). CI started when the PR opened.
 
 ## Supporting files
 
 - [Implementation debrief](implementation_debrief.md)
-- [Plan](../../../issues/needs_decision/670/skunkworks_plan.md) and [plan review](../../../issues/needs_decision/670/skunkworks_plan_review.md)
+- [Review debrief](subagents/review_debrief.md)
+- [Plan](../../../issues/wip/670/skunkworks_plan.md) and [plan review](../../../issues/wip/670/skunkworks_plan_review.md)
 
 ## Decisions taken by default
 

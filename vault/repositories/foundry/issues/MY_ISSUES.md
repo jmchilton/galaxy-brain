@@ -11,7 +11,6 @@ Review `issue_tags.md` in the record, then use 👀 Diff / 🔖 Apply staged lab
 - (mvp) [#591](https://github.com/galaxyproject/foundry/issues/591) — `download?style=ga` emits unversioned tool_ids; saves but 400s on invoke; decide: apply the proposed labels (agent files the Galaxy issue). [notes](needs_decision/591/index.md)
 - [#574](https://github.com/galaxyproject/foundry/issues/574) — Tool Shed tool search ignores `repo_name`/`id`, so slug queries miss; decide: apply staged labels, then repo-search retry in discover-shed-tool. [notes](needs_decision/574/index.md)
 - (mvp) [#580](https://github.com/galaxyproject/foundry/issues/580) — frame comments without position/size rejected by real Galaxy import; decide: apply staged labels, then require geometry in 4 template Molds + evals. [notes](needs_decision/580/index.md)
-- (mvp) [#670](https://github.com/galaxyproject/foundry/issues/670) — topology repair forbids input and output promotion and has no gate for either; decide: apply staged labels, then research ownership. [notes](needs_decision/670/index.md)
 - (mvp) [#673](https://github.com/galaxyproject/foundry/issues/673) — Runtime Note reads as a blanket source-read ban; phases disagree on reading pinned source; decide: apply staged labels, then generator line + per-Mold fixes. [notes](needs_decision/673/index.md)
 - (mvp) [#723](https://github.com/galaxyproject/foundry/issues/723) — weak-hit and capability-gap fallbacks let runs author UDTs for tools that already exist; decide: apply staged labels, merge with #678 or sequence, then research. [notes](needs_decision/723/index.md)
 - (mvp) [#666](https://github.com/galaxyproject/foundry/issues/666) — nextflow resolver silently mis-extracts: wrapper as primary, `meta.yml` ports, provenance, fixtures; decide: apply staged labels, then split or batch (2 new defects found). [notes](needs_decision/666/index.md)
@@ -55,6 +54,7 @@ None yet.
 
 ## In motion (`wip`)
 
+- (mvp) [#670](https://github.com/galaxyproject/foundry/issues/670) — topology repair forbids input and output promotion and has no gate for either; draft PR [#753](https://github.com/galaxyproject/foundry/pull/753). [notes](wip/670/index.md)
 - [#534](https://github.com/galaxyproject/foundry/issues/534) — Replace abstract summarize-nextflow scenarios with concrete pinned fixtures; branch `issue-534-concrete-nextflow-scenarios`. [notes](wip/534/index.md)
 - [#548](https://github.com/galaxyproject/foundry/issues/548) — `gxwf draft-validate --concrete`: the other half of #166 — a ParsedTool decode failure's `Error.message` is…; draft PR [#554](https://github.com/galaxyproject/foundry/pull/554). [notes](wip/548/index.md)
 - [#694](https://github.com/galaxyproject/foundry/issues/694) — (large) Build PAPER/INTERVIEW → GALAXY on the Workflow Brief Molds, retire the freeform Galaxy Molds; PR [#696](https://github.com/galaxyproject/foundry/pull/696). [notes](wip/694/index.md)

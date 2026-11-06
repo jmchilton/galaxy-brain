@@ -56,7 +56,8 @@ Three sentences close it, each from that observed failure:
 
 ## Found while building
 
-- **Branch 3's example.** `ortho_method|input` isn't in `Functional_annotation_of_sequences` at IWC `main`. The note uses `input_type|i`.
+- **Branch 3's example.** The note uses `input_type|i`. This entry first said `ortho_method|input` isn't in `Functional_annotation_of_sequences`, which was wrong: the branch review found it as a subworkflow `input_connections` key at IWC `980fc00`. Both keys exist.
+- **Branch 3's map-key sentence.** The Branch 3 line under "Checked and held" and the plan's connection-key text were also wrong: conversion rejects a key reference for a map-form step that has a `label`. The branch review cut that case; see #754.
 - **Branch 2's test design.** Planemo can't read a null element and skips `element_count: 0`. The workflow gained filter and witness steps so the null claims are really checked.
 - **Branch 2's lint command.** `planemo lint` exits 2 with no output on any workflow here, because it lints tools. `planemo workflow_lint` is the real check. `verification/README.md` has the same stale command, which I left alone.
 - **Branch 1's fixture.** My dupRadar scenario missed that `annotation` also loses its only consumer. The branch-cast trial found it by walking the draft, and the scenario now says so.
