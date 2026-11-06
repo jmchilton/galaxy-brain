@@ -1,0 +1,2 @@
+- `documentation`: provenance notes and vendored prompt pins only.
+- `priority/mvp`: mirrors #535.

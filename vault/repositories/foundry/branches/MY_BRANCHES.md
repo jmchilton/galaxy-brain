@@ -48,6 +48,7 @@ None yet.
 ## Foundry branches — ready for final review (`branches_ready_for_final_review`)
 
 - [`issue-672-udt-authoring-note`](active/issue-672-udt-authoring-note/index.md) — UDT authoring note: collection inputs/outputs, vendoring recipes, `inputs.x` shape (#672). Draft [#710](https://github.com/galaxyproject/foundry/pull/710). [Open PR](https://github.com/galaxyproject/foundry/compare/main...issue-672-udt-authoring-note).
+- [`issue-535-accept-iwc-policy-pin`](active/issue-535-accept-iwc-policy-pin/index.md) — Pins IWC review prompts to the accepted iwc#1366 commit; records Copilot differences (#535). [Open PR](https://github.com/galaxyproject/foundry/compare/main...jmchilton:foundry:issue-535-accept-iwc-policy-pin).
 
 ## Foundry branches — approved, opens when green (`branches_need_pr`)
 

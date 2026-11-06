@@ -1,0 +1,3 @@
+- Pin IWC review prompts to the accepted upstream commit
+- Accept the IWC review policy pin and record the Copilot comparison
+- Re-pin IWC review prompts to the iwc#1366 merge commit
