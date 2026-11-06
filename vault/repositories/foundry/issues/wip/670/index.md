@@ -26,7 +26,7 @@ No labels or comments were changed on GitHub for this work.
 
 ## Derived status
 
-`needs_decision` (`needs_decision_labels`), rule 3: labels are staged in `issue_tags.md`. Once applied as proposed it becomes `queued_research`.
+`wip`, rule 2: draft PR #753 addresses it.
 
 ## Findings
 
