@@ -13,12 +13,12 @@ Review `issue_tags.md` in the record, then use 👀 Diff / 🔖 Apply staged lab
 - (mvp) [#580](https://github.com/galaxyproject/foundry/issues/580) — frame comments without position/size rejected by real Galaxy import; decide: apply staged labels, then require geometry in 4 template Molds + evals. [notes](needs_decision/580/index.md)
 - (mvp) [#670](https://github.com/galaxyproject/foundry/issues/670) — topology repair forbids input and output promotion and has no gate for either; decide: apply staged labels, then research ownership. [notes](needs_decision/670/index.md)
 - (mvp) [#673](https://github.com/galaxyproject/foundry/issues/673) — Runtime Note reads as a blanket source-read ban; phases disagree on reading pinned source; decide: apply staged labels, then generator line + per-Mold fixes. [notes](needs_decision/673/index.md)
-- (mvp) [#674](https://github.com/galaxyproject/foundry/issues/674) — interface notes lack rules for shape-changing params and meta-driven parameterization; decide: apply staged labels, then edit params + channel-shape notes, recast. [notes](needs_decision/674/index.md)
 - (mvp) [#678](https://github.com/galaxyproject/foundry/issues/678) — discovery `status` has no `unsuitable`; capability miss routes to authoring an existing wrapper; decide: apply staged labels, merge with #723 or sequence, then research. [notes](needs_decision/678/index.md)
 - (mvp) [#723](https://github.com/galaxyproject/foundry/issues/723) — weak-hit and capability-gap fallbacks let runs author UDTs for tools that already exist; decide: apply staged labels, merge with #678 or sequence, then research. [notes](needs_decision/723/index.md)
 
 ## Waiting on John (`needs_decision`)
 
+- (mvp) [#674](https://github.com/galaxyproject/foundry/issues/674) — interface notes lack shape-changing and per-element param rules; Expected's prohibition is wrong; decide: release claim, post scope comment. [notes](needs_decision/674/index.md)
 - (mvp) (large) [#59](https://github.com/galaxyproject/foundry/issues/59) — Research Nextflow process to Galaxy tool wrapper mapping; decide: work state (work/ready-implement, work/ready-research or work/human). [notes](needs_decision/59/index.md)
 - (mvp) (large) [#66](https://github.com/galaxyproject/foundry/issues/66) — Research Nextflow test fixtures to Galaxy job inputs; decide: work state (work/ready-implement, work/ready-research or work/human). [notes](needs_decision/66/index.md)
 - (mvp) (large) [#90](https://github.com/galaxyproject/foundry/issues/90) — Survey: Galaxy reporting and publishing patterns; decide: work state (work/ready-implement, work/ready-research or work/human). [notes](needs_decision/90/index.md)
