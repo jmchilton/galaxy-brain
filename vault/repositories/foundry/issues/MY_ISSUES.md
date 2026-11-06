@@ -14,6 +14,7 @@ Review `issue_tags.md` in the record, then use 👀 Diff / 🔖 Apply staged lab
 - (mvp) [#673](https://github.com/galaxyproject/foundry/issues/673) — Runtime Note reads as a blanket source-read ban; phases disagree on reading pinned source; decide: apply staged labels, then generator line + per-Mold fixes. [notes](needs_decision/673/index.md)
 - (mvp) [#674](https://github.com/galaxyproject/foundry/issues/674) — interface notes lack rules for shape-changing params and meta-driven parameterization; decide: apply staged labels, then edit params + channel-shape notes, recast. [notes](needs_decision/674/index.md)
 - (mvp) [#678](https://github.com/galaxyproject/foundry/issues/678) — discovery `status` has no `unsuitable`; capability miss routes to authoring an existing wrapper; decide: apply staged labels, then add status to schema + Molds, coordinate with #669. [notes](needs_decision/678/index.md)
+- (mvp) [#723](https://github.com/galaxyproject/foundry/issues/723) — weak-hit and capability-gap fallbacks let runs author UDTs for tools that already exist; decide: apply staged labels, merge with #678 or sequence, then research. [notes](needs_decision/723/index.md)
 
 ## Waiting on John (`needs_decision`)
 
