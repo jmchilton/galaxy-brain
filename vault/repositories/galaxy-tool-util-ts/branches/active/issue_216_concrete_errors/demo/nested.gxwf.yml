@@ -1,0 +1,28 @@
+class: GalaxyWorkflowDraft
+inputs:
+  reads: data
+outputs: {}
+steps:
+  plan_later:
+    tool_id: TODO
+    in: {}
+    out: []
+  nested:
+    run:
+      class: GalaxyWorkflow
+      inputs:
+        sub_reads: data
+      outputs: {}
+      steps:
+        inner_cat:
+          tool_id: cat1
+          tool_version: 1.0.0
+          state: {}
+          in:
+            input1: sub_reads
+            not_a_param: sub_reads
+          out:
+            - id: out_file1
+    in:
+      sub_reads: reads
+    out: []

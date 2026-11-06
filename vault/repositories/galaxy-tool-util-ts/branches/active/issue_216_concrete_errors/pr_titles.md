@@ -1,0 +1,4 @@
+- Explain `draft-validate --concrete --json` failures from the top of the report
+- draft-validate: add top-level `concrete_errors` and a step `label` to JSON reports
+- Fix `ok: false` with empty `*_errors` in `draft-validate --concrete --json`
+- Name failing steps by label in `gxwf` validation reports, and roll up concrete failures
