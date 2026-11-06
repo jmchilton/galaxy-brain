@@ -9,9 +9,11 @@ upstream_base_branch: release_25.1
 
 ## Status
 
-Implemented and hardened READY for [#24532](https://github.com/galaxyproject/galaxy/issues/24532) at `551bc3a8e7f`; re-scoped once (alt `_alt_original_scope`). See [implementation_debrief.md](implementation_debrief.md).
+Polished for [#24532](https://github.com/galaxyproject/galaxy/issues/24532) at `cc83de7a759`, awaiting final review; re-scoped once (alt `_alt_original_scope`).
 
-No PR yet; fork CI green at `551bc3a8e7f`.
+No PR yet; see [description](pr_description.md), [titles](pr_titles.md), [tags](pr_tags.md) and [polish debrief](polish_debrief.md).
+
+Fork CI queued at `cc83de7a759`; green at the tree-identical pre-rebase `551bc3a8e7f`.
 
 ## Base choice
 

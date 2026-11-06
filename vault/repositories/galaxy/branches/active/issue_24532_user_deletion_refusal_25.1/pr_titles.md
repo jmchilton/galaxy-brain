@@ -1,0 +1,4 @@
+- [25.1] Explain a refused account self-deletion
+- [25.1] Keep the Delete Account modal open and explain why deletion was refused
+- [25.1] Fix Delete Account modal closing without explaining a refusal
+- [25.1] Fix Delete Account error handling when deletion is refused or fails

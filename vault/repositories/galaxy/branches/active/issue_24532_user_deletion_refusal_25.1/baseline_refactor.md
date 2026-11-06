@@ -22,4 +22,6 @@ Each group squashes adjacent commits, so every resulting tree matches an existin
 4. `a1bc7532e16` + `e6590e91c9b` → **Disable account deletion while the request is pending.** Fold the review follow-up (`resetModal` clears `deleting`, the tightened pending test) into the commit that introduced it.
 5. `e7210c056cf` + `6f9ffb022eb` + `dac0771a16a` → **Show the generic error when the deletion request fails to send.** This lands the `catch` directly in the `requestDeletion()` shape. The intermediate `try/catch` that wrapped `userLogoutClient()`, and the logout-throws test that was added and then dropped, both disappear (the test nets to zero). The message should say that `requestDeletion()` owns the transport and error mapping, and that `handleSubmit` keeps `release_26.1`'s `if (error) / else logout` shape for merge-forward.
 
+**Applied in polish (2026-11-06):** the plan above plus a sixth group folding the two Selenium commits, with a final tree identical to `551bc3a8e7f`, then rebased cleanly onto `release_25.1`. Old SHAs in this file no longer exist on the branch.
+
 Alternative: if a reviewer prefers a smaller fix series, fold 5 into 4, since both are about the pending/failed-request state. I'd keep them apart. Step 4 is the re-scope expansion (double submit), and step 5 is a separate failure mode (rejected request).
