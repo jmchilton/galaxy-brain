@@ -18,6 +18,7 @@ Snapshot: 2026-10-28 (originally recovered from live GitHub state, local worktre
 - [`issue-694-direct-build-on-brief`](active/issue-694-direct-build-on-brief/index.md) — Builds the direct Galaxy routes on the Workflow Brief Molds (#694). [#696](https://github.com/galaxyproject/foundry/pull/696).
 - [`feat/test-pipeline-draft-loop`](active/feat-test-pipeline-draft-loop/index.md) — Runs the draft loop in test-pipeline, one worker per call, capped and budgeted. [#686](https://github.com/galaxyproject/foundry/pull/686).
 - [`fix/author-galaxy-tool-wrapper-optional-nextflow`](active/fix-author-galaxy-tool-wrapper-optional-nextflow/index.md) — Makes Nextflow evidence optional in Galaxy UDT authoring. [#545](https://github.com/galaxyproject/foundry/pull/545).
+- [`issue-735-data-table-staging`](active/issue-735-data-table-staging/index.md) — Stage data tables in the form Planemo discovers, no flag or absolute paths (#735). [#749](https://github.com/galaxyproject/foundry/pull/749).
 
 ## Draft Foundry PRs — ready to undraft (`draft_ready`)
 
@@ -25,7 +26,6 @@ None yet.
 
 ## Draft Foundry PRs — waiting for CI (`ci_wait`)
 
-- [`issue-735-data-table-staging`](active/issue-735-data-table-staging/index.md) — Stage data tables in the form planemo discovers, no flag or absolute paths (#735). [#749](https://github.com/galaxyproject/foundry/pull/749).
 - [`issue-568-review-agent-benchmark-paper`](active/issue-568-review-agent-benchmark-paper/index.md) — Comparisons page: contrast with one detailed prompt, from the Munn and Grenier study (#568). [#750](https://github.com/galaxyproject/foundry/pull/750).
 
 ## Draft Foundry PRs — needs author work (`author_work`)

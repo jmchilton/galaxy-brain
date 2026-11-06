@@ -17,7 +17,7 @@ I ran the two forms against each other in a one-step probe, not funcscan, on pla
 | `tool_data_table_conf.xml` | Job rejected: `Parameter 'index': requires a value, but no legal values defined` |
 | `tool_data_table_conf.xml.test` | Passed, and the job's command line read the database path from the staged `.loc` |
 
-The failure is also hard to diagnose. Galaxy accepts the invocation, the job errors with no command line or stderr, and only the server log gives the reason. The note now says so.
+The failure is also hard to diagnose. Galaxy accepts the invocation and the job errors with no command line or stderr. Planemo's report and the job API carry no reason. It's in the Galaxy log and, per source, the output dataset's `misc_info`, and the note says to look there.
 
 **This does not add data tables to translated workflows.** The rule against introducing new tables stands. The recipe covers existing wrappers with no dataset input, and the note says that. **It is for Planemo-managed Galaxy.** IWC and external Galaxy keep server-side tables.
 
