@@ -9,11 +9,11 @@ pr: 24347
 
 ## Status
 
-Polished; John read it through. Rebased onto `release_26.2` 2026-10-27 (conflict with new `test_history_panel_switch_history` resolved by keeping both) with Marius's optional tweaks folded in; head `29f5d9c46ce`. See the [implementation debrief](implementation_debrief.md) and [polish debrief](polish_debrief.md).
+Polished; John read it through. Rebased onto `release_26.2` 2026-11-06 (conflict with new `test_history_dataset_assign_interval_columns` test and `attribute_field` nav entry resolved by keeping both); head `aa6b71e7ace`. Earlier: Marius's optional tweaks folded in 2026-10-27. See the [implementation debrief](implementation_debrief.md) and [polish debrief](polish_debrief.md).
 
 [#24347](https://github.com/galaxyproject/galaxy/pull/24347) opened 2026-10-21, approved by mvdbeek; title is pr_titles.md option 1. [Description](pr_description.md), [titles](pr_titles.md), [tags](pr_tags.md).
 
-CI on `29f5d9c46ce` reds diagnosed unrelated 2026-11-01: `test_import_dataset_from_history` also fails on `release_26.2`, flaky `test_cached_tool` unit and macOS cache restore; failed jobs rerun.
+CI pending on `aa6b71e7ace` after the force-push (reds on prior head `29f5d9c46ce` were diagnosed unrelated 2026-11-01).
 
 ## Scope
 
