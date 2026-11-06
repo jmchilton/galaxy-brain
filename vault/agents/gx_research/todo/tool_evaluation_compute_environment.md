@@ -8,4 +8,4 @@ Fixing Pulsar `default_file_action: none` extra-files crashes required tracing t
 
 ## Requested by
 
-- vault/repositories/galaxy/branches/active/issue_24600_pulsar_none_extra_files_25.1/brain_research.md: needed the contract for the path-rewrite hooks and which wrapper callers tolerate `None`.
+- vault/repositories/galaxy/branches/abandoned/issue_24600_pulsar_none_extra_files_25.1/brain_research.md: needed the contract for the path-rewrite hooks and which wrapper callers tolerate `None`.

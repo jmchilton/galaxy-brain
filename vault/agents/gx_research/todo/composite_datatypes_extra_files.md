@@ -8,4 +8,4 @@ Extra-file behavior is spread across datatypes, wrappers, the object store and r
 
 ## Requested by
 
-- vault/repositories/galaxy/branches/active/issue_24600_pulsar_none_extra_files_25.1/brain_research.md: needed an overview of composite/Directory extra-files semantics to judge fix scope and tests.
+- vault/repositories/galaxy/branches/abandoned/issue_24600_pulsar_none_extra_files_25.1/brain_research.md: needed an overview of composite/Directory extra-files semantics to judge fix scope and tests.

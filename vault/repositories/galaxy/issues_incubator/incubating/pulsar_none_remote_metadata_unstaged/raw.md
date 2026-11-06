@@ -21,7 +21,7 @@ Seen for `simple_constructs` (test passes anyway; its assertions don't touch met
 
 ## Questions for research
 
-- Is this also on dev / 26.x? (Not checked; dev has many metadata/pulsar changes: "Containerized set metadata" ecd065dd34c, "Move metadata handling into finish_job" 06e1864a13a.)
+- Is this also on dev / 26.x? (Not checked; dev has many metadata/pulsar changes: "Containerized set metadata" ecd065dd34c, "Move metadata handling into finish_job" 06e1864a13a.) `composite_output_tests` passes on `release_26.2` at `10ffdf8c742` under this same `none` + `remote_metadata: true` conf (2026-11-05), so the symptom above may be stale there; re-check before filing. Cause not investigated.
 - Does `remote_metadata: false` + `none` work (Galaxy sets metadata locally after the job)? Likely the safer config for shared FS; the `none` integration test config may have meant to cover that.
 - Is `remote_metadata: true` + `none` a supported combination at all? If not, Galaxy should warn/fail at config time rather than silently skip metadata.
 
