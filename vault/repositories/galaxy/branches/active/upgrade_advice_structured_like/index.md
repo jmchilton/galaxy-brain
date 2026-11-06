@@ -1,6 +1,7 @@
 ---
 pr: 24524
 upstream_base_branch: dev
+related_records: galaxy/branches/issue_23902_qualified_output_references
 ---
 
 # upgrade_advice_structured_like

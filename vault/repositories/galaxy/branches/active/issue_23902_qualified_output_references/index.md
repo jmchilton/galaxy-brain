@@ -1,6 +1,13 @@
+---
+upstream_base_branch: dev
+parent_branch: issue_23891_output_reference_resolver
+related_records: galaxy/branches/upgrade_advice_structured_like
+---
 # issue_23902_qualified_output_references
 
-Status: `branches_implemented`. Base: `dev`.
+Status: `branches_implemented`. Base: `issue_23891_output_reference_resolver`.
+
+Decision (2026-11-06): gate at profile 27.0, reusing `OUTPUT_REFERENCE_STRICT_PROFILE`; branch code still gates at 26.2 and needs rebasing onto its parent.
 
 From 26.2, unqualified `format_source`/`metadata_source` fail tool load; runtime skips legacy aliases (fixes #23902).
 

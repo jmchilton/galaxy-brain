@@ -1,5 +1,6 @@
 ---
 upstream_base_branch: dev
+child_branches: issue_23902_qualified_output_references
 ---
 # issue_23891_output_reference_resolver
 
