@@ -10,7 +10,7 @@ Static review; no tests were run. Test plan and code sketches: [test_challenges_
 
 This is a user-facing control, and its sibling `test_sort_by_name` has an E2E test in `lib/galaxy_test/selenium/test_histories_list.py`. Vitest mocks `getMyHistories` and the API tests build their own query flags, so nothing proves the My Histories request passes the new server guard and renders in size order.
 
-Add `test_sort_by_storage_used` in a new fresh-user class in that file: two histories of different sizes, click "Storage used", assert largest first, click again, assert smallest first. `histories.sort_button` already covers the selector. `TestSavedHistories` shares one user with many empty histories, which could push a sized one off the page.
+Add `test_sort_by_storage_used` in a new fresh-user class in that file: three histories of different sizes, created in an order matching neither size order, click "Storage used", assert largest first, click again, assert smallest first. `histories.sort_button` already covers the selector. `TestSavedHistories` shares one user with many empty histories, which could push a sized one off the page.
 
 ## P2 2: Rejection test passes without the feature
 

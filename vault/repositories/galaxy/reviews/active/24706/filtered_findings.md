@@ -1,0 +1,10 @@
+# Filtered findings: #24706
+
+Kept out of `verified_review.md`. Reviewed commit `5006c8fbfe3a91c7f12f628fdd543c478f1854fa`.
+
+- **default P3 4, additive `extraSortOptions` prop instead of the `ListHeader` initial-sort change:** re-litigates a choice the PR description explains; the reviewer also called it a design alternative rather than a defect.
+- **gx_performance_challenger P2 1, heavy users pay a full size recompute on every sort click and page:** re-litigates the stated tradeoff ("bounds the cost by one user's data, as on the storage dashboard") and isn't actionable as written, because the numbers are synthetic, the heavy users hypothetical, the guard unprototyped and the finding drops itself to P3 without production data. The cost stays visible through `risks.md`; the numbers and replica queries are in [performance_challenges_debrief.md](performance_challenges_debrief.md) if you want to raise it yourself.
+- **gx_performance_challenger P3 1, disable the sort buttons while a load is in flight:** pre-existing behavior the PR doesn't touch, and the suggested fix would break it: `loadGeneration` and the `clickSortByNameTwice` tests from `cd3f32b8697`, already on `dev`, require a second click during a load to issue a second request. Stacking was not measured.
+- **gx_performance_challenger P3 2, badge fan-out on the largest histories:** pre-existing code the PR doesn't touch (`HistoryDatasetsBadge.vue`), bounded by the 24-card page, and only noticeable at the reviewer's hypothetical heavy users.
+- **default P3 3, sub-point on narrowing `HistoryIndexQueryPayload.limit` and `offset` to `int`:** dropped from the kept finding because the manager's `None` checks and the sibling payloads aren't part of this PR; the route simplification itself is P3 3 in `verified_review.md`.
+- **gx_performance_challenger P3 3, sub-point on applying the same refusal to legacy `order=size*` with `all=true`:** dropped from the kept finding because the PR description states the legacy listing is unchanged; the description fix is P3 9 in `verified_review.md`.

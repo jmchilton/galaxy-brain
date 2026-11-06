@@ -14,7 +14,7 @@ Sound and mergeable. No P1 or P2 findings. The findings below are all P3: one in
 
 - **Tab switching cannot send `sort_by=size` to a rejecting listing.** `Analysis.vue` keys `<router-view>` on `route.fullPath`, so each tab remounts `HistoryList` and `ListHeader`. A size sort from My Histories does not carry over to Shared or Published.
 - **The guard covers every non-own listing.** Published, shared, admin-all and anonymous requests are all rejected in `index_query` before the query is built. An anonymous request gets either the login error or the size error.
-- **`SELECT DISTINCT` with the size column is valid.** `sort_column` is one `Label` object used in both the select list and `ORDER BY`. `total_matches` is counted before `add_columns`, and `scalars()` reads the entity as the first column. The label's type is numeric, so `sort_expression` does not wrap it in `lower()`.
+- **`SELECT DISTINCT` with the size column is valid.** `sort_column` is one hybrid attribute read, used in both the select list and `ORDER BY`. I did not run this on Postgres; the PR reports profiling it there and CI is green. `total_matches` is counted before `add_columns`, and `scalars()` reads the entity as the first column. The label's type is numeric, so `sort_expression` does not wrap it in `lower()`.
 - **The sort matches the displayed size.** The sort and the serializer's `size` both use the `History.disk_size` hybrid. The storage dashboard sorts on the same expression (`managers/histories.py:651`).
 - **"No other component passes `sortOptions`" is true.** `WorkflowList` and `CuratedWorkflowList` only pass `show-sort-options`.
 - **The new page cap breaks no in-repo client.**
@@ -41,13 +41,15 @@ Suggested fix:
 
 `managers/histories.py:258-259` calls `stmt.add_columns(sort_column)` and restates the Postgres `SELECT DISTINCT` rule. `apply_sort_column` (`managers/base.py:1333-1338`) already owns that rule and that `add_columns`, but only for expressions wrapped by `sort_expression`.
 
-Suggested fix: have the helper also select a `Label`, which is never covered by the entity's columns. The size branch then needs only the assignment, and the next computed sort gets the behavior for free.
+Suggested fix: have the helper also select anything that is not a plain mapped column. The size branch then needs only the assignment, and the next computed sort gets the behavior for free.
 
 ```python
 # base.py
-if expression is not column or isinstance(column, Label):
+if expression is not column or not isinstance(column, InstrumentedAttribute):
     stmt = cast(SelectT, stmt.add_columns(expression))
 ```
+
+Do not test for `Label` here. In a standalone SQLAlchemy 2.0.57 check (Galaxy pins 2.0.55), a class-level hybrid read returned a proxy: `isinstance(T.disk_size, Label)` was false, and so was `isinstance(T.disk_size, InstrumentedAttribute)`. A `Label` check would silently skip the column, and Postgres would then reject the query. A fix should re-run the size-sort API test on Postgres. It should also check the helper's other callers in `pages.py`, `visualizations.py` and `workflows.py`. A sort column there that isn't an `InstrumentedAttribute` would gain a redundant selected column, which is harmless to `scalars()`.
 
 ### P3 3: Route filters nine fields for `None` when only `limit` needs it
 

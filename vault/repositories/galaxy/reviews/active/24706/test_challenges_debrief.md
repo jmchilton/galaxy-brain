@@ -34,6 +34,8 @@ On `origin/dev`, `size` isn't in `HistorySortByEnum`, so FastAPI rejects `sort_b
 - Stale `sortBy=size` after a tab switch, which would send a 400-producing request from Shared or Published. `Analysis.vue` keys `router-view` by `route.fullPath`, so each tab remounts `HistoryList` and `ListHeader`. No test needed.
 - `total_matches` being skewed by the added column. `get_count` runs before `add_columns`. Still worth an assertion, since paging is the client contract.
 
+- A client regression from the new page cap, on a light check. `getHistories` always sends `limit` (default 24), and callers that omit `limit`, such as `getHistoryList` and `fetchAllHistoriesSizeSummary`, appear to use `q`/`qv` without `search`, so they stay on the unchanged legacy listing. P2 3 is a test gap only. `HistoriesFilters.getQueryString` output wasn't traced to its final form.
+
 ## Test plan
 
 ### E2E: add to `lib/galaxy_test/selenium/test_histories_list.py`
@@ -48,24 +50,24 @@ class TestHistoriesListSortByStorage(SeleniumTestCase):
 
     @selenium_test
     def test_sort_by_storage_used(self):
-        large_name = self._get_random_name()
-        small_name = self._get_random_name()
-        large_id = self.dataset_populator.new_history(large_name)
-        self.dataset_populator.new_dataset(large_id, content="1\t2\t3\n" * 100, wait=True)
-        small_id = self.dataset_populator.new_history(small_name)
-        self.dataset_populator.new_dataset(small_id, content="1\t2\t3\n", wait=True)
+        # Creation order differs from both size orders, so update-time order can't satisfy either check.
+        names = {}
+        for label, repeat in [("medium", 10), ("large", 100), ("small", 1)]:
+            names[label] = self._get_random_name()
+            history_id = self.dataset_populator.new_history(names[label])
+            self.dataset_populator.new_dataset(history_id, content="1\t2\t3\n" * repeat, wait=True)
         self.navigate_to_histories_page()
 
         histories = self.components.histories
         # The first click selects the field, descending; the second switches to ascending.
         histories.sort_button(field="Storage used", direction="ascending").wait_for_and_click()
         histories.list_loading.wait_for_absent()
-        self._assert_order([large_name, small_name])
+        self._assert_order([names["large"], names["medium"], names["small"]])
 
         histories.sort_button(field="Storage used", direction="ascending").wait_for_and_click()
         histories.sort_button(field="Storage used", direction="descending").wait_for_visible()
         histories.list_loading.wait_for_absent()
-        self._assert_order([small_name, large_name])
+        self._assert_order([names["small"], names["medium"], names["large"]])
 
     @retry_assertion_during_transitions
     def _assert_order(self, expected):
@@ -92,7 +94,7 @@ def test_index_query_limit_defaults_to_100(self):
         unique_id = uuid4().hex
         for i in range(101):
             self._create_history(f"history_{i}_{unique_id}")
-        response = self._index_search(search=unique_id, show_published=False)
+        response = self._get("histories", data=dict(search=unique_id, show_published=False))
         assert len(response.json()) == 100
         assert response.headers["total_matches"] == "101"
 ```
