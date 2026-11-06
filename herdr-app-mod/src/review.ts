@@ -9,7 +9,7 @@ import type { ReviewAct, ReviewCommit, ReviewFile, ReviewModel } from "../../her
 import type { ReviewLineTarget, ReviewStatus, ReviewThreadView } from "../../differential-review-lib/src/core";
 import { type CodeToken, highlightDiff, splitHunkHeader, syntaxGroup } from "../../obsidian-plugin/src/diff-highlight";
 import { chip } from "./chip";
-import { reviewHost } from "./host";
+import { logRenderFailures, reviewHost } from "./host";
 import { openRecordTab } from "./record-tab";
 import { type CodeRow, commitRows, fileRows, fileShown, type HighlightJob, pickItem, type ReviewItem, reviewItems, type Row, rowsWidth } from "./review-rows";
 
@@ -759,3 +759,5 @@ export default class GbReview extends View {
 			);
 	}
 }
+
+logRenderFailures("gb-review", GbReview);

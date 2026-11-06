@@ -1,11 +1,12 @@
 // galaxy-brain herdr plugin: `open` (actions) pops up the picker pane; `pick` (the pane) runs the fzf launch flow;
 // `actions <agent_dir>` prints that dir's launchers as prompts (JSON) for the Herdr app's pane header;
 // `host <request JSON>` answers one Chrome native host request (JSON), for the Herdr app mods;
-// `review <request JSON>` loads or changes a differential review, for the Herdr app's review tab.
+// `review <request JSON>` loads or changes a differential review, for the Herdr app's review tab;
+// `app <request JSON>` answers what only the Herdr app's mods ask for.
 
 import { spawnSync } from "node:child_process";
 import { mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
-import { tmpdir } from "node:os";
+import { homedir, tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { isTerminalStatus } from "../../site/src/lib/records";
 import { fillTemplate, type Launcher, launchersFor, type RecordRef } from "../../obsidian-plugin/src/launchers";
@@ -13,6 +14,7 @@ import { defaultEnvironment, type Environment, launchArgv } from "../../obsidian
 import { defaultProfile, type Profile, profileArgs } from "../../obsidian-plugin/src/profiles";
 import type { RecordSummary } from "../../obsidian-plugin/src/repository";
 import { agentActions } from "./agent-actions";
+import { appRequest } from "./app-host";
 import { hostRun } from "./host-run";
 import { fzfKey, fzfLine } from "./fzf-lines";
 import { parseGithubRef, recordsForRef } from "./github-ref";
@@ -167,17 +169,23 @@ function open() {
 	process.exit(result.status ?? 1);
 }
 
+/** Prints `{ ok, result }`, or `{ ok: false, error }`. */
+const answer = (outcome: Promise<unknown>) =>
+	outcome
+		.then((result) => ({ ok: true, result }))
+		.catch((error: unknown) => ({ ok: false, error: error instanceof Error ? error.message : String(error) }))
+		.then((reply) => console.log(JSON.stringify(reply)));
+
 const command = process.argv[2];
 if (command === "pick") pick();
 else if (command === "open") open();
 else if (command === "actions" && process.argv[3]) console.log(JSON.stringify(agentActions(loadLaunchers(vaultRoot), process.argv[3], vaultRoot)));
 else if (command === "host" && process.argv[3]) console.log(JSON.stringify(reply(JSON.parse(process.argv[3]), { vaultRoot, run: hostRun })));
-else if (command === "review" && process.argv[3]) {
-	reviewRequest(vaultRoot, JSON.parse(process.argv[3]))
-		.then((result) => ({ ok: true, result }))
-		.catch((error: unknown) => ({ ok: false, error: error instanceof Error ? error.message : String(error) }))
-		.then((outcome) => console.log(JSON.stringify(outcome)));
+else if (command === "review" && process.argv[3]) answer(reviewRequest(vaultRoot, JSON.parse(process.argv[3])));
+else if (command === "app" && process.argv[3]) {
+	const appHome = process.env.HERDR_APP_HOME ?? join(homedir(), ".config/herdr-app");
+	answer(Promise.resolve(process.argv[3]).then((request) => appRequest(JSON.parse(request), { vaultRoot, appHome, run: hostRun, now: () => new Date() })));
 } else {
-	console.error("usage: galaxy-brain.cjs pick|open|actions <agent_dir>|host <request JSON>|review <request JSON>");
+	console.error("usage: galaxy-brain.cjs pick|open|actions <agent_dir>|host <request JSON>|review <request JSON>|app <request JSON>");
 	process.exit(2);
 }

@@ -8,7 +8,7 @@ import type { AgentsTab, Routine } from "../../obsidian-plugin/src/agent-routine
 import { type CrackDay, type MissedPr, missedPrMeta } from "../../obsidian-plugin/src/missed-prs";
 import { addDays, linkLabel, type ListedTask, localDay, refinementPrompt, SNOOZES, type Task } from "../../obsidian-plugin/src/task-list";
 import { boardChanged, boardCracks, boardTasks, crackKey, splitAgents, taskKey } from "./board-model";
-import { host } from "./host";
+import { host, logRenderFailures } from "./host";
 import { markPrReviewed, removeListedTask, snoozeListedTask } from "./note-edits";
 import { openRecordTab } from "./record-tab";
 
@@ -454,3 +454,5 @@ export default class GbBoard extends View {
 			);
 	}
 }
+
+logRenderFailures(BOARD_MOD, GbBoard);

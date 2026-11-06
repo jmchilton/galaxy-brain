@@ -5,16 +5,15 @@
 
 import { div, image, svg, View } from "gpui-kit";
 import { h_flex, v_flex } from "gpui-base";
-import { closeOverlay, focused, layout, notify, openOverlay, panes, props, readTextFile, run, setAgentOrder, setShared, shared, spaces, terminals, theme, window } from "herdr";
-import { parse } from "yaml";
+import { closeOverlay, focused, layout, notify, openOverlay, panes, props, run, setAgentOrder, setShared, shared, spaces, terminals, theme, window } from "herdr";
 import type { Routine } from "../../obsidian-plugin/src/agent-routines";
-import { type Environment, parseEnvironments } from "../../obsidian-plugin/src/environments";
+import type { Environment } from "../../obsidian-plugin/src/environments";
 import { machineOf } from "./context";
-import { host } from "./host";
+import { appHost, host, knownEnvironments, logRenderFailures, refreshEnvironments } from "./host";
 import { groupPanes, machineIcon, OTHER, RANK, rowText, type SidebarGroup, type SidebarPane } from "./sidebar";
 
 const MOD = "gb-agents";
-const ENVIRONMENTS = `${__GB_ROOT__}/vault/agents/_shared/ENVIRONMENTS.yml`;
+const ERROR_POLL_MS = 60_000;
 
 interface NewAgentOptions {
 	agentDirs: string[];
@@ -109,17 +108,23 @@ export default class GbAgents extends View {
 	init(_props: unknown, cx: Cx) {
 		if (props()?.view === "header") return;
 		this.folded = new Set();
-		this.environments = [];
+		this.environments = knownEnvironments();
 		this.options = null;
 		this.environment = null;
 		this.profilesFor = null;
 		cx.spawn(async (cx: Cx) => {
-			const [text, options] = await Promise.all([readTextFile(ENVIRONMENTS).catch(() => null), host({ type: "lookup" }).catch(() => null)]);
-			this.environments = text ? parseEnvironments(parse(text)) : [];
+			const [environments, options] = await Promise.all([refreshEnvironments().catch(() => this.environments), host({ type: "lookup" }).catch(() => null)]);
+			this.environments = environments;
 			this.options = options;
 			this.environment = options?.environments[0] ?? null;
 			cx.notify();
 		});
+		// The sidebar list is the one copy that's always there.
+		if (props()?.view === undefined) {
+			const logErrors = (cx: Cx) => cx.spawn(async () => appHost({ type: "logStatusErrors" }).catch(() => undefined));
+			logErrors(cx);
+			cx.timer.every(ERROR_POLL_MS, logErrors);
+		}
 	}
 
 	render(_cx: Cx): El {
@@ -368,3 +373,5 @@ export default class GbAgents extends View {
 			.children(body);
 	}
 }
+
+logRenderFailures(MOD, GbAgents);

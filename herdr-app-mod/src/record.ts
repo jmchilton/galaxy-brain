@@ -7,7 +7,7 @@ import { exec, notify, openOverlay, props, readTextFile, theme, watchFolder } fr
 import { withoutFrontmatter } from "../../obsidian-plugin/src/record-frontmatter";
 import { type RecordFileLink, recordFileLabel, type RecordFileLinks } from "../../site/src/lib/file-docs";
 import { chip } from "./chip";
-import { host } from "./host";
+import { host, logRenderFailures } from "./host";
 import { type MarkdownBlock, markdownBlocks } from "./markdown-blocks";
 import { type MarkdownHost, renderMarkdown } from "./markdown-view";
 import { isImagePath, linkTarget, withoutTitle } from "./record-page";
@@ -248,3 +248,5 @@ export default class GbRecord extends View {
 			);
 	}
 }
+
+logRenderFailures("gb-record", GbRecord);

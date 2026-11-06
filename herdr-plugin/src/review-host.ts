@@ -1,8 +1,8 @@
 // The Herdr app's differential review, in Node: the app's script runtime stops a call after about 500 ms,
 // less than parsing a large snapshot takes, so its review tab only draws what this returns.
 
-import { existsSync, mkdirSync, readdirSync, renameSync, rmSync, writeFileSync } from "node:fs";
-import { basename, dirname, join } from "node:path";
+import { existsSync, readdirSync, rmSync, writeFileSync } from "node:fs";
+import { join } from "node:path";
 import { nodeReadAdapter } from "../../differential-review-lib/src/cli/node-storage";
 import {
 	annotationStore,
@@ -28,6 +28,7 @@ import { refreshSnapshots, reviewMetaText, saveNewThread, saveReply, saveResolve
 import { HUMAN_REVIEW_FILE, humanReviewStatus } from "../../obsidian-plugin/src/diff-review-status";
 import { isReviewableRecordKind, recordReviewDir } from "../../site/src/lib/records";
 import type { ReviewCommit, ReviewHunk, ReviewModel, ReviewRequest } from "./review-types";
+import { writeAtomic } from "./vault";
 
 /** A record's directory from a reference, without walking the vault: check-offs need to feel immediate. */
 export function reviewRecordDir(vaultRoot: string, ref: string): string | null {
@@ -46,10 +47,7 @@ export function reviewRecordDir(vaultRoot: string, ref: string): string | null {
 const fileAdapter: TextFileAdapter = {
 	...nodeReadAdapter,
 	async write(path, data) {
-		mkdirSync(dirname(path), { recursive: true });
-		const tmp = join(dirname(path), `.${basename(path)}.${process.pid}.tmp`);
-		writeFileSync(tmp, data);
-		renameSync(tmp, path);
+		writeAtomic(path, data);
 	},
 };
 

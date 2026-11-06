@@ -1,12 +1,13 @@
 import esbuild from "esbuild";
-import { writeFileSync } from "node:fs";
+import { statSync, writeFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 // Herdr app mods `gb-pane` (pane header), `gb-agents` (sidebar), `gb-board` (agent board tab), `gb-record` (record landing page tab) and `gb-review` (differential review tab): one ES module each; Herdr provides gpui-kit, gpui-base and herdr.
 const root = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const mods = [
-	{ name: "gb-pane", entry: "src/main.ts", json: { place: "none" } },
+	// One copy per pane, all in the app's one 256 MB script heap: a parser in here costs every pane.
+	{ name: "gb-pane", entry: "src/main.ts", json: { place: "none" }, maxBytes: 40_000 },
 	{ name: "gb-agents", entry: "src/agents.ts", json: { place: "none", title: "Agents" } },
 	{ name: "gb-board", entry: "src/board.ts", json: { place: "none", title: "Agent board" } },
 	{ name: "gb-record", entry: "src/record.ts", json: { place: "none", title: "Record" } },
@@ -23,5 +24,7 @@ for (const mod of mods) {
 		define: { __GB_ROOT__: JSON.stringify(root) },
 		logLevel: "info",
 	});
+	const { size } = statSync(`dist/${mod.name}/main.js`);
+	if (size > (mod.maxBytes ?? Infinity)) throw new Error(`${mod.name} is ${size} bytes, over its ${mod.maxBytes}`);
 	writeFileSync(`dist/${mod.name}/mod.json`, `${JSON.stringify(mod.json)}\n`);
 }

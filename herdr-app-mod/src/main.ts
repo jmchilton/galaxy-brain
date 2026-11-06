@@ -5,10 +5,8 @@
 import { div, image, svg, View } from "gpui-kit";
 import { h_flex, Textarea, TextareaState, v_flex } from "gpui-base";
 import { closeOverlay, exec, hc, home, notify, openOverlay, panes, props, readTextFile, run, spaces, terminals, theme } from "herdr";
-import { parse } from "yaml";
-import { type Environment, parseEnvironments } from "../../obsidian-plugin/src/environments";
 import { agentContext, folderName, machineOf, promptFiles, recordRefs, reroot } from "./context";
-import { host } from "./host";
+import { host, knownEnvironments, logRenderFailures } from "./host";
 import { mergePrompts, parsePrompts, quickEmoji, type SuggestedPrompt } from "./prompts";
 import { machineIcon } from "./sidebar";
 import { removeListedTask } from "./note-edits";
@@ -17,7 +15,6 @@ import { openRecordTab } from "./record-tab";
 const MOD = "gb-pane";
 const ACTIONS_CLI = `${__GB_ROOT__}/herdr-plugin/bin/run.sh`;
 const LOCAL_VAULT = `${__GB_ROOT__}/vault`;
-const ENVIRONMENTS = `${LOCAL_VAULT}/agents/_shared/ENVIRONMENTS.yml`;
 
 type Cx = any;
 type El = any;
@@ -139,7 +136,6 @@ export default class GbPane extends View {
 	declare actions: SuggestedPrompt[];
 	declare loadedFor: string | null;
 	declare draft: any;
-	declare environments: Environment[];
 	/** Launch dialog: the chosen profile and environment, and which dropdown is open. */
 	declare profile: string | null;
 	declare environment: string | null;
@@ -151,14 +147,6 @@ export default class GbPane extends View {
 		this.prompts = [];
 		this.loadedFor = null;
 		this.actions = [];
-		this.environments = [];
-		if (this.view === "header") {
-			cx.spawn(async (cx: Cx) => {
-				const text = await readTextFile(ENVIRONMENTS).catch(() => null);
-				this.environments = text ? parseEnvironments(parse(text)) : [];
-				cx.notify();
-			});
-		}
 		if (this.view === "draft") {
 			this.profile = p.launch?.profile ?? null;
 			this.environment = p.launch?.environment ?? null;
@@ -189,7 +177,7 @@ export default class GbPane extends View {
 		// An agent's icon stands for its name.
 		const tabName = p.mod ? spaces().flatMap((space: any) => space.tabs).find((tab: any) => tab.id === p.tab)?.name : null;
 		const name = p.program?.agent && pic ? null : tabName || (p.program?.shell && p.program.name) || p.title || p.program?.name || "shell";
-		const where = machineIcon(machine, this.environments);
+		const where = machineIcon(machine, knownEnvironments());
 		const pane = p.pane;
 		const terminal = p.terminal;
 		const refs = recordRefs(terminals().find((one: any) => one.address === terminal)?.labels);
@@ -260,8 +248,9 @@ export default class GbPane extends View {
 		cx.spawn(async () => {
 			try {
 				const [records, options]: [PaneRecord[], { profiles: { name: string }[]; environments: string[] }] = await Promise.all([host({ type: "records", refs }), host({ type: "lookup" })]);
-				const environments = options.environments.map((name) => ({ name, icon: this.environments.find((one) => one.name === name)?.icon }));
-				const environment = this.environments.find((one) => machine && one.host === machine)?.name ?? options.environments[0];
+				const known = knownEnvironments();
+				const environments = options.environments.map((name) => ({ name, icon: known.find((one) => one.name === name)?.icon }));
+				const environment = known.find((one) => machine && one.host === machine)?.name ?? options.environments[0];
 				openOverlay({ mod: MOD, kind: "popup", width: 560, props: { view: "records", records, environment, choices: { profiles: options.profiles.map(({ name }) => ({ name })), environments } } });
 			} catch (error) {
 				notify({ title: "Records not loaded", body: String(error), level: "error" });
@@ -485,3 +474,5 @@ export default class GbPane extends View {
 		});
 	}
 }
+
+logRenderFailures(MOD, GbPane);

@@ -1,7 +1,7 @@
 // Vault reads from disk: the Node counterpart of the Obsidian plugin's app.vault calls.
 
-import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
-import { join, relative } from "node:path";
+import { existsSync, mkdirSync, readdirSync, readFileSync, renameSync, statSync, writeFileSync } from "node:fs";
+import { basename, dirname, join, relative } from "node:path";
 import { parse } from "yaml";
 import { type Launcher, launcherScope, parseLaunchers, withSections } from "../../obsidian-plugin/src/launchers";
 import { type Environment, LOCAL_ENVIRONMENT, parseEnvironments } from "../../obsidian-plugin/src/environments";
@@ -10,6 +10,14 @@ import { collectRecords, type RecordSummary, type VaultFile } from "../../obsidi
 
 const PROFILES_PATH = "agents/_shared/AGENT_PROFILES.yml";
 const ENVIRONMENTS_PATH = "agents/_shared/ENVIRONMENTS.yml";
+
+/** Replaces the file in one step, so Obsidian and sync never see half of it. */
+export function writeAtomic(path: string, data: string) {
+	mkdirSync(dirname(path), { recursive: true });
+	const tmp = join(dirname(path), `.${basename(path)}.${process.pid}.tmp`);
+	writeFileSync(tmp, data);
+	renameSync(tmp, path);
+}
 
 /** Markdown files under `repositories/`, with vault-relative paths. */
 export function vaultFiles(vaultRoot: string): VaultFile[] {

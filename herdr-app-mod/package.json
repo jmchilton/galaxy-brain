@@ -10,7 +10,6 @@
   "devDependencies": {
     "esbuild": "^0.28.2",
     "typescript": "^7.0.2",
-    "vitest": "^4.1.11",
-    "yaml": "^2.9.1"
+    "vitest": "^4.1.11"
   }
 }
