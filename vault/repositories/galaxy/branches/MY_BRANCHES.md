@@ -34,7 +34,7 @@ None yet.
 
 ## Draft Galaxy PRs — waiting for CI (`ci_wait`)
 
-None yet.
+- [`selenium_apply_rules_nest_menus`](active/selenium_apply_rules_nest_menus/index.md) — E2E test of Apply rules through rule builder menus; pins rule source on GTN examples 3/4. [#24773](https://github.com/galaxyproject/galaxy/pull/24773).
 
 ## Draft Galaxy PRs — needs author work (`author_work`)
 
@@ -90,7 +90,6 @@ None yet.
 
 ## Galaxy branches — ready for final review (`branches_ready_for_final_review`)
 
-- [`selenium_apply_rules_nest_menus`](active/selenium_apply_rules_nest_menus/index.md) — E2E test of Apply rules through rule builder menus; pins rule source on GTN examples 3/4. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:selenium_apply_rules_nest_menus?expand=1).
 - [`issue_24532_user_deletion_refusal_25.1`](active/issue_24532_user_deletion_refusal_25.1/index.md) — Delete Account modal explains a config-refused self-deletion and stays open on failure (#24532). [Open PR](https://github.com/galaxyproject/galaxy/compare/release_25.1...jmchilton:galaxy:issue_24532_user_deletion_refusal_25.1?expand=1).
 
 - [`invocation_graph_embedded_outputs`](active/invocation_graph_embedded_outputs/index.md) — Stage 3: steps can star a preferred output; with Embed Outputs on, a step is drawn as it and the layout grows. [Open PR](https://github.com/jmchilton/galaxy/compare/invocation_graph_embedded_workflow_outputs...invocation_graph_embedded_outputs?expand=1).

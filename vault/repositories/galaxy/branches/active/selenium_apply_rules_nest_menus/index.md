@@ -1,5 +1,6 @@
 ---
 upstream_base_branch: release_26.2
+pr: 24773
 ---
 # selenium_apply_rules_nest_menus
 
@@ -10,9 +11,9 @@ upstream_base_branch: release_26.2
 
 Polished, ready for final review; head `084390a898f` on `release_26.2`.
 
-No PR.
+Draft PR [#24773](https://github.com/galaxyproject/galaxy/pull/24773) opened 2026-11-06 at approved head.
 
-Fork CI on the head was pending at handoff; last full run, on `c1dc296ac86`, had only unrelated reds.
+Fork CI on the head queued at PR open; last full run, on `c1dc296ac86`, had only unrelated reds.
 
 ## Polish
 
