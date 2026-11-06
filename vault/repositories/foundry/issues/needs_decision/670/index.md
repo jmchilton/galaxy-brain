@@ -1,3 +1,9 @@
+---
+related_records:
+  - foundry/branches/issue-669-repair-contract
+  - foundry/branches/issue-661-conditional-fan-in
+  - foundry/branches/issue-571-nested-in-keys
+---
 # #670 Topology repair forbids both interface edits (input and output promotion) and has no gate for either
 
 [Issue](https://github.com/galaxyproject/foundry/issues/670) — opened by scottcain's AI assistant, currently only `needs-triage`. No comments, no PR or branch addresses it (`gh pr list --search 670` empty).

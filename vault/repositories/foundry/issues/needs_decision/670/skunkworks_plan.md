@@ -1,6 +1,6 @@
 # Skunkworks plan: `repair-galaxy-draft-topology`
 
-Plan for #654, #660, #661, #669, #670. Built on [skunkworks_research.md](skunkworks_research.md), whose F/U/D labels it uses. Line numbers are at Foundry `origin/main` `7453431d`, 2026-11-06.
+Plan for #654, #660, #661, #669, #670. Built on [skunkworks_research.md](skunkworks_research.md), whose F/U/D labels it uses. Line numbers are at Foundry `origin/main` `7453431d`, 2026-11-06. Corrected after review: see [skunkworks_plan_review.md](skunkworks_plan_review.md).
 
 ## Scope
 
@@ -80,13 +80,13 @@ Frontmatter:
 
 Body: replace `:92-98`, keeping the length close to today's plus the check list. Direction, close to final and with no semicolons (the prose rule):
 
-> Topology is settled upstream by the `*-summary-to-galaxy-template` Mold, and the per-step loop doesn't edit it. This Mold makes the structural edits a settled draft still needs. It runs on an open blocking entry in the [[open-requirements-ledger]]: the settled draft can't give a correct run, and a structural edit closes it. A missing wrapper is this case only when the discover-or-author branch is exhausted: no stock, shed or authored wrapper can produce the step's declared output from its wired inputs, or the ledger already records the wrapper as confirmed absent. Don't search again.
+> Topology is settled upstream by the `*-summary-to-galaxy-template` Mold, and the per-step loop doesn't edit it. This Mold makes the structural edits a settled draft still needs. It runs on an open blocking entry in the [[open-requirements-ledger]]: the settled draft can't give a correct run, and a structural edit closes it. A missing wrapper is this case only when the discover-or-author branch is exhausted: no stock, shed or authored wrapper can produce the step's declared output from its wired inputs, or the ledger already records the wrapper as confirmed absent. A tool version missing from a local cache is not absence. Don't search again.
 >
 > **Edit.** Close each entry with the smallest set of edits, named by change-set kind: `remove-step`, `rewire`, `change-parameter`, `add-input`, `remove-input`, `add-output` / `expose-output`, `add-step`, `replace-tool`. Apply the direct kinds in place. `add-step` and `replace-tool` land at draft tier ([[galaxy-workflow-draft-format]]): concrete topology and edges, wrapper-tier `TODO` for `tool_id` and ports, `_plan_*` carrying intent. A step duplicated from a realized step keeps its pin and `state`, and changes only the key that distinguishes it. Everything the entries don't name stays as it is.
 >
 > **Interface.** Change the workflow interface only when an entry names that as the remedy or a narrowing requires it. Promote an input with a default equal to the literal it replaces. Expose an output by removing its `hide`, unless the design wants it hidden. Removing an input or output is a narrowing: append a `kind: dropped` entry with its `units` and a cited `because`.
 >
-> **Claims.** A claim about a step with no resolved wrapper is not a fact. Attach it to that step as a plain ledger entry with `step:` set, and keep it out of `doc:`. "Computable" means the tool's semantics give what the output declares, including element count and identifiers for collections. Reading a pinned wrapper's command block or a consumer's parser is allowed. Picking a wrapper is not. A removal cites the primary artifact it rests on. If the step isn't fully redundant, narrow it and rewrite its `_plan_*` to the reduced job.
+> **Claims.** A claim about a step with no resolved wrapper is not a fact. Attach it to that step as a plain ledger entry with `step:` set, and keep it out of `doc:`. "Computable" means the tool's semantics give what the output declares, including element count and identifiers for collections. Reading a pinned wrapper's command block or a consumer's parser is allowed. Picking a wrapper is not. A removal's `because` quotes the primary artifact it rests on: the search run, the wrapper's ports or command block, the semantics rule. Naming the blocking entry is not a citation. If the step isn't fully redundant, narrow it and rewrite its `_plan_*` to the reduced job.
 >
 > **After every edit:**
 >
@@ -96,17 +96,19 @@ Body: replace `:92-98`, keeping the length close to today's plus the check list.
 > 4. Move a removed step's `rename` or `change_datatype` to the step that inherits its consumers.
 > 5. If an edit touched a step with a twin, make the same edit there.
 >
-> **Ledger.** Mark each entry you close `resolved`, with a note naming the kinds you applied. A repair must leave fewer open blocking entries than it found. Never insert a producer whose own output is uncomputable from what feeds it. When nothing can close an entry against a drafty step, remove the step, append the `kind: dropped` entry, and resolve the blocking entry with a note naming the drop. A consumer that truly needs the removed output is the one case to leave `open` with a note, for the terminal path.
+> **Ledger.** Mark each entry you close `resolved`, with a note naming the kinds you applied. A repair must leave fewer open blocking entries than it found. Never insert a producer whose own output is uncomputable from what feeds it. When nothing can close an entry against a drafty step, remove the step, append the `kind: dropped` entry, and resolve the blocking entry with a note naming the drop. Leave an entry `open` with a note, for the terminal path, when a consumer truly needs the removed output, when the step is already realized, or when you have no citation for the removal.
 
 Keep the existing citations to [[galaxy-data-flow-draft-contract]], IWC structure and the pattern pages as the sources for deciding the edit. The wrapper-exhausted sentence reuses #686's text, so its later rebase is simpler. F2's sixth item (stale test artifacts) is left out, because no in-loop call meets a test artifact.
 
 ### `content/molds/advance-galaxy-draft-step/index.md` (`revision: 11`)
 
 - `:174` step 5:
-  - Scope it to "an `open` blocking entry against this step: one that step 2 or [[implement-galaxy-tool-step]] appended, or one an earlier Mold raised" (#686's wording). In real runs the entry arrives from a previous call.
+  - Scope it to "an `open` blocking entry against this step: one that [[implement-galaxy-tool-step]] appended, or one an earlier call or Mold raised". In real runs the entry arrives from a previous call.
   - Replace "insert a producer/sub-path or honestly narrow the output" with "a bounded structural edit".
-  - Replace the budget clause with "each repair must leave fewer open blocking entries than it found".
-  - Replace "Then return" with: "Then run [[draft-next-step]]: if it reports `draft: false`, the repair removed the last drafty step, so run [[draft-extract]] before returning, because a `while draft` harness never invokes the skill again. Otherwise return, and the next iteration resumes the loop."
+  - In the budget clause, replace "each escalation must strictly reduce the open blocking-entry count" with "each repair must leave fewer open blocking entries than it found". Keep the cap and surrender text.
+  - Replace "Then return" with: "Then run [[draft-next-step]]: if it reports `draft: false`, the repair removed the last drafty step, so continue at step 6, which validates and extracts. Otherwise return, and the next iteration resumes the loop."
+- `:159` step 1: after "carry the chosen step id forward", add "If an `open` blocking entry against it already records why no wrapper can serve it, or why its wired inputs can't supply it, go to step 5."
+- `:153` intro: "the call that concretizes the last drafty step" becomes "the call that leaves no drafty step".
 - `:183` third bucket: "when a structural edit closes it, append a blocking entry naming the defect and escalate as in step 5. Otherwise flag it to the user." Keep "does not unwind prior iterations". Delete the open question.
 
 ### `content/molds/advance-galaxy-draft-step/eval.md`
@@ -120,7 +122,8 @@ Extend `:100` "the last concretizing call emits the concrete workflow" to also c
 - `:180`: replace "no producer is discoverable, the output cannot be honestly narrowed". A step that stays drafty never leaves the loop, so repair removes it and records the drop. The dropped entry stays `open`, and the terminal writes it into the final artifact.
 - `:188-190` role section: match the wider trigger.
 - `:196-212` budget:
-  - `open_history` stays the post-repair count, so the dashboard doesn't change. The gate becomes "a repair must leave fewer open blocking entries than it found", compared with the count it started from, because entries raised between escalations can raise the count again.
+  - `open_history` stays the post-repair count, so the dashboard doesn't change. The gate becomes "a repair must leave fewer open blocking entries than it found", compared with the count it started from, because entries raised between escalations can raise the count again. Tripping ends escalation as the cap does.
+  - Answering an entry against a step an earlier repair inserted by inserting another producer also trips the gate. The old gate stopped that chain, and the per-repair comparison wouldn't.
   - Fix the `# must be strictly decreasing` comment.
   - Add: the orchestrator creates the header at the first escalation with `cap: 5` unless the run sets another.
 
@@ -137,10 +140,10 @@ Remove the preamble at `:3-6`. Properties:
 - **Every addressed entry is closed or left open with a note** (replaces `:8-15`). `resolved`, with a note naming change-set kinds, or `open` with a note. The Mold never sets `surrendered`. Open blocking entries fall across the repair unless it reports none closable. Fixes the contradiction with `ledger:180`.
 - **Added steps are draft-tier or copied** (revises `:17-24`). A concrete `tool_id` on an added step appears only when copied from a realized step in the same draft.
 - **The repair stays local** (revises `:26-32`). Interface and realized steps change only where a named entry requires it.
-- **A narrowing is recorded.** A removed public input or output, or cut source work, has a `kind: dropped` entry with a cited `because`.
-- **A removal leaves nothing dead or stale** (`llm-judged` until `draft-validate` warns). No input or step that existed only to feed the removed step, no mention of its id or label in `doc`, `_plan_*` or comment frames, and no lost `rename`.
+- **A narrowing is recorded.** A removed public input or output, or cut source work, has a `kind: dropped` entry whose `because` quotes a primary artifact. A `because` that only names the blocking entry, or rests on a tool version missing from a local cache, fails.
+- **A removal leaves nothing dead or stale** (`llm-judged`). No input or step that existed only to feed the removed step, no mention of its id or label in `doc`, `_plan_*` or comment frames, and no lost `rename`.
 - **No claim about an unresolved step in `doc:`** (`llm-judged`).
-- **No convergence-defeating producer.** Keep `:34-41`, updating the wording.
+- **No convergence-defeating producer.** Keep `:34-41`, updating the wording, and add the chain: no new producer answers an entry against a step an earlier repair inserted.
 - **The draft stays loop-consumable.** Keep `:43-48`, and name `gxwf draft-validate` as the oracle.
 
 ### `content/molds/repair-galaxy-draft-topology/scenarios.md` and `examples/`
@@ -151,7 +154,7 @@ Remove the preamble (`:3-4`) and all four abstract cases. DOMAIN_REVIEW §2 requ
 |---|---|---|
 | `fastqc-zip-no-port/` | `nf2g-demo-rerun-7-10-2026-10-21/trial-001/phase-007-advance-galaxy-draft-step/iteration-004/workspace/inputs/`, `fields:` removed | "Wrapper has no port for a public output". `nf-core-demo-fastqc-zip-wrapper-output` ends `resolved`. Either an `add-step` at draft tier with `fastqc_zip_archives` retargeted to it (as that run did), or the public output removed with `kind: dropped` citing the wrapper (as `nf2g-demo-stock-version` did from the same seed). Other steps' `tool_id`, `tool_version` and edges unchanged. |
 | `fastqc-zip-no-port/repaired.gxwf.yml` | The same iteration's `workspace/galaxy-workflow-draft.gxwf.yml`, `fields:` removed | "Repaired draft re-enters the loop". `command: gxwf draft-next-step repaired.gxwf.yml`, expect `draft: true` and `step: ["fastqc_archive_per_read"]`. |
-| `sample-sheet-restore-last-drafty/` | `nf2g-demo-loop-repair-2026-10-20/trial-001/phase-007-advance-galaxy-draft-step/iteration-007/workspace/inputs/`, `fields:` removed | "Repair removes the last drafty step". `restore_trimmed_sample_sheet_metadata` gone, `trimmed_reads` retargeted, no mention of its id or label left, including the comment frame. `gxwf draft-next-step` reports `draft: false`. Driven through `advance`, `galaxy-workflow.gxwf.yml` is written in the same call. |
+| `sample-sheet-restore-last-drafty/` | `nf2g-demo-loop-repair-2026-10-20/trial-001/phase-007-advance-galaxy-draft-step/iteration-007/workspace/inputs/`, `fields:` removed | "Repair removes the last drafty step". `nf-core-demo-trimmed-reads-metadata-carry-forward` ends `resolved` and open blocking entries fall from 2 to 1. `restore_trimmed_sample_sheet_metadata` gone, `trimmed_reads` retargeted, no mention of its id or label left, including the comment frame. `gxwf draft-next-step` reports `draft: false`. Driven through `advance`, `galaxy-workflow.gxwf.yml` is written in the same call. |
 | `dupradar-wrapper-absent/` | Hand-built from #669's account: `M19_dupradar`, feeder input `P4_dupradar_strandedness_param`, MultiQC edge `TODO_dupradar`, a frame and a `doc` mention, with the blocking entry listing the zero-result searches | "Confirmed-absent wrapper". Step, feeder input, edge, frame entry and mention all gone. `kind: dropped` with the searches as `because`. |
 | `star-sa-index-input/` | Hand-built from #670: twin STAR steps with `genomeSAindexNbases: 14` in `state`, and a blocking entry naming input promotion as the remedy | "Value must vary per run". One `add-input` defaulted to 14, both twins wired by `refGenomeSource\|genomeSAindexNbases` with the literal gone, nothing else changed. |
 
@@ -192,7 +195,7 @@ make check
 
 ### Risks
 
-- A looser contract may let repair drop implementable steps, as the 10-20 demo run did before the stock-version fix. The cited `because` and `ledger:170`'s reopen rule are the guard. If later runs show drops, tighten the removal path.
+- A looser contract may let repair drop implementable steps, as the 10-20 demo run did before the stock-version fix: an empty cache was its evidence, and the blocking entry was its citation. The guards are the cache sentence, a `because` that must quote a primary artifact, and `ledger:170`'s reopen rule. If later runs show drops, tighten the removal path.
 - At the escalation cap a step can still stay drafty. Stopping there is #686's "How a call ends", not this branch's.
 - The hand-built fixtures are synthetic evidence. #669's and #670's own run artifacts weren't found.
 
@@ -287,7 +290,7 @@ Take the planemo version from `content/cli/planemo/index.md`, in case it moved. 
 
 Bump the revision. In "Output names and connections" (around `:50-56`):
 
-- **Nested keys.** A step's `in:` key addresses a parameter nested in a conditional or section with a `|`-joined path, and a repeat instance with `_N`. Examples from checked workflows: `ortho_method|input` (Functional_annotation_of_sequences), `style_cond|type_cond|pick_from_0|value` (the route verification workflow).
+- **Nested keys.** A step's `in:` key addresses a parameter nested in a conditional or section with a `|`-joined path, and a repeat instance with `_N`. Examples from checked workflows: `input_type|i` (Functional_annotation_of_sequences), `style_cond|type_cond|pick_from_0|value` (the route verification workflow).
 - **Connection keys.** The step part of `source` and `outputSource` depends on the step form. In list form it's the step's `label` when present, otherwise its `id`. In map form it's the map key.
 
 Reproduced on gxwf 1.15.0: list-form references by `id` fail with `references unknown step`, list-form references by `label` validate, and map-form references by key validate with both `id` and `label` present. Before writing the connection sentence, check gxformat2's own resolution (`gxformat2/draft.py`, `_split_source_ref`). If the two disagree, that's an upstream bug: drop the sentence and write issue text (DOMAIN_REVIEW §1).
