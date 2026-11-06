@@ -1,16 +1,14 @@
 ---
 upstream_base_branch: release_26.2
-parent_branch: deployment_test_fixes_26_2
-blockers: gx_branches/deployment_test_fixes_merged
 ---
 # Deployment test documentation and decorator audit
 
-- [Open PR](https://github.com/jmchilton/galaxy/compare/deployment_test_fixes_26_2...deployment_test_docs_decorators_26_2?expand=1)
+- [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:deployment_test_docs_decorators_26_2?expand=1)
 - [View on GitHub](https://github.com/jmchilton/galaxy/tree/deployment_test_docs_decorators_26_2)
 
 ## Status
 
-Implemented and pushed at `246bf9cedbd` on 2026-10-26. Stacked on `deployment_test_fixes_26_2`.
+Rebased onto `release_26.2` and pushed at `a674af1a43f` on 2026-11-06, after parent #24489 merged.
 
 Fork CI has not been reviewed. Local decorator unit tests passed (23 tests).
 
