@@ -32,7 +32,7 @@ A task list is a ```` ```gb-tasks ```` fenced block inside a Markdown note, hold
 | `kind`      | no       | `human`: John does it; no launch and no `profile`. Omitted is an agent task. |
 | `link`      | no       | An `http(s)` URL shown as a link on the card, e.g. the PR or issue. Not sent to the agent. |
 | `record`    | no       | Repository record the task is about, as `<repo>/<branches\|issues\|issues_incubator\|reviews>/<name>` (no status, so it survives moves), e.g. `galaxy/reviews/24222`. Shown as a 📓 link opening its `index.md`. Not sent to the agent. |
-| `suggested_by` | no   | The SUGGESTED_TASKS.md section that produced the task, as `<path under vault/agents>#<heading>`, e.g. `gx_reviews/SUGGESTED_TASKS.md#Review New PRs`. Not sent to the agent; included in 🪄 refinement prompts. |
+| `suggested_by` | no   | The SUGGESTED_TASKS.md section that produced the task, as `<path under vault/agents>#<heading>`, e.g. `gx_reviews/SUGGESTED_TASKS.md#Review New PRs`. Not sent to the agent; included in 🪄 refinement prompts. If that section says `expires: pr_closed`, collection removes the task once its `link` PR has merged or closed. |
 | `snoozed_until` | no  | `YYYY-MM-DD`; the card is hidden before this day. Set by the snooze button. A snoozed task stays in the block, so collection doesn't re-suggest it. |
 
 Unknown fields are errors.
