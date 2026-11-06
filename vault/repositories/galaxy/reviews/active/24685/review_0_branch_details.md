@@ -1,0 +1,7 @@
+Branch `pr_24685_review_0`, from reviewed commit `150cb834122`, adds browser coverage for the one link whose wiring changed, the `BreadcrumbHeading` link, by going back through it in `test_history_storage_accessibility`. It also tidies the PR's unit tests: the new `CollectionCreatorIndex` spec uses MSW instead of mocking the API module, the `DatasetDetails` test is reduced to what E2E can't see, and assertions on `GLink`'s class and element are gone. The `CollectionCreatorIndex` GLinks lose a no-op `.prevent`. There are no other production changes.
+
+- `4d58215bb82` Drop no-op .prevent from CollectionCreatorIndex GLinks: `@click.stop.prevent` becomes `@click.stop` on "Try again" and "Create another collection".
+- `3bb64ff4f45` Cover BreadcrumbHeading navigation in storage dashboard E2E: adds a `storage_dashboard.breadcrumb_link` selector and clicks it from `StorageManager` in place of the second masthead navigation.
+- `8741677b84e` Focus DatasetDetails dbkey test on what only it covers: replaces the wrapper template with the file's `shallowMount` pattern and keeps the edit emit and `.stop` checks.
+- `399197aadb9` Mock the collection create API with MSW in CollectionCreatorIndex spec: failure and success now go through the real API function, using `useServerMock`.
+- `52762db7f56` Drop assertions on GLink internals from migrated specs: removes the `.g-link` and `tagName` assertions and finds links by `button` and text.
