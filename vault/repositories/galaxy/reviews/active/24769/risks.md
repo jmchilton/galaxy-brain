@@ -1,0 +1,1 @@
+Risks are minimal - this change only alters how the generated job script writes its internal `_$dir` backups, so a revert restores the old behavior and it doesn't lock Galaxy into particular difficult to change choices (a two-way door).

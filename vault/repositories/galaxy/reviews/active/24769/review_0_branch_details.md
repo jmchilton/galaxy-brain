@@ -1,0 +1,4 @@
+`pr_24769_review_0` branches from `b4d1c730ac79` and closes the remaining way an incomplete backup could reach `_$dir`: a stale `_$dir.partial` that can't be removed now skips the backup instead of publishing a nested copy. It also extends the PR's test to cover restoring from the backup. `test/unit/app/jobs/test_job_script.py` passes in full (7 tests) under pytest on macOS.
+
+- `c1b7492505a` Skip job dir backup when stale .partial can't be removed: chains `rm -rf` to `cp -R` with `&&` in `PREPARE_DIRS_TEMPLATE` and adds a test with a stale `.partial` holding a 0555 subdirectory, which failed before the fix.
+- `8f3da97ec20` Test restore from job dir backup: extends and renames the PR's test to damage `configs/registry.xml`, rerun, and assert restoration, which fails when the restore branch is a no-op.
