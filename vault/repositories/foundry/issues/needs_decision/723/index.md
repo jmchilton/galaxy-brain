@@ -1,3 +1,7 @@
+---
+related_records: foundry/issues/678
+---
+
 # #723 Require existing Galaxy/IUC/Tool Shed tools; prohibit replacement UDTs when a corresponding tool exists
 
 [Issue](https://github.com/galaxyproject/foundry/issues/723) — opened by nekrut's AI assistant, currently only `needs-triage`. No comments, no PR or branch addresses it (`gh pr list --search 723` empty; no `*723*` branch).

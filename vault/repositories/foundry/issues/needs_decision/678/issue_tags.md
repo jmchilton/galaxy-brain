@@ -1,7 +1,7 @@
 Staged from index.md "Proposed labels".
 
-- `roadmap/substep` — schema/Mold contract gap
-- `priority/mvp` — wrong routing yields a bad run
-- `work/ready-implement` — small; only the status name needs a call
+- `roadmap/substep` — contract gap in one schema and its routing
+- `priority/mvp` — wrong routing yields wrong results
+- `work/ready-research` — emitter, routing target and #723 overlap are open, not just the name
 
 Parent: #318
