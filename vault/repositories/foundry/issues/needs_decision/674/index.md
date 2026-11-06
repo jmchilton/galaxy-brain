@@ -8,7 +8,9 @@ John's direction: the blanket prohibition is wrong; there are known bugs, and th
 
 Decision (John, 2026-11-06): Galaxy has conditionals and we should use them. A second workflow just for a different tool choice should not be enforced; capture what scope we can in a single workflow. This replaces "carry-all vs pin-one is a run-scope choice" below: pin-one with `kind: dropped` is the fallback, not a peer option.
 
-Draft correction for the issue: [scope_correction_comment.md](scope_correction_comment.md). Updated for the decision. Not posted.
+[John's comment on the issue](https://github.com/galaxyproject/foundry/issues/674#issuecomment-6697972255) (2026-11-06) says so directly for future agents: the second-workflow line is "very much not a design goal". IWC workflows don't typically dispatch on different tools, but "we very much should support that pattern", especially when porting workflows that already do this. IWC's lack of tool-selection exemplars is therefore not a reason to split.
+
+Remaining draft for the issue: [scope_correction_comment.md](scope_correction_comment.md), covering §2, the false premises and the revised scope. Not posted.
 
 ### Status and claim
 
@@ -61,7 +63,7 @@ Overlap: #661 owns the fan-in recipe; link it, don't duplicate. Skim #267 and #7
 
 ### Open questions for John
 
-- Post the scope comment, or edit the issue body?
+- Post the remaining scope comment? Expected's §2 still states "NO Galaxy expression" with no correction on the issue.
 - Keep §2 here, or split the test-param route out as `work/ready-research`?
 
 ## Proposed labels (2026-10-24 triage, applied)
