@@ -59,7 +59,7 @@ One round each, per TRIAGE_ISSUE step 6.
 
 Seen along the way, not in either draft (from reviewers unless noted):
 
-- A two-step cycle validates as `draft valid`, although a comment in `topoOrderedSteps` expects `validateDraft` to surface cycles. Re-run and confirmed. Probably its own gxwf bug.
+- A cyclic draft validates, although comments in `_topo_ordered_steps` and `topoOrderedSteps` expect validation to report cycles. Separate from #668 and gxwf#215. Confirmed in gxformat2 and gxwf; filed as [gxformat2#288](https://github.com/galaxyproject/gxformat2/issues/288) because gxwf syncs its draft fixtures and expectations from there ([source](upstream_gxformat2_draft_cycles.md)).
 - `ReportShell.vue` has no `draft-validate` branch, so `--report-html` looks broken (source only).
 - `docs/guide/workflow-operations.md` documents a stale `gxwf validate --json` shape.
 - `openapi.json`'s `ValidationStepResult` status enum lacks `skip_no_tool_state`.

@@ -1,0 +1,16 @@
+class: GalaxyWorkflowDraft
+inputs:
+  reads: data
+outputs:
+  result:
+    outputSource: cat/out_file1
+steps:
+  cat:
+    tool_id: cat1
+    tool_version: 1.0.0
+    state: {}
+    in:
+      input1: reads
+      not_a_param: reads
+    out:
+      - id: out_file1

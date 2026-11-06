@@ -1,6 +1,6 @@
 # Implementation debrief
 
-Content fix for #571 on `issue-571-nested-in-keys` (base `origin/main` `7453431d`). Part of the skunkworks effort recorded in [#670](../../../issues/wip/670/skunkworks_plan.md).
+Content fix for #571 on `issue-571-nested-in-keys` (base `origin/main` `7453431d`). Part of the skunkworks effort recorded in [#670](../../../issues/needs_decision/670/skunkworks_plan.md).
 
 - `gxformat2-schema` (rev 5): `in:` keys for nested parameters (`|`-joined paths, `_N` for a repeat instance, with its entry in `state`), and what a connection's step part names in list form and for a map-form step with no `label`.
 - `implement-galaxy-tool-step` (rev 13): `[[gxformat2-schema]]` added as an on-demand reference. Its body already linked the note, but no reference carried it into the cast. Step 3 states the nested key rule, and `eval.md` gains a repeat-entry property.

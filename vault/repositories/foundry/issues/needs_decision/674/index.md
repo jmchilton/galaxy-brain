@@ -6,7 +6,11 @@
 
 John's direction: the blanket prohibition is wrong; there are known bugs, and this is a harness concern. Read here as the Expected section's "a second tool choice is a SECOND Galaxy workflow" plus its premises "no runtime subgraph selection" and "NO Galaxy expression". The gap is real; the prescribed fix is not.
 
-Draft correction for the issue: [scope_correction_comment.md](scope_correction_comment.md). Not posted.
+Decision (John, 2026-11-06): Galaxy has conditionals and we should use them. A second workflow just for a different tool choice should not be enforced; capture what scope we can in a single workflow. This replaces "carry-all vs pin-one is a run-scope choice" below: pin-one with `kind: dropped` is the fallback, not a peer option.
+
+[John's comment on the issue](https://github.com/galaxyproject/foundry/issues/674#issuecomment-6697972255) (2026-11-06) says so directly for future agents: the second-workflow line is "very much not a design goal". IWC workflows don't typically dispatch on different tools, but "we very much should support that pattern", especially when porting workflows that already do this. IWC's lack of tool-selection exemplars is therefore not a reason to split.
+
+[Scope comment posted](https://github.com/galaxyproject/foundry/issues/674#issuecomment-6698012750) 2026-11-06, covering §2, the false premises and the revised scope. Source: [scope_correction_comment.md](scope_correction_comment.md).
 
 ### Status and claim
 
@@ -50,7 +54,7 @@ Draft correction for the issue: [scope_correction_comment.md](scope_correction_c
 
 Scope for the implementer, after the claim is released and John OKs:
 
-1. `nextflow-params-to-galaxy-inputs`: split step-set from step-argument params. Link the conditional notes for routing. Say carry-all vs pin-one is a run-scope choice; a cut gets a `kind: dropped` entry.
+1. `nextflow-params-to-galaxy-inputs`: split step-set from step-argument params. Link the conditional notes for routing. Default to one workflow carrying as much of the source's scope as conditionals allow; a tool choice doesn't require a sibling workflow. A cut is the exception and gets a `kind: dropped` entry with its reason.
 2. `nextflow-to-galaxy-channel-shape-mapping`: add a meta-driven parameterization row built on mapped `param_value_from_file`, with evidence tier and open bugs. Run-once-and-re-run becomes a fallback, not the rule.
 3. Sharpen the `when` text above, keeping its data-routing advice; update `nextflow-workflow-io-semantics`.
 4. Reference the conditional note from `nextflow-summary-to-galaxy-interface`; recast; `make check`.
@@ -59,10 +63,8 @@ Overlap: #661 owns the fan-in recipe; link it, don't duplicate. Skim #267 and #7
 
 ### Open questions for John
 
-- Is the §1 "second workflow" line the prohibition you meant?
-- Post the scope comment, or edit the issue body?
+- Release the claim to `work/ready-implement`?
 - Keep §2 here, or split the test-param route out as `work/ready-research`?
-- When a run's scope doesn't settle carry-all vs pin-one, does the interface Mold need a default, or does the harness always decide? Suggestion if a default is wanted: pin tool-choice enums, since IWC has no tool-selection exemplar (2026-05 claim), and keep optional-analysis flags as `when:` gates, which IWC does routinely.
 
 ## Proposed labels (2026-10-24 triage, applied)
 

@@ -10,17 +10,17 @@ pr: 753
 
 ## Status
 
-Branch on `jmchilton`, base `origin/main` at `7453431d`, head `c9235876`, reviewed and fixed. Worktree `~/projects/worktrees/foundry/branch/issue-669-repair-contract`.
+Merged at head `c9235876` as `010c385d` on 2026-11-06; worktree removed.
 
-Draft PR [#753](https://github.com/galaxyproject/foundry/pull/753); body is [pr_description.md](pr_description.md).
+PR [#753](https://github.com/galaxyproject/foundry/pull/753); body is [pr_description.md](pr_description.md).
 
-Local `make -k check` green except `check-vendored` (machine-only) and `validate-roadmap` (live GitHub labels, also fails on `origin/main`). CI started when the PR opened.
+`test` stopped at `validate:roadmap` on merge, which was also red on `main`; its skipped steps passed locally except the unrun Pi container test and `check-vendored`.
 
 ## Supporting files
 
 - [Implementation debrief](implementation_debrief.md)
 - [Review debrief](subagents/review_debrief.md)
-- [Plan](../../../issues/wip/670/skunkworks_plan.md) and [plan review](../../../issues/wip/670/skunkworks_plan_review.md)
+- [Plan](../../../issues/needs_decision/670/skunkworks_plan.md) and [plan review](../../../issues/needs_decision/670/skunkworks_plan_review.md)
 
 ## Decisions taken by default
 

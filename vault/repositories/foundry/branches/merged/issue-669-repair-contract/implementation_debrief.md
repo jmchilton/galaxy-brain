@@ -1,6 +1,6 @@
 # Implementation debrief
 
-`issue-669-repair-contract`, base `origin/main` `7453431d`, head `6f5be153`. Built from the [plan](../../../issues/wip/670/skunkworks_plan.md) as corrected by its [review](../../../issues/wip/670/skunkworks_plan_review.md).
+`issue-669-repair-contract`, base `origin/main` `7453431d`, head `6f5be153`. Built from the [plan](../../../issues/needs_decision/670/skunkworks_plan.md) as corrected by its [review](../../../issues/needs_decision/670/skunkworks_plan_review.md).
 
 ## What changed
 

@@ -10,7 +10,7 @@ related_records:
 
 ## Skunkworks status
 
-[Research](skunkworks_research.md), [plan](skunkworks_plan.md), [plan review](skunkworks_plan_review.md). Draft PRs: [#753](https://github.com/galaxyproject/foundry/pull/753) (repair contract), [#755](https://github.com/galaxyproject/foundry/pull/755) (conditional fan-in), [#754](https://github.com/galaxyproject/foundry/pull/754) (nested `in:` keys). Unposted upstream text: [gxformat2](upstream_gxformat2_validate_draft_warnings.md), [galaxy-tool-util-ts](upstream_galaxy_tool_util_ts_validate_draft_warnings.md), plus drafts in the #754 and #755 branch records.
+[Research](skunkworks_research.md), [plan](skunkworks_plan.md), [plan review](skunkworks_plan_review.md). [#753](https://github.com/galaxyproject/foundry/pull/753) (repair contract) merged 2026-11-06. Draft PRs: [#755](https://github.com/galaxyproject/foundry/pull/755) (conditional fan-in), [#754](https://github.com/galaxyproject/foundry/pull/754) (nested `in:` keys). Unposted upstream text: [gxformat2](upstream_gxformat2_validate_draft_warnings.md), [galaxy-tool-util-ts](upstream_galaxy_tool_util_ts_validate_draft_warnings.md), plus drafts in the #754 and #755 branch records.
 
 Answers to the questions below, taken as defaults for John to confirm on #753: repair owns an interface edit a blocking entry names as its remedy, non-blocking output promotion stays out of repair, the hide rule is dropped in favor of "unhide" as part of exposing an output, and this issue isn't split. #670 stays open after #753 merges, for John to close with that explanation.
 
@@ -26,7 +26,7 @@ No labels or comments were changed on GitHub for this work.
 
 ## Derived status
 
-`needs_decision` (`needs_decision_labels`), rule 3: labels are staged in `issue_tags.md`. Once applied as proposed it becomes `queued_research`.
+`needs_decision`, overriding rule 7 (`work/ready-research`): #753 merged and its research is done, so John decides whether to close it.
 
 ## Findings
 

@@ -1,0 +1,26 @@
+---
+upstream_base_branch: main
+---
+
+# draft-validate --concrete: top-level `concrete_errors` and step labels (#216)
+
+- [Open PR](https://github.com/jmchilton/galaxy-tool-util-ts/compare/main...issue_216_concrete_errors)
+- [View on GitHub](https://github.com/jmchilton/galaxy-tool-util-ts/tree/issue_216_concrete_errors)
+
+## Status
+
+Polished; ready for John's final review. Pushed to `origin` at `0756cf04` on `origin/main` `f5470fe5`.
+
+No PR yet.
+
+Local gate: lint, format, typecheck, knip and build green; tests green except 3 integration-tests that fail identically on `origin/main`; CI runs on PRs only.
+
+## Links
+
+[PR description](pr_description.md) · [titles](pr_titles.md) · [tags](pr_tags.md) · [implementation debrief](implementation_debrief.md) · [polish debrief](polish_debrief.md) · [normal review](subagents/normal_review.md) · [Codex review](codex_review.md) · [thermo review](thermo_nuclear_review.md) · [demo](demo/demo_output.txt)
+
+## Notes
+
+- Issue: [galaxy-tool-util-ts#216](https://github.com/jmchilton/galaxy-tool-util-ts/issues/216), record [issues/wip/216](../../../issues/wip/216/index.md).
+- Worktree: `~/projects/worktrees/galaxy-tool-util-ts/branch/issue_216_concrete_errors`.
+- The Codex review was a limited pass and predates the last commits; open questions are in the [polish debrief](polish_debrief.md).

@@ -1,24 +1,66 @@
 Extends the route pattern to mapped `when`-gated branches, which it didn't cover. A gated step mapped over a collection leaves a null element for each skipped job, so a fan-in must select per element.
 
-- Arms mapped over the same collection use `pick_value`. The page leads with the built-in module, which needs `release_26.1` or later.
-- Arms mapped over different collections use `__FILTER_NULL__` on each arm, then `__MERGE_COLLECTION__`. Don't use `pick_value` here even when the lengths match: Galaxy pairs mapped inputs by position, so equal-length arms succeed with the right arm's data under the left arm's identifiers.
-- A direct merge of gated arms is a pitfall. Under the default `keep_first`, a skipped first arm's null beats a live element with the same identifier, and filtering afterwards can't recover it. This differs from #661's account: same-list arms give N elements, not 3N.
-- `galaxy-conditionals-patterns` carries the rule that picks a recipe. Two sibling pages' `__FILTER_NULL__` pitfalls now point at the mapped recipe.
+Part of #661, which stays open until #738 lands.
 
-Part of #661.
+## Which recipe
 
-## For John to confirm
+```mermaid
+flowchart TD
+  A[Merge when-gated arms] --> B{Mapped over a collection?}
+  B -- no --> C[Existing pick_value recipes]
+  B -- yes --> D{Same collection?}
+  D -- yes --> E[pick_value, per element]
+  D -- no --> F[__FILTER_NULL__ on each arm, then __MERGE_COLLECTION__]
+```
 
-- This uses `the_only_non_null` and `pick_style: only` where #661 proposed `first_or_error`, following the page's own guidance.
-- No IWC workflow uses filter then merge, and the page says so. Its evidence is the verification test. Recommending it is an expert call.
-- The recipe doesn't enforce one live arm. With both arms on, the output holds both arms' elements, and the first arm's wins on a shared identifier. The page says the booleans have to be exclusive.
+## The two traps
+
+Both succeed with no error. In both, the left arm is skipped.
+
+```text
+Direct merge (keep_first):
+  left    a1=null     shared=null
+  right               shared=live   b1=live   b3=live
+  result  a1=null     shared=null   b1=live   b3=live     live `shared` is lost
+
+pick_value over different lists of equal length:
+  left    a1=null     shared=null
+  right   c1=one      c2=two
+  result  a1=one      shared=two                          right data, left names
+```
+
+Different lengths fail instead, with `Cannot match collection types`. A direct merge of same-list arms gives N elements, not #661's 3N, and all are null when the first arm is skipped.
+
+## What changed
+
+- **`conditional-route-between-alternative-outputs` (rev 5):** a "Mapped branches" section and a direct-merge pitfall. It leads with the built-in `type: pick_value`, which needs `release_26.1` or later.
+- **`galaxy-conditionals-patterns` (rev 5):** the rule that picks a recipe. `repair` already bundles this page through #753, and this PR recasts it there.
+- **`conditional-run-optional-step`, `conditional-transform-or-pass-through`:** their `__FILTER_NULL__` pitfalls now point at the mapped recipe.
+- **`verification/`:** `route-mapped-same-arms` and `route-mapped-different-arms`, with test data. Each adds one Galaxy boot to `verification-workflows.yml`.
+- **Generated:** casts, `Dashboard.md` and `Index.md`.
+
+## For John
+
+- **`the_only_non_null` and `pick_style: only`** are used where #661 proposed `first_or_error`, following the page's own guidance.
+- **Recommending filter then merge is an expert call.** No IWC workflow uses it, and the page says so. Its evidence is the verification test.
+- **The recipe doesn't enforce one live arm.** With both on, the output holds both arms' elements, and the first arm's wins on a shared identifier. The page says the booleans have to be exclusive.
+- **File or drop these five upstream items?** The drafts are in the branch record, and none is filed:
+  - Galaxy: `element_count: 0` checks nothing.
+  - Galaxy: equal-length mapped inputs pair by position. This may be by design.
+  - Planemo: `element_tests` naming a null element raises `TypeError`.
+  - Planemo: workflow tests can't expect a failed invocation.
+  - Planemo: `collection_type` in a workflow test asserts nothing.
+
+## Left out
+
+- **`first_or_error` or `fail` advice:** Planemo can't verify a failure, and the page says only what's shown.
+- **The built-in on unmapped shapes:** the page keeps the Tool Shed spelling there, and no Foundry test covers the built-in on them.
+- **`collection_element_identifiers` in place of the test's sentinel merge:** untested, and it adds a Tool Shed dependency.
+- **`planemo lint` being a non-check and the stale `0.75.41` in `verification/README.md`:** pre-existing, and worth a small separate fix.
 
 ## Evidence
 
-`planemo test` with Planemo 0.75.47 and `--galaxy_branch release_26.1`, on a live Galaxy, against the workflows as committed:
-
-- `route-mapped-same-arms`: 2 of 2 passed.
-- `route-mapped-different-arms`: 3 of 3 passed.
+`planemo test` with Planemo 0.75.47 and `--galaxy_branch release_26.1`, on a live Galaxy: `route-mapped-same-arms` 2 of 2, `route-mapped-different-arms` 3 of 3.
 
 | Shape | Left arm on | Right arm on | Both on |
 |---|---|---|---|
@@ -29,27 +71,25 @@ Part of #661.
 | Different lists, direct merge | 4 elements, 2 live | 4 elements, 2 live, `shared` lost | not asserted |
 | Equal lengths, different identifiers, built-in `pick_value` (`first_non_null`) | `a1`, `shared`, left content | `a1`, `shared`, right content | not asserted |
 
-**Backed by committed tests:** every row above.
+**No committed test, because Planemo can't expect a failed invocation.** The verification README lists both:
 
-**Not backed by a committed test**, because Planemo can't expect a failed invocation. The verification README lists these with what stands behind them:
+- Different lengths failing. Galaxy's `test_lists_of_different_cardinality_do_not_match` covers it, and one manual run of the built-in showed the message. That run predates the review pass, and the Tool Shed spelling wasn't run.
+- `the_only_non_null` failing with more than one live input. Galaxy's `test_pick_value_the_only_non_null_error_multiple` covers it, unmapped.
 
-- Arms of different lengths failing with `Cannot match collection types`. Galaxy's `test_lists_of_different_cardinality_do_not_match` covers it, and one manual run of the built-in on `release_26.1` showed the message. That run predates the review pass. The Tool Shed spelling wasn't run; it goes through the same matching code by reading.
-- `the_only_non_null` with more than one live input failing the invocation. Galaxy's `test_pick_value_the_only_non_null_error_multiple` covers it, unmapped.
+**Not tested**
 
-**Not tested:**
-
-- Neither arm on, because an empty collection can't be asserted: `element_count: 0` is skipped as falsy.
+- Neither arm on, because `element_count: 0` is skipped as falsy, so an empty collection can't be asserted.
 - A mix of skipped and live elements within one arm. Gates here are workflow-level booleans. Galaxy's `pick_value_mapped_mixed_skip_pja`, on `dev`, covers it for the built-in.
-- `planemo lint` checks nothing on these workflows: it exits 2 with no output, as it does on the existing `route-between-alternatives`, and CI runs it under `continue-on-error`. `planemo workflow_lint` passes tests, tool ids and tool versions, with missing-annotation warnings. `gxwf validate` passes with tool state.
+- `planemo lint`, which exits 2 with no output here, as it does on the existing `route-between-alternatives`. `planemo workflow_lint` passes tests, tool ids and tool versions, with missing-annotation warnings. `gxwf validate` passes with tool state.
 
-CI hasn't run, since it starts when this PR opens. The new workflows add one Galaxy boot each to `verification-workflows.yml`.
+**CI at `5f1f34db`:** `test` and `changeset` pass. `planemo` is still running on this head. It passed all five new tests on the head before the merge with `main`, `bac5ae4b`.
 
-`make -k check` passes everything except two failures that also occur on clean `main`: `check-vendored` (this machine's upstream checkouts) and `validate-roadmap` (live GitHub labels; a 403 rate limit on this run).
+**`make -k check`:** everything passes (496 tests, 15 fixtures) except `check-vendored`, a known failure on this machine.
 
-## Limits of this PR
+## Collisions
 
-- The leaf page doesn't reach repair's bundle until #738 lands. Until then the map-of-content page carries the rule, through #753, and names both tools.
-- #661 stays open until #753 and #738 land.
-- A few suspected upstream problems came up, including `element_count: 0` checking nothing and Planemo's `TypeError` on a null element. None is filed yet.
+- **#754:** both regenerate three `_provenance.json` files, so whichever lands second needs a recast.
+- **#738:** cast regeneration only. Until it lands, the leaf page isn't in `repair`'s bundle, and the map-of-content page carries the rule and names both tools.
+- **#696:** revision and `related_molds` lines.
 
 🤖 Generated with [Claude Code](https://claude.com/claude-code)

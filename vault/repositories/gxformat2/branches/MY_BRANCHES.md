@@ -24,7 +24,7 @@ None yet.
 
 ## gxformat2 branches — implemented, work left (`branches_implemented_needs_ci`)
 
-None yet.
+- [`issue_215_draft_port_edges`](active/issue_215_draft_port_edges/index.md) — `next_draft_step` items show edges around `TODO_*` ports; `validate_draft` rejects unwired ones. [Open PR](https://github.com/galaxyproject/gxformat2/compare/main...jmchilton:gxformat2:issue_215_draft_port_edges?expand=1).
 
 ## gxformat2 branches — implemented, work left, green (`branches_implemented`)
 

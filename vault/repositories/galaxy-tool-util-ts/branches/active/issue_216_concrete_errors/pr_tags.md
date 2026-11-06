@@ -1,0 +1,2 @@
+- `bug`: the issue reports `ok: false` that the report's error arrays can't explain.
+- `enhancement`: optional. The fix is new, additive report fields.

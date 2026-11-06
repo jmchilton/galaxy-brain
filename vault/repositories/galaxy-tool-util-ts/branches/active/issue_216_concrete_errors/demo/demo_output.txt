@@ -1,0 +1,40 @@
+main badkey exit=1
+branch badkey exit=1
+===== diff main branch: badkey.gxwf.yml --concrete --strict-state --connections --json
+15a16,23
+>   "concrete_errors": [
+>     {
+>       "check": "tool_state",
+>       "label": "cat",
+>       "tool_id": "cat1",
+>       "message": "No parameter definition matching connection key \"not_a_param\""
+>     }
+>   ],
+30c38,39
+<           ]
+---
+>           ],
+>           "label": "cat"
+===== diff main branch: badkey.gxwf.yml text output
+identical
+
+main nested exit=1
+branch nested exit=1
+===== diff main branch: nested.gxwf.yml --concrete --strict-state --connections --json
+19a20,27
+>   "concrete_errors": [
+>     {
+>       "check": "tool_state",
+>       "label": "nested/inner_cat",
+>       "tool_id": "cat1",
+>       "message": "No parameter definition matching connection key \"not_a_param\""
+>     }
+>   ],
+34c42,43
+<           ]
+---
+>           ],
+>           "label": "nested/inner_cat"
+===== diff main branch: nested.gxwf.yml text output
+identical
+
