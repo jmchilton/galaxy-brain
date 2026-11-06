@@ -63,6 +63,7 @@ None yet.
 - (mvp) (assigned) [#570](https://github.com/galaxyproject/foundry/issues/570) — Pattern MOCs are cast without the leaf pattern pages they link; draft [#738](https://github.com/galaxyproject/foundry/pull/738) + foundry-lib#139. [notes](wip/570/index.md)
 - (mvp) [#735](https://github.com/galaxyproject/foundry/issues/735) — test-data Molds stage data tables planemo ignores (unsuffixed conf, absolute `.loc`); draft PR [#749](https://github.com/galaxyproject/foundry/pull/749). [notes](wip/735/index.md)
 - (mvp) (large) [#535](https://github.com/galaxyproject/foundry/issues/535) — Prove the IWC review pipeline on a real PR and accept its policy pin; branch `issue-535-accept-iwc-policy-pin` (items 1, 2, 5). [notes](wip/535/index.md)
+- (mvp) [#568](https://github.com/galaxyproject/foundry/issues/568) — Review the prompt-to-pipeline agent benchmark preprint for comparisons and lessons; draft PR [#750](https://github.com/galaxyproject/foundry/pull/750). [notes](wip/568/index.md)
 
 ## Queued to implement (`queued_implement`)
 
@@ -77,7 +78,6 @@ None yet.
 - [#254](https://github.com/galaxyproject/foundry/issues/254) — Generated STATUS page — what exists, last-touched (fun, not urgent); next: implement and open a PR. [notes](queued/254/index.md)
 - (mvp) [#468](https://github.com/galaxyproject/foundry/issues/468) — author-galaxy-tool-wrapper: no validation step, no GalaxyUserTool schema, and the bundled prompt contradict…; next: implement and open a PR. [notes](queued/468/index.md)
 - (mvp) (large) [#531](https://github.com/galaxyproject/foundry/issues/531) — Prove the IWC maturation pipeline with runnable fixtures and a .ga entry case; next: implement and open a PR. [notes](queued/531/index.md)
-- (mvp) [#568](https://github.com/galaxyproject/foundry/issues/568) — Review New Paper; next: implement and open a PR. [notes](queued/568/index.md)
 
 ## Queued to research (`queued_research`)
 

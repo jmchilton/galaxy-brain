@@ -26,6 +26,7 @@ None yet.
 ## Draft Foundry PRs — waiting for CI (`ci_wait`)
 
 - [`issue-735-data-table-staging`](active/issue-735-data-table-staging/index.md) — Stage data tables in the form planemo discovers, no flag or absolute paths (#735). [#749](https://github.com/galaxyproject/foundry/pull/749).
+- [`issue-568-review-agent-benchmark-paper`](active/issue-568-review-agent-benchmark-paper/index.md) — Comparisons page: contrast with one detailed prompt, from the Munn and Grenier study (#568). [#750](https://github.com/galaxyproject/foundry/pull/750).
 
 ## Draft Foundry PRs — needs author work (`author_work`)
 

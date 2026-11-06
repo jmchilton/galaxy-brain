@@ -1,0 +1,2 @@
+original valid= True connections= {'ok': 621, 'invalid': 0, 'skip': 0} structure_errors= [] encoding_errors= [] tool_state_results= 298
+rewired valid= True connections= {'ok': 621, 'invalid': 0, 'skip': 0} structure_errors= [] encoding_errors= [] tool_state_results= 298
