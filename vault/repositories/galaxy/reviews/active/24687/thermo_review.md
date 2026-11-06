@@ -20,7 +20,7 @@ The description says these sites "page a local list or a server total that they 
 
 `UploadProgress` is the one consumer whose list shrinks while mounted, through Clear Completed (`uploadState.ts` `clearCompleted`) and row dismissal (`dismissUpload`):
 
-- **Remaining uploads fit on one page:** `showPagination` goes false, the pager unmounts, and `currentPage` stays at 2 or more. `paginatedItems` is then empty, so the list is blank and has no pager. For example, dismissing the only row on page 2 of 25.
+- **Remaining uploads fit on one page:** `showPagination` goes false, the pager unmounts, and `currentPage` stays at 2 or more. `paginatedItems` is then empty, so the list is blank and has no pager. For example, dismissing an errored upload that is the only row on page 2 of 25.
 - **Page count shrinks past the current page, pager stays:** `GPagination` shows the clamped last page as current and emits `update:modelValue(1)`, which the one-way binding drops. The list is empty, and clicking the highlighted page does nothing because `goTo` returns early when `page === currentPage`.
 
 This is not a regression. The composable predates the PR and `BPagination` also held its own page. The PR does touch this binding, though, and its rationale rests on a clamp that does not exist.
@@ -50,7 +50,7 @@ CURRENT_PAGE: "nav[aria-label='Pagination'] button[aria-current='page']",
 
 Most then repeat the same steps: click `[data-page='2']`, then assert the current page text. That couples nine specs to `GPagination`'s internal DOM, and the 14 remaining sites will add more copies. `GalaxyZipView.test.ts` and `RegularZipView.test.ts` are nearly the same file, differing only in the stub name and component.
 
-Tests are 566 of the PR's 600 added lines, so this is where the PR's accretion is.
+Tests are 559 of the PR's 600 added lines, so this is where the PR's accretion is.
 
 Add helpers next to `emittedArg` in `client/tests/vitest/helpers.js`, for example `goToPage(wrapper, n)` and `currentPageText(wrapper)` (or export the selectors from one place). Use them in the eight new specs and `ToolSuccess.test.ts`. Also fold the two zip view specs' shared fixture and flow into one parametrized helper.
 
@@ -85,9 +85,9 @@ Each site keeps this shape:
 
 I would not add a `ListPagination` wrapper over `GPagination` for the four repeated static attributes. `GPagination.vue` is already a re-export, and another layer would not earn its keep.
 
-### P3 2: Job pager now duplicated exactly between `ToolExecutionJobs` and `ToolSuccess`
+### P3 2: Job pager now duplicated between `ToolExecutionJobs` and `ToolSuccess`
 
-The description calls this "same shape as the tool success page". Both files now have the same 1-indexed bridge computed, the same comment, the same nine-line `GPagination` block and a `.job-pagination` style. They are also the only two users of `JobHeader`'s `pagination` slot.
+The description calls this "same shape as the tool success page". Both files now have the same 1-indexed bridge computed, the same comment, a nearly identical `GPagination` block (they differ only in the job-count expression and an extra `unselectable` class) and a `.job-pagination` style. They are also the only two users of `JobHeader`'s `pagination` slot.
 
 Extract a small `JobPager.vue` (0-indexed `v-model` plus a job count) and use it in that slot, deleting the computed, comment and CSS from both files. A new component's `v-model` needs the same `compatConfig: { COMPONENT_V_MODEL: false }` that `GPagination` sets.
 

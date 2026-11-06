@@ -19,7 +19,7 @@ It is reachable on `UploadProgress.vue` through `onClearCompleted`:
 - 30 uploads, on page 2, Clear Completed leaves 10: offset 24 slices nothing, `showPagination` is false, so an empty list with no pager to leave it.
 - 60 uploads, on page 3, shrink to 30: empty list; `GPagination` clamps its display to page 2 and emits `update:modelValue(1)`, which nobody hears because the site binds one way. Clicking the highlighted 2 is a no-op.
 
-`BPagination` was equally broken (it reset its local page without telling the parent), so this isn't a regression, but the description's claim is wrong.
+This isn't a regression, but the description's claim is wrong. The first case doesn't depend on the pager. In the second, bootstrap-vue's source shows `BPagination` also reset to page 1 locally, emitted only `input` (unheard here), and ignored clicks on the page it highlighted, so the list was just as empty with page 1 as the dead button instead of page 2.
 
 Fix in `usePagination`, which covers all five sites and the unmounted-pager case that `v-model` wouldn't:
 
@@ -47,11 +47,12 @@ Fix: reset `currentIndex` to 0 on `toolExecutionId` change (or key the component
 
 ### P3 3: Two pagers on one page share the landmark name "Pagination"
 
-`GPagination` renders a `<nav>` landmark labelled "Pagination" by default. `StorageOperationHistoryView.vue` renders two `StorageOperationRunsTable`s ("In Progress", "Finished"), so with enough runs a screen reader lists two identically named landmarks. The table already has a localized `title` prop and `GPagination` has `ariaLabel`:
+`GPagination` renders a `<nav>` landmark labelled "Pagination" by default, so a screen reader lists identically named landmarks in two migrated views:
 
-```vue
-:aria-label="`${props.title} pagination`"
-```
+- `StorageOperationHistoryView.vue` renders two `StorageOperationRunsTable`s ("In Progress", "Finished").
+- `HistoryGraphToolExecutions.vue` mounts a `ToolExecutionJobs` per expanded node.
+
+`GPagination` has an `ariaLabel` prop. For the runs table, build it from the already localized `title`, with a localized suffix; for the job pager, pass a label naming the execution.
 
 ### P3 4: Pager test scaffolding is copied into eight new specs with no shared helper
 
