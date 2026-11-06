@@ -59,3 +59,5 @@ Questions for John:
 2. Hide rule: drop it, make it a `draft-validate` warning, or keep it only as a step in promoting a port ("unhide", as in the change-set scenario)? IWC argues against a MUST NOT.
 3. Research #654, #660, #661, #669 and #670 together? They come from the same Mold, and at least #660 and #669 also ask for new repair shapes.
 4. Split this issue? Input promotion is the mvp part; output promotion and the hide note could be v2.
+
+Staged labels applied 2026-11-06: +roadmap/substep, +priority/mvp, +work/ready-research; parent #318.
