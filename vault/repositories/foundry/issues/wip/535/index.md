@@ -4,7 +4,7 @@
 
 Labels at seeding (2026-10-06): `enhancement`, `priority/mvp`, `agent/implement`, `roadmap/main`. Now `work/in-progress`.
 
-Branch [`issue-535-accept-iwc-policy-pin`](../../../branches/active/issue-535-accept-iwc-policy-pin/index.md) covers items 1, 2 and 5 and must not close the issue. [Status comment](https://github.com/galaxyproject/foundry/issues/535#issuecomment-6670113645).
+Branch [`issue-535-accept-iwc-policy-pin`](../../../branches/active/issue-535-accept-iwc-policy-pin/index.md), draft [#752](https://github.com/galaxyproject/foundry/pull/752), covers items 1, 2 and 5 and must not close the issue. [Status comment](https://github.com/galaxyproject/foundry/issues/535#issuecomment-6670113645).
 
 ## Findings, 2026-11-05
 
