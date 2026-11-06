@@ -4,6 +4,6 @@
 
 ## Status
 
-Initial review ready on `b26614f7c11`, unposted (one P2 + two P3s; all fixed on `pr_24696_review_0`).
+Approved on `b26614f7c11` with review response, 2026-11-06; awaiting merge (one P2 + two P3s; all fixed on `pr_24696_review_0`).
 
 PR open against `dev`, out of draft.

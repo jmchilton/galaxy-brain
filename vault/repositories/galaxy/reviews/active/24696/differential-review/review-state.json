@@ -1,0 +1,186 @@
+{
+  "schemaVersion": 1,
+  "kind": "differential-review-state",
+  "updatedAt": "2026-11-06T19:59:52.671Z",
+  "hunks": {
+    "h1:258111659d9c5b4f": {
+      "snapshotId": "20261106T192733Z-review-b26614f7c115",
+      "path": "client/packages/ui/README.md",
+      "reviewedAt": "2026-11-06T19:59:23.518Z"
+    },
+    "h1:e322f3a37b05c981": {
+      "snapshotId": "20261106T192733Z-review-b26614f7c115",
+      "path": "client/packages/ui/src/components/Form/GFormInput.vue",
+      "reviewedAt": "2026-11-06T19:59:25.182Z"
+    },
+    "h1:5e1e98917fad3af7": {
+      "snapshotId": "20261106T192733Z-review-b26614f7c115",
+      "path": "client/packages/ui/src/components/Form/GFormInput.vue",
+      "reviewedAt": "2026-11-06T19:59:25.182Z"
+    },
+    "h1:c8b060a9fc28a1d6": {
+      "snapshotId": "20261106T192733Z-review-b26614f7c115",
+      "path": "client/packages/ui/src/components/Form/GFormLabel.vue",
+      "reviewedAt": "2026-11-06T19:59:26.207Z"
+    },
+    "h1:07c98ef67442fe40": {
+      "snapshotId": "20261106T192733Z-review-b26614f7c115",
+      "path": "client/packages/ui/src/components/Form/GRadio.vue",
+      "reviewedAt": "2026-11-06T19:59:27.736Z"
+    },
+    "h1:67d8c5a510bf4dd8": {
+      "snapshotId": "20261106T192733Z-review-b26614f7c115",
+      "path": "client/packages/ui/src/components/Form/GRadio.vue",
+      "reviewedAt": "2026-11-06T19:59:27.736Z"
+    },
+    "h1:9c17192b830cdf10": {
+      "snapshotId": "20261106T192733Z-review-b26614f7c115",
+      "path": "client/packages/ui/src/components/Form/GRadio.vue",
+      "reviewedAt": "2026-11-06T19:59:27.736Z"
+    },
+    "h1:5feee641a2678dd8": {
+      "snapshotId": "20261106T192733Z-review-b26614f7c115",
+      "path": "client/packages/ui/src/components/Form/GSelect.vue",
+      "reviewedAt": "2026-11-06T19:59:28.725Z"
+    },
+    "h1:55d7b1fe19628575": {
+      "snapshotId": "20261106T192733Z-review-b26614f7c115",
+      "path": "client/packages/ui/src/components/Form/GSelect.vue",
+      "reviewedAt": "2026-11-06T19:59:28.725Z"
+    },
+    "h1:a18767f9abecf111": {
+      "snapshotId": "20261106T192733Z-review-b26614f7c115",
+      "path": "client/packages/ui/src/components/Form/GSelect.vue",
+      "reviewedAt": "2026-11-06T19:59:28.725Z"
+    },
+    "h1:8fcef6ab9c87526c": {
+      "snapshotId": "20261106T192733Z-review-b26614f7c115",
+      "path": "client/packages/ui/src/components/GButton.vue",
+      "reviewedAt": "2026-11-06T19:59:29.828Z"
+    },
+    "h1:a24707e37d671ed6": {
+      "snapshotId": "20261106T192733Z-review-b26614f7c115",
+      "path": "client/packages/ui/src/components/GButton.vue",
+      "reviewedAt": "2026-11-06T19:59:29.828Z"
+    },
+    "h1:50eccfeaa26f7201": {
+      "snapshotId": "20261106T192733Z-review-b26614f7c115",
+      "path": "client/packages/ui/src/components/GCheckbox.vue",
+      "reviewedAt": "2026-11-06T19:59:31.125Z"
+    },
+    "h1:acb76eb694f73a87": {
+      "snapshotId": "20261106T192733Z-review-b26614f7c115",
+      "path": "client/packages/ui/src/components/GCheckbox.vue",
+      "reviewedAt": "2026-11-06T19:59:31.125Z"
+    },
+    "h1:e5c76ca102277fef": {
+      "snapshotId": "20261106T192733Z-review-b26614f7c115",
+      "path": "client/packages/ui/src/components/GDropdown.vue",
+      "reviewedAt": "2026-11-06T19:59:31.886Z"
+    },
+    "h1:69fa665aa6f1350e": {
+      "snapshotId": "20261106T192733Z-review-b26614f7c115",
+      "path": "client/packages/ui/src/components/GDropdown.vue",
+      "reviewedAt": "2026-11-06T19:59:31.886Z"
+    },
+    "h1:57d126e27f7e8f06": {
+      "snapshotId": "20261106T192733Z-review-b26614f7c115",
+      "path": "client/packages/ui/src/components/GLink.vue",
+      "reviewedAt": "2026-11-06T19:59:32.452Z"
+    },
+    "h1:148741adddecbc84": {
+      "snapshotId": "20261106T192733Z-review-b26614f7c115",
+      "path": "client/packages/ui/src/components/GLink.vue",
+      "reviewedAt": "2026-11-06T19:59:32.452Z"
+    },
+    "h1:7e01c9872f6ace59": {
+      "snapshotId": "20261106T192733Z-review-b26614f7c115",
+      "path": "client/packages/ui/src/components/GPagination.vue",
+      "reviewedAt": "2026-11-06T19:59:33.750Z"
+    },
+    "h1:89effdf40f046dad": {
+      "snapshotId": "20261106T192733Z-review-b26614f7c115",
+      "path": "client/packages/ui/src/components/GPagination.vue",
+      "reviewedAt": "2026-11-06T19:59:33.750Z"
+    },
+    "h1:be442409b03a79a9": {
+      "snapshotId": "20261106T192733Z-review-b26614f7c115",
+      "path": "client/packages/ui/src/styles/_focus-ring.scss",
+      "reviewedAt": "2026-11-06T19:59:34.701Z"
+    }
+  },
+  "commits": {
+    "5c34b0623328cfe3aefd9f256ed8a8add95152b4": {
+      "sha": "310450637d706d8726cb73b01e7c4f26a0315bae",
+      "subject": "Add a shared focus-ring mixin to galaxy-ui",
+      "snapshotId": "20261106T192733Z-review-b26614f7c115",
+      "signedOffAt": "2026-11-06T19:59:36.340Z"
+    },
+    "782b9b49719846ae1d27fade4afd7b8dd223632f": {
+      "sha": "87222e0b9772739cb921488e53a1a47988560d54",
+      "subject": "Tint GSelect's focus ring on valid and invalid, like GFormInput",
+      "snapshotId": "20261106T192733Z-review-b26614f7c115",
+      "signedOffAt": "2026-11-06T19:59:36.915Z"
+    },
+    "71ca08b54bd641bf06986adf2c78d3b162196c39": {
+      "sha": "42263f0be17527f75be3159e991c967df1fd2529",
+      "subject": "Use the shared focus ring in GFormInput",
+      "snapshotId": "20261106T192733Z-review-b26614f7c115",
+      "signedOffAt": "2026-11-06T19:59:39.133Z"
+    },
+    "e1f5daf4f87c6342c279fb7d3e364c22dc47bbb8": {
+      "sha": "9af0c7173c2d818ee1cdba25a5f75ff6d0662030",
+      "subject": "Use the shared focus ring in GButton",
+      "snapshotId": "20261106T192733Z-review-b26614f7c115",
+      "signedOffAt": "2026-11-06T19:59:41.966Z"
+    },
+    "dab2272265c2bfbd479e2b883e0e6872e411da10": {
+      "sha": "7ef76a28dbfb16c80bb70d180c2fd45db99cd054",
+      "subject": "Use the shared focus ring in GPagination",
+      "snapshotId": "20261106T192733Z-review-b26614f7c115",
+      "signedOffAt": "2026-11-06T19:59:44.123Z"
+    },
+    "cee164bd69cf55b2e32d9c4b77b8cd726d276359": {
+      "sha": "afef34e50b03ea349706eeffd0d696a7a5971d56",
+      "subject": "Give GSelect the shared focus ring",
+      "snapshotId": "20261106T192733Z-review-b26614f7c115",
+      "signedOffAt": "2026-11-06T19:59:45.026Z"
+    },
+    "0d0f9a0a0ffbe749c512ade28d330000c115a967": {
+      "sha": "b536293fe1b4c00360fe735a6c662978eb9b3145",
+      "subject": "Use the shared focus ring in GLink",
+      "snapshotId": "20261106T192733Z-review-b26614f7c115",
+      "signedOffAt": "2026-11-06T19:59:46.881Z"
+    },
+    "e603f17391dda3a12bece9a0764dba44d009b9b4": {
+      "sha": "6d857851f2727835415b6e617b3d7c0d3721570a",
+      "subject": "Use the shared focus ring in GRadio",
+      "snapshotId": "20261106T192733Z-review-b26614f7c115",
+      "signedOffAt": "2026-11-06T19:59:47.550Z"
+    },
+    "25902e293ff69cb7e23f19c9563bb40f4533b536": {
+      "sha": "292c320e505918f7bd60ea647d1e3d0f5a7898dc",
+      "subject": "Use the shared focus ring in GCheckbox",
+      "snapshotId": "20261106T192733Z-review-b26614f7c115",
+      "signedOffAt": "2026-11-06T19:59:49.666Z"
+    },
+    "219d5893c7e35340d13b2ead84fbc7be5c0fa43b": {
+      "sha": "f642d85384f6b52f2a26edc0ddbd0e1956360edc",
+      "subject": "Give the GDropdown toggle the shared focus ring and halo",
+      "snapshotId": "20261106T192733Z-review-b26614f7c115",
+      "signedOffAt": "2026-11-06T19:59:50.599Z"
+    },
+    "4b94600567bd9221a2ad204eeafcf96863eae4c1": {
+      "sha": "8eb6aab41e92a2afbfd575ebf09b10bdc979891c",
+      "subject": "Leave the focus ring of a stated field to GFormInput",
+      "snapshotId": "20261106T192733Z-review-b26614f7c115",
+      "signedOffAt": "2026-11-06T19:59:51.859Z"
+    },
+    "4b562c2159741ad298bc5d554df81df42ba30cf4": {
+      "sha": "b26614f7c1159ccf6d7cf1934afb2919160ae498",
+      "subject": "Document the galaxy-ui focus-ring mixin and its exceptions",
+      "snapshotId": "20261106T192733Z-review-b26614f7c115",
+      "signedOffAt": "2026-11-06T19:59:52.671Z"
+    }
+  }
+}
