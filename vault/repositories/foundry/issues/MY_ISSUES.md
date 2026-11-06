@@ -14,7 +14,6 @@ Review `issue_tags.md` in the record, then use 👀 Diff / 🔖 Apply staged lab
 - (mvp) [#668](https://github.com/galaxyproject/foundry/issues/668) — `draft-validate --json` hides errors; work items omit port edges; loop never uses `--connections`; decide: apply staged labels, file the 2 gxwf drafts, then Foundry docs + step 6. [notes](needs_decision/668/index.md)
 - (mvp) [#670](https://github.com/galaxyproject/foundry/issues/670) — topology repair forbids input and output promotion and has no gate for either; decide: apply staged labels, then research ownership. [notes](needs_decision/670/index.md)
 - (mvp) [#673](https://github.com/galaxyproject/foundry/issues/673) — Runtime Note reads as a blanket source-read ban; phases disagree on reading pinned source; decide: apply staged labels, then generator line + per-Mold fixes. [notes](needs_decision/673/index.md)
-- (mvp) [#678](https://github.com/galaxyproject/foundry/issues/678) — discovery `status` has no `unsuitable`; capability miss routes to authoring an existing wrapper; decide: apply staged labels, merge with #723 or sequence, then research. [notes](needs_decision/678/index.md)
 - (mvp) [#723](https://github.com/galaxyproject/foundry/issues/723) — weak-hit and capability-gap fallbacks let runs author UDTs for tools that already exist; decide: apply staged labels, merge with #678 or sequence, then research. [notes](needs_decision/723/index.md)
 - (mvp) [#666](https://github.com/galaxyproject/foundry/issues/666) — nextflow resolver silently mis-extracts: wrapper as primary, `meta.yml` ports, provenance, fixtures; decide: apply staged labels, then split or batch (2 new defects found). [notes](needs_decision/666/index.md)
 
@@ -66,8 +65,9 @@ None yet.
 - (mvp) [#731](https://github.com/galaxyproject/foundry/issues/731) — implement-galaxy-workflow-test cross-check overclaims shape/datatype; output cardinality not traced; PR [#734](https://github.com/galaxyproject/foundry/pull/734). [notes](wip/731/index.md)
 - (mvp) (assigned) [#570](https://github.com/galaxyproject/foundry/issues/570) — Pattern MOCs are cast without the leaf pattern pages they link; draft [#738](https://github.com/galaxyproject/foundry/pull/738) + foundry-lib#139. [notes](wip/570/index.md)
 - (mvp) [#735](https://github.com/galaxyproject/foundry/issues/735) — test-data Molds stage data tables planemo ignores (unsuffixed conf, absolute `.loc`); draft PR [#749](https://github.com/galaxyproject/foundry/pull/749). [notes](wip/735/index.md)
-- (mvp) (large) [#535](https://github.com/galaxyproject/foundry/issues/535) — Prove the IWC review pipeline on a real PR and accept its policy pin; [#752](https://github.com/galaxyproject/foundry/pull/752) (items 1, 2, 5). [notes](wip/535/index.md)
+- (mvp) (large) [#535](https://github.com/galaxyproject/foundry/issues/535) — Prove the IWC review pipeline on a real PR and accept its policy pin; [#752](https://github.com/galaxyproject/foundry/pull/752) merged (items 1, 2, 5); real run, gates and fixtures remain. [notes](wip/535/index.md)
 - (mvp) [#568](https://github.com/galaxyproject/foundry/issues/568) — Review the prompt-to-pipeline agent benchmark preprint for comparisons and lessons; draft PR [#750](https://github.com/galaxyproject/foundry/pull/750). [notes](wip/568/index.md)
+- (mvp) [#678](https://github.com/galaxyproject/foundry/issues/678) — discovery `status` has no `unsuitable`; capability miss routes to authoring an existing wrapper; research in progress. [notes](wip/678/index.md)
 
 ## Queued to implement (`queued_implement`)
 

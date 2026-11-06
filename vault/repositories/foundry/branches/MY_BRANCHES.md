@@ -27,7 +27,6 @@ None yet.
 ## Draft Foundry PRs — waiting for CI (`ci_wait`)
 
 - [`issue-568-review-agent-benchmark-paper`](active/issue-568-review-agent-benchmark-paper/index.md) — Comparisons page: contrast with one detailed prompt, from the Munn and Grenier study (#568). [#750](https://github.com/galaxyproject/foundry/pull/750).
-- [`issue-535-accept-iwc-policy-pin`](active/issue-535-accept-iwc-policy-pin/index.md) — Pins IWC review prompts to the accepted iwc#1366 commit; records Copilot differences (#535). [#752](https://github.com/galaxyproject/foundry/pull/752).
 
 ## Draft Foundry PRs — needs author work (`author_work`)
 

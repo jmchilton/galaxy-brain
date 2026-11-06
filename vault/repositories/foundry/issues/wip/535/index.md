@@ -4,7 +4,7 @@
 
 Labels at seeding (2026-10-06): `enhancement`, `priority/mvp`, `agent/implement`, `roadmap/main`. Now `work/in-progress`.
 
-Branch [`issue-535-accept-iwc-policy-pin`](../../../branches/active/issue-535-accept-iwc-policy-pin/index.md), draft [#752](https://github.com/galaxyproject/foundry/pull/752), covers items 1, 2 and 5 and must not close the issue. [Status comment](https://github.com/galaxyproject/foundry/issues/535#issuecomment-6670113645).
+Branch [`issue-535-accept-iwc-policy-pin`](../../../branches/merged/issue-535-accept-iwc-policy-pin/index.md), [#752](https://github.com/galaxyproject/foundry/pull/752), merged 2026-11-06 as `7453431d`, covers items 1, 2 and 5 and left the issue open. [Status comment](https://github.com/galaxyproject/foundry/issues/535#issuecomment-6670113645).
 
 ## Findings, 2026-11-05
 
@@ -22,3 +22,12 @@ The issue body is stale in these ways:
 - Item 3: real end-to-end run. Check test data and tool cost before choosing a PR; iwc#1497 is +7/−2 but runs a metagenomic assembly workflow. Follow `agents/wf_foundry/TEST_PIPELINE.md` and `RUN_QUEUE.md`.
 - Item 6: fixture parity, best after the real run.
 - Then `status: draft` can come off the Mold and Pipeline.
+
+Item 6 isn't in the issue's "Done when" list, so it needn't block closing.
+
+`work/in-progress` is stale until someone takes the rest: nothing is claimed since #752 merged.
+
+## Open questions for John
+
+- Raise the semver and unlabelled-output differences with IWC, or leave them recorded?
+- `examples/clean-passing/` and `examples/with-foundry-context/` `galaxy-workflow-pr-context.json:58` say base Copilot requirements are the ones the checklist carries, now slightly off. Change them in item 6?
