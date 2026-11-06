@@ -9,7 +9,7 @@ pr: 752
 
 ## Status
 
-Merged at head `b4369502`; worktree removed. Refs [#535](../../../issues/wip/535/index.md), items 1, 2 and 5 only.
+Merged at head `b4369502`; worktree removed. Refs [#535](../../../issues/closed/535/index.md), items 1, 2 and 5 only.
 
 [#752](https://github.com/galaxyproject/foundry/pull/752) merged 2026-11-06 as `7453431d`.
 
@@ -17,7 +17,7 @@ CI green on `b4369502`, including `test`, which settles the local load timeouts.
 
 ## Decisions
 
-Semver and unlabelled-output differences are recorded, not raised upstream, pending John's answer. The PR left #535 open. `pr_tags.md` labels were not applied.
+Semver and unlabelled-output differences are recorded, not raised upstream, pending John's answer. The PR left #535 open; it closed with the pin on 2026-11-06, at John's request. `pr_tags.md` labels were not applied.
 
 ## Records
 
