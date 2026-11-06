@@ -24,7 +24,8 @@ None yet.
 
 ## Branches — implemented (`branches_implemented`)
 
-None yet.
+- [`issue_216_concrete_errors`](active/issue_216_concrete_errors/index.md) — `draft-validate --concrete --json`: top-level `concrete_errors`, step `label` on results (#216). [Open PR](https://github.com/jmchilton/galaxy-tool-util-ts/compare/main...issue_216_concrete_errors).
+- [`issue_215_draft_port_edges`](active/issue_215_draft_port_edges/index.md) — `draft-next-step` items show edges around `TODO_*` ports; `draft-validate` rejects unwired ones (#215). [Open PR](https://github.com/jmchilton/galaxy-tool-util-ts/compare/main...issue_215_draft_port_edges).
 
 ## Branches — needs polish (`branches_need_polish`)
 
