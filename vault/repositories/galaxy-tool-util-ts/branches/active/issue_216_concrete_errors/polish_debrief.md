@@ -27,6 +27,14 @@ Polished `issue_216_concrete_errors` from `0f2bf001` to `0756cf04`.
 
 **Local gate at `0756cf04`:** lint, format, typecheck, knip and build green. Full vitest: the 3 failures shared with `origin/main`, plus the gxwf-e2e specs that error at vitest collection. CI hasn't run, since it runs on PRs only.
 
+**Differential review snapshot:**
+
+```
+created /home/ubuntu/projects/repositories/galaxy-brain/vault/repositories/galaxy-tool-util-ts/branches/active/issue_216_concrete_errors/differential-review/snapshots/20261106T220848Z-polishing-0756cf04b570.json
+  polishing @ 0756cf04b570 vs origin/main (merge-base f5470fe5ac3b)
+  first snapshot: 6 commits, 18 files, 43 hunks
+```
+
 ## Questions for John
 
 - **Unlabelled steps.** Entries can't be told apart (`label: null`, no `step`, maybe the same `tool_id`), which is common for inner steps of `.ga` subworkflows. Should an unlabelled inner step report something like `outer/<position>`?
