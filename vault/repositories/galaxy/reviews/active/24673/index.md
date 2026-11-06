@@ -4,6 +4,6 @@
 
 ## Status
 
-Initial review on `7db61c5f53a` complete, not delivered: two P2s and seven P3s, eight fixed on `pr_24673_review_0` (`84df9eb8a7a`, on the fork, not in the PR).
+Initial review on `7db61c5f53a` complete, **approved and delivered 2026-11-06** (GitHub APPROVED review with the response; no review branch push/PR): two P2s and seven P3s, eight fixed on `pr_24673_review_0` (`84df9eb8a7a`, on the fork, not in the PR). Awaiting merge.
 
 PR open against `release_25.1`, out of draft; CI had no failures when last checked.
