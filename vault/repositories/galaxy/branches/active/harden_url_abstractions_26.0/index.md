@@ -8,9 +8,9 @@ upstream_base_branch: release_26.0
 
 ## Status
 
-Status: in implementation. Base: `release_26.0` (`a13b42eaa5d`). Worktree: `~/projects/worktrees/galaxy/branch/harden_url_abstractions_26.0`.
+Status: implemented with DRS lookups hardened. Base: `release_26.0` (`784549f48d6`), head `36d780b40bd`. [Debrief](implementation_debrief.md). Worktree: `~/projects/worktrees/galaxy/branch/harden_url_abstractions_26.0`.
 
-No PR yet. CI not yet seen.
+No PR yet. Fork CI pending.
 
 ## Scope
 

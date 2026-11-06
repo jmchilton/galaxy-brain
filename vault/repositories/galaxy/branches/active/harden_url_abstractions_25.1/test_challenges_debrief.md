@@ -1,67 +1,35 @@
 Run via Claude Opus 5.5.
 
-# harden_url_abstractions_25.1: test challenges debrief (round 2, after re-scope)
+# harden_url_abstractions_25.1: test challenges debrief (round 3, DRS change only)
 
-Head went from `46d9408d239` to `10160ed812c`. History was rewritten but not pushed, still 15 commits on `release_25.1` at `83296278444`, with the 4 "Baseline tests" commits first.
+Scope: the DRS tests in `test/unit/files/test_drs.py` and the `test_drs.py` API edit. Head went from `74187814435` to `c7579bb67cb`, still 18 commits on `release_25.1` at `7650883076c`. Round 2 is in `earlier_drafts/2/`.
 
-At every commit (`git rebase -x`), ruff, black, isort and mypy pass on all changed `.py` files (tests included), and so do `test/unit/files/` and `test/unit/workflows/test_trs_proxy.py`. At the head that suite gives 177 passed, 17 skipped.
+## Changed
 
-The previous round's debrief is in `earlier_drafts/1/test_challenges_debrief.md`. This round re-checked every test from scratch, and most of the work was on what the re-scope added.
+- **Dropped `test_drs_lookup_allows_allowlisted_address`.** It passed without the DRS change, so it wasn't red/green, and `lib/galaxy_test/api/test_drs.py::test_public_data_access_util_code` already covers an allowlisted lookup against a real server.
+- **Strengthened `test_drs_access_lookup_refuses_redirect_to_private_address`.** A "secret URL not in calls" check became the exact list of requests sent.
+- **Added `test_drs_lookups_keep_galaxy_user_agent_over_configured_one`** to the baseline commit, for the Codex finding (see `codex_review.md`). It passes on base and failed on the old DRS commit.
+- The baseline commit is now titled "Baseline tests for DRS lookup headers".
 
-## Red/green fixes (the main finding)
+## Red/green
 
-All three `schemes=` tables in `test_uris.py` failed on their parent with `TypeError: unexpected keyword 'schemes'`, not at their own assertion. This is the same problem that got the `ValidatingSession` tests dropped last round. The tables were `test_validate_non_local_extra_scheme_public_host_passes`, `_local_ip` and `_unverifiable`. Their cases moved to the http file source, the only caller that passes `schemes`:
+| Tests | Before the DRS change | After |
+|---|---|---|
+| `test_file_source_drs_http`, `test_file_source_drs_s3` (existing) | pass | pass |
+| `test_file_source_drs_access_lookup_sends_headers`, `..._keep_galaxy_user_agent_...` (baseline) | pass | pass |
+| `test_drs_retry_after_202_keeps_headers` | fails | pass |
+| `test_drs_object_lookup_refuses_private_address` | fails | pass |
+| `test_drs_object_lookup_refuses_redirect_to_private_address` | fails | pass |
+| `test_drs_access_lookup_refuses_redirect_to_private_address` | fails | pass |
 
-- **Refusals (ftp commit):** `test_file_source_http_validates_initial_ftp_url` now covers 4 initial URLs: plain, `user:pw@…:21`, `%31` and `%40`. `test_file_source_http_validates_ftp_redirect_target` covers `ftp://` and `FTP://` redirect targets. An uppercase `FTP://` can only reach this source as a redirect target, because the source's `url_regex` is case-sensitive.
-- **Pass cases (moved to baseline):** these pass on base, so they belong in a baseline commit:
-  - `test_file_source_http_follows_ftp_redirect_to_public_host` (fake handlers) is replaced by `test_file_source_http_follows_allowlisted_ftp_redirect`. That test uses no mocks: the local `httpserver` sends a 302 to `ftp://anonymous@127.0.0.1:<port>/README` on the existing `ftp_server` fixture, with a loopback allowlist. It covers userinfo, port and allowlisted ftp hops.
-  - The new `test_file_source_http_realizes_idn_ftp_url` (`ftp://bücher.example/`) pins that the requests host comparison is skipped for ftp. This was the only reason the old public-host table existed.
-  - Both tests went into the commit now titled **"Baseline tests for http file source redirects and ftp URLs"**, which also introduces a shared `LOOPBACK_ALLOWLIST`.
-- Dropped the allowlisted-ftp half of `_local_ip`. Allowlist matching doesn't depend on the scheme, the http tables already cover it, and the real ftp baseline above uses an allowlist.
-- Because nothing calls the "follow without refusal" path any more, `_realize_with_redirect` goes back to requiring `expected_exception`, and `nullcontext` is gone.
-
-## Dropped
-
-- `test_file_source_http_validates_final_ftp_url`: it faked a final `geturl()` that differs from every URL that was requested. The opener can't produce that once every hop is checked. The initial-URL and redirect-hop tests cover ftp.
-- The second half of `test_redirect_handler_refuses_unchecked_scheme`, where `schemes=WITH_FTP` follows the ftp redirect. That duplicated the caller tests, so `WITH_FTP` is gone too.
-
-## Added
-
-- `test_trs_requests_send_galaxy_user_agent`, in the TRS baseline commit. `Let TrsServer take a requests session factory` replaced `galaxy.util.requests.get`, which adds Galaxy's user agent, with an explicit `headers=get_default_headers()`. Nothing pinned that header. The test covers both `server_from_url` and `get_server`. When the header is removed it fails with `python-requests/…` ≠ `galaxy/<VERSION>`.
-
-## Lint fix found on the way
-
-Galaxy's CI runs `mypy test lib`, but the earlier `rebase -x` lint ran mypy only on the lib files. Two test errors had slipped through:
-- `addinfourl` has no `msg` (`_realize_with_redirect`, from `Validate each redirect hop…`). Fixed by annotating it `Any`, as the file's other fake responses are.
-- `PreparedRequest` has no `req_kwargs` (the remote ZIP timeout test). Fixed with a `type: ignore[attr-defined]` and a one-line note that `responses` records the `send()` kwargs.
+The four fail on the pre-DRS `util.py`. Only the test names were captured for those failures, not each failing assertion. The refusal tests have no registered mock for the private URL, so they should fail at `pytest.raises` on a `responses` connection error.
 
 ## Challenged, kept
 
-- **`test_redirect_handler_refuses_unchecked_scheme` (first half only):** the refusal can't be reached through the http source, because urllib's `http_error_302` already limits redirects to http/https/ftp, and `FETCH_SCHEMES` covers all three. The re-scope review kept the refusal to protect the default tuple for future callers. This is its only test, and it fails at its own `pytest.raises` on the parent.
-- **Remote ZIP timeout test:** it checks the kwargs that were sent rather than a real stall. A behavior test would need a sleeping server plus a patched module constant, which is slower and no less tied to the code.
-- **`validate_non_local` http tables, remote ZIP `responses` tests, TRS redirect tests, mocked transport in `_realize_with_redirect`, `_mock_get` on `Session.request`:** the previous round's reasoning still holds. These are behavior tables, a real server can't stand in for a public host, and the tests run offline.
-- **No API, integration or E2E tests:** these are file-source and TRS internals with no UI.
-- **`doc/source/dev/writing_tests.md`:** all new tests are offline unit tests in `test/unit`, using real local servers where possible.
+- **`mock.patch("galaxy.files.uris.validate_non_local")` on `test_file_source_drs_s3`.** `fake_public_dns` isn't a substitute because this test appears to reach S3 for real, so faked DNS would break the download (reasoned from the test, not tried). Without some patch, the lookup would need `drs.example.org` to resolve. It's the only mock of the validator in this file.
+- **Refusal tests at the unit layer.** An API test can't produce a public-looking DRS host that redirects to a private one.
+- No E2E test: there's no UI change. The API helper rule doesn't apply: the edit only adds an argument.
 
-## Red checks (fresh, every change commit)
+## Validation
 
-Each change commit's new tests (by collected node id) were run with the parent's `lib/` checked out in the worktree. All of them fail at their own `pytest.raises` or `assert`, and none fails with `TypeError` or `ImportError`:
-
-- Scheme case: 5 tests, all DID NOT RAISE.
-- Host reading: 7 DID NOT RAISE. `http://[::1/` raises `ValueError` instead, which is the intended change of exception type.
-- http redirect hop: `requested == [test_url]` fails.
-- TRS refusal and both remote ZIP refusals: DID NOT RAISE.
-- Timeout: `[None, None, None] == [600, 600, 600]` fails.
-- Initial URL: `requested == []` fails.
-- ftp commit: 6 http source cases and the handler refusal, all DID NOT RAISE.
-
-The new baseline tests were also checked by temporarily breaking the head code, and each one fails:
-- The IDN test fails once the `scheme in HTTP_SCHEMES` guard is removed.
-- The real ftp redirect test fails once `schemes=` is left off the handler in `http.py`.
-- The user-agent test fails once `headers=` is removed.
-
-Last round reported 180 passed and 18 skipped. The totals reconcile (198 − 11 dropped + 7 added = 194). One test that depends on the environment ran this time instead of being skipped.
-
-## History mechanics
-
-Tests moved between commits, so autosquash would have conflicted in `test_http.py`. The intended final tree was committed as a temporary commit first. Each original commit was then replayed with its test files regenerated from scripted transforms (author and message kept, except the two retitled or extended baseline commits). `git diff <tmp> HEAD` is empty.
+`test/unit/files` + `test/unit/workflows/test_trs_proxy.py`: 190 passed, 18 skipped at head. `test/unit/files/test_drs.py`: 4 passed at the baseline commit through the commit before the DRS change (the 5 preceding commits checked), 8 at the DRS commit and head. ruff, black, isort and mypy pass on the 3 DRS files at head. The `rebase -x` lint across every commit was not repeated; the commits after the baseline other than the DRS one had no content change.

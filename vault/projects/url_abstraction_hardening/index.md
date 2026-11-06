@@ -22,12 +22,13 @@ The code differs across releases (e.g. the http file source uses `urllib` throug
 
 | Release | Branch | Status |
 |---|---|---|
-| `release_25.1` | [`harden_url_abstractions_25.1`](../../repositories/galaxy/branches/active/harden_url_abstractions_25.1/index.md) | hardened and rebased; READY, fork CI pending |
-| `release_26.0` | [`harden_url_abstractions_26.0`](../../repositories/galaxy/branches/active/harden_url_abstractions_26.0/index.md) | needed: 25.1 conflicts on 26.0 (`uris.py`, `http.py`, tests) |
-| `release_26.1` | [`harden_url_abstractions_26.1`](../../repositories/galaxy/branches/active/harden_url_abstractions_26.1/index.md) | needed: 25.1 conflicts on 26.1 (also `trs_proxy.py`, TRS/DRS tests) |
+| `release_25.1` | [`harden_url_abstractions_25.1`](../../repositories/galaxy/branches/active/harden_url_abstractions_25.1/index.md) | hardened and rebased with DRS; READY, fork CI pending |
+| `release_26.0` | [`harden_url_abstractions_26.0`](../../repositories/galaxy/branches/active/harden_url_abstractions_26.0/index.md) | ported with DRS; fork CI pending |
+| `release_26.1` | [`harden_url_abstractions_26.1`](../../repositories/galaxy/branches/active/harden_url_abstractions_26.1/index.md) | ported with DRS; fork CI pending |
 
 ## Decisions
 
 - 2026-11-02, John: one branch each for 25.1, 26.0 and 26.1; skip a release when the branch below merges into it cleanly.
 - A release is skipped only if the test merge has no conflicts, the new tests pass on the merged tree, and that release has no new caller needing its own change.
 - `http_redirect_validation_25.1` (an earlier one-commit branch for per-hop checks in the http file source, never recorded or opened) is folded into the 25.1 branch.
+- 2026-11-06, John: route DRS object and access lookups through `ValidatingSession` on all three branches.
