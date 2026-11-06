@@ -3,5 +3,7 @@ Launchers for notes in the factory agent dir; format in [LAUNCHERS.md](../_share
 ## 🔄 Resync brain
 name: fac-resync
 profile: Sonnet (high)
+routine: true
+icon: brain
 
 Run ../_shared/PROCESS_RESYNC_BRAIN.md
