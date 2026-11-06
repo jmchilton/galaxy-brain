@@ -1,9 +1,8 @@
 # lint_untyped_params
 
-Status: pushed to `jmchilton` fork, commits `61b4380`, `7ee6d8e`; PR [#271](https://github.com/galaxyproject/gxformat2/pull/271) opened 2026-10-22. Base: `origin/main` `3faf9ae`.
-Worktree: `~/projects/worktrees/gxformat2/branch/lint_untyped_params`.
+Status: merged as [#271](https://github.com/galaxyproject/gxformat2/pull/271) 2026-10-22. Commits `61b4380`, `7ee6d8e`. Base: `origin/main` `3faf9ae`.
 
-[PR description](pr_description.md) · TS twin: [galaxy-tool-util-ts lint_untyped_params](../../../../galaxy-tool-util-ts/branches/active/lint_untyped_params/index.md) · Origin: [foundry#677](../../../../foundry/issues/wip/677/index.md)
+[PR description](pr_description.md) · TS twin: [galaxy-tool-util-ts lint_untyped_params](../../../../galaxy-tool-util-ts/branches/merged/lint_untyped_params/index.md) · Origin: [foundry#677](../../../../foundry/issues/closed/677/index.md)
 
 Untyped-parameter lint now follows Galaxy: it searches whole strings, skips renames that reference declared parameter-input labels, and gives one detailed warning per reference.
 

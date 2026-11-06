@@ -1,10 +1,9 @@
 # lint_input_defaults
 
-Status: pushed to `jmchilton` fork, commits `e6008f8`, `3740cf9` (Codex review fix: `[int]`/`[float]` element checks); PR [#275](https://github.com/galaxyproject/gxformat2/pull/275) opened 2026-10-22. Base: `origin/main` `9f8fb36` (rebased after #271 merged; reuses `_as_list`, table-driven `_DEFAULT_CHECKS`).
-Worktree: `~/projects/worktrees/gxformat2/branch/lint_input_defaults`.
+Status: merged as [#275](https://github.com/galaxyproject/gxformat2/pull/275) 2026-10-23. Commits `e6008f8`, `3740cf9` (Codex review fix: `[int]`/`[float]` element checks). Base: `origin/main` `9f8fb36` (rebased after #271 merged; reuses `_as_list`, table-driven `_DEFAULT_CHECKS`).
 Issue: [gxformat2#272](https://github.com/galaxyproject/gxformat2/issues/272).
 
-[PR description](pr_description.md) · TS twin: [galaxy-tool-util-ts lint_input_defaults](../../../../galaxy-tool-util-ts/branches/active/lint_input_defaults/index.md)
+[PR description](pr_description.md) · TS twin: [galaxy-tool-util-ts lint_input_defaults](../../../../galaxy-tool-util-ts/branches/merged/lint_input_defaults/index.md)
 
 Issue check: galaxy#24140 (`3274a9c98da`) does reject non-string multiple-text defaults. The issue overstated the scalar case, which `_validate_input_types` already errored on. The gaps were `[string]` (skipped) and native `.ga` (unchecked). The lint route was chosen over schema typing because list inputs use the catch-all `WorkflowInputParameter` with an `Any` default.
 

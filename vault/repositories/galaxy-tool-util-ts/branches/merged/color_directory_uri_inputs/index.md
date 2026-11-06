@@ -2,10 +2,9 @@
 
 - PR [#200](https://github.com/jmchilton/galaxy-tool-util-ts/pull/200) (base `gxformat2_sync_265_278`)
 
-Status: pushed to `origin` (jmchilton) at `47f5afc9`; PR [#200](https://github.com/jmchilton/galaxy-tool-util-ts/pull/200) opened 2026-10-24 at John's request, stacked on #199. Stacked on [gxformat2_sync_265_278](../gxformat2_sync_265_278/index.md) (`5eb9202d`).
-Worktree: `~/projects/worktrees/galaxy-tool-util-ts/branch/color_directory_uri_inputs`.
+Status: merged as [#200](https://github.com/jmchilton/galaxy-tool-util-ts/pull/200) 2026-10-25 at `47f5afc9`. Stacked on [gxformat2_sync_265_278](../gxformat2_sync_265_278/index.md) (`5eb9202d`).
 
-[PR description](pr_description.md) · Python twin: [gxformat2 color_directory_uri_inputs](../../../../gxformat2/branches/active/color_directory_uri_inputs/index.md) (PR [#281](https://github.com/galaxyproject/gxformat2/pull/281)) · Issue: [gxformat2#202](../../../../gxformat2/issues/wip/202/index.md)
+[PR description](pr_description.md) · Python twin: [gxformat2 color_directory_uri_inputs](../../../../gxformat2/branches/merged/color_directory_uri_inputs/index.md) (PR [#281](https://github.com/galaxyproject/gxformat2/pull/281)) · Issue: [gxformat2#202](../../../../gxformat2/issues/closed/202/index.md)
 
 Commits: `a4229baa` sync from gxformat2#281 @ `6b375cf` (12 tests red, all #202), `47f5afc9` port.
 

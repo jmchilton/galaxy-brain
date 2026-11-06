@@ -156,13 +156,13 @@ Out of scope (TS ports of Galaxy's `tool_util.workflow_state` and connection val
 
 - **Fixes:** a parity split in untyped-param lint (Py `re.match` vs TS search). Both now follow Galaxy's `${name}` semantics with identical messages, and renames referencing declared parameter labels no longer warn.
 - **Shared fixtures:** `synthetic-untyped-params.{ga,gxwf.yml}` with `test_bp_{native,format2}_untyped_params`.
-- **Records:** [gxformat2](../../repositories/gxformat2/branches/active/lint_untyped_params/index.md) · [TS](../../repositories/galaxy-tool-util-ts/branches/active/lint_untyped_params/index.md). Merge gxformat2 first, then re-sync TS.
+- **Records:** [gxformat2](../../repositories/gxformat2/branches/merged/lint_untyped_params/index.md) · [TS](../../repositories/galaxy-tool-util-ts/branches/merged/lint_untyped_params/index.md). Merge gxformat2 first, then re-sync TS.
 
 ## In-flight: `lint_input_defaults` (gxformat2#275, galaxy-tool-util-ts#196; fixes gxformat2#272)
 
 - **Fixes:** `[string]` defaults and native `parameter_input` defaults were never type-checked. Both langs now share one helper with identical messages. Python also stops accepting bools as int/float, matching TS.
 - **Shared fixtures:** `synthetic-lint-bad-text-list-default.gxwf.yml`, `synthetic-lint-bad-parameter-defaults.ga`.
-- **Records:** [gxformat2](../../repositories/gxformat2/branches/active/lint_input_defaults/index.md) · [TS](../../repositories/galaxy-tool-util-ts/branches/active/lint_input_defaults/index.md). Merge gxformat2 first, then re-sync TS.
+- **Records:** [gxformat2](../../repositories/gxformat2/branches/merged/lint_input_defaults/index.md) · [TS](../../repositories/galaxy-tool-util-ts/branches/merged/lint_input_defaults/index.md). Merge gxformat2 first, then re-sync TS.
 
 ## Unresolved questions
 

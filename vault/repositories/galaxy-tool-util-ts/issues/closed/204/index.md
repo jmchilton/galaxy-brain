@@ -3,7 +3,7 @@
 **Closed on GitHub: 2026-10-26 via PR #205 (merged 2026-10-26).**
 
 Issue: https://github.com/jmchilton/galaxy-tool-util-ts/issues/204
-Branch: `issue_204_unknown_map_over`, worktree `~/projects/worktrees/galaxy-tool-util-ts/branch/issue_204_unknown_map_over/`. Branch record: [index](../../../branches/active/issue_204_unknown_map_over/index.md).
+Branch: `issue_204_unknown_map_over`, worktree `~/projects/worktrees/galaxy-tool-util-ts/branch/issue_204_unknown_map_over/`. Branch record: [index](../../../branches/merged/issue_204_unknown_map_over/index.md).
 
 ## Triage (2026-10-25)
 
@@ -16,4 +16,4 @@ Branch: `issue_204_unknown_map_over`, worktree `~/projects/worktrees/galaxy-tool
 - PR [#205](https://github.com/jmchilton/galaxy-tool-util-ts/pull/205) opened from `issue_204_unknown_map_over`.
 - Python parity committed to Galaxy `wf_tool_state` (`8bf22007fcd`, on `jmchilton`).
 - Deeper cause for `__APPLY_RULES__`: Galaxy editor and Python type `type_from_rules` outputs from the rules mapping; TS never ported `RuleSet`. Ported to `workflow-graph` with synced `rules_dsl_spec.yml` and wired into graph builder (`a4c85310`, `187ee082`, docs `ea3a11a2`) on #205. Client-compatible `applyRules` (pyre-to-regexp) added `9ea1e0d5`. PR title/body updated on GitHub from the draft (2026-10-26).
-- Issue repro is miswired: its mapping builds `list:list`, now a real `invalid` vs fastp `paired`; `list:paired` variant gives 3 ok. Correction comment drafted, not posted: [issue_comment_repro.md](../../../branches/active/issue_204_unknown_map_over/issue_comment_repro.md).
+- Issue repro is miswired: its mapping builds `list:list`, now a real `invalid` vs fastp `paired`; `list:paired` variant gives 3 ok. Correction comment drafted, not posted: [issue_comment_repro.md](../../../branches/merged/issue_204_unknown_map_over/issue_comment_repro.md).

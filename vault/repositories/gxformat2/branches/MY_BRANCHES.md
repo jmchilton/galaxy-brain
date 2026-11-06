@@ -1,14 +1,14 @@
 # Open PR and branch queue
 
-Snapshot: 2026-10-24 (live GitHub state for jmchilton's open gxformat2 PRs).
+Snapshot: 2026-11-06 (live GitHub state for jmchilton's open gxformat2 PRs).
 
 ## Open gxformat2 PRs — ready from our side (`ready`)
 
-- [`color_directory_uri_inputs`](active/color_directory_uri_inputs/index.md) — First-class `color`/`directory_uri` workflow parameter inputs (#202). [#281](https://github.com/galaxyproject/gxformat2/pull/281).
+None yet.
 
 ## Open gxformat2 PRs — needs attention (`attention`)
 
-- `schema_dedup` (no branch record) — Removes model-level schema duplication; merge conflicts. [#165](https://github.com/galaxyproject/gxformat2/pull/165).
+None yet.
 
 ## Draft gxformat2 PRs — ready to undraft (`draft_ready`)
 

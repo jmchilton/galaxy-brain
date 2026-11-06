@@ -1,4 +1,4 @@
-Issues here are not assigned to jmchilton by default.
+GitHub state last refreshed: 2026-11-06. Issues here are not assigned to jmchilton by default.
 
 ## Waiting on John (`needs_decision`)
 

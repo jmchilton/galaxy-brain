@@ -1,5 +1,4 @@
-# Issue sync — 2026-10-27 (agent: workflow_libs)
+# Issue sync — 2026-11-06 (agent: workflow_libs)
 
-- Closed out → `closed/`: #202 (PR #281 merged 2026-10-24).
-- Moved: none. #266 queued, open.
+- Closed out: none. Moved: none. #266 queued, open.
 - New untriaged: none. Decisions: none.

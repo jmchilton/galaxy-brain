@@ -5,11 +5,7 @@
 
 ## Status
 
-Pushed to `origin` at `9ea1e0d5` (base `origin/main` `539c16c9`); PR open. Rules DSL port (`a4c85310`, `187ee082`) added 2026-10-25 on John's request; PR body on GitHub not yet updated to the new [pr_description.md](pr_description.md).
-
-PR [#205](https://github.com/jmchilton/galaxy-tool-util-ts/pull/205) opened 2026-10-25 on John's request.
-
-Local gate (`make check`, `make test`) green; CI runs on PRs only.
+Merged as [#205](https://github.com/jmchilton/galaxy-tool-util-ts/pull/205) 2026-10-26 at `9ea1e0d5`.
 
 ## Links
 
@@ -17,8 +13,7 @@ Local gate (`make check`, `make test`) green; CI runs on PRs only.
 
 ## Notes
 
-- Issue: [galaxy-tool-util-ts#204](https://github.com/jmchilton/galaxy-tool-util-ts/issues/204), record [issues/wip/204](../../../issues/wip/204/index.md).
-- Worktree: `~/projects/worktrees/galaxy-tool-util-ts/branch/issue_204_unknown_map_over`.
+- Issue: [galaxy-tool-util-ts#204](https://github.com/jmchilton/galaxy-tool-util-ts/issues/204), record [issues/closed/204](../../../issues/closed/204/index.md).
 - workflow_libs `AGENTS.md` has no project settings block; conventions inferred from earlier branch records: push to `origin`, gate `make check` + `make test`.
 - Open decision: narrow trigger to unknown-source skips only? See polish debrief.
 - Open decision: untyped source into collection input — editor treats as unmapped (outputs datasets); branch marks unknown.

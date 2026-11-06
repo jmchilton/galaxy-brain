@@ -1,5 +1,6 @@
 ---
 upstream_base_branch: main
+pr: 207
 ---
 
 # Optional workflow default expansion (#202)
@@ -13,7 +14,7 @@ Revised at `37264be13d0d` on 2026-10-26 at John's request to preserve valid spar
 
 PR #207 is open against `main`, with title and description updated for the revised scope.
 
-Local `pnpm build`, `make check`, and `make test` pass. GitHub CI, dependency review, and docs runs are queued for this revision.
+GitHub CI green at `37264be` (9/9, 2026-11-06).
 
 ## Details
 

@@ -2,8 +2,7 @@
 
 - PR [#199](https://github.com/jmchilton/galaxy-tool-util-ts/pull/199)
 
-Status: pushed to `origin` (jmchilton) at `5eb9202d`; PR [#199](https://github.com/jmchilton/galaxy-tool-util-ts/pull/199) opened 2026-10-24 at John's request. Base: `origin/main` `6266935d`.
-Worktree: `~/projects/worktrees/galaxy-tool-util-ts/branch/gxformat2_sync_265_278`.
+Status: merged as [#199](https://github.com/jmchilton/galaxy-tool-util-ts/pull/199) 2026-10-24 at `5eb9202d`. Base: `origin/main` `6266935d`.
 
 [PR description](pr_description.md)
 

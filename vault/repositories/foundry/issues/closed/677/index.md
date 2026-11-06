@@ -7,8 +7,8 @@ Gaps 2 and 3 (lint precision, Python/TS parity) handed to tooling agents by John
 Galaxy editor/run-form counterpart: [galaxy#24381](https://github.com/galaxyproject/galaxy/pull/24381) (draft, 26.1; fixes galaxy#24379).
 Reply to Scott: [issue_comment.md](issue_comment.md), posted 2026-10-22 (https://github.com/galaxyproject/foundry/issues/677#issuecomment-6354312209).
 Closed on GitHub 2026-10-22 with #702 still open; keep branch `issue-677-rename-syntax` until it merges.
-Upstream lint PRs (both merged 2026-10-22, unreleased): [gxformat2#271](https://github.com/galaxyproject/gxformat2/pull/271), [galaxy-tool-util-ts#195](https://github.com/jmchilton/galaxy-tool-util-ts/pull/195); records: [gxformat2 lint_untyped_params](../../../../gxformat2/branches/active/lint_untyped_params/index.md),
-[galaxy-tool-util-ts lint_untyped_params](../../../../galaxy-tool-util-ts/branches/active/lint_untyped_params/index.md).
+Upstream lint PRs (both merged 2026-10-22, unreleased): [gxformat2#271](https://github.com/galaxyproject/gxformat2/pull/271), [galaxy-tool-util-ts#195](https://github.com/jmchilton/galaxy-tool-util-ts/pull/195); records: [gxformat2 lint_untyped_params](../../../../gxformat2/branches/merged/lint_untyped_params/index.md),
+[galaxy-tool-util-ts lint_untyped_params](../../../../galaxy-tool-util-ts/branches/merged/lint_untyped_params/index.md).
 Planemo runtime side: https://github.com/galaxyproject/planemo/issues/1750 (send `<DEPRECATED_PARAMETER_UNSET>` for informal params + warn).
 
 Fix placement: `gxformat2-schema` paragraph, but only 2 casts package that note (cwl/nextflow template),

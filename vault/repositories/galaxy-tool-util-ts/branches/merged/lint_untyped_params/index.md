@@ -1,9 +1,8 @@
 # lint_untyped_params
 
-Status: pushed to `origin` (jmchilton), commits `46afdbe4`, `6275d85b`; PR [#195](https://github.com/jmchilton/galaxy-tool-util-ts/pull/195) opened 2026-10-22. Base: `origin/main` `022bc661`.
-Worktree: `~/projects/worktrees/galaxy-tool-util-ts/branch/lint_untyped_params`.
+Status: merged as [#195](https://github.com/jmchilton/galaxy-tool-util-ts/pull/195) 2026-10-22. Commits `46afdbe4`, `6275d85b`. Base: `origin/main` `022bc661`.
 
-[PR description](pr_description.md) · Python twin: [gxformat2 lint_untyped_params](../../../../gxformat2/branches/active/lint_untyped_params/index.md) · Origin: [foundry#677](../../../../foundry/issues/wip/677/index.md)
+[PR description](pr_description.md) · Python twin: [gxformat2 lint_untyped_params](../../../../gxformat2/branches/merged/lint_untyped_params/index.md) · Origin: [foundry#677](../../../../foundry/issues/closed/677/index.md)
 
 TS port of the gxformat2 change, with identical messages. Includes a patch changeset for `@galaxy-tool-util/schema`.
 
