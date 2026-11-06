@@ -9,7 +9,7 @@ wf.gxwf.yml_0: failed
 
 The reason is `Parameter 'index': requires a value, but no legal values defined`. It appears once in the run's output, as a Galaxy server log line among hundreds. `out.json` and `out.html` don't contain it. The job record in `out.json` has `command_line: null`, empty `stderr` and `stdout`, and `job_messages: null`, so a reader of the structured report sees an errored job and nothing else.
 
-Galaxy does record the reason. `JobWrapper.fail()` sets `dataset.info = message` on each output, which the API serves as `misc_info`.
+Galaxy does record the reason. `JobWrapper.fail()` sets `job.info` and `dataset.info` on each output, which the API serves as `misc_info`. After this run the database held the message in both `job.info` and `history_dataset_association.info`.
 
 Reproduced on planemo 0.75.47 with a managed Galaxy `release_26.1`, using a workflow whose select reads a data table with no row, so a missing data table is the easy way to hit this. Any `ParameterValueError` during job preparation should behave the same.
 

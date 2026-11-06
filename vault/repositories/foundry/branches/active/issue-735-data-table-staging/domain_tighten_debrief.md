@@ -1,6 +1,6 @@
 # Domain review tighten
 
-Run via claude-opus-5-5 at John's request, against [DOMAIN_REVIEW.md](../../../../../agents/wf_foundry/reviewers/DOMAIN_REVIEW.md) and their comment on the `data-table values have rows` case. Commit `5af44607`.
+Run via claude-opus-5-5 at John's request, against [DOMAIN_REVIEW.md](../../../../../agents/wf_foundry/reviewers/DOMAIN_REVIEW.md) and their comment on the `data-table values have rows` case.
 
 ## Applied
 
@@ -12,7 +12,7 @@ Run via claude-opus-5-5 at John's request, against [DOMAIN_REVIEW.md](../../../.
 
 ## Corrected
 
-"Only the Galaxy log gives the reason" was wrong. `JobWrapper.fail()` sets `dataset.info`, served as `misc_info` (source, `release_26.1`). Red probe rerun 2026-11-06: reason in the log, absent from `out.json` and `out.html`, and the job record has no reason field. `misc_info` not read from a live server. Proposal: [upstream_planemo_failed_job_reason.md](upstream_planemo_failed_job_reason.md).
+"Only the Galaxy log gives the reason" was wrong. Red probe rerun 2026-11-06: reason in the log and in the database's `job.info` and `history_dataset_association.info`, absent from `out.json` and `out.html`, and the job record has no reason field. The API's `misc_info` is the HDA `info` per source (`_remap_from("info")`), not read from a live response. Proposal: [upstream_planemo_failed_job_reason.md](upstream_planemo_failed_job_reason.md).
 
 ## Row value mismatch
 

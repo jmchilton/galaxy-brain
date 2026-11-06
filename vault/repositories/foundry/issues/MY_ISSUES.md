@@ -81,6 +81,7 @@ None yet.
 - [#254](https://github.com/galaxyproject/foundry/issues/254) — Generated STATUS page — what exists, last-touched (fun, not urgent); next: implement and open a PR. [notes](queued/254/index.md)
 - (mvp) [#468](https://github.com/galaxyproject/foundry/issues/468) — author-galaxy-tool-wrapper: no validation step, no GalaxyUserTool schema, and the bundled prompt contradict…; next: implement and open a PR. [notes](queued/468/index.md)
 - (mvp) (large) [#531](https://github.com/galaxyproject/foundry/issues/531) — Prove the IWC maturation pipeline with runnable fixtures and a .ga entry case; next: implement and open a PR. [notes](queued/531/index.md)
+- [#751](https://github.com/galaxyproject/foundry/issues/751) — Abstract find-test-data and implement-galaxy-workflow-test scenarios name no real fixture; next: implement and open a PR. [notes](queued/751/index.md)
 
 ## Queued to research (`queued_research`)
 
@@ -101,7 +102,6 @@ None yet.
 
 ## Untriaged (`untriaged`)
 
-- [#751](https://github.com/galaxyproject/foundry/issues/751) — Bind abstract find-test-data and implement-galaxy-workflow-test scenarios to real fixtures
 - [#552](https://github.com/galaxyproject/foundry/issues/552) — advance-galaxy-draft-step's built-in/stock version branch is circular
 - [#553](https://github.com/galaxyproject/foundry/issues/553) — No reachable route serves a Tool Shed wrapper's raw XML at a pinned changeset
 - [#562](https://github.com/galaxyproject/foundry/issues/562) — Sandbox Support - agent-safehouse

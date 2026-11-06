@@ -9,11 +9,11 @@ pr: 749
 
 ## Status
 
-Tightened at `5af44607` after John's review comment; worktree `~/projects/worktrees/foundry/branch/issue-735-data-table-staging`. Refs [#735](../../../issues/wip/735/index.md).
+Tightened at `6a679813` after John's review comment; worktree `~/projects/worktrees/foundry/branch/issue-735-data-table-staging`. Refs [#735](../../../issues/wip/735/index.md).
 
 PR [#749](https://github.com/galaxyproject/foundry/pull/749) is open, not draft; the reply to John's comment and the corrected description in [pr_description.md](pr_description.md) aren't posted.
 
-Local gate green except `check-vendored` (upstream checkout drift, outside the branch); CI on `5af44607` not yet read.
+Local gate green except `check-vendored` (upstream checkout drift, outside the branch); CI on `6a679813` not yet read.
 
 ## Records
 
