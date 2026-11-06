@@ -57,7 +57,7 @@ gxui gains `history-resume-paused` and `datasets-purge-deleted`. 60 commits; tip
 
 gxui gains `dataset-rename`, `dataset-unhide`, `history-undelete`, `history-filter` and `upload-remote --path`. 66 commits; tip `7e323178dc0`.
 
-**Extracted 2026-10-23:** batch 7's six commits plus `14d970513f5` (remote file search) and `073889a2872` (hide/unhide) → [`selenium_history_filters_ftp_notice`](../selenium_history_filters_ftp_notice/index.md), stacked on `selenium_delete_items_dataset_privacy`. On restack, drop all eight by subject. With the earlier extractions, 14 commits now wait to be dropped.
+**Extracted 2026-10-23:** batch 7's six commits plus `14d970513f5` (remote file search) and `073889a2872` (hide/unhide) → [`selenium_history_filters_ftp_notice`](../../merged/selenium_history_filters_ftp_notice/index.md), stacked on `selenium_delete_items_dataset_privacy`. On restack, drop all eight by subject. With the earlier extractions, 14 commits now wait to be dropped.
 - That branch is hardened and was re-scoped. It keeps the helper names `history_panel_filter`, `history_panel_confirm_selected_operation`, `history_panel_undelete_selected`, `history_panel_hide_selected` and `open_remote_folder`, so gxui's verbs bind unchanged.
 - `history_panel_filter_text` (`32e12d33af7`, which stays here) should read `components.history_panel.search`. `FtpUploadHelp` now takes a `uri` prop.
 
@@ -69,7 +69,7 @@ gxui gains `dataset-rename`, `dataset-unhide`, `history-undelete`, `history-filt
 
 **Then (FAQ loop batch 11, 2026-10-24):** `316dbcf7610` tests importing another user's shared history (`navigate_to_history_view`, `history_view_import`). `4dc3afa5d26` tests purging all histories from the list (`histories_purge_all`). gxui: `history-import`, `histories-purge-all`, `history-export`. 72 commits; tip `8408408ab05`.
 
-**Extracted 2026-10-24:** `316dbcf7610` and `4dc3afa5d26` → [`selenium_history_import_purge`](../selenium_history_import_purge/index.md) (hardened, re-scoped). On restack, drop both by subject and rebind gxui `history-import` to the top-level `copy_history_modal` (replaces `history_view.copy_modal`; `history_view_import` is otherwise the same).
+**Extracted 2026-10-24:** `316dbcf7610` and `4dc3afa5d26` → [`selenium_history_import_purge`](../../merged/selenium_history_import_purge/index.md) (hardened, re-scoped). On restack, drop both by subject and rebind gxui `history-import` to the top-level `copy_history_modal` (replaces `history_view.copy_modal`; `history_view_import` is otherwise the same).
 
 **Then (FAQ loop batch 12, 2026-10-24):** `8b84ce48e0f` tests switching histories from the history panel's Switch to history modal (`history_panel_switch_to`). gxui: `history-switch` now uses the modal; new `history-multiview`, `histories-delete`, `histories-restore`. 73 commits; tip `b6077811fd5`. Extraction restack above not yet done.
 

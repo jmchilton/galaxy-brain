@@ -13,7 +13,7 @@ documents:
   - path: vault/research/Component - Galaxy UI Buttons and Tooltips.md
     why: Download is a GButton, which is `aria-disabled` only; Selenium and Playwright disagree on `is_enabled()`, and `:not([aria-disabled])` is the enabled-wait pattern. Also prefer data-title/data-description over title.
     load_when: Choosing the button selector or waiting for an enabled button.
-  - path: vault/repositories/galaxy/branches/active/selenium_history_datatype_citations/index.md
+  - path: vault/repositories/galaxy/branches/merged/selenium_history_datatype_citations/index.md
     why: Prior Selenium test branch that adds a `data-description` hook plus a navigation.yml component and helper for a UI action.
     load_when: Following the established pattern for the hook and selector.
   - path: vault/repositories/galaxy/branches/merged/selenium_multiview_copy/index.md

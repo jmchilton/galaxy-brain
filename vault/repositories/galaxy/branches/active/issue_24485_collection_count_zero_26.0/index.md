@@ -26,3 +26,7 @@ Fixes [#24485](https://github.com/galaxyproject/galaxy/issues/24485). Issue reco
 - Scope as implemented (scope eval); Codex no findings.
 
 [PR description](pr_description.md) · [Titles](pr_titles.md) · [Tags](pr_tags.md) · [Polish debrief](polish_debrief.md) · [Implementation debrief](implementation_debrief.md) · [Scope evaluation](scope_evaluation.md) · [Test challenges](test_challenges_debrief.md) · [Codex review](codex_review.md) · [Baseline refactor](baseline_refactor.md)
+
+## CI Diagnosis (`8eb7779ec8a`, 2026-11-06)
+
+Unclear, likely unrelated: 6 Selenium library tests (`has_n_items() missing driver`), far from `verify/interactor.py`; not confirmed on base.

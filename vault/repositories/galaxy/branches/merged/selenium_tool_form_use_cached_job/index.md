@@ -21,7 +21,7 @@ Fork CI pending on `f8d966c2316` (was green on `f62f22acedf`); screenshot hosted
 
 Add a missing E2E test (missing tests are bugs, so `release_26.2`): the tool form's "Attempt to re-use jobs with identical parameters?" switch. Nothing on `release_26.2` drove it from the UI.
 
-Pulled out of [`galaxy_ui_driver`](../galaxy_ui_driver/index.md) commit `fff4be834ab` "Test the tool form's re-use equivalent jobs switch" (FAQ batch 14, `re_use_equivalent_jobs`). Ported off `tool_form_fill` (dev-only, #24331) to `tool_form_select_data`; the switch is clicked through a new `tool_form.parameter_switch_label` target instead of `_set_boolean_value`'s JS click. On restack, drop the source commit by subject and keep this branch's helper. gxui `tool-run --reuse` stays on `galaxy_ui_driver`.
+Pulled out of [`galaxy_ui_driver`](../../active/galaxy_ui_driver/index.md) commit `fff4be834ab` "Test the tool form's re-use equivalent jobs switch" (FAQ batch 14, `re_use_equivalent_jobs`). Ported off `tool_form_fill` (dev-only, #24331) to `tool_form_select_data`; the switch is clicked through a new `tool_form.parameter_switch_label` target instead of `_set_boolean_value`'s JS click. On restack, drop the source commit by subject and keep this branch's helper. gxui `tool-run --reuse` stays on `galaxy_ui_driver`.
 
 ## Worktree
 

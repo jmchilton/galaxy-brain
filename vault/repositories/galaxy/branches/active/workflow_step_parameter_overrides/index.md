@@ -27,3 +27,7 @@ Fork CI is pending on the first push.
 
 - **Extractable API series.** The bottom 5 commits are the baseline tests, a refactor and 3 API commits. They can be extracted onto `dev`, and are cherry-picked as `jmchilton/workflow_step_parameter_overrides_api` (`0d5448ef3c8`, on `dev` `38dc259318c`). [Open API PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:workflow_step_parameter_overrides_api?expand=1).
 - **Alt.** [original_scope](alts/original_scope.md) is the branch before the re-scope.
+
+## CI Diagnosis (`0c57368d1d5`, 2026-11-06)
+
+Unrelated: `Client Unit Testing` `FormOptionalText.test.js` red, not from this branch. Unrelated (on base): `Test Galaxy packages` mypy `kombu` `Queue` error. Unrelated by location, not seen on base: `test_find_anaconda_download_url`, `trimmer_tab_delimited.dat` tool test, `test_admin_can_update_permissions`.

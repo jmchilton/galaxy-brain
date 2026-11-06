@@ -38,3 +38,7 @@ Current fork head `05e0c26b297a743b69ff14401ab9a535cd11e858` has passing Integra
 ## Re-harden — 2026-10-28
 
 Re-hardened READY, scope keep. Baseline refactor commit split out ahead of fix; tree identical to `05e0c26b297`. New head `1b94de12b96` pushed to jmchilton; fresh CI pending. Moved to `branches_implemented_needs_ci`. See [debrief](implementation_debrief.md).
+
+## CI Diagnosis (`d9a8abb4ca9`, 2026-11-06)
+
+Unrelated: `test_trs_import` timeout in a job whose failed step is client cache restore; no Pulsar or container test failures.

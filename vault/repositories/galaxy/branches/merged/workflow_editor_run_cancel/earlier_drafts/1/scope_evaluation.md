@@ -4,7 +4,7 @@
 
 The branch is about 60 lines, so there is no decomposition section. It is under the 100-line threshold.
 
-Reviewed `65132d40dac..workflow_editor_run_cancel` (head `2645a2f7476`, 4 commits: 4b, 7h, 7j, test). Inputs: the branch notes (initial, test challenges, polish, codex, thermo, baseline), the [upstreaming plan](../../../../../projects/playwright/GALAXY_UI_DRIVER_UPSTREAM.md), and the sibling branches `workflow_open_exact_title` and `workflow_editor_second_subworkflow`.
+Reviewed `65132d40dac..workflow_editor_run_cancel` (head `2645a2f7476`, 4 commits: 4b, 7h, 7j, test). Inputs: the branch notes (initial, test challenges, polish, codex, thermo, baseline), the [upstreaming plan](../../active/../../../../projects/playwright/GALAXY_UI_DRIVER_UPSTREAM.md), and the sibling branches `workflow_open_exact_title` and `workflow_editor_second_subworkflow`.
 
 ## Scope items raised by earlier reviews
 

@@ -25,7 +25,7 @@ Original one-commit scope kept as [an alt](alts/original_scope.md).
 
 Pulled out of [`galaxy_ui_driver`](../galaxy_ui_driver/index.md) (FAQ-loop commit "Test nesting a list with Apply rules from the rule builder menus") per [the upstreaming plan](../../../../../projects/playwright/GALAXY_UI_DRIVER_UPSTREAM.md). On 26.2 it uses `tool_set_value(..., expected_type="data_collection")` in place of dev-only `tool_form_fill`. On restack onto a 26.2 that has this branch, drop the commit from `galaxy_ui_driver`.
 
-`history_wait_for_new_collection` is a byte-identical copy of the one in [`selenium_collection_build_convert`](../selenium_collection_build_convert/index.md); the branches merge cleanly in either order (`git merge-tree`). Whichever lands second carries no net change for it.
+`history_wait_for_new_collection` is a byte-identical copy of the one in [`selenium_collection_build_convert`](../../merged/selenium_collection_build_convert/index.md); the branches merge cleanly in either order (`git merge-tree`). Whichever lands second carries no net change for it.
 
 ## Worktree
 

@@ -47,7 +47,7 @@ All of `galaxy_ui_driver`'s FAQ-loop batch 7 except gxui, plus the prerequisites
 
 The original scope is kept as [an alt](alts/original_scope.md).
 
-The commits come from [`galaxy_ui_driver`](../galaxy_ui_driver/index.md): `77ebe032746`, `28eb02432cd`, `391dd82665d`, `de467e6fcb9`, `bcaec710b18` and `0cd9f75f9d1`, plus the prerequisites `14d970513f5` and `073889a2872`. When restacking, drop all eight by subject. `32e12d33af7` stays on `galaxy_ui_driver`; its `history_panel_filter_text` should switch to `components.history_panel.search`.
+The commits come from [`galaxy_ui_driver`](../../active/galaxy_ui_driver/index.md): `77ebe032746`, `28eb02432cd`, `391dd82665d`, `de467e6fcb9`, `bcaec710b18` and `0cd9f75f9d1`, plus the prerequisites `14d970513f5` and `073889a2872`. When restacking, drop all eight by subject. `32e12d33af7` stays on `galaxy_ui_driver`; its `history_panel_filter_text` should switch to `components.history_panel.search`.
 
 ## Worktree
 

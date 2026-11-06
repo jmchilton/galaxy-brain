@@ -1,3 +1,7 @@
+---
+upstream_base_branch: dev
+pr: 24038
+---
 # vitest_readability
 
 Status: `ci_wait` (2026-11-02) — restacked onto [`vitest_story_foundation`](../vitest_story_foundation/index.md); head `a54dfb1b450` pushed, new-head CI pending. Base: `dev`, via the foundation. Draft [PR #24038 — Rewrite Client Tests toward Readability](https://github.com/galaxyproject/galaxy/pull/24038).

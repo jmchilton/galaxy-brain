@@ -27,7 +27,7 @@ documents:
   - path: vault/repositories/galaxy/issues/queued/24305/proposal.md
     why: Duplicate output labels are accepted by the workflow API and an invocation's `outputs` dict then keeps one of them. This is the failure mode mode 2 has to flag.
     load_when: Keying mode 2 columns by output label; writing the duplicate-label test.
-  - path: vault/repositories/galaxy/branches/active/issue_24188_subworkflow_rename_expression_json/pr_description.md
+  - path: vault/repositories/galaxy/branches/merged/issue_24188_subworkflow_rename_expression_json/pr_description.md
     why: How `expression.json` datasets are read (`read_expression_json`, `replace_expression_json_dataset`), and that a mapped expression collection still renders as a repr (known gap).
     load_when: Implementing inline value cells for expression-tool outputs.
   - path: vault/research/Component - Workflow API.md

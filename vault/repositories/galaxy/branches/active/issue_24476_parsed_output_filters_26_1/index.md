@@ -1,4 +1,5 @@
 ---
+pr: 24483
 upstream_base_branch: release_26.1
 ---
 # Preserve parsed tool output filters
@@ -23,3 +24,7 @@ PR [#24483](https://github.com/galaxyproject/galaxy/pull/24483) undrafted 2026-1
 - [Implementation and hardening debrief](implementation_debrief.md)
 
 PR open approved by John via launch at `ee6cad444fb`.
+
+## CI Diagnosis (`ee6cad444fb`, 2026-11-06)
+
+Unrelated: `test_import_dataset_from_history` selection-dialog timeout (also seen on #24539 and #24347); change only touches tool_util outputs.

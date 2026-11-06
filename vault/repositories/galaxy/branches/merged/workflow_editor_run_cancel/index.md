@@ -17,7 +17,7 @@ New E2E test: run a workflow from the editor's Run activity, select a non-defaul
 
 Expanded scope: `workflow_run_setup_inputs` now really selects `type: File` inputs, plus a fixture key fix. Also a client fix: the editor no longer marks a loading workflow dirty, which was the source of the new test's cold-start flake. Original scope: alt `workflow_editor_run_cancel_alt_original_scope`.
 
-Pulled out of [`galaxy_ui_driver`](../galaxy_ui_driver/index.md) per [the upstreaming plan](../../../../../projects/playwright/GALAXY_UI_DRIVER_UPSTREAM.md). Once this merges, restack `galaxy_ui_driver` on it. The commits diverged, and the fixture key fix is needed there.
+Pulled out of [`galaxy_ui_driver`](../../active/galaxy_ui_driver/index.md) per [the upstreaming plan](../../active/../../../../projects/playwright/GALAXY_UI_DRIVER_UPSTREAM.md). Once this merges, restack `galaxy_ui_driver` on it. The commits diverged, and the fixture key fix is needed there.
 
 ## Rebases
 

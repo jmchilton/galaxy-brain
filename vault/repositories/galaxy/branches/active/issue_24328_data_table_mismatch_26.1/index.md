@@ -1,4 +1,5 @@
 ---
+pr: 24349
 upstream_base_branch: release_26.1
 ---
 # issue_24328_data_table_mismatch_26.1

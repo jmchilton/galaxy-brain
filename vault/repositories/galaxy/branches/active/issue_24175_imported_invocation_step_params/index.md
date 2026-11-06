@@ -53,3 +53,7 @@ Coordinator rebased onto #24178 @ `57bf3eebd77` (docs-only expansion D: schema d
 ## TICK — 2026-10-20
 
 Fork CI on current head: Client Unit Testing reds are the inherited controlled-checkbox failures (FormBoolean/FormCheck/FormOptionalText, "Expected input emission"), fixed on dev by #24198 (`form_checkbox_controlled_tests`, merged 2026-10-17), so they clear on the next rebase; unrelated. Playwright, Integration Selenium and startup jobs stopped at Restore client cache, so browser coverage never ran. Full reruns requested for Playwright and Integration Selenium; stays `branches_implemented_needs_ci`.
+
+## CI Diagnosis (`10eed573535`, 2026-11-06)
+
+Unrelated: `Client Unit Testing` `FormOptionalText.test.js` red, not from this branch. `macOS startup`/`first startup`: client cache restore failure (infra).

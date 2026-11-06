@@ -28,3 +28,7 @@ Rebased 2026-11-02 onto `release_26.2` `5b1a037ee0f`; head `5316486f068`. Confli
 - [Plan](plan.md) · [Tracking history](tracking_history.md) · [Scope evaluation](scope_evaluation.md) · [Re-scope debrief](implementation_rescope_debrief.md) · [Screenshots](screenshot_debrief.md) · earlier debriefs in `earlier_drafts/`.
 
 - [#24525](https://github.com/galaxyproject/galaxy/pull/24525) (guerler, sharing page → pages API) is independent: different `router.js` hunk, no shared files.
+
+## CI Diagnosis (`5316486f068`, 2026-11-06)
+
+Unrelated, not confirmed on base: `BioBlend Tests` `test_invoke_workflow_parameters_normalized`; PR is client-side.

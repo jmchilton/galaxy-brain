@@ -11,7 +11,7 @@ documents:
   - path: vault/repositories/galaxy/branches/merged/library_collection_selected_history_26.1/index.md
     why: Recent branch touching the same ListWizard / selection-to-builder flow (history-id handling); possible conflicts or reusable test helpers.
     load_when: Touching ListWizard.vue or the collectionBuilderItemsStore.
-  - path: vault/repositories/galaxy/branches/active/selenium_collection_build_convert/index.md
+  - path: vault/repositories/galaxy/branches/merged/selenium_collection_build_convert/index.md
     why: Recent Selenium additions to test_collection_builders.py and navigates_galaxy builder helpers; a selection-mode assertion should follow those conventions and may textually conflict.
     load_when: Writing the Selenium test.
   - path: vault/research/Component - E2E Tests - Writing.md

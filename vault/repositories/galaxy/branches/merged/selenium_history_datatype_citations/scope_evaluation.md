@@ -12,7 +12,7 @@ Reviewed `origin/release_26.2...selenium_history_datatype_citations` (head `50dc
 - `alts/original_scope.md`
 - both `subagents/` reviews
 - the first evaluation in `earlier_drafts/1/`
-- the [upstreaming plan](../../../../../projects/playwright/GALAXY_UI_DRIVER_UPSTREAM.md)
+- the [upstreaming plan](../../active/../../../../projects/playwright/GALAXY_UI_DRIVER_UPSTREAM.md)
 
 `index.md` is stale (head `adea322053b`, pre-re-scope names).
 

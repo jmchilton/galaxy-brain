@@ -19,7 +19,7 @@ E2E coverage for collection building and editing, framed as missing tests for 26
 4. `test_collection_builders.py::test_build_list_advanced_rename_element`: Advanced Build List > Flat List, renames an element. Adds `list_wizard.element_name`/`element_name_input` and `collection_builder_rename_element`.
 5. Fix: `SuitableConvertersTab.vue`'s Convert Collection button was always enabled (`selectedConverter == {}`); now disabled until a converter is selected. Red → green under Playwright.
 
-Pulled out of [`galaxy_ui_driver`](../galaxy_ui_driver/index.md) (FAQ-loop commits "Test building a list that keeps file extensions", "Test converting a collection's datatype from its edit view", "Test renaming an element in the advanced flat list builder") per [the upstreaming plan](../../../../../projects/playwright/GALAXY_UI_DRIVER_UPSTREAM.md). On restack onto a 26.2 that has this branch, drop all three from `galaxy_ui_driver` by subject. The convert commit's patch differs from gxui's, so patch-id matching won't drop it.
+Pulled out of [`galaxy_ui_driver`](../../active/galaxy_ui_driver/index.md) (FAQ-loop commits "Test building a list that keeps file extensions", "Test converting a collection's datatype from its edit view", "Test renaming an element in the advanced flat list builder") per [the upstreaming plan](../../active/../../../../projects/playwright/GALAXY_UI_DRIVER_UPSTREAM.md). On restack onto a 26.2 that has this branch, drop all three from `galaxy_ui_driver` by subject. The convert commit's patch differs from gxui's, so patch-id matching won't drop it.
 
 Touches `test_collection_edit.py` next to [`selenium_history_datatype_citations`](../selenium_history_datatype_citations/index.md); the two merge cleanly.
 

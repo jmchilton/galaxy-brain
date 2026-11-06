@@ -20,7 +20,7 @@ E2E coverage for three pages that had none, framed as missing tests for 26.2. Ba
 
 Red → green: every new test times out without its Vue hook and passes with it.
 
-Pulled out of [`galaxy_ui_driver`](../galaxy_ui_driver/index.md) (FAQ-loop commits "Test changing the data type of selected history items", "Test exporting a history's tool references") per [the upstreaming plan](../../../../../projects/playwright/GALAXY_UI_DRIVER_UPSTREAM.md).
+Pulled out of [`galaxy_ui_driver`](../../active/galaxy_ui_driver/index.md) (FAQ-loop commits "Test changing the data type of selected history items", "Test exporting a history's tool references") per [the upstreaming plan](../../active/../../../../projects/playwright/GALAXY_UI_DRIVER_UPSTREAM.md).
 - On restack onto a 26.2 that has this branch, drop both commits from `galaxy_ui_driver`.
 - gxui's `history-change-datatype` verb must then switch to `history_panel_change_selected("change data type", …)`.
 

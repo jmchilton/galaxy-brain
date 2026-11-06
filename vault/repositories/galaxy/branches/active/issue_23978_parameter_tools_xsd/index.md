@@ -1,3 +1,7 @@
+---
+upstream_base_branch: dev
+pr: 24302
+---
 # issue_23978_parameter_tools_xsd
 
 - [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_23978_parameter_tools_xsd?expand=1)

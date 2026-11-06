@@ -4,10 +4,10 @@ Little prior art in the vault. No note covers `lib/galaxy/workflow/modules.py` o
 
 ```yaml
 documents:
-  - path: vault/repositories/galaxy/branches/active/issue_23980_static_restriction_default/index.md
+  - path: vault/repositories/galaxy/branches/merged/issue_23980_static_restriction_default/index.md
     why: Parent-adjacent branch (PR #24140) in the same `InputParameterModule` code; this issue came out of its review. It touches run-form option selection, not the editor string.
     load_when: Checking what #24140 already changed so the two branches don't conflict, and for the standing decision that multiple text parameters are strictly typed.
-  - path: vault/repositories/galaxy/branches/active/issue_23980_static_restriction_default/scope_evaluation.md
+  - path: vault/repositories/galaxy/branches/merged/issue_23980_static_restriction_default/scope_evaluation.md
     why: Records why the `_parameter_option_def_to_tool_form_str` editor crash was split out into its own issue (this one).
     load_when: Scoping the fix.
   - path: vault/research/Component - Workflow Format (.ga).md

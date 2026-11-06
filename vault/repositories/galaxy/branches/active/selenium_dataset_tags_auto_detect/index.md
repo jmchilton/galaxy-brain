@@ -1,3 +1,7 @@
+---
+upstream_base_branch: release_26.2
+pr: 24347
+---
 # selenium_dataset_tags_auto_detect
 
 - [PR #24347](https://github.com/galaxyproject/galaxy/pull/24347)

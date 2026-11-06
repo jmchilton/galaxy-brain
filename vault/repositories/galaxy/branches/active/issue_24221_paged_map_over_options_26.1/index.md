@@ -1,3 +1,7 @@
+---
+upstream_base_branch: release_26.1
+pr: 24228
+---
 # issue_24221_paged_map_over_options_26.1
 
 - [#24228](https://github.com/galaxyproject/galaxy/pull/24228)
@@ -29,3 +33,7 @@ CI on `2ab8f4493c8` reds diagnosed unrelated 2026-11-01: runner disk quota/apt/P
 ## TICK — 2026-10-20
 
 PR CI on `84e4857d07a`: one red, Mulled Unit Tests `test_find_anaconda_download_url`, HTTP 503 from api.anaconda.org. Infra, unrelated. Failed job rerun ([run 39353865217](https://github.com/galaxyproject/galaxy/actions/runs/39353865217)); stays `ready`.
+
+## CI Diagnosis (`2ab8f4493c8`, 2026-11-06)
+
+Unrelated (on base): Playwright setup/launch reds and setup-step jobs. Unrelated: packages 3.10 disk quota.

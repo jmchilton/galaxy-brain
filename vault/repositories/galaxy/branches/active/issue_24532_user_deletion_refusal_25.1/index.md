@@ -11,7 +11,7 @@ upstream_base_branch: release_25.1
 
 Implemented and hardened READY for [#24532](https://github.com/galaxyproject/galaxy/issues/24532) at `551bc3a8e7f`; re-scoped once (alt `_alt_original_scope`). See [implementation_debrief.md](implementation_debrief.md).
 
-No PR yet; fork CI not checked.
+No PR yet; fork CI green at `551bc3a8e7f`.
 
 ## Base choice
 

@@ -1,3 +1,7 @@
+---
+upstream_base_branch: dev
+pr: 24300
+---
 # vitest_story_play
 
 - [PR #24300](https://github.com/galaxyproject/galaxy/pull/24300)

@@ -13,3 +13,7 @@ Implemented and hardened (READY); pushed to the fork at `85ca630bac6`.
 ## Decisions
 
 Targets `dev`: `release_26.2` has the low-contrast rule but not #24569's grey-500 `GFormInput` border that the fix falls back to.
+
+## CI Diagnosis (`85ca630bac6`, 2026-11-06)
+
+Unrelated (on base): `Test Galaxy packages` mypy `kombu` `Queue` error. `macOS startup`/`first startup`: client cache restore failure (infra). CSS-only change.

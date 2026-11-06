@@ -1,3 +1,7 @@
+---
+upstream_base_branch: release_26.1
+pr: 24211
+---
 # issue_24093_batch_element_labels_26.1
 
 Status: `ready` — PR [#24211](https://github.com/galaxyproject/galaxy/pull/24211), open, title "[26.1] Label every value of a batch data input in the tool form". mvdbeek re-reviewed on 2026-10-22, and his two perf commits were fast-forwarded in ([review response](review_response.md)). The reply was [posted](https://github.com/galaxyproject/galaxy/pull/24211#issuecomment-6346607763). Base: `release_26.1` (`b2b1e1deeee`). Head: `dffba2cc4b0`. CI on the new head is pending. Fork: `jmchilton/issue_24093_batch_element_labels_26.1`. Worktree: `~/projects/worktrees/galaxy/branch/issue_24093_batch_element_labels_26.1`.
@@ -19,3 +23,7 @@ Fixes [#24093](https://github.com/galaxyproject/galaxy/issues/24093): hidden col
 ## TICK — 2026-10-20
 
 John undrafted #24211. CI green (64 pass, 2 skipped), MERGEABLE/CLEAN. Moved to `ready`.
+
+## CI Diagnosis (`dffba2cc4b0`, 2026-11-06)
+
+Unrelated (on base): Playwright setup/launch reds and setup-step jobs.

@@ -4,7 +4,7 @@ Polished to head `f62f22acedf` (was `95e29931f78`); description, titles, tags wr
 
 - CI: fork run on `95e29931f78` still queued, no failures to inspect; superseded by the two pushes below.
 - Fixed unrelated hunk: the screenshot step's fixup had swapped two `UX_TRANSITION` sleeps in `test_tool_form.py`'s parameter-error test to `UX_RENDER` (5s→1s). Reverted, folded into the test commit.
-- Checklist ([GENERAL](../../../../../agents/_shared/gx_pr_checklists/GENERAL.md)): all agent items pass. Soft fix applied: `tool_form_set_switch`'s assert now names the switch and value (it lives outside a test module, so pytest doesn't rewrite it). Folded into the refactor commit.
+- Checklist ([GENERAL](../../active/../../../../agents/_shared/gx_pr_checklists/GENERAL.md)): all agent items pass. Soft fix applied: `tool_form_set_switch`'s assert now names the switch and value (it lives outside a test module, so pytest doesn't rewrite it). Folded into the refactor commit.
 - Strengthening: claims verified against code; wording added for the "is this testing the job cache?" and "does the harness change?" misreadings; "only through this switch" narrowed to the tool form (workflow run forms also send `use_cached_job`).
 - Check Galaxy: isort/black clean; mypy on changed files shows only the "untyped decorator" errors every test in the file has.
 

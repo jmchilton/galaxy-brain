@@ -2,7 +2,7 @@
 
 **Recommendation: keep the scope as implemented (scope B from the first evaluation). Make no further scope change. The modest expansion has already been taken. What remains is refactoring (the form-mode helper), sibling-owned work (the canvas wait), dev-targeted area work (`select_set_value`), or a latent issue no caller hits (hid prefix). None of it is a related bug that a reviewer would expect in this release PR. The open item is the fixture-key commit `bd15a4f667f`, which is a test-data decision for John, not a scope change.**
 
-Reviewed `65132d40dac..workflow_editor_run_cancel` (head `b1b0fd4a380`, 6 commits, +102/−21 across 5 files) against the current notes: re-harden thermo, codex, test challenges, polish, baseline, `subagents/rescope_review.md`, `implementation_rescope_debrief.md`, `alts/original_scope.md`, `earlier_drafts/1/scope_evaluation.md` and the [upstreaming plan](../../../../../projects/playwright/GALAXY_UI_DRIVER_UPSTREAM.md).
+Reviewed `65132d40dac..workflow_editor_run_cancel` (head `b1b0fd4a380`, 6 commits, +102/−21 across 5 files) against the current notes: re-harden thermo, codex, test challenges, polish, baseline, `subagents/rescope_review.md`, `implementation_rescope_debrief.md`, `alts/original_scope.md`, `earlier_drafts/1/scope_evaluation.md` and the [upstreaming plan](../../active/../../../../projects/playwright/GALAXY_UI_DRIVER_UPSTREAM.md).
 
 ## Possible Decompositions
 

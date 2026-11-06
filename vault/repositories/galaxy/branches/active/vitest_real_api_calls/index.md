@@ -67,3 +67,7 @@ All existing branches remain complete. No smaller review branches or PRs were cr
 Published `a277128d39aab00f29c99e5860ffe46afdd3b987` using the exact preceding-head lease. Restacked the existing 3 own commits onto rewritten readability, preserving their exact trees, messages and author/committer metadata.
 
 All five final source trees remain identical to their preceding heads. The full experiment remains on the existing branches; no domain branches or new PRs were created. [Helper colocation, verification and current commit links](../../../../../projects/just_jesting_around/history_reorganization/consumer_colocation_2026-10-20/README.md). Existing draft, CI and full-catalog accessibility holds remain.
+
+## CI Diagnosis (`7a9ca9d2920`, 2026-11-06)
+
+Unrelated (on base): `Test Galaxy packages` mypy `kombu` `Queue` error. Unrelated: release script job (`VERSION_MINOR` at ref master).

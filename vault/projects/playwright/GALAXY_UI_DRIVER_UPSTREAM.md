@@ -43,7 +43,7 @@ and red without each fix. Queued in `MY_BRANCHES.md`; no PRs yet.
 
 | Branch | Commits | Coverage added |
 |---|---|---|
-| [`workflow_editor_run_cancel`](../../repositories/galaxy/branches/active/workflow_editor_run_cancel/index.md) | 4b, 7h, 7j | run from the editor's Run activity, pick a non-default dataset in the simplified run form, cancel |
+| [`workflow_editor_run_cancel`](../../repositories/galaxy/branches/merged/workflow_editor_run_cancel/index.md) | 4b, 7h, 7j | run from the editor's Run activity, pick a non-default dataset in the simplified run form, cancel |
 | [`workflow_open_exact_title`](../../repositories/galaxy/branches/merged/workflow_open_exact_title/index.md) | 7c, 7g | open and run a workflow whose title prefixes a newer one's |
 | [`workflow_editor_second_subworkflow`](../../repositories/galaxy/branches/merged/workflow_editor_second_subworkflow/index.md) | 7d | insert two subworkflows from the editor's Workflows panel |
 
@@ -99,7 +99,7 @@ FAQ-loop commits ([HARDEN_AGAINST_FAQ.md](HARDEN_AGAINST_FAQ.md)) land below gxu
   datasets' data type from the Selection menu; adds a `data-description` on the modal, a
   `multi_operations.change_datatype_modal` component and `history_panel_change_datatype_of_selected`.
   Extracted with `424a8a9ec90` into
-  [`selenium_history_datatype_citations`](../../repositories/galaxy/branches/active/selenium_history_datatype_citations/index.md)
+  [`selenium_history_datatype_citations`](../../repositories/galaxy/branches/merged/selenium_history_datatype_citations/index.md)
   (`release_26.2`, 2026-10-21), widened to Change Database/Build through a shared `operation_modal` /
   `history_panel_change_selected`. On restack, drop both commits and point gxui's
   `history-change-datatype` verb at the new helper.
@@ -125,7 +125,7 @@ FAQ-loop commits ([HARDEN_AGAINST_FAQ.md](HARDEN_AGAINST_FAQ.md)) land below gxu
   `element_name_input` and `collection_builder_rename_element`. Pairs naturally with `2840bad41aa`.
   Green under Playwright only.
 - `2840bad41aa`, `ad16fdd6a66` and `42335f0f1d8` were extracted into
-  [`selenium_collection_build_convert`](../../repositories/galaxy/branches/active/selenium_collection_build_convert/index.md)
+  [`selenium_collection_build_convert`](../../repositories/galaxy/branches/merged/selenium_collection_build_convert/index.md)
   (`release_26.2`, 2026-10-21). It also adds a refactor commit and a fix for Convert Collection always
   being enabled. On restack, drop all three by subject; the convert commit's patch differs.
 - `bd01a6af21b`: coverage for `collections_force_mapping_over`. `test_tool_form.py` nests a list with
@@ -272,7 +272,7 @@ FAQ-loop commits ([HARDEN_AGAINST_FAQ.md](HARDEN_AGAINST_FAQ.md)) land below gxu
   and a `release_26.2` PR candidate.
 - Batch 7 (`77ebe032746`, `28eb02432cd`, `391dd82665d`, `de467e6fcb9`, `bcaec710b18`, `0cd9f75f9d1`)
   and the prerequisites `14d970513f5` and `073889a2872` were extracted together into
-  [`selenium_history_filters_ftp_notice`](../../repositories/galaxy/branches/active/selenium_history_filters_ftp_notice/index.md)
+  [`selenium_history_filters_ftp_notice`](../../repositories/galaxy/branches/merged/selenium_history_filters_ftp_notice/index.md)
   (2026-10-23). It is stacked on #24380 and goes onto `release_26.2` once that merges. It differs from
   the source commits:
   - Helpers that duplicate #24380's are dropped, the tests are rewritten in #24380's style, and the
