@@ -11,3 +11,7 @@ PR open against `release_26.2` (bgruening). Worktree: `/Users/jxc755/projects/wo
 ## Standing instructions
 
 - Scope and branch target are accepted; review technical correctness only.
+
+## Archived
+
+Merged 2026-11-06T14:06Z (GitHub state MERGED); tracking ended on merge.

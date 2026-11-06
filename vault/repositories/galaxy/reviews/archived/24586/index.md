@@ -9,3 +9,7 @@
 - Response: [initial_review_response.md](initial_review_response.md); actions: [initial_response_action.md](initial_response_action.md); checklist: [verified_findings_checklist.md](verified_findings_checklist.md)
 - Verified: [verified_review.md](verified_review.md) (one P2 + two P3s after trim, all fixed on `pr_24586_review_1`, pushed to jmchilton/galaxy); [review_1_branch_details.md](review_1_branch_details.md) (prev [review_0](review_0_branch_details.md)); [filtered_findings.md](filtered_findings.md)
 - Reports: [initial_review.md](initial_review.md), [test_challenges_review.md](test_challenges_review.md), [risks.md](risks.md), [learning_galaxy.md](learning_galaxy.md); agents: [initial_review_agents.md](initial_review_agents.md)
+
+## Archived
+
+Merged 2026-11-06T14:06Z (GitHub state MERGED); tracking ended on merge.
