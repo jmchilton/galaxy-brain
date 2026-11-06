@@ -9,11 +9,11 @@ upstream_base_branch: dev
 
 ## Status
 
-Polished and ready for John's final review (`branches_ready_for_final_review`) at `73352550f47`, with the same-workflow rule and the grid's expanded-row lineage line added after polish ([PR description](pr_description.md), [titles](pr_titles.md), [tags](pr_tags.md), [checklist](pr_checklist.md), [polish debrief](polish_debrief.md); [screenshots](screenshots/) with [index](screenshot_debrief.md)).
+Polished and ready for John's final review (`branches_ready_for_final_review`) at `d66dcdb412b`, with the same-workflow rule and the grid's expanded-row lineage line added after polish ([PR description](pr_description.md), [titles](pr_titles.md), [tags](pr_tags.md), [checklist](pr_checklist.md), [polish debrief](polish_debrief.md); [screenshots](screenshots/) with [index](screenshot_debrief.md)).
 
 No PR.
 
-Fork CI is pending on `73352550f47`. On `830d058c5be`, Python linting, OpenAPI linting, Database indexes, Unit w/postgres and workflow framework tests passed before newer pushes cancelled the rest.
+Fork CI is pending on `d66dcdb412b`. On `830d058c5be`, Python linting, OpenAPI linting, Database indexes, Unit w/postgres and workflow framework tests passed before newer pushes cancelled the rest.
 
 ## Decisions
 
@@ -21,7 +21,7 @@ Fork CI is pending on `73352550f47`. On `830d058c5be`, Python linting, OpenAPI l
 - Direct-lineage MVP: an indexed nullable self foreign key (`rerun_of_invocation_id`), source access validation, access-filtered source/latest direct-rerun links, both run forms, a card badge, and links in the grid's expanded row. Request exports remain independent; model-store imports discard lineage. No transitive grouping, edited-step metadata, or import remapping ([scope evaluation](scope_evaluation.md)).
 - 2026-11-04: John chose to rebase, run the missing hardening steps (baseline refactor, performance challenge, Codex review, check branch), then polish.
 - 2026-11-04: John decided a rerun's source must be an invocation of the same stored workflow (any version); a different workflow, including an identical copy, is rejected with 400 (`9a8bf84c5ab`). John asked for a PR description without hedging.
-- 2026-11-06: John decided the grid has no rerun hint on collapsed rows; lineage moves to a compact line in the expanded row, and full-page views keep their banners (`73352550f47`).
+- 2026-11-06: John decided the grid has no rerun hint on collapsed rows; lineage moves to a compact line in the expanded row, and full-page views keep their banners (`d66dcdb412b`).
 - Worktree: `~/projects/worktrees/galaxy/branch/issue_24174_invocation_rerun_lineage`.
 
 ## Notes
@@ -42,4 +42,4 @@ Fork CI is pending on `73352550f47`. On `830d058c5be`, Python linting, OpenAPI l
 - 2026-11-04 polish: regenerated screenshots, checklist (all pass), PR description, titles and tags. Strengthening added a differential test of the SQL access clause against `check_security` and split 400/404 invalid-source API tests (`9df72d8d97a`).
 - 2026-11-04 revision: same-workflow rule for rerun sources, with `test_workflow_invocation_rerun_same_workflow` (copy rejected, newer version accepted); access test now reruns the published original workflow. Description de-hedged.
 - 2026-11-04 revision: at John's request, the invocations grid's "Run type" text column became a header-less icon column before the workflow name (muted rerun icon with tooltip and screen-reader text, reruns only), via a new generic `icon` grid cell type (`cfe3e41cbd2`, E2E fix `a6e2ed29d04`). GridList vitest, vue-tsc and the lineage E2E pass; grid screenshot recaptured.
-- 2026-11-06 revision: dropped those two commits and replaced the "Run type" column with a compact lineage line in the expanded row, via a `compact` prop on `WorkflowInvocationLineage` (`73352550f47`). Grid and invocation state vitest (71), vue-tsc and the lineage E2E pass; grid screenshot retaken. Force-pushed. The worktree was on pre-rebase history, so it moved to the pushed line and the old commits stay on local branch `issue_24174_pre_rebase_backup_fd978a7980b`.
+- 2026-11-06 revision: dropped those two commits and replaced the "Run type" column with a compact lineage line in the expanded row, via a `compact` prop on `WorkflowInvocationLineage` (`d66dcdb412b`). Grid and invocation state vitest (71), vue-tsc and the lineage E2E pass; grid screenshot retaken. Force-pushed. The worktree was on pre-rebase history, so it moved to the pushed line and the old commits stay on local branch `issue_24174_pre_rebase_backup_fd978a7980b`.

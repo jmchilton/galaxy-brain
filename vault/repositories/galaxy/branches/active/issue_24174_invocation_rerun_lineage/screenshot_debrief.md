@@ -2,7 +2,7 @@ Run via claude-opus-5-5 at high effort.
 
 Screenshots successfully obtained.
 
-2026-11-06 update on head `73352550f47`: the grid column was replaced by a compact line in the expanded row, so only the grid capture was retaken, as `workflow_rerun_lineage_grid_expanded.png` from a passing lineage E2E run (49.75 seconds). I opened it and checked it: row J is expanded and shows both links under the "Last updated" line, with the graph loaded. The Invoked column is still narrow and the Rerun column is clipped at the pane edge. The other captures below come from the earlier run, and the pages they show didn't change.
+2026-11-06 update on head `d66dcdb412b`: the grid column was replaced by a compact line in the expanded row, so only the grid capture was retaken, as `workflow_rerun_lineage_grid_expanded.png` from a passing lineage E2E run (41.51 seconds). I opened it and checked it: row J is expanded and shows both links under the "Last updated" line, with the graph loaded. The Invoked column is still narrow and the Rerun column is clipped at the pane edge. The other captures below come from the earlier run, and the pages they show didn't change.
 
 Earlier run, on head `a6e2ed29d04`: ran `lib/galaxy_test/selenium/test_workflow_rerun.py::TestWorkflowRun::test_workflow_rerun_lineage` against this worktree's own Galaxy and Vite servers, using headless Playwright, timeout multiplier 2 and screenshot capture on. Result: **1 passed** in **61.55 seconds**, with one unrelated warning. The servers were stopped afterward.
 
