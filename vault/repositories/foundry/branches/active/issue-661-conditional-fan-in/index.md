@@ -10,11 +10,11 @@ pr: 755
 
 ## Status
 
-Branch on `jmchilton`, merged with `origin/main` at `195b4a6a`, head `5f1f34db`, reviewed and fixed. Worktree `~/projects/worktrees/foundry/branch/issue-661-conditional-fan-in`.
+Branch on `jmchilton`, rebased onto `origin/main` at `ae8beb6d`, head `13f00121`, reviewed and fixed. Worktree `~/projects/worktrees/foundry/branch/issue-661-conditional-fan-in`.
 
-Draft PR [#755](https://github.com/galaxyproject/foundry/pull/755), mergeable; body is [pr_description.md](pr_description.md).
+PR [#755](https://github.com/galaxyproject/foundry/pull/755) is open, not draft; body is [pr_description.md](pr_description.md).
 
-Local `make -k check` green at `5f1f34db` except `check-vendored` (machine-only). CI at `5f1f34db`: green, including `planemo`.
+Local `make -k check` green at `13f00121` except `check-vendored` (machine-only). CI at `13f00121`: running.
 
 ## Supporting files
 

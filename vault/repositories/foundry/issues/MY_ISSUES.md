@@ -105,7 +105,6 @@ None yet.
 - [#553](https://github.com/galaxyproject/foundry/issues/553) — No reachable route serves a Tool Shed wrapper's raw XML at a pinned changeset
 - [#562](https://github.com/galaxyproject/foundry/issues/562) — Sandbox Support - agent-safehouse
 - [#566](https://github.com/galaxyproject/foundry/issues/566) — Needs better guidance for importing to a real galaxy instance
-- [#571](https://github.com/galaxyproject/foundry/issues/571) — `gxformat2-schema` documents nested `state` but not nested `in:` key addressing
 - [#572](https://github.com/galaxyproject/foundry/issues/572) — ToolShed-fetch decoder rejects a real IUC wrapper's filtered list-collection output
 - [#575](https://github.com/galaxyproject/foundry/issues/575) — `paper-to-test-data` has no scoping or upstream-fixture guidance, and is the weaker half of its own fallback chain
 - [#576](https://github.com/galaxyproject/foundry/issues/576) — Test-plan schema requires a file-shaped `fixture` for plain scalar workflow parameters
