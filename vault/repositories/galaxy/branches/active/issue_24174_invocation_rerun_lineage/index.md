@@ -1,19 +1,20 @@
 ---
 upstream_base_branch: dev
+pr: 24786
 ---
 
 # Invocation rerun lineage (#24174)
 
-- [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_24174_invocation_rerun_lineage?expand=1)
+- [PR #24786](https://github.com/galaxyproject/galaxy/pull/24786)
 - [View on GitHub](https://github.com/jmchilton/galaxy/tree/issue_24174_invocation_rerun_lineage)
 
 ## Status
 
-Polished and ready for John's final review (`branches_ready_for_final_review`) at `683e2f05365`, with the same-workflow rule, the grid's expanded-row lineage line and differential-review test removals added after polish ([PR description](pr_description.md), [titles](pr_titles.md), [tags](pr_tags.md), [checklist](pr_checklist.md), [polish debrief](polish_debrief.md); [screenshots](screenshots/) with [index](screenshot_debrief.md)).
+Reviewed by John at `683e2f05365` and waiting for CI (`ci_wait`), with the same-workflow rule, the grid's expanded-row lineage line and differential-review test removals added after polish ([PR description](pr_description.md), [titles](pr_titles.md), [tags](pr_tags.md), [checklist](pr_checklist.md), [polish debrief](polish_debrief.md); [screenshots](screenshots/) with [index](screenshot_debrief.md)).
 
-No PR.
+Draft PR [#24786](https://github.com/galaxyproject/galaxy/pull/24786), at John's request, until CI finishes green.
 
-Fork CI is pending on `683e2f05365`. On `830d058c5be`, Python linting, OpenAPI linting, Database indexes, Unit w/postgres and workflow framework tests passed before newer pushes cancelled the rest.
+Fork CI is still running on `683e2f05365`.
 
 ## Decisions
 

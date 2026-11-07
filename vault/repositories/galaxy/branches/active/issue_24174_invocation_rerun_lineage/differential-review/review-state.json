@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "kind": "differential-review-state",
-  "updatedAt": "2026-11-07T14:59:37.961Z",
+  "updatedAt": "2026-11-07T15:06:49.825Z",
   "hunks": {
     "h1:7085bc843f9b019d": {
       "snapshotId": "20261107T145815Z-revision-d66dcdb412bd",
@@ -269,5 +269,90 @@
       "reviewedAt": "2026-11-07T14:59:37.961Z"
     }
   },
-  "commits": {}
+  "commits": {
+    "f4387cfbf9708a710dd6b8789ed52134abe6de84": {
+      "sha": "9bf74e3ee400d12f1636d43f608396a34b039f25",
+      "subject": "Serialize workflow invocations in one batch path",
+      "snapshotId": "20261107T150205Z-revision-683e2f053653",
+      "signedOffAt": "2026-11-07T15:06:43.424Z"
+    },
+    "49c64bbe6a0cea40acbec37862c1001b1c0536fb": {
+      "sha": "d4c7eaf9877054e0c484c9b6f523a4a734bd15a2",
+      "subject": "Persist workflow invocation rerun lineage with indexed source links",
+      "snapshotId": "20261107T150205Z-revision-683e2f053653",
+      "signedOffAt": "2026-11-07T15:06:43.710Z"
+    },
+    "fb84b1a879ca3b68b96c80f5dfeba554d01cb5ab": {
+      "sha": "62890f1a08a3479a5e9c6fb57ceaf83991c0f907",
+      "subject": "Show invocation rerun lineage and submit sources from both run forms",
+      "snapshotId": "20261107T150205Z-revision-683e2f053653",
+      "signedOffAt": "2026-11-07T15:06:44.079Z"
+    },
+    "0ad30c4682d82cd28914baaa9ca26b89d3b63044": {
+      "sha": "d153a49262331e6495d58369bf2a45bfc9fdb7b9",
+      "subject": "Require lineage serializer context and strengthen end-to-end coverage",
+      "snapshotId": "20261107T150205Z-revision-683e2f053653",
+      "signedOffAt": "2026-11-07T15:06:44.405Z"
+    },
+    "ae947de6f8cce3240dcd4ea014f135839e331164": {
+      "sha": "61be12057a137fd7db9677d6c55aff72ff5df478",
+      "subject": "Check presence of blank original invocation lineage grid cell",
+      "snapshotId": "20261107T150205Z-revision-683e2f053653",
+      "signedOffAt": "2026-11-07T15:06:44.774Z"
+    },
+    "048fe2643f07495d17f77758f0ea78b1a64bac9f": {
+      "sha": "f3f0afeb5197868a9f53f9be5a3f7585b42733fa",
+      "subject": "Show invocation rerun markers in the grid screenshot",
+      "snapshotId": "20261107T150205Z-revision-683e2f053653",
+      "signedOffAt": "2026-11-07T15:06:45.148Z"
+    },
+    "c7ce8e6c5710348aeeda859386a0d26a11b47522": {
+      "sha": "8e4bfa23c32bdb9e39e015ca297ca3b18242c4b4",
+      "subject": "Reuse populator helpers in invocation lineage API tests",
+      "snapshotId": "20261107T150205Z-revision-683e2f053653",
+      "signedOffAt": "2026-11-07T15:06:45.485Z"
+    },
+    "7576bff13132acf087355d145f0a037c4040b429": {
+      "sha": "fc3db18687fd9da6b301c77dd221528488cb973e",
+      "subject": "Fix invocation lineage migration and regression test typing",
+      "snapshotId": "20261107T150205Z-revision-683e2f053653",
+      "signedOffAt": "2026-11-07T15:06:46.652Z"
+    },
+    "004535271f380d280d80abce2b7a5c62b0c60e9c": {
+      "sha": "a16df27f2a7dc197c4afa93a598f450fd51970ac",
+      "subject": "Resolve invocation rerun lineage in two queries per batch",
+      "snapshotId": "20261107T150205Z-revision-683e2f053653",
+      "signedOffAt": "2026-11-07T15:06:47.282Z"
+    },
+    "764c22d3c979984f54787e15a7d5326aca5e6bcf": {
+      "sha": "830d058c5be930715e169fc3021c34ee14d37f43",
+      "subject": "Fix typing in batched invocation lineage resolution and its tests",
+      "snapshotId": "20261107T150205Z-revision-683e2f053653",
+      "signedOffAt": "2026-11-07T15:06:47.898Z"
+    },
+    "a124e9357cc79159002abad826dc10b80ac22b71": {
+      "sha": "9df72d8d97acf0b1d1ef2caabe82aa52bf044fc6",
+      "subject": "Test lineage access clause against check_security and split invalid sources",
+      "snapshotId": "20261107T150205Z-revision-683e2f053653",
+      "signedOffAt": "2026-11-07T15:06:48.508Z"
+    },
+    "4e71290eb8dbaf00310a504edd5a5a526f2aaaad": {
+      "sha": "9a8bf84c5abd2ab24c24e049663917b69ef4197d",
+      "subject": "Require a rerun source to be an invocation of the same workflow",
+      "snapshotId": "20261107T150205Z-revision-683e2f053653",
+      "signedOffAt": "2026-11-07T15:06:48.791Z"
+    },
+    "988cef07a57ea6c74ac6d1f841e9ff509806ae92": {
+      "sha": "d66dcdb412bda6f3ffdd5b81a4a3226af091e2a2",
+      "subject": "Show rerun lineage in the invocations grid's expanded row",
+      "snapshotId": "20261107T150205Z-revision-683e2f053653",
+      "signedOffAt": "2026-11-07T15:06:49.425Z"
+    },
+    "0a9e55e2433efa2d90cb99fe1a74003e65349fad": {
+      "sha": "683e2f053653ce0521114b7dfea2aef7c5ea259b",
+      "subject": "Drop invocation lineage and migration unit tests",
+      "snapshotId": "20261107T150205Z-revision-683e2f053653",
+      "signedOffAt": "2026-11-07T15:06:49.825Z"
+    }
+  }
 }

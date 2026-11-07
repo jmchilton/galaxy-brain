@@ -23,6 +23,6 @@
   "createdAt": "2026-11-07T15:00:28.104Z",
   "schemaVersion": 1,
   "kind": "differential-review-thread",
-  "status": "open",
-  "resolvedAt": null
+  "status": "resolved",
+  "resolvedAt": "2026-11-07T15:06:53.524Z"
 }
