@@ -74,7 +74,7 @@ status: recommended
 ## Respond to Review (confirmatory)
 
 when: whenever
-what: as above, for reviews from anyone else (not jmchilton, not bots).
+what: as above, for reviews from anyone else (not jmchilton, not bots). A push after the review doesn't count as an answer when the reviewer's points have a drafted reply that is still unposted (see Post Drafted Review Replies).
 
 Suggest:
 
@@ -85,6 +85,25 @@ link: https://github.com/galaxyproject/galaxy/pull/{n}
 record: galaxy/branches/{name}
 profile: Opus (low)
 description: 💬 {description}
+status: recommended
+```
+
+## Post Drafted Review Replies
+
+when: whenever
+what: PRs in `MY_BRANCHES.md` whose record has a drafted reply (`review_pushback_*.md`, `review_response.md`) that isn't posted on the PR yet.
+
+`file` is the draft's name; `description` is the branch's queue line.
+
+Suggest:
+
+```
+prompt: Show me the drafted reply in {file} for galaxyproject/galaxy#{n} (branch {name}). Post it with the agent marker per ../_shared/AGENT_MARKERS.md once I say go.
+agent_dir: gx_branches
+link: https://github.com/galaxyproject/galaxy/pull/{n}
+record: galaxy/branches/{name}
+profile: Opus (low)
+description: 📮 {description}
 status: recommended
 ```
 

@@ -172,4 +172,13 @@
     🔀 Missing E2E tests: history item Add Tags, Attributes tab Auto-detect. Approved by mvdbeek; CI green.
   status: recommended
   suggested_by: gx_branches/SUGGESTED_TASKS.md#Merge Branches
+- prompt: Show me the drafted reply in review_pushback_dannon_1.md for galaxyproject/galaxy#24349 (branch issue_24328_data_table_mismatch_26.1). Post it with the agent marker per ../_shared/AGENT_MARKERS.md once I say go.
+  agent_dir: gx_branches
+  link: https://github.com/galaxyproject/galaxy/pull/24349
+  record: galaxy/branches/issue_24328_data_table_mismatch_26.1
+  profile: Opus (low)
+  description: |
+    📮 Conflicting shed data table halts startup with an actionable error (#24328). dannon approved; reply to review 1 awaits posting.
+  status: recommended
+  suggested_by: gx_branches/SUGGESTED_TASKS.md#Post Drafted Review Replies
 ```
