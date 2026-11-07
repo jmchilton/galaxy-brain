@@ -1,0 +1,28 @@
+{
+  "id": "9b33efec-25d6-4dc1-856d-e0e28b07373c",
+  "origin": {
+    "snapshotId": "20261107T145815Z-revision-d66dcdb412bd",
+    "path": "test/unit/webapps/galaxy/services/test_invocations_lineage.py",
+    "basePath": null,
+    "hunkId": "h1:3bb10f60274d6390",
+    "side": "new",
+    "range": [
+      1,
+      1
+    ],
+    "quote": "\"\"\"Invocation rerun lineage serialization: access filtering and query counts.\"\"\"",
+    "contextBefore": [],
+    "contextAfter": [
+      "",
+      "from collections.abc import Iterator",
+      "from contextlib import contextmanager"
+    ]
+  },
+  "body": "Can we drop this file please.",
+  "author": "John",
+  "createdAt": "2026-11-07T15:00:05.916Z",
+  "schemaVersion": 1,
+  "kind": "differential-review-thread",
+  "status": "open",
+  "resolvedAt": null
+}

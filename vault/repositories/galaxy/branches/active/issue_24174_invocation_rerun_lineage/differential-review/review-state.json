@@ -1,0 +1,273 @@
+{
+  "schemaVersion": 1,
+  "kind": "differential-review-state",
+  "updatedAt": "2026-11-07T14:59:37.961Z",
+  "hunks": {
+    "h1:7085bc843f9b019d": {
+      "snapshotId": "20261107T145815Z-revision-d66dcdb412bd",
+      "path": "client/packages/api-client/src/schema/schema.ts",
+      "reviewedAt": "2026-11-07T14:58:23.063Z"
+    },
+    "h1:bfa249323d07b2ec": {
+      "snapshotId": "20261107T145815Z-revision-d66dcdb412bd",
+      "path": "client/packages/api-client/src/schema/schema.ts",
+      "reviewedAt": "2026-11-07T14:58:23.063Z"
+    },
+    "h1:ec7d65c744cd5770": {
+      "snapshotId": "20261107T145815Z-revision-d66dcdb412bd",
+      "path": "client/packages/api-client/src/schema/schema.ts",
+      "reviewedAt": "2026-11-07T14:58:23.063Z"
+    },
+    "h1:d7a0f49b0ad7aa57": {
+      "snapshotId": "20261107T145815Z-revision-d66dcdb412bd",
+      "path": "client/packages/api-client/src/schema/schema.ts",
+      "reviewedAt": "2026-11-07T14:58:23.063Z"
+    },
+    "h1:56aa48ef695233d8": {
+      "snapshotId": "20261107T145815Z-revision-d66dcdb412bd",
+      "path": "client/src/components/Workflow/Invocation/InvocationScrollList.vue",
+      "reviewedAt": "2026-11-07T14:58:25.641Z"
+    },
+    "h1:1fe9756377f078ef": {
+      "snapshotId": "20261107T145815Z-revision-d66dcdb412bd",
+      "path": "client/src/components/Workflow/Run/WorkflowRerun.vue",
+      "reviewedAt": "2026-11-07T14:58:27.000Z"
+    },
+    "h1:c1d55e7d92af5ef8": {
+      "snapshotId": "20261107T145815Z-revision-d66dcdb412bd",
+      "path": "client/src/components/Workflow/Run/WorkflowRun.vue",
+      "reviewedAt": "2026-11-07T14:58:43.365Z"
+    },
+    "h1:a1195078119ab654": {
+      "snapshotId": "20261107T145815Z-revision-d66dcdb412bd",
+      "path": "client/src/components/Workflow/Run/WorkflowRun.vue",
+      "reviewedAt": "2026-11-07T14:58:43.365Z"
+    },
+    "h1:5f5b9425be374209": {
+      "snapshotId": "20261107T145815Z-revision-d66dcdb412bd",
+      "path": "client/src/components/Workflow/Run/WorkflowRun.vue",
+      "reviewedAt": "2026-11-07T14:58:43.365Z"
+    },
+    "h1:88bdc20cdf8bbfbe": {
+      "snapshotId": "20261107T145815Z-revision-d66dcdb412bd",
+      "path": "client/src/components/Workflow/Run/WorkflowRun.vue",
+      "reviewedAt": "2026-11-07T14:58:43.365Z"
+    },
+    "h1:7f2a01a425bb0baa": {
+      "snapshotId": "20261107T145815Z-revision-d66dcdb412bd",
+      "path": "client/src/components/Workflow/Run/WorkflowRunForm.vue",
+      "reviewedAt": "2026-11-07T14:58:46.066Z"
+    },
+    "h1:a35a1edd8064959c": {
+      "snapshotId": "20261107T145815Z-revision-d66dcdb412bd",
+      "path": "client/src/components/Workflow/Run/WorkflowRunForm.vue",
+      "reviewedAt": "2026-11-07T14:58:46.066Z"
+    },
+    "h1:77b0ab104badf370": {
+      "snapshotId": "20261107T145815Z-revision-d66dcdb412bd",
+      "path": "client/src/components/Workflow/Run/WorkflowRunForm.vue",
+      "reviewedAt": "2026-11-07T14:58:46.066Z"
+    },
+    "h1:587c35837adb60ce": {
+      "snapshotId": "20261107T145815Z-revision-d66dcdb412bd",
+      "path": "client/src/components/Workflow/Run/WorkflowRunFormSimple.vue",
+      "reviewedAt": "2026-11-07T14:58:47.511Z"
+    },
+    "h1:c6e016c3f0fe9084": {
+      "snapshotId": "20261107T145815Z-revision-d66dcdb412bd",
+      "path": "client/src/components/Workflow/Run/WorkflowRunFormSimple.vue",
+      "reviewedAt": "2026-11-07T14:58:47.511Z"
+    },
+    "h1:87ecaedd07b2ad73": {
+      "snapshotId": "20261107T145815Z-revision-d66dcdb412bd",
+      "path": "client/src/components/Workflow/Run/WorkflowRunFormSimple.vue",
+      "reviewedAt": "2026-11-07T14:58:47.511Z"
+    },
+    "h1:42e210807a20a8c0": {
+      "snapshotId": "20261107T145815Z-revision-d66dcdb412bd",
+      "path": "client/src/components/Workflow/test/json/invocation.json",
+      "reviewedAt": "2026-11-07T14:58:48.882Z"
+    },
+    "h1:a896320a68d4540d": {
+      "snapshotId": "20261107T145815Z-revision-d66dcdb412bd",
+      "path": "client/src/components/Workflow/test/json/invocation.json",
+      "reviewedAt": "2026-11-07T14:58:48.882Z"
+    },
+    "h1:1678cbdb19d6fc5e": {
+      "snapshotId": "20261107T145815Z-revision-d66dcdb412bd",
+      "path": "client/src/components/Workflow/test/json/invocation.json",
+      "reviewedAt": "2026-11-07T14:58:48.882Z"
+    },
+    "h1:5bf7714222da1a38": {
+      "snapshotId": "20261107T145815Z-revision-d66dcdb412bd",
+      "path": "client/src/components/WorkflowInvocationState/WorkflowInvocationLineage.test.ts",
+      "reviewedAt": "2026-11-07T14:58:58.295Z"
+    },
+    "h1:b738bb4be1779aeb": {
+      "snapshotId": "20261107T145815Z-revision-d66dcdb412bd",
+      "path": "client/src/components/WorkflowInvocationState/WorkflowInvocationLineage.vue",
+      "reviewedAt": "2026-11-07T14:59:03.102Z"
+    },
+    "h1:c11faf588498fcef": {
+      "snapshotId": "20261107T145815Z-revision-d66dcdb412bd",
+      "path": "client/src/components/WorkflowInvocationState/WorkflowInvocationState.test.ts",
+      "reviewedAt": "2026-11-07T14:59:04.203Z"
+    },
+    "h1:c10bff2a73cc3d35": {
+      "snapshotId": "20261107T145815Z-revision-d66dcdb412bd",
+      "path": "client/src/components/WorkflowInvocationState/WorkflowInvocationState.test.ts",
+      "reviewedAt": "2026-11-07T14:59:04.203Z"
+    },
+    "h1:bfdbd808fda2f35e": {
+      "snapshotId": "20261107T145815Z-revision-d66dcdb412bd",
+      "path": "client/src/components/WorkflowInvocationState/WorkflowInvocationState.vue",
+      "reviewedAt": "2026-11-07T14:59:05.261Z"
+    },
+    "h1:ce6f9d5c4d2ffe2a": {
+      "snapshotId": "20261107T145815Z-revision-d66dcdb412bd",
+      "path": "client/src/components/WorkflowInvocationState/WorkflowInvocationState.vue",
+      "reviewedAt": "2026-11-07T14:59:05.261Z"
+    },
+    "h1:e952c6f02272f205": {
+      "snapshotId": "20261107T145815Z-revision-d66dcdb412bd",
+      "path": "client/src/utils/navigation/navigation.yml",
+      "reviewedAt": "2026-11-07T14:59:06.732Z"
+    },
+    "h1:bbdda9241bc2c849": {
+      "snapshotId": "20261107T145815Z-revision-d66dcdb412bd",
+      "path": "lib/galaxy/model/__init__.py",
+      "reviewedAt": "2026-11-07T14:59:10.493Z"
+    },
+    "h1:b90eea974c7da690": {
+      "snapshotId": "20261107T145815Z-revision-d66dcdb412bd",
+      "path": "lib/galaxy/model/__init__.py",
+      "reviewedAt": "2026-11-07T14:59:10.493Z"
+    },
+    "h1:e60998e0f2f231f7": {
+      "snapshotId": "20261107T145815Z-revision-d66dcdb412bd",
+      "path": "lib/galaxy/model/__init__.py",
+      "reviewedAt": "2026-11-07T14:59:10.493Z"
+    },
+    "h1:7a51bdfb578d3990": {
+      "snapshotId": "20261107T145815Z-revision-d66dcdb412bd",
+      "path": "lib/galaxy/model/__init__.py",
+      "reviewedAt": "2026-11-07T14:59:10.493Z"
+    },
+    "h1:4a854aba892dfc4d": {
+      "snapshotId": "20261107T145815Z-revision-d66dcdb412bd",
+      "path": "lib/galaxy/model/migrations/alembic/versions_gxy/6f9a3b2c1d80_add_invocation_rerun_lineage.py",
+      "reviewedAt": "2026-11-07T14:59:18.013Z"
+    },
+    "h1:0e8c57732350cb82": {
+      "snapshotId": "20261107T145815Z-revision-d66dcdb412bd",
+      "path": "lib/galaxy/schema/invocation.py",
+      "reviewedAt": "2026-11-07T14:59:19.269Z"
+    },
+    "h1:6d52190c6dbbea6a": {
+      "snapshotId": "20261107T145815Z-revision-d66dcdb412bd",
+      "path": "lib/galaxy/schema/invocation.py",
+      "reviewedAt": "2026-11-07T14:59:19.269Z"
+    },
+    "h1:26cfdebaef19d251": {
+      "snapshotId": "20261107T145815Z-revision-d66dcdb412bd",
+      "path": "lib/galaxy/schema/workflows.py",
+      "reviewedAt": "2026-11-07T14:59:20.208Z"
+    },
+    "h1:2187a92195dc6452": {
+      "snapshotId": "20261107T145815Z-revision-d66dcdb412bd",
+      "path": "lib/galaxy/webapps/galaxy/services/invocations.py",
+      "reviewedAt": "2026-11-07T14:59:20.946Z"
+    },
+    "h1:5f9c356d143db97e": {
+      "snapshotId": "20261107T145815Z-revision-d66dcdb412bd",
+      "path": "lib/galaxy/webapps/galaxy/services/invocations.py",
+      "reviewedAt": "2026-11-07T14:59:20.946Z"
+    },
+    "h1:172fad94a35bf499": {
+      "snapshotId": "20261107T145815Z-revision-d66dcdb412bd",
+      "path": "lib/galaxy/webapps/galaxy/services/invocations.py",
+      "reviewedAt": "2026-11-07T14:59:20.946Z"
+    },
+    "h1:ed4d1ab05d7cd5a8": {
+      "snapshotId": "20261107T145815Z-revision-d66dcdb412bd",
+      "path": "lib/galaxy/webapps/galaxy/services/invocations.py",
+      "reviewedAt": "2026-11-07T14:59:20.946Z"
+    },
+    "h1:7be3c154d7c322e4": {
+      "snapshotId": "20261107T145815Z-revision-d66dcdb412bd",
+      "path": "lib/galaxy/webapps/galaxy/services/invocations.py",
+      "reviewedAt": "2026-11-07T14:59:20.946Z"
+    },
+    "h1:3d3736c5c8c067ec": {
+      "snapshotId": "20261107T145815Z-revision-d66dcdb412bd",
+      "path": "lib/galaxy/webapps/galaxy/services/invocations.py",
+      "reviewedAt": "2026-11-07T14:59:20.946Z"
+    },
+    "h1:f5e0e57277c92366": {
+      "snapshotId": "20261107T145815Z-revision-d66dcdb412bd",
+      "path": "lib/galaxy/webapps/galaxy/services/invocations.py",
+      "reviewedAt": "2026-11-07T14:59:20.946Z"
+    },
+    "h1:7bedf390f8e840a0": {
+      "snapshotId": "20261107T145815Z-revision-d66dcdb412bd",
+      "path": "lib/galaxy/webapps/galaxy/services/workflows.py",
+      "reviewedAt": "2026-11-07T14:59:21.886Z"
+    },
+    "h1:dee2e1b76a7314a2": {
+      "snapshotId": "20261107T145815Z-revision-d66dcdb412bd",
+      "path": "lib/galaxy/workflow/run_request.py",
+      "reviewedAt": "2026-11-07T14:59:28.029Z"
+    },
+    "h1:655a0a5e4dc6fe2e": {
+      "snapshotId": "20261107T145815Z-revision-d66dcdb412bd",
+      "path": "lib/galaxy/workflow/run_request.py",
+      "reviewedAt": "2026-11-07T14:59:28.029Z"
+    },
+    "h1:b8534300337ba95d": {
+      "snapshotId": "20261107T145815Z-revision-d66dcdb412bd",
+      "path": "lib/galaxy/workflow/run_request.py",
+      "reviewedAt": "2026-11-07T14:59:28.029Z"
+    },
+    "h1:6171daa82f4fff37": {
+      "snapshotId": "20261107T145815Z-revision-d66dcdb412bd",
+      "path": "lib/galaxy/workflow/run_request.py",
+      "reviewedAt": "2026-11-07T14:59:28.029Z"
+    },
+    "h1:2b24c6ef8243951d": {
+      "snapshotId": "20261107T145815Z-revision-d66dcdb412bd",
+      "path": "lib/galaxy/workflow/run_request.py",
+      "reviewedAt": "2026-11-07T14:59:28.029Z"
+    },
+    "h1:734b677c062b964b": {
+      "snapshotId": "20261107T145815Z-revision-d66dcdb412bd",
+      "path": "lib/galaxy_test/api/test_workflows.py",
+      "reviewedAt": "2026-11-07T14:59:33.236Z"
+    },
+    "h1:ed222bb34a87e2b6": {
+      "snapshotId": "20261107T145815Z-revision-d66dcdb412bd",
+      "path": "lib/galaxy_test/api/test_workflows.py",
+      "reviewedAt": "2026-11-07T14:59:33.236Z"
+    },
+    "h1:dfb6c975c3a41dca": {
+      "snapshotId": "20261107T145815Z-revision-d66dcdb412bd",
+      "path": "lib/galaxy_test/selenium/test_workflow_rerun.py",
+      "reviewedAt": "2026-11-07T14:59:34.959Z"
+    },
+    "h1:cab6111de4ecf219": {
+      "snapshotId": "20261107T145815Z-revision-d66dcdb412bd",
+      "path": "lib/galaxy_test/selenium/test_workflow_rerun.py",
+      "reviewedAt": "2026-11-07T14:59:34.959Z"
+    },
+    "h1:a096d43e56640138": {
+      "snapshotId": "20261107T145815Z-revision-d66dcdb412bd",
+      "path": "test/unit/data/model/test_model_store.py",
+      "reviewedAt": "2026-11-07T14:59:37.961Z"
+    },
+    "h1:01be1efc6a80b860": {
+      "snapshotId": "20261107T145815Z-revision-d66dcdb412bd",
+      "path": "test/unit/data/model/test_model_store.py",
+      "reviewedAt": "2026-11-07T14:59:37.961Z"
+    }
+  },
+  "commits": {}
+}

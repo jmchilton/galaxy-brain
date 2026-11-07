@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "kind": "differential-review-reply",
+  "id": "48dc26e9-4a6a-42e4-a0d8-2c9a2604140a",
+  "threadId": "9b33efec-25d6-4dc1-856d-e0e28b07373c",
+  "body": "Dropped in `683e2f05365` (pushed). Nothing imported it; `test/unit/webapps/galaxy/services` and `test/unit/workflow` still collect. Tests not rerun.\n\nNo test now compares `_accessible_invocation_clause` with `check_security` or pins the two-query count. Latest-accessible fallback stays covered by the API tests. PR description and checklist updated to say so.\n",
+  "author": "Agent",
+  "source": "agent",
+  "createdAt": "2026-11-07T15:02:41.865Z",
+  "snapshotId": "20261107T150205Z-revision-683e2f053653"
+}

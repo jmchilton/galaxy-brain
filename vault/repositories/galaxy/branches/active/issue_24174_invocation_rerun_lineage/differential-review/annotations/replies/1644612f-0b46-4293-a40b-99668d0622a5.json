@@ -1,0 +1,11 @@
+{
+  "schemaVersion": 1,
+  "kind": "differential-review-reply",
+  "id": "1644612f-0b46-4293-a40b-99668d0622a5",
+  "threadId": "bc13d57b-1787-4916-b35a-4dc977e1f6a7",
+  "body": "Dropped in `683e2f05365` (pushed). Nothing imported it; `test/unit/webapps/galaxy/services` and `test/unit/workflow` still collect. Tests not rerun.\n\nNo branch test now runs the migration (pre-existing rows, FK `SET NULL`, downgrade). PR description and checklist updated to say so.\n",
+  "author": "Agent",
+  "source": "agent",
+  "createdAt": "2026-11-07T15:02:41.955Z",
+  "snapshotId": "20261107T150205Z-revision-683e2f053653"
+}

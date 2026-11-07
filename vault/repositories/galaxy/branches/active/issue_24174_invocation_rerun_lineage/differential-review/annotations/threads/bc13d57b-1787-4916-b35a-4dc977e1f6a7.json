@@ -1,0 +1,28 @@
+{
+  "id": "bc13d57b-1787-4916-b35a-4dc977e1f6a7",
+  "origin": {
+    "snapshotId": "20261107T145815Z-revision-d66dcdb412bd",
+    "path": "test/unit/workflow/test_invocation_rerun_migration.py",
+    "basePath": null,
+    "hunkId": "h1:96f2b132c89bb8d0",
+    "side": "new",
+    "range": [
+      1,
+      1
+    ],
+    "quote": "\"\"\"Exercise the lineage migration against pre-existing invocation rows.\"\"\"",
+    "contextBefore": [],
+    "contextAfter": [
+      "",
+      "from importlib import import_module",
+      ""
+    ]
+  },
+  "body": "Can we drop this file please.",
+  "author": "John",
+  "createdAt": "2026-11-07T15:00:28.104Z",
+  "schemaVersion": 1,
+  "kind": "differential-review-thread",
+  "status": "open",
+  "resolvedAt": null
+}
