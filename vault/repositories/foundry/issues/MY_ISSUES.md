@@ -13,7 +13,6 @@ Review `issue_tags.md` in the record, then use 👀 Diff / 🔖 Apply staged lab
 - (mvp) [#580](https://github.com/galaxyproject/foundry/issues/580) — frame comments without position/size rejected by real Galaxy import; decide: apply staged labels, then require geometry in 4 template Molds + evals. [notes](needs_decision/580/index.md)
 - (mvp) [#673](https://github.com/galaxyproject/foundry/issues/673) — Runtime Note reads as a blanket source-read ban; phases disagree on reading pinned source; decide: apply staged labels, then generator line + per-Mold fixes. [notes](needs_decision/673/index.md)
 - (mvp) [#723](https://github.com/galaxyproject/foundry/issues/723) — weak-hit and capability-gap fallbacks let runs author UDTs for tools that already exist; decide: apply staged labels, merge with #678 or sequence, then research. [notes](needs_decision/723/index.md)
-- (mvp) [#666](https://github.com/galaxyproject/foundry/issues/666) — nextflow resolver silently mis-extracts: wrapper as primary, `meta.yml` ports, provenance, fixtures; decide: apply staged labels, then split or batch (2 new defects found). [notes](needs_decision/666/index.md)
 
 ## Waiting on John (`needs_decision`)
 
@@ -79,6 +78,7 @@ None yet.
 - [#254](https://github.com/galaxyproject/foundry/issues/254) — Generated STATUS page — what exists, last-touched (fun, not urgent); next: implement and open a PR. [notes](queued/254/index.md)
 - (mvp) [#468](https://github.com/galaxyproject/foundry/issues/468) — author-galaxy-tool-wrapper: no validation step, no GalaxyUserTool schema, and the bundled prompt contradict…; next: implement and open a PR. [notes](queued/468/index.md)
 - (mvp) (large) [#531](https://github.com/galaxyproject/foundry/issues/531) — Prove the IWC maturation pipeline with runnable fixtures and a .ga entry case; next: implement and open a PR. [notes](queued/531/index.md)
+- (mvp) [#666](https://github.com/galaxyproject/foundry/issues/666) — nextflow resolver silently mis-extracts: wrapper as primary, `meta.yml` ports, provenance, fixtures; next: implement in batches per notes, smallest first. [notes](queued/666/index.md)
 - (mvp) [#668](https://github.com/galaxyproject/foundry/issues/668) — `draft-validate --json` hides errors; work items omit port edges; loop never uses `--connections`; next: Foundry docs + step 6 PR; gxwf#215, gxwf#216 cover the CLI. [notes](queued/668/index.md)
 - [#751](https://github.com/galaxyproject/foundry/issues/751) — Abstract find-test-data and implement-galaxy-workflow-test scenarios name no real fixture; next: implement and open a PR. [notes](queued/751/index.md)
 

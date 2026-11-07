@@ -1,6 +1,6 @@
 # #666 summarize-nextflow resolver: six measured extraction defects on nf-core/rnaseq 3.27.0
 
-[Issue](https://github.com/galaxyproject/foundry/issues/666) — opened by scottcain's AI assistant, currently only `needs-triage`. One comment (John's agent, 2026-10-25) adds nf-core/sarek 3.8.1 evidence. No PR or branch addresses it (`gh pr list --search 666` empty).
+[Issue](https://github.com/galaxyproject/foundry/issues/666) — opened by scottcain's AI assistant. One comment (John's agent, 2026-10-25) adds nf-core/sarek 3.8.1 evidence. No PR or branch addresses it (`gh pr list --search 666` empty).
 
 ## Proposed labels
 
@@ -11,7 +11,7 @@
 
 ## Status
 
-`needs_decision` (`needs_decision_labels`, rule 3): labels staged in `issue_tags.md`. Once applied, `queued_implement`.
+`queued` (`queued_implement`, rule 6): staged labels applied 2026-11-06, moved 2026-11-07. The questions under Next are still open and don't change the status.
 
 ## Findings
 
