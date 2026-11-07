@@ -1,6 +1,6 @@
 # Open PR and branch queue
 
-Snapshot: 2026-11-07 (reclassified from GitHub: #24773 to ready on green CI, #24555 to attention on conflicts, #24228/#24211 to attention on undiagnosed reds). Previous 2026-11-06.
+Snapshot: 2026-11-07 (reclassified from GitHub: #24773 to ready on green CI, #24555 to attention on conflicts then back to ready after deconflict at `94b188d4881`, #24228/#24211 to attention on undiagnosed reds). Previous 2026-11-06.
 
 ## Open Galaxy PRs — ready from our side (`ready`)
 
@@ -16,6 +16,7 @@ Snapshot: 2026-11-07 (reclassified from GitHub: #24773 to ready on green CI, #24
 - [`selenium_dataset_tags_auto_detect`](active/selenium_dataset_tags_auto_detect/index.md) — Missing E2E tests: history item Add Tags reaching a tool output, Attributes tab metadata Auto-detect. Base `release_26.2`. [#24347](https://github.com/galaxyproject/galaxy/pull/24347).
 - [`issue_23978_parameter_tools_xsd`](active/issue_23978_parameter_tools_xsd/index.md) — Makes framework test tools XSD-valid and validates test-tool subdirectories in CI (#23978). [#24302](https://github.com/galaxyproject/galaxy/pull/24302). Rebased 2026-11-06 at `9ff979543c6`; CI pending.
 - [`issue_24648_shed_field_border`](active/issue_24648_shed_field_border/index.md) — Tool Shed form fields get 3:1 grey-500 borders and consistent hover and focus states. [#24771](https://github.com/galaxyproject/galaxy/pull/24771).
+- [`issue_3899_pulsar_container_deps`](active/issue_3899_pulsar_container_deps/index.md) — Respects a Pulsar container job’s dependency-resolution opt-in (#3899). [#24555](https://github.com/galaxyproject/galaxy/pull/24555). Deconflicted 2026-11-07 at `94b188d4881`; fresh CI pending.
 
 ## Open Galaxy PRs — needs attention (`attention`)
 
@@ -23,7 +24,6 @@ Snapshot: 2026-11-07 (reclassified from GitHub: #24773 to ready on green CI, #24
 
 - [`issue_24221_paged_map_over_options_26.1`](active/issue_24221_paged_map_over_options_26.1/index.md) — Paged collection options keep a collection's map-over entry, and it's selectable with a "(one job per …)" label (#24221). Base `release_26.1`. [#24228](https://github.com/galaxyproject/galaxy/pull/24228). CI reds undiagnosed (stale 2026-10-23 run).
 - [`issue_24093_batch_element_labels_26.1`](active/issue_24093_batch_element_labels_26.1/index.md) — Labels every tool-form batch value, including dropped hidden collection elements (#24093). Base `release_26.1`. [#24211](https://github.com/galaxyproject/galaxy/pull/24211). CI reds undiagnosed (stale 2026-10-23 run).
-- [`issue_3899_pulsar_container_deps`](active/issue_3899_pulsar_container_deps/index.md) — Respects a Pulsar container job’s dependency-resolution opt-in (#3899). [#24555](https://github.com/galaxyproject/galaxy/pull/24555). Merge conflicts.
 - [`selenium_tool_form_helpers`](active/selenium_tool_form_helpers/index.md) — Public tool-form fill/describe helpers on `NavigatesGalaxy`; fixes nested repeats, sections, editor steps. [#24331](https://github.com/galaxyproject/galaxy/pull/24331).
 - [`issue_24328_data_table_mismatch_26.1`](active/issue_24328_data_table_mismatch_26.1/index.md) — Conflicting shed data table halts startup with an actionable error; installs no longer wipe Galaxy's tables (#24328). Base `release_26.1`. [#24349](https://github.com/galaxyproject/galaxy/pull/24349).
 - [`issue_24173_invocation_selection_urls`](active/issue_24173_invocation_selection_urls/index.md) — Makes invocation step, job and output selections shareable through URLs (#24173). [#24307](https://github.com/galaxyproject/galaxy/pull/24307). Opened by accident; final read-through still pending.
