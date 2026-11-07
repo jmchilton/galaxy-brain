@@ -34,24 +34,6 @@ Discovered by [gx_test_challenger](https://github.com/jmchilton/galaxy-brain/blo
 
 </details>
 
-### P2 3: The new default page size is untested (implementation verified)
-
-The description says omitting `limit` used to return every match and now returns 100. `LimitQueryParam` defaults to `None` and the payload accepts `None`, so only the route's `None` handling delivers this. `test_index_query_limit_is_capped` always sends `limit`, so it can't catch a regression.
-
-Added `test_index_query_limit_defaults_to_100`: a fresh user with 101 histories, `limit` omitted, asserting 100 entries and `total_matches == "101"`.
-
-<details><summary>Evidence</summary>
-
-With `None` temporarily passed through to the payload, the test fails with `assert 101 == 100`.
-
-</details>
-
-<details><summary>Discovery & Verification Agent Details</summary>
-
-Discovered by [default](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/reviewers/default.md) via claude-opus-5-5 at medium effort and [gx_test_challenger](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/reviewers/gx_test_challenger.md) via claude-opus-5-5 at medium effort. Verified via claude-opus-5-5 at medium effort.
-
-</details>
-
 ### P3 1: `HistoryList.vue` comment misstates the server rule (implementation verified)
 
 The comment says the server sorts by size only for the user's "own, non-archived histories". The guard doesn't check `show_archived`, so `show_own=true&show_archived=true&show_published=false&sort_by=size` returns 200. The Archived tab lacks the option for a different reason: `GET /api/histories/archived` declares no `sort_by`, so the value `getArchivedHistories` sends is ignored.

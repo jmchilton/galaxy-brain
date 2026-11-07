@@ -1,5 +1,4 @@
-
-
+:shipit: -John
 
 <details><summary>Automated Review Details</summary>
 
@@ -53,23 +52,22 @@ You're contributing to a repository John cares about and you deserve a human res
 
 <details><summary>Review Verification Branch Details</summary>
 
-This [review branch](https://github.com/jmchilton/galaxy/tree/pr_24706_review_0) contains work the verification agent did to help verify findings and make sure suggestions make sense and are actionable. This doesn't necessarily represent production ready code. Feel free to include any commits in the PR but they should be reviewed by a human.
+This [review branch](https://github.com/jmchilton/galaxy/tree/pr_24706_review_1) contains work the verification agent did to help verify findings and make sure suggestions make sense and are actionable. This doesn't necessarily represent production ready code. Feel free to include any commits in the PR but they should be reviewed by a human.
 
 <details><summary>Branch and Commit Details</summary>
 
-[`pr_24706_review_0`](https://github.com/jmchilton/galaxy/tree/pr_24706_review_0) branches from the reviewed commit [`5006c8fbfe3`](https://github.com/jmchilton/galaxy/commit/5006c8fbfe3) and is mostly test work: it adds an E2E test for the "Storage used" sort, makes the rejection tests tell the new guard from a literal validation error, and covers the default page size, paging, `total_matches` and the non-admin fallback. It also corrects the `HistoryList.vue` comment, moves the `SELECT DISTINCT` handling of computed sort columns into `apply_sort_column`, and reduces the route's `None` filtering to `limit`. Each commit addresses one finding, and server behavior is unchanged.
+[`pr_24706_review_1`](https://github.com/jmchilton/galaxy/tree/pr_24706_review_1) branches from the reviewed commit [`5006c8fbfe3`](https://github.com/jmchilton/galaxy/commit/5006c8fbfe3) and is mostly test work: it adds an E2E test for the "Storage used" sort, makes the rejection tests tell the new guard from a literal validation error, and covers paging, `total_matches` and the non-admin fallback. It also corrects the `HistoryList.vue` comment, moves the `SELECT DISTINCT` handling of computed sort columns into `apply_sort_column`, and reduces the route's `None` filtering to `limit`. Each commit addresses one finding, and server behavior is unchanged.
 
-- [`f4b628e5f44`](https://github.com/jmchilton/galaxy/commit/f4b628e5f44) Correct the HistoryList comment on the size sort restriction: says the server restricts the sort to the user's own histories and the archived endpoint ignores `sort_by`.
-- [`b56fde2a953`](https://github.com/jmchilton/galaxy/commit/b56fde2a953) Assert the error message in the size sort rejection tests: both rejection tests now fail if `size` leaves `HistorySortByEnum`.
-- [`980601a356c`](https://github.com/jmchilton/galaxy/commit/980601a356c) Test the default page size of GET /api/histories in search mode: 101 histories with `limit` omitted give 100 entries and `total_matches == "101"`.
-- [`f991b537da8`](https://github.com/jmchilton/galaxy/commit/f991b537da8) Cover paging and total_matches in the size sort API test: requests a window that starts between the two tied empty histories.
-- [`d636e3787c3`](https://github.com/jmchilton/galaxy/commit/d636e3787c3) Test the size sort when a non-admin falls back to their own histories: `show_own=False, show_published=False` as a non-admin returns the user's four histories, and its lines sit after those of the paging commit.
-- [`52cdb4b0c40`](https://github.com/jmchilton/galaxy/commit/52cdb4b0c40) Add an E2E test for sorting the history list by storage used: clicks the real button against the real server guard and checks the order in both directions.
-- [`e7f28273ded`](https://github.com/jmchilton/galaxy/commit/e7f28273ded) Drop the Vitest test that claims to check size order: it read back the mock's order, and depends on the E2E commit for coverage.
-- [`937b394fc71`](https://github.com/jmchilton/galaxy/commit/937b394fc71) Mock only the fetcher each list uses in the size sort option test: stops queueing one-time responses that are never consumed.
-- [`bd47eb4d28c`](https://github.com/jmchilton/galaxy/commit/bd47eb4d28c) Pass the history index query fields directly: only `limit` is now omitted when `None`, so it takes the payload default.
-- [`ffd7abf55ab`](https://github.com/jmchilton/galaxy/commit/ffd7abf55ab) Let apply_sort_column select computed sort columns: the helper now selects anything that isn't a plain mapped column, and the size branch only assigns the column.
-- [`42ada817c58`](https://github.com/jmchilton/galaxy/commit/42ada817c58) Add an _index_search helper for the new history index tests: replaces the repeated `self._get("histories", data=...)` calls in the tests this PR adds.
+- [`627e17e0be1`](https://github.com/jmchilton/galaxy/commit/627e17e0be1) Correct the HistoryList comment on the size sort restriction: says the server restricts the sort to the user's own histories and the archived endpoint ignores `sort_by`.
+- [`17fdff7bb7c`](https://github.com/jmchilton/galaxy/commit/17fdff7bb7c) Assert the error message in the size sort rejection tests: both rejection tests now fail if `size` leaves `HistorySortByEnum`.
+- [`e51f836c430`](https://github.com/jmchilton/galaxy/commit/e51f836c430) Cover paging and total_matches in the size sort API test: requests a window that starts between the two tied empty histories.
+- [`f766fbf98d5`](https://github.com/jmchilton/galaxy/commit/f766fbf98d5) Test the size sort when a non-admin falls back to their own histories: `show_own=False, show_published=False` as a non-admin returns the user's four histories, and its lines sit after those of the paging commit.
+- [`8429fb00bf1`](https://github.com/jmchilton/galaxy/commit/8429fb00bf1) Add an E2E test for sorting the history list by storage used: clicks the real button against the real server guard and checks the order in both directions.
+- [`5090cfa2dda`](https://github.com/jmchilton/galaxy/commit/5090cfa2dda) Drop the Vitest test that claims to check size order: it read back the mock's order, and depends on the E2E commit for coverage.
+- [`45260cf3132`](https://github.com/jmchilton/galaxy/commit/45260cf3132) Mock only the fetcher each list uses in the size sort option test: stops queueing one-time responses that are never consumed.
+- [`3107638c8a9`](https://github.com/jmchilton/galaxy/commit/3107638c8a9) Pass the history index query fields directly: only `limit` is now omitted when `None`, so it takes the payload default.
+- [`bef11669426`](https://github.com/jmchilton/galaxy/commit/bef11669426) Let apply_sort_column select computed sort columns: the helper now selects anything that isn't a plain mapped column, and the size branch only assigns the column.
+- [`f003e6c059e`](https://github.com/jmchilton/galaxy/commit/f003e6c059e) Add an _index_search helper for the new history index tests: replaces the repeated `self._get("histories", data=...)` calls in the tests this PR adds.
 
 </details>
 
@@ -87,7 +85,7 @@ Run with Playwright, headless, against a harness-started server on SQLite. Passe
 
 </details>
 
-Fixed on the review branch in [`52cdb4b0c40`](https://github.com/jmchilton/galaxy/commit/52cdb4b0c40).
+Fixed on the review branch in [`8429fb00bf1`](https://github.com/jmchilton/galaxy/commit/8429fb00bf1).
 
 <details><summary>Discovery & Verification Agent Details</summary>
 
@@ -107,31 +105,11 @@ With `size` temporarily removed from the enum, both strengthened tests pass the 
 
 </details>
 
-Fixed on the review branch in [`b56fde2a953`](https://github.com/jmchilton/galaxy/commit/b56fde2a953).
+Fixed on the review branch in [`17fdff7bb7c`](https://github.com/jmchilton/galaxy/commit/17fdff7bb7c).
 
 <details><summary>Discovery & Verification Agent Details</summary>
 
 Discovered by [gx_test_challenger](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/reviewers/gx_test_challenger.md) via claude-opus-5-5 at medium effort. Verified via claude-opus-5-5 at medium effort.
-
-</details>
-
-### P2 3: The new default page size is untested (implementation verified)
-
-The description says omitting `limit` used to return every match and now returns 100. `LimitQueryParam` defaults to `None` and the payload accepts `None`, so only the route's `None` handling delivers this. `test_index_query_limit_is_capped` always sends `limit`, so it can't catch a regression.
-
-Added `test_index_query_limit_defaults_to_100`: a fresh user with 101 histories, `limit` omitted, asserting 100 entries and `total_matches == "101"`.
-
-<details><summary>Evidence</summary>
-
-With `None` temporarily passed through to the payload, the test fails with `assert 101 == 100`.
-
-</details>
-
-Fixed on the review branch in [`980601a356c`](https://github.com/jmchilton/galaxy/commit/980601a356c).
-
-<details><summary>Discovery & Verification Agent Details</summary>
-
-Discovered by [default](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/reviewers/default.md) via claude-opus-5-5 at medium effort and [gx_test_challenger](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/reviewers/gx_test_challenger.md) via claude-opus-5-5 at medium effort. Verified via claude-opus-5-5 at medium effort.
 
 </details>
 
@@ -141,7 +119,7 @@ The comment says the server sorts by size only for the user's "own, non-archived
 
 Reworded to say the server sorts by size only for the user's own histories, and the archived endpoint ignores `sort_by`.
 
-Fixed on the review branch in [`f4b628e5f44`](https://github.com/jmchilton/galaxy/commit/f4b628e5f44).
+Fixed on the review branch in [`627e17e0be1`](https://github.com/jmchilton/galaxy/commit/627e17e0be1).
 
 <details><summary>Discovery & Verification Agent Details</summary>
 
@@ -167,7 +145,7 @@ Run on Postgres 16.2. `test_index_sort_by_size` passes with the helper change. W
 
 </details>
 
-Fixed on the review branch in [`ffd7abf55ab`](https://github.com/jmchilton/galaxy/commit/ffd7abf55ab).
+Fixed on the review branch in [`bef11669426`](https://github.com/jmchilton/galaxy/commit/bef11669426).
 
 <details><summary>Discovery & Verification Agent Details</summary>
 
@@ -187,7 +165,7 @@ The route now passes the fields directly and adds `limit` only when it was suppl
 
 </details>
 
-Fixed on the review branch in [`bd47eb4d28c`](https://github.com/jmchilton/galaxy/commit/bd47eb4d28c).
+Fixed on the review branch in [`3107638c8a9`](https://github.com/jmchilton/galaxy/commit/3107638c8a9).
 
 <details><summary>Discovery & Verification Agent Details</summary>
 
@@ -207,7 +185,7 @@ Passes on SQLite and Postgres 16.2. No mutation was run against this assertion s
 
 </details>
 
-Fixed on the review branch in [`f991b537da8`](https://github.com/jmchilton/galaxy/commit/f991b537da8).
+Fixed on the review branch in [`e51f836c430`](https://github.com/jmchilton/galaxy/commit/e51f836c430).
 
 <details><summary>Discovery & Verification Agent Details</summary>
 
@@ -227,7 +205,7 @@ With `own_only` temporarily narrowed to `show_own`, the test fails with a 400: `
 
 </details>
 
-Fixed on the review branch in [`d636e3787c3`](https://github.com/jmchilton/galaxy/commit/d636e3787c3).
+Fixed on the review branch in [`f766fbf98d5`](https://github.com/jmchilton/galaxy/commit/f766fbf98d5).
 
 <details><summary>Discovery & Verification Agent Details</summary>
 
@@ -241,7 +219,7 @@ Discovered by [gx_test_challenger](https://github.com/jmchilton/galaxy-brain/blo
 
 Dropped the test. If P2 1 is declined, keep it instead, rename it `requests a size sort, descending first`, and remove the `listedNames` assertion.
 
-Fixed on the review branch in [`e7f28273ded`](https://github.com/jmchilton/galaxy/commit/e7f28273ded).
+Fixed on the review branch in [`5090cfa2dda`](https://github.com/jmchilton/galaxy/commit/5090cfa2dda).
 
 <details><summary>Discovery & Verification Agent Details</summary>
 
@@ -255,7 +233,7 @@ The loop queues `mockResolvedValueOnce` on all three fetchers per case and leave
 
 The test now maps `list` to its fetcher and mocks only that one. `HistoryList.test.ts` passes.
 
-Fixed on the review branch in [`937b394fc71`](https://github.com/jmchilton/galaxy/commit/937b394fc71).
+Fixed on the review branch in [`45260cf3132`](https://github.com/jmchilton/galaxy/commit/45260cf3132).
 
 <details><summary>Discovery & Verification Agent Details</summary>
 
@@ -269,7 +247,7 @@ The PR adds seven `self._get("histories", data=...)` calls to `test_histories.py
 
 Added `_index_search(self, search="", **params)` and used it in the tests this PR adds. Older tests aren't migrated.
 
-Fixed on the review branch in [`42ada817c58`](https://github.com/jmchilton/galaxy/commit/42ada817c58).
+Fixed on the review branch in [`f003e6c059e`](https://github.com/jmchilton/galaxy/commit/f003e6c059e).
 
 <details><summary>Discovery & Verification Agent Details</summary>
 

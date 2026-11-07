@@ -8,3 +8,7 @@ Kept out of `verified_review.md`. Reviewed commit `5006c8fbfe3a91c7f12f628fdd543
 - **gx_performance_challenger P3 2, badge fan-out on the largest histories:** pre-existing code the PR doesn't touch (`HistoryDatasetsBadge.vue`), bounded by the 24-card page, and only noticeable at the reviewer's hypothetical heavy users.
 - **default P3 3, sub-point on narrowing `HistoryIndexQueryPayload.limit` and `offset` to `int`:** dropped from the kept finding because the manager's `None` checks and the sibling payloads aren't part of this PR; the route simplification itself is P3 3 in `verified_review.md`.
 - **gx_performance_challenger P3 3, sub-point on applying the same refusal to legacy `order=size*` with `all=true`:** dropped from the kept finding because the PR description states the legacy listing is unchanged; the description fix is P3 9 in `verified_review.md`.
+
+## Trimmed by John
+
+- 2026-11-07 The new default page size is untested. Discovered by default via claude-opus-5-5 at medium effort and gx_test_challenger via claude-opus-5-5 at medium effort.

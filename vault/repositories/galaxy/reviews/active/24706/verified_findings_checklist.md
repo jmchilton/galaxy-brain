@@ -1,6 +1,5 @@
 - [x] P2 1: No E2E test for sorting by storage used
 - [x] P2 2: Size sort rejection tests pass without the guard
-- [x] P2 3: The new default page size is untested
 - [x] P3 1: `HistoryList.vue` comment misstates the server rule
 - [x] P3 2: The size branch repeats what `apply_sort_column` exists to do
 - [x] P3 3: The route filters nine fields for `None` when only `limit` needs it
