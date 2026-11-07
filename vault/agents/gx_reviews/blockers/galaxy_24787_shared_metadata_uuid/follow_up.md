@@ -1,0 +1,5 @@
+Read `blockers/galaxy_24787_shared_metadata_uuid/previous_session.md`. galaxyproject/galaxy#24787 is closed. Find out how it closed (fixing PR and commit, or not planned) and tell John if it closed without a fix, leaving the rest for John's decision. Check whether galaxyproject/galaxy#24745 is still open and whether its head is still `5fad7684e37`.
+
+If it was fixed, re-check the review in `vault/repositories/galaxy/reviews/active/24745/`, worktree `~/projects/worktrees/galaxy/pr/24745`: does P1 1 still reproduce with the fix merged, is the uuid guard on `pr_24745_review_0` still needed for existing duplicate rows, and do the `metadata_source_extended_shared_uuid` tests pass on `dev`? Update P1 1 in `verified_review.md` and `initial_review_response.md`, replacing "draft issue" with a link to #24787, and refresh the record's status and its `MY_REVIEWS.md` entry. If the PR head moved, run a new review round per `../_shared/PROCESS_INITIAL_REVIEW.md` rather than editing the old one. Nothing gets posted without John's checked action.
+
+Finally delete `blockers/galaxy_24787_shared_metadata_uuid/` and the record's `blockers:` entry for it.
