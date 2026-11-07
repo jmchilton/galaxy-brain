@@ -4,6 +4,6 @@
 
 ## Status
 
-Initial review ready on `150cb834122`, not delivered. Trimmed by John 2026-11-07 to one P2 + two P3s, all fixed on `pr_24685_review_1`.
+Initial review [delivered as approval](https://github.com/galaxyproject/galaxy/pull/24685#pullrequestreview-5813406057) on `150cb834122` 2026-11-07 (one P2 + two P3s, all fixed on `pr_24685_review_1`, not pushed to PR).
 
-PR open against `dev`, not draft, CI green per reviewers.
+PR open against `dev`, approved, awaiting merge; no CI failures at approval.
