@@ -4,6 +4,7 @@ Snapshot: 2026-11-07 (reclassified from GitHub: #24773 to ready on green CI, #24
 
 ## Open Galaxy PRs — ready from our side (`ready`)
 
+- [`issue_24174_invocation_rerun_lineage`](active/issue_24174_invocation_rerun_lineage/index.md) — Records invocation rerun lineage in the database, API, run forms and invocation lists. [#24786](https://github.com/galaxyproject/galaxy/pull/24786).
 - [`issue_24722_unversioned_tool_preflight_26_2`](active/issue_24722_unversioned_tool_preflight_26_2/index.md) — Exact-version invocation/update accept unversioned shed ids at installed versions; 400 names installed versions. [#24742](https://github.com/galaxyproject/galaxy/pull/24742).
 - [`issue_24438_select_comma_split_25.1`](active/issue_24438_select_comma_split_25.1/index.md) — Preserve commas in single-select tool tests; lint and document multiple-select comma values (#24438). [#24491](https://github.com/galaxyproject/galaxy/pull/24491).
 - [`issue_24220_drop_collection_matching_26.0`](active/issue_24220_drop_collection_matching_26.0/index.md) — Tool form drag and drop matches dropped collections like the server; shared literal split-type helper (#24220). Base `release_26.0`. [#24453](https://github.com/galaxyproject/galaxy/pull/24453).
@@ -34,7 +35,6 @@ None yet.
 
 ## Draft Galaxy PRs — waiting for CI (`ci_wait`)
 
-- [`issue_24174_invocation_rerun_lineage`](active/issue_24174_invocation_rerun_lineage/index.md) — Records invocation rerun lineage in the database, API, run forms and invocation lists. [#24786](https://github.com/galaxyproject/galaxy/pull/24786).
 
 ## Draft Galaxy PRs — needs author work (`author_work`)
 

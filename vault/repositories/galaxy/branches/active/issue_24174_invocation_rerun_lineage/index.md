@@ -10,11 +10,11 @@ pr: 24786
 
 ## Status
 
-Reviewed by John at `683e2f05365` and waiting for CI (`ci_wait`), with the same-workflow rule, the grid's expanded-row lineage line and differential-review test removals added after polish ([PR description](pr_description.md), [titles](pr_titles.md), [tags](pr_tags.md), [checklist](pr_checklist.md), [polish debrief](polish_debrief.md); [screenshots](screenshots/) with [index](screenshot_debrief.md)).
+Reviewed by John at `683e2f05365` and ready (`ready`), with the same-workflow rule, the grid's expanded-row lineage line and differential-review test removals added after polish ([PR description](pr_description.md), [titles](pr_titles.md), [tags](pr_tags.md), [checklist](pr_checklist.md), [polish debrief](polish_debrief.md); [screenshots](screenshots/) with [index](screenshot_debrief.md)).
 
-Draft PR [#24786](https://github.com/galaxyproject/galaxy/pull/24786), at John's request, until CI finishes green.
+PR [#24786](https://github.com/galaxyproject/galaxy/pull/24786) is open, out of draft.
 
-Fork CI is still running on `683e2f05365`.
+Fork CI is green on `683e2f05365`; upstream's only red is `test_purge_all_histories` (Playwright `Test (3.10, 1)`, failed on rerun), unrelated: it also fails on dev run 42356060398 and on unrelated PRs since `b30953d1fca` added it.
 
 ## Decisions
 
