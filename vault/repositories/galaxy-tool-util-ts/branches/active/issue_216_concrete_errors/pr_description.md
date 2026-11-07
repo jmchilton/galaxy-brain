@@ -51,7 +51,9 @@ The step numbers don't help either. The same step reports as `0` under `tool_sta
 
 ***It can be longer than the count in `summary`.*** `summary` counts a failing step once and an invalid connection report once; the array has one entry per message.
 
-***`label` is null when there's no step to name, or no label to name it by.*** Structure, strict-structure and strict-encoding failures are plain strings, so their `label` is null even when the message mentions a step. A step with no label, or one inside an unlabelled subworkflow, also gets null: `inner` alone could be mistaken for a top-level step. Two failures in unlabelled steps with the same tool and message give identical entries, and `concrete.tool_state.results[]` still has the position for those.
+***An unlabelled inner step is named by its id.*** Under a labelled subworkflow it reports `outer/<id>`, using the numeric id `in:` references use, so a nested subworkflow can give `outer/1/inner`. That id counts the subworkflow's inputs, so with one input the first step is `outer/1`. It comes from the id rather than `step` because draft extraction shifts `step`: with a `TODO` first, a draft's third inner step reports as `0.1` but stays `outer/3`.
+
+***`label` is null when there's no step to name, or no real name to start a path from.*** Structure, strict-structure and strict-encoding failures are plain strings, so their `label` is null even when the message mentions a step. An unlabelled top-level step gets null, as the issue specifies, and so does everything inside an unlabelled top-level subworkflow: `inner` alone could be mistaken for a top-level step. Two such failures with the same tool and message give identical entries, and `concrete.tool_state.results[]` still has the position for those.
 
 ***`skip` connections stay out.*** They carry `errors`, but they don't fail the report. Skipped tool-state steps are entries only under `--strict-state`, where they do fail it.
 
@@ -62,10 +64,10 @@ The step numbers don't help either. The same step reports as `0` under `tool_sta
 <details><summary>How it works</summary>
 
 - `collectConcreteErrors` in `report-models.ts` builds the array in `buildSingleDraftValidationReport` from the finished concrete report. It's present whenever `concrete` is, and empty when the pass ran clean or was skipped (`ok: null`). When draft structure errors stop the concrete pass, both are absent and `structure_errors` explains the failure.
-- `step-label.ts` holds two helpers for all four walkers (effect and json-schema, native and format2). `withStepLabel` sets a step's own label. `withParentLabel` qualifies a subworkflow's results as they come back up, so the walker signatures don't change.
+- `step-label.ts` holds three helpers for all four walkers (effect and json-schema, native and format2). `stepName` picks what a step goes by: its label, or its key inside a subworkflow. `withStepLabel` sets it on a step's result. `withParentLabel` qualifies a subworkflow's results as they come back up, so the walker signatures don't change.
 - Connection messages are prefixed with the target input (`input_list: Incompatible types: …`), since a step can have several connections and the validator's text doesn't name the input.
 - Strict-state messages read `skipped (<status>): <reason>`.
-- `@galaxy-tool-util/schema` now also exports `nativeStepLabel` and the `ConcreteError` types.
+- `@galaxy-tool-util/schema` now also exports `nativeStepLabel`, `UNLABELED_STEP_PREFIX` and the `ConcreteError` types.
 
 </details>
 
@@ -73,7 +75,7 @@ The step numbers don't help either. The same step reports as `0` under `tool_sta
 
 - `packages/cli/test/concrete-errors.test.ts` runs `runDraftValidate` and `runValidateWorkflow` against a seeded tool cache:
   - the issue's failure, clean passes, and no `--concrete`;
-  - labels through inline subworkflows, three levels deep, and with each level unlabelled;
+  - labels through inline subworkflows, three levels deep, and with each level unlabelled, including inner ids that stay put when extraction drops a step ahead of them;
   - list-form ids, `_unlabeled_step_*` sentinels and `label: ""`;
   - the same step under the same label in `tool_state` and `connection_report`;
   - failed and skipped steps together under `--strict-state`;
@@ -97,7 +99,8 @@ Risks are low. The one thing that's hard to walk back is the JSON shape itself, 
 
 - `check` values and the label format become a public contract once a release ships them.
 - A `/` inside a step label makes the `outer/inner` path ambiguous.
-- Entries for unlabelled steps can't be told apart, which is common for inner steps of `.ga` subworkflows.
+- Entries for unlabelled top-level steps, and for steps inside an unlabelled top-level subworkflow, can't be told apart. `.ga` workflows with unlabelled subworkflow steps hit this.
+- A number in a label path is an id that counts inputs, not an index into `steps`. An inner step explicitly labelled with a number looks the same as an id.
 - Consumers comparing `results[]` or step results by exact shape will see the new `label` key.
 - `connection_report` no longer reports `label: ""`.
 
@@ -123,7 +126,7 @@ Related to galaxyproject/foundry#668, part 1; Foundry's per-step loop routes fai
 - Tightened `nativeStepLabel`'s return type, reused `SKIP_STATUSES` for the strict-state filter, shared the tests' JSON report helper, and added a three-level nesting test.
 - Left as follow-ups: merging the four walkers, renaming the positional `stepLabel` variable, and splitting `report-models.ts`.
 
-[Full report](https://galaxy-brain.jmchilton.net/repositories/galaxy-tool-util-ts/branches/issue_216_concrete_errors/thermo_nuclear_review/). Run via claude-opus-5-5 at high effort.
+It predates the id-based labels in `bf3a5b6b`. [Full report](https://galaxy-brain.jmchilton.net/repositories/galaxy-tool-util-ts/branches/issue_216_concrete_errors/thermo_nuclear_review/). Run via claude-opus-5-5 at high effort.
 
 </details>
 
@@ -131,7 +134,7 @@ Related to galaxyproject/foundry#668, part 1; Foundry's per-step loop routes fai
 
 <details><summary>No findings, from a limited pass: Codex read only the diff and 15 embedded source files.</summary>
 
-Codex's shell couldn't run in this environment, so it couldn't open other files or run anything. The result is weaker than a normal run. It reviewed `f7cab7b8`, before the thermo-nuclear commits and the edge-annotation fix in `0756cf04`.
+Codex's shell couldn't run in this environment, so it couldn't open other files or run anything. The result is weaker than a normal run. It reviewed `f7cab7b8`, before the thermo-nuclear commits, the edge-annotation fix in `0756cf04` and the id-based labels in `bf3a5b6b`.
 
 [Full report](https://galaxy-brain.jmchilton.net/repositories/galaxy-tool-util-ts/branches/issue_216_concrete_errors/codex_review/). Run via gpt-6.1-sol at high effort.
 

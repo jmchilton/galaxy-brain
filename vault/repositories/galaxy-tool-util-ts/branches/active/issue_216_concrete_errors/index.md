@@ -9,11 +9,11 @@ upstream_base_branch: main
 
 ## Status
 
-Polished; ready for John's final review. Pushed to `origin` at `0756cf04` on `origin/main` `f5470fe5`.
+Polished; ready for John's final review. Pushed to `origin` at `bf3a5b6b` on `origin/main` `f5470fe5`.
 
 No PR yet.
 
-Local gate: lint, format, typecheck, knip and build green; tests green except 3 integration-tests that fail identically on `origin/main`; CI runs on PRs only.
+Local gate: lint, format, typecheck, `lint:unused:ci` and build green; tests green except 3 integration-tests that fail identically on `origin/main`; CI runs on PRs only.
 
 ## Links
 
@@ -23,4 +23,4 @@ Local gate: lint, format, typecheck, knip and build green; tests green except 3 
 
 - Issue: [galaxy-tool-util-ts#216](https://github.com/jmchilton/galaxy-tool-util-ts/issues/216), record [issues/wip/216](../../../issues/wip/216/index.md).
 - Worktree: `~/projects/worktrees/galaxy-tool-util-ts/branch/issue_216_concrete_errors`.
-- The Codex review was a limited pass and predates the last commits; open questions are in the [polish debrief](polish_debrief.md).
+- The Codex review was a limited pass and predates the last commits; no review has seen `bf3a5b6b`; open questions are in the [polish debrief](polish_debrief.md).

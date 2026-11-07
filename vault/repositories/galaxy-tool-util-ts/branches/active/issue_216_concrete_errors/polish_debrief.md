@@ -37,7 +37,7 @@ created /home/ubuntu/projects/repositories/galaxy-brain/vault/repositories/galax
 
 ## Questions for John
 
-- **Unlabelled steps.** Entries can't be told apart (`label: null`, no `step`, maybe the same `tool_id`), which is common for inner steps of `.ga` subworkflows. Should an unlabelled inner step report something like `outer/<position>`?
+- **Unlabelled steps.** Answered 2026-11-07: an unlabelled inner step reports `outer/<id>` (`bf3a5b6b`). Unlabelled top-level steps and everything under an unlabelled top-level subworkflow stay null, so those entries still can't be told apart.
 - **`/` in a label.** It makes the `outer/inner` path ambiguous. Acceptable?
 - **`failures[]` in `validate-tree --json`.** It still has only the positional step. Add `label` in a follow-up?
 - **Deriving `ok`.** Compute it from `collectConcreteErrors`, so an entry exists by construction? It rewrites how an existing field is computed, so I left it as a follow-up.
@@ -46,3 +46,20 @@ created /home/ubuntu/projects/repositories/galaxy-brain/vault/repositories/galax
 - **Dict steps with `label: ""`.** A step `catty:` with `label: ""` reports no label while `mermaid` shows `catty`, because `nativeStepLabel` doesn't fall back to `id`. Intended?
 - **Unlabelled `.ga` annotations.** Steps with `label: null` get no annotation on `main` or here, and the `""` case works by accident. Fix separately?
 - **Python parity.** `label` is marked TS-only, as on `ConnectionStepResult`. Should the Python report models gain it? Not checked.
+
+## Revision after polish: id-based inner labels
+
+John approved naming unlabelled inner steps by position. The list index and `step` both shift when draft extraction drops a step, so `bf3a5b6b` uses the id `in:` references use, which extraction preserves. Not re-reviewed by Codex, the thermo-nuclear pass or a normal review subagent.
+
+**Local gate at `bf3a5b6b`'s code:** lint, format, typecheck, `lint:unused:ci` and build pass. Full vitest: 3 failed | 6543 passed, the same 3 that fail on `origin/main`, plus the 13 gxwf-e2e spec files that error at vitest collection. The commit's docs and changeset edits came after this run and were only format-checked. CI hasn't run.
+
+**Differential review snapshot:**
+
+```
+created /home/ubuntu/projects/repositories/galaxy-brain/vault/repositories/galaxy-tool-util-ts/branches/active/issue_216_concrete_errors/differential-review/snapshots/20261107T143933Z-revision-bf3a5b6bcd32.json
+  revision @ bf3a5b6bcd32 vs origin/main (merge-base f5470fe5ac3b)
+  since 20261106T220848Z-polishing-0756cf04b570:
+    commits: 6 same, 0 rebased, 0 changed, 1 new, 0 dropped
+    hunks:   26 carried, 17 changed, 2 new, 0 dropped
+    new     bf3a5b6bcd32 Name unlabelled inner steps by id in label paths
+```
