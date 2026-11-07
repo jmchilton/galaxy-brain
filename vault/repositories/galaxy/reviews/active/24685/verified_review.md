@@ -39,33 +39,3 @@ Use `server.use(http.post("/api/dataset_collections", ...))` for both outcomes, 
 Discovered by [gx_test_challenger](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/reviewers/gx_test_challenger.md) via Opus 5.5 at medium effort. Verified via Opus 5.5 at medium effort.
 
 </details>
-
-### P3 3: `DatasetDetails` test can shrink to what only it covers (implementation verified)
-
-`test_dataset_change_dbkey` already clicks `.dbkey .value` and waits for the edit form, so the `tagName`, `.value` and `text` assertions duplicate it. What E2E wouldn't notice is `.stop` keeping the click from reaching the history item, and checking that doesn't need the inline wrapper template.
-
-Use the file's `shallowMount` with `stubs: { GLink: false }` and a native listener on the root element, keeping the `edit` emit and propagation assertions.
-
-<details><summary>Evidence</summary>
-
-The rewritten test passes, and fails on the propagation assertion when `.stop` is temporarily removed from `DatasetDetails.vue`.
-
-</details>
-
-<details><summary>Discovery & Verification Agent Details</summary>
-
-Discovered by [gx_test_challenger](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/reviewers/gx_test_challenger.md) via Opus 5.5 at medium effort. Verified via Opus 5.5 at medium effort.
-
-</details>
-
-### P3 4: Assertions pin GLink's class and repeat its element (implementation verified)
-
-`toContain("g-link")` (`BreadcrumbHeading.test.ts` twice, `PersistentTaskProgressMonitorAlert.test.ts`) and `findLinkByText`'s `.g-link` lookup pin GLink's internal class, so they'd fail on a GLink refactor with no behavior change here. The `tagName` checks (`CollectionCreatorIndex.test.ts` twice, `PersistentTaskProgressMonitorAlert.test.ts`) are redundant: the `href` assertion already implies the anchor, and a `button` lookup implies the button.
-
-Drop them, and have `findLinkByText` look up `button` by text.
-
-<details><summary>Discovery & Verification Agent Details</summary>
-
-Discovered by [gx_test_challenger](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/reviewers/gx_test_challenger.md) via Opus 5.5 at medium effort. Verified via Opus 5.5 at medium effort.
-
-</details>
