@@ -1,6 +1,20 @@
+---
+related_records:
+  - foundry/issues/757
+  - foundry/issues/758
+  - foundry/branches/issue-674-single-workflow-posture
+---
 # #674 Interface-tier notes have no rule for shape-changing params or meta-driven parameterization
 
 [Issue](https://github.com/galaxyproject/foundry/issues/674) — opened 2026-10-12 (AI-assisted, filed for scottcain), only `needs-triage`. No comments. No PR or branch addresses it (`gh pr list --search 674` empty; related branch `nextflow-control-params-178` belongs to closed #178).
+
+## Status 2026-11-07
+
+Split at John's request. Their [issue comment](https://github.com/galaxyproject/foundry/issues/674#issuecomment-6697972255) and the [narrowing comment](https://github.com/galaxyproject/foundry/issues/674#issuecomment-6708869322) are the current scope.
+
+- **In draft PR [#759](https://github.com/galaxyproject/foundry/pull/759):** the single-workflow posture, in the conditional note and `guiding-principles`. It doesn't close this issue.
+- **Moved:** per-element parameters to #757, `when` wording to #758. The test-parameter route stays with #661 and #667.
+- **Still here, not started:** the `nextflow-params-to-galaxy-inputs` rule, the `nextflow-summary-to-galaxy-interface` reference to the conditional note, and `nextflow-workflow-io-semantics`.
 
 ## Re-triage 2026-11-06 (supersedes the Next section and the "link, don't restate" advice below)
 
@@ -14,13 +28,13 @@ Decision (John, 2026-11-06): Galaxy has conditionals and we should use them. A s
 
 ### Status and claim
 
-- GitHub has `work/in-progress`, so the label mapping says `wip` (rule 2). The directory and index line stay in `needs_decision` until the claim below settles, to avoid colliding with its holder's move.
+- GitHub has `work/in-progress`, so the label mapping says `wip` (rule 2).
 - The 12:49Z comment claiming branch `issue-674-shape-changing-params` came from WORK_HORSE in session wf-foundry-95, which reached the same findings independently and stopped before editing any note. The branch had no commits and is gone, along with its worktree; nothing was pushed. Only the `work/in-progress` label remains, left on so no agent picks up Expected as written. It posted no questions, to avoid competing with the scope comment.
 
 ### Labels
 
 - Keep `roadmap/off`, `priority/mvp`.
-- `work/ready-implement` once the claim is released and the scope comment is posted (the label doc has the holder restore it). Nothing staged while the claim stands.
+- `work/in-progress` stays while #759 is open. If the remaining items aren't picked up with it, restore `work/ready-implement`.
 
 ### Findings (read from source; no workflow run)
 
@@ -63,8 +77,7 @@ Overlap: #661 owns the fan-in recipe; link it, don't duplicate. Skim #267 and #7
 
 ### Open questions for John
 
-- Release the claim to `work/ready-implement`?
-- Keep §2 here, or split the test-param route out as `work/ready-research`?
+- Add the remaining items to #759, or release them to `work/ready-implement` once #759 merges?
 
 ## Proposed labels (2026-10-24 triage, applied)
 

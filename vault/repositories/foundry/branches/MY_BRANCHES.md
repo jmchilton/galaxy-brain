@@ -27,6 +27,7 @@ None yet.
 
 ## Draft Foundry PRs — waiting for CI (`ci_wait`)
 
+- [`issue-674-single-workflow-posture`](active/issue-674-single-workflow-posture/index.md) — Say a tool choice doesn't need a second workflow (part of #674). [#759](https://github.com/galaxyproject/foundry/pull/759).
 - [`issue-568-review-agent-benchmark-paper`](active/issue-568-review-agent-benchmark-paper/index.md) — Comparisons page: contrast with one detailed prompt, from the Munn and Grenier study (#568). [#750](https://github.com/galaxyproject/foundry/pull/750).
 
 ## Draft Foundry PRs — needs author work (`author_work`)
