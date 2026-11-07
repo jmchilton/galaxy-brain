@@ -1,0 +1,208 @@
+{
+  "schemaVersion": 1,
+  "kind": "differential-review-state",
+  "updatedAt": "2026-11-07T20:04:30.398Z",
+  "hunks": {
+    "h1:1bea2f46a6ff412f": {
+      "snapshotId": "20261107T200404Z-review-49fa5544810c",
+      "path": "client/eslint.config.mjs",
+      "reviewedAt": "2026-11-07T20:04:08.149Z"
+    },
+    "h1:9364bdb92ff8d9e0": {
+      "snapshotId": "20261107T200404Z-review-49fa5544810c",
+      "path": "client/eslint.config.mjs",
+      "reviewedAt": "2026-11-07T20:04:08.149Z"
+    },
+    "h1:1b4dcfe6bbfd882b": {
+      "snapshotId": "20261107T200404Z-review-49fa5544810c",
+      "path": "client/packages/ui/src/components/GButton.vue",
+      "reviewedAt": "2026-11-07T20:04:10.507Z"
+    },
+    "h1:8d22c78a186dc032": {
+      "snapshotId": "20261107T200404Z-review-49fa5544810c",
+      "path": "client/packages/ui/src/components/GButton.vue",
+      "reviewedAt": "2026-11-07T20:04:10.507Z"
+    },
+    "h1:7dc23820aae09d91": {
+      "snapshotId": "20261107T200404Z-review-49fa5544810c",
+      "path": "client/packages/ui/src/components/GDropdown.vue",
+      "reviewedAt": "2026-11-07T20:04:11.974Z"
+    },
+    "h1:5775218080f7aacf": {
+      "snapshotId": "20261107T200404Z-review-49fa5544810c",
+      "path": "client/packages/ui/src/components/GDropdown.vue",
+      "reviewedAt": "2026-11-07T20:04:11.974Z"
+    },
+    "h1:b812be9f806727dc": {
+      "snapshotId": "20261107T200404Z-review-49fa5544810c",
+      "path": "client/packages/ui/src/components/GLink.vue",
+      "reviewedAt": "2026-11-07T20:04:12.633Z"
+    },
+    "h1:da8a5959a8f1450f": {
+      "snapshotId": "20261107T200404Z-review-49fa5544810c",
+      "path": "client/packages/ui/src/components/GLink.vue",
+      "reviewedAt": "2026-11-07T20:04:12.633Z"
+    },
+    "h1:7b764e60f70116c9": {
+      "snapshotId": "20261107T200404Z-review-49fa5544810c",
+      "path": "client/packages/ui/src/components/GPopover.vue",
+      "reviewedAt": "2026-11-07T20:04:14.142Z"
+    },
+    "h1:8bb89d98b8f5888a": {
+      "snapshotId": "20261107T200404Z-review-49fa5544810c",
+      "path": "client/packages/ui/src/components/GTabs.test.ts",
+      "reviewedAt": "2026-11-07T20:04:18.782Z"
+    },
+    "h1:2e3c2c70f0419dd1": {
+      "snapshotId": "20261107T200404Z-review-49fa5544810c",
+      "path": "client/packages/ui/src/components/GTabs.vue",
+      "reviewedAt": "2026-11-07T20:04:19.859Z"
+    },
+    "h1:061126bcc0d3773c": {
+      "snapshotId": "20261107T200404Z-review-49fa5544810c",
+      "path": "client/packages/ui/src/components/GTabs.vue",
+      "reviewedAt": "2026-11-07T20:04:19.859Z"
+    },
+    "h1:a9953e700414c568": {
+      "snapshotId": "20261107T200404Z-review-49fa5544810c",
+      "path": "client/packages/ui/src/components/GTabs.vue",
+      "reviewedAt": "2026-11-07T20:04:19.859Z"
+    },
+    "h1:536379e61b687df9": {
+      "snapshotId": "20261107T200404Z-review-49fa5544810c",
+      "path": "client/packages/ui/src/components/GTabs.vue",
+      "reviewedAt": "2026-11-07T20:04:19.859Z"
+    },
+    "h1:e9e080867463c86f": {
+      "snapshotId": "20261107T200404Z-review-49fa5544810c",
+      "path": "client/src/components/Common/GCard.vue",
+      "reviewedAt": "2026-11-07T20:04:20.609Z"
+    },
+    "h1:9f8797ad83ea6a57": {
+      "snapshotId": "20261107T200404Z-review-49fa5544810c",
+      "path": "client/src/components/Common/GCard.vue",
+      "reviewedAt": "2026-11-07T20:04:20.609Z"
+    },
+    "h1:ff43ed4dbf4d6892": {
+      "snapshotId": "20261107T200404Z-review-49fa5544810c",
+      "path": "client/src/components/Common/GCard.vue",
+      "reviewedAt": "2026-11-07T20:04:20.609Z"
+    },
+    "h1:80329751650a575f": {
+      "snapshotId": "20261107T200404Z-review-49fa5544810c",
+      "path": "client/src/components/History/CurrentHistory/HistoryCounter.vue",
+      "reviewedAt": "2026-11-07T20:04:21.397Z"
+    },
+    "h1:067c0dedfa9ed1b2": {
+      "snapshotId": "20261107T200404Z-review-49fa5544810c",
+      "path": "client/src/components/Masthead/MastheadDropdown.vue",
+      "reviewedAt": "2026-11-07T20:04:22.081Z"
+    },
+    "h1:8640803f9b1a6294": {
+      "snapshotId": "20261107T200404Z-review-49fa5544810c",
+      "path": "client/src/components/Notifications/Broadcasts/BroadcastContainer.vue",
+      "reviewedAt": "2026-11-07T20:04:22.783Z"
+    },
+    "h1:b4e6e84e40ec7368": {
+      "snapshotId": "20261107T200404Z-review-49fa5544810c",
+      "path": "client/src/components/User/DiskUsage/Visualizations/HistoryStorageOverview.test.ts",
+      "reviewedAt": "2026-11-07T20:04:23.566Z"
+    },
+    "h1:a0c532a860d05b4c": {
+      "snapshotId": "20261107T200404Z-review-49fa5544810c",
+      "path": "client/src/components/User/DiskUsage/Visualizations/HistoryStorageOverview.vue",
+      "reviewedAt": "2026-11-07T20:04:24.499Z"
+    },
+    "h1:32786f9a18ae6acf": {
+      "snapshotId": "20261107T200404Z-review-49fa5544810c",
+      "path": "client/src/components/User/DiskUsage/Visualizations/HistoryStorageOverview.vue",
+      "reviewedAt": "2026-11-07T20:04:24.499Z"
+    },
+    "h1:cf8d8af19da982cb": {
+      "snapshotId": "20261107T200404Z-review-49fa5544810c",
+      "path": "client/src/components/User/DiskUsage/Visualizations/HistoryStorageOverview.vue",
+      "reviewedAt": "2026-11-07T20:04:24.499Z"
+    },
+    "h1:ee02d5b7d1de2cdd": {
+      "snapshotId": "20261107T200404Z-review-49fa5544810c",
+      "path": "client/src/components/User/DiskUsage/Visualizations/HistoryStorageOverview.vue",
+      "reviewedAt": "2026-11-07T20:04:24.499Z"
+    },
+    "h1:08f8f4b523d0bc17": {
+      "snapshotId": "20261107T200404Z-review-49fa5544810c",
+      "path": "client/src/components/User/DiskUsage/Visualizations/util.ts",
+      "reviewedAt": "2026-11-07T20:04:25.317Z"
+    },
+    "h1:d4495f050746bb96": {
+      "snapshotId": "20261107T200404Z-review-49fa5544810c",
+      "path": "client/src/components/Workflow/Editor/LintSection.vue",
+      "reviewedAt": "2026-11-07T20:04:26.168Z"
+    },
+    "h1:9d9d92d5e9340dd9": {
+      "snapshotId": "20261107T200404Z-review-49fa5544810c",
+      "path": "client/vite.config.mjs",
+      "reviewedAt": "2026-11-07T20:04:27.152Z"
+    },
+    "h1:95763652808d4dfc": {
+      "snapshotId": "20261107T200404Z-review-49fa5544810c",
+      "path": "client/vitest.config.mts",
+      "reviewedAt": "2026-11-07T20:04:27.931Z"
+    }
+  },
+  "commits": {
+    "31c4a35f0f48b8052353da1a98c0675fcbe278c4": {
+      "sha": "4b58b7e26b66efa558ab93a29b370dc8d0651a48",
+      "subject": "Put v-bind objects first in the galaxy-ui components",
+      "snapshotId": "20261107T200404Z-review-49fa5544810c",
+      "signedOffAt": "2026-11-07T20:04:28.998Z"
+    },
+    "46d321c228387a0b1cf559e2d64938e9292fd1f9": {
+      "sha": "0e77a2d2ea8898f376eaeabce0ab3b46b4fc0ed9",
+      "subject": "Move v-bind objects ahead of explicit attributes",
+      "snapshotId": "20261107T200404Z-review-49fa5544810c",
+      "signedOffAt": "2026-11-07T20:04:29.251Z"
+    },
+    "ee2de0c1b0675bd25561943294a4628b54c41d20": {
+      "sha": "ea356caaf194f0fe89af774a6baa93776133ba2c",
+      "subject": "Keep selection off on the active vs deleted storage chart",
+      "snapshotId": "20261107T200404Z-review-49fa5544810c",
+      "signedOffAt": "2026-11-07T20:04:29.398Z"
+    },
+    "1d868e01f54d28aad52976f5b9d607ba34a73152": {
+      "sha": "653279377e122206b1f94d1ec0d67b4364358244",
+      "subject": "Drop the bare template around masthead dropdown items",
+      "snapshotId": "20261107T200404Z-review-49fa5544810c",
+      "signedOffAt": "2026-11-07T20:04:29.549Z"
+    },
+    "03fb2674828ee636a9c4ab4763392b8aade12ab5": {
+      "sha": "f9ff9802733cf960c16e5257c2e42795d3039407",
+      "subject": "Compile templates with Vue 3 semantics",
+      "snapshotId": "20261107T200404Z-review-49fa5544810c",
+      "signedOffAt": "2026-11-07T20:04:29.706Z"
+    },
+    "280291c5e78bb1ef1ad2acc7b93ec353f530fcd9": {
+      "sha": "2ad6ac01eb01fe8f81b2360a57cc271c86bfbbc2",
+      "subject": "Test that GTabs keeps its own tab attributes over titleLinkAttributes",
+      "snapshotId": "20261107T200404Z-review-49fa5544810c",
+      "signedOffAt": "2026-11-07T20:04:29.873Z"
+    },
+    "bf257ccc18ddab32dbbe9c64977ded6189860f07": {
+      "sha": "5af2a2413630a4ce9db332d09f988ae0f78dc00c",
+      "subject": "Take enable-selection out of the shared chart formatting object",
+      "snapshotId": "20261107T200404Z-review-49fa5544810c",
+      "signedOffAt": "2026-11-07T20:04:30.040Z"
+    },
+    "f842a5781d895eee51f8c39d77c62315e3d423a5": {
+      "sha": "3e14931d50e58e0f0c1611e05aa3f8a8e8e034f8",
+      "subject": "Drop the extra pinia from the storage overview test",
+      "snapshotId": "20261107T200404Z-review-49fa5544810c",
+      "signedOffAt": "2026-11-07T20:04:30.214Z"
+    },
+    "35fcaaec34a6ae69ed9e59d5aa23baa1c4de1fc2": {
+      "sha": "49fa5544810c37ddfa05ccc9eaa2bd52c07e019c",
+      "subject": "Don't say runtime compat is only for the Vue 2 libraries yet",
+      "snapshotId": "20261107T200404Z-review-49fa5544810c",
+      "signedOffAt": "2026-11-07T20:04:30.398Z"
+    }
+  }
+}
