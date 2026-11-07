@@ -128,4 +128,48 @@
     ✨ Existing implicit conversions looked up via `DatasetAssociationManager.get_accessible_converted`. Polish paused, awaiting John's decisions.
   status: recommended
   suggested_by: gx_branches/SUGGESTED_TASKS.md#Polish Branches
+- prompt: Run ./POLISH_BRANCH.md harden_url_abstractions_25.1
+  agent_dir: gx_branches
+  record: galaxy/branches/harden_url_abstractions_25.1
+  description: |
+    ✨ `validate_non_local` reads schemes/hosts like requests/urllib; every hop of http file source, TRS servers and remote ZIP validated. Fork CI green.
+  status: recommended
+  suggested_by: gx_branches/SUGGESTED_TASKS.md#Polish Branches
+- prompt: De-conflict branch issue_3899_pulsar_container_deps. BRANCH_DIRECTORY is vault/repositories/galaxy/branches/active/issue_3899_pulsar_container_deps/. Rebase it onto its actual base branch (`parent_branch` when present, otherwise `upstream_base_branch`, per ../_shared/REPOSITORY_BRANCHES.md), reconciling any disagreement with the PR's `baseRefName` first. Resolve mechanical and clear conflicts, and stop and ask me about substantial ones. Force-push with `--force-with-lease` to the `jmchilton` fork, update the SHA in the branch record and queue, and take a `revision` snapshot per ../_shared/PROCESS_DIFFERENTIAL_REVIEW_SNAPSHOT.md.
+  agent_dir: gx_branches
+  link: https://github.com/galaxyproject/galaxy/pull/24555
+  record: galaxy/branches/issue_3899_pulsar_container_deps
+  profile: Sonnet (high)
+  priority: high
+  description: |
+    🔀 Respects a Pulsar container job's dependency-resolution opt-in (#3899). Conflicting files: see PR.
+  status: recommended
+  suggested_by: gx_branches/SUGGESTED_TASKS.md#De-conflict Branches
+- prompt: De-conflict branch issue_24173_invocation_selection_urls. BRANCH_DIRECTORY is vault/repositories/galaxy/branches/active/issue_24173_invocation_selection_urls/. Rebase it onto its actual base branch (`parent_branch` when present, otherwise `upstream_base_branch`, per ../_shared/REPOSITORY_BRANCHES.md), reconciling any disagreement with the PR's `baseRefName` first. Resolve mechanical and clear conflicts, and stop and ask me about substantial ones. Force-push with `--force-with-lease` to the `jmchilton` fork, update the SHA in the branch record and queue, and take a `revision` snapshot per ../_shared/PROCESS_DIFFERENTIAL_REVIEW_SNAPSHOT.md.
+  agent_dir: gx_branches
+  link: https://github.com/galaxyproject/galaxy/pull/24307
+  record: galaxy/branches/issue_24173_invocation_selection_urls
+  profile: Sonnet (high)
+  priority: high
+  description: |
+    🔀 Makes invocation step, job and output selections shareable through URLs (#24173). Conflicting files: see PR.
+  status: recommended
+  suggested_by: gx_branches/SUGGESTED_TASKS.md#De-conflict Branches
+- prompt: Respond to mvdbeek's review of galaxyproject/galaxy#24742 (branch issue_24722_unversioned_tool_preflight_26_2) per ../_shared/RESPOND_TO_REVIEW.md. BRANCH_DIRECTORY is vault/repositories/galaxy/branches/active/issue_24722_unversioned_tool_preflight_26_2/.
+  agent_dir: gx_branches
+  link: https://github.com/galaxyproject/galaxy/pull/24742
+  record: galaxy/branches/issue_24722_unversioned_tool_preflight_26_2
+  profile: Opus (low)
+  description: |
+    🙇 Exact-version invocation/update accept unversioned shed ids. mvdbeek asks to review and pull in jmchilton/galaxy#98.
+  status: recommended
+  suggested_by: gx_branches/SUGGESTED_TASKS.md#Respond to Review (deferential)
+- prompt: Let's talk about branch selenium_dataset_tags_auto_detect. The branch record is vault/repositories/galaxy/branches/active/selenium_dataset_tags_auto_detect/.
+  agent_dir: gx_branches
+  link: https://github.com/galaxyproject/galaxy/pull/24347
+  record: galaxy/branches/selenium_dataset_tags_auto_detect
+  description: |
+    🔀 Missing E2E tests: history item Add Tags, Attributes tab Auto-detect. Approved by mvdbeek; CI green.
+  status: recommended
+  suggested_by: gx_branches/SUGGESTED_TASKS.md#Merge Branches
 ```
