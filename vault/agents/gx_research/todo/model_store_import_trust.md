@@ -19,3 +19,4 @@ Leave out the history export/archive UI and task plumbing beyond naming the entr
 ## Requested by
 
 - vault/repositories/galaxy/reviews/active/24647: learning review needed a baseline of `ImportOptions` edit semantics and the extended-metadata round trip to explain the new allowlist.
+- vault/repositories/galaxy/branches/active/issue_24787_metadata_source_shared_file_26_1: needed how `replace_metadata_file` resolves a metadata file by uuid and why it inserts a duplicate row for another dataset's uuid (release_25.1 lacks the later `b37de64b702` reuse logic).
