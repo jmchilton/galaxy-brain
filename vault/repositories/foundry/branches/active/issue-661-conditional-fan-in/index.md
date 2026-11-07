@@ -14,7 +14,7 @@ Branch on `jmchilton`, rebased onto `origin/main` at `ae8beb6d`, head `13f00121`
 
 PR [#755](https://github.com/galaxyproject/foundry/pull/755) is open, not draft; body is [pr_description.md](pr_description.md).
 
-Local `make -k check` green at `13f00121` except `check-vendored` (machine-only). CI at `13f00121`: running.
+Local `make -k check` green at `13f00121` except `check-vendored` (machine-only). CI at `13f00121`: green, including `planemo`.
 
 ## Supporting files
 
