@@ -1,0 +1,188 @@
+{
+  "schemaVersion": 1,
+  "kind": "differential-review-state",
+  "updatedAt": "2026-11-07T15:50:44.929Z",
+  "hunks": {
+    "h1:d8a73f76aad418d9": {
+      "snapshotId": "20261106T192857Z-review-82550bcf0625",
+      "path": "client/src/components/History/Graph/ToolExecutionJobs.test.ts",
+      "reviewedAt": "2026-11-07T15:50:40.510Z"
+    },
+    "h1:c7458dc5feba5366": {
+      "snapshotId": "20261106T192857Z-review-82550bcf0625",
+      "path": "client/src/components/History/Graph/ToolExecutionJobs.vue",
+      "reviewedAt": "2026-11-07T15:50:40.801Z"
+    },
+    "h1:2adab526965e0ec1": {
+      "snapshotId": "20261106T192857Z-review-82550bcf0625",
+      "path": "client/src/components/History/Graph/ToolExecutionJobs.vue",
+      "reviewedAt": "2026-11-07T15:50:40.801Z"
+    },
+    "h1:a621a8d1dc6632a0": {
+      "snapshotId": "20261106T192857Z-review-82550bcf0625",
+      "path": "client/src/components/History/Graph/ToolExecutionJobs.vue",
+      "reviewedAt": "2026-11-07T15:50:40.801Z"
+    },
+    "h1:f43a87163d183522": {
+      "snapshotId": "20261106T192857Z-review-82550bcf0625",
+      "path": "client/src/components/History/Graph/ToolExecutionJobs.vue",
+      "reviewedAt": "2026-11-07T15:50:40.801Z"
+    },
+    "h1:c29799d41c8d3989": {
+      "snapshotId": "20261106T192857Z-review-82550bcf0625",
+      "path": "client/src/components/History/StorageOperations/StorageOperationRunView.test.ts",
+      "reviewedAt": "2026-11-07T15:50:40.956Z"
+    },
+    "h1:cb6c75ff22167be7": {
+      "snapshotId": "20261106T192857Z-review-82550bcf0625",
+      "path": "client/src/components/History/StorageOperations/StorageOperationRunView.vue",
+      "reviewedAt": "2026-11-07T15:50:41.135Z"
+    },
+    "h1:0684e00e350230dc": {
+      "snapshotId": "20261106T192857Z-review-82550bcf0625",
+      "path": "client/src/components/History/StorageOperations/StorageOperationRunView.vue",
+      "reviewedAt": "2026-11-07T15:50:41.135Z"
+    },
+    "h1:d26b2acef3120a39": {
+      "snapshotId": "20261106T192857Z-review-82550bcf0625",
+      "path": "client/src/components/History/StorageOperations/StorageOperationRunView.vue",
+      "reviewedAt": "2026-11-07T15:50:41.135Z"
+    },
+    "h1:d79d76154cfe673a": {
+      "snapshotId": "20261106T192857Z-review-82550bcf0625",
+      "path": "client/src/components/History/StorageOperations/StorageOperationRunsTable.test.ts",
+      "reviewedAt": "2026-11-07T15:50:41.300Z"
+    },
+    "h1:560e01303f59352b": {
+      "snapshotId": "20261106T192857Z-review-82550bcf0625",
+      "path": "client/src/components/History/StorageOperations/StorageOperationRunsTable.vue",
+      "reviewedAt": "2026-11-07T15:50:41.476Z"
+    },
+    "h1:9202693cdb9512e0": {
+      "snapshotId": "20261106T192857Z-review-82550bcf0625",
+      "path": "client/src/components/History/StorageOperations/StorageOperationRunsTable.vue",
+      "reviewedAt": "2026-11-07T15:50:41.476Z"
+    },
+    "h1:5c45cf61efd4a0b3": {
+      "snapshotId": "20261106T192857Z-review-82550bcf0625",
+      "path": "client/src/components/History/StorageOperations/StorageOperationRunsTable.vue",
+      "reviewedAt": "2026-11-07T15:50:41.476Z"
+    },
+    "h1:565169f3337ce3c6": {
+      "snapshotId": "20261106T192857Z-review-82550bcf0625",
+      "path": "client/src/components/ImportData/zip/ZipFileSelector.test.ts",
+      "reviewedAt": "2026-11-07T15:50:41.659Z"
+    },
+    "h1:1b8f09c6c0139795": {
+      "snapshotId": "20261106T192857Z-review-82550bcf0625",
+      "path": "client/src/components/ImportData/zip/ZipFileSelector.vue",
+      "reviewedAt": "2026-11-07T15:50:41.834Z"
+    },
+    "h1:a1b85330b77cf01d": {
+      "snapshotId": "20261106T192857Z-review-82550bcf0625",
+      "path": "client/src/components/ImportData/zip/ZipFileSelector.vue",
+      "reviewedAt": "2026-11-07T15:50:41.834Z"
+    },
+    "h1:15d6383f98ef7703": {
+      "snapshotId": "20261106T192857Z-review-82550bcf0625",
+      "path": "client/src/components/ImportData/zip/ZipFileSelector.vue",
+      "reviewedAt": "2026-11-07T15:50:41.834Z"
+    },
+    "h1:aff43727563c90f3": {
+      "snapshotId": "20261106T192857Z-review-82550bcf0625",
+      "path": "client/src/components/ImportData/zip/ZipImportSummary.test.ts",
+      "reviewedAt": "2026-11-07T15:50:42.009Z"
+    },
+    "h1:b63a8788e4ce5a96": {
+      "snapshotId": "20261106T192857Z-review-82550bcf0625",
+      "path": "client/src/components/ImportData/zip/ZipImportSummary.vue",
+      "reviewedAt": "2026-11-07T15:50:42.184Z"
+    },
+    "h1:99c67a48097d4891": {
+      "snapshotId": "20261106T192857Z-review-82550bcf0625",
+      "path": "client/src/components/ImportData/zip/ZipImportSummary.vue",
+      "reviewedAt": "2026-11-07T15:50:42.184Z"
+    },
+    "h1:f2f2b4b5562c9a9f": {
+      "snapshotId": "20261106T192857Z-review-82550bcf0625",
+      "path": "client/src/components/ImportData/zip/ZipImportSummary.vue",
+      "reviewedAt": "2026-11-07T15:50:42.184Z"
+    },
+    "h1:a890e6eb52704a7e": {
+      "snapshotId": "20261106T192857Z-review-82550bcf0625",
+      "path": "client/src/components/ImportData/zip/views/GalaxyZipView.test.ts",
+      "reviewedAt": "2026-11-07T15:50:42.359Z"
+    },
+    "h1:45e85f1d46b7f8ae": {
+      "snapshotId": "20261106T192857Z-review-82550bcf0625",
+      "path": "client/src/components/ImportData/zip/views/GalaxyZipView.vue",
+      "reviewedAt": "2026-11-07T15:50:42.543Z"
+    },
+    "h1:efb0870f393bcb4a": {
+      "snapshotId": "20261106T192857Z-review-82550bcf0625",
+      "path": "client/src/components/ImportData/zip/views/GalaxyZipView.vue",
+      "reviewedAt": "2026-11-07T15:50:42.543Z"
+    },
+    "h1:a7faaf40e159be4e": {
+      "snapshotId": "20261106T192857Z-review-82550bcf0625",
+      "path": "client/src/components/ImportData/zip/views/RegularZipView.test.ts",
+      "reviewedAt": "2026-11-07T15:50:42.718Z"
+    },
+    "h1:84d9617eda128842": {
+      "snapshotId": "20261106T192857Z-review-82550bcf0625",
+      "path": "client/src/components/ImportData/zip/views/RegularZipView.vue",
+      "reviewedAt": "2026-11-07T15:50:42.892Z"
+    },
+    "h1:d199916506ef21ed": {
+      "snapshotId": "20261106T192857Z-review-82550bcf0625",
+      "path": "client/src/components/ImportData/zip/views/RegularZipView.vue",
+      "reviewedAt": "2026-11-07T15:50:42.892Z"
+    },
+    "h1:f81f6123cb023460": {
+      "snapshotId": "20261106T192857Z-review-82550bcf0625",
+      "path": "client/src/components/Panels/Upload/UploadProgress.test.ts",
+      "reviewedAt": "2026-11-07T15:50:43.075Z"
+    },
+    "h1:ebea0016201a86c6": {
+      "snapshotId": "20261106T192857Z-review-82550bcf0625",
+      "path": "client/src/components/Panels/Upload/UploadProgress.vue",
+      "reviewedAt": "2026-11-07T15:50:43.266Z"
+    },
+    "h1:47c324d4683c9230": {
+      "snapshotId": "20261106T192857Z-review-82550bcf0625",
+      "path": "client/src/components/Panels/Upload/UploadProgress.vue",
+      "reviewedAt": "2026-11-07T15:50:43.266Z"
+    },
+    "h1:d6d8e6cb5fa4ce4f": {
+      "snapshotId": "20261106T192857Z-review-82550bcf0625",
+      "path": "client/src/components/Panels/Upload/UploadProgress.vue",
+      "reviewedAt": "2026-11-07T15:50:43.266Z"
+    }
+  },
+  "commits": {
+    "539b071fc98f0f9881df55d1abcf54d8347da660": {
+      "sha": "a8315fa0f3ed614943f87cc838a46fa1eb700177",
+      "subject": "Use GPagination for the job pager of a tool execution in the history graph",
+      "snapshotId": "20261106T192857Z-review-82550bcf0625",
+      "signedOffAt": "2026-11-07T15:50:44.387Z"
+    },
+    "bd30017fed606542d15261838efe6a63b75e4120": {
+      "sha": "3f16895737b5dbbb6bd0ce2dd2626bd17a3c7f1e",
+      "subject": "Use GPagination in the history storage operation views",
+      "snapshotId": "20261106T192857Z-review-82550bcf0625",
+      "signedOffAt": "2026-11-07T15:50:44.586Z"
+    },
+    "bcdf7c6bddf030bb2202e3f3388392040e6edd30": {
+      "sha": "f2e79eda7bb91a521c336f9db85ed419a83b60b5",
+      "subject": "Use GPagination in the zip import views",
+      "snapshotId": "20261106T192857Z-review-82550bcf0625",
+      "signedOffAt": "2026-11-07T15:50:44.745Z"
+    },
+    "b0833f188643847b6ba5cb2079f5ca9c662a8f4f": {
+      "sha": "82550bcf062518b497ec18ec1603a6871b6c8ece",
+      "subject": "Use GPagination on the upload progress page",
+      "snapshotId": "20261106T192857Z-review-82550bcf0625",
+      "signedOffAt": "2026-11-07T15:50:44.929Z"
+    }
+  }
+}
