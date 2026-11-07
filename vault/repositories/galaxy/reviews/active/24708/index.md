@@ -4,6 +4,6 @@
 
 ## Status
 
-Initial review ready on `86a724b7bf5`, not delivered: four P2s + twelve P3s, all fixed on `pr_24708_review_0` (`706dabef324`), pushed to John's fork only.
+Initial review on `86a724b7bf5` delivered as an approval: four P2s + twelve P3s, all fixed on `pr_24708_review_0` (`706dabef324`), on John's fork only (not pushed to PR).
 
 PR open against `dev`, out of draft, no reviews yet.

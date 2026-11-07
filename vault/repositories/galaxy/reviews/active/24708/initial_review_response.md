@@ -1,3 +1,4 @@
+Good idea - lots of nits for your agent to work through if you'd like - I've reviewed them all and they seem valid. -John
 
 <details><summary>Automated Review Details</summary>
 

@@ -3,7 +3,7 @@
 - [#24685](https://github.com/galaxyproject/galaxy/pull/24685) — approved on `150cb834122` 2026-11-07 with review; awaiting merge (one P2 + two P3s; all fixed on `pr_24685_review_1`, not pushed to PR). [notes](active/24685/index.md)
 - [#24687](https://github.com/galaxyproject/galaxy/pull/24687) — approved on `82550bcf062` 2026-11-07 with review (3 P2s + 10 P3s; all fixed on `pr_24687_review_0`). [notes](active/24687/index.md)
 - [#24696](https://github.com/galaxyproject/galaxy/pull/24696) — approved on `b26614f7c11` 2026-11-06; awaiting merge (one P2 + two P3s; all fixed on `pr_24696_review_0`). [notes](active/24696/index.md)
-- [#24708](https://github.com/galaxyproject/galaxy/pull/24708) — initial review ready on `86a724b7bf5`, unposted (four P2s + twelve P3s; all fixed on `pr_24708_review_0`). [notes](active/24708/index.md)
+- [#24708](https://github.com/galaxyproject/galaxy/pull/24708) — approved with initial review on `86a724b7bf5`; awaiting merge (four P2s + twelve P3s; all fixed on `pr_24708_review_0`). [notes](active/24708/index.md)
 - [#24706](https://github.com/galaxyproject/galaxy/pull/24706) — initial review ready on `5006c8fbfe3`, unposted (three P2s + nine P3s; eleven fixed on `pr_24706_review_0`). [notes](active/24706/index.md)
 - [#24719](https://github.com/galaxyproject/galaxy/pull/24719) — approved on `e2c3677d3ae` (2026-11-06); awaiting merge. Review branch `pr_24719_review_0` on fork, not pushed into PR. [notes](active/24719/index.md)
 - [#24745](https://github.com/galaxyproject/galaxy/pull/24745) — shelved until #24787 closes; initial review ready on `5fad7684e37`, unposted (one P1 + three P2s + six P3s; all but one P3 fixed on `pr_24745_review_0`). [notes](active/24745/index.md)
