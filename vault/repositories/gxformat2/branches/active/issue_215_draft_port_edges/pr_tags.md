@@ -1,0 +1,1 @@
+- `enhancement`: work items gain edges, and validation gains a rule.

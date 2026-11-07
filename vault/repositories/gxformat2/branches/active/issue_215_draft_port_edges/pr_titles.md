@@ -1,0 +1,3 @@
+- Show edges around TODO ports in `next_draft_step`; reject unwired ones in `validate_draft`
+- `next_draft_step`: report what feeds and consumes each `TODO_*` port
+- Report port edges in `next_draft_step` work items and reject unwired `TODO_*` input ports

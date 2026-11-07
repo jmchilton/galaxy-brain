@@ -11,11 +11,15 @@ related_records: gxformat2/branches/issue_215_draft_port_edges
 
 ## Status
 
-Implemented; pushed to `origin`, branched from `origin/main` `f5470fe5`.
+Polished at `c2e6868e`, branched from `origin/main` `f5470fe5`, waiting for John's final review.
 
 No PR yet.
 
-Local gate: lint, format, typecheck, knip, build and sync checks green; tests green except 3 integration-tests that fail identically on `origin/main`. Makefile checksum targets fail under Node 26 (pre-existing). CI runs on PRs only.
+CI runs on PRs only, so there's no result; locally only the 3 `integration-tests` failures also seen on `origin/main` remain.
+
+## Polish
+
+- [PR description](pr_description.md), [titles](pr_titles.md), [tags](pr_tags.md), [polish debrief](polish_debrief.md) (holds the questions for John).
 
 ## Notes
 

@@ -6,16 +6,20 @@ related_records: galaxy-tool-util-ts/branches/issue_215_draft_port_edges
 
 # next_draft_step: report edges around TODO ports; validate_draft: reject unwired ones
 
-- [Open PR](https://github.com/jmchilton/gxformat2/compare/issue_215_draft_port_edges?expand=1)
+- [Open PR](https://github.com/galaxyproject/gxformat2/compare/main...jmchilton:gxformat2:issue_215_draft_port_edges?expand=1)
 - [View on GitHub](https://github.com/jmchilton/gxformat2/tree/issue_215_draft_port_edges)
 
 ## Status
 
-Implemented; pushed to the `jmchilton` fork, branched from `origin/main` `b0241eee`.
+Polished at `103fc22` on the `jmchilton` fork, branched from `origin/main` `b0241eee`, waiting for John's final review.
 
 No PR yet.
 
-Fork CI queued at `3d85df0`.
+Fork CI has no result yet: runs at `103fc22` are still queued.
+
+## Polish
+
+- [PR description](pr_description.md), [titles](pr_titles.md), [tags](pr_tags.md), [polish debrief](polish_debrief.md).
 
 ## Notes
 
