@@ -8,11 +8,9 @@ import { spawnSync } from "node:child_process";
 import { mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { homedir, tmpdir } from "node:os";
 import { join, resolve } from "node:path";
-import { isTerminalStatus } from "../../site/src/lib/records";
 import { fillTemplate, type Launcher, launchersFor, type RecordRef } from "../../obsidian-plugin/src/launchers";
 import { defaultEnvironment, type Environment, launchArgv } from "../../obsidian-plugin/src/environments";
 import { defaultProfile, type Profile, profileArgs } from "../../obsidian-plugin/src/profiles";
-import type { RecordSummary } from "../../obsidian-plugin/src/repository";
 import { agentActions } from "./agent-actions";
 import { appRequest } from "./app-host";
 import { hostRun } from "./host-run";
@@ -22,7 +20,7 @@ import { type OpenLinks, openLinks } from "./open-links";
 import { reply } from "./native-host";
 import { reviewRequest } from "./review-host";
 import { pickerEnv } from "./selection";
-import { loadEnvironments, loadLaunchers, loadProfiles, loadRecords, readVault, vaultFiles } from "./vault";
+import { byRecent, loadEnvironments, loadLaunchers, loadProfiles, loadRecords, readVault, vaultFiles } from "./vault";
 
 const PLUGIN_ID = "galaxy-brain";
 const vaultRoot = resolve(process.env.HERDR_PLUGIN_ROOT ?? join(__dirname, ".."), "../vault");
@@ -43,9 +41,6 @@ function waitForEnter(message: string) {
 	console.log(`\n${message}\nPress Enter to close.`);
 	spawnSync("sh", ["-c", "read _"], { stdio: "inherit" });
 }
-
-const byRecent = (a: RecordSummary, b: RecordSummary) =>
-	Number(isTerminalStatus(a.status)) - Number(isTerminalStatus(b.status)) || b.mtime - a.mtime;
 
 function pickRecord(records: RecordRef[], titles: Map<string, string>, header?: string, query?: string): RecordRef | null {
 	if (records.length === 1) return records[0]!;

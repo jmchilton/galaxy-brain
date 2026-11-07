@@ -7,6 +7,7 @@ import { type Launcher, launcherScope, parseLaunchers, withSections } from "../.
 import { type Environment, LOCAL_ENVIRONMENT, parseEnvironments } from "../../obsidian-plugin/src/environments";
 import { FALLBACK_PROFILES, type Profile, parseProfiles } from "../../obsidian-plugin/src/profiles";
 import { collectRecords, type RecordSummary, type VaultFile } from "../../obsidian-plugin/src/repository";
+import { isTerminalStatus } from "../../site/src/lib/records";
 
 const PROFILES_PATH = "agents/_shared/AGENT_PROFILES.yml";
 const ENVIRONMENTS_PATH = "agents/_shared/ENVIRONMENTS.yml";
@@ -58,6 +59,9 @@ export function loadRecords(vaultRoot: string, files = vaultFiles(vaultRoot)): R
 	const read = (path: string) => readVault(vaultRoot, path);
 	return withSections(collectRecords(files, undefined, read), (path) => (existsSync(join(vaultRoot, path)) ? read(path) : undefined));
 }
+
+/** Open records first, then newest first. */
+export const byRecent = (a: RecordSummary, b: RecordSummary) => Number(isTerminalStatus(a.status)) - Number(isTerminalStatus(b.status)) || b.mtime - a.mtime;
 
 export function loadProfiles(vaultRoot: string): Profile[] {
 	try {

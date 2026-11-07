@@ -1,5 +1,5 @@
 // `app` requests, for the Herdr app's mods only, not Chrome: note edits and environments, which keep the YAML parser out of
-// the app's one script heap, and the error log.
+// the app's one script heap, repository listings, and the error log.
 
 import { readFileSync, existsSync } from "node:fs";
 import { join } from "node:path";
@@ -9,6 +9,8 @@ import { isCrackFile, setMissedPrReviewed } from "../../obsidian-plugin/src/miss
 import { removeTask, snoozeTask } from "../../obsidian-plugin/src/task-list";
 import { type ErrorLogDeps, logRenderFailure, logStatusErrors } from "./error-log";
 import { agentDirs } from "./native-host";
+import { recordIndex, repositoryPage } from "./repository-host";
+import type { RepositoryPageRequest } from "./repository-types";
 import { loadEnvironments, writeAtomic } from "./vault";
 
 /** Its `source` is the agent dir whose TASKS.md lists it. */
@@ -20,6 +22,8 @@ interface TaskRef {
 
 export type AppRequest =
 	| { type: "environments" }
+	| { type: "recordIndex" }
+	| ({ type: "repositoryPage" } & RepositoryPageRequest)
 	/** These edits answer false when the entry or note is gone. */
 	| { type: "removeTask"; task: TaskRef }
 	| { type: "snoozeTask"; task: TaskRef; day: string }
@@ -56,6 +60,10 @@ export function appRequest(request: AppRequest, deps: AppHostDeps): unknown {
 	switch (request.type) {
 		case "environments":
 			return loadEnvironments(vaultRoot);
+		case "recordIndex":
+			return recordIndex(vaultRoot);
+		case "repositoryPage":
+			return repositoryPage(vaultRoot, request);
 		case "removeTask":
 			return editNote(vaultRoot, taskNote(vaultRoot, request.task), (note) => removeTask(note, request.task, parse, unwrapped));
 		case "snoozeTask":

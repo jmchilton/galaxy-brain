@@ -1,11 +1,11 @@
 #!/bin/sh
-# Installs the built gb-pane, gb-agents, gb-board, gb-record and gb-review mods into the Herdr app, plus a `gb` layout:
+# Installs the built gb-pane, gb-agents, gb-board, gb-record, gb-review, gb-repository and gb-go mods into the Herdr app, plus a `gb` layout:
 # `main` with gb-pane as its pane header and gb-agents as the sidebar's header and list, in place of the spaces and agents lists,
-# and no tab or status bar.
+# and no tab or status bar. Binds gb-go to cmd-g if that key is free.
 set -eu
 home=${HERDR_APP_HOME:-$HOME/.config/herdr-app}
 here=$(cd "$(dirname "$0")" && pwd)
-for mod in gb-pane gb-agents gb-board gb-record gb-review; do
+for mod in gb-pane gb-agents gb-board gb-record gb-review gb-repository gb-go; do
   mkdir -p "$home/mods/$mod"
   # A write hot-reloads every copy of the mod, one per pane for gb-pane: only write what changed.
   for file in main.js mod.json; do
@@ -25,3 +25,16 @@ jq 'walk(
     else . end)' "$source" > "$layout.tmp"
 grep -q '"gb-pane"' "$layout.tmp" && grep -q '"gb-agents"' "$layout.tmp" || { rm "$layout.tmp"; echo "$source has no pane header or agents list to replace" >&2; exit 1; }
 cmp -s "$layout.tmp" "$layout" 2>/dev/null && rm "$layout.tmp" || { mv "$layout.tmp" "$layout"; echo "Wrote layout gb. Show it: herdr-app do layout.switch --name gb (back: --name main)"; }
+keys="$home/keys.json"
+go_action="mod.open:gb-go"
+if [ ! -f "$keys" ]; then
+  echo "No keys.json yet: bind gb-go yourself, $go_action"
+else
+  bound=$(jq -r '[.[]?["cmd-g"]? | select(. != null)] | first // ""' "$keys")
+  if [ -z "$bound" ]; then
+    jq --arg action "$go_action" '.global["cmd-g"] = $action' "$keys" > "$keys.tmp" && mv "$keys.tmp" "$keys"
+    echo "Bound cmd-g to gb-go in keys.json."
+  elif [ "$bound" != "$go_action" ]; then
+    echo "cmd-g is taken ($bound): bind gb-go yourself, $go_action"
+  fi
+fi

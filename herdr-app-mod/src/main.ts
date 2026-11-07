@@ -6,7 +6,7 @@ import { div, image, svg, View } from "gpui-kit";
 import { h_flex, Textarea, TextareaState, v_flex } from "gpui-base";
 import { closeOverlay, exec, hc, home, notify, openOverlay, panes, props, readTextFile, run, spaces, terminals, theme } from "herdr";
 import { agentContext, folderName, machineOf, promptFiles, recordRefs, reroot } from "./context";
-import { host, knownEnvironments, logRenderFailures } from "./host";
+import { host, knownEnvironments, logRenderFailures, openUrl } from "./host";
 import { mergePrompts, parsePrompts, quickEmoji, type SuggestedPrompt } from "./prompts";
 import { machineIcon } from "./sidebar";
 import { removeListedTask } from "./note-edits";
@@ -73,11 +73,6 @@ interface PaneRecord {
 		obsidian?: string;
 		launchers: { label: string; prompt: string; profile: string }[];
 	} | null;
-}
-
-/** Opens the URL through the host; a toast says why when it can't. */
-async function openUrl(url: string): Promise<void> {
-	await host({ type: "open", url }).catch((error: unknown) => notify({ title: "Not opened", body: String(error), level: "error" }));
 }
 
 /** Starts a new agent: a record's launcher, or `request.type` when it says otherwise. A toast says how it went. */

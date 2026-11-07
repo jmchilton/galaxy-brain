@@ -35,7 +35,7 @@ describe("lookup", () => {
 
 	it("finds my branch record on a PR opened from it", () => {
 		const result = lookup(VAULT, "https://github.com/galaxyproject/galaxy/pull/24452", () => "selenium_upload_data_library");
-		expect(result.records.map((r) => r.key)).toContain("repositories/galaxy/branches/active/selenium_upload_data_library");
+		expect(result.records.map((r) => r.key)).toContain("repositories/galaxy/branches/merged/selenium_upload_data_library");
 	});
 
 	it("reads the head branch from gh only for PRs from the fork", () => {

@@ -3,12 +3,13 @@
 
 import { div, View } from "gpui-kit";
 import { h_flex, v_flex } from "gpui-base";
-import { closeOverlay, notify, openOverlay, props, theme, watchFolder } from "herdr";
+import { closeOverlay, openOverlay, props, theme, watchFolder } from "herdr";
 import type { AgentsTab, Routine } from "../../obsidian-plugin/src/agent-routines";
 import { type CrackDay, type MissedPr, missedPrMeta } from "../../obsidian-plugin/src/missed-prs";
 import { addDays, linkLabel, type ListedTask, localDay, refinementPrompt, SNOOZES, type Task } from "../../obsidian-plugin/src/task-list";
 import { boardChanged, boardCracks, boardTasks, crackKey, splitAgents, taskKey } from "./board-model";
-import { host, logRenderFailures } from "./host";
+import { sectionTab } from "./chip";
+import { delay, host, logRenderFailures, openUrl } from "./host";
 import { markPrReviewed, removeListedTask, snoozeListedTask } from "./note-edits";
 import { openRecordTab } from "./record-tab";
 
@@ -34,12 +35,6 @@ interface Overview {
 	profiles: Array<{ name: string }>;
 	environments: Array<{ name: string; icon?: string }>;
 }
-
-async function openUrl(url: string): Promise<void> {
-	await host({ type: "open", url }).catch((error: unknown) => notify({ title: "Not opened", body: String(error), level: "error" }));
-}
-
-const delay = (cx: Cx, ms: number) => new Promise<void>((resolve) => cx.timer.after(ms, () => resolve()));
 
 export default class GbBoard extends View {
 	declare overview: Overview | null;
@@ -230,23 +225,9 @@ export default class GbBoard extends View {
 	}
 
 	renderTab(t: any, tab: AgentsTab, label: string, count: number): El {
-		const active = this.tab === tab;
-		return h_flex()
-			.id(`gb-b-tab-${tab}`)
-			.gap(6)
-			.pb(6)
-			.border_b(2)
-			.border_color(active ? t.solid : `${t.solid}00`)
-			.cursor_pointer()
-			.text_size(12.5)
-			.font_medium()
-			.text_color(active ? t.foreground : t.dim)
-			.on_click((_e: unknown, cx: Cx) => {
-				this.tab = tab;
-				cx.notify();
-			})
-			.child(label)
-			.child(div().text_color(t.dim).child(String(count)));
+		return sectionTab(t, `gb-b-tab-${tab}`, label, count, this.tab === tab, () => {
+			this.tab = tab;
+		});
 	}
 
 	renderTasks(t: any, tasks: ListedTask[]): El {

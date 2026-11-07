@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { groupPanes, machineIcon, rowText, type SidebarPane } from "./sidebar";
+import { closePageCommand, groupPanes, machineIcon, pagePanes, rowText, type SidebarPane } from "./sidebar";
 
 const CLAUDE = { key: "claude", name: "Claude Code", agent: true };
 const ZSH = { key: "shell", name: "zsh", agent: false };
@@ -35,6 +35,86 @@ describe("groupPanes", () => {
 			pane({ pane: "working2", status: "working" }),
 		]);
 		expect(groups[0]!.rows.map((r) => r.pane)).toEqual(["blocked", "done", "working", "working2", "idle", "none"]);
+	});
+});
+
+describe("pagePanes", () => {
+	const tabs = [{ id: "t1", name: "📓 galaxy/reviews/7" }, { id: "t2", name: "🧠 Agents" }, { id: "t3", name: "shell" }];
+
+	it("lists mod panes by their tab's name, sorted", () => {
+		const pages = pagePanes(
+			[
+				{ pane: "a", terminal: null, mod: "gb-record", tab: "t1" },
+				{ pane: "b", terminal: null, mod: "gb-board", tab: "t2" },
+				{ pane: "c", terminal: "t9", tab: "t3" },
+				{ pane: "d", terminal: null, mod: "files", tab: "t3" },
+			],
+			tabs,
+		);
+		expect(pages).toEqual([
+			{ pane: "a", tab: "t1", name: "📓 galaxy/reviews/7", status: null },
+			{ pane: "b", tab: "t2", name: "🧠 Agents", status: null },
+		]);
+	});
+
+	it("falls back to the mod's name without a named tab", () => {
+		expect(pagePanes([{ pane: "a", terminal: null, mod: "gb-board", tab: "gone" }], tabs)[0]!.name).toBe("gb-board");
+	});
+});
+
+describe("closePageCommand", () => {
+	const page = { pane: "p1", tab: "tab1" };
+	const alone = [{ id: "sp1", tabs: [{ id: "tab1", panes: 1 }] }];
+	const closesPane = ["pane.close", { pane: "p1" }];
+	const closesSpace = ["space.close", { id: "sp1", confirmed: true }];
+	const term = (over: object) => ({ address: "t1", state: "live", labels: {}, ...over });
+
+	it("closes just the pane beside another tab or pane", () => {
+		expect(closePageCommand(page, [{ id: "sp1", tabs: [{ id: "tab1", panes: 1 }, { id: "tab2", panes: 1 }] }], [])).toEqual(closesPane);
+		expect(closePageCommand(page, [{ id: "sp1", tabs: [{ id: "tab1", panes: 2 }] }], [])).toEqual(closesPane);
+	});
+
+	it("closes a space holding only the page, unasked, past finished terminals", () => {
+		const finished = term({ state: "finished", labels: { "herdr.space": "sp1" } });
+		expect(closePageCommand(page, alone, [finished])).toEqual(closesSpace);
+	});
+
+	it("ignores live terminals of other spaces and other apps", () => {
+		expect(closePageCommand(page, alone, [term({ labels: { "herdr.space": "sp2" } }), term({ address: "t2" })])).toEqual(closesSpace);
+	});
+
+	it("leaves the app's prompt when a live terminal has no pane there", () => {
+		expect(closePageCommand(page, alone, [term({ labels: { "herdr.space": "sp1" } })])).toEqual(closesPane);
+	});
+
+	it("counts a live sub-agent by its finished parent's space", () => {
+		const parent = term({ address: "t1", state: "finished", labels: { "herdr.space": "sp1" } });
+		const child = term({ address: "t2", parent: "t1" });
+		expect(closePageCommand(page, alone, [parent, child])).toEqual(closesPane);
+	});
+
+	it("counts a live sub-agent whose parent is gone", () => {
+		expect(closePageCommand(page, alone, [term({ address: "t2", parent: "t9" })])).toEqual(closesPane);
+	});
+
+	it("matches a remote space's prefixed id to its terminals' local labels", () => {
+		const remote = [{ id: "box/sp1", tabs: [{ id: "box/tab1", panes: 1 }] }];
+		const remotePage = { pane: "box/p1", tab: "box/tab1" };
+		expect(closePageCommand(remotePage, remote, [term({ address: "box/t1", labels: { "herdr.space": "sp1" } })])).toEqual(["pane.close", { pane: "box/p1" }]);
+		expect(closePageCommand(remotePage, remote, [])).toEqual(["space.close", { id: "box/sp1", confirmed: true }]);
+	});
+
+	it("follows a remote sub-agent's parent on its own machine", () => {
+		const remote = [{ id: "box/sp1", tabs: [{ id: "box/tab1", panes: 1 }] }];
+		const remotePage = { pane: "box/p1", tab: "box/tab1" };
+		const here = term({ address: "t1", state: "finished", labels: { "herdr.space": "other" } });
+		const parent = term({ address: "box/t1", state: "finished", labels: { "herdr.space": "sp1" } });
+		const child = term({ address: "box/t2", parent: "t1" });
+		expect(closePageCommand(remotePage, remote, [here, parent, child])).toEqual(["pane.close", { pane: "box/p1" }]);
+	});
+
+	it("closes just the pane when its space isn't known", () => {
+		expect(closePageCommand(page, [], [])).toEqual(closesPane);
 	});
 });
 

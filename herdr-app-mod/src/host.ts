@@ -1,6 +1,6 @@
 // One native host request (herdr-plugin/src/native-host.ts) through the herdr-plugin CLI.
 
-import { exec, setShared, shared } from "herdr";
+import { exec, notify, setShared, shared } from "herdr";
 import type { Environment } from "../../obsidian-plugin/src/environments";
 import { reportRenderFailures } from "./render-log";
 
@@ -27,6 +27,14 @@ export const reviewHost = (request: object): Promise<any> => call("review", requ
 
 /** A request only these mods make (herdr-plugin/src/app-host.ts); its result, or a thrown error. */
 export const appHost = (request: object): Promise<any> => call("app", request);
+
+/** Opens the URL through the host; a toast says why when it can't. */
+export const openUrl = (url: string): Promise<void> => host({ type: "open", url }).catch((error: unknown) => notify({ title: "Not opened", body: String(error), level: "error" }));
+
+/** Opens a vault path through {@link openUrl}. */
+export const obsidianUrl = (path: string) => `obsidian://open?path=${encodeURIComponent(`${__GB_ROOT__}/vault/${path}`)}`;
+
+export const delay = (cx: any, ms: number) => new Promise<void>((resolve) => cx.timer.after(ms, () => resolve()));
 
 /** As the sidebar last loaded them, so each pane's copy doesn't start a host process. */
 export const knownEnvironments = (): Environment[] => (shared(ENVIRONMENTS) as Environment[] | null) ?? [];

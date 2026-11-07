@@ -3,15 +3,15 @@
 
 import { div, View } from "gpui-kit";
 import { h_flex, v_flex } from "gpui-base";
-import { exec, notify, openOverlay, props, readTextFile, theme, watchFolder } from "herdr";
+import { exec, openOverlay, props, readTextFile, theme, watchFolder } from "herdr";
 import { withoutFrontmatter } from "../../obsidian-plugin/src/record-frontmatter";
 import { type RecordFileLink, recordFileLabel, type RecordFileLinks } from "../../site/src/lib/file-docs";
 import { chip } from "./chip";
-import { host, logRenderFailures } from "./host";
+import { delay, host, logRenderFailures, obsidianUrl, openUrl } from "./host";
 import { type MarkdownBlock, markdownBlocks } from "./markdown-blocks";
 import { type MarkdownHost, renderMarkdown } from "./markdown-view";
 import { isImagePath, linkTarget, withoutTitle } from "./record-page";
-import { openRecordTab, openReviewTab } from "./record-tab";
+import { openRecordTab, openRepositoryTab, openReviewTab } from "./record-tab";
 
 const VAULT = `${__GB_ROOT__}/vault`;
 const INDEX = "index.md";
@@ -25,6 +25,7 @@ type El = any;
 interface Page {
 	record: {
 		key: string;
+		repo: string;
 		kind: string;
 		status: string;
 		name: string;
@@ -40,12 +41,6 @@ interface Page {
 	profiles: Array<{ name: string }>;
 	environments: Array<{ name: string; icon?: string }>;
 }
-
-const openUrl = (url: string): Promise<void> => host({ type: "open", url }).catch((error: unknown) => notify({ title: "Not opened", body: String(error), level: "error" }));
-
-const obsidianUrl = (path: string) => `obsidian://open?path=${encodeURIComponent(`${VAULT}/${path}`)}`;
-
-const delay = (cx: Cx, ms: number) => new Promise<void>((resolve) => cx.timer.after(ms, () => resolve()));
 
 const allFiles = ({ documented, other }: RecordFileLinks): string[] => [INDEX, ...[...documented, ...other].flatMap((link) => link.files ?? [link.path])];
 
@@ -169,6 +164,7 @@ export default class GbRecord extends View {
 			.items_center()
 			.child(div().flex_1().truncate().text_size(16).font_semibold().child(record.title))
 			.child(div().flex_none().text_size(11.5).text_color(t.dim).child(`${record.kind} · ${record.status}`))
+			.child(chip(t, "gb-rec-repo", `📚 ${record.repo}`, "This repository's records", false, () => openRepositoryTab(record.repo)))
 			.when(Boolean(obsidian), (el: El) => el.child(chip(t, "gb-rec-obs", "Obsidian", "Open index.md in Obsidian", false, (cx) => cx.spawn(async () => openUrl(obsidian!)))))
 			.when(Boolean(github), (el: El) => el.child(chip(t, "gb-rec-gh", "GitHub", github!, false, (cx) => cx.spawn(async () => openUrl(github!)))))
 			.when(this.page!.review, (el: El) => el.child(chip(t, "gb-rec-review", "🔎 Review", "Differential review of this record", false, () => openReviewTab(props()?.ref))))

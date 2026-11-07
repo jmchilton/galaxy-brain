@@ -10,10 +10,12 @@ import type { Routine } from "../../obsidian-plugin/src/agent-routines";
 import type { Environment } from "../../obsidian-plugin/src/environments";
 import { machineOf } from "./context";
 import { appHost, host, knownEnvironments, logRenderFailures, refreshEnvironments } from "./host";
-import { groupPanes, machineIcon, OTHER, RANK, rowText, type SidebarGroup, type SidebarPane } from "./sidebar";
+import { openRepositoryTab } from "./record-tab";
+import { closePageCommand, groupPanes, machineIcon, OTHER, type PagePane, pagePanes, RANK, rowText, type SidebarPane } from "./sidebar";
 
 const MOD = "gb-agents";
 const ERROR_POLL_MS = 60_000;
+const PAGES = { id: "grp-pages", label: "Pages" };
 
 interface NewAgentOptions {
 	agentDirs: string[];
@@ -95,7 +97,7 @@ function statusMark(t: any, status: string | null, compact = false): El {
 	return div().size(7).mx(3).flex_none().rounded(4).bg(status === "done" ? t.done : `${t.dim}00`);
 }
 
-const top = (rows: SidebarPane[]) => rows.reduce<string | null>((m, r) => ((RANK[r.status ?? ""] ?? 0) > (RANK[m ?? ""] ?? 0) ? r.status : m), null);
+const top = (rows: Array<{ status: string | null }>) => rows.reduce<string | null>((m, r) => ((RANK[r.status ?? ""] ?? 0) > (RANK[m ?? ""] ?? 0) ? r.status : m), null);
 
 export default class GbAgents extends View {
 	declare folded: Set<string>;
@@ -139,9 +141,14 @@ export default class GbAgents extends View {
 			panes().map((p: any) => ({ ...p, title: p.title ?? "", name: p.terminal ? (names.get(p.terminal) ?? null) : null, machine: machineOf(p.tab, allSpaces) })),
 		);
 		setAgentOrder(groups.flatMap((g) => g.rows.filter((r) => r.program.agent).map((r) => r.terminal)));
+		const pages = pagePanes(panes(), allSpaces.flatMap((space: any) => space.tabs));
+		const pageGroup = { ...PAGES, rows: pages };
 		const rows = compact
-			? groups.flatMap((g) => g.rows.map((r) => this.railRow(t, r, shown)))
-			: groups.flatMap((g) => [this.header(t, g), ...(this.folded.has(g.id) ? [] : g.rows.map((r) => this.row(t, r, shown)))]);
+			? [...groups.flatMap((g) => g.rows.map((r) => this.railRow(t, r, shown))), ...pages.map((p) => this.railPage(t, p, shown))]
+			: [
+					...groups.flatMap((g) => [this.header(t, g), ...(this.folded.has(g.id) ? [] : g.rows.map((r) => this.row(t, r, shown)))]),
+					...(pages.length ? [this.header(t, pageGroup), ...(this.folded.has(PAGES.id) ? [] : pages.map((p) => this.pageRow(t, p, shown)))] : []),
+				];
 		return v_flex()
 			.size_full()
 			.min_h(0)
@@ -163,10 +170,21 @@ export default class GbAgents extends View {
 			);
 	}
 
-	// The sidebar header: the shipped one's search and collapse, with 🧠 and + (its footer stays shipped).
+	// The sidebar header: the shipped one's search and collapse, with 🧠, 📚, 🧭 and + (its footer stays shipped).
 	renderHeader(t: any): El {
 		const collapsed = narrow();
 		const mac = window()?.platform === "macos";
+		const page = (id: string, tooltip: string, emoji: string, action: () => void) =>
+			div()
+				.id(id)
+				.w(26)
+				.flex_none()
+				.text_size(18)
+				.cursor_pointer()
+				.tooltip(tooltip)
+				.on_mouse_down("left", (_e: unknown, cx: Cx) => cx.stop_propagation())
+				.on_click(action)
+				.child(emoji);
 		const button = (id: string, tooltip: string, icon: string, action: () => void) =>
 			div()
 				.id(id)
@@ -193,19 +211,12 @@ export default class GbAgents extends View {
 			.when(!collapsed, (el: El) =>
 				el
 					.child(
-						div()
+						h_flex()
 							.flex_1()
-							.child(
-								div()
-									.id("gb-ag-board")
-									.w(26)
-									.text_size(18)
-									.cursor_pointer()
-									.tooltip("Agent board")
-									.on_mouse_down("left", (_e: unknown, cx: Cx) => cx.stop_propagation())
-									.on_click(openBoard)
-									.child("🧠"),
-							),
+							.gap(2)
+							.child(page("gb-ag-board", "Agent board", "🧠", openBoard))
+							.child(page("gb-ag-repos", "Repositories' records", "📚", () => openRepositoryTab()))
+							.child(page("gb-ag-go", "Go to a record or repository", "🧭", () => run("mod.open", { name: "gb-go" }))),
 					)
 					.child(button("gb-ag-new", "New agent", "plus", () => openOverlay({ mod: MOD, kind: "popup", width: 340, props: { view: "new" } })))
 					.child(button("gb-ag-search", "Search", "search", () => run("mod.open", { name: "picker" }))),
@@ -219,7 +230,7 @@ export default class GbAgents extends View {
 	}
 
 	// A group's header folds it; folded, it shows the count and the most urgent state.
-	header(t: any, g: SidebarGroup): El {
+	header(t: any, g: { id: string; label: string; rows: Array<{ status: string | null }> }): El {
 		const open = !this.folded.has(g.id);
 		const urgent = top(g.rows);
 		return h_flex()
@@ -301,6 +312,37 @@ export default class GbAgents extends View {
 			.on_click(() => run("pane.focus", { pane: r.pane }))
 			.child(pic ?? div())
 			.child(h_flex().w(14).flex_none().items_center().justify_center().child(statusMark(t, r.status, true)));
+	}
+
+	pageRow(t: any, p: PagePane, shown: string | null | undefined): El {
+		return h_flex()
+			.id(`gb-ag-${p.pane}`)
+			.px(8)
+			.h(30)
+			.flex_none()
+			.rounded(8)
+			.items_center()
+			.gap(7)
+			.when(p.pane === shown, (el: El) => el.bg(t.selected))
+			.cursor_pointer()
+			.hover((s: El) => s.bg(t.hover))
+			.on_click(() => run("pane.focus", { pane: p.pane }))
+			.child(div().flex_1().min_w(0).truncate().text_color(p.pane === shown ? t.foreground : t.muted).child(p.name))
+			.child(smallButton(t, `gb-ag-close-${p.pane}`, "✕", "Close", () => run(...closePageCommand(p, spaces(), terminals()))));
+	}
+
+	railPage(t: any, p: PagePane, shown: string | null | undefined): El {
+		return h_flex()
+			.id(`gb-ag-${p.pane}`)
+			.h(26)
+			.px(8)
+			.flex_none()
+			.items_center()
+			.when(p.pane === shown, (el: El) => el.bg(t.selected))
+			.hover((s: El) => s.bg(t.hover))
+			.tooltip(p.name)
+			.on_click(() => run("pane.focus", { pane: p.pane }))
+			.child([...p.name][0] ?? "");
 	}
 
 	// Popup: the machine, then each agent dir with its routines, ⚡ (default profile) and ⚙️ (pick a profile).
