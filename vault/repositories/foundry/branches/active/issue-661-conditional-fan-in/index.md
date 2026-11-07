@@ -14,7 +14,7 @@ Branch on `jmchilton`, merged with `origin/main` at `195b4a6a`, head `5f1f34db`,
 
 Draft PR [#755](https://github.com/galaxyproject/foundry/pull/755), mergeable; body is [pr_description.md](pr_description.md).
 
-Local `make -k check` green at `5f1f34db` except `check-vendored` (machine-only). CI at `5f1f34db`: `test` and `changeset` pass, `planemo` running.
+Local `make -k check` green at `5f1f34db` except `check-vendored` (machine-only). CI at `5f1f34db`: green, including `planemo`.
 
 ## Supporting files
 

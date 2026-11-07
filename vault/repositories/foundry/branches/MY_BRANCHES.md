@@ -12,7 +12,6 @@ Snapshot: 2026-10-28 (originally recovered from live GitHub state, local worktre
 - [`issue-724-shed-tool-id-version`](active/issue-724-shed-tool-id-version/index.md) — Shed tool_id is the full versioned GUID in implement-galaxy-tool-step (#724). [#727](https://github.com/galaxyproject/foundry/pull/727).
 - [`start-contributing-intro`](active/start-contributing-intro/index.md) — Replaces Start Contributing intro TODO; adds contribution-loop paragraph and IWC Lab pointer. [#745](https://github.com/galaxyproject/foundry/pull/745).
 - [`issue-725-brief-scope-conflicts`](active/issue-725-brief-scope-conflicts/index.md) — Clear scope vs source conflicts become brief open questions (#725). [#728](https://github.com/galaxyproject/foundry/pull/728).
-- [`fix/roadmap-318-substeps`](active/fix-roadmap-318-substeps/index.md) — Lists #318's sub-issues in the roadmap, which fixes `validate:roadmap` on `main`. [#756](https://github.com/galaxyproject/foundry/pull/756).
 
 ## Open Foundry PRs — needs attention (`attention`)
 
@@ -24,10 +23,10 @@ Snapshot: 2026-10-28 (originally recovered from live GitHub state, local worktre
 ## Draft Foundry PRs — ready to undraft (`draft_ready`)
 
 - [`issue-571-nested-in-keys`](active/issue-571-nested-in-keys/index.md) — Documents nested `in:` keys and what a connection's step part names (#571). [#754](https://github.com/galaxyproject/foundry/pull/754).
+- [`issue-661-conditional-fan-in`](active/issue-661-conditional-fan-in/index.md) — Route pattern covers mapped `when`-gated branches, verified on `release_26.1` (#661). [#755](https://github.com/galaxyproject/foundry/pull/755).
 
 ## Draft Foundry PRs — waiting for CI (`ci_wait`)
 
-- [`issue-661-conditional-fan-in`](active/issue-661-conditional-fan-in/index.md) — Route pattern covers mapped `when`-gated branches, verified on `release_26.1` (#661). [#755](https://github.com/galaxyproject/foundry/pull/755).
 - [`issue-568-review-agent-benchmark-paper`](active/issue-568-review-agent-benchmark-paper/index.md) — Comparisons page: contrast with one detailed prompt, from the Munn and Grenier study (#568). [#750](https://github.com/galaxyproject/foundry/pull/750).
 
 ## Draft Foundry PRs — needs author work (`author_work`)
