@@ -9,11 +9,11 @@ upstream_base_branch: dev
 
 ## Status
 
-Polished and ready for John's final review (`branches_ready_for_final_review`) at `d66dcdb412b`, with the same-workflow rule and the grid's expanded-row lineage line added after polish ([PR description](pr_description.md), [titles](pr_titles.md), [tags](pr_tags.md), [checklist](pr_checklist.md), [polish debrief](polish_debrief.md); [screenshots](screenshots/) with [index](screenshot_debrief.md)).
+Polished and ready for John's final review (`branches_ready_for_final_review`) at `683e2f05365`, with the same-workflow rule, the grid's expanded-row lineage line and differential-review test removals added after polish ([PR description](pr_description.md), [titles](pr_titles.md), [tags](pr_tags.md), [checklist](pr_checklist.md), [polish debrief](polish_debrief.md); [screenshots](screenshots/) with [index](screenshot_debrief.md)).
 
 No PR.
 
-Fork CI is pending on `d66dcdb412b`. On `830d058c5be`, Python linting, OpenAPI linting, Database indexes, Unit w/postgres and workflow framework tests passed before newer pushes cancelled the rest.
+Fork CI is pending on `683e2f05365`. On `830d058c5be`, Python linting, OpenAPI linting, Database indexes, Unit w/postgres and workflow framework tests passed before newer pushes cancelled the rest.
 
 ## Decisions
 
@@ -22,6 +22,7 @@ Fork CI is pending on `d66dcdb412b`. On `830d058c5be`, Python linting, OpenAPI l
 - 2026-11-04: John chose to rebase, run the missing hardening steps (baseline refactor, performance challenge, Codex review, check branch), then polish.
 - 2026-11-04: John decided a rerun's source must be an invocation of the same stored workflow (any version); a different workflow, including an identical copy, is rejected with 400 (`9a8bf84c5ab`). John asked for a PR description without hedging.
 - 2026-11-06: John decided the grid has no rerun hint on collapsed rows; lineage moves to a compact line in the expanded row, and full-page views keep their banners (`d66dcdb412b`).
+- 2026-11-07: John dropped `test_invocations_lineage.py` and `test_invocation_rerun_migration.py` in differential review (`683e2f05365`).
 - Worktree: `~/projects/worktrees/galaxy/branch/issue_24174_invocation_rerun_lineage`.
 
 ## Notes
