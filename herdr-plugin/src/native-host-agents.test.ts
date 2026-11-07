@@ -137,7 +137,7 @@ describe("recordPage", () => {
 		expect(recordPage(branches, "tool-util/branches/c")!.upstream).toBe("jmchilton/tool-util");
 	});
 
-	it("offers a differential review only for a reviewable record that has one", () => {
+	it("offers a differential review for every reviewable record, since the review can start from nothing", () => {
 		const reviews = vault({
 			"repositories/galaxy/reviews/active/1/index.md": "---\npr: 1\n---\n# One\n",
 			"repositories/galaxy/reviews/active/1/differential-review/snapshots/s.json": "{}",
@@ -147,7 +147,7 @@ describe("recordPage", () => {
 			"repositories/galaxy/issues/open/4/index.md": "---\nissue: 4\n---\n# Four\n",
 			"repositories/galaxy/issues/open/4/differential-review/snapshots/s.json": "{}",
 		});
-		expect(["reviews/1", "reviews/2", "reviews/3", "issues/4"].map((id) => recordPage(reviews, `galaxy/${id}`)?.review)).toEqual([true, false, true, false]);
+		expect(["reviews/1", "reviews/2", "reviews/3", "issues/4"].map((id) => recordPage(reviews, `galaxy/${id}`)?.review)).toEqual([true, true, true, false]);
 	});
 
 	it("gives its related records, and agent blockers' conditions and Obsidian links", () => {

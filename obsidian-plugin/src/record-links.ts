@@ -38,7 +38,7 @@ export function compareUrl(record: RecordRef, body: string): string | undefined 
 }
 
 /** Candidate worktrees, best first: a branch's `Worktree:` line, then the conventional location. Issues have none. */
-export function worktreeCandidates(record: RecordRef, body: string, home: string): string[] {
+export function worktreeCandidates(record: Pick<RecordRef, "repo" | "kind" | "name">, body: string, home: string): string[] {
 	const root = `${home}/projects/worktrees/${record.repo}`;
 	if (record.kind === "reviews") return [`${root}/pr/${record.name}`];
 	if (record.kind !== "branches") return [];

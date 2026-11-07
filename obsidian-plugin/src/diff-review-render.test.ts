@@ -13,7 +13,7 @@ import {
 	type Snapshot,
 } from "../../differential-review-lib/src/core";
 import { summaryText } from "./diff-review-model";
-import { handleReviewKey, newReviewUi, type ReviewActions, renderReview } from "./diff-review-render";
+import { handleReviewKey, newReviewUi, type ReviewActions, renderNoSnapshots, renderReview } from "./diff-review-render";
 
 // happy-dom replaces URL, so resolve the fixture dir as a path.
 const DIR = join(fileURLToPath(import.meta.url), "../../../differential-review-lib/src/core/fixtures/view-fixtures");
@@ -161,6 +161,48 @@ describe("handleReviewKey", () => {
 		expect((document.activeElement as HTMLElement).dataset.key).toBe("file:README.md");
 		key("h");
 		expect(act.setHideReviewed).toHaveBeenCalledWith(true);
+	});
+});
+
+describe("snapshot buttons", () => {
+	it("offers a new snapshot in the header, disabled while one runs", () => {
+		const take = vi.fn();
+		const view = buildReviewView([impl], null)!;
+		const root = mount();
+		renderReview(root, view, newReviewUi(), { ...actions(), snapshot: { busy: false, take } });
+		const button = root.querySelector<HTMLButtonElement>(".gbdr-controls button")!;
+		expect(button.textContent).toBe("New snapshot");
+		button.click();
+		expect(take).toHaveBeenCalledOnce();
+
+		renderReview(root, view, newReviewUi(), { ...actions(), snapshot: { busy: true, take } });
+		const busy = root.querySelector<HTMLButtonElement>(".gbdr-controls button")!;
+		expect(busy.textContent).toBe("Taking snapshot…");
+		expect(busy.disabled).toBe(true);
+	});
+
+	it("leaves the header without one where snapshots can't run", () => {
+		const root = mount();
+		renderReview(root, buildReviewView([impl], null)!, newReviewUi(), actions());
+		expect(root.querySelector(".gbdr-controls button")).toBeNull();
+	});
+
+	it("offers the first snapshot on an empty review, replacing what was there", () => {
+		const take = vi.fn();
+		const root = mount();
+		root.textContent = "old";
+		renderNoSnapshots(root, { busy: false, take });
+		expect(texts(root, ".gbdr-empty")).toEqual(["This record has no snapshot yet."]);
+		root.querySelector("button")!.click();
+		expect(take).toHaveBeenCalledOnce();
+		expect(root.textContent).not.toContain("old");
+	});
+
+	it("points to the desktop app where snapshots can't run", () => {
+		const root = mount();
+		renderNoSnapshots(root, undefined);
+		expect(texts(root, ".gbdr-empty")).toEqual(["This record has no snapshot yet. Take one from the desktop app."]);
+		expect(root.querySelector("button")).toBeNull();
 	});
 });
 

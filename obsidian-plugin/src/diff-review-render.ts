@@ -21,8 +21,15 @@ import { type CodeToken, type DiffLine, type DiffLineKind, highlightDiff, highli
 import { fileShown, hunkShown, reviewMetaText, summaryText } from "./diff-review-model";
 import { annotateHunk, newThreadUi, renderCommentDraft, renderThread, type AnnotationActions, type ThreadUi } from "./diff-review-threads";
 
+/** Absent where a snapshot can't run: mobile has no processes. */
+export interface SnapshotAction {
+	busy: boolean;
+	take(): void;
+}
+
 export interface ReviewActions {
 	annotations?: AnnotationActions;
+	snapshot?: SnapshotAction;
 	toggleHunk(file: FileView, hunk: HunkView): void;
 	toggleFile(file: FileView): void;
 	toggleCommit(commit: CommitView): void;
@@ -142,6 +149,19 @@ function progress(parent: HTMLElement, label: string, counts: Record<ReviewStatu
 	if (counts.new) el(item, "span", "gbdr-badge gbdr-new", `${counts.new} new`);
 }
 
+function snapshotButton(parent: HTMLElement, action: SnapshotAction, label: string) {
+	const button = el(parent, "button", undefined, action.busy ? "Taking snapshot…" : label);
+	button.disabled = action.busy;
+	button.onclick = () => action.take();
+}
+
+/** A review with nothing to show yet. */
+export function renderNoSnapshots(root: HTMLElement, action: SnapshotAction | undefined) {
+	root.replaceChildren();
+	el(root, "p", "gbdr-empty", action ? "This record has no snapshot yet." : "This record has no snapshot yet. Take one from the desktop app.");
+	if (action) snapshotButton(root, action, "Take snapshot");
+}
+
 function renderHeader(root: HTMLElement, view: ReviewView, ui: ReviewUi, actions: ReviewActions) {
 	const { snapshot } = view;
 	const header = el(root, "div", "gbdr-header");
@@ -170,6 +190,7 @@ function renderHeader(root: HTMLElement, view: ReviewView, ui: ReviewUi, actions
 	const hide = el(controls, "label", "gbdr-hide");
 	checkbox(hide, ui.hideReviewed, "Hide reviewed", () => actions.setHideReviewed(!ui.hideReviewed));
 	hide.append(" Hide reviewed");
+	if (actions.snapshot) snapshotButton(controls, actions.snapshot, "New snapshot");
 
 	const previous = view.snapshots.find((s) => s.id === view.summary.previousSnapshotId);
 	const summary = summaryText(view.summary, previous ? snapshotLabel(previous) : null);

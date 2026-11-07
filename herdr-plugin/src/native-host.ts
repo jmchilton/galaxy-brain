@@ -13,7 +13,7 @@ import { defaultProfile, type Profile, profileArgs } from "../../obsidian-plugin
 import { type ListedTask, localDay, parseAgentTasks } from "../../obsidian-plugin/src/task-list";
 import { type RecordFileLinks, recordFileLinks } from "../../site/src/lib/file-docs";
 import { loadFileDocs } from "../../site/src/lib/file-docs-load";
-import { isReviewableRecordKind, recordReviewDir } from "../../site/src/lib/records";
+import { isReviewableRecordKind } from "../../site/src/lib/records";
 import { FORK_OWNER, upstreamOwner } from "../../site/src/lib/repository-tabs";
 import { branchRecordsForUrl, type GithubRef, parseBranchUrl, parseGithubRef, recordsForRef } from "./github-ref";
 import { openLinks } from "./open-links";
@@ -242,13 +242,6 @@ function relatedRecords(vaultRoot: string, body: string, repo: string): RelatedR
 	});
 }
 
-/** A reviewable record with snapshots or saved conversations. */
-function hasReview(vaultRoot: string, record: { kind: string; dir: string }): boolean {
-	if (!isReviewableRecordKind(record.kind)) return false;
-	const dir = join(vaultRoot, recordReviewDir(record.dir));
-	return existsSync(join(dir, "snapshots")) || existsSync(join(dir, "annotations"));
-}
-
 /** Null when the record isn't in this vault. */
 export function recordPage(vaultRoot: string, ref: string): RecordPage | null {
 	const vault = vaultRecords(vaultRoot);
@@ -261,7 +254,7 @@ export function recordPage(vaultRoot: string, ref: string): RecordPage | null {
 		record: lookupRecord(vaultRoot, vault, loadLaunchers(vaultRoot, vault.files), profiles, record),
 		related: relatedRecords(vaultRoot, vault.body(record), record.repo),
 		links: recordFileLinks(files, loadFileDocs(vaultRoot, record.repo, record.kind)),
-		review: hasReview(vaultRoot, record),
+		review: isReviewableRecordKind(record.kind),
 		upstream: `${upstreamOwner(record.repo, [vault.body(record)])}/${record.repo}`,
 		profiles: profiles.map(({ name }) => ({ name })),
 		environments: environmentChoices(vaultRoot),

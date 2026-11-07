@@ -20,7 +20,7 @@ import type { RecordKind } from "../../site/src/lib/records";
 import { type CiSource, ciSources, isPrSource, summarizeCheckRuns, summarizePrChecks } from "./ci-status";
 import { CiStatusModal } from "./ci-status-modal";
 import { AGENTS_VIEW, AgentsView, ALL_AGENTS } from "./agents-view";
-import { agentFromPath, agentLaunchersPath, commandArgs, fillAgentTemplate, fillTemplate, type Launcher, launcherScope, launchersFor, parseAgentLaunchers, parseLaunchers, queuePaths, type RecordRef, recordFromPath, withSections } from "./launchers";
+import { agentFromPath, agentLaunchersPath, CLI_BIN_DIRS, commandArgs, fillAgentTemplate, fillTemplate, type Launcher, launcherScope, launchersFor, parseAgentLaunchers, parseLaunchers, queuePaths, type RecordRef, recordFromPath, withSections } from "./launchers";
 import { defaultProfile, FALLBACK_PROFILES, type Profile, parseProfiles, profileArgs } from "./profiles";
 import { defaultEnvironment, type Environment, LOCAL_ENVIRONMENT, launchArgv, parseEnvironments } from "./environments";
 import { isReviewableRecordKind } from "../../site/src/lib/records";
@@ -41,8 +41,6 @@ const ENVIRONMENTS_PATH = "agents/_shared/ENVIRONMENTS.yml";
 const RECORD_AGENTS_PATH = "agents/_shared/RECORD_AGENTS.yml";
 /** Agent dir that maintains the agent processes, e.g. SUGGESTED_TASKS.md. */
 const FACTORY_AGENT_DIR = "factory";
-// Where the `code` and `gh` CLIs live; GUI apps get a bare PATH.
-const CLI_BIN_DIRS = ["/usr/local/bin", "/opt/homebrew/bin", "/Applications/Visual Studio Code.app/Contents/Resources/app/bin"];
 
 export default class GalaxyBrainPlugin extends Plugin {
 	private recordActions = new WeakMap<MarkdownView, { kind: string; actions: HTMLElement[] }>();

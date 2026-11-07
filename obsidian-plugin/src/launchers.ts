@@ -3,6 +3,9 @@
 
 import { DEFAULTS_REPO, groupingFor, type GroupingSection, parseGrouping, parseRecordPath, RECORD_KINDS, type RecordKind } from "../../site/src/lib/records";
 
+// Where the CLIs live; GUI apps get a bare PATH.
+export const CLI_BIN_DIRS = ["/usr/local/bin", "/opt/homebrew/bin", "/Applications/Visual Studio Code.app/Contents/Resources/app/bin"];
+
 export type AgentKind = "claude" | "codex";
 
 export interface Launcher {
