@@ -1,3 +1,7 @@
+---
+upstream_base_branch: main
+parent_branch: feat-test-pipeline-draft-loop
+---
 # Draft loop records a step that needs a tool instead of improvising one
 
 - [Open PR](https://github.com/galaxyproject/foundry/compare/feat/test-pipeline-draft-loop...fix/advance-draft-needs-tool)

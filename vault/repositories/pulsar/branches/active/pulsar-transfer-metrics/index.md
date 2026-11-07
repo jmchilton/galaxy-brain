@@ -1,3 +1,6 @@
+---
+upstream_base_branch: master
+---
 # Record file staging metrics for Galaxy job metrics
 
 - [View PR #518](https://github.com/galaxyproject/pulsar/pull/518)

@@ -1,3 +1,6 @@
+---
+upstream_base_branch: master
+---
 # [WIP] Add an embedded Galaxy engine for package-installed Galaxy
 
 - [Open PR](https://github.com/galaxyproject/planemo/compare/master...jmchilton:planemo:embed_galaxy)

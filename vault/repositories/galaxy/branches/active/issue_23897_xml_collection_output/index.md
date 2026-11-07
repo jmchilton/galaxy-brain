@@ -1,3 +1,6 @@
+---
+upstream_base_branch: dev
+---
 # issue_23897_xml_collection_output
 
 Status: `branches_ready_for_final_review`. Base: `dev`.

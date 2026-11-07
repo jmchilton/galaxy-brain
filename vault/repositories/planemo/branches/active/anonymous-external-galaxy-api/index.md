@@ -1,3 +1,6 @@
+---
+upstream_base_branch: master
+---
 # Allow anonymous access to external Galaxy instances
 
 - [View PR #1700](https://github.com/galaxyproject/planemo/pull/1700)

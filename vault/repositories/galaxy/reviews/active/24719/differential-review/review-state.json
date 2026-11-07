@@ -1,0 +1,93 @@
+{
+  "schemaVersion": 1,
+  "kind": "differential-review-state",
+  "updatedAt": "2026-11-06T20:19:38.230Z",
+  "hunks": {
+    "h1:040b4b1863c613ca": {
+      "snapshotId": "20261106T192524Z-review-e2c3677d3aed",
+      "path": "client/src/components/History/Content/ExportToAnotherGalaxyDialog.test.ts",
+      "reviewedAt": "2026-11-06T20:18:29.495Z"
+    },
+    "h1:dbe59ab07c609eb6": {
+      "snapshotId": "20261106T192524Z-review-e2c3677d3aed",
+      "path": "client/src/components/History/Content/ExportToAnotherGalaxyDialog.test.ts",
+      "reviewedAt": "2026-11-06T20:18:29.495Z"
+    },
+    "h1:f97646e04bdfeb2a": {
+      "snapshotId": "20261106T192524Z-review-e2c3677d3aed",
+      "path": "client/src/components/History/Content/ExportToAnotherGalaxyDialog.vue",
+      "reviewedAt": "2026-11-06T20:18:35.562Z"
+    },
+    "h1:7e0b67b3d7e8e353": {
+      "snapshotId": "20261106T192524Z-review-e2c3677d3aed",
+      "path": "client/src/components/History/Content/ExportToAnotherGalaxyDialog.vue",
+      "reviewedAt": "2026-11-06T20:18:35.562Z"
+    },
+    "h1:23f86d5e56876350": {
+      "snapshotId": "20261106T192524Z-review-e2c3677d3aed",
+      "path": "client/src/components/History/Content/ExportToAnotherGalaxyDialog.vue",
+      "reviewedAt": "2026-11-06T20:18:35.562Z"
+    },
+    "h1:451d382d49c0bf00": {
+      "snapshotId": "20261106T192524Z-review-e2c3677d3aed",
+      "path": "client/src/components/History/Content/ExportToAnotherGalaxyDialog.vue",
+      "reviewedAt": "2026-11-06T20:18:35.562Z"
+    },
+    "h1:c7d9d0b5053ef0f1": {
+      "snapshotId": "20261106T192524Z-review-e2c3677d3aed",
+      "path": "client/src/components/History/Content/ExportToAnotherGalaxyDialog.vue",
+      "reviewedAt": "2026-11-06T20:18:35.562Z"
+    },
+    "h1:00e5a36e95441d72": {
+      "snapshotId": "20261106T192524Z-review-e2c3677d3aed",
+      "path": "client/src/utils/duration.test.ts",
+      "reviewedAt": "2026-11-06T20:18:37.081Z"
+    },
+    "h1:d34c4aeb357c3fa3": {
+      "snapshotId": "20261106T192524Z-review-e2c3677d3aed",
+      "path": "client/src/utils/duration.ts",
+      "reviewedAt": "2026-11-06T20:18:38.158Z"
+    },
+    "h1:52e28f7e0e48e034": {
+      "snapshotId": "20261106T192524Z-review-e2c3677d3aed",
+      "path": "lib/galaxy/managers/configuration.py",
+      "reviewedAt": "2026-11-06T20:18:45.731Z"
+    },
+    "h1:f9ed711b4fec4c18": {
+      "snapshotId": "20261106T192524Z-review-e2c3677d3aed",
+      "path": "lib/galaxy/managers/configuration.py",
+      "reviewedAt": "2026-11-06T20:18:45.731Z"
+    },
+    "h1:66e4402145761134": {
+      "snapshotId": "20261106T192524Z-review-e2c3677d3aed",
+      "path": "lib/galaxy/short_term_storage/__init__.py",
+      "reviewedAt": "2026-11-06T20:19:08.137Z"
+    },
+    "h1:4bff8f6e73df4e71": {
+      "snapshotId": "20261106T192524Z-review-e2c3677d3aed",
+      "path": "lib/galaxy/short_term_storage/__init__.py",
+      "reviewedAt": "2026-11-06T20:19:08.137Z"
+    },
+    "h1:573ae7958bd8897d": {
+      "snapshotId": "20261106T192524Z-review-e2c3677d3aed",
+      "path": "lib/galaxy_test/api/test_configuration.py",
+      "reviewedAt": "2026-11-06T20:19:10.380Z"
+    },
+    "h1:ab0f87b436bde210": {
+      "snapshotId": "20261106T192524Z-review-e2c3677d3aed",
+      "path": "test/unit/app/managers/test_ConfigSerializer.py",
+      "reviewedAt": "2026-11-06T20:19:13.088Z"
+    },
+    "h1:d5ce5d9853e083f4": {
+      "snapshotId": "20261106T192524Z-review-e2c3677d3aed",
+      "path": "test/unit/app/test_short_term_storage.py",
+      "reviewedAt": "2026-11-06T20:19:38.230Z"
+    },
+    "h1:58525e3ade117d04": {
+      "snapshotId": "20261106T192524Z-review-e2c3677d3aed",
+      "path": "test/unit/app/test_short_term_storage.py",
+      "reviewedAt": "2026-11-06T20:19:38.230Z"
+    }
+  },
+  "commits": {}
+}

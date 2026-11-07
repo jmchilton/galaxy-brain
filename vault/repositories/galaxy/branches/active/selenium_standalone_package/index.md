@@ -1,3 +1,6 @@
+---
+upstream_base_branch: dev
+---
 # selenium_standalone_package
 
 - [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:selenium_standalone_package?expand=1)

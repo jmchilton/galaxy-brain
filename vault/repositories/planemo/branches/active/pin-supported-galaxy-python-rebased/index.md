@@ -1,3 +1,6 @@
+---
+upstream_base_branch: master
+---
 # Pin Galaxy virtualenvs to an explicit Python version
 
 - [View PR #1704](https://github.com/galaxyproject/planemo/pull/1704)

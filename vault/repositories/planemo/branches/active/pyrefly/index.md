@@ -1,3 +1,6 @@
+---
+upstream_base_branch: master
+---
 # Type check with Pyrefly alongside mypy
 
 - [View PR #1734](https://github.com/galaxyproject/planemo/pull/1734)

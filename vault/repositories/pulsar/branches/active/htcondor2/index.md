@@ -1,3 +1,6 @@
+---
+upstream_base_branch: master
+---
 # Add a queued_htcondor manager on the htcondor2 bindings, shared with Galaxy
 
 - [View PR #486](https://github.com/galaxyproject/pulsar/pull/486)

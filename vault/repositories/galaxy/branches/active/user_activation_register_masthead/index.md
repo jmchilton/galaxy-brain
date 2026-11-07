@@ -1,3 +1,6 @@
+---
+upstream_base_branch: release_26.2
+---
 # user_activation_register_masthead
 
 - [#24301](https://github.com/galaxyproject/galaxy/pull/24301)

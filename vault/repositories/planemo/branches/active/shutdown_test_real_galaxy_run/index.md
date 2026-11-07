@@ -1,3 +1,6 @@
+---
+upstream_base_branch: master
+---
 # Exercise real GalaxyEngine._run in post-shutdown test results test
 
 - [View PR #1753](https://github.com/galaxyproject/planemo/pull/1753)

@@ -1,3 +1,6 @@
+---
+upstream_base_branch: dev
+---
 # wf_tool_state
 
 Status: `author_work`. Base: `dev`. [PR #22996](https://github.com/galaxyproject/galaxy/pull/22996) (open).

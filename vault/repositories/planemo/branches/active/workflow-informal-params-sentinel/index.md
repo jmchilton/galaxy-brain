@@ -1,3 +1,6 @@
+---
+upstream_base_branch: master
+---
 # Fill undeclared workflow replacement parameters with a sentinel and warn
 
 - [Open PR](https://github.com/galaxyproject/planemo/compare/master...jmchilton:planemo:workflow-informal-params-sentinel?expand=1)

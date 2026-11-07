@@ -1,3 +1,6 @@
+---
+upstream_base_branch: release_26.2
+---
 # issue_24303_collection_type_prefix_26.2
 
 - [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:issue_24303_collection_type_prefix_26.2?expand=1)

@@ -1,3 +1,6 @@
+---
+upstream_base_branch: dev
+---
 # workflow_rerun_step_parameters
 
 Status: `branches_need_decision`. Base: `dev`. Spike, do not PR as-is.

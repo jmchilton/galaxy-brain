@@ -1,3 +1,6 @@
+---
+upstream_base_branch: dev
+---
 # cwl_fixes_5
 
 Status: `branches_implemented_needs_ci`. Base: `dev`.

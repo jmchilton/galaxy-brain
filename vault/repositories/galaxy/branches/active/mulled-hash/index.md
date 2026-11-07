@@ -1,3 +1,6 @@
+---
+upstream_base_branch: dev
+---
 # mulled-hash
 
 Status: `reference`. Base: `dev`. [PR #18938](https://github.com/galaxyproject/galaxy/pull/18938) (open).

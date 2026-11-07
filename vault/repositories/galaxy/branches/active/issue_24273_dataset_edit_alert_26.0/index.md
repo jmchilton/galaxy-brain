@@ -1,3 +1,6 @@
+---
+upstream_base_branch: release_26.0
+---
 # issue_24273_dataset_edit_alert_26.0
 
 - [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.0...jmchilton:galaxy:issue_24273_dataset_edit_alert_26.0?expand=1)

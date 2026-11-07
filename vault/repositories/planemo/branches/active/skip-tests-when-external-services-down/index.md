@@ -1,3 +1,6 @@
+---
+upstream_base_branch: master
+---
 # Skip tests relying on quay.io, the Tool Sheds, Dockstore and usegalaxy.eu when they are down
 
 - [View PR #1726](https://github.com/galaxyproject/planemo/pull/1726)

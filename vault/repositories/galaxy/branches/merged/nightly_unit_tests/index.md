@@ -4,7 +4,7 @@ Status: `merged` (refreshed 2026-10-16).
 
 Rebalances dev PR CI: unit and Tool Shed tests run on Python3.14, tool framework tests use the tool request API, and the performance workflow, unused suite and exclusive helpers are removed. Dev nightlies cover Python3.10–3.14 for unit/Tool Shed and both framework APIs. Release PR matrices stay intact.
 
-[Alternative rejected by John for verbosity](../../active/nightly_release_targets_alternative/index.md) · [Rollback debrief](release_nightlies_rejection.md) · [Original description backup](pr_description_before_release_nightlies.md)
+[Alternative rejected by John for verbosity](../../abandoned/nightly_release_targets_alternative/index.md) · [Rollback debrief](release_nightlies_rejection.md) · [Original description backup](pr_description_before_release_nightlies.md)
 
 [Draft-opening debrief](draft_opened_2026-10-14.md) · [PR description](pr_description.md) · [Title choices](pr_titles.md) · [Polish debrief](polish_debrief.md) · [Polish checklist](polish_checklist.md) · [Description strengthening](polish_strengthening.md)
 

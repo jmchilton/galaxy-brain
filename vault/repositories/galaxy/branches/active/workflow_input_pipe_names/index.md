@@ -1,3 +1,6 @@
+---
+upstream_base_branch: dev
+---
 # workflow_input_pipe_names
 
 Status: `branches_need_decision`. Base: `dev`.

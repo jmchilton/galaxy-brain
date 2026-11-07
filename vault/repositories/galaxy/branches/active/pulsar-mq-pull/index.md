@@ -1,3 +1,6 @@
+---
+upstream_base_branch: dev
+---
 # pulsar-mq-pull
 
 Status: `author_work`. Base: `dev`. [PR #9911](https://github.com/galaxyproject/galaxy/pull/9911) (open).

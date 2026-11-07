@@ -1,3 +1,7 @@
+---
+upstream_base_branch: main
+parent_branch: feat-test-pipeline-draft-loop
+---
 # Run the test-data branch in test-pipeline: one worker per leg, blocked at user-supplied
 
 - [View PR #690](https://github.com/galaxyproject/foundry/pull/690)

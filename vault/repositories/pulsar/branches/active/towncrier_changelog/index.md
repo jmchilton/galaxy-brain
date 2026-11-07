@@ -1,3 +1,6 @@
+---
+upstream_base_branch: release_0.15
+---
 # [0.15] Introduce towncrier for CHANGELOG management
 
 - [View PR #545](https://github.com/galaxyproject/pulsar/pull/545)

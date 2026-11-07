@@ -1,3 +1,6 @@
+---
+upstream_base_branch: master
+---
 # Fail tool tests that print their secrets
 
 - [Open PR](https://github.com/galaxyproject/planemo/compare/master...jmchilton:planemo:fail-tests-leaking-secrets?expand=1)

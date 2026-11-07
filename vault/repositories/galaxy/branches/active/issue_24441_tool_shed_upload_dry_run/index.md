@@ -1,3 +1,6 @@
+---
+upstream_base_branch: dev
+---
 # issue_24441_tool_shed_upload_dry_run
 
 - [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_24441_tool_shed_upload_dry_run?expand=1)

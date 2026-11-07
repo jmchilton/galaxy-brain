@@ -1,3 +1,6 @@
+---
+upstream_base_branch: main
+---
 # Make Nextflow evidence optional in Galaxy UDT authoring
 
 - [View PR #545](https://github.com/galaxyproject/foundry/pull/545)

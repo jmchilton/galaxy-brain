@@ -1,3 +1,6 @@
+---
+upstream_base_branch: dev
+---
 # Invocation selection preparation
 
 - Branch: `issue_24173_invocation_selection_prep`

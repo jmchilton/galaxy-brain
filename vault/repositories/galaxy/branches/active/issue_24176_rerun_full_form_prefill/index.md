@@ -1,3 +1,7 @@
+---
+upstream_base_branch: dev
+parent_branch: issue_24178_subworkflow_step_params_export
+---
 # issue_24176_rerun_full_form_prefill
 
 Fixes [galaxyproject/galaxy#24176](https://github.com/galaxyproject/galaxy/issues/24176): a workflow rerun that opens (or is switched to) the expanded run form ignored the original run and started from the workflow's saved values.

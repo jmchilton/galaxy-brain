@@ -1,3 +1,6 @@
+---
+upstream_base_branch: master
+---
 # Let file actions declare what they need from the destination
 
 - [View PR #517](https://github.com/galaxyproject/pulsar/pull/517)

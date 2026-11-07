@@ -1,3 +1,6 @@
+---
+upstream_base_branch: main
+---
 # Documents GitHub issue labels and triage rules (`content/meta/issue-labels.md`)
 
 - [Open PR](https://github.com/galaxyproject/foundry/compare/main...docs/issue-labels)

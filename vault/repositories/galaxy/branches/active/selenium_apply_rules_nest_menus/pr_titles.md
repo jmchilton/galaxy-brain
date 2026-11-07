@@ -1,4 +1,1 @@
 - [26.2] Add missing E2E tests for Apply rules from the rule builder menus
-- [26.2] Add missing E2E test for nesting a list with Apply rules from the menus
-- [26.2] Add missing rule builder E2E tests: menu-driven nesting and GTN rule assertions
-- [26.2] Add missing tests for rule builder menus in Apply rules and GTN examples

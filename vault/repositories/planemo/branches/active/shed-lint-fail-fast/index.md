@@ -1,3 +1,6 @@
+---
+upstream_base_branch: master
+---
 # Fix shed_lint fail-fast behavior
 
 - [View PR #1710](https://github.com/galaxyproject/planemo/pull/1710)

@@ -1,3 +1,6 @@
+---
+upstream_base_branch: release_26.1
+---
 # issue_24219_pin_offpage_collections_26.1
 
 - [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.1...jmchilton:galaxy:issue_24219_pin_offpage_collections_26.1?expand=1)

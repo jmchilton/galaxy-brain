@@ -1,3 +1,6 @@
+---
+upstream_base_branch: dev
+---
 # issue_23424_when_expression_validation
 
 Status: `branches_need_decision` (refreshed 2026-10-16).

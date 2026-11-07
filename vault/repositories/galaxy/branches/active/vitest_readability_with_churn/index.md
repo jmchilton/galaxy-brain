@@ -1,3 +1,7 @@
+---
+upstream_base_branch: dev
+parent_branch: vitest_readability
+---
 # vitest_readability_with_churn
 
 Status: `branches_reference`; published comparison stack, do not PR. Base: `vitest_readability` (`a54dfb1b450`, restacked 2026-11-02).

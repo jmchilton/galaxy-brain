@@ -1,3 +1,6 @@
+---
+upstream_base_branch: dev
+---
 # tool_form_job_count
 
 - [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:tool_form_job_count?expand=1)

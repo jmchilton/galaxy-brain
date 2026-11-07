@@ -1,3 +1,6 @@
+---
+upstream_base_branch: dev
+---
 # collection_restructure_panel
 
 Status: `author_work`. Base: `dev`. [PR #12238](https://github.com/galaxyproject/galaxy/pull/12238) (open).

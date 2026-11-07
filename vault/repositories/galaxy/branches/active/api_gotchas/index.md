@@ -1,3 +1,6 @@
+---
+upstream_base_branch: dev
+---
 # api_gotchas
 
 Status: `branches_implemented`. Base: `dev`.

@@ -1,3 +1,6 @@
+---
+upstream_base_branch: release_26.2
+---
 # galaxy_ui_driver
 
 Status: `branches_reference`.

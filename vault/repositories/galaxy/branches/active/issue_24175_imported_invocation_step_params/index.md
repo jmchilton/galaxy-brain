@@ -1,3 +1,7 @@
+---
+upstream_base_branch: dev
+parent_branch: issue_24178_subworkflow_step_params_export
+---
 # issue_24175_imported_invocation_step_params
 
 Status: re-scoped 2026-10-16; proposed `branches_implemented_needs_ci`. Head: `10eed573535e36265ca50b03e6338b389003caaa`. Fork CI pending.

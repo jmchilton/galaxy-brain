@@ -2,10 +2,10 @@ Implement output previews in the workflow invocation graph: hover a step's outpu
 
 The invocation graph shows a run's shape and each step's state, but not what any step produced. To check a step's table or image, you leave the graph for the history or the Outputs tab and find the matching dataset there. With this PR, hovering a step's output terminals opens a popover that previews every output the step produced, using Galaxy's existing Markdown dataset and collection displays:
 
-| Table | Image |
-|---|---|
-| ![Hovering head_table's output shows the top_rows table](screenshots/02_hover_table.png) | ![Hovering copy_image's output shows the plot image](screenshots/03_hover_image.png) |
-| **Collection** | **A step with two outputs** |
+| Table                                                                                                      | Image                                                                                                      |
+| ---------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| ![Hovering head_table's output shows the top_rows table](screenshots/02_hover_table.png)                   | ![Hovering copy_image's output shows the plot image](screenshots/03_hover_image.png)                       |
+| **Collection**                                                                                             | **A step with two outputs**                                                                                |
 | ![Hovering split_text's output shows the lines list and its elements](screenshots/04_hover_collection.png) | ![Hovering the numbers step lists both outputs with their text](screenshots/05_hover_multiple_outputs.png) |
 
 ***This is a maintainer-proposed feature and the first stage of a larger effort to show outputs inside the invocation graph. It only adds the hover popover: nodes, layout and the graph itself are unchanged, and later stages (outputs embedded as nodes) will come as separate PRs. It's a quick look from the graph; the Outputs tab, step cards and history are unchanged.***

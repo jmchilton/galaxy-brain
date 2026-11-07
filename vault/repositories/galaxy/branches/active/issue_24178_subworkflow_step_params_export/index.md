@@ -1,3 +1,9 @@
+---
+upstream_base_branch: dev
+child_branches:
+  - issue_24175_imported_invocation_step_params
+  - issue_24176_rerun_full_form_prefill
+---
 # issue_24178_subworkflow_step_params_export
 
 Fixes [galaxyproject/galaxy#24178](https://github.com/galaxyproject/galaxy/issues/24178): the invocation request export (`GET /api/invocations/{id}/request`) keyed subworkflow step params by inner step db id, so posting it back 500'd.

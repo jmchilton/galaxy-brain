@@ -1,3 +1,6 @@
+---
+upstream_base_branch: main
+---
 # issue-694-direct-build-on-brief
 
 For [#694](https://github.com/galaxyproject/foundry/issues/694). Branch on `origin`. PR [#696](https://github.com/galaxyproject/foundry/pull/696) → `main`, opened 2026-10-21 on John's OK. Description: [pr_description.md](pr_description.md).

@@ -1,3 +1,6 @@
+---
+upstream_base_branch: master
+---
 # Require workflow tests under the IWC lint profile
 
 - [View PR #1695](https://github.com/galaxyproject/planemo/pull/1695)

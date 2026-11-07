@@ -1,3 +1,6 @@
+---
+upstream_base_branch: master
+---
 # Say where pulsar_version came from in locally built job configs
 
 - [View PR #523](https://github.com/galaxyproject/pulsar/pull/523)

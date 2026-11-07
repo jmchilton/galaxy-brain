@@ -1,3 +1,6 @@
+---
+upstream_base_branch: master
+---
 # Write inline test jobs outside source directories
 
 - [View PR #1707](https://github.com/galaxyproject/planemo/pull/1707)

@@ -1,3 +1,6 @@
+---
+upstream_base_branch: release_26.1
+---
 # resubmit_static_chain_test_26.1
 
 Status: `branches_implemented`. Base: `release_26.1`.

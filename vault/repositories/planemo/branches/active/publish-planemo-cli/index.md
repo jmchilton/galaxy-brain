@@ -1,3 +1,6 @@
+---
+upstream_base_branch: master
+---
 # Publish pinned planemo-cli in parallel to planemo
 
 - [View PR #1733](https://github.com/galaxyproject/planemo/pull/1733)

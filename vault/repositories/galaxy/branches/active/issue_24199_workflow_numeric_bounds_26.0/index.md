@@ -1,3 +1,6 @@
+---
+upstream_base_branch: release_26.0
+---
 # issue_24199_workflow_numeric_bounds_26.0
 
 Status: `attention` — PR [#24212](https://github.com/galaxyproject/galaxy/pull/24212) undrafted by John 2026-10-19 (opened as draft 2026-10-17, title option 1, labels from pr_tags.md; screenshots on `pr-assets-issue_24199_workflow_numeric_bounds_26.0`). mvdbeek reviewed 2026-10-20 (no correctness issues); his follow-ups ([jmchilton/galaxy#94](https://github.com/jmchilton/galaxy/pull/94)) fast-forwarded in; reply and live description update pending. CI pending on `9de668ec5b4`. Polish: [debrief](polish_debrief.md). Base: `release_26.0` (`a6544be047d`). Head: `9de668ec5b4`. Fork: `jmchilton/issue_24199_workflow_numeric_bounds_26.0`. Worktree: `~/projects/worktrees/galaxy/branch/issue_24199_workflow_numeric_bounds_26.0`.

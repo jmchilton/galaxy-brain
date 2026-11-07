@@ -1,3 +1,6 @@
+---
+upstream_base_branch: master
+---
 # Use galaxy.util.wait.wait_on
 
 - [View PR #1711](https://github.com/galaxyproject/planemo/pull/1711)

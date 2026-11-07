@@ -1,6 +1,9 @@
 ---
 upstream_base_branch: dev
 pr: 24038
+child_branches:
+  - vitest_readability_with_churn
+  - vitest_real_api_calls
 ---
 # vitest_readability
 

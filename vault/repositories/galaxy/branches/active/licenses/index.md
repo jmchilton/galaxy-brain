@@ -1,3 +1,6 @@
+---
+upstream_base_branch: dev
+---
 # licenses
 
 - [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:licenses?expand=1)

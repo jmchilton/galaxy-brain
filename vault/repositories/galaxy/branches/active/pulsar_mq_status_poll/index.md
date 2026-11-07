@@ -1,3 +1,6 @@
+---
+upstream_base_branch: dev
+---
 # pulsar_mq_status_poll
 
 Status: `branches_ready_for_final_review` (refreshed 2026-10-16).

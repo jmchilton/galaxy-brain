@@ -1,3 +1,6 @@
+---
+upstream_base_branch: release_26.0
+---
 # custom_build_no_converter_400_26.0
 
 - [PR #24313](https://github.com/galaxyproject/galaxy/pull/24313)

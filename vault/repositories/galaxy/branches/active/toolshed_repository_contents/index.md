@@ -1,3 +1,6 @@
+---
+upstream_base_branch: dev
+---
 # toolshed_repository_contents
 
 Status: `branches_need_decision` — John needs to decide how to satisfy mvdbeek's performance concerns; retargeted to `dev` and listing `size` dropped; [reply draft](review_response_draft_2026-10-20.md) unposted. Base: `dev`. [PR #24167](https://github.com/galaxyproject/galaxy/pull/24167), head `66f8d7c3769bd633572ebfc0511c24a9442af950`.

@@ -1,3 +1,9 @@
+---
+upstream_base_branch: main
+child_branches:
+  - feat-test-pipeline-test-data-branch
+  - fix-advance-draft-needs-tool
+---
 # Run the draft loop in test-pipeline: one worker per call, capped and budgeted
 
 - [View PR #686](https://github.com/galaxyproject/foundry/pull/686)

@@ -1,3 +1,6 @@
+---
+upstream_base_branch: main
+---
 # Replaces abstract summarize-nextflow scenarios with concrete pinned fixtures (#534)
 
 - [Open PR](https://github.com/galaxyproject/foundry/compare/main...issue-534-concrete-nextflow-scenarios)

@@ -1,3 +1,6 @@
+---
+upstream_base_branch: master
+---
 # Fix silently skipped collection output assertions in workflow tests
 
 - [View PR #1723](https://github.com/galaxyproject/planemo/pull/1723)

@@ -1,3 +1,6 @@
+---
+upstream_base_branch: dev
+---
 # issue_20657_input_processing_mode
 
 Status: `branches_need_decision`. Base: `dev`.

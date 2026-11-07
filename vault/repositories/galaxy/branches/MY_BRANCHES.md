@@ -142,7 +142,5 @@ None yet.
 ## Galaxy branches — reference only (`branches_reference`)
 
 - [`pulsar-term-first-cancellation`](active/pulsar-term-first-cancellation/index.md) — Shared kill helper sync for Pulsar #554; parked until next sync per John. Do not PR independently.
-- [`nightly_release_targets_alternative`](active/nightly_release_targets_alternative/index.md) — Cross-release nightly alternative John rejected as too verbose; retained for Marius feedback. Reference only; do not PR.
 - [`vitest_readability_with_churn`](active/vitest_readability_with_churn/index.md) — Preserves the readability history before score-2 pruning. Reference only; do not PR.
 - [`galaxy_ui_driver`](active/galaxy_ui_driver/index.md) — Standing branch for Galaxy changes motivated by gxui. Do not PR independently. Do not polish; Playwright owns it. Based on `release_26.2` for 26.2 QA (2026-10-20); the final PR targets dev.
-- [`move_markdown_conversion_to_util`](active/move_markdown_conversion_to_util/index.md) — Moves markdown HTML/PDF conversion out of `managers.markdown_util` into `galaxy.util`. Do not PR independently.

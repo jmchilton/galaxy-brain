@@ -1,3 +1,6 @@
+---
+upstream_base_branch: dev
+---
 # issue_19391_file_source_templates_config_dir
 
 Status: `branches_ready_for_final_review`. Base: `dev`.

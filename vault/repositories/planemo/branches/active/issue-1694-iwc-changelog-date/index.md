@@ -1,3 +1,6 @@
+---
+upstream_base_branch: master
+---
 # Validate dates in IWC changelog headings
 
 - [View PR #1697](https://github.com/galaxyproject/planemo/pull/1697)

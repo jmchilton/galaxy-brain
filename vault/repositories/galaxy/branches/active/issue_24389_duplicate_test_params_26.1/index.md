@@ -1,3 +1,6 @@
+---
+upstream_base_branch: release_26.1
+---
 # issue_24389_duplicate_test_params_26.1
 
 - [PR #24450](https://github.com/galaxyproject/galaxy/pull/24450)

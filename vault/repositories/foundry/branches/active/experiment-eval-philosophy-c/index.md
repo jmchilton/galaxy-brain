@@ -1,3 +1,6 @@
+---
+upstream_base_branch: main
+---
 # Eval philosophy rewrite (Variant C)
 
 - [Open PR](https://github.com/galaxyproject/foundry/compare/main...experiment/eval-philosophy-c)

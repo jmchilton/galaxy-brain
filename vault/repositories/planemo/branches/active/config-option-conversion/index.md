@@ -1,3 +1,6 @@
+---
+upstream_base_branch: master
+---
 # Apply Click conversion to configured option values
 
 - [View PR #1714](https://github.com/galaxyproject/planemo/pull/1714)

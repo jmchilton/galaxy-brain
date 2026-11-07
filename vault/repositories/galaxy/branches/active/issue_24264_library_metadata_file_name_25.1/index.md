@@ -1,3 +1,6 @@
+---
+upstream_base_branch: release_25.1
+---
 # issue_24264_library_metadata_file_name_25.1
 
 - [Open PR](https://github.com/galaxyproject/galaxy/compare/release_25.1...jmchilton:galaxy:issue_24264_library_metadata_file_name_25.1?expand=1)

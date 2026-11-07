@@ -1,3 +1,6 @@
+---
+upstream_base_branch: main
+---
 # Fix template and draft-loop evals that fail correct output
 
 - [#720](https://github.com/galaxyproject/foundry/pull/720)

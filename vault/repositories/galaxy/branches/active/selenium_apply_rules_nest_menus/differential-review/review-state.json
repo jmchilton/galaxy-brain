@@ -1,0 +1,77 @@
+{
+  "schemaVersion": 1,
+  "kind": "differential-review-state",
+  "updatedAt": "2026-11-06T20:05:41.944Z",
+  "hunks": {
+    "h1:8e79688aab6548dc": {
+      "snapshotId": "20261106T171909Z-polishing-084390a898f1",
+      "path": "client/src/utils/navigation/navigation.yml",
+      "reviewedAt": "2026-11-06T20:05:27.301Z"
+    },
+    "h1:e7f2850a31996818": {
+      "snapshotId": "20261106T171909Z-polishing-084390a898f1",
+      "path": "client/src/utils/navigation/schema.ts",
+      "reviewedAt": "2026-11-06T20:05:28.192Z"
+    },
+    "h1:464b296a09afa4fa": {
+      "snapshotId": "20261106T171909Z-polishing-084390a898f1",
+      "path": "lib/galaxy/selenium/navigates_galaxy.py",
+      "reviewedAt": "2026-11-06T20:05:29.300Z"
+    },
+    "h1:cedfd2212e3b81b8": {
+      "snapshotId": "20261106T171909Z-polishing-084390a898f1",
+      "path": "lib/galaxy/selenium/navigates_galaxy.py",
+      "reviewedAt": "2026-11-06T20:05:29.300Z"
+    },
+    "h1:e460a71df8f07849": {
+      "snapshotId": "20261106T171909Z-polishing-084390a898f1",
+      "path": "lib/galaxy/selenium/navigates_galaxy.py",
+      "reviewedAt": "2026-11-06T20:05:29.300Z"
+    },
+    "h1:34b7737b18731774": {
+      "snapshotId": "20261106T171909Z-polishing-084390a898f1",
+      "path": "lib/galaxy_test/selenium/framework.py",
+      "reviewedAt": "2026-11-06T20:05:31.386Z"
+    },
+    "h1:7546ae9b8f8fb6fa": {
+      "snapshotId": "20261106T171909Z-polishing-084390a898f1",
+      "path": "lib/galaxy_test/selenium/test_uploads.py",
+      "reviewedAt": "2026-11-06T20:05:35.295Z"
+    },
+    "h1:07305692df1b1341": {
+      "snapshotId": "20261106T171909Z-polishing-084390a898f1",
+      "path": "lib/galaxy_test/selenium/test_tool_form.py",
+      "reviewedAt": "2026-11-06T20:05:37.244Z"
+    },
+    "h1:8e78705aed31da40": {
+      "snapshotId": "20261106T171909Z-polishing-084390a898f1",
+      "path": "lib/galaxy_test/selenium/test_uploads.py",
+      "reviewedAt": "2026-11-06T20:05:38.931Z"
+    },
+    "h1:685ef0a7903ece20": {
+      "snapshotId": "20261106T171909Z-polishing-084390a898f1",
+      "path": "lib/galaxy_test/selenium/test_uploads.py",
+      "reviewedAt": "2026-11-06T20:05:40.019Z"
+    }
+  },
+  "commits": {
+    "6dc75cf0a10c787437899622a0787b8e16592966": {
+      "sha": "07d55d69f6650bb26498601754e05b908c7fd679",
+      "subject": "Baseline tests: check the rules built in rules examples 3 and 4",
+      "snapshotId": "20261106T171909Z-polishing-084390a898f1",
+      "signedOffAt": "2026-11-06T20:05:41.327Z"
+    },
+    "c64fa37cd0d1d426f205d414429e55fbfa6ef20e": {
+      "sha": "57d840de21c07c80cc8d9c989b14b49a96e841cf",
+      "subject": "Add rule_editor_column_selector target for single-column rule builder helpers",
+      "snapshotId": "20261106T171909Z-polishing-084390a898f1",
+      "signedOffAt": "2026-11-06T20:05:41.728Z"
+    },
+    "2e9ea241f80a4a518d92f8efb8776a20ac1ab651": {
+      "sha": "084390a898f141b5642e566a8052555a059c5262",
+      "subject": "Test nesting a list with Apply rules from the rule builder menus",
+      "snapshotId": "20261106T171909Z-polishing-084390a898f1",
+      "signedOffAt": "2026-11-06T20:05:41.944Z"
+    }
+  }
+}

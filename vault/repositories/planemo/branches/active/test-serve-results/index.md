@@ -1,3 +1,7 @@
+---
+upstream_base_branch: master
+parent_branch: package-installed-galaxy-gravity
+---
 # Keep managed Galaxy running after tests
 
 - [View PR #1708](https://github.com/galaxyproject/planemo/pull/1708)

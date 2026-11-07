@@ -1,3 +1,6 @@
+---
+upstream_base_branch: master
+---
 # Replace Perl documentation example with Python
 
 - [View PR #1709](https://github.com/galaxyproject/planemo/pull/1709)

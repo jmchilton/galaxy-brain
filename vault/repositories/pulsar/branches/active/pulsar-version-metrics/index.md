@@ -1,3 +1,6 @@
+---
+upstream_base_branch: master
+---
 # Record the running Pulsar's version as a job metric
 
 - [View PR #529](https://github.com/galaxyproject/pulsar/pull/529)

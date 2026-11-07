@@ -1,3 +1,7 @@
+---
+upstream_base_branch: master
+child_branches: test-serve-results
+---
 # Run package-installed Galaxy through Gravity
 
 - [View PR #1701](https://github.com/galaxyproject/planemo/pull/1701)

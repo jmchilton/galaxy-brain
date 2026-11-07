@@ -1,3 +1,6 @@
+---
+upstream_base_branch: master
+---
 # Sanitize invocation labels used as filenames
 
 - [View PR #1724](https://github.com/galaxyproject/planemo/pull/1724)

@@ -1,3 +1,6 @@
+---
+upstream_base_branch: dev
+---
 # issue_23914_page_card_actions
 
 Status: `branches_ready_for_final_review`. Base: `dev`.

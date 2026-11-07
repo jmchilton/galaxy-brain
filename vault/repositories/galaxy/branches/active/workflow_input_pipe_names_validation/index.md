@@ -1,3 +1,6 @@
+---
+upstream_base_branch: dev
+---
 # workflow_input_pipe_names_validation
 
 Status: `comparison`.

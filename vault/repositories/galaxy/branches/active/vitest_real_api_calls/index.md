@@ -1,3 +1,7 @@
+---
+upstream_base_branch: dev
+parent_branch: vitest_readability
+---
 # vitest_real_api_calls
 
 Status: `branches_implemented_needs_ci`. No upstream PR. Intended upstream target: `dev`; stacked on `vitest_readability` commit `a54dfb1b450` (dependency [PR #24038](https://github.com/galaxyproject/galaxy/pull/24038)). Restacked 2026-11-02 without conflicts; head `7a9ca9d2920`; type-check and unit (677 files / 6,008 passed / 1 skipped) pass. Previous head `a277128d39a` archived at `refs/archive/restack-20261102/vitest_real_api_calls`.

@@ -1,3 +1,6 @@
+---
+upstream_base_branch: release_26.0
+---
 # issue_23521_conditional_case_resolution
 
 Status: `branches_ready_for_final_review`. Base: `release_26.0`.

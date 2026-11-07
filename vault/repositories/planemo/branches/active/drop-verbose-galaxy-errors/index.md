@@ -1,3 +1,6 @@
+---
+upstream_base_branch: master
+---
 # Drop dead interactor.VERBOSE_GALAXY_ERRORS assignment
 
 - [View PR #1684](https://github.com/galaxyproject/planemo/pull/1684)
