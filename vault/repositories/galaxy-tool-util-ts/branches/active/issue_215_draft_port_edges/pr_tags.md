@@ -1,0 +1,2 @@
+- `enhancement`: work items gain edges, and validation gains a rule.
+- `bug`: optional. `TODO_x: {}` validating contradicted the draft format guide, and `referenced by` could report a false edge.

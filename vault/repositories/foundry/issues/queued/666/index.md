@@ -1,6 +1,6 @@
 # #666 summarize-nextflow resolver: six measured extraction defects on nf-core/rnaseq 3.27.0
 
-[Issue](https://github.com/galaxyproject/foundry/issues/666) — opened by scottcain's AI assistant, currently only `needs-triage`. One comment (John's agent, 2026-10-25) adds nf-core/sarek 3.8.1 evidence. No PR or branch addresses it (`gh pr list --search 666` empty).
+[Issue](https://github.com/galaxyproject/foundry/issues/666) — opened by scottcain's AI assistant. One comment (John's agent, 2026-10-25) adds nf-core/sarek 3.8.1 evidence. No PR or branch addresses it (`gh pr list --search 666` empty).
 
 ## Proposed labels
 
@@ -11,7 +11,7 @@
 
 ## Status
 
-`needs_decision` (`needs_decision_labels`, rule 3): labels staged in `issue_tags.md`. Once applied, `queued_implement`.
+`queued` (`queued_implement`, rule 6): staged labels applied 2026-11-06, moved 2026-11-07. The questions under Next are still open and don't change the status.
 
 ## Findings
 
@@ -69,7 +69,8 @@ Questions for John:
 
 - Keep one issue, or split it? The issue itself says "not one fix". Recommend keeping it as the tracker with one PR per batch.
 - For 1: `workflow` has no `invocations` field, so demoting the wrapper loses how `RNASEQ`'s `take:` channels are bound. `PREPARE_GENOME_*` keep theirs. Add the field to `workflow`, or accept the loss? Recommend adding it.
-- Post the corrected defect 2 and new defects A and B as a comment on #666? Not posted.
+
+Findings posted to the issue 2026-11-07 ([comment](https://github.com/galaxyproject/foundry/issues/666#issuecomment-6708366526)); defects A and B are items 7 and 8 there.
 
 Reproduce: `summarize-nextflow <clone> --no-with-nextflow --profile test --out summary.json`.
 

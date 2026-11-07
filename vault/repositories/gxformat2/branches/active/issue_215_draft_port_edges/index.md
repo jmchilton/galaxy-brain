@@ -1,21 +1,26 @@
 ---
 upstream_base_branch: main
+pr: 289
 blocking: galaxy-tool-util-ts/branches/issue_215_draft_port_edges
 related_records: galaxy-tool-util-ts/branches/issue_215_draft_port_edges
 ---
 
 # next_draft_step: report edges around TODO ports; validate_draft: reject unwired ones
 
-- [Open PR](https://github.com/jmchilton/gxformat2/compare/issue_215_draft_port_edges?expand=1)
+- [PR #289](https://github.com/galaxyproject/gxformat2/pull/289)
 - [View on GitHub](https://github.com/jmchilton/gxformat2/tree/issue_215_draft_port_edges)
 
 ## Status
 
-Implemented; pushed to the `jmchilton` fork, branched from `origin/main` `b0241eee`.
+Polished at `103fc22` on the `jmchilton` fork, branched from `origin/main` `b0241eee`.
 
-No PR yet.
+PR #289 opened at John's request on 2026-11-07 against `main`; it merges before the paired galaxy-tool-util-ts#217.
 
-Fork CI queued at `3d85df0`.
+Fork CI green at `103fc22` (2026-11-07); PR CI is still running.
+
+## Polish
+
+- [PR description](pr_description.md), [titles](pr_titles.md), [tags](pr_tags.md), [polish debrief](polish_debrief.md).
 
 ## Notes
 

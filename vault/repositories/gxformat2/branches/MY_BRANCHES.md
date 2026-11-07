@@ -1,10 +1,10 @@
 # Open PR and branch queue
 
-Snapshot: 2026-11-06 (live GitHub state for jmchilton's open gxformat2 PRs).
+Snapshot: 2026-11-07 (live GitHub state for jmchilton's open gxformat2 PRs).
 
 ## Open gxformat2 PRs — ready from our side (`ready`)
 
-None yet.
+- [`issue_215_draft_port_edges`](active/issue_215_draft_port_edges/index.md) — `next_draft_step` items show edges around `TODO_*` ports; `validate_draft` rejects unwired ones. [#289](https://github.com/galaxyproject/gxformat2/pull/289).
 
 ## Open gxformat2 PRs — needs attention (`attention`)
 
@@ -24,7 +24,7 @@ None yet.
 
 ## gxformat2 branches — implemented, work left (`branches_implemented_needs_ci`)
 
-- [`issue_215_draft_port_edges`](active/issue_215_draft_port_edges/index.md) — `next_draft_step` items show edges around `TODO_*` ports; `validate_draft` rejects unwired ones. [Open PR](https://github.com/galaxyproject/gxformat2/compare/main...jmchilton:gxformat2:issue_215_draft_port_edges?expand=1).
+None yet.
 
 ## gxformat2 branches — implemented, work left, green (`branches_implemented`)
 

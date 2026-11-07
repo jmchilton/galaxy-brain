@@ -82,7 +82,7 @@ Different lengths fail instead, with `Cannot match collection types`. A direct m
 - A mix of skipped and live elements within one arm. Gates here are workflow-level booleans. Galaxy's `pick_value_mapped_mixed_skip_pja`, on `dev`, covers it for the built-in.
 - `planemo lint`, which exits 2 with no output here, as it does on the existing `route-between-alternatives`. `planemo workflow_lint` passes tests, tool ids and tool versions, with missing-annotation warnings. `gxwf validate` passes with tool state.
 
-**CI at `5f1f34db`:** `test` and `changeset` pass. `planemo` is still running on this head. It passed all five new tests on the head before the merge with `main`, `bac5ae4b`.
+**CI at `5f1f34db`:** `test`, `changeset` and `planemo` pass, including all five new tests.
 
 **`make -k check`:** everything passes (496 tests, 15 fixtures) except `check-vendored`, a known failure on this machine.
 
