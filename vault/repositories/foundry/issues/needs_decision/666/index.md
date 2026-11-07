@@ -69,7 +69,8 @@ Questions for John:
 
 - Keep one issue, or split it? The issue itself says "not one fix". Recommend keeping it as the tracker with one PR per batch.
 - For 1: `workflow` has no `invocations` field, so demoting the wrapper loses how `RNASEQ`'s `take:` channels are bound. `PREPARE_GENOME_*` keep theirs. Add the field to `workflow`, or accept the loss? Recommend adding it.
-- Post the corrected defect 2 and new defects A and B as a comment on #666? Not posted.
+
+Findings posted to the issue 2026-11-07 ([comment](https://github.com/galaxyproject/foundry/issues/666#issuecomment-6708366526)); defects A and B are items 7 and 8 there.
 
 Reproduce: `summarize-nextflow <clone> --no-with-nextflow --profile test --out summary.json`.
 
