@@ -4,6 +4,4 @@
 
 ## Status
 
-Initial review ready on `49fa5544810`, unposted: one P2 and two P3s, all fixed on `pr_24772_review_0`, which is on the fork, not pushed into the PR.
-
-PR open against `dev`, out of draft; no reviews or comments at last check.
+Approved with the review response on `49fa5544810` (2026-11-07). One P2 and two P3s, all fixed on `pr_24772_review_0`, on the fork, not pushed into the PR. Awaiting merge.
