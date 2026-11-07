@@ -1,0 +1,1 @@
+Risks are minimal - this change doesn't lock Galaxy into particular difficult to change choices (a two-way door). It is a build-time compiler setting and template attribute reordering with no API, data, or tool/workflow artifact changes, so reverting it restores the old behavior.

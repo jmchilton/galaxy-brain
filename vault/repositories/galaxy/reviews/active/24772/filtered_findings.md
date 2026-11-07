@@ -1,0 +1,5 @@
+- "Explicit attribute wins" does not hold for `$attrs` on `GButton` and `GLink`: not actionable and not changed by this PR. Mounting the real components with a caller's `aria-disabled`, `aria-pressed`, `title` and `type`, the caller won with the spread first or last on `GButton`, and with the spread first on `GLink`, under runtime compat and with the component set to `compatConfig: { MODE: 3 }`. It only makes the PR description's wording loose for `$attrs`; the wording holds for `anchorAttributes`.
+- The `...$attrs` in those two spreads is redundant, since fallthrough applies them again: pre-existing, and removing it is unrelated to this PR.
+- The `.native` check in `portableImports.test.ts` now overlaps the lint rule: the reviewer's own note says keeping it does no harm, so there is nothing to act on.
+- Extract the duplicated `GTabs` anchor into one template: pre-existing duplication that a comment in `GTabs.vue` already calls out, and beyond this PR's scope.
+- Tighten the unit test to `.toBe(byteFormattingForChart.labelFormatter)`: moot, because P2 1 replaces that test.
