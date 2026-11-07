@@ -1,0 +1,108 @@
+{
+  "schemaVersion": 1,
+  "kind": "differential-review-state",
+  "updatedAt": "2026-11-07T15:53:08.227Z",
+  "hunks": {
+    "h1:1e741ff634d756ce": {
+      "snapshotId": "20261106T192912Z-review-150cb834122d",
+      "path": "client/src/components/Collections/CollectionCreatorIndex.test.ts",
+      "reviewedAt": "2026-11-07T15:53:05.311Z"
+    },
+    "h1:a0f09005cdf1f0fd": {
+      "snapshotId": "20261106T192912Z-review-150cb834122d",
+      "path": "client/src/components/Collections/CollectionCreatorIndex.vue",
+      "reviewedAt": "2026-11-07T15:53:05.662Z"
+    },
+    "h1:34293c99de498b6e": {
+      "snapshotId": "20261106T192912Z-review-150cb834122d",
+      "path": "client/src/components/Collections/CollectionCreatorIndex.vue",
+      "reviewedAt": "2026-11-07T15:53:05.662Z"
+    },
+    "h1:527e98ebef3853b6": {
+      "snapshotId": "20261106T192912Z-review-150cb834122d",
+      "path": "client/src/components/Collections/CollectionCreatorIndex.vue",
+      "reviewedAt": "2026-11-07T15:53:05.662Z"
+    },
+    "h1:d82821068f8f8ea0": {
+      "snapshotId": "20261106T192912Z-review-150cb834122d",
+      "path": "client/src/components/Collections/CollectionCreatorIndex.vue",
+      "reviewedAt": "2026-11-07T15:53:05.662Z"
+    },
+    "h1:12cc7d25b5324fff": {
+      "snapshotId": "20261106T192912Z-review-150cb834122d",
+      "path": "client/src/components/Common/BreadcrumbHeading.test.ts",
+      "reviewedAt": "2026-11-07T15:53:05.984Z"
+    },
+    "h1:5c20a91f1f4c766f": {
+      "snapshotId": "20261106T192912Z-review-150cb834122d",
+      "path": "client/src/components/Common/BreadcrumbHeading.test.ts",
+      "reviewedAt": "2026-11-07T15:53:05.984Z"
+    },
+    "h1:7f5f31a9a12a4fba": {
+      "snapshotId": "20261106T192912Z-review-150cb834122d",
+      "path": "client/src/components/Common/BreadcrumbHeading.vue",
+      "reviewedAt": "2026-11-07T15:53:06.307Z"
+    },
+    "h1:c78daeb0c766e166": {
+      "snapshotId": "20261106T192912Z-review-150cb834122d",
+      "path": "client/src/components/Common/BreadcrumbHeading.vue",
+      "reviewedAt": "2026-11-07T15:53:06.307Z"
+    },
+    "h1:07df655168f935f6": {
+      "snapshotId": "20261106T192912Z-review-150cb834122d",
+      "path": "client/src/components/Common/BreadcrumbHeading.vue",
+      "reviewedAt": "2026-11-07T15:53:06.307Z"
+    },
+    "h1:0a1b686ced1887c7": {
+      "snapshotId": "20261106T192912Z-review-150cb834122d",
+      "path": "client/src/components/Common/PersistentTaskProgressMonitorAlert.test.ts",
+      "reviewedAt": "2026-11-07T15:53:06.773Z"
+    },
+    "h1:2adeb007ca440472": {
+      "snapshotId": "20261106T192912Z-review-150cb834122d",
+      "path": "client/src/components/Common/PersistentTaskProgressMonitorAlert.test.ts",
+      "reviewedAt": "2026-11-07T15:53:06.773Z"
+    },
+    "h1:849460b23c4e832c": {
+      "snapshotId": "20261106T192912Z-review-150cb834122d",
+      "path": "client/src/components/Common/PersistentTaskProgressMonitorAlert.vue",
+      "reviewedAt": "2026-11-07T15:53:07.246Z"
+    },
+    "h1:1037306732288e04": {
+      "snapshotId": "20261106T192912Z-review-150cb834122d",
+      "path": "client/src/components/Common/PersistentTaskProgressMonitorAlert.vue",
+      "reviewedAt": "2026-11-07T15:53:07.246Z"
+    },
+    "h1:ac6515ed027f1f97": {
+      "snapshotId": "20261106T192912Z-review-150cb834122d",
+      "path": "client/src/components/Common/PersistentTaskProgressMonitorAlert.vue",
+      "reviewedAt": "2026-11-07T15:53:07.246Z"
+    },
+    "h1:2c3594527be522b1": {
+      "snapshotId": "20261106T192912Z-review-150cb834122d",
+      "path": "client/src/components/History/Content/Dataset/DatasetDetails.test.ts",
+      "reviewedAt": "2026-11-07T15:53:07.712Z"
+    },
+    "h1:30b4126b32ad0eb9": {
+      "snapshotId": "20261106T192912Z-review-150cb834122d",
+      "path": "client/src/components/History/Content/Dataset/DatasetDetails.test.ts",
+      "reviewedAt": "2026-11-07T15:53:07.712Z"
+    },
+    "h1:1027d9371c9d1c19": {
+      "snapshotId": "20261106T192912Z-review-150cb834122d",
+      "path": "client/src/components/History/Content/Dataset/DatasetDetails.vue",
+      "reviewedAt": "2026-11-07T15:53:08.227Z"
+    },
+    "h1:643df383324ea145": {
+      "snapshotId": "20261106T192912Z-review-150cb834122d",
+      "path": "client/src/components/History/Content/Dataset/DatasetDetails.vue",
+      "reviewedAt": "2026-11-07T15:53:08.227Z"
+    },
+    "h1:21b4264d92637f33": {
+      "snapshotId": "20261106T192912Z-review-150cb834122d",
+      "path": "client/src/components/History/Content/Dataset/DatasetDetails.vue",
+      "reviewedAt": "2026-11-07T15:53:08.227Z"
+    }
+  },
+  "commits": {}
+}
