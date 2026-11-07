@@ -11,7 +11,7 @@ GitHub state last refreshed: 2026-11-06. Issues here are not assigned to jmchilt
 - [#212](https://github.com/jmchilton/galaxy-tool-util-ts/issues/212) — UDT expressions never check `inputs.*` member paths against the runtime model; branch `issue_212_udt_expression_paths`. [notes](wip/212/index.md)
 - [#216](https://github.com/jmchilton/galaxy-tool-util-ts/issues/216) — `draft-validate --concrete --json` says `ok: false` with empty `*_errors`, unlabelled steps; branch `issue_216_concrete_errors`. [notes](wip/216/index.md)
 
-- [#215](https://github.com/jmchilton/galaxy-tool-util-ts/issues/215) — `draft-next-step` items omit edges around `TODO_*` ports; branch `issue_215_draft_port_edges`. [notes](wip/215/index.md)
+- [#215](https://github.com/jmchilton/galaxy-tool-util-ts/issues/215) — `draft-next-step` items omit edges around `TODO_*` ports; PR [#217](https://github.com/jmchilton/galaxy-tool-util-ts/pull/217), after galaxyproject/gxformat2#289. [notes](wip/215/index.md)
 
 ## Queued (`queued`)
 

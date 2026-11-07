@@ -1,10 +1,11 @@
 # Open PR and branch queue
 
-Snapshot: 2026-11-06.
+Snapshot: 2026-11-07.
 
 ## Open galaxy-tool-util-ts PRs — ready from our side (`ready`)
 
 - [`issue_202_fill_defaults`](active/issue_202_fill_defaults/index.md) — Optional `gxwf fill-defaults` preserves sparse-state validation and connections (#202). [#207](https://github.com/jmchilton/galaxy-tool-util-ts/pull/207).
+- [`issue_215_draft_port_edges`](active/issue_215_draft_port_edges/index.md) — `draft-next-step` items show edges around `TODO_*` ports; `draft-validate` rejects unwired ones (#215). [#217](https://github.com/jmchilton/galaxy-tool-util-ts/pull/217).
 
 ## Open galaxy-tool-util-ts PRs — needs attention (`attention`)
 
@@ -32,7 +33,6 @@ None yet.
 
 ## Branches — ready for final review (`branches_ready_for_final_review`)
 
-- [`issue_215_draft_port_edges`](active/issue_215_draft_port_edges/index.md) — `draft-next-step` items show edges around `TODO_*` ports; `draft-validate` rejects unwired ones (#215). [Open PR](https://github.com/jmchilton/galaxy-tool-util-ts/compare/main...issue_215_draft_port_edges).
 - [`issue_216_concrete_errors`](active/issue_216_concrete_errors/index.md) — `draft-validate --concrete --json`: top-level `concrete_errors`, step `label` on results (#216). [Open PR](https://github.com/jmchilton/galaxy-tool-util-ts/compare/main...issue_216_concrete_errors).
 - [`issue_212_udt_expression_paths`](active/issue_212_udt_expression_paths/index.md) — UDT checks: `inputs.*` paths in templates and output labels vs Galaxy's job runtime model (#212). [Open PR](https://github.com/jmchilton/galaxy-tool-util-ts/compare/main...issue_212_udt_expression_paths).
 - [`issue_210_datatypes_snapshot`](active/issue_210_datatypes_snapshot/index.md) — Committed usegalaxy.org datatypes snapshot + `snapshotDatatypesMapper()` in workflow-graph (#210). [Open PR](https://github.com/jmchilton/galaxy-tool-util-ts/compare/main...issue_210_datatypes_snapshot).

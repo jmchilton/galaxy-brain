@@ -63,7 +63,7 @@ Risks are minimal - this change doesn't lock the project into particular difficu
 
 ## Context
 
-Paired with [`issue_215_draft_port_edges` on gxformat2](https://github.com/jmchilton/gxformat2/tree/issue_215_draft_port_edges), which owns the shared fixtures and `next_draft_step.yml` / `validate_draft.yml` expectations and has to merge first. A later sync from gxformat2's `main` would otherwise drop them. Those fixtures are synced here byte for byte. Related to 🎯 galaxyproject/foundry#668, part 2.
+Paired with 🔀 [galaxyproject/gxformat2#289](https://github.com/galaxyproject/gxformat2/pull/289), which owns the shared fixtures and `next_draft_step.yml` / `validate_draft.yml` expectations and has to merge first. A later sync from gxformat2's `main` would otherwise drop them. Those fixtures are synced here byte for byte. Related to 🎯 galaxyproject/foundry#668, part 2.
 
 ## Agentic Checks
 

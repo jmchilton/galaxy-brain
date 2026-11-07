@@ -1,21 +1,22 @@
 ---
 upstream_base_branch: main
+pr: 217
 blockers: gxformat2/branches/issue_215_draft_port_edges
 related_records: gxformat2/branches/issue_215_draft_port_edges
 ---
 
 # draft-next-step: report edges around TODO ports; draft-validate: reject unwired ones (#215)
 
-- [Open PR](https://github.com/jmchilton/galaxy-tool-util-ts/compare/main...issue_215_draft_port_edges)
+- [PR #217](https://github.com/jmchilton/galaxy-tool-util-ts/pull/217)
 - [View on GitHub](https://github.com/jmchilton/galaxy-tool-util-ts/tree/issue_215_draft_port_edges)
 
 ## Status
 
-Polished at `c2e6868e`, branched from `origin/main` `f5470fe5`, waiting for John's final review.
+Polished at `c2e6868e`, branched from `origin/main` `f5470fe5`.
 
-No PR yet.
+PR #217 opened at John's request on 2026-11-07 against `main`; it merges after the paired galaxyproject/gxformat2#289.
 
-CI runs on PRs only, so there's no result; locally only the 3 `integration-tests` failures also seen on `origin/main` remain.
+PR CI is still running at `c2e6868e`.
 
 ## Polish
 

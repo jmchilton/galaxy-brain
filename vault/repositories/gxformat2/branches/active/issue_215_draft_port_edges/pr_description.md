@@ -47,7 +47,7 @@ Risks are minimal - this change doesn't lock the project into particular difficu
 
 ## Context
 
-Paired with [`issue_215_draft_port_edges` on galaxy-tool-util-ts](https://github.com/jmchilton/galaxy-tool-util-ts/tree/issue_215_draft_port_edges), which syncs the fixtures and expectations added here, so this merges first. The issue explains the wider motivation.
+Paired with 🔀 [jmchilton/galaxy-tool-util-ts#217](https://github.com/jmchilton/galaxy-tool-util-ts/pull/217), which syncs the fixtures and expectations added here, so this merges first. The issue explains the wider motivation.
 
 ## Agentic Checks
 
