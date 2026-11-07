@@ -8,8 +8,8 @@ upstream_base_branch: release_26.1
 
 ## Status
 
-Implemented [#24787](https://github.com/galaxyproject/galaxy/issues/24787) on release_26.1, hardening in progress.
+Parked for a scope decision on [#24787](https://github.com/galaxyproject/galaxy/issues/24787): the second scope evaluation recommends two small additions (see `implementation_debrief.md`).
 
-No PR yet.
+No PR yet; the fork branch is at the first implementation, `70790a281ce`, until the rewritten history is force-pushed (tip `8c9d6135164`).
 
-No CI yet.
+No CI yet; local integration tests pass on SQLite and Postgres.
