@@ -10,7 +10,8 @@ The library and generic CLI are their own package, [jmchilton/differential-revie
 differential-review-lib/      submodule: pure core (src/core), Node snapshot API and generic CLI (src/cli)
 differential-review/          galaxy-brain's CLI: the package's commands with --record instead of --dir
   src/record.ts               index.md frontmatter, parent_branch / upstream_base_branch base choice
-  src/run.ts                  RECORD_TARGET: createCli() targeted at vault records
+  src/run.ts                  RECORD_TARGET: createCli() targeted at vault records, plus `capture`
+  src/capture.ts              `capture`: a snapshot from what a record says, for the plugins' snapshot buttons
   bin/differential-review     sh wrapper around dist/differential-review.cjs; follows symlinks
 obsidian-plugin/src/diff-review-*.ts   the Obsidian review view; writes review-state.json
 obsidian-plugin/src/diff-highlight.ts  syntax tokens for diff lines, shared with the Herdr app
@@ -40,12 +41,24 @@ differential-review snapshot --record BRANCH_DIRECTORY --phase implementation|ha
 
 differential-review list   --record <dir> [--json]
 differential-review status --record <dir> [--snapshot <id>] [--json]
+differential-review capture --record <dir>
 differential-review [<command>] --help
 ```
 
 `--worktree` defaults to the current directory. For a branch record, HEAD must then be on the record's branch, or the command fails. This guards against an agent whose cwd is the vault snapshotting galaxy-brain's own HEAD into a record. With an explicit `--worktree`, a different branch or a detached HEAD only produces a warning, because alts and renames are legitimate. Review records and `--head <rev>` skip the check: a PR worktree often has a review branch checked out, so agents fetch `pull/<N>/head` and pass `--head FETCH_HEAD`. The worktree is never touched.
 
 `--record` is a branch or review record directory, `vault/repositories/<repo>/{branches,reviews}/<status>/<name>` (`REVIEWABLE_RECORD_KINDS` in `site/src/lib/records.ts`). Its review dir is `<record>/differential-review/`. Review `index.md` files have no frontmatter, so reviews always pass `--base`. It must already contain `index.md`. A path that has none is an error, never a new directory.
+
+### `capture`
+
+Takes a snapshot with nothing but the record, so a branch or PR set up outside the standard process can still be reviewed. **Take snapshot** on an empty review and **New snapshot** on an existing one run it; agents keep using `snapshot`, which records their phase.
+
+- **Where:** the record's worktree if it has one, else `~/projects/repositories/<repo>`. It only fetches, so the checkout is untouched.
+- **Review record:** the head is `pull/<N>/head` from `origin`, the base is the PR's `baseRefName` from `gh`, and the phase is `review`. A record whose name isn't a PR number, like `fork-87`, gets an error.
+- **Branch record:** the head is the local branch, or the one fetched from the `jmchilton` remote, else `origin`, if there's no local branch or it has moved past the local one. If they've diverged, the local branch wins. The phase is `revision`.
+- **Branch names:** a record's name can't hold a `/`, so its **View on GitHub** link names the branch when they differ, as in foundry's `feat/...` branches. A `parent_branch` names a record, so it resolves the same way through the parent's record.
+- **Base:** as in [Base resolution](#base-resolution), fetched first so that a stale copy doesn't add the base's newer commits to the diff. If the fetch fails it warns and uses the local copy.
+- **A head already snapshotted** reports that instead of adding a snapshot, whichever phase took it.
 
 ### `snapshot`
 
@@ -225,6 +238,8 @@ created …/differential-review/snapshots/20261026T053715Z-hardening-b88e76ad2ca
 `herdr-app-mod/src/review.ts` is the `gb-review` mod, a tab opened from 🔎 Review on a record's `gb-record` page. It shows the same snapshots, check-offs and threads as Obsidian, and writes the same files.
 
 **Where the work runs.** Herdr's script runtime stops a call after about 500 ms, and parsing a 763 KB diff alone exceeds that. The tab therefore doesn't run the core. `herdr-plugin/src/review-host.ts`, behind the plugin CLI's `review <request JSON>`, loads the snapshots in Node, applies any check-off or comment through the same core and `diff-review-model.ts` as Obsidian, and replies with just what the tab draws (`review-types.ts`). `compare_runs`, the largest record, answers in about 0.25 s with 2.3 MB; `exec`'s 8 MiB output limit is the ceiling. The command isn't a native host request, so the Chrome extension gets no way to write check-offs.
+
+**Snapshots.** The app stops a command after 30 s, and `capture` took 27 s on `vitest_readability`, about 1,600 commits. So the tab's snapshot button sends `{ ref, capture: "start" }`, which starts `capture` in a detached process that writes its result to a temp file, then asks with `{ ref, capture: "result" }` each second, for up to 5 minutes. Obsidian has no such limit and runs the `capture` CLI directly, on desktop only.
 
 **Layout.** A virtual list's rows can't have click handlers of their own, only one per row through `on_item_click`, so the page follows the app's `changes` mod rather than Obsidian's nested sections: threads, files and commits on the left, the selected one's diff on the right. A hunk's bar checks it off, and a code line starts a comment; another line in the same hunk and side extends the range, where Obsidian uses Shift-click.
 

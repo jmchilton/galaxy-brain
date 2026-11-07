@@ -10,7 +10,7 @@ upstream_base_branch: release_25.1
 
 Status: READY. John decided 2026-11-06 to route DRS lookups through `ValidatingSession` on all three branches; re-hardened on that change. Base: `release_25.1` (`7650883076c`), head `c7579bb67cb`. Worktree: `~/projects/worktrees/galaxy/branch/harden_url_abstractions_25.1`. Alt: `harden_url_abstractions_25.1_alt_original_scope` ([alts/original_scope.md](alts/original_scope.md)).
 
-No PR yet. Fork CI pending on `c7579bb67cb`.
+No PR yet. Fork CI green on `c7579bb67cb` (2026-11-07).
 
 ## Scope
 

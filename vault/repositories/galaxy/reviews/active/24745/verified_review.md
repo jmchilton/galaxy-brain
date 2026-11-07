@@ -1,14 +1,16 @@
 ### P1 1: Purging a dataset can delete the metadata file of a live dataset under `store_by: uuid` (implementation verified)
 
-Metadata files aren't always per-association on disk. With `store_by: uuid` the file is named after `metadata_file.uuid`, and that column is not unique: under `metadata_strategy: extended`, a discovered output with `metadata_source` gets a second row carrying the input's uuid, on a different `Dataset`. Both rows name one object, so purging the output through the API now deletes the BAM index of the still-live input. The next read of it recreates the file empty, so tools get a 0-byte index with no error. This is the factual gap in the PR's "per-association, so safe" argument. The purge decision itself is fine.
+The root cause here is pre-existing and outside this PR, and it's tracked separately in a draft issue. Under `metadata_strategy: extended` with `store_by: uuid`, a discovered output with `metadata_source` gets a `metadata_file` row carrying the input's uuid, on a different `Dataset`, so both rows name one file. This PR makes that more damaging because `full_delete()` now removes the file: purging the output through the API deletes the BAM index of the still-live input, and the next read recreates it empty, so tools get a 0-byte index with no error. It also means the PR's "per-association, so safe" argument is factually wrong. The purge decision itself is fine.
 
 <details><summary>Details</summary>
 
-The row comes from `replace_metadata_file` in `lib/galaxy/model/store/__init__.py`, which inserts a new row with the exported uuid when the existing row belongs to another dataset instance. `FileParameter.wrap` already says `metadata_file.uuid is not unique in existing databases`.
+The row comes from `replace_metadata_file` in `lib/galaxy/model/store/__init__.py`, which inserts a new row with the exported uuid when the existing row belongs to another dataset instance. `FileParameter.wrap` already says `metadata_file.uuid is not unique in existing databases`. This goes back to `14dceed32b6`, and `b37de64b702` deliberately kept the insert for another dataset's uuid.
 
-The trigger is narrow: extended metadata, `store_by: uuid`, and a tool with `metadata_source` on discovered outputs whose datatype has metadata files. The `directory` strategy produced no duplicates in the same run. Before this PR `full_delete()` removed no metadata files, so the API path is new exposure. The `PurgesHDAs` actions with `RemovesMetadataFiles` already had this problem, and `delete_library_datasets` gains it here.
+On current `dev`, without this PR, the shared file already goes wrong: the tool job overwrites the input's index with the output's, and so does a later set metadata job on the output. So when the output's data differs from the input's, this PR turns an already wrong index into an empty one. When the data is the same, it turns an intact index into an empty one. A red test for the root cause is on [`metadata_source_extended_shared_uuid`](https://github.com/jmchilton/galaxy/tree/metadata_source_extended_shared_uuid).
 
-A related case is not a uuid duplicate. `HDA.copy_from(include_metadata=True)` makes the copy reference the source HDA's row. `full_delete()` is safe there because both share a `Dataset`, but pgcleanup removal by `hda_id` is not. That part is pre-existing and isn't changed by the fix below.
+The trigger is narrow: extended metadata, `store_by: uuid`, and a tool with `metadata_source` on discovered outputs whose datatype has metadata files. The `directory` strategy produced no duplicates in the same run. Before this PR `full_delete()` removed no metadata files, so the API path is new exposure. The `PurgesHDAs` actions with `RemovesMetadataFiles` already had this problem, and `delete_library_datasets` gains it here. Under `extended` with `store_by: id`, a BAM upload got no index at all, so this path couldn't be reached there.
+
+A related case is not a uuid duplicate. `HDA.copy_from(include_metadata=True)` makes the copy reference the source HDA's row. `full_delete()` is safe there because both share a `Dataset`, but pgcleanup removal by `hda_id` is not. On current `dev`, with a real job-cache hit, `purge_deleted_hdas` on the source output removed the index the live cached output reads. That is pre-existing, and **the fix for P2 2 extends this hazard to `purge_deleted_histories` and `purge_hdas_of_purged_histories`**, which don't remove these files today. The uuid check below doesn't catch it because there is no second row.
 
 </details>
 
@@ -27,15 +29,25 @@ input index file exists after output purge: False
 
 The same run with `metadata_strategy: directory` gave distinct uuids, and the input's file survived.
 
+Red tests for the root cause on `dev` at `a1ade917000`, with `1.bam` as the metadata source and `3.bam` as the output's data. All of them pass under `directory`:
+
+```text
+test_output_row_has_own_uuid: same uuid on both rows
+test_output_metadata_resolves_to_its_own_row: output resolves to the input's row
+test_output_and_input_index_paths_differ: same path
+test_tool_job_keeps_input_index: input's index bytes changed by the tool job
+test_set_metadata_on_output_keeps_input_index: input's file overwritten by the set metadata job
+```
+
 </details>
 
-Suggested fix: still mark the row purged, but remove the file only when no other unpurged row has the same uuid, so the last row releases it. Apply this in `full_delete()` and in the shared `RemovesMetadataFiles` removal step, which covers `delete_library_datasets` and the existing HDA actions in one place.
+Suggested fix: still mark the row purged, but remove the file only when no other unpurged row has the same uuid, so the last row releases it. Apply this in `full_delete()` and in the shared `RemovesMetadataFiles` removal step, which covers `delete_library_datasets` and the existing HDA actions in one place. This is a guard, not a root-cause fix. It costs one extra `SELECT` per `full_delete()` with metadata files, and it stays necessary after the root cause is fixed, because existing duplicate rows remain.
 
 <details><summary>Details</summary>
 
 The review branch adds `MetadataFile.purge_all()` for the model path and `RemovesMetadataFiles._uuid_in_use()` for pgcleanup. The pgcleanup check runs after the flags commit, and the model check reads the session's instances because `purge_datasets` commits only at the end of a batch, so two rows purged together still release the file. `store_by: id` is unaffected, and a test pins that.
 
-Tests were red without the fix and green with it: `test_purge_hda_keeps_file_named_by_row_of_live_dataset`, `test_purge_deleted_hdas_keeps_metadata_file_named_by_live_row` and `test_delete_library_datasets_keeps_metadata_file_named_by_live_row` and `test_batch_purge_releases_file_all_rows_name`.
+Tests were red without the fix and green with it: `test_purge_hda_keeps_file_named_by_row_of_live_dataset`, `test_purge_deleted_hdas_keeps_metadata_file_named_by_live_row`, `test_delete_library_datasets_keeps_metadata_file_named_by_live_row` and `test_batch_purge_releases_file_all_rows_name`.
 
 </details>
 

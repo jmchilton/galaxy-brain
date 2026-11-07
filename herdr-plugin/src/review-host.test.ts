@@ -1,9 +1,9 @@
-import { existsSync, mkdirSync, mkdtempSync, readdirSync, readFileSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, mkdtempSync, readdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { beforeEach, describe, expect, it } from "vitest";
-import { reviewRecordDir, reviewRequest } from "./review-host";
+import { captureRequest, reviewRecordDir, reviewRequest, runCapture } from "./review-host";
 
 const FIXTURES = join(fileURLToPath(import.meta.url), "../../../differential-review-lib/src/core/fixtures/view-fixtures");
 const REF = "galaxy/branches/b";
@@ -118,5 +118,44 @@ describe("reviewRequest", () => {
 		const narrowed = (await reviewRequest(both, { ref: REF, hideReviewed: true, baseline: first.baselineOptions[0]!.id }))!;
 		expect(narrowed.baseline).toEqual({ kind: "snapshot", snapshotId: first.baselineOptions[0]!.id });
 		expect(narrowed.files.filter((f) => f.visible).length).toBeLessThanOrEqual(first.files.filter((f) => f.visible).length);
+	});
+});
+
+describe("captureRequest", () => {
+	const REFS = "galaxy__branches__b";
+	const resultFile = () => join(tmpdir(), `gb-capture-${REFS}.json`);
+	const collect = (root: string) => captureRequest(root, { ref: REF, capture: "result" });
+	beforeEach(() => rmSync(resultFile(), { force: true }));
+
+	it("starts a capture of the record, and has no result until it finishes", () => {
+		const root = vault(0);
+		const started: string[][] = [];
+		writeFileSync(resultFile(), JSON.stringify({ ok: true, message: "from an earlier capture" }));
+		expect(captureRequest(root, { ref: REF, capture: "start" }, (dir, file) => started.push([dir, file]))).toBeNull();
+		expect(started).toEqual([[join(root, RECORD), resultFile()]]);
+		expect(collect(root)).toBeNull();
+	});
+
+	it("gives a result once, as its process left it", async () => {
+		const root = vault(0);
+		const snapshot = { head: "0123456789abcdef", branch: "b", base: { ref: "origin/dev" } };
+		await runCapture(join(root, RECORD), resultFile(), async () => ({ status: "created", snapshot, path: "", warnings: ["careful"] }) as never);
+		expect(collect(root)).toEqual({ ok: true, message: "Snapshot taken of b at 0123456789ab, against origin/dev\ncareful" });
+		expect(collect(root)).toBeNull();
+	});
+
+	it("reports a failed capture as its message", async () => {
+		const root = vault(0);
+		await runCapture(join(root, RECORD), resultFile(), async () => {
+			throw new Error("record b has no base");
+		});
+		expect(collect(root)).toEqual({ ok: false, message: "record b has no base" });
+	});
+
+	it("refuses anything but a reviewable record", () => {
+		const root = vault(0);
+		for (const ref of ["galaxy/branches/nope", "galaxy/issues/b", "../branches/b"]) {
+			expect(() => captureRequest(root, { ref, capture: "start" }, () => undefined)).toThrow("no reviewable record");
+		}
 	});
 });

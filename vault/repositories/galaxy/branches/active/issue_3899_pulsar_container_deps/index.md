@@ -11,13 +11,15 @@ pr: 24555
 
 Status: `branches_ready_for_final_review`. Polished 2026-10-28: [description](pr_description.md) · [titles](pr_titles.md) · [tags](pr_tags.md) · [checklist](pr_checklist.md) · [polish debrief](polish_debrief.md). Retargeted 2026-10-28 from `dev` to `release_26.2` (clean rebase, head `d9a8abb4ca9`, 42 runner unit tests pass).
 
-PR [#24555](https://github.com/galaxyproject/galaxy/pull/24555) opened 2026-10-28 at `d9a8abb4ca9` (title 1, human review at that SHA).
+PR [#24555](https://github.com/galaxyproject/galaxy/pull/24555) opened 2026-10-28 at `d9a8abb4ca9` (title 1, human review at that SHA); head now `94b188d4881`.
 
 Respects a Pulsar container job’s dependency-resolution opt-in (#3899).
 
 [Implementation](implementation_debrief.md) · [test challenges](test_challenges_debrief.md) · [codex](codex_review.md) · [thermo-nuclear](thermo_nuclear_review.md) · [baseline refactor](baseline_refactor.md) · [scope](scope_evaluation.md) · [earlier drafts](earlier_drafts/1/implementation_debrief.md) · [Tracking history](tracking_history.md)
 
-PR [#24555](https://github.com/galaxyproject/galaxy/pull/24555) out of draft; CI on `d9a8abb4ca9`: only red is external-WorkflowHub `test_trs_import` Selenium (unrelated), failed job rerun 2026-11-01.
+PR [#24555](https://github.com/galaxyproject/galaxy/pull/24555) out of draft, base `release_26.2`; conflicted with upstream `compute_environment` change to `_find_container`, rebased 2026-11-07 (see Deconflict).
+
+CI on `94b188d4881` pending; previous head `d9a8abb4ca9` only red was unrelated `test_trs_import` (rerun 2026-11-01).
 
 ## TICK — 2026-10-11
 
@@ -42,3 +44,7 @@ Re-hardened READY, scope keep. Baseline refactor commit split out ahead of fix; 
 ## CI Diagnosis (`d9a8abb4ca9`, 2026-11-06)
 
 Unrelated: `test_trs_import` timeout in a job whose failed step is client cache restore; no Pulsar or container test failures.
+
+## Deconflict — 2026-11-07
+
+Rebased onto `origin/release_26.2` `bf55e08b1b7`; PR base matches. One conflict in `pulsar.py` `__prepare_job`: upstream added `compute_environment=compute_environment` to `_find_container`; this branch moved that call earlier, so kept the moved call and added the kwarg. Mechanical. 42 runner unit tests pass (temp `--target` psycopg_binary, compare_runs venv). Force-pushed with exact lease `d9a8abb4ca9` to jmchilton, head `94b188d4881`. `revision` snapshot taken. Human review was at `d9a8abb4ca9`; diff since is the 2 differing hunks in the first commit.

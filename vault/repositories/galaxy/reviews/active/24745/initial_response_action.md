@@ -5,3 +5,4 @@
 - [ ] Request changes with the response
 - [ ] Pull request: open a PR from the review branch
 - [ ] Push: push the review branch into the PR
+- [ ] Issue: open the shared metadata_source uuid issue (`metadata_source_shared_uuid_issue.md`)

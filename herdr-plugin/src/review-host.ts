@@ -1,9 +1,13 @@
 // The Herdr app's differential review, in Node: the app's script runtime stops a call after about 500 ms,
 // less than parsing a large snapshot takes, so its review tab only draws what this returns.
 
-import { existsSync, readdirSync, rmSync, writeFileSync } from "node:fs";
+import { spawn } from "node:child_process";
+import { existsSync, readdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { tmpdir } from "node:os";
 import { join } from "node:path";
+import { captureMessage, captureRecordHere } from "../../differential-review/src/capture";
 import { nodeReadAdapter } from "../../differential-review-lib/src/cli/node-storage";
+import type { SnapshotResult } from "../../differential-review-lib/src/cli/snapshot";
 import {
 	annotationStore,
 	type Baseline,
@@ -27,7 +31,7 @@ import {
 import { refreshSnapshots, reviewMetaText, saveNewThread, saveReply, saveResolved, summaryText, toggleCommitReview, toggleFileReview, toggleHunkReview } from "../../obsidian-plugin/src/diff-review-model";
 import { HUMAN_REVIEW_FILE, humanReviewStatus } from "../../obsidian-plugin/src/diff-review-status";
 import { isReviewableRecordKind, recordReviewDir } from "../../site/src/lib/records";
-import type { ReviewCommit, ReviewHunk, ReviewModel, ReviewRequest } from "./review-types";
+import type { CaptureRequest, CaptureResult, ReviewCommit, ReviewHunk, ReviewModel, ReviewRequest } from "./review-types";
 import { writeAtomic } from "./vault";
 
 /** A record's directory from a reference, without walking the vault: check-offs need to feel immediate. */
@@ -94,6 +98,35 @@ function writeHumanReview(vaultRoot: string, recordDir: string, view: ReviewView
 	const status = humanReviewStatus(view);
 	if (status === null) rmSync(path, { force: true });
 	else writeFileSync(path, status);
+}
+
+/** Runs in its own process; writes how the capture went. */
+export async function runCapture(recordDir: string, resultFile: string, capture: (recordDir: string) => Promise<SnapshotResult> = captureRecordHere): Promise<void> {
+	const result: CaptureResult = await capture(recordDir).then(
+		(done) => ({ ok: true, message: captureMessage(done) }),
+		(error: unknown) => ({ ok: false, message: error instanceof Error ? error.message : String(error) }),
+	);
+	writeAtomic(resultFile, JSON.stringify(result));
+}
+
+function startDetachedCapture(recordDir: string, resultFile: string): void {
+	spawn(process.execPath, [process.argv[1]!, "capture", recordDir, resultFile], { detached: true, stdio: "ignore" }).unref();
+}
+
+/** Starts a capture, or gives the finished one's result, once; null when there's none to give. */
+export function captureRequest(vaultRoot: string, { ref, capture }: CaptureRequest, start: (recordDir: string, resultFile: string) => void = startDetachedCapture): CaptureResult | null {
+	const recordDir = reviewRecordDir(vaultRoot, ref);
+	if (!recordDir) throw new Error(`no reviewable record ${ref}`);
+	const resultFile = join(tmpdir(), `gb-capture-${ref.replaceAll("/", "__")}.json`);
+	if (capture === "start") {
+		rmSync(resultFile, { force: true });
+		start(join(vaultRoot, recordDir), resultFile);
+		return null;
+	}
+	if (!existsSync(resultFile)) return null;
+	const result = JSON.parse(readFileSync(resultFile, "utf8")) as CaptureResult;
+	rmSync(resultFile);
+	return result;
 }
 
 /** Applies the request's act, if any, and gives the review after it; null without a snapshot. */

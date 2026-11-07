@@ -1,3 +1,5 @@
+Test challenge below that added the first E2E tests was pretty liberal in deleting unit tests that cover the same things. I like it when my agent does this for my branches but clearly a matter of taste - if you'd prefer to keep the unit tests but want the E2E test also - feel free to just grab that aspect of 8aa3060b670. -John
+
 <details><summary>Automated Review Details</summary>
 
 Reviewed with [John's Galaxy Brain Review Factory](https://galaxy-brain.jmchilton.net/factory/galaxy-reviews/).

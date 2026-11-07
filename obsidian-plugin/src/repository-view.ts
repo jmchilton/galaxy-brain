@@ -5,7 +5,7 @@ import { type Launcher, launchersFor, type RecordRef, untrackedRecord } from "./
 import { type FeedItem, type FeedList, type Feeds, feedArgs, matchRecords, parseFeeds } from "./github-feed";
 import { openRecordLink } from "./blocker-modal";
 import { recordLinks } from "./blockers";
-import { hasDifferentialReview, openDifferentialReview } from "./diff-review-view";
+import { openDifferentialReview } from "./diff-review-view";
 import { compareUrl, githubUrl } from "./record-links";
 import { SYNC_PROCESSES, SYNC_PROFILE } from "./record-agents";
 import { groupRecords } from "./record-groups";
@@ -468,7 +468,7 @@ export class RepositoryView extends ItemView {
 		if (compare) action("git-compare-arrows", "Compare to upstream base", () => window.open(compare));
 		const worktree = Platform.isDesktopApp ? this.host.worktreeFor(record, body) : null;
 		if (worktree) action("code", "Open with Code", () => this.host.openInCode(worktree));
-		if (isReviewableRecordKind(record.kind) && hasDifferentialReview(this.app, record.dir)) action("git-compare", "Differential review", () => void openDifferentialReview(this.app, record.dir));
+		if (isReviewableRecordKind(record.kind)) action("git-compare", "Differential review", () => void openDifferentialReview(this.app, record.dir));
 	}
 
 	private canLaunch(record: RecordRef): boolean {

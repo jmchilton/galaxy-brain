@@ -5,7 +5,7 @@
 import { div, View } from "gpui-kit";
 import { h_flex, Scrollbar, Textarea, TextareaState, v_flex, v_virtual_list, VirtualListScrollHandle } from "gpui-base";
 import { notify, props, settings, theme, watchFolder } from "herdr";
-import type { ReviewAct, ReviewCommit, ReviewFile, ReviewModel } from "../../herdr-plugin/src/review-types";
+import type { CaptureResult, ReviewAct, ReviewCommit, ReviewFile, ReviewModel } from "../../herdr-plugin/src/review-types";
 import type { ReviewLineTarget, ReviewStatus, ReviewThreadView } from "../../differential-review-lib/src/core";
 import { type CodeToken, highlightDiff, splitHunkHeader, syntaxGroup } from "../../obsidian-plugin/src/diff-highlight";
 import { chip } from "./chip";
@@ -16,6 +16,8 @@ import { type CodeRow, commitRows, fileRows, fileShown, type HighlightJob, pickI
 const VAULT = `${__GB_ROOT__}/vault`;
 const ROW = 20;
 const POLL_MS = 30_000;
+const CAPTURE_POLL_MS = 1_000;
+const CAPTURE_LIMIT_MS = 300_000;
 /** About 200 ms of highlighting: this run of lines shows plain rather than risk the runtime's time limit. */
 const MAX_HIGHLIGHT_CHARS = 40_000;
 
@@ -77,6 +79,7 @@ export default class GbReview extends View {
 	/** Host requests waiting, run one at a time in order. */
 	declare requests: Array<{ act?: ReviewAct; done?: () => void }>;
 	declare wakeRequests: (() => void) | null;
+	declare snapshotting: boolean;
 
 	init(_props: unknown, cx: Cx) {
 		this.handle = cx.focus_handle();
@@ -110,6 +113,7 @@ export default class GbReview extends View {
 		this.typing = false;
 		this.requests = [{}];
 		this.wakeRequests = null;
+		this.snapshotting = false;
 		cx.spawn(async (cx: Cx) => this.requestLoop(cx));
 		cx.spawn(async (cx: Cx) => this.highlightLoop(cx));
 		cx.spawn(async (cx: Cx) => this.watch(cx));
@@ -146,6 +150,37 @@ export default class GbReview extends View {
 			this.loaded = true;
 			cx.notify();
 		}
+	}
+
+	/** Starts a snapshot, then asks after it: it can outlast the app's 30 s limit on one command. */
+	async capture(cx: Cx) {
+		const ref = props()?.ref;
+		try {
+			await reviewHost({ ref, capture: "start" });
+			let result: CaptureResult | null = null;
+			for (let waited = 0; !result; waited += CAPTURE_POLL_MS) {
+				if (waited > CAPTURE_LIMIT_MS) throw new Error("The snapshot is taking too long. It may still finish; reload to check.");
+				await delay(cx, CAPTURE_POLL_MS);
+				result = await reviewHost({ ref, capture: "result" });
+			}
+			if (!result.ok) throw new Error(result.message);
+			this.error = null;
+			notify({ title: "Snapshot", body: result.message });
+			this.request();
+		} catch (error) {
+			this.error = errorText(error);
+			notify({ title: "No snapshot taken", body: this.error, level: "error" });
+		}
+		this.snapshotting = false;
+		cx.notify();
+	}
+
+	snapshotChip(t: any, label: string): El {
+		return chip(t, "gb-rev-snapshot", this.snapshotting ? "Taking snapshot…" : label, "Fetch this record's head and base, and snapshot them", false, (cx) => {
+			if (this.snapshotting) return;
+			this.snapshotting = true;
+			cx.spawn(async (cx: Cx) => this.capture(cx));
+		});
 	}
 
 	apply(model: ReviewModel | null) {
@@ -317,8 +352,15 @@ export default class GbReview extends View {
 			.track_focus(this.handle)
 			.on_key_down((event: any, cx: Cx) => this.onKey(event, cx));
 		if (!this.model) {
-			const empty = this.loaded ? "No differential-review snapshots for this record yet. Agents write one after each branch phase or PR review round." : "Loading…";
-			return root.child(div().p(16).text_color(this.error ? t.blocked : t.dim).child(this.error ?? empty));
+			const empty = this.loaded ? "This record has no snapshot yet." : "Loading…";
+			return root.child(
+				v_flex()
+					.p(16)
+					.gap(8)
+					.items_start()
+					.child(div().text_color(this.error ? t.blocked : t.dim).child(this.error ?? empty))
+					.when(this.loaded, (el: El) => el.child(this.snapshotChip(t, "📸 Take snapshot"))),
+			);
 		}
 		return root
 			.child(this.renderHeader(t))
@@ -356,6 +398,7 @@ export default class GbReview extends View {
 					.items_center()
 					.child(div().flex_1().truncate().text_size(15).font_semibold().child(model.title))
 					.child(chip(t, "gb-rev-record", "📓 Record", "Open this record's page", false, () => openRecordTab(props()?.ref)))
+					.child(this.snapshotChip(t, "📸 New snapshot"))
 					.child(chip(t, "gb-rev-reload", "↻", "Reload", false, () => this.request())),
 			)
 			.child(div().truncate().text_size(11.5).text_color(t.dim).child(model.meta))

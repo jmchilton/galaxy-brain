@@ -18,6 +18,17 @@ export interface ReviewRequest {
 	act?: ReviewAct;
 }
 
+/** Starts a snapshot of the record, or collects how the last one went: a snapshot can outlast the app's 30 s limit on a command. */
+export interface CaptureRequest {
+	ref: string;
+	capture: "start" | "result";
+}
+
+export interface CaptureResult {
+	ok: boolean;
+	message: string;
+}
+
 export interface ReviewHunkBody {
 	id: string;
 	kind: string;

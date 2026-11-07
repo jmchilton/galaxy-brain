@@ -29,17 +29,15 @@ You're contributing to a repository John cares about and you deserve a human res
 
 <details><summary>Review Verification Branch Details</summary>
 
-This [review branch](https://github.com/jmchilton/galaxy/tree/pr_24685_review_0) contains work the verification agent did to help verify findings and make sure suggestions make sense and are actionable. This doesn't necessarily represent production ready code. Feel free to include any commits in the PR but they should be reviewed by a human.
+This [review branch](https://github.com/jmchilton/galaxy/tree/pr_24685_review_1) contains work the verification agent did to help verify findings and make sure suggestions make sense and are actionable. This doesn't necessarily represent production ready code. Feel free to include any commits in the PR but they should be reviewed by a human.
 
 <details><summary>Branch and Commit Details</summary>
 
-Branch [`pr_24685_review_0`](https://github.com/jmchilton/galaxy/tree/pr_24685_review_0), from reviewed commit `150cb834122`, adds browser coverage for the one link whose wiring changed, the `BreadcrumbHeading` link, by going back through it in `test_history_storage_accessibility`. It also tidies the PR's unit tests: the new `CollectionCreatorIndex` spec uses MSW instead of mocking the API module, the `DatasetDetails` test is reduced to what E2E can't see, and assertions on `GLink`'s class and element are gone. The `CollectionCreatorIndex` GLinks lose a no-op `.prevent`. There are no other production changes.
+Branch [`pr_24685_review_1`](https://github.com/jmchilton/galaxy/tree/pr_24685_review_1), from reviewed commit `150cb834122`, adds browser coverage for the one link whose wiring changed, the `BreadcrumbHeading` link, by going back through it in `test_history_storage_accessibility`. It also moves the new `CollectionCreatorIndex` spec to MSW instead of mocking the API module. The `CollectionCreatorIndex` GLinks lose a no-op `.prevent`. There are no other production changes.
 
-- [`4d58215bb82`](https://github.com/jmchilton/galaxy/commit/4d58215bb82) Drop no-op .prevent from CollectionCreatorIndex GLinks: `@click.stop.prevent` becomes `@click.stop` on "Try again" and "Create another collection".
-- [`3bb64ff4f45`](https://github.com/jmchilton/galaxy/commit/3bb64ff4f45) Cover BreadcrumbHeading navigation in storage dashboard E2E: adds a `storage_dashboard.breadcrumb_link` selector and clicks it from `StorageManager` in place of the second masthead navigation.
-- [`8741677b84e`](https://github.com/jmchilton/galaxy/commit/8741677b84e) Focus DatasetDetails dbkey test on what only it covers: replaces the wrapper template with the file's `shallowMount` pattern and keeps the edit emit and `.stop` checks.
-- [`399197aadb9`](https://github.com/jmchilton/galaxy/commit/399197aadb9) Mock the collection create API with MSW in CollectionCreatorIndex spec: failure and success now go through the real API function, using `useServerMock`.
-- [`52762db7f56`](https://github.com/jmchilton/galaxy/commit/52762db7f56) Drop assertions on GLink internals from migrated specs: removes the `.g-link` and `tagName` assertions and finds links by `button` and text.
+- [`ea64e090b21`](https://github.com/jmchilton/galaxy/commit/ea64e090b21) Drop no-op .prevent from CollectionCreatorIndex GLinks: `@click.stop.prevent` becomes `@click.stop` on "Try again" and "Create another collection".
+- [`117807a746e`](https://github.com/jmchilton/galaxy/commit/117807a746e) Cover BreadcrumbHeading navigation in storage dashboard E2E: adds a `storage_dashboard.breadcrumb_link` selector and clicks it from `StorageManager` in place of the second masthead navigation.
+- [`d0d1f133a99`](https://github.com/jmchilton/galaxy/commit/d0d1f133a99) Mock the collection create API with MSW in CollectionCreatorIndex spec: failure and success now go through the real API function, using `useServerMock`.
 
 </details>
 
@@ -57,7 +55,7 @@ The extended test passes under Playwright and Selenium (Chrome) against a built 
 
 </details>
 
-Fixed on the review branch in [`3bb64ff4f45`](https://github.com/jmchilton/galaxy/commit/3bb64ff4f45).
+Fixed on the review branch in [`117807a746e`](https://github.com/jmchilton/galaxy/commit/117807a746e).
 
 <details><summary>Discovery & Verification Agent Details</summary>
 
@@ -71,7 +69,7 @@ Discovered by [gx_test_challenger](https://github.com/jmchilton/galaxy-brain/blo
 
 Use `@click.stop="resetCreator"` on both.
 
-Fixed on the review branch in [`4d58215bb82`](https://github.com/jmchilton/galaxy/commit/4d58215bb82).
+Fixed on the review branch in [`ea64e090b21`](https://github.com/jmchilton/galaxy/commit/ea64e090b21).
 
 <details><summary>Discovery & Verification Agent Details</summary>
 
@@ -85,41 +83,7 @@ The client README's API mocking section documents MSW, and sibling specs `ListCo
 
 Use `server.use(http.post("/api/dataset_collections", ...))` for both outcomes, and keep the `useHistoryDatasets` mock.
 
-Fixed on the review branch in [`399197aadb9`](https://github.com/jmchilton/galaxy/commit/399197aadb9).
-
-<details><summary>Discovery & Verification Agent Details</summary>
-
-Discovered by [gx_test_challenger](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/reviewers/gx_test_challenger.md) via Opus 5.5 at medium effort. Verified via Opus 5.5 at medium effort.
-
-</details>
-
-### P3 3: `DatasetDetails` test can shrink to what only it covers (implementation verified)
-
-`test_dataset_change_dbkey` already clicks `.dbkey .value` and waits for the edit form, so the `tagName`, `.value` and `text` assertions duplicate it. What E2E wouldn't notice is `.stop` keeping the click from reaching the history item, and checking that doesn't need the inline wrapper template.
-
-Use the file's `shallowMount` with `stubs: { GLink: false }` and a native listener on the root element, keeping the `edit` emit and propagation assertions.
-
-<details><summary>Evidence</summary>
-
-The rewritten test passes, and fails on the propagation assertion when `.stop` is temporarily removed from `DatasetDetails.vue`.
-
-</details>
-
-Fixed on the review branch in [`8741677b84e`](https://github.com/jmchilton/galaxy/commit/8741677b84e).
-
-<details><summary>Discovery & Verification Agent Details</summary>
-
-Discovered by [gx_test_challenger](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/reviewers/gx_test_challenger.md) via Opus 5.5 at medium effort. Verified via Opus 5.5 at medium effort.
-
-</details>
-
-### P3 4: Assertions pin GLink's class and repeat its element (implementation verified)
-
-`toContain("g-link")` (`BreadcrumbHeading.test.ts` twice, `PersistentTaskProgressMonitorAlert.test.ts`) and `findLinkByText`'s `.g-link` lookup pin GLink's internal class, so they'd fail on a GLink refactor with no behavior change here. The `tagName` checks (`CollectionCreatorIndex.test.ts` twice, `PersistentTaskProgressMonitorAlert.test.ts`) are redundant: the `href` assertion already implies the anchor, and a `button` lookup implies the button.
-
-Drop them, and have `findLinkByText` look up `button` by text.
-
-Fixed on the review branch in [`52762db7f56`](https://github.com/jmchilton/galaxy/commit/52762db7f56).
+Fixed on the review branch in [`d0d1f133a99`](https://github.com/jmchilton/galaxy/commit/d0d1f133a99).
 
 <details><summary>Discovery & Verification Agent Details</summary>
 

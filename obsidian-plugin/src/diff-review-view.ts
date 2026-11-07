@@ -1,5 +1,5 @@
 // Obsidian differential review: snapshots, reviewer check-offs and persistent source conversations.
-import { type App, debounce, ItemView, Notice, type Plugin, type ViewStateResult, type WorkspaceLeaf } from "obsidian";
+import { type App, debounce, FileSystemAdapter, ItemView, Notice, type Plugin, type ViewStateResult, type WorkspaceLeaf } from "obsidian";
 import {
 	type Baseline,
 	annotationStore,
@@ -14,16 +14,15 @@ import {
 	type Snapshot,
 	type SnapshotReader,
 	snapshotReader,
-	snapshotsDir,
 	updateReviewState,
 } from "../../differential-review-lib/src/core";
 import { isReviewableRecordKind, recordReviewDir } from "../../site/src/lib/records";
 import { AUTO_EXPAND_LINES, refreshSnapshots, saveNewThread, saveReply, saveResolved, toggleCommitReview, toggleFileReview, toggleHunkReview, visibleLineCount } from "./diff-review-model";
-import { focusedItem, handleReviewKey, newReviewUi, renderReview, restoreFocus, type ReviewUi } from "./diff-review-render";
+import { focusedItem, handleReviewKey, newReviewUi, renderNoSnapshots, renderReview, restoreFocus, type ReviewUi, type SnapshotAction } from "./diff-review-render";
 import { renderThread, type AnnotationActions } from "./diff-review-threads";
 import { HUMAN_REVIEW_FILE, humanReviewStatus } from "./diff-review-status";
 import { vaultFileAdapter } from "./diff-review-storage";
-import { recordFromPath } from "./launchers";
+import { CLI_BIN_DIRS, recordFromPath } from "./launchers";
 
 export const DIFF_REVIEW_VIEW = "galaxy-brain-differential-review";
 
@@ -32,11 +31,6 @@ interface DiffReviewState extends Record<string, unknown> {
 	/** Baseline snapshot id; absent for "since my last review". */
 	baseline?: string;
 	hideReviewed?: boolean;
-}
-
-/** A record with snapshots or saved conversations; no file reads. */
-export function hasDifferentialReview(app: App, recordDir: string): boolean {
-	return app.vault.getFolderByPath(snapshotsDir(recordReviewDir(recordDir))) !== null || app.vault.getFolderByPath(`${recordReviewDir(recordDir)}/annotations`) !== null;
 }
 
 export async function openDifferentialReview(app: App, recordDir: string, newTab = true) {
@@ -80,6 +74,7 @@ export class DiffReviewView extends ItemView {
 	/** What this view last wrote, to ignore its own modify events. */
 	private lastWritten: string | undefined;
 	private expandedOnce = false;
+	private snapshotting = false;
 	private loadToken = 0;
 	private scheduleLoad = debounce(() => void this.reload(), 300, true);
 
@@ -193,9 +188,7 @@ export class DiffReviewView extends ItemView {
 		const root = this.contentEl;
 		root.classList.add("gbdr");
 		if (!this.view) {
-			this.showMessage(
-				`No differential-review snapshots in ${this.recordDir}/differential-review/snapshots yet. Agents write one after each branch phase or PR review round (see agents/_shared/PROCESS_DIFFERENTIAL_REVIEW_SNAPSHOT.md).`,
-			);
+			renderNoSnapshots(root, this.snapshotAction());
 			for (const thread of this.annotations.threads) {
 				renderThread(root, { thread, replies: this.annotations.replies.filter((r) => r.threadId === thread.id), placement: { state: "unmapped", path: null, hunkId: null, range: null } }, { snapshots: [], snapshot: null }, this.ui, this.annotationActions(), () => this.render());
 			}
@@ -210,6 +203,7 @@ export class DiffReviewView extends ItemView {
 		} : null;
 		renderReview(root, this.view, this.ui, {
 			annotations: this.annotationActions(),
+			snapshot: this.snapshotAction(),
 			toggleHunk: (_file, hunk) => this.mutate((state, snapshot, now) => toggleHunkReview(state, snapshot, hunk, now)),
 			toggleFile: (file) => this.mutate((state, snapshot, now) => toggleFileReview(state, snapshot, file, now)),
 			toggleCommit: (commit) => this.mutate((state, snapshot, now) => toggleCommitReview(state, snapshot, commit, now)),
@@ -227,6 +221,30 @@ export class DiffReviewView extends ItemView {
 			input?.focus({ preventScroll: true });
 			input?.setSelectionRange(editing.start, editing.end);
 		}
+	}
+
+	private snapshotAction(): SnapshotAction | undefined {
+		if (!(this.app.vault.adapter instanceof FileSystemAdapter)) return undefined;
+		return { busy: this.snapshotting, take: () => this.takeSnapshot() };
+	}
+
+	/** Runs the snapshot CLI, which fetches the record's head and base. */
+	private takeSnapshot() {
+		const adapter = this.app.vault.adapter;
+		const { recordDir } = this;
+		if (this.snapshotting || !recordDir || !(adapter instanceof FileSystemAdapter)) return;
+		const vaultRoot = adapter.getBasePath();
+		// Required lazily: child_process doesn't exist on mobile.
+		const { execFile } = require("child_process") as typeof import("child_process");
+		const PATH = [...CLI_BIN_DIRS, process.env.PATH].join(":");
+		this.snapshotting = true;
+		this.render();
+		execFile(`${vaultRoot}/../differential-review/bin/differential-review`, ["capture", "--record", `${vaultRoot}/${recordDir}`], { env: { ...process.env, PATH }, timeout: 180_000 }, (error, stdout, stderr) => {
+			this.snapshotting = false;
+			if (error) new Notice(`No snapshot taken: ${(stderr || error.message).trim()}`, 0);
+			else new Notice(stdout.trim(), 10_000);
+			void this.reload();
+		});
 	}
 
 	private annotationActions(): AnnotationActions {

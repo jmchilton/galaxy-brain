@@ -2503,6 +2503,7 @@ function groupBySections(records, kind, grouping) {
 }
 
 // src/launchers.ts
+var CLI_BIN_DIRS = ["/usr/local/bin", "/opt/homebrew/bin", "/Applications/Visual Studio Code.app/Contents/Resources/app/bin"];
 var KEY_LINE = /^(status|agent_dir|name|profile|command|routine|icon):\s*(.*)$/;
 var list = (value) => value.split(",").map((item2) => item2.trim()).filter(Boolean);
 function launcherScope(path) {
@@ -12336,6 +12337,16 @@ function progress(parent, label, counts) {
   if (counts.changed) el2(item2, "span", "gbdr-badge gbdr-changed", `${counts.changed} changed`);
   if (counts.new) el2(item2, "span", "gbdr-badge gbdr-new", `${counts.new} new`);
 }
+function snapshotButton(parent, action, label) {
+  const button2 = el2(parent, "button", void 0, action.busy ? "Taking snapshot\u2026" : label);
+  button2.disabled = action.busy;
+  button2.onclick = () => action.take();
+}
+function renderNoSnapshots(root, action) {
+  root.replaceChildren();
+  el2(root, "p", "gbdr-empty", action ? "This record has no snapshot yet." : "This record has no snapshot yet. Take one from the desktop app.");
+  if (action) snapshotButton(root, action, "Take snapshot");
+}
 function renderHeader(root, view, ui, actions) {
   const { snapshot } = view;
   const header = el2(root, "div", "gbdr-header");
@@ -12362,6 +12373,7 @@ function renderHeader(root, view, ui, actions) {
   const hide = el2(controls, "label", "gbdr-hide");
   checkbox(hide, ui.hideReviewed, "Hide reviewed", () => actions.setHideReviewed(!ui.hideReviewed));
   hide.append(" Hide reviewed");
+  if (actions.snapshot) snapshotButton(controls, actions.snapshot, "New snapshot");
   const previous = view.snapshots.find((s) => s.id === view.summary.previousSnapshotId);
   const summary = summaryText(view.summary, previous ? snapshotLabel(previous) : null);
   if (summary) el2(header, "div", "gbdr-summary", summary);
@@ -12667,9 +12679,6 @@ function vaultFileAdapter(adapter, onWrite) {
 
 // src/diff-review-view.ts
 var DIFF_REVIEW_VIEW = "galaxy-brain-differential-review";
-function hasDifferentialReview(app, recordDir) {
-  return app.vault.getFolderByPath(snapshotsDir(recordReviewDir(recordDir))) !== null || app.vault.getFolderByPath(`${recordReviewDir(recordDir)}/annotations`) !== null;
-}
 async function openDifferentialReview(app, recordDir, newTab = true) {
   const existing = app.workspace.getLeavesOfType(DIFF_REVIEW_VIEW).find((leaf2) => leaf2.getViewState().state?.recordDir === recordDir);
   const leaf = existing ?? app.workspace.getLeaf(newTab ? "tab" : false);
@@ -12703,6 +12712,7 @@ var DiffReviewView = class extends import_obsidian6.ItemView {
     /** Serializes review-state writes from this view. */
     this.writes = Promise.resolve();
     this.expandedOnce = false;
+    this.snapshotting = false;
     this.loadToken = 0;
     this.scheduleLoad = (0, import_obsidian6.debounce)(() => void this.reload(), 300, true);
     this.contentEl.tabIndex = 0;
@@ -12804,9 +12814,7 @@ var DiffReviewView = class extends import_obsidian6.ItemView {
     const root = this.contentEl;
     root.classList.add("gbdr");
     if (!this.view) {
-      this.showMessage(
-        `No differential-review snapshots in ${this.recordDir}/differential-review/snapshots yet. Agents write one after each branch phase or PR review round (see agents/_shared/PROCESS_DIFFERENTIAL_REVIEW_SNAPSHOT.md).`
-      );
+      renderNoSnapshots(root, this.snapshotAction());
       for (const thread of this.annotations.threads) {
         renderThread(root, { thread, replies: this.annotations.replies.filter((r) => r.threadId === thread.id), placement: { state: "unmapped", path: null, hunkId: null, range: null } }, { snapshots: [], snapshot: null }, this.ui, this.annotationActions(), () => this.render());
       }
@@ -12822,6 +12830,7 @@ var DiffReviewView = class extends import_obsidian6.ItemView {
     } : null;
     renderReview(root, this.view, this.ui, {
       annotations: this.annotationActions(),
+      snapshot: this.snapshotAction(),
       toggleHunk: (_file, hunk) => this.mutate((state, snapshot, now) => toggleHunkReview(state, snapshot, hunk, now)),
       toggleFile: (file) => this.mutate((state, snapshot, now) => toggleFileReview(state, snapshot, file, now)),
       toggleCommit: (commit) => this.mutate((state, snapshot, now) => toggleCommitReview(state, snapshot, commit, now)),
@@ -12839,6 +12848,27 @@ var DiffReviewView = class extends import_obsidian6.ItemView {
       input?.focus({ preventScroll: true });
       input?.setSelectionRange(editing.start, editing.end);
     }
+  }
+  snapshotAction() {
+    if (!(this.app.vault.adapter instanceof import_obsidian6.FileSystemAdapter)) return void 0;
+    return { busy: this.snapshotting, take: () => this.takeSnapshot() };
+  }
+  /** Runs the snapshot CLI, which fetches the record's head and base. */
+  takeSnapshot() {
+    const adapter = this.app.vault.adapter;
+    const { recordDir } = this;
+    if (this.snapshotting || !recordDir || !(adapter instanceof import_obsidian6.FileSystemAdapter)) return;
+    const vaultRoot = adapter.getBasePath();
+    const { execFile } = require("child_process");
+    const PATH = [...CLI_BIN_DIRS, process.env.PATH].join(":");
+    this.snapshotting = true;
+    this.render();
+    execFile(`${vaultRoot}/../differential-review/bin/differential-review`, ["capture", "--record", `${vaultRoot}/${recordDir}`], { env: { ...process.env, PATH }, timeout: 18e4 }, (error, stdout, stderr) => {
+      this.snapshotting = false;
+      if (error) new import_obsidian6.Notice(`No snapshot taken: ${(stderr || error.message).trim()}`, 0);
+      else new import_obsidian6.Notice(stdout.trim(), 1e4);
+      void this.reload();
+    });
   }
   annotationActions() {
     return {
@@ -13472,7 +13502,7 @@ var RepositoryView = class extends import_obsidian8.ItemView {
     if (compare) action("git-compare-arrows", "Compare to upstream base", () => window.open(compare));
     const worktree = import_obsidian8.Platform.isDesktopApp ? this.host.worktreeFor(record, body) : null;
     if (worktree) action("code", "Open with Code", () => this.host.openInCode(worktree));
-    if (isReviewableRecordKind(record.kind) && hasDifferentialReview(this.app, record.dir)) action("git-compare", "Differential review", () => void openDifferentialReview(this.app, record.dir));
+    if (isReviewableRecordKind(record.kind)) action("git-compare", "Differential review", () => void openDifferentialReview(this.app, record.dir));
   }
   canLaunch(record) {
     return launchersFor(this.launchers, record).length > 0;
@@ -13636,7 +13666,6 @@ var PROFILES_PATH = "agents/_shared/AGENT_PROFILES.yml";
 var ENVIRONMENTS_PATH = "agents/_shared/ENVIRONMENTS.yml";
 var RECORD_AGENTS_PATH = "agents/_shared/RECORD_AGENTS.yml";
 var FACTORY_AGENT_DIR = "factory";
-var CLI_BIN_DIRS = ["/usr/local/bin", "/opt/homebrew/bin", "/Applications/Visual Studio Code.app/Contents/Resources/app/bin"];
 var GalaxyBrainPlugin = class extends import_obsidian10.Plugin {
   constructor() {
     super(...arguments);
