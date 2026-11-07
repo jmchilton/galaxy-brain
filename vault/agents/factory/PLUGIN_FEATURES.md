@@ -12,7 +12,7 @@ Legend: ✅ yes · ◐ partial (see note) · — no
 | **Herdr** | `herdr-plugin/src/cli.ts` | `herdr-plugin.toml`: `launch` action, `picker` popup pane, GitHub PR/issue link handler (ctrl-click), selected text → filter | `herdr-plugin/src/vault.ts` (fs) |
 | **Chrome** | `chrome-extension/src/popup.ts` | toolbar popup on a GitHub PR, issue, tree/commits/compare page | native host `herdr-plugin/src/native-host.ts` (`lookup`, `launch`, `newAgent`, `open`) |
 | **Claude 🚀** | `claude-jmchilton-plugins/plugins/suggested-prompts/` | ➕ / 🚀 / ✖ on the hint line in a Claude session started in an agent dir | `herdr-plugin` CLI `actions <agent_dir>` |
-| **Herdr app** | `herdr-app-mod/src/main.ts` (`gb-pane`), `agents.ts` (`gb-agents`), `board.ts` (`gb-board`), `record.ts` (`gb-record`), `review.ts` (`gb-review`) | pane header on every pane: 📋 Send/Draft, emoji quick sends, 🚀 record actions in agent dirs; sends with `hc send`, any agent. Sidebar: terminals grouped by agent dir, harness + machine icons, name · title, status; + new blank agent (dir, machine, ⚡ / ⚙️ profile); routines beside + and in its popup; 🧠 opens the agent board: tiles, tasks, blockers, missed PRs | `readTextFile` (`SUGGESTED_PROMPTS.md`, here or the pane's machine; `ENVIRONMENTS.yml`), `herdr-plugin` CLI `actions <agent_dir>`, `host` (native host `lookup`, `newAgent`, `agents`), `writeTextFile` (`TASKS.md`, `the_cracks/`) |
+| **Herdr app** | `herdr-app-mod/src/main.ts` (`gb-pane`), `agents.ts` (`gb-agents`), `board.ts` (`gb-board`), `record.ts` (`gb-record`), `review.ts` (`gb-review`), `repository.ts` (`gb-repository`), `go.ts` (`gb-go`) | pane header on every pane: 📋 Send/Draft, emoji quick sends, 🚀 record actions in agent dirs; sends with `hc send`, any agent. Sidebar: terminals grouped by agent dir, harness + machine icons, name · title, status; + new blank agent (dir, machine, ⚡ / ⚙️ profile); routines beside + and in its popup; 🧠 opens the agent board: tiles, tasks, blockers, missed PRs; 📚 opens repository records; 🧭 / `cmd-g` goes to any record or repository; Pages lists open tabs | `readTextFile` (`SUGGESTED_PROMPTS.md`, here or the pane's machine; `ENVIRONMENTS.yml`), `herdr-plugin` CLI `actions <agent_dir>`, `host` (native host `lookup`, `newAgent`, `agents`), `app` (`recordIndex`, `repositoryPage`), `writeTextFile` (`TASKS.md`, `the_cracks/`) |
 | **Site** | `site/src/pages/` | static pages, read only | Astro content collections |
 
 Pure logic shared by all of them lives in `obsidian-plugin/src/*.ts` (non-view modules) and `site/src/lib/records.ts`, `repository-tabs.ts`. No Node or Obsidian imports there.
@@ -68,13 +68,13 @@ Pure logic shared by all of them lives in `obsidian-plugin/src/*.ts` (non-view m
 
 ### Repository-level
 
-| Feature | Obsidian (`repository-view.ts`) | Site (`repositories/[repo]/`) |
-|---|---|---|
-| Record tabs (My branches / issues / incubator / reviews) grouped by queue section, then status | ✅ live | ✅ static |
-| Queue file embedded under groups | ✅ | link only |
-| 🔄 Sync button + `SYNC_REPORT.md` | ✅ | — |
-| Recent tab (created / updated, kind filter, all repos) | ✅ | — |
-| GitHub tabs (My drafts, Conflicting, New PRs, Out of draft, New issues, search tabs) | ✅ fetched via `gh`, rows matched to records | ✅ link ↗ to GitHub |
+| Feature | Obsidian (`repository-view.ts`) | Herdr app (`gb-repository`) | Site (`repositories/[repo]/`) |
+|---|---|---|---|
+| Record tabs (My branches / issues / incubator / reviews) grouped by queue section, then status | ✅ live | ✅ live | ✅ static |
+| Queue file embedded under groups | ✅ | ✅ shut until opened | link only |
+| 🔄 Sync button + `SYNC_REPORT.md` | ✅ | ◐ report only | — |
+| Recent tab (created / updated, kind filter, all repos) | ✅ | ✅ | — |
+| GitHub tabs (My drafts, Conflicting, New PRs, Out of draft, New issues, search tabs) | ✅ fetched via `gh`, rows matched to records | — | ✅ link ↗ to GitHub |
 
 ### Agent-level
 
