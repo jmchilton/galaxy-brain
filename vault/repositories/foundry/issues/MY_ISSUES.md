@@ -17,7 +17,6 @@ Review `issue_tags.md` in the record, then use 👀 Diff / 🔖 Apply staged lab
 ## Waiting on John (`needs_decision`)
 
 - (mvp) [#670](https://github.com/galaxyproject/foundry/issues/670) — topology repair forbade interface edits; #753 merged; decide: close it, or keep it open for what's left. [notes](needs_decision/670/index.md)
-- (mvp) [#674](https://github.com/galaxyproject/foundry/issues/674) — interface notes lack shape-changing and per-element param rules; Expected corrected on the issue; decide: release claim to `work/ready-implement`. [notes](needs_decision/674/index.md)
 - (mvp) (large) [#59](https://github.com/galaxyproject/foundry/issues/59) — Research Nextflow process to Galaxy tool wrapper mapping; decide: work state (work/ready-implement, work/ready-research or work/human). [notes](needs_decision/59/index.md)
 - (mvp) (large) [#66](https://github.com/galaxyproject/foundry/issues/66) — Research Nextflow test fixtures to Galaxy job inputs; decide: work state (work/ready-implement, work/ready-research or work/human). [notes](needs_decision/66/index.md)
 - (mvp) (large) [#90](https://github.com/galaxyproject/foundry/issues/90) — Survey: Galaxy reporting and publishing patterns; decide: work state (work/ready-implement, work/ready-research or work/human). [notes](needs_decision/90/index.md)
@@ -54,6 +53,7 @@ None yet.
 
 ## In motion (`wip`)
 
+- (mvp) [#674](https://github.com/galaxyproject/foundry/issues/674) — interface notes lack a shape-changing param rule; PR [#759](https://github.com/galaxyproject/foundry/pull/759), part of the issue. [notes](wip/674/index.md)
 - [#534](https://github.com/galaxyproject/foundry/issues/534) — Replace abstract summarize-nextflow scenarios with concrete pinned fixtures; branch `issue-534-concrete-nextflow-scenarios`. [notes](wip/534/index.md)
 - [#548](https://github.com/galaxyproject/foundry/issues/548) — `gxwf draft-validate --concrete`: the other half of #166 — a ParsedTool decode failure's `Error.message` is…; draft PR [#554](https://github.com/galaxyproject/foundry/pull/554). [notes](wip/548/index.md)
 - [#694](https://github.com/galaxyproject/foundry/issues/694) — (large) Build PAPER/INTERVIEW → GALAXY on the Workflow Brief Molds, retire the freeform Galaxy Molds; PR [#696](https://github.com/galaxyproject/foundry/pull/696). [notes](wip/694/index.md)
@@ -67,6 +67,8 @@ None yet.
 
 ## Queued to implement (`queued_implement`)
 
+- (mvp) [#757](https://github.com/galaxyproject/foundry/issues/757) — channel-shape note has no route for per-element parameters; next: implement and open a PR. [notes](queued/757/index.md)
+- (mvp) [#758](https://github.com/galaxyproject/foundry/issues/758) — pages say `when` can't act per element; next: implement after #755 and open a PR. [notes](queued/758/index.md)
 - [#3](https://github.com/galaxyproject/foundry/issues/3) — Hero pipeline-fan widget (replace pipeline matrix / new /pipelines/ landing); next: implement and open a PR. [notes](queued/3/index.md)
 - (large) [#40](https://github.com/galaxyproject/foundry/issues/40) — Write IWC exemplar match schema; next: implement and open a PR. [notes](queued/40/index.md)
 - [#211](https://github.com/galaxyproject/foundry/issues/211) — summarize-nextflow: resolve from_param through one-hop Groovy bindings; next: implement and open a PR. [notes](queued/211/index.md)
