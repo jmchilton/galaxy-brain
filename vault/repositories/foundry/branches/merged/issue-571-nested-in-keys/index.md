@@ -10,11 +10,11 @@ pr: 754
 
 ## Status
 
-Branch on `jmchilton`, merged with `origin/main` at `195b4a6a`, head `3b9f559f`, reviewed and fixed. Worktree `~/projects/worktrees/foundry/branch/issue-571-nested-in-keys`.
+Merged at head `3b9f559f`; worktree removed.
 
-Draft PR [#754](https://github.com/galaxyproject/foundry/pull/754), mergeable; body is [pr_description.md](pr_description.md).
+PR [#754](https://github.com/galaxyproject/foundry/pull/754) merged 2026-11-07; body is [pr_description.md](pr_description.md).
 
-Local `make -k check` green at `3b9f559f` except `check-vendored` (machine-only). CI at `3b9f559f`: green.
+CI at `3b9f559f`: green.
 
 ## Supporting files
 
