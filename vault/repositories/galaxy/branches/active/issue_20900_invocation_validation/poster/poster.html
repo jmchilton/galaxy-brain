@@ -1,0 +1,536 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Go / No-Go before liftoff</title>
+<!-- Poster for galaxyproject/galaxy#20900, branch issue_20900_invocation_validation @ bcbd2de187c.
+     44 in square canvas; all sizes in in/pt so the STYLE_GALAXY size floors read directly.
+     Renders offline: fonts in fonts/, logo and QR in assets/. Every claim is sourced in SOURCES.md. -->
+<style>
+@font-face { font-family: "Atkinson Hyperlegible"; font-weight: 400; src: url("fonts/atkinson-hyperlegible-latin-400-normal.woff2") format("woff2"); }
+@font-face { font-family: "Atkinson Hyperlegible"; font-weight: 700; src: url("fonts/atkinson-hyperlegible-latin-700-normal.woff2") format("woff2"); }
+@font-face { font-family: "Atkinson Hyperlegible Mono"; font-weight: 400; src: url("fonts/atkinson-hyperlegible-mono-latin-400-normal.woff2") format("woff2"); }
+@font-face { font-family: "Atkinson Hyperlegible Mono"; font-weight: 700; src: url("fonts/atkinson-hyperlegible-mono-latin-700-normal.woff2") format("woff2"); }
+@font-face { font-family: "Kalam"; font-weight: 400; src: url("fonts/kalam-latin-400-normal.woff2") format("woff2"); }
+
+:root {
+  --gx-dark: #2c3143;  --gx-deep: #1a1f2e;  --gx-primary: #25537b;  --gx-info: #197cd2;
+  --gx-gold: #ffd700;  --gx-gold-dark: #d19e00;  --gx-hl: #fff489;
+  --gx-page: #edf4fa;  --gx-slip: #ffffff;  --gx-tint: #f1f9fe;  --gx-tape: #cde0f0;
+  --gx-grid: #daecf8;  --gx-grid-major: #aecce7;  --gx-rule: #dee2e6;
+  --gx-grey: #58585a;  --gx-shadow: #c9d6e3;  --gx-danger: #e31a1e;  --gx-ok: #006f50;
+  --gx-mast: linear-gradient(135deg, var(--gx-dark) 0%, var(--gx-primary) 100%);
+  --gx-sans: "Atkinson Hyperlegible", "IBM Plex Sans", sans-serif;
+  --gx-mono: "Atkinson Hyperlegible Mono", "IBM Plex Mono", monospace;
+  --gx-hand: "Kalam", cursive;
+  --gx-r-card: 0.25in;  --gx-r-small: 0.08in;
+  --side: 0.9in;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+html, body { width: 44in; height: 44in; }
+body {
+  position: relative; overflow: hidden;
+  font-family: var(--gx-sans); font-size: 28pt; line-height: 1.25; color: var(--gx-dark);
+  background-color: var(--gx-page);
+  background-image:
+    linear-gradient(var(--gx-grid-major) 1pt, transparent 1pt),
+    linear-gradient(90deg, var(--gx-grid-major) 1pt, transparent 1pt),
+    linear-gradient(var(--gx-grid) 1pt, transparent 1pt),
+    linear-gradient(90deg, var(--gx-grid) 1pt, transparent 1pt);
+  background-size: 1in 1in, 1in 1in, 0.25in 0.25in, 0.25in 0.25in;
+}
+code, .mono { font-family: var(--gx-mono); font-size: max(0.9em, 24pt); }
+.hand { font-family: var(--gx-hand); color: var(--gx-primary); }
+.hl { background: var(--gx-hl); padding: 0 0.08em; box-decoration-break: clone; }
+b, strong { font-weight: 700; }
+
+/* ---------- masthead ---------- */
+.mast {
+  position: relative; height: 5.25in; padding: 0.45in var(--side) 0 var(--side);
+  background: var(--gx-mast); color: #fff;
+}
+.mast::before { /* 0.5 in grid, 1 pt lines, 3% white */
+  content: ""; position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.03) 1pt, transparent 1pt),
+    linear-gradient(90deg, rgba(255,255,255,0.03) 1pt, transparent 1pt);
+  background-size: 0.5in 0.5in;
+}
+.mast::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 0.25in; background: var(--gx-gold); }
+.mast > * { position: relative; }
+.mast-row { display: flex; justify-content: space-between; align-items: flex-start; gap: 1in; }
+.title-wrap { display: flex; align-items: stretch; gap: 0.45in; }
+.accent { width: 0.22in; background: var(--gx-gold); border-radius: 0.04in; margin: 0.22in 0 0.32in 0; }
+h1 { font-size: 140pt; line-height: 1.0; font-weight: 700; letter-spacing: -0.02em; white-space: nowrap; }
+h1 .hero { color: var(--gx-gold); }
+.thesis { font-size: 44pt; line-height: 1.2; font-weight: 400; max-width: 30.5in; margin-top: 0.22in; }
+.subline { font-size: 28pt; margin-top: 0.2in; color: #fff; }
+.subline code { font-size: 26pt; }
+.mast-right { display: flex; flex-direction: column; align-items: flex-end; gap: 0.45in; width: 10.2in; flex: none; }
+.logo { width: 4.2in; height: auto; display: block; }
+.quote { font-family: var(--gx-hand); color: var(--gx-gold); font-size: 38pt; line-height: 1.18; text-align: right; }
+.quote small { display: block; font-family: var(--gx-sans); color: #fff; font-size: 24pt; margin-top: 0.12in; }
+
+/* ---------- layout ---------- */
+.content { padding: 0.38in var(--side) 0 var(--side); display: flex; flex-direction: column; gap: 0.38in; }
+.card {
+  background: var(--gx-slip); border-radius: var(--gx-r-card);
+  box-shadow: 0.08in 0.08in 0 var(--gx-shadow); padding: 0.4in 0.5in;
+  position: relative;
+}
+.card.featured { border-left: 0.12in solid var(--gx-gold); }
+.region-head { display: flex; align-items: baseline; gap: 0.3in; margin-bottom: 0.16in; }
+.badge {
+  flex: none; width: 0.78in; height: 0.78in; border-radius: 50%;
+  background: var(--gx-primary); color: #fff; font-weight: 700; font-size: 36pt;
+  display: inline-flex; align-items: center; justify-content: center; align-self: center;
+}
+h2 { font-size: 50pt; font-weight: 700; letter-spacing: -0.01em; line-height: 1.05; }
+.region-head .sub { font-size: 28pt; color: var(--gx-grey); }
+
+/* ---------- region 1: rails ---------- */
+.rails { padding: 0.3in 0.5in 0.3in; }
+.rail { position: relative; margin-top: 0.15in; }
+.rail + .rail { margin-top: 0.22in; border-top: 1.5pt solid var(--gx-rule); padding-top: 0.2in; }
+.rail-name { display: flex; align-items: baseline; gap: 0.3in; margin-bottom: 0.2in; }
+.rail-name .who { font-size: 38pt; font-weight: 700; }
+.rail-name .sha { font-family: var(--gx-mono); font-size: 26pt; color: var(--gx-grey); }
+.rail-name .gist { font-size: 30pt; }
+.track {
+  display: grid; grid-template-columns: repeat(9, minmax(0, 1fr)); column-gap: 0.12in;
+  grid-template-rows: auto 1.08in auto auto;
+  position: relative;
+}
+.zone {
+  grid-row: 1 / 5; z-index: 0; align-self: stretch;
+  background: var(--gx-tape); border: 1.2pt solid var(--gx-grid-major); border-radius: var(--gx-r-small);
+  margin: -0.12in -0.06in -0.12in -0.06in;
+  position: relative;
+}
+.zone .zlabel {
+  position: absolute; left: 0.25in; bottom: 0.1in; font-family: var(--gx-hand); color: var(--gx-primary);
+  font-size: 30pt; line-height: 1.1; text-align: left;
+}
+.lbl { grid-row: 1; z-index: 1; font-size: 28pt; line-height: 1.15; font-weight: 700; text-align: center; align-self: end; padding: 0 0.04in 0.08in; }
+.lbl.ign { color: var(--gx-dark); }
+.lbl .hl { font-size: 32pt; }
+.ignpill { display: inline-block; background: #fff; border-radius: var(--gx-r-small); padding: 0.03in 0.08in; margin-bottom: 0.04in; }
+.spine { grid-row: 2; z-index: 1; align-self: center; height: 4pt; background: var(--gx-primary); margin: 0 0.6in 0 calc(50% / 9); }
+.node { grid-row: 2; z-index: 2; justify-self: center; align-self: center; }
+.dot {
+  width: 1.0in; height: 1.0in; border-radius: 50%; background: #fff; border: 4pt solid var(--gx-primary);
+  display: flex; align-items: center; justify-content: center; color: var(--gx-primary); font-weight: 700; font-size: 34pt;
+}
+.dot.bad { border-color: var(--gx-danger); color: var(--gx-danger); }
+.dot.key { background: var(--gx-dark); border: 6pt solid var(--gx-gold); width: 1.15in; height: 1.15in; }
+.dot svg { width: 0.62in; height: 0.62in; }
+.gate {
+  width: 1.05in; height: 1.05in; transform: rotate(45deg); background: var(--gx-dark); border: 6pt solid var(--gx-gold);
+  display: flex; align-items: center; justify-content: center; border-radius: 0.06in;
+}
+.gate span { transform: rotate(-45deg); color: #fff; font-weight: 700; font-size: 26pt; }
+.codes { grid-row: 3; z-index: 1; font-family: var(--gx-mono); font-size: 24pt; letter-spacing: -0.03em; line-height: 1.12; color: var(--gx-dark); text-align: center; padding-top: 0.08in; overflow-wrap: anywhere; }
+.out { grid-row: 4; z-index: 1; justify-self: center; align-self: start; margin-top: 0.1in; text-align: center; }
+
+.chip {
+  display: inline-flex; align-items: center; gap: 0.1in; white-space: nowrap;
+  font-weight: 700; font-size: 26pt; line-height: 1; padding: 0.09in 0.16in; border-radius: var(--gx-r-small);
+}
+.chip svg { width: 0.32in; height: 0.32in; flex: none; }
+.chip.bad { background: var(--gx-danger); color: #fff; }
+.chip.ok { background: var(--gx-ok); color: #fff; }
+.chip.unm { background: #fff; color: var(--gx-grey); border: 2pt dashed var(--gx-grey); font-weight: 700; }
+.chip.neutral { background: #fff; color: var(--gx-primary); border: 2pt solid var(--gx-primary); }
+
+/* debris slip (paper-receipt motif) */
+.slip {
+  grid-column: 8 / 10; grid-row: 1 / 5; z-index: 3; align-self: center; justify-self: stretch;
+  margin: 0 0.1in 0 0.25in;
+  background: #fff; border-top: 0.06in solid var(--gx-primary);
+  filter: drop-shadow(0.08in 0.08in 0 var(--gx-shadow));
+  padding: 0.22in 0.3in 0.5in;
+  transform: rotate(1deg);
+  --zz: 0.18in;
+  -webkit-mask: conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) 50% / calc(2 * var(--zz)) 100%;
+}
+.slip .k { font-size: 24pt; color: var(--gx-grey); letter-spacing: 0.08em; font-weight: 700; }
+.slip .v { font-family: var(--gx-mono); font-size: 26pt; line-height: 1.15; margin: 0.06in 0 0.12in; }
+.slip .leader { border-bottom: 2pt dotted var(--gx-rule); margin: 0.1in 0; }
+.slip .row { display: flex; justify-content: space-between; font-size: 26pt; }
+.slip-stamp {
+  display: inline-block; margin-top: 0.18in; transform: rotate(-6deg);
+  color: var(--gx-danger); border: 5pt double var(--gx-danger); padding: 0.06in 0.2in; font-weight: 700; font-size: 32pt; letter-spacing: 0.04em;
+}
+.slip-wrap { position: relative; }
+
+.scrub {
+  grid-column: 1 / 8; grid-row: 5; z-index: 1; margin-top: 0.22in;
+  background: var(--gx-tint); border: 1.2pt solid var(--gx-grid-major); border-radius: var(--gx-r-small);
+  padding: 0.12in 0.3in; font-size: 28pt; display: flex; gap: 0.3in; align-items: baseline;
+}
+.scrub .tag { font-weight: 700; color: var(--gx-danger); white-space: nowrap; letter-spacing: 0.03em; }
+.scrub .fn { color: var(--gx-grey); font-size: 24pt; }
+
+.nogo {
+  grid-column: 1 / 8; grid-row: 4; z-index: 2; justify-self: end; margin-top: 0.1in; display: flex; align-items: center; gap: 0.5in;
+}
+.drop { position: absolute; z-index: 1; width: 4pt; background: var(--gx-ok); }
+.stamp {
+  transform: rotate(-2deg); color: var(--gx-ok); border: 6pt double var(--gx-ok); padding: 0.06in 0.26in;
+  font-weight: 700; font-size: 32pt; letter-spacing: 0.03em; background: #fff; white-space: nowrap;
+}
+.dropcell { display:flex; flex-direction:column; align-items:center; padding-top:0.1in; }
+.dropcell svg { width: 0.4in; height: 0.6in; }
+.droplbl { font-weight:700; font-size:26pt; color: var(--gx-ok); font-family: var(--gx-sans); }
+.nogo .hand { font-size: 32pt; line-height: 1.1; }
+.arr { display: inline-block; width: 0.9em; height: 0.6em; vertical-align: 0.02em; background: no-repeat center / contain; }
+.arr.d { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 20'%3E%3Cpath d='M2 10h24M18 3l8 7-8 7' fill='none' stroke='%232c3143' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); }
+.arr.w { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 20'%3E%3Cpath d='M2 10h24M18 3l8 7-8 7' fill='none' stroke='%23ffffff' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E"); }
+.arr.l { transform: scaleX(-1); }
+
+/* ---------- region 2/3 ---------- */
+.row23 { display: grid; grid-template-columns: minmax(0, 1fr) 12.2in; gap: 0.5in; align-items: stretch; }
+table.board { width: 100%; border-collapse: collapse; }
+.board th {
+  background: var(--gx-primary); color: #fff; text-align: left; font-size: 28pt; font-weight: 700; padding: 0.1in 0.16in;
+}
+.board th:first-child { border-top-left-radius: var(--gx-r-small); }
+.board th:last-child { border-top-right-radius: var(--gx-r-small); }
+.board td { padding: 0.06in 0.16in; border-bottom: 1.5pt solid var(--gx-rule); vertical-align: top; font-size: 28pt; line-height: 1.18; }
+.board td.c { font-weight: 700; width: 4.5in; }
+.board td.r { width: 9.9in; }
+.board td.d { width: 4.9in; }
+.board .t { display: block; font-family: var(--gx-mono); font-size: 24pt; color: var(--gx-grey); margin-top: 0.03in; white-space: nowrap; }
+.board .m { display: block; font-family: var(--gx-mono); font-size: 24pt; margin-top: 0.05in; color: var(--gx-dark); white-space: nowrap; }
+.board .n { display: block; font-size: 24pt; color: var(--gx-grey); margin-top: 0.05in; }
+.board tr.sub td { border-top: none; }
+.board tr.cont td { border-bottom-style: dotted; }
+.legend { font-size: 24pt; color: var(--gx-grey); margin-top: 0.16in; line-height: 1.28; }
+.legend b { color: var(--gx-dark); }
+
+.go-list { list-style: none; display: flex; flex-direction: column; gap: 0.3in; }
+.go-list li { display: grid; grid-template-columns: auto 1fr; gap: 0.25in; align-items: start; }
+.go-list .marks { display: flex; flex-direction: column; gap: 0.08in; padding-top: 0.04in; }
+.go-list .marks .chip { font-size: 24pt; justify-content: flex-start; width: 2.75in; }
+.go-list .what { font-size: 28pt; line-height: 1.2; }
+.go-list .what .t { display: block; font-family: var(--gx-mono); font-size: 24pt; color: var(--gx-grey); margin-top: 0.04in; overflow-wrap: anywhere; }
+.foot-note { font-size: 24pt; color: var(--gx-grey); margin-top: 0.3in; line-height: 1.3; border-top: 1.5pt solid var(--gx-rule); padding-top: 0.2in; }
+.foot-note b { color: var(--gx-dark); }
+.care { margin-top: 0.25in; font-size: 26pt; overflow-wrap: anywhere; line-height: 1.25; background: var(--gx-tint); border: 1.2pt solid var(--gx-grid-major); border-radius: var(--gx-r-small); padding: 0.16in 0.22in; }
+
+/* ---------- region 4/5 ---------- */
+.row45 { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 0.5in; align-items: stretch; }
+.gate-body { display: grid; grid-template-columns: auto 8.1in minmax(0, 1fr); gap: 0.35in; align-items: start; }
+pre.diff {
+  font-family: var(--gx-mono); font-size: 24pt; line-height: 1.25; background: #fff;
+  border: 1.2pt solid var(--gx-grid-major); border-radius: var(--gx-r-small); padding: 0.2in 0.25in; white-space: pre;
+}
+pre.diff .del { color: var(--gx-danger); }
+pre.diff .add { color: var(--gx-ok); }
+pre.diff .gate-line { color: var(--gx-dark); font-weight: 700; background: var(--gx-hl); }
+pre.diff .cm { color: var(--gx-grey); }
+table.types { width: 100%; border-collapse: collapse; font-size: 24pt; }
+.types th { background: var(--gx-primary); color: #fff; text-align: left; padding: 0.06in 0.1in; font-weight: 700; white-space: nowrap; }
+.types td { padding: 0.06in 0.1in; border-bottom: 1.5pt solid var(--gx-rule); vertical-align: top; line-height: 1.15; }
+.types td code { font-size: 24pt; }
+.types .cap { font-size: 24pt; color: var(--gx-grey); margin-top: 0.1in; }
+.gate-note { font-size: 30pt; line-height: 1.12; }
+.untyped { margin-top: 0.22in; font-size: 26pt; line-height: 1.25; }
+.untyped code { font-size: 24pt; }
+
+.patches { display: grid; grid-template-columns: repeat(8, minmax(0, 1fr)); gap: 0.1in; margin-top: 0.05in; }
+.patch {
+  aspect-ratio: 1; border-radius: 50%; background: #fff; border: 5pt solid var(--gx-primary);
+  box-shadow: inset 0 0 0 0.07in #fff, inset 0 0 0 0.1in var(--gx-grid-major);
+  display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 0.08in;
+}
+.patch .num { font-weight: 700; font-size: 30pt; color: var(--gx-dark); }
+.patch .what { font-size: 24pt; line-height: 1.05; color: var(--gx-dark); margin-top: 0.04in; }
+.patch .when { font-size: 24pt; color: var(--gx-grey); margin-top: 0.04in; }
+.flown-cap { font-size: 28pt; margin-top: 0.2in; line-height: 1.22; }
+.cost {
+  margin-top: 0.2in; background: var(--gx-tint); border: 1.2pt solid var(--gx-grid-major); border-radius: var(--gx-r-small);
+  padding: 0.14in 0.22in; font-size: 26pt; line-height: 1.25;
+}
+.cost .k { font-weight: 700; }
+.cost .n { color: var(--gx-grey); font-size: 24pt; }
+
+/* ---------- footer ---------- */
+.footer {
+  position: absolute; left: 0; right: 0; bottom: 0; height: 2.95in; background: var(--gx-deep); color: #fff;
+  padding: 0.22in var(--side); display: grid; grid-template-columns: minmax(0, 1fr) 3.1in; gap: 0.6in; align-items: center;
+}
+.footer p { font-size: 24pt; line-height: 1.32; }
+.footer p + p { margin-top: 0.1in; }
+.footer code { font-size: 24pt; }
+.footer .boundary { font-size: 26pt; }
+.footer .boundary b { color: var(--gx-gold); }
+.qr { display: flex; flex-direction: column; align-items: center; gap: 0.08in; }
+.qr .tile { background: #fff; border-radius: var(--gx-r-card); padding: 0.06in; width: 2.05in; height: 2.05in; }
+.qr .tile img { width: 100%; height: 100%; display: block; }
+.qr .cap { font-size: 24pt; color: #fff; white-space: nowrap; }
+</style>
+</head>
+<body>
+
+<!-- ======================= MASTHEAD ======================= -->
+<header class="mast">
+  <div class="mast-row">
+    <div>
+      <div class="title-wrap">
+        <div class="accent"></div>
+        <h1>Go / No-Go <span class="hero">before</span> liftoff</h1>
+      </div>
+      <p class="thesis">With this branch, Galaxy checks a whole workflow run request, every batch entry and every input, <b>before</b> it creates a history. A No-Go is a 4xx with nothing left on the pad.</p>
+      <p class="subline">Addresses <b>galaxyproject/galaxy#20900</b> &nbsp;·&nbsp; branch <code>issue_20900_invocation_validation</code> @ <code>bcbd2de187c</code></p>
+    </div>
+    <div class="mast-right">
+      <img class="logo" src="assets/galaxy_logo_white.svg" alt="Galaxy">
+      <p class="quote">“we should still validate as much as possible on the backend upon submission too”<small>#7781 comment, cross-referenced by #20900</small></p>
+    </div>
+  </div>
+</header>
+
+<main class="content">
+
+<!-- ======================= 1. TWO COUNTDOWNS ======================= -->
+<section class="card rails">
+  <div class="region-head"><span class="badge">1</span><h2>Two countdowns, one difference: where ignition sits</h2></div>
+
+  <!-- dev rail -->
+  <div class="rail" id="rail-dev">
+    <div class="rail-name"><span class="who">dev</span><span class="sha">origin/dev 7e16f446410</span><span class="gist">creates the history first, then checks the request</span></div>
+    <div class="track">
+      <div class="zone" style="grid-column: 2 / 10"><div class="zlabel">side effects from here on:<br>a committed history</div></div>
+      <div class="spine" style="grid-column: 1 / 8; margin-right: calc(50% / 7)"></div>
+
+      <div class="lbl" style="grid-column:1">Tools and completion actions</div>
+      <div class="node" style="grid-column:1"><div class="dot">1</div></div>
+      <div class="codes" style="grid-column:1">_check_workflow_tools _check_on_complete</div>
+
+      <div class="lbl ign" style="grid-column:2"><span class="ignpill"><span class="hl">IGNITION</span></span><br>history created</div>
+      <div class="node" style="grid-column:2"><div class="dot key"><svg viewBox="0 0 24 24" fill="none" stroke="#ffd700" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg></div></div>
+      <div class="codes" style="grid-column:2">History(…) commit()</div>
+
+      <div class="lbl" style="grid-column:3">Entry 1 inputs checked, copied in</div>
+      <div class="node" style="grid-column:3"><div class="dot">3</div></div>
+      <div class="codes" style="grid-column:3">validate(), copy()</div>
+
+      <div class="lbl" style="grid-column:4">Entry 2 fails a validator</div>
+      <div class="node" style="grid-column:4"><div class="dot bad"><svg viewBox="0 0 24 24" fill="none" stroke="#e31a1e" stroke-width="3" stroke-linecap="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></div></div>
+      <div class="codes" style="grid-column:4">same loop, entry 2</div>
+      <div class="out" style="grid-column:4"><span class="chip bad">400 · history left</span></div>
+
+      <div class="lbl" style="grid-column:5">Step state fails</div>
+      <div class="node" style="grid-column:5"><div class="dot bad"><svg viewBox="0 0 24 24" fill="none" stroke="#e31a1e" stroke-width="3" stroke-linecap="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></div></div>
+      <div class="codes" style="grid-column:5">populate_module<wbr>_and_state</div>
+      <div class="out" style="grid-column:5"><span class="chip bad">400 · history left</span></div>
+
+      <div class="lbl" style="grid-column:6">Invocations queued</div>
+      <div class="node" style="grid-column:6"><div class="dot"><svg viewBox="0 0 24 24" fill="none" stroke="#25537b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg></div></div>
+      <div class="codes" style="grid-column:6">queue_invoke</div>
+      <div class="out" style="grid-column:6"><span class="chip bad">200 · unchecked</span></div>
+
+      <div class="lbl" style="grid-column:7">Landing request looked up</div>
+      <div class="node" style="grid-column:7"><div class="dot bad"><svg viewBox="0 0 24 24" fill="none" stroke="#e31a1e" stroke-width="3" stroke-linecap="round"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg></div></div>
+      <div class="codes" style="grid-column:7">_create_landing<wbr>_request_association</div>
+      <div class="out" style="grid-column:7"><span class="chip bad">404 · history left</span></div>
+
+      <div class="slip">
+        <div class="k">HISTORY · LEFT ON THE PAD</div>
+        <div class="v">invalid batch entry history …</div>
+        <div class="leader"></div>
+        <div class="row"><span>invocation</span><b>none</b></div>
+        <div class="row"><span>response</span><b>400</b></div>
+        <div class="slip-stamp">DEBRIS</div>
+      </div>
+
+      <div class="scrub"><span class="tag">LAUNCH, THEN SCRUB</span><span><code>text</code> <i class="arr d l"></i> <code>5</code>: dev answers <b>200</b> and queues it; the error surfaces later. <span class="fn">#20900 links a Sentry error for this case (via planemo run); not reproduced here.</span></span></div>
+    </div>
+  </div>
+
+  <!-- branch rail -->
+  <div class="rail" id="rail-branch">
+    <div class="rail-name"><span class="who">this branch</span><span class="sha">bcbd2de187c</span><span class="gist">checks the whole request, then creates anything</span></div>
+    <div class="track">
+      <div class="zone" style="grid-column: 8 / 10"><div class="zlabel">side effects</div></div>
+      <div class="spine" style="grid-column: 1 / 10"></div>
+
+      <div class="lbl" style="grid-column:1">Tools and completion actions</div>
+      <div class="node" style="grid-column:1"><div class="dot">1</div></div>
+      <div class="codes" style="grid-column:1">unchanged</div>
+
+      <div class="lbl" style="grid-column:2">Landing request claimed?</div>
+      <div class="node" style="grid-column:2"><div class="dot">2</div></div>
+      <div class="codes" style="grid-column:2">get_claimed_workflow_<wbr>landing_request_model</div>
+
+      <div class="lbl" style="grid-column:3">Target history looked up, not created</div>
+      <div class="node" style="grid-column:3"><div class="dot">3</div></div>
+      <div class="codes" style="grid-column:3">_get_target_history: History | name</div>
+
+      <div class="lbl" style="grid-column:4">Replacement and resource params</div>
+      <div class="node" style="grid-column:4"><div class="dot">4</div></div>
+      <div class="codes" style="grid-column:4">_validate_*_params</div>
+
+      <div class="lbl" style="grid-column:5">Every entry: values and data inputs</div>
+      <div class="node" style="grid-column:5"><div class="dot">5</div></div>
+      <div class="codes" style="grid-column:5">validate_input_value, _resolve_data_input</div>
+
+      <div class="lbl" style="grid-column:6">Step state, once per distinct param_map</div>
+      <div class="node" style="grid-column:6"><div class="dot">6</div></div>
+      <div class="codes" style="grid-column:6">populate_module<wbr>_and_state</div>
+
+      <div class="lbl" style="grid-column:7">GO / NO-GO</div>
+      <div class="node" style="grid-column:7" id="gate"><div class="gate"><span>GO?</span></div></div>
+      <div class="codes dropcell" style="grid-column:7"><span class="droplbl">NO-GO</span><svg viewBox="0 0 20 60" preserveAspectRatio="none"><path d="M10 2v52M3 46l7 9 7-9" fill="none" stroke="#006f50" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+
+      <div class="lbl ign" style="grid-column:8"><span class="ignpill"><span class="hl">IGNITION</span></span><br>history created</div>
+      <div class="node" style="grid-column:8"><div class="dot key"><svg viewBox="0 0 24 24" fill="none" stroke="#ffd700" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg></div></div>
+      <div class="codes" style="grid-column:8">History(…) commit()</div>
+
+      <div class="lbl" style="grid-column:9">Invocations queued</div>
+      <div class="node" style="grid-column:9"><div class="dot"><svg viewBox="0 0 24 24" fill="none" stroke="#25537b" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z"/><path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z"/><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0"/><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5"/></svg></div></div>
+      <div class="codes" style="grid-column:9">queue_invoke</div>
+
+      <div class="nogo" id="nogo"><span class="hand">the same checks, plus new ones,<br>all before ignition</span><span class="stamp" id="stamp">NO-GO · 4xx · no history · no invocation</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ======================= 2 + 3 ======================= -->
+<div class="row23">
+<section class="card featured">
+  <div class="region-head"><span class="badge">2</span><h2>The poll: one console per check</h2><span class="sub">real requests from the branch's API tests</span></div>
+  <table class="board">
+    <thead><tr><th>Console</th><th>Request</th><th>dev</th><th>this branch</th></tr></thead>
+    <tbody>
+      <tr><td class="c">Parameter type</td>
+          <td class="r"><code>text</code> <i class="arr d l"></i> <code>5</code>, the #20900 case (10 type cases)<span class="t">test_run_with_parameter_input_of_wrong_type</span></td>
+          <td class="d"><span class="chip bad">200 · queued</span></td>
+          <td><span class="chip ok">400 · no invocation</span><span class="m">parameter: a string is required</span></td></tr>
+      <tr><td class="c">Restrictions</td>
+          <td class="r"><code>"c"</code> for restrictions <code>["a","b"]</code><span class="t">…⁠_parameter_input_not_in_restrictions</span></td>
+          <td class="d"><span class="chip bad">200 · queued</span></td>
+          <td><span class="chip ok">400</span><span class="m">parameter: an invalid option ('c')…</span></td></tr>
+      <tr><td class="c">Batch validators</td>
+          <td class="r">batch <code>["UPPER","lower"]</code>, regex <code>^[A-Z]+$</code><span class="t">test_invalid_batch_entry_creates_no_history</span></td>
+          <td class="d"><span class="chip bad">400 · history left</span></td>
+          <td><span class="chip ok">400 · no history · no invocation</span><span class="m">parameter: Upper case letters only</span></td></tr>
+      <tr><td class="c">Dataset for collection</td>
+          <td class="r"><code>src: hda</code> to a <code>list</code> input<span class="t">test_run_with_dataset_for_collection_input</span></td>
+          <td class="d"><span class="chip bad">200 · queued</span></td>
+          <td><span class="chip ok">400 · no invocation</span><span class="m">input1: a dataset collection is required</span></td></tr>
+      <tr><td class="c">… given by URL</td>
+          <td class="r"><code>src: url</code> to a <code>list</code> input<span class="t">…⁠_url_for_collection_input_creates_no_history</span></td>
+          <td class="d"><span class="chip unm">unmeasured</span></td>
+          <td><span class="chip ok">400 · no history · no invocation</span><span class="m">input1: a dataset collection is required</span></td></tr>
+      <tr><td class="c">Collection type</td>
+          <td class="r"><code>paired</code> to a <code>list</code> input, and the reverse<span class="t">test_run_with_incompatible_collection_type</span></td>
+          <td class="d"><span class="chip unm">unmeasured</span></td>
+          <td><span class="chip ok">400 · no invocation</span><span class="m">collection type 'paired' cannot be used…</span></td></tr>
+      <tr><td class="c">Deleted input</td>
+          <td class="r">deleted HDA, purged HDA, deleted HDCA<span class="t">test_run_with_deleted_inputs</span></td>
+          <td class="d"><span class="chip bad">200 · queued</span><span class="n">first case; rest not reached</span></td>
+          <td><span class="chip ok">400 · no invocation</span><span class="m">the selected dataset has been deleted</span></td></tr>
+      <tr><td class="c">Sample-sheet URI</td>
+          <td class="r"><code>rows</code> on a <code>list</code> Collection URI<span class="t">…⁠_sample_sheet_uri_input_creates_no_history</span></td>
+          <td class="d"><span class="chip bad">400 · history left †</span></td>
+          <td><span class="chip ok">400 · no history · no invocation</span><span class="m">Sample sheet metadata (…) can only be used…</span></td></tr>
+      <tr><td class="c">Step state</td>
+          <td class="r">tool <code>validation_repeat</code>, <code>r2_0|text: ""</code><span class="t">test_invalid_step_parameter_creates_no_history</span></td>
+          <td class="d"><span class="chip bad">400 · history left</span></td>
+          <td><span class="chip ok">400 · no history · no invocation</span><span class="m">Error computing workflow step runtime state</span></td></tr>
+      <tr class="cont"><td class="c">Landing request</td>
+          <td class="r">unknown <code>landing_uuid</code><span class="t">…⁠_unusable_landing_uuid_creates_no_history</span></td>
+          <td class="d"><span class="chip bad">404 · history left</span></td>
+          <td><span class="chip ok">404 · no history · no invocation</span></td></tr>
+      <tr class="sub"><td class="c"></td>
+          <td class="r">unclaimed <code>landing_uuid</code></td>
+          <td class="d"><span class="chip bad">200 · queued</span></td>
+          <td><span class="chip ok">409 · no history · no invocation</span></td></tr>
+    </tbody>
+  </table>
+  <p class="legend"><b>queued</b> = invocation created and queued · <b>history left</b> = rejected after a history was committed · <b>unmeasured</b> = dev not yet run · <b>†</b> read from dev's code, not run · red/green = bad/good for the user. dev = dev's sources (<code>7e16f446410</code>) under the branch's tests; branch = <code>bcbd2de187c</code>. Messages are asserted substrings.</p>
+</section>
+
+<section class="card">
+  <div class="region-head"><span class="badge">3</span><h2>Still GO</h2></div>
+  <p style="font-size:28pt; margin-bottom:0.25in">No false alarms: these requests pass on dev and on the branch.</p>
+  <ul class="go-list">
+    <li><div class="marks"><span class="chip ok">dev · GO</span><span class="chip ok">branch · GO</span></div>
+        <div class="what">integer <code>"5"</code>, float <code>"0.5"</code>, boolean <code>"true"</code><span class="t">test_run_with_parameter_input_as_string</span></div></li>
+    <li><div class="marks"><span class="chip ok">dev · GO</span><span class="chip ok">branch · GO</span></div>
+        <div class="what">text <code>"c"</code> with suggestions <code>["a","b"]</code>: suggestions aren't restrictions<span class="t">…⁠_not_in_suggestions</span></div></li>
+    <li><div class="marks"><span class="chip ok">dev · GO</span><span class="chip ok">branch · GO</span></div>
+        <div class="what">an empty optional integer<span class="t">test_run_with_optional_parameter_input_empty</span></div></li>
+    <li><div class="marks"><span class="chip ok">dev · GO</span><span class="chip ok">branch · GO</span></div>
+        <div class="what"><code>list:list</code> given to a <code>list</code> input maps over<span class="t">test_run_with_mappable_collection_type</span></div></li>
+    <li><div class="marks"><span class="chip unm">dev · not run</span><span class="chip ok">branch · GO</span></div>
+        <div class="what"><code>paired</code> given to an untyped <code>collection</code> input<span class="t">…⁠_untyped_collection_input_accepts_any_collection_type</span></div></li>
+  </ul>
+  <p class="foot-note">The first four are baseline tests (<code>fde4e03dd8d</code>, 7 cases) that pass on dev's sources. At head, locally: <b>test_workflows.py 543 passed</b> · framework workflows 91 · unit 297. Fork CI not yet run.</p>
+  <p class="care">Two dev tests declared a collection input but sent a dataset. Their declarations are now <code>data</code>: <code>test_metadata_copied_to_copied_outputs</code>, <code>test_run_workflow_from_url_with_implicit_conversion_on_collection</code>.</p>
+</section>
+</div>
+
+<!-- ======================= 4 + 5 ======================= -->
+<div class="row45">
+<section class="card">
+  <div class="region-head"><span class="badge">4</span><h2>Inside the gate</h2><span class="sub">build_workflow_run_configs</span></div>
+  <div class="gate-body">
+<pre class="diff"> for each batch entry:
+<span class="del">-    history = History(...); commit()</span>
+<span class="del">-    check inputs, copy them in</span>
+<span class="add">+    validate_input_value(...)</span>
+<span class="add">+    _resolve_data_input(...)</span>
+<span class="add">+    populate_module_and_state(...)</span>
+<span class="gate-line">+# ── GO / NO-GO: all passed ──</span>
+<span class="add">+for each validated entry:</span>
+<span class="add">+    history = History(...); commit()</span>
+<span class="add">+    _add_data_input_to_history(...)</span></pre>
+    <div>
+      <table class="types">
+        <thead><tr><th colspan="3" style="font-family:var(--gx-mono); font-weight:400; background:var(--gx-dark)">WORKFLOW_PARAMETER_VALUE_TYPE_CHECKS</th></tr><tr><th>type</th><th>accepts</th><th>400</th></tr></thead>
+        <tbody>
+          <tr><td>text, color, directory_uri</td><td>any string</td><td><code>5</code> <code>5.5</code> <code>true</code></td></tr>
+          <tr><td>integer</td><td><code>5</code> <code>"5"</code></td><td><code>"abc"</code> <code>5.5</code> <code>true</code></td></tr>
+          <tr><td>float</td><td><code>0.5</code> <code>"0.5"</code> <code>5</code></td><td><code>"abc"</code> <code>false</code></td></tr>
+          <tr><td>boolean</td><td><code>true</code> <code>"true"</code></td><td><code>"maybe"</code> <code>1</code></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="gate-note hand">collection matching reuses the run form's <span style="font-family:var(--gx-mono); font-size:26pt">HistoryQuery</span>, so the API agrees with the UI</p>
+  </div>
+</section>
+
+<section class="card">
+  <div class="region-head"><span class="badge">5</span><h2>Earlier stages, already flown</h2></div>
+  <div class="patches">
+    <div class="patch"><span class="num">#24169</span><span class="what">unknown scheduler</span><span class="when">Oct 17</span></div>
+    <div class="patch"><span class="num">#24171</span><span class="what">missing input 404</span><span class="when">Oct 17</span></div>
+    <div class="patch"><span class="num">#24197</span><span class="what">storage routing</span><span class="when">Oct 17</span></div>
+    <div class="patch"><span class="num">#24202</span><span class="what">completion actions</span><span class="when">Oct 23</span></div>
+    <div class="patch"><span class="num">#24203</span><span class="what">subworkflow connections</span><span class="when">Nov 2</span></div>
+    <div class="patch"><span class="num">#24209</span><span class="what">tool compat&shy;ibility</span><span class="when">Oct 22</span></div>
+    <div class="patch"><span class="num">#24265</span><span class="what">subworkflow param errors</span><span class="when">Nov 3</span></div>
+    <div class="patch"><span class="num">#24671</span><span class="what">input copy defaults</span><span class="when">Nov 3</span></div>
+  </div>
+  <p class="flown-cap"><b>8 guards merged, Oct 17 – Nov 3, 2026.</b> This branch moves the whole poll before ignition.</p>
+  <div class="cost"><span class="k">What it costs.</span> Batch of 25: 26 step-state populates (dev 25). Existing history: same query count (113 / 113). New history: about +1 query per step (121 <i class="arr d"></i> 171 for a 50-step tool chain; open decision 4). <span class="n">Measured at <code>456acb2f1d8</code>, sqlite, one run.</span></div>
+</section>
+</div>
+
+</main>
+
+<!-- ======================= FOOTER ======================= -->
+<footer class="footer">
+  <div>
+    <p class="boundary"><b>Where “nothing created” stops.</b> The gate covers every check above. Failures after ignition, such as fetching a URL input or queueing the invocation, can still leave a history (open decision 4).</p>
+    <p>galaxyproject/galaxy#20900 · #7781 comment 3284289606 · 7 commits <code>fde4e03dd8d</code> … <code>bcbd2de187c</code> on dev <code>7e16f446410</code> · tests <code>lib/galaxy_test/api/test_workflows.py</code>, <code>lib/galaxy_test/api/test_landing.py</code></p>
+    <p>Status: parked on scope decisions; fork CI not yet run. The poster is pinned to <code>bcbd2de187c</code>; the SHA changes on the next rebase.</p>
+  </div>
+  <div class="qr"><div class="tile"><img src="assets/qr_compare.svg" alt="QR code: compare link for the branch"></div><span class="cap">Compare on GitHub</span></div>
+</footer>
+
+</body>
+</html>
