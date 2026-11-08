@@ -60,7 +60,13 @@ Yo agent - let's talk about branch {name}. The branch record is {record}. I'd li
 agent_dir: gx_branches
 name: brslide-{name}
 
-Yo agent - let's talk about branch {name}. The branch record is {record}. I'd like to implement slides according to `../_shared/PROCESS_SLIDES.md`. The aim for a 10 minute implementation description for this feature. If this branch has a pr_description.md please update it so the second line is a link to the slides - do not rewrite the PR description around the slides though - just amend that line with a link. The PR description should standalone as it is and should not depend on the slides. That said - if the slides contain images that would improve the k`{record}/pr_description.md` those could be incorporated (probably the PR description should have its own images already though). If the implementation of the slides results in ideas for strengthen the branch's implementation or ideas - please offer to John to expand the scope and implement these.
+Yo agent - let's talk about branch {name}. The branch record is {record}. I'd like to implement slides according to `../_shared/PROCESS_SLIDES.md`. The aim for a 10 minute implementation description for this feature. If this branch has a pr_description.md please update it so the second line is a link to the slides - do not rewrite the PR description around the slides though - just amend that line with a link. The PR description should standalone as it is and should not depend on the slides. That said - if the slides contain images that would improve the `{record}/pr_description.md` those could be incorporated (probably the PR description should have its own images already though). If the implementation of the slides results in ideas for strengthen the branch's implementation or ideas - please offer to John to expand the scope and implement these.
+
+## 🖼️ Build Poster
+agent_dir: gx_branches
+name: brposter-{name}
+
+Yo agent - let's talk about branch {name}. The branch record is {record}. I'd like to build a poster according to `../_shared/PROCESS_POSTER.md`. Don't edit `{record}/pr_description.md` - it should stand alone. If the poster's render or any of its figures would strengthen the PR description, offer that to John instead. If building the poster results in ideas for strengthening the branch's implementation, its evidence or its PR description - please offer to John to expand the scope and implement these.
 
 ## 📝 Address diff comments
 status: active

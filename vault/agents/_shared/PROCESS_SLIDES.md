@@ -68,10 +68,21 @@ Then have another subagent make a pass at reviewing the slides for clarity, inte
 
 If that subagent made big changes - repeat the subagent render polish process again one more time.
 
-For each of these subagent calls - if there is a single relevant issue or branch directory for this work - write each subagents report to subagents/ under that directory. 
+## Reports
 
-Finally:
+If there is a single relevant issue or branch record (RECORD) for this work, the reports go in `RECORD/slides/`, the same layout as [PROCESS_POSTER.md](PROCESS_POSTER.md):
+
+| File | Written by | Holds |
+|---|---|---|
+| `render_polish_<N>.md` | render polish pass N, from 1 | slides walked, fixes made, what's still off |
+| `clarity_review_<N>.md` | clarity pass N, from 1 | changes per slide, unsourced or soft claims |
+| `branch_recommendations.md` | clarity passes | ranked ideas to strengthen the implementation, issue, branch or spike, each under a `## Clarity review <N>` heading |
+
+Older records keep these as `subagents/slides_*.md`; leave them where they are. Number slides in reports by their 1-based `{/* SLIDE N */}` comments.
+
+## Finally
+
 - Commit the deck and its assets on `main` (explicit paths) and push.
 - Report the slug, slide count (main + extra), estimated run time and any claims you couldn't source.
-- Also offer to save the clarity agents' recommendations for polishing the source somewhere or launch a subagent to work on them as makes sense in context.
+- Summarize the top items from `branch_recommendations.md`, and offer to file them as tasks or launch a subagent to work on them, whichever fits.
 
