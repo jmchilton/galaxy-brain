@@ -9,26 +9,26 @@ Sources:
 
 ## Palette
 
-| Token | Hex | Role | Source |
-|---|---|---|---|
-| `gx-dark` | `#2c3143` | Masthead band, headings, receipt ink | G `theme/blue.scss:9` (`$brand-dark`); G `tokens.css:22` (`blue-700`); BT `--color-galaxy-dark` |
-| `gx-deep` | `#1a1f2e` | Footer band, darkest ink | H `DESIGN.md:492` |
-| `gx-primary` | `#25537b` | Pen notes, links, filled route stations, table heads | G `blue.scss:2`; G `tokens.css:23` (`blue-600`); BT `--color-galaxy-primary` |
-| `gx-info` | `#197cd2` | Secondary accent for route lines and numbered badges | G `tokens.css:24` (`blue-500`) |
-| `gx-gold` | `#ffd700` | The one accent: masthead underline, hero mark, card accent bars | G `tokens.css:54` (`yellow-500`); BT `--color-galaxy-gold`; H `DESIGN.md:28` |
-| `gx-gold-dark` | `#d19e00` | Gold used as a line or text on light ground | BT `--color-galaxy-gold-dark` |
-| `gx-hl` | `#fff489` | Highlighter fill for `hl()` | G `tokens.css:56` (`yellow-300`) |
-| `gx-page` | `#edf4fa` | Poster background | BT `--color-light-bg`; H `DESIGN.md:513` |
-| `gx-slip` | `#ffffff` | Receipts and cards | H `DESIGN.md:515` (`bg-white` cards) |
-| `gx-tint` | `#f1f9fe` | Inner boxes in diagrams | G `tokens.css:28` (`blue-100`) |
-| `gx-tape` | `#cde0f0` | Tape strips | BT `--color-bay-of-many-200` |
-| `gx-grid` | `#daecf8` | Background grid, minor lines | G `tokens.css:27` (`blue-200`) |
-| `gx-grid-major` | `#aecce7` | Background grid, major lines | BT `--color-bay-of-many-300` |
-| `gx-rule` | `#dee2e6` | Receipt dot leaders and dividers | G `tokens.css:37`; G `blue.scss:3` (`$brand-secondary`) |
-| `gx-grey` | `#58585a` | Secondary ink: affiliations, captions, references | BT `--color-galaxy-grey`; the logo's grey, `#58595B` |
-| `gx-shadow` | `#c9d6e3` | Card and receipt drop shadow | Derived: `gx-page` darkened by about 10%, in the spirit of `blue.scss:30-32` |
-| `gx-danger` | `#e31a1e` | Stamp ink for FAIL and REFUSED | G `blue.scss:7`; G `tokens.css:72` |
-| `gx-ok` | `#006f50` | Stamp ink for PASS and VALIDATED | G `tokens.css:42` (`green-700`). The brand green `#66cc66` is too light to print. |
+| Token           | Hex       | Role                                                            | Source                                                                                          |
+| --------------- | --------- | --------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
+| `gx-dark`       | `#2c3143` | Masthead band, headings, receipt ink                            | G `theme/blue.scss:9` (`$brand-dark`); G `tokens.css:22` (`blue-700`); BT `--color-galaxy-dark` |
+| `gx-deep`       | `#1a1f2e` | Footer band, darkest ink                                        | H `DESIGN.md:492`                                                                               |
+| `gx-primary`    | `#25537b` | Pen notes, links, filled route stations, table heads            | G `blue.scss:2`; G `tokens.css:23` (`blue-600`); BT `--color-galaxy-primary`                    |
+| `gx-info`       | `#197cd2` | Secondary accent for route lines and numbered badges            | G `tokens.css:24` (`blue-500`)                                                                  |
+| `gx-gold`       | `#ffd700` | The one accent: masthead underline, hero mark, card accent bars | G `tokens.css:54` (`yellow-500`); BT `--color-galaxy-gold`; H `DESIGN.md:28`                    |
+| `gx-gold-dark`  | `#d19e00` | Gold used as a line or text on light ground                     | BT `--color-galaxy-gold-dark`                                                                   |
+| `gx-hl`         | `#fff489` | Highlighter fill for `hl()`                                     | G `tokens.css:56` (`yellow-300`)                                                                |
+| `gx-page`       | `#edf4fa` | Poster background                                               | BT `--color-light-bg`; H `DESIGN.md:513`                                                        |
+| `gx-slip`       | `#ffffff` | Receipts and cards                                              | H `DESIGN.md:515` (`bg-white` cards)                                                            |
+| `gx-tint`       | `#f1f9fe` | Inner boxes in diagrams                                         | G `tokens.css:28` (`blue-100`)                                                                  |
+| `gx-tape`       | `#cde0f0` | Tape strips                                                     | BT `--color-bay-of-many-200`                                                                    |
+| `gx-grid`       | `#daecf8` | Background grid, minor lines                                    | G `tokens.css:27` (`blue-200`)                                                                  |
+| `gx-grid-major` | `#aecce7` | Background grid, major lines                                    | BT `--color-bay-of-many-300`                                                                    |
+| `gx-rule`       | `#dee2e6` | Receipt dot leaders and dividers                                | G `tokens.css:37`; G `blue.scss:3` (`$brand-secondary`)                                         |
+| `gx-grey`       | `#58585a` | Secondary ink: affiliations, captions, references               | BT `--color-galaxy-grey`; the logo's grey, `#58595B`                                            |
+| `gx-shadow`     | `#c9d6e3` | Card and receipt drop shadow                                    | Derived: `gx-page` darkened by about 10%, in the spirit of `blue.scss:30-32`                    |
+| `gx-danger`     | `#e31a1e` | Stamp ink for FAIL and REFUSED                                  | G `blue.scss:7`; G `tokens.css:72`                                                              |
+| `gx-ok`         | `#006f50` | Stamp ink for PASS and VALIDATED                                | G `tokens.css:42` (`green-700`). The brand green `#66cc66` is too light to print.               |
 
 ### Print and greyscale
 
