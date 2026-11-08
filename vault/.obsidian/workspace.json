@@ -4,80 +4,24 @@
     "type": "split",
     "children": [
       {
-        "id": "007f57c1ddf96124",
+        "id": "952ed4aea9365aea",
         "type": "tabs",
         "children": [
           {
-            "id": "b63af9bc8c3216fc",
+            "id": "cf3926860dc913bc",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "repositories/galaxy/branches/active/invocation_graph_output_previews/pr_description.md",
+                "file": "repositories/galaxy/reviews/active/24794/index.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "pr_description"
-            }
-          },
-          {
-            "id": "6381222957a33971",
-            "type": "leaf",
-            "state": {
-              "type": "galaxy-brain-differential-review",
-              "state": {
-                "recordDir": "repositories/galaxy/branches/active/invocation_graph_output_previews",
-                "hideReviewed": true
-              },
-              "icon": "git-compare",
-              "title": "Review: invocation_graph_output_previews"
-            }
-          },
-          {
-            "id": "adb5df504b79a582",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "repositories/galaxy/branches/active/issue_24174_invocation_rerun_lineage/pr_description.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "pr_description"
-            }
-          },
-          {
-            "id": "d0350a38347d6c8a",
-            "type": "leaf",
-            "state": {
-              "type": "galaxy-brain-repository",
-              "state": {
-                "repo": "*",
-                "tab": "branches",
-                "recentBy": "created"
-              },
-              "icon": "library",
-              "title": "Recent records"
-            }
-          },
-          {
-            "id": "a896b47c9a47556d",
-            "type": "leaf",
-            "state": {
-              "type": "markdown",
-              "state": {
-                "file": "repositories/galaxy/reviews/active/24706/initial_review_response.md",
-                "mode": "source",
-                "source": false
-              },
-              "icon": "lucide-file",
-              "title": "initial_review_response"
+              "title": "index"
             }
           }
-        ],
-        "currentTab": 4
+        ]
       }
     ],
     "direction": "vertical"
@@ -256,44 +200,44 @@
       "templater-obsidian:Templater": false
     }
   },
-  "active": "c1926bfde7f63465",
+  "active": "cf3926860dc913bc",
   "lastOpenFiles": [
-    "repositories/galaxy/reviews/active/24772/verified_review.md",
-    "repositories/galaxy/reviews/active/24772/verified_findings_checklist.md",
-    "repositories/galaxy/reviews/active/24772/test_challenges_review.md",
-    "repositories/galaxy/reviews/active/24772/test_challenges_debrief.md",
-    "repositories/galaxy/reviews/active/24772/risks.md",
-    "repositories/galaxy/reviews/active/24772/review_0_branch_details.md",
-    "repositories/galaxy/reviews/active/24772/initial_review_response.md",
-    "repositories/galaxy/reviews/active/24772/initial_review_agents.md",
-    "repositories/galaxy/reviews/active/24772/initial_review.md",
-    "repositories/galaxy/reviews/active/24772/initial_response_action.md",
-    "repositories/galaxy/reviews/active/24772/filtered_findings.md",
-    "repositories/galaxy/reviews/active/24772/index.md",
-    "repositories/galaxy/reviews/active/24772",
-    "repositories/galaxy/branches/active/issue_24787_metadata_source_shared_file_26_1/earlier_drafts/1/thermo_nuclear_review.md",
-    "repositories/galaxy/branches/active/issue_24787_metadata_source_shared_file_26_1/earlier_drafts/1/test_challenges_debrief.md",
-    "repositories/galaxy/branches/active/issue_24787_metadata_source_shared_file_26_1/earlier_drafts/1/scope_evaluation.md",
-    "repositories/galaxy/branches/active/issue_24787_metadata_source_shared_file_26_1/earlier_drafts/1/performance_challenges_debrief.md",
-    "repositories/galaxy/branches/active/issue_24787_metadata_source_shared_file_26_1/earlier_drafts/1/codex_review.md",
-    "repositories/galaxy/branches/active/issue_24787_metadata_source_shared_file_26_1/earlier_drafts/1/baseline_refactor.md",
-    "repositories/galaxy/branches/active/issue_24787_metadata_source_shared_file_26_1/subagents/rescope_review_debrief.md",
-    "repositories/galaxy/branches/active/issue_24787_metadata_source_shared_file_26_1/subagents/normal_review_debrief.md",
-    "repositories/galaxy/branches/active/issue_24787_metadata_source_shared_file_26_1/earlier_drafts/1",
-    "repositories/galaxy/branches/active/issue_24787_metadata_source_shared_file_26_1/alts/original_scope.md",
-    "repositories/galaxy/branches/active/issue_24787_metadata_source_shared_file_26_1/subagents",
-    "repositories/galaxy/branches/active/issue_24787_metadata_source_shared_file_26_1/initial_implementation_debrief.md",
-    "repositories/galaxy/branches/active/issue_24787_metadata_source_shared_file_26_1/index.md",
-    "repositories/galaxy/branches/active/issue_24787_metadata_source_shared_file_26_1/implementation_rescope_debrief.md",
-    "repositories/galaxy/branches/active/issue_24787_metadata_source_shared_file_26_1/earlier_drafts",
-    "repositories/galaxy/branches/active/issue_24787_metadata_source_shared_file_26_1/brain_research.md",
-    "repositories/galaxy/branches/active/issue_24787_metadata_source_shared_file_26_1/alts",
-    "repositories/galaxy/branches/active/issue_24787_metadata_source_shared_file_26_1",
-    "agents/gx_research/todo/dataset_metadata_files.md",
-    "agents/gx_reviews/blockers/galaxy_24787_shared_metadata_uuid",
-    "agents/gx_reviews/blockers",
-    "repositories/galaxy/branches/active/issue_3899_pulsar_container_deps/differential-review/snapshots/20261107T155711Z-revision-94b188d4881d.json",
-    "repositories/galaxy/reviews/active/24685/differential-review/review-state.json",
+    "agents/_shared/PROCESS_POSTER.md",
+    "repositories/galaxy/reviews/active/24794/johns_review_0_pr_note.md",
+    "repositories/galaxy/reviews/active/24794/johns_review_0_comment_note.md",
+    "repositories/galaxy/reviews/active/24794/review_0_findings.yml",
+    "repositories/galaxy/reviews/active/24794/test_challenges_review.md",
+    "repositories/galaxy/reviews/active/24794/test_challenges_debrief.md",
+    "repositories/galaxy/reviews/active/24794/initial_review.md",
+    "agents/_shared/PROCESS_FINDINGS_YAML.md",
+    "repositories/galaxy/reviews/active/24794/risks.md",
+    "repositories/galaxy/reviews/active/24794/differential-review/snapshots/20261108T095439Z-review-9d005f67cfd9.json",
+    "repositories/galaxy/reviews/active/24794/differential-review/snapshots",
+    "repositories/galaxy/reviews/active/24794/differential-review",
+    "repositories/galaxy/reviews/active/24794/index.md",
+    "repositories/galaxy/reviews/active/24794",
+    "agents/_shared/PROCESS_SLIDES.md",
+    "agents/_shared/PITCH_ADVICE.md",
+    "agents/_shared/styles/STYLE_GALAXY.md",
+    "projects/foundries/biodata_poster/designs/STYLE_GALAXY.md",
+    "agents/_shared/styles/STYLE_GALAXY_PLUS.md",
+    "projects/foundries/biodata_poster/designs/STYLE_GALAXYPLUS.md",
+    "agents/_shared/styles",
+    "projects/foundries/biodata_poster/RESEARCH_TASKS.md",
+    "projects/foundries/biodata_poster/DESIGN_SUBAGENTS_PLAN.md",
+    "projects/foundries/biodata_poster/DESIGN_DOSSIER.md",
+    "agents/gx_standing/standing_branches/issue_20900_invocation_validation/index.md",
+    "agents/factory/REVIEW_STRUCTURE_PLAN.md",
+    "agents/gx_branches/PROCESS_SPEND_TOKENS.md",
+    "agents/factory/REVIEW_STRUCTURE_PLAN.md.tmp",
+    "repositories/galaxy/branches/active/issue_24328_data_table_mismatch_26.1/review_pushback_dannon_1.md",
+    "agents/_inbox/tools-iuc-hamronize-origin-false-unreachable.md",
+    "repositories/galaxy/branches/active/invocation_graph_output_previews/pr_description.md",
+    "repositories/galaxy/branches/active/issue_24174_invocation_rerun_lineage/pr_description.md",
+    "repositories/galaxy/reviews/active/24706/initial_review_response.md",
+    "repositories/galaxy/reviews/active/24772/differential-review/review-state.json",
+    "repositories/galaxy/reviews/active/24772/differential-review/snapshots/20261107T200404Z-review-49fa5544810c.json",
+    "repositories/galaxy/reviews/active/24772/differential-review/snapshots",
     "repositories/galaxy/branches/active/issue_24174_invocation_rerun_lineage/screenshots/workflow_rerun_lineage_grid_markers.png",
     "repositories/galaxy/branches/active/issue_24174_invocation_rerun_lineage/screenshots/workflow_rerun_lineage_grid_expanded.png",
     "agents/factory/before-dark.png",
