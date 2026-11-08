@@ -105,7 +105,7 @@ Scope, thermo, second-model and baseline reviews ran before the switch from skip
 
 ## John's Checklist
 
-- [ ] Did a human read every test and every comment?
+- [x] Did a human read every test and every comment?
 - [x] What does the user see when it fails? Galaxy refuses to start with a `ConfigurationError` naming the table, both column sets, the shed config file, the installing repository and revision, and the `<table>` to remove.
 - [x] Is the diff free of unrelated or stale generated changes? Yes!
 - [x] Are unit tests not just testing the literal implementation? Yes. They load real config XML and loc files into real registries and check the admin-facing message and the registry contents.

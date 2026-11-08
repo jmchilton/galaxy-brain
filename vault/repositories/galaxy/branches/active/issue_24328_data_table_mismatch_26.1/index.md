@@ -11,9 +11,9 @@ upstream_base_branch: release_26.1
 
 Rebased onto `release_26.1` (`1bb6a59dd7d`) and dannon review 1 addressed; head `89ceb312242` (mypy cast fix). Alts: `issue_24328_data_table_mismatch_26.1_alt_original_scope`, `issue_24328_data_table_mismatch_26.1_alt_skip_at_startup`. Worktree: `~/projects/worktrees/galaxy/branch/issue_24328_data_table_mismatch_26.1`.
 
-[#24349](https://github.com/galaxyproject/galaxy/pull/24349) approved by dannon at `7811fe4b0ca`; reply in [review_pushback_dannon_1.md](review_pushback_dannon_1.md) awaits John.
+[#24349](https://github.com/galaxyproject/galaxy/pull/24349) approved by dannon at `7811fe4b0ca`; [reply](https://github.com/galaxyproject/galaxy/pull/24349#issuecomment-6720303630) and synced description posted 2026-11-08, awaiting dannon's ack before merge.
 
-CI on `89ceb312242` running.
+CI on `89ceb312242` green (2026-11-01); clean dry merge with `release_26.1` `1f3b0a8e7a8`, PR unit tests pass there.
 
 Fixes [#24328](https://github.com/galaxyproject/galaxy/issues/24328): installing IUC `data_manager_fetch_index_maf` leaves Galaxy unable to start (`indexed_maf_files` column mismatch with core).
 

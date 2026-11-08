@@ -8,7 +8,11 @@ No pushback; no contention. All three points addressed at `950b374198a`.
 
 Not done: no follow-up issue needed.
 
-## Suggested reply (top-level PR comment)
+## Reply
+
+Posted 2026-11-08 with revised wording: https://github.com/galaxyproject/galaxy/pull/24349#issuecomment-6720303630
+
+### Original suggested reply
 
 ```
 Thanks — rebased onto the source-ordering work.
