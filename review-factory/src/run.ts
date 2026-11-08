@@ -6,7 +6,7 @@ import { parseArgs } from "node:util";
 import { checkout } from "../../differential-review/src/capture";
 import { readRecord } from "../../differential-review/src/record";
 import { branchGates } from "./branch-gates";
-import { compose } from "./compose";
+import { compose, composeComment, composePrBody } from "./compose";
 import { composeGates, fileGates, type Mode } from "./gates";
 import { statusLine } from "./landing";
 import { latestBranch } from "./model";
@@ -25,12 +25,13 @@ const USAGE = `usage: review-factory <command> [options]
 
   validate [path...]                     check every review_<N>_findings.yml under the paths (default vault/repositories)
   status --record <dir> [--json]         the record's status, trim work and refusals, without git
-  compose comment --record <dir> [--pr-url <url>] [--no-git]
+  compose comment --record <dir> [--pr-url <url>] [--no-git] [--preview]
                                          the comment or review for the reviewed PR
-  compose pr --record <dir> [--title] [--no-git]
+  compose pr --record <dir> [--title] [--no-git] [--preview]
                                          the body (or title) of the PR from the review branch
 
-compose prints to stdout and writes nothing; it prints nothing if any check refuses.`;
+compose prints to stdout and writes nothing; it prints nothing if any check refuses.
+--preview prints the body anyway, without git, with each refusal on stderr; never post it.`;
 
 const FINDINGS_FILE = /^review_\d+_findings\.yml$/;
 
@@ -85,7 +86,7 @@ function status(argv: string[], io: Io): number {
 }
 
 function composeCommand(argv: string[], io: Io): number {
-  const { values, positionals } = parse(argv, { "pr-url": { type: "string" }, title: { type: "boolean" }, "no-git": { type: "boolean" } });
+  const { values, positionals } = parse(argv, { "pr-url": { type: "string" }, title: { type: "boolean" }, "no-git": { type: "boolean" }, preview: { type: "boolean" } });
   const mode = positionals[0] as Mode | undefined;
   if (mode !== "comment" && mode !== "pr") throw new UsageError("compose comment or compose pr");
   if (!values.record) throw new UsageError("--record is required");
@@ -93,6 +94,13 @@ function composeCommand(argv: string[], io: Io): number {
   if (!loaded.ctx) {
     for (const error of loaded.errors) io.err(`error: ${error}`);
     return 1;
+  }
+  if (values.preview) {
+    const gates = composeGates(loaded.ctx, mode);
+    for (const error of gates.errors) io.err(`would refuse: ${error}`);
+    for (const warning of gates.warnings) io.err(`warning: ${warning}`);
+    io.out((mode === "pr" ? composePrBody(loaded.ctx) : composeComment(loaded.ctx)).trimEnd());
+    return 0;
   }
   const result = compose(loaded.ctx, mode);
   if (!values["no-git"]) {

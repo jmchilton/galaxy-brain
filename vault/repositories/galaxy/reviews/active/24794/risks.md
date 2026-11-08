@@ -1,0 +1,1 @@
+Risks are minimal - this change doesn't lock Galaxy into particular difficult to change choices (a two-way door). It is a one-line test-selector change in `navigation.yml` (used only by `histories_purge_all`); no runtime UI or API behavior changes.

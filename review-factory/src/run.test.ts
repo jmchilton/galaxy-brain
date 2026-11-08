@@ -27,6 +27,17 @@ describe("review-factory CLI", () => {
     expect(result).toEqual({ code: 0, out: fixture("24706/expected_comment.md").trimEnd(), err: "" });
   });
 
+  it("previews a body the gates would still refuse", async () => {
+    const dir = record24706();
+    writeFileSync(join(dir, "review_0_findings.yml"), fixture("24706/review_0_findings.yml").replace("  approve: true", "  approve: false"));
+    const result = await cli("compose", "comment", "--record", dir, "--preview");
+    expect(result).toEqual({
+      code: 0,
+      out: fixture("24706/expected_comment.md").trimEnd(),
+      err: "would refuse: check one of approve, approve and merge, comment, review comment, request changes",
+    });
+  });
+
   it("refuses with every reason and prints nothing", async () => {
     const dir = record24706();
     writeFileSync(join(dir, "johns_review_0_comment_note.md"), "Cites P2 3.\n");

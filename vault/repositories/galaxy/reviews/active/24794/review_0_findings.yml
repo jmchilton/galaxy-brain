@@ -1,0 +1,42 @@
+round: 0
+reviewed_commit: 9d005f67cfd918006445f4455577c4cd70bcf854
+agents:
+  - {profile: default, path: _shared/reviewers/default.md, model: Claude Opus 5.5, effort: medium}
+  - {profile: gx_test_challenger, path: _shared/reviewers/gx_test_challenger.md, model: Claude Opus 5.5, effort: medium}
+  - {profile: gx_risk_assessment, path: _shared/reviewers/gx_risk_assessment.md, model: Claude Opus 5.5, effort: low}
+verification: {model: Claude Opus 5.5, effort: medium}
+branches:
+  - name: pr_24794_round_0_rev_0
+    revision: 0
+    head: a140dc3090d
+    pr_title: Share one ListHeader select-all selector
+    description: |
+      `pr_24794_round_0_rev_0` builds on `9d005f67cfd`. It replaces `histories.select_all` and `zip_import_wizard.select_all_checkbox`, which targeted the same `ListHeader` select-all control in two different ways, with one scoped `list_header` component in `navigation.yml`. Both callers, `histories_purge_all` and `ExploreZipContext.select_all_files`, now click `list_header(scope=...).select_all`, so the next change to ListHeader's checkbox markup means editing one entry.
+    commits:
+      - sha: a140dc3090d
+        subject: Share one ListHeader select-all selector
+        detail: adds a `list_header` component (`${scope} .list-header` root, `select_all` on its `.g-checkbox` label), drops the two per-page selectors, and points both callers at it.
+        findings: [P3 1]
+actions: {approve: false, approve_and_merge: false, comment: false, review_comment: false, request_changes: false, pull_request: false, push: false, issue_refactor: false, issue_galaxy_brain: false}
+findings:
+  - id: P3 1
+    include: true
+    title: Same ListHeader select-all control, two selectors
+    summary: histories and zip wizard target the same ListHeader checkbox differently; review branch shares one scoped selector.
+    implementation_verified: true
+    issue: |
+      `histories.select_all` now targets `#history-list .list-header-select-all .g-checkbox`, while `zip_import_wizard.select_all_checkbox` (`navigation.yml:2099`) targets the same `ListHeader.vue` control by its wrapper div, `.list-header-select-all`. The zip selector survived the GCheckbox switch only because it clicks the wrapper div. Four more ListHeader users (`WorkflowList`, `DatasetList`, `LibraryFolder`, `SelectionList`) have no selector yet, so the next select-all test would add a third copy. The next change to ListHeader's checkbox then turns into one CI failure per copy.
+    evidence: |
+      Grepping `client/src` and `lib` turned up only these two selectors for the control, used by `navigates_galaxy.py:1034` (`histories_purge_all`) and `upload_activity_helpers.py:869` (`select_all_files`). `HistoryList.vue` renders `ListHeader` inside `#history-list`, and `ZipFileSelector.vue` renders it inside `.zip-file-selector`; neither overrides the `select-all` slot. Loading the branch's `navigation.yml` with Galaxy's `Component.from_dict` resolves the new selectors to `#history-list .list-header .list-header-select-all .g-checkbox` and `.zip-file-selector .list-header .list-header-select-all .g-checkbox`. Neither `test_purge_all_histories` nor `test_archive_explorer.py` was run, because this environment has no Galaxy venv or client build.
+    fix: |
+      Add one `list_header` component in `navigation.yml`, scoped by the page that renders it, and point both callers at `list_header(scope=...).select_all`. This is optional. It's maintenance, not a bug in this CI fix.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+      - {profile: gx_test_challenger, model: Claude Opus 5.5, effort: medium}
+  - id: F1
+    include: false
+    title: Selenium run not reported
+    summary: asks for a Selenium run of test_purge_all_histories; only Playwright was reported.
+    filtered: {category: not_actionable, reason: only asks to run an existing test; no venv or client build here and CI's Selenium job covers it}
+    discovered_by:
+      - {profile: gx_test_challenger, model: Claude Opus 5.5, effort: medium}
