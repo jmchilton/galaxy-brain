@@ -12,15 +12,15 @@ Further sections hold only explicit decisions, dependencies, and standing instru
 
 ## verified_review.md
 
-Findings aggregated across all review reports, and renumbered `P<priority> <n>`, with confirmed findings flagged `(implementation verified)`. Sharpened by any review branch (`pr_<pr_number>_review_<n>`); filtered findings go to `filtered_findings.md`. Each finding names the reviews that discovered it and, when flagged, the model and effort that verified it.
+Findings aggregated across all review reports, and numbered `P<priority> <n>`, with confirmed findings flagged `(implementation verified)`. Ids are never renumbered, so gaps show trimmed findings. Sharpened by any review branch (`pr_<pr_number>_round_<N>_rev_<m>`, or `pr_<pr_number>_review_<n>` in older rounds); filtered findings go to `filtered_findings.md`. Each finding names the reviews that discovered it and, when flagged, the model and effort that verified it.
 
 ## *_review.md
 
 A review profile's report, named by the [shared reviewer registry](../../../agents/_shared/reviewers/index.md) or the reviewing agent's own `reviewers/index.md`. Opens with the profile, model, effort level, and reviewed commit, then findings, each labeled P1 (must fix before merge), P2 (should fix), or P3 (minor or nit).
 
-## review_*_branch_details.md
+## *_branch_details.md
 
-What the review branch `pr_<pr_number>_review_<n>` does: one readable paragraph, then its commits with one sentence each.
+What the review branch does: one readable paragraph, then its commits with one sentence each and the finding each fixes. `round_<N>_rev_<m>_branch_details.md` describes `pr_<pr_number>_round_<N>_rev_<m>`, where N is the review round and m the trim revision; older rounds use `review_<n>_branch_details.md` for `pr_<pr_number>_review_<n>`.
 
 ## risks.md
 
@@ -52,7 +52,7 @@ Checkbox list of what to do with `initial_review_response.md` and any review bra
 
 ## verified_findings_checklist.md
 
-One checked box per finding in `verified_review.md`, then a free-text Other Actions section. John unchecks findings to drop, optionally writing why after the title, and writes requests under Other Actions; [PROCESS_TRIM_FINDINGS.md](../../../agents/_shared/PROCESS_TRIM_FINDINGS.md) then rebuilds the review branch and renumbers the findings.
+One checked box per finding in `verified_review.md`, each with a one-line summary, then a free-text Other Actions section. John unchecks findings to drop, optionally writing why after the summary, and writes requests under Other Actions; [PROCESS_TRIM_FINDINGS.md](../../../agents/_shared/PROCESS_TRIM_FINDINGS.md) then rebuilds the review branch as its next revision. Respond refuses while a box is unchecked.
 
 ## review-*.md
 

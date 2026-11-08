@@ -187,6 +187,7 @@ describe("parseLaunchers", () => {
 					["🔎 Review", "untracked", dir],
 					["🟣 Merge pull request", "active", dir],
 					["💬 Respond to review", "active", dir],
+					["✂️ Trim findings", "active", dir],
 					["🔁 Rework review into PR", "active", dir],
 					["⚡ Quick merge", "untracked,active", dir],
 					["🗄️ Shelve", "active", dir],

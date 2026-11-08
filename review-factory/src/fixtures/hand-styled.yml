@@ -1,0 +1,31 @@
+# agent written, odd styles on purpose
+round: 0
+reviewed_commit: 5006c8fbfe3a91c7f12f628fdd543c478f1854fa
+agents:
+    - profile: default   # four space indent
+      path: _shared/reviewers/default.md
+      model: Claude Opus 5.5
+      effort: medium
+verification: {model: Claude Opus 5.5, effort: medium}
+branches: []
+actions: {approve: false, approve_and_merge: false, comment: true, review_comment: false,
+  request_changes: false, pull_request: false, push: false, issue_refactor: false, issue_galaxy_brain: false}
+findings:
+    - id: P2 1
+      include: true
+      title: "No E2E: test for sorting"
+      summary: 'single quoted'
+      issue: |-
+          Has # hash, a: colon, <details> and a `code: span`.
+
+          Second para.
+      discovered_by: [{profile: default, model: Claude Opus 5.5, effort: medium}]
+    - id: P3 1
+      include:  true
+      title: 'single quoted'
+      summary: plain
+      issue: >
+          folded text
+          stays folded
+      discovered_by:
+        - {profile: default, model: Claude Opus 5.5, effort: medium}

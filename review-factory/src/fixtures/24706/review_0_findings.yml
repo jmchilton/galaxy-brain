@@ -1,0 +1,280 @@
+round: 0
+reviewed_commit: 5006c8fbfe3a91c7f12f628fdd543c478f1854fa
+agents:
+  - {profile: default, path: _shared/reviewers/default.md, model: claude-opus-5-5, effort: medium}
+  - {profile: gx_test_challenger, path: _shared/reviewers/gx_test_challenger.md, model: claude-opus-5-5, effort: medium}
+  - {profile: gx_performance_challenger, path: _shared/reviewers/gx_performance_challenger.md, model: claude-opus-5-5, effort: medium}
+  - {profile: gx_risk_assessment, path: _shared/reviewers/gx_risk_assessment.md, model: claude-opus-5-5, effort: low}
+verification: {model: claude-opus-5-5, effort: medium}
+branches:
+  - name: pr_24706_review_0
+    revision: 0
+    head: 42ada817c58
+    description: |
+      `pr_24706_review_0` branches from the reviewed commit `5006c8fbfe3` and is mostly test work: it adds an E2E test for the "Storage used" sort, makes the rejection tests tell the new guard from a literal validation error, and covers the default page size, paging, `total_matches` and the non-admin fallback. It also corrects the `HistoryList.vue` comment, moves the `SELECT DISTINCT` handling of computed sort columns into `apply_sort_column`, and reduces the route's `None` filtering to `limit`. Each commit addresses one finding, and server behavior is unchanged.
+    commits:
+      - {sha: f4b628e5f44, subject: Correct the HistoryList comment on the size sort restriction, findings: [P3 1]}
+      - {sha: b56fde2a953, subject: Assert the error message in the size sort rejection tests, findings: [P2 2]}
+      - {sha: 980601a356c, subject: Test the default page size of GET /api/histories in search mode, findings: [P2 3]}
+      - {sha: f991b537da8, subject: Cover paging and total_matches in the size sort API test, findings: [P3 4]}
+      - {sha: d636e3787c3, subject: Test the size sort when a non-admin falls back to their own histories, findings: [P3 5]}
+      - {sha: 52cdb4b0c40, subject: Add an E2E test for sorting the history list by storage used, findings: [P2 1]}
+      - {sha: e7f28273ded, subject: Drop the Vitest test that claims to check size order, findings: [P3 6]}
+      - {sha: 937b394fc71, subject: Mock only the fetcher each list uses in the size sort option test, findings: [P3 7]}
+      - {sha: bd47eb4d28c, subject: Pass the history index query fields directly, findings: [P3 3]}
+      - {sha: ffd7abf55ab, subject: Let apply_sort_column select computed sort columns, findings: [P3 2]}
+      - {sha: 42ada817c58, subject: Add an _index_search helper for the new history index tests, findings: [P3 8]}
+  - name: pr_24706_review_1
+    revision: 1
+    head: f003e6c059e
+    pr_title: Review fixes for history size sorting
+    description: |
+      `pr_24706_review_1` branches from the reviewed commit `5006c8fbfe3` and is mostly test work: it adds an E2E test for the "Storage used" sort, makes the rejection tests tell the new guard from a literal validation error, and covers paging, `total_matches` and the non-admin fallback. It also corrects the `HistoryList.vue` comment, moves the `SELECT DISTINCT` handling of computed sort columns into `apply_sort_column`, and reduces the route's `None` filtering to `limit`. Each commit addresses one finding, and server behavior is unchanged.
+    commits:
+      - sha: 627e17e0be1
+        subject: Correct the HistoryList comment on the size sort restriction
+        detail: says the server restricts the sort to the user's own histories and the archived endpoint ignores `sort_by`.
+        findings: [P3 1]
+      - sha: 17fdff7bb7c
+        subject: Assert the error message in the size sort rejection tests
+        detail: both rejection tests now fail if `size` leaves `HistorySortByEnum`.
+        findings: [P2 2]
+      - sha: e51f836c430
+        subject: Cover paging and total_matches in the size sort API test
+        detail: requests a window that starts between the two tied empty histories.
+        findings: [P3 4]
+      - sha: f766fbf98d5
+        subject: Test the size sort when a non-admin falls back to their own histories
+        detail: "`show_own=False, show_published=False` as a non-admin returns the user's four histories, and its lines sit after those of the paging commit."
+        findings: [P3 5]
+      - sha: 8429fb00bf1
+        subject: Add an E2E test for sorting the history list by storage used
+        detail: clicks the real button against the real server guard and checks the order in both directions.
+        findings: [P2 1]
+      - sha: 5090cfa2dda
+        subject: Drop the Vitest test that claims to check size order
+        detail: it read back the mock's order, and depends on the E2E commit for coverage.
+        findings: [P3 6]
+      - sha: 45260cf3132
+        subject: Mock only the fetcher each list uses in the size sort option test
+        detail: stops queueing one-time responses that are never consumed.
+        findings: [P3 7]
+      - sha: 3107638c8a9
+        subject: Pass the history index query fields directly
+        detail: only `limit` is now omitted when `None`, so it takes the payload default.
+        findings: [P3 3]
+      - sha: bef11669426
+        subject: Let apply_sort_column select computed sort columns
+        detail: the helper now selects anything that isn't a plain mapped column, and the size branch only assigns the column.
+        findings: [P3 2]
+      - sha: f003e6c059e
+        subject: Add an _index_search helper for the new history index tests
+        detail: replaces the repeated `self._get("histories", data=...)` calls in the tests this PR adds.
+        findings: [P3 8]
+actions:
+  approve: true
+  approve_and_merge: false
+  comment: false
+  review_comment: false
+  request_changes: false
+  pull_request: false
+  push: false
+  issue_refactor: false
+  issue_galaxy_brain: false
+findings:
+  - id: P2 1
+    include: true
+    title: No E2E test for sorting by storage used
+    summary: Nothing checks that the real Storage used button sends a request the server guard accepts.
+    implementation_verified: true
+    issue: |
+      This is a user-facing control, and its sibling `test_sort_by_name` has an E2E test. Vitest mocks `getMyHistories` and the API tests pick their own flags, so nothing shows that the real button sends a request the new server guard accepts. A wrong flag from the client would appear only as a 400 toast.
+    evidence: |
+      Run with Playwright, headless, against a harness-started server on SQLite. Passes as written, and fails with the wrong order when the guard is temporarily changed to refuse every size sort.
+    fix: |
+      Added `test_sort_by_storage_used` to `lib/galaxy_test/selenium/test_histories_list.py`, in a new fresh-user class. It creates three histories in an order matching neither size order, then checks largest first and smallest first through `histories.sort_button`. `TestSavedHistories` isn't suitable because it shares one user with many empty histories, which could push a sized one off the page.
+    discovered_by:
+      - {profile: default, model: claude-opus-5-5, effort: medium}
+      - {profile: gx_test_challenger, model: claude-opus-5-5, effort: medium}
+  - id: P2 2
+    include: true
+    title: Size sort rejection tests pass without the guard
+    summary: The rejection tests only assert a 400, which the enum check alone already returns.
+    implementation_verified: true
+    issue: |
+      `test_index_sort_by_size_requires_own_histories` asserts only a 400, and so does the 400 half of `..._for_admins`. Without `size` in `HistorySortByEnum` the request still gets a 400, from the literal check, so these assertions can't tell the new guard from a rejected value.
+    evidence: |
+      With `size` temporarily removed from the enum, both strengthened tests pass the status check and fail on the message: `Expected error message [Input should be 'create_time', 'name', 'update_time' or 'username' in ('query', 'sort_by')] to contain [Sorting by size requires]`.
+    fix: |
+      Both tests now also call `assert_error_message_contains(response, "Sorting by size requires")`.
+    discovered_by:
+      - {profile: gx_test_challenger, model: claude-opus-5-5, effort: medium}
+  - id: P2 3
+    include: false
+    title: The new default page size is untested
+    summary: Nothing tests that omitting limit now returns 100 matches.
+    implementation_verified: true
+    issue: |
+      The description says omitting `limit` used to return every match and now returns 100. `LimitQueryParam` defaults to `None` and the payload accepts `None`, so only the route's `None` handling delivers this. `test_index_query_limit_is_capped` always sends `limit`, so it can't catch a regression.
+    evidence: |
+      With `None` temporarily passed through to the payload, the test fails with `assert 101 == 100`.
+    fix: |
+      Added `test_index_query_limit_defaults_to_100`: a fresh user with 101 histories, `limit` omitted, asserting 100 entries and `total_matches == "101"`.
+    discovered_by:
+      - {profile: default, model: claude-opus-5-5, effort: medium}
+      - {profile: gx_test_challenger, model: claude-opus-5-5, effort: medium}
+  - id: P3 1
+    include: true
+    title: '`HistoryList.vue` comment misstates the server rule'
+    summary: The comment says own non-archived histories; the guard ignores archived.
+    implementation_verified: true
+    issue: |
+      The comment says the server sorts by size only for the user's "own, non-archived histories". The guard doesn't check `show_archived`, so `show_own=true&show_archived=true&show_published=false&sort_by=size` returns 200. The Archived tab lacks the option for a different reason: `GET /api/histories/archived` declares no `sort_by`, so the value `getArchivedHistories` sends is ignored.
+    fix: |
+      Reworded to say the server sorts by size only for the user's own histories, and the archived endpoint ignores `sort_by`.
+    discovered_by:
+      - {profile: default, model: claude-opus-5-5, effort: medium}
+      - {profile: gx_test_challenger, model: claude-opus-5-5, effort: medium}
+  - id: P3 2
+    include: true
+    title: The size branch repeats what `apply_sort_column` exists to do
+    summary: The size sort re-does the SELECT DISTINCT column handling the helper owns.
+    implementation_verified: true
+    issue: |
+      The size branch in `index_query` calls `stmt.add_columns(sort_column)` and restates the Postgres `SELECT DISTINCT` rule. `apply_sort_column` already owns that rule and that call, but only for expressions wrapped by `sort_expression`, so the next computed sort would have to repeat it again.
+    evidence: |
+      Run on Postgres 16.2. `test_index_sort_by_size` passes with the helper change. With the condition temporarily reverted it fails with a 500: `for SELECT DISTINCT, ORDER BY expressions must appear in select list`. SQLite doesn't raise this error, so only a Postgres run exercises it.
+    fix: |
+      The helper now also selects any column that isn't a plain mapped one, and the size branch only assigns the column.
+    fix_details: |
+      The test is `not isinstance(column, InstrumentedAttribute)` because a class-level read of `History.disk_size` returns a proxy that is neither an `InstrumentedAttribute` nor a `Label`, so a `Label` check would silently skip it. The helper's other callers pass `InstrumentedAttribute`s for their date, name and title columns, so they select nothing new.
+    discovered_by:
+      - {profile: default, model: claude-opus-5-5, effort: medium}
+  - id: P3 3
+    include: true
+    title: The route filters nine fields for `None` when only `limit` needs it
+    summary: A dict comprehension hides that only limit needs None filtering.
+    implementation_verified: true
+    issue: |
+      The route builds a `fields` dict and drops `None` values so that an omitted `limit` takes the payload default. `offset` defaults to 0, `show_archived` already defaults to `None` in the model, and `search` isn't `None` in this branch, so only `limit` needs this. The dict and comprehension hide which field matters.
+    evidence: |
+      `test_index_query_limit_defaults_to_100` and `test_index_query_limit_is_capped` pass after the change.
+    fix: |
+      The route now passes the fields directly and adds `limit` only when it was supplied.
+    discovered_by:
+      - {profile: default, model: claude-opus-5-5, effort: medium}
+  - id: P3 4
+    include: true
+    title: The size sort API test doesn't cover paging or the count
+    summary: The API test never pages or reads total_matches on the extra-column path.
+    implementation_verified: true
+    issue: |
+      The description cites stable paging, but `test_index_sort_by_size` never sends `limit` or `offset`, and never reads `total_matches`, which the list's pager uses, on the path that adds the extra column.
+    evidence: |
+      Passes on SQLite and Postgres 16.2. No mutation was run against this assertion specifically.
+    fix: |
+      The test now requests `limit=2, offset=1` descending, a window that starts between the two tied empty histories, and asserts `[small, empty_second]` and `total_matches == "4"`.
+    discovered_by:
+      - {profile: default, model: claude-opus-5-5, effort: medium}
+      - {profile: gx_test_challenger, model: claude-opus-5-5, effort: medium}
+  - id: P3 5
+    include: true
+    title: The non-admin fallback of the own-only guard is untested
+    summary: No test covers a non-admin with show_own and show_published both false.
+    implementation_verified: true
+    issue: |
+      `filter_own` is also true for a non-admin sending `show_own=False, show_published=False`, and no test covers that case returning 200. Narrowing `own_only` to `show_own` would go unnoticed.
+    evidence: |
+      With `own_only` temporarily narrowed to `show_own`, the test fails with a 400: `Sorting by size requires listing only your own histories.`
+    fix: |
+      `test_index_sort_by_size` now makes that request and asserts a 200 with the user's four histories.
+    discovered_by:
+      - {profile: gx_test_challenger, model: claude-opus-5-5, effort: medium}
+  - id: P3 6
+    include: true
+    title: The "sorts by size, largest first" Vitest test doesn't test that
+    summary: The Vitest test reads back the mock's order.
+    implementation_verified: true
+    issue: |
+      `listedNames` reads back the order the mock returned, so the title overclaims. The E2E test in P2 1 covers both the request and the real order.
+    fix: |
+      Dropped the test. If P2 1 is declined, keep it instead, rename it `requests a size sort, descending first`, and remove the `listedNames` assertion.
+    discovered_by:
+      - {profile: gx_test_challenger, model: claude-opus-5-5, effort: medium}
+  - id: P3 7
+    include: true
+    title: '`offers no size sort` queues mocks it never consumes'
+    summary: The loop mocks all three fetchers per case.
+    implementation_verified: true
+    issue: |
+      The loop queues `mockResolvedValueOnce` on all three fetchers per case and leaves two unconsumed.
+    fix: |
+      The test now maps `list` to its fetcher and mocks only that one. `HistoryList.test.ts` passes.
+    discovered_by:
+      - {profile: gx_test_challenger, model: claude-opus-5-5, effort: medium}
+  - id: P3 8
+    include: true
+    title: Repeated index requests in the new API tests need a helper
+    summary: Seven repeated index GETs in the new API tests.
+    implementation_verified: true
+    issue: |
+      The PR adds seven `self._get("histories", data=...)` calls to `test_histories.py`, all needing `search`.
+    fix: |
+      Added `_index_search(self, search="", **params)` and used it in the tests this PR adds. Older tests aren't migrated.
+    discovered_by:
+      - {profile: gx_test_challenger, model: claude-opus-5-5, effort: medium}
+  - id: P3 9
+    include: true
+    title: Admins can still run the refused all-histories size sort through the legacy listing
+    summary: The description's admin rationale ignores the legacy order=size path.
+    implementation_verified: true
+    issue: |
+      The description says any other listing, including an admin listing of all histories, gets a 400 for `sort_by=size`, and gives 10.4 s as the reason. `GET /api/histories?order=size-dsc&all=true` without `search` reaches `HistoryManager.parse_order_by`, which orders by the same `disk_size` with no default limit, so an admin can still run that sort. The refusal still protects non-admins from published listings, so it stands; only the admin rationale is inconsistent.
+    evidence: |
+      A temporary test confirmed this request returns 200 as an admin; timing was not measured.
+    fix: |
+      Mention in the description that the refusal covers search mode and that the legacy `order=size-*` path keeps this cost. This is not changed on the review branch, because the description also says the legacy listing is unchanged.
+    discovered_by:
+      - {profile: gx_performance_challenger, model: claude-opus-5-5, effort: medium}
+  - id: F1
+    include: false
+    title: Additive `extraSortOptions` prop instead of the `ListHeader` initial-sort change
+    summary: A design alternative the PR description already explains.
+    filtered: {category: relitigates_pr, reason: Re-litigates a choice the PR description explains; the reviewer also called it a design alternative rather than a defect.}
+    discovered_by:
+      - {profile: default, model: claude-opus-5-5, effort: medium}
+  - id: F2
+    include: false
+    title: Heavy users pay a full size recompute on every sort click and page
+    summary: The stated cost tradeoff, with synthetic numbers and hypothetical heavy users.
+    filtered: {category: relitigates_pr, reason: "Re-litigates the stated tradeoff and isn't actionable as written: the numbers are synthetic and the heavy users hypothetical."}
+    discovered_by:
+      - {profile: gx_performance_challenger, model: claude-opus-5-5, effort: medium}
+  - id: F3
+    include: false
+    title: Disable the sort buttons while a load is in flight
+    summary: Pre-existing behavior that existing tests require.
+    filtered: {category: pre_existing, reason: Pre-existing behavior the PR doesn't touch; `loadGeneration` tests require a second click during a load to issue a second request.}
+    discovered_by:
+      - {profile: gx_performance_challenger, model: claude-opus-5-5, effort: medium}
+  - id: F4
+    include: false
+    title: Badge fan-out on the largest histories
+    summary: Pre-existing badge code, bounded by the 24-card page.
+    filtered: {category: pre_existing, reason: "Pre-existing code the PR doesn't touch (`HistoryDatasetsBadge.vue`), bounded by the 24-card page."}
+    discovered_by:
+      - {profile: gx_performance_challenger, model: claude-opus-5-5, effort: medium}
+  - id: F5
+    include: false
+    title: Narrow `HistoryIndexQueryPayload.limit` and `offset` to `int`
+    summary: Sub-point of P3 3 touching code outside the PR.
+    filtered: {category: pre_existing, reason: The manager's `None` checks and the sibling payloads aren't part of this PR.}
+    discovered_by:
+      - {profile: default, model: claude-opus-5-5, effort: medium}
+  - id: F6
+    include: false
+    title: Apply the same refusal to legacy `order=size*` with `all=true`
+    summary: Sub-point of P3 9; the PR says the legacy listing is unchanged.
+    filtered: {category: relitigates_pr, reason: The PR description states the legacy listing is unchanged; the description fix is P3 9.}
+    discovered_by:
+      - {profile: gx_performance_challenger, model: claude-opus-5-5, effort: medium}

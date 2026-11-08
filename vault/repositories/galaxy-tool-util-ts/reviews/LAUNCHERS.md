@@ -29,6 +29,13 @@ profile: Sonnet (medium)
 
 Respond to jmchilton/galaxy-tool-util-ts#{name} following ../_shared/PROCESS_RESPOND_TO_INITIAL_REVIEW.md. REVIEW_DIRECTORY is {record}. This launch is my approval to run the checked actions in its initial_response_action.md, which may include opening pull requests, creating issues, pushing commits to the target PR branch, and posting comments.
 
+## ✂️ Trim findings
+status: active
+agent_dir: workflow_libs
+name: tf-{name}
+
+Trim the findings for jmchilton/galaxy-tool-util-ts#{name} following ../_shared/PROCESS_TRIM_FINDINGS.md. The review record is {record}.
+
 ## 🔁 Rework review into PR
 status: active
 agent_dir: workflow_libs

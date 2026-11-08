@@ -4,7 +4,7 @@ The core findings in `REVIEW_DIRECTORY/verified_review.md` have already been ver
 
 Compose `REVIEW_DIRECTORY/initial_review_response.md`, the working document John edits into the posted response. Leave out any extra agent attribution markers in the response not called out in `initial_review_agents.md`.
 
-If `REVIEW_DIRECTORY/review_<n>_branch_details.md` exists (highest n), its branch `pr_<PR_NUMBER>_review_<n>` is already pushed. Fill the Review Verification Branch Details block with that file's contents, linking the branch name and each commit SHA on the remote it was pushed to. On each finding the branch fixes, add a link to its commit after the suggested fix. Put that link in its own `Fixed on the review branch in [`<sha>`](<link>).` paragraph after the finding's fix `<details>` block and before its agent details, never inside a `<details>` block — move any commit mention the verified finding has inside one out. Extend findings with these links; don't rewrite them.
+If a `REVIEW_DIRECTORY/*_branch_details.md` exists, the latest one (highest `round_<N>_rev_<m>`, or for older rounds highest `review_<n>`) names a branch, `pr_<PR_NUMBER>_round_<N>_rev_<m>` or `pr_<PR_NUMBER>_review_<n>`, that is already pushed. Fill the Review Verification Branch Details block with that file's contents, linking the branch name and each commit SHA on the remote it was pushed to. On each finding the branch fixes, add a link to its commit after the suggested fix. Put that link in its own `Fixed on the review branch in [`<sha>`](<link>).` paragraph after the finding's fix `<details>` block and before its agent details, never inside a `<details>` block — move any commit mention the verified finding has inside one out. Extend findings with these links; don't rewrite them.
 
 ```
 (space for John's free style comments - just keep empty)
@@ -41,14 +41,14 @@ You're contributing to a repository John cares about and you deserve a human res
 
 </details>
 
-(only if review_<n>_branch_details.md is present in REVIEW_DIRECTORY)
+(only if a *_branch_details.md is present in REVIEW_DIRECTORY)
 <details><summary>Review Verification Branch Details</summary>
 
 This [review branch](LINK_GOES_HERE) contains work the verification agent did to help verify findings and make sure suggestions make sense and are actionable. This doesn't necessarily represent production ready code. Feel free to include any commits in the PR but they should be reviewed by a human.
 
 <details><summary>Branch and Commit Details</summary>
 
-(contents of review_<n>_branch_details.md, linked)
+(contents of the latest *_branch_details.md, linked)
 
 </details>
 

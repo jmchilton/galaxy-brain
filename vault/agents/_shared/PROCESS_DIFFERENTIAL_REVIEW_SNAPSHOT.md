@@ -18,7 +18,7 @@ The CLI writes `BRANCH_DIRECTORY/differential-review/snapshots/` (or `REVIEW_DIR
 
 ## PR reviews
 
-At the start of each review round, snapshot the PR's own head, whatever the worktree has checked out (e.g. a `pr_<PR_NUMBER>_review_<n>` branch). WORKING_DIRECTORY is the PR's worktree; BASE is the PR's `baseRefName`.
+At the start of each review round, snapshot the PR's own head, whatever the worktree has checked out (e.g. a `pr_<PR_NUMBER>_round_<N>_rev_<m>` branch). WORKING_DIRECTORY is the PR's worktree; BASE is the PR's `baseRefName`.
 
 ```sh
 (cd WORKING_DIRECTORY && git fetch origin BASE && git fetch origin pull/PR_NUMBER/head && \

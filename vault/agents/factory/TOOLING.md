@@ -19,6 +19,7 @@ Paths are relative to the galaxy-brain repository root. Note contracts live in [
 - `site/` contains the Astro static site.
 - `obsidian-plugin/`, `herdr-plugin/`, and `chrome-extension/` provide repository views and agent launchers. `herdr-app-mod/` holds the Herdr app mods: a pane header with suggested prompts and an agents sidebar.
 - `differential-review-lib/` is a Git submodule of the differential review package ([jmchilton/differential-review](https://github.com/jmchilton/differential-review)): a pure core (`src/core/`, no Node imports) shared by the plugins, and a generic snapshot CLI. `differential-review/` is galaxy-brain's CLI on top of it, which agents run after each phase with `--record <record dir>`. See `LIBRARY_DIFFERENTIAL_REVIEW.md`. Its Obsidian view is `obsidian-plugin/src/diff-review-*.ts`, the only writer of `review-state.json`. Plugin builds also need `npm install` in `differential-review-lib/`, and the CLI in `differential-review/`.
+- `review-factory/` reads a review round's `review_<N>_findings.yml`: a closed decoder, cross-field gates, trim work, a byte-range toggle and the composer for posted comments and PR bodies. `src/` is Node-free except `record.ts`, `branch-gates.ts` and `run.ts`, so the plugins can bundle it. CLI: `review-factory validate|status|compose`. See `vault/agents/factory/REVIEW_STRUCTURE_PLAN.md`.
 - `galaxy-architecture/` is a Git submodule. `generate_architecture_views.py` renders its topics into `vault/projects/architecture/topics/`.
 - `check_references.py` checks paper manuscript citations against each paper's `references.yml`.
 - `pull_screenshots.py` pulls gitignored `screenshots/` files from each remote in `ENVIRONMENTS.yml` (staged under `~/.cache/galaxy-brain/screenshots/`), placing record screenshots in the record's current status directory and moving local ones stranded by a status move. Copies only missing or newer files; never deletes.
@@ -30,7 +31,7 @@ Run commands from the repository root. Python commands require `uv`. Run `npm in
 ```sh
 make test                           # root Python tests, not the JS suites
 make test ARGS="-k pattern"         # select Python tests
-make validate                       # validate vault/ note and record frontmatter
+make validate                       # validate vault/ note and record frontmatter, and findings YAML
 make validate ARGS="vault/research/" # validate a directory
 make dashboard                      # generate vault/Dashboard.md
 make check-dashboard                # fail on dashboard drift
@@ -58,6 +59,8 @@ make chrome-ext-build               # build Herdr host and Chrome popup
 make chrome-native-install          # register native messaging host for macOS Chrome
 make diff-review-build              # typecheck/bundle differential-review CLI
 make diff-review-test               # differential-review Vitest suite
+make review-factory-build           # typecheck/bundle review-factory CLI
+make review-factory-test            # review-factory Vitest suite
 ```
 
 `make install` links the lookup skill into `~/.claude/skills/` and this repository to `~/.galaxy-brain`. `make architecture-update` runs `scripts/sync_architecture.py`, which updates the submodule pin, regenerates views, and stages the changes for review. Read the script before using that maintenance workflow.

@@ -64,13 +64,13 @@ flowchart TD
 
 ## Verify
 
-When all reports are in, one verification subagent checks them. It estimates the fix for each finding. Fixes under about 200 lines go on a review branch, one commit per finding, often with a test that shows the problem. It then merges duplicates across profiles, renumbers the findings, and filters out the ones that don't hold up.
+When all reports are in, one verification subagent checks them. It estimates the fix for each finding. Fixes under about 200 lines go on a review branch, one commit per finding, often with a test that shows the problem. It then merges duplicates across profiles, numbers the findings, and filters out the ones that don't hold up.
 
 ```mermaid
 flowchart TD
   Reps["All profile reports"] --> E["Estimate each fix"]
   E -->|"under ~200 lines"| B["Review branch<br/>one commit per finding"]
-  E --> Agg["Merge duplicates, renumber"]
+  E --> Agg["Merge duplicates, number"]
   B -->|"reproduced or fixed"| Agg
   Agg --> Filt{"Keep?"}
   Filt -->|"disproved, not actionable,<br/>re-argues a decision in the PR,<br/>or about untouched code"| FF["Filtered list<br/>for John only"]
@@ -85,13 +85,13 @@ flowchart TD
 
 ## Respond
 
-A low-effort subagent assembles the response: space for John's own comments at the top, a Human Review line when John has checked off every commit or diff in the [differential review](https://galaxy-brain.jmchilton.net/factory/differential-review/), the risk summary, then the verified findings, each with its evidence, suggested fix, and the review-branch commit if there is one. If nothing survives verification, the response says so in one line. John can uncheck findings to drop them; the review branch is then rebuilt without their commits, the remaining findings are renumbered, and the response is composed again. Trimmed findings, with John's reasons, are kept and periodically fed back into the reviewer profiles. John edits it and checks the actions to take.
+A low-effort subagent assembles the response: space for John's own comments at the top, a Human Review line when John has checked off every commit or diff in the [differential review](https://galaxy-brain.jmchilton.net/factory/differential-review/), the risk summary, then the verified findings, each with its evidence, suggested fix, and the review-branch commit if there is one. If nothing survives verification, the response says so in one line. John can uncheck findings to drop them; the review branch is then rebuilt as its next revision without their commits, the remaining findings keep their numbers so the gaps show what was dropped, and the response is composed again. Trimmed findings, with John's reasons, are kept and periodically fed back into the reviewer profiles. John edits it and checks the actions to take.
 
 ```mermaid
 flowchart TD
   In["Verified findings + risks<br/>+ review agent details"] --> C["Compose response"]
   C --> J{{"John edits, adds comments"}}
-  J -.->|"unchecks findings"| T["Trim: next review branch<br/>findings renumbered"]
+  J -.->|"unchecks findings"| T["Trim: next branch revision<br/>finding numbers kept"]
   T -.-> C
   J --> A["John checks the actions"]
   A --> Rv["Approve, comment<br/>or request changes"]

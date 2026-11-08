@@ -1,0 +1,14 @@
+#!/bin/sh
+# Runs the bundled CLI; works through symlinks. Build with `make review-factory-build`.
+set -eu
+self=$0
+while [ -L "$self" ]; do
+  link=$(readlink "$self")
+  case $link in /*) self=$link ;; *) self=$(dirname "$self")/$link ;; esac
+done
+bundle=$(cd "$(dirname "$self")/.." && pwd)/dist/review-factory.cjs
+if [ ! -f "$bundle" ]; then
+  echo "error: $bundle not built; run \`make review-factory-build\` in the galaxy-brain checkout" >&2
+  exit 1
+fi
+exec node "$bundle" "$@"

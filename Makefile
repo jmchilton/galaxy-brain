@@ -1,10 +1,12 @@
-.PHONY: validate test pull-screenshots install site-dev site-build site-preview site-deploy dashboard check-dashboard index check-index architecture-views check-architecture-views architecture-update references check-references plugin-build plugin-dev plugin-test herdr-plugin-build herdr-plugin-test herdr-app-mod-build herdr-app-mod-test herdr-app-mod-install chrome-ext-build chrome-native-install site-test diff-review-build diff-review-test
+.PHONY: validate test pull-screenshots install site-dev site-build site-preview site-deploy dashboard check-dashboard index check-index architecture-views check-architecture-views architecture-update references check-references plugin-build plugin-dev plugin-test herdr-plugin-build herdr-plugin-test herdr-app-mod-build herdr-app-mod-test herdr-app-mod-install chrome-ext-build chrome-native-install site-test diff-review-build diff-review-test review-factory-build review-factory-test
 
 DEPS = --with python-frontmatter --with jsonschema --with pyyaml
 
 validate:
 	uv run $(DEPS) python validate_frontmatter.py $(ARGS)
 	uv run $(DEPS) python validate_records.py
+	@test -f review-factory/dist/review-factory.cjs || { test -d review-factory/node_modules || (cd review-factory && npm ci --no-audit --no-fund); $(MAKE) review-factory-build; }
+	review-factory/bin/review-factory validate vault/repositories
 
 test:
 	uv run $(DEPS) --with pytest pytest test_validate_frontmatter.py test_validate_records.py test_check_references.py test_pull_screenshots.py vault/agents/_shared/scripts/test_launch_agent.py vault/agents/_shared/scripts/test_prune_tasks.py -v $(ARGS)
@@ -96,3 +98,9 @@ diff-review-build:
 diff-review-test:
 	cd differential-review-lib && npm test
 	cd differential-review && npm test
+
+review-factory-build:
+	cd review-factory && npm run build
+
+review-factory-test:
+	cd review-factory && npm test

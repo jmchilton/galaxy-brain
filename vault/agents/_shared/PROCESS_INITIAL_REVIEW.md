@@ -26,7 +26,7 @@ Never leave it to the subagent's default.
 
 ### Verify and fix
 
-Once all reports are in, launch one subagent to estimate the effort to fix each P1, P2, and P3. If any single fix is under about 200 changed lines (code, tests, docs) and the PR's worktree is available, the subagent creates the review branch `pr_<PR_NUMBER>_review_0` there from the reviewed commit (next free number on later rounds) and fixes each finding under that threshold, one commit per finding, then writes `REVIEW_DIRECTORY/review_<n>_branch_details.md` (matching the branch number): one readable paragraph on what the branch does, then a list of its commits, each with its short SHA, subject, and one sentence of detail. Either way it writes `verified_review.md`: findings aggregated across reports (skipping reports without P-labeled findings) with duplicates merged, and renumbered `P<priority> <n>`, flagged `(implementation verified)` when confirmed by a reproduction, test, or the fix. Sharpen findings the fix clarified; filter disproved ones (below). Write each finding as below. Include `<details>` blocks only when needed; skip evidence that is self-evident and a suggested fix the problem makes obvious. Provenance lists every review that raised the finding; the "Verified via" sentence appears only on flagged findings.
+Once all reports are in, launch one subagent to estimate the effort to fix each P1, P2, and P3. If any single fix is under about 200 changed lines (code, tests, docs) and the PR's worktree is available, the subagent creates the review branch `pr_<PR_NUMBER>_round_<N>_rev_0` there from the reviewed commit, where N is the review round (0 for the first), and fixes each finding under that threshold, one commit per finding, then writes `REVIEW_DIRECTORY/round_<N>_rev_0_branch_details.md`: one readable paragraph on what the branch does, then a list of its commits, each with its short SHA, subject, one sentence of detail, and the finding it fixes in parentheses, e.g. `(P2 1)`. A round already using `pr_<PR_NUMBER>_review_<n>` keeps those names until it ends. Either way it writes `verified_review.md`: findings aggregated across reports (skipping reports without P-labeled findings) with duplicates merged, and renumbered `P<priority> <n>`, flagged `(implementation verified)` when confirmed by a reproduction, test, or the fix. Sharpen findings the fix clarified; filter disproved ones (below). Write each finding as below. Include `<details>` blocks only when needed; skip evidence that is self-evident and a suggested fix the problem makes obvious. Provenance lists every review that raised the finding; the "Verified via" sentence appears only on flagged findings. Name models by display name, e.g. `Claude Opus 5.5` or `GPT-6.1`, never an API id like `claude-opus-5-5`.
 
 Slow test layers (Selenium, API, integration) are no reason to skip a fix; write the test. Run only the tests the branch adds or edits, one at a time — not their whole suite or framework, and not tests the branch doesn't touch; CI covers the rest. If a written test couldn't be run, say so in its finding.
 
@@ -85,7 +85,7 @@ The coordinator, which launched every subagent and knows their models and effort
 
 Reviewed with [John's Galaxy Brain Review Factory](https://galaxy-brain.jmchilton.net/factory/galaxy-reviews/).
 
-- Review profile [<profile>](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/<profile_path>) was run via <model> at <effort> effort.
+- Review profile [<profile>](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/<profile_path>) was run via <model display name> at <effort> effort.
 - Verification was run as documented [here](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/PROCESS_INITIAL_REVIEW.md) via <model> at <effort> effort.
 
 </details>
@@ -111,11 +111,11 @@ Then write `initial_response_action.md` for John to check one or more options; l
 - [ ] Issue: open the galaxy-brain research follow-up issue
 ```
 
-When `verified_review.md` has findings, also write `verified_findings_checklist.md`: one checked box per finding, in order, then an Other Actions section left blank for John. John unchecks findings to drop, optionally writing why after the title, and adds free-text requests, then asks for [PROCESS_TRIM_FINDINGS.md](PROCESS_TRIM_FINDINGS.md).
+When `verified_review.md` has findings, also write `verified_findings_checklist.md`: one checked box per finding, in order, each with a one-line summary for John, then an Other Actions section left blank for John. John unchecks findings to drop, optionally writing why after the summary, and adds free-text requests, then asks for [PROCESS_TRIM_FINDINGS.md](PROCESS_TRIM_FINDINGS.md).
 
 ```markdown
-- [x] P1 1: <title>
-- [x] P2 1: <title>
+- [x] P1 1: <title> — <one-line summary>
+- [x] P2 1: <title> — <one-line summary>
 
 Other Actions:
 ```

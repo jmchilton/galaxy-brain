@@ -48,7 +48,7 @@ function parentBranchName(recordDir: string, repo: string, parent: string): stri
 }
 
 /** The record's worktree if it has one, else the repository's clone. */
-function checkout(record: RecordInfo & { kind: "branches" | "reviews"; repo: string }, body: string, home: string): string {
+export function checkout(record: RecordInfo & { kind: "branches" | "reviews"; repo: string }, body: string, home: string): string {
   const clone = join(home, "projects/repositories", record.repo);
   const candidates = [...worktreeCandidates({ repo: record.repo, kind: record.kind, name: record.branch }, body, home), clone];
   const found = candidates.find((path) => existsSync(path) && tryGit(path, ["rev-parse", "--git-dir"]) !== null);
@@ -57,7 +57,7 @@ function checkout(record: RecordInfo & { kind: "branches" | "reviews"; repo: str
 }
 
 /** The commit fetched; null if the remote doesn't have it. */
-function fetched(cwd: string, remote: string, ref: string): string | null {
+export function fetched(cwd: string, remote: string, ref: string): string | null {
   return tryGit(cwd, ["fetch", "--quiet", remote, ref]) === null ? null : revParse(cwd, "FETCH_HEAD");
 }
 
@@ -66,7 +66,7 @@ function forkRemotes(cwd: string): string[] {
   return [FORK_OWNER, "origin"].filter((remote) => known.includes(remote));
 }
 
-function fetchedFromFork(cwd: string, branch: string): string | null {
+export function fetchedFromFork(cwd: string, branch: string): string | null {
   for (const remote of forkRemotes(cwd)) {
     const sha = fetched(cwd, remote, branch);
     if (sha) return sha;
