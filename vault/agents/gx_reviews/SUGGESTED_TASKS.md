@@ -23,14 +23,14 @@ priority: {priority}
 ## Respond to Reviews
 
 when: whenever
-what: review records whose `initial_response_action.md` has checked boxes but whose response hasn't been acted on (no jmchilton review or comment on the PR since the report).
+what: review records whose latest round has checked actions — `actions` set true in `review_<N>_findings.yml`, or checked boxes in `initial_response_action.md` for a round on Markdown — but whose response hasn't been acted on (no jmchilton review or comment on the PR since the report).
 
 `description` is the checked actions, comma-separated.
 
 Suggest:
 
 ```
-prompt: Respond to galaxyproject/galaxy#{n}. This launch is my approval to run the action outlined in the relevant initial_response_action.md file - which may include opening pull requests, creating issues, pushing commits to the target PR branch, and posting comments.
+prompt: Respond to galaxyproject/galaxy#{n}. This launch is my approval to run the actions checked in the latest round's findings YAML (or its initial_response_action.md, for a round on Markdown) - which may include opening pull requests, creating issues, pushing commits to the target PR branch, and posting comments.
 agent_dir: gx_reviews
 link: https://github.com/galaxyproject/galaxy/pull/{n}
 record: galaxy/reviews/{n}
@@ -45,7 +45,7 @@ when: whenever
 expires: pr_closed
 what: active review records waiting on John rather than an agent or the author (see "Delivery and follow-up" in ./AGENTS.md):
 
-- the latest round's generated review (e.g. `initial_review_response.md`, `draft-review.md`) is unposted and its `initial_response_action.md`, if any, has no checked boxes, with no jmchilton review or comment on the PR since;
+- the latest round's review is unposted and nothing is checked — no `actions` true in `review_<N>_findings.yml`, or, for a round on Markdown (`initial_review_response.md`, `draft-review.md`), no checked boxes in `initial_response_action.md` — with no jmchilton review or comment on the PR since;
 - an approved greenish PR with awaiting John's merge; if John has already posted a review and they haven't responded to review (with commits or messages) - you should wait 7 days until suggesting this action
 - a decision or follow-up the record's `index.md` says is waiting on John;
 - a PR where John is directly in `reviewRequests` again (not via a team), or a comment newer than his latest review or comment asks him to look again.

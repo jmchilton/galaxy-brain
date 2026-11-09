@@ -27,22 +27,14 @@ agent_dir: dev_tooling
 name: rr-{name}
 profile: Sonnet (medium)
 
-Respond to jmchilton/artifact-detective#{name} following ../_shared/PROCESS_RESPOND_TO_INITIAL_REVIEW.md. REVIEW_DIRECTORY is {record}. This launch is my approval to run the checked actions in its initial_response_action.md, which may include opening pull requests, creating issues, pushing commits to the target PR branch, and posting comments.
+Respond to jmchilton/artifact-detective#{name} following ../_shared/PROCESS_RESPOND_TO_INITIAL_REVIEW.md. REVIEW_DIRECTORY is {record}. This launch is my approval to run the actions checked in the latest round's findings YAML (or its initial_response_action.md, for a round on Markdown), which may include opening pull requests, creating issues, pushing commits to the target PR branch, and posting comments.
 
 ## ✂️ Trim findings
 status: active
 agent_dir: dev_tooling
 name: tf-{name}
 
-Trim the findings for jmchilton/artifact-detective#{name} following ../_shared/PROCESS_TRIM_FINDINGS.md. The review record is {record}.
-
-## 🔁 Rework review into PR
-status: active
-agent_dir: dev_tooling
-name: rw-{name}
-profile: Sonnet (medium)
-
-Rework the review of jmchilton/artifact-detective#{name} into a pull request description following ../_shared/PROCESS_REWORK_REVIEW_TO_PR.md. REVIEW_DIRECTORY is {record}.
+Trim the findings for jmchilton/artifact-detective#{name} following ../_shared/PROCESS_TRIM_FINDINGS.md. The review record is {record}. Requests beyond the include toggles: <user_input_here>
 
 ## ⚡ Quick merge
 status: untracked, active

@@ -242,11 +242,21 @@ Action checkboxes play no part in this. They say what Respond does, and Pull req
 - The closed decoder caught a real error in the hand conversion: an unquoted comma in a flow mapping split a reason into a bogus key.
 - Not done: generalizing Herdr's detached runner. It moves to Phase 2, where the first button needs it.
 
-**Phase 2, Herdr panel started 2026-11-08, uncommitted.**
-- `review-factory/src/landing.ts` `landing(ctx)` is the panel model both apps share. Expanded finding text reuses compose's `findingBody`.
-- On the host, `herdr-plugin/src/findings-host.ts` answers the `findings`, `setFindingInclude` and `setFindingAction` app requests. Edits take a ref and a round, never a path, and set a value rather than flipping it. `recordPage` says `findings` when there's a findings round.
-- In the mod, `herdr-app-mod/src/findings-panel.ts` draws the panel in `gb-record`; notes open in Obsidian.
-- Not done: the detached runner and branch-gate button, and the Obsidian strip.
+**Phase 2, landing page built 2026-11-09.**
+- `review-factory/src/landing.ts` `landing(ctx)` is the panel model both apps share, with `noteLabel` and `statusTone`. `review-factory/src/panel.ts` loads a record directory's panel and validates edits for both apps. Expanded finding text reuses compose's `findingBody`.
+- `review-factory check --record <dir>` prints every refusal and warning compose would give for the checked actions, with git. Respond runs it first.
+- Herdr: `herdr-plugin/src/detached.ts` is the generalized detached runner. Capture now uses it, and so does `findingsCheck`, which runs `review-factory check`. `herdr-app-mod/src/findings-panel.ts` draws the panel in `gb-record`, including a 🔍 Check before posting button.
+- Obsidian: `obsidian-plugin/src/findings-strip.ts` draws the same panel in the record strip, desktop only, and toggles through `vault.process`. `yaml` is now a dependency. `main.js` grew from 475 KB to 743 KB, with one `yaml` copy.
+- Site: a review record's page renders the comment that its findings YAML composes to.
+- Pilot: #24794 ran its initial review and landing on YAML, but John merged it without Respond, so compose has never posted to a real PR. The first new round's Respond is the real pilot; preview it first.
+- Not done: John's click-through in both apps.
+
+**Phase 4, default flipped 2026-11-09.** New rounds write `review_<N>_findings.yml`.
+- `PROCESS_INITIAL_REVIEW.md` absorbed the pilot overlay, `PROCESS_FINDINGS_YAML.md`.
+- Trim and Respond lead with the YAML flow, and keep a "Rounds on Markdown" section for rounds already in progress.
+- File Docs, `SUGGESTED_TASKS.md`, `SWEEP_REVIEW_TRIMS.md`, `AGENT_MARKERS.md` and `REVIEW_FACTORY.md` name the new files.
+- All 12 `reviews/LAUNCHERS.md` lost 🔁 Rework, and their ✂️ Trim takes `<user_input_here>`.
+- Phase 5 still deletes `PROCESS_COMPOSE_INITIAL_REVIEW_RESPONSE.md` and `PROCESS_REWORK_REVIEW_TO_PR.md`, and the "Rounds on Markdown" sections, once no active record needs them.
 
 ## Cutover
 

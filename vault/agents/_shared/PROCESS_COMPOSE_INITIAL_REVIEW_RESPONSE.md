@@ -1,3 +1,5 @@
+Only for review rounds on Markdown files, without `review_<N>_findings.yml`; newer rounds compose with `review-factory compose`.
+
 You're given a REVIEW_DIRECTORY and a WORKING_DIRECTORY that contains the reviewed code and potentially addressed/verified points.
 
 The core findings in `REVIEW_DIRECTORY/verified_review.md` have already been verified and written the way John wants to see them; call these REVIEW_FINDINGS. `REVIEW_DIRECTORY/initial_review_agents.md` holds REVIEW_AGENT_DETAILS.

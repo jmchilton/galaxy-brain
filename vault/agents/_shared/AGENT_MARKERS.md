@@ -1,6 +1,6 @@
 For Github correspondences - issues, comments, PRs, etc.. please apply these rules for agents markers.
 
-DO NOT add agent markers to documents we have infrastructure around - PR descriptions, issue bodies, initial_review_response.md, etc.. These should be published as part of established procedures (such as PROCESS_ or GX_PROCESS_ documents). 
+DO NOT add agent markers to documents we have infrastructure around - PR descriptions, issue bodies, composed review responses, etc.. These should be published as part of established procedures (such as PROCESS_ or GX_PROCESS_ documents). 
 
 DO add agent markers whenever John asks for ad-hoc comments, when answering ad-hoc questions, etc.. Generally such comments should be shown to John first and not posted with a go ahead.
 

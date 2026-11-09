@@ -85,20 +85,22 @@ flowchart TD
 
 ## Respond
 
-A low-effort subagent assembles the response: space for John's own comments at the top, a Human Review line when John has checked off every commit or diff in the [differential review](https://galaxy-brain.jmchilton.net/factory/differential-review/), the risk summary, then the verified findings, each with its evidence, suggested fix, and the review-branch commit if there is one. If nothing survives verification, the response says so in one line. John can uncheck findings to drop them; the review branch is then rebuilt as its next revision without their commits, the remaining findings keep their numbers so the gaps show what was dropped, and the response is composed again. Trimmed findings, with John's reasons, are kept and periodically fed back into the reviewer profiles. John edits it and checks the actions to take.
+The verifier writes its findings to one structured file per round, with the filtered ones beside them for John. A small program, not an agent, composes the response from that file: John's own comments at the top, a Human Review line when John has checked off every commit or diff in the [differential review](https://galaxy-brain.jmchilton.net/factory/differential-review/), the risk summary, then the findings, each with its evidence, suggested fix, and the review-branch commit if there is one. If nothing survives verification, the response says so in one line.
+
+On the review's page, John unchecks findings to drop them, writes their comments, and checks the actions to take. The program refuses to compose while John's comment is empty, or while the review branch still holds a commit for a dropped finding. A trim then rebuilds the branch as its next revision without those commits, and the remaining findings keep their numbers so the gaps show what was dropped. Dropped findings are kept and periodically fed back into the reviewer profiles.
 
 ```mermaid
 flowchart TD
-  In["Verified findings + risks<br/>+ review agent details"] --> C["Compose response"]
-  C --> J{{"John edits, adds comments"}}
-  J -.->|"unchecks findings"| T["Trim: next branch revision<br/>finding numbers kept"]
-  T -.-> C
+  In["Findings file<br/>+ risks + review agent details"] --> J{{"John unchecks findings,<br/>writes comments"}}
+  J -.->|"a dropped finding<br/>is still on the branch"| T["Trim: next branch revision<br/>finding numbers kept"]
+  T -.-> J
   J --> A["John checks the actions"]
-  A --> Rv["Approve, comment<br/>or request changes"]
-  A --> M["Approve and merge"]
-  A --> BP["Open a PR from the review branch<br/>against your branch"]
-  A --> Pu["Push the review branch<br/>fast-forward only"]
-  A --> Is["Open a follow-up refactor issue"]
+  A --> C["Compose response<br/>refuses until every check passes"]
+  C --> Rv["Approve, comment<br/>or request changes"]
+  C --> M["Approve and merge"]
+  C --> BP["Open a PR from the review branch<br/>against your branch"]
+  C --> Pu["Push the review branch<br/>fast-forward only"]
+  C --> Is["Open a follow-up refactor issue"]
 ```
 
 > [!TIP]

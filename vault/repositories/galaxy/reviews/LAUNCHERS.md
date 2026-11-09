@@ -6,14 +6,14 @@ agent_dir: gx_reviews
 name: rr-{name}
 profile: Sonnet (medium)
 
-Respond to galaxyproject/galaxy#{name}. This launch is my approval to run the action outlined in the relevant initial_response_action.md file - which may include opening pull requests, creating issues, pushing commits to the target PR branch, and posting comments.
+Respond to galaxyproject/galaxy#{name}. This launch is my approval to run the actions checked in the latest round's findings YAML (or its initial_response_action.md, for a round on Markdown) - which may include opening pull requests, creating issues, pushing commits to the target PR branch, and posting comments.
 
 ## ✂️ Trim findings
 status: active
 agent_dir: gx_reviews
 name: tf-{name}
 
-Trim the findings for galaxyproject/galaxy#{name} following ../_shared/PROCESS_TRIM_FINDINGS.md. The review record is {record}.
+Trim the findings for galaxyproject/galaxy#{name} following ../_shared/PROCESS_TRIM_FINDINGS.md. The review record is {record}. Requests beyond the include toggles: <user_input_here>
 
 ## 💭 New session
 agent_dir: gx_reviews
@@ -27,14 +27,6 @@ agent_dir: gx_reviews
 name: rv-{name}
 
 Launch a review of galaxyproject/galaxy#{name}
-
-## 🔁 Rework review into PR
-status: active
-agent_dir: gx_reviews
-name: rw-{name}
-profile: Sonnet (medium)
-
-Rework the review of galaxyproject/galaxy#{name} into a pull request description following ../_shared/PROCESS_REWORK_REVIEW_TO_PR.md. REVIEW_DIRECTORY is {record}.
 
 ## ⚡ Quick merge
 status: untracked, active

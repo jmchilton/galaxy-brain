@@ -1,3 +1,5 @@
+Only for review rounds on Markdown files, without `review_<N>_findings.yml`; newer rounds check Pull request in the findings YAML instead, and Respond opens the PR.
+
 You're given a review that was setup with `./PROCESS_INITIAL_REVIEW.md`. It should contain a `initial_review_response.md` file - if it does not half immediately and inform requestor.
 
 I want the initial response composed in `initial_review_response.md` the `REVIEW_DIRECTORY` to be rewritten to `initial_pr_description.md` as a PR description against the target branch. Use the literal contents (mv the file or equiv) - do not re-compose.

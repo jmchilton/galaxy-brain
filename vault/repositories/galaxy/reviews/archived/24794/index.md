@@ -10,7 +10,7 @@ Draft PR by mvdbeek against `dev`, no failing checks at last look.
 
 ## Decisions
 
-- First review on the findings YAML flow, per [PROCESS_FINDINGS_YAML.md](../../../../../agents/_shared/PROCESS_FINDINGS_YAML.md).
+- First review on the findings YAML flow, per [PROCESS_INITIAL_REVIEW.md](../../../../../agents/_shared/PROCESS_INITIAL_REVIEW.md), which the pilot overlay was later merged into.
 
 ## Archived
 

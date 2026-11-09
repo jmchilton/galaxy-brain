@@ -155,7 +155,6 @@ describe("parseLaunchers", () => {
 			["✂️ Trim findings", "active", "gx_reviews"],
 			["💭 New session", "", "gx_reviews"],
 			["🔎 Review", "untracked", "gx_reviews"],
-			["🔁 Rework review into PR", "active", "gx_reviews"],
 			["⚡ Quick merge", "untracked,active", "gx_reviews"],
 			["📝 Address diff comments", "active", "gx_reviews"],
 			["🗄️ Shelve", "active", "gx_reviews"],
@@ -188,7 +187,6 @@ describe("parseLaunchers", () => {
 					["🟣 Merge pull request", "active", dir],
 					["💬 Respond to review", "active", dir],
 					["✂️ Trim findings", "active", dir],
-					["🔁 Rework review into PR", "active", dir],
 					["⚡ Quick merge", "untracked,active", dir],
 					["🗄️ Shelve", "active", dir],
 					...lastSession,
@@ -200,14 +198,14 @@ describe("parseLaunchers", () => {
 		}
 	});
 
-	it("defaults the merge, quick merge, open, close, respond and rework launchers to Sonnet", () => {
+	it("defaults the merge, quick merge, open, close and respond launchers to Sonnet", () => {
 		for (const repo of ["foundry", "gxformat2", "galaxy-tool-util-ts", "pulsar", "planemo", "galaxy"]) {
 			// Galaxy only gets the review actions.
-			const counts = repo === "galaxy" ? { reviews: 3 } : { branches: 2, issues: 1, reviews: 4 };
+			const counts = repo === "galaxy" ? { reviews: 2 } : { branches: 2, issues: 1, reviews: 3 };
 			for (const [kind, count] of Object.entries(counts)) {
 				const path = `repositories/${repo}/${kind}/LAUNCHERS.md`;
 				const launchers = parseLaunchers(readFileSync(new URL(`../../vault/${path}`, import.meta.url), "utf8"), launcherScope(path)!);
-				const actions = launchers.filter((l) => /^(🚀 Open pull|🟣 |✅ |💬 Respond to review$|🔁 |⚡ )/.test(l.label));
+				const actions = launchers.filter((l) => /^(🚀 Open pull|🟣 |✅ |💬 Respond to review$|⚡ )/.test(l.label));
 				expect(actions.map((l) => l.profile), path).toEqual(actions.map(() => "Sonnet (medium)"));
 				expect(actions.length, path).toBe(count);
 			}
