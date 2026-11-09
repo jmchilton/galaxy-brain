@@ -23,7 +23,7 @@ Snapshot: 2026-10-28 (originally recovered from live GitHub state, local worktre
 
 ## Draft Foundry PRs — ready to undraft (`draft_ready`)
 
-None yet.
+- [`issue-570-cast-moc-leaf-patterns`](active/issue-570-cast-moc-leaf-patterns/index.md) — Cast pattern maps of content with the leaf pattern pages they list (#570). [#738](https://github.com/galaxyproject/foundry/pull/738).
 
 ## Draft Foundry PRs — waiting for CI (`ci_wait`)
 
@@ -32,7 +32,7 @@ None yet.
 
 ## Draft Foundry PRs — needs author work (`author_work`)
 
-- [`issue-570-cast-moc-leaf-patterns`](active/issue-570-cast-moc-leaf-patterns/index.md) — Cast pattern maps of content with the leaf pattern pages they list (#570); needs foundry-lib#139 released. [#738](https://github.com/galaxyproject/foundry/pull/738).
+None yet.
 
 ## Foundry branches — implemented, work left (`branches_implemented_needs_ci`)
 

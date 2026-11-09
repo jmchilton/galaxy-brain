@@ -14,7 +14,7 @@ Rebased to `c2a038de` (pushed to `jmchilton`) on `origin/main` `4c747d65`, with 
 
 Draft [#738](https://github.com/galaxyproject/foundry/pull/738), opened 2026-11-01 with John's explicit permission; mergeable.
 
-CI at `c2a038de`: running; locally every `make check` target passes except the machine-only `check-vendored`.
+CI at `c2a038de`: green (`test`, `changeset`).
 
 ## Notes
 
