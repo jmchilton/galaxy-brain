@@ -5,7 +5,7 @@ Built the plan's "Go / No-Go poll" poster for `issue_20900_invocation_validation
 ## Output
 
 - `poster.html`: the source. HTML + CSS with inline SVG icons, laid out in `in` / `pt` units on a 44 in square page, so the size floors read straight from the CSS. Renders offline from this directory.
-- `poster.png`: 4224 × 4224 px (44 in at 96 px/in), rendered with headless Chromium.
+- `poster.svg`: the deliverable, a standalone SVG with text as outlines (1.07 MB). Built after review 1: `poster.html` printed to a 44 in PDF in headless Chromium (screen media, backgrounds on), converted with PyMuPDF `get_svg_image(text_as_path=True)`, then svgo 3.3.2 (`floatPrecision: 3`, `removeViewBox: false`). The drop-shadow, zigzag-mask and gradient areas come through as small embedded rasters (about 260 KB in total). Shown in an `<img>`, it matches the Chromium PNG render apart from glyph antialiasing. PNG renders are local only and gitignored.
 - `fonts/`: Atkinson Hyperlegible 400/700, Atkinson Hyperlegible Mono 400/700 and Kalam 400 (latin `woff2` subsets from `@fontsource`), with their OFL texts.
 - `assets/`: `galaxy_logo_white.svg` (galaxy-hub, unmodified) and `qr_compare.svg` (compare link, black on white, 4-module quiet zone).
 - `SOURCES.md`: a row for every claim.
