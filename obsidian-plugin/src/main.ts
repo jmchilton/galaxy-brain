@@ -35,6 +35,7 @@ import { renderTaskCards } from "./task-cards";
 import { parseTasks, recordIndexPath, refinementPrompt, replaceBlockBody, type Task, type TaskRecord } from "./task-list";
 import { ALL_REPOS, REPOSITORY_VIEW, RepositoryView } from "./repository-view";
 import { renderRecordStrip } from "./record-strip";
+import { type FindingsStripState, renderFindings } from "./findings-strip";
 
 const PROFILES_PATH = "agents/_shared/AGENT_PROFILES.yml";
 const ENVIRONMENTS_PATH = "agents/_shared/ENVIRONMENTS.yml";
@@ -46,6 +47,8 @@ export default class GalaxyBrainPlugin extends Plugin {
 	private recordActions = new WeakMap<MarkdownView, { kind: string; actions: HTMLElement[] }>();
 	private agentActions = new WeakMap<MarkdownView, { agent: string; actions: HTMLElement[] }>();
 	private recordStrips = new WeakMap<MarkdownView, { path: string; el: HTMLElement }>();
+	/** Findings panels' state, by record dir. */
+	private findingsStates = new Map<string, FindingsStripState>();
 
 	async onload() {
 		registerDifferentialReview(this);
@@ -145,7 +148,7 @@ export default class GalaxyBrainPlugin extends Plugin {
 		};
 		// Only files that decide what a strip shows.
 		const onModify = ({ path }: { path: string }) => {
-			if (path.startsWith("repositories/") && /\/(FILE_DOCS|LAUNCHERS|MY_[A-Z]+|index)\.md$/.test(path)) redraw();
+			if (path.startsWith("repositories/") && /\/((FILE_DOCS|LAUNCHERS|MY_[A-Z]+|index|human_review|johns_review_\d+_(comment|pr)_note)\.md|review_\d+_findings\.yml)$/.test(path)) redraw();
 		};
 		this.app.workspace.onLayoutReady(() => {
 			refresh();
@@ -189,7 +192,39 @@ export default class GalaxyBrainPlugin extends Plugin {
 			record,
 			launchers.map((launcher) => ({ label: launcher.label, tooltip: launcher.command ?? launcher.prompt, run: () => void this.confirmLaunch(launcher, record) })),
 		);
+		const adapter = this.app.vault.adapter;
+		if (record.kind === "reviews" && adapter instanceof FileSystemAdapter) {
+			const vaultRoot = adapter.getBasePath();
+			const state = this.findingsState(record);
+			renderFindings(this.app, filled, record, { vaultRoot, component: this, state, runCheck: () => this.runFindingsCheck(vaultRoot, record, state) });
+		}
 		el.replaceChildren(...Array.from(filled.childNodes));
+	}
+
+	private findingsState(record: RecordRef): FindingsStripState {
+		let state = this.findingsStates.get(record.dir);
+		if (!state) this.findingsStates.set(record.dir, (state = { opened: new Set(), check: null, checking: false }));
+		return state;
+	}
+
+	/** Runs review-factory check, which fetches; git can't prompt, since no one would answer. */
+	private runFindingsCheck(vaultRoot: string, record: RecordRef, state: FindingsStripState) {
+		if (state.checking) return;
+		// Required lazily: child_process doesn't exist on mobile.
+		const { execFile } = require("child_process") as typeof import("child_process");
+		const { homedir } = require("os") as typeof import("os");
+		const PATH = [`${homedir()}/.local/bin`, ...CLI_BIN_DIRS, process.env.PATH].join(":");
+		const env = { ...process.env, PATH, GIT_TERMINAL_PROMPT: "0", GIT_SSH_COMMAND: "ssh -o BatchMode=yes" };
+		const redraw = () => this.refreshRecordStrips(true);
+		state.checking = true;
+		state.check = null;
+		redraw();
+		execFile(`${vaultRoot}/../review-factory/bin/review-factory`, ["check", "--record", `${vaultRoot}/${record.dir}`], { env, timeout: 180_000 }, (error, stdout, stderr) => {
+			const message = [stdout.trim(), stderr.trim()].filter(Boolean).join("\n");
+			state.check = { ok: !error, message: message || `⛔ ${error?.message ?? "no output"}` };
+			state.checking = false;
+			redraw();
+		});
 	}
 
 	/** Code, GitHub (not issue incubator), agent, (branches/reviews) differential review and (branches) compare icons in the header of notes inside a repository record. */

@@ -21,7 +21,9 @@ const copyStatic = {
 const context = await esbuild.context({
 	entryPoints: ["src/main.ts"],
 	bundle: true,
-	external: ["obsidian", "electron", "child_process", "fs", "os", "@codemirror/*", "@lezer/*"],
+	external: ["obsidian", "electron", "child_process", "fs", "os", "node:*", "@codemirror/*", "@lezer/*"],
+	// One copy of yaml, not one per package that the bundle reaches into.
+	alias: { yaml: "./node_modules/yaml" },
 	format: "cjs",
 	target: "es2020",
 	sourcemap: production ? false : "inline",

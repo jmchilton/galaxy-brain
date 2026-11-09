@@ -5,6 +5,15 @@ var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
 var __getOwnPropNames = Object.getOwnPropertyNames;
 var __getProtoOf = Object.getPrototypeOf;
 var __hasOwnProp = Object.prototype.hasOwnProperty;
+var __defNormalProp = (obj, key2, value) => key2 in obj ? __defProp(obj, key2, { enumerable: true, configurable: true, writable: true, value }) : obj[key2] = value;
+var __esm = (fn, res, err) => function __init() {
+  if (err) throw err[0];
+  try {
+    return fn && (res = (0, fn[__getOwnPropNames(fn)[0]])(fn = 0)), res;
+  } catch (e) {
+    throw err = [e], e;
+  }
+};
 var __commonJS = (cb, mod) => function __require() {
   try {
     return mod || (0, cb[__getOwnPropNames(cb)[0]])((mod = { exports: {} }).exports, mod), mod.exports;
@@ -33,6 +42,196 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
   mod
 ));
 var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
+var __publicField = (obj, key2, value) => __defNormalProp(obj, typeof key2 !== "symbol" ? key2 + "" : key2, value);
+
+// ../site/src/lib/repository-tabs.ts
+function repositoryTabs(repo) {
+  return [...REPOSITORY_TABS, ...searchTabs(repo).map(({ id, label: label3 }) => ({ id, label: label3 }))];
+}
+function githubList(repo, tab) {
+  if (hasOwn(GITHUB_LISTS, tab)) return GITHUB_LISTS[tab];
+  const search = searchTabs(repo).find((s) => s.id === tab);
+  if (!search) throw new Error(`no GitHub tab ${tab} for ${repo}`);
+  return { list: "issues", query: () => search.query, title: search.title };
+}
+function githubListUrl(owner, repo, tab, me = "@me") {
+  const { list: list3, query } = githubList(repo, tab);
+  return `https://github.com/${owner}/${repo}/${list3}?q=${encodeURIComponent(query(me))}`;
+}
+function githubListTitle(repo, tab) {
+  return githubList(repo, tab).title;
+}
+function githubLinks(body) {
+  return [...body.matchAll(MARKDOWN_LINK)].map((match) => ({ label: match[1], url: match[2] }));
+}
+function upstreamOwner(repo, bodies) {
+  const pattern = new RegExp(`^https://github\\.com/([^/]+)/${escapeRegExp(repo)}/(pull|issues)/`);
+  const counts = /* @__PURE__ */ new Map();
+  for (const link of bodies.flatMap(githubLinks)) {
+    const owner = pattern.exec(link.url)?.[1];
+    if (owner) counts.set(owner, (counts.get(owner) ?? 0) + 1);
+  }
+  const ranked = [...counts].sort((a, b) => b[1] - a[1]).map(([owner]) => owner);
+  return ranked.find((owner) => owner !== FORK_OWNER) ?? ranked[0] ?? "galaxyproject";
+}
+var REPOSITORY_TABS, FORK_OWNER, GITHUB_LISTS, SEARCH_TABS, hasOwn, searchTabs, MARKDOWN_LINK, escapeRegExp;
+var init_repository_tabs = __esm({
+  "../site/src/lib/repository-tabs.ts"() {
+    "use strict";
+    REPOSITORY_TABS = [
+      { id: "branches", label: "My branches" },
+      { id: "issues", label: "My issues" },
+      { id: "issues_incubator", label: "Issue incubator" },
+      { id: "reviews", label: "My reviews" },
+      { id: "my-drafts", label: "My drafts" },
+      { id: "conflicting", label: "Conflicting" },
+      { id: "new-prs", label: "New PRs" },
+      { id: "undrafted-prs", label: "Out of draft" },
+      { id: "new-issues", label: "New issues" }
+    ];
+    FORK_OWNER = "jmchilton";
+    GITHUB_LISTS = {
+      "my-drafts": { list: "pulls", query: (me) => `is:pr is:open author:${me} draft:true`, title: "My open draft PRs on GitHub" },
+      // GitHub has no conflict filter.
+      conflicting: { list: "pulls", query: (me) => `is:pr is:open author:${me}`, title: "My open PRs on GitHub (it can't filter by conflicts)" },
+      "new-prs": { list: "pulls", query: () => "is:pr is:open sort:created-desc", title: "Open PRs, newest first, on GitHub" },
+      // GitHub can't sort by ready-for-review time; recently updated non-drafts is the closest.
+      "undrafted-prs": { list: "pulls", query: () => "is:pr is:open draft:false sort:updated-desc", title: "Open non-draft PRs, recently updated, on GitHub" },
+      "new-issues": { list: "issues", query: () => "is:issue is:open sort:created-desc", title: "Open issues, newest first, on GitHub" }
+    };
+    SEARCH_TABS = {
+      foundry: [
+        { id: "needs-triage", label: "Needs triage", query: "is:issue is:open label:needs-triage sort:created-desc", title: "Open issues labelled needs-triage, newest first, on GitHub" },
+        { id: "ready-implement", label: "Ready for implementation", query: "is:issue is:open label:work/ready-implement sort:created-desc", title: "Open issues ready to implement, newest first, on GitHub" },
+        { id: "ready-research", label: "Ready for research", query: "is:issue is:open label:work/ready-research sort:created-desc", title: "Open issues ready to research, newest first, on GitHub" }
+      ]
+    };
+    hasOwn = (object2, key2) => Object.prototype.hasOwnProperty.call(object2, key2);
+    searchTabs = (repo) => hasOwn(SEARCH_TABS, repo) ? SEARCH_TABS[repo] : [];
+    MARKDOWN_LINK = /\[([^\]]*)\]\((https:\/\/github\.com\/[^)\s]+)\)/g;
+    escapeRegExp = (text2) => text2.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+  }
+});
+
+// ../site/src/lib/records.ts
+function isReviewableRecordKind(kind) {
+  return REVIEWABLE_RECORD_KINDS.includes(kind);
+}
+function recordReviewDir(recordDir) {
+  return `${recordDir.replace(/\/+$/, "")}/differential-review`;
+}
+function parseRecordPath(rel) {
+  const parts = rel.split("/");
+  if (parts[0] !== "repositories" || parts.length < 5) return null;
+  const kind = parts[2];
+  if (!RECORD_KINDS.includes(kind)) return null;
+  return { repo: parts[1], kind, status: parts[3], id: parts[4], rest: parts.slice(5).join("/") };
+}
+function isTerminalStatus(status) {
+  return TERMINAL_STATUSES.has(status);
+}
+function statusLabel(status) {
+  return status.replace(/_/g, " ");
+}
+function recordTitle(body) {
+  const m = body?.match(/^#\s+(.+?)\s*$/m);
+  return m ? m[1] : null;
+}
+function compareNames(a, b) {
+  const na = Number(a);
+  const nb = Number(b);
+  if (Number.isInteger(na) && Number.isInteger(nb)) return nb - na;
+  return a.localeCompare(b, void 0, { sensitivity: "base" });
+}
+function groupByStatus(records, kind) {
+  const byStatus = /* @__PURE__ */ new Map();
+  for (const record of records) {
+    if (record.kind !== kind) continue;
+    byStatus.set(record.status, [...byStatus.get(record.status) ?? [], record]);
+  }
+  const known = STATUS_ORDER[kind];
+  const statuses = [...byStatus.keys()].sort((a, b) => {
+    const ia = known.indexOf(a);
+    const ib = known.indexOf(b);
+    if (ia >= 0 && ib >= 0) return ia - ib;
+    if (ia >= 0) return -1;
+    if (ib >= 0) return 1;
+    return a.localeCompare(b);
+  });
+  return statuses.map((status) => ({
+    status,
+    records: byStatus.get(status).sort((a, b) => compareNames(a.name, b.name))
+  }));
+}
+function groupingFor(repo, kind) {
+  const file = QUEUE_FILES[kind];
+  return file ? `repositories/${repo}/${kind}/${file}` : void 0;
+}
+function resolveLink(from, link) {
+  const parts = from.split("/").slice(0, -1);
+  for (const part of link.split("/")) {
+    if (part === "..") parts.pop();
+    else if (part !== ".") parts.push(part);
+  }
+  return parts.join("/");
+}
+function parseGrouping(text2, path, repo, kind) {
+  const sections = [];
+  for (const line of text2.split("\n")) {
+    const heading = line.match(/^## (.+?)\s*\(`([^`]+)`\)\s*$/);
+    if (heading) {
+      sections.push({ label: heading[1], key: heading[2], names: [] });
+      continue;
+    }
+    const section2 = sections[sections.length - 1];
+    if (!line.startsWith("- ") || !section2) continue;
+    const record = [...line.matchAll(/\]\(([^)\s]+)\)/g)].filter((link) => !/^[a-z][a-z0-9+.-]*:/i.test(link[1])).map((link) => parseRecordPath(resolveLink(path, decodeURI(link[1])))).find((found) => found?.rest && found.repo === repo && found.kind === kind);
+    if (record && !section2.names.includes(record.id)) section2.names.push(record.id);
+  }
+  return sections;
+}
+function groupBySections(records, kind, grouping) {
+  const ofKind = records.filter((record) => record.kind === kind);
+  const byName = new Map(ofKind.map((record) => [record.name, record]));
+  const listed = /* @__PURE__ */ new Set();
+  const sections = (grouping ?? []).flatMap((section2) => {
+    const found = section2.names.flatMap((name) => {
+      const record = byName.get(name);
+      if (!record || listed.has(name)) return [];
+      listed.add(name);
+      return [record];
+    });
+    return found.length ? [{ key: section2.key, label: section2.label, records: found }] : [];
+  });
+  return { sections, rest: ofKind.filter((record) => !listed.has(record.name)) };
+}
+var RECORD_KINDS, DEFAULTS_REPO, REVIEWABLE_RECORD_KINDS, KIND_LABELS, STATUS_ORDER, TERMINAL_STATUSES, QUEUE_FILES;
+var init_records = __esm({
+  "../site/src/lib/records.ts"() {
+    "use strict";
+    RECORD_KINDS = ["branches", "issues", "issues_incubator", "reviews"];
+    DEFAULTS_REPO = "_defaults";
+    REVIEWABLE_RECORD_KINDS = ["branches", "reviews"];
+    KIND_LABELS = {
+      branches: "Branches",
+      issues: "Issues",
+      issues_incubator: "Issue incubator",
+      reviews: "Reviews"
+    };
+    STATUS_ORDER = {
+      branches: ["active", "merged", "abandoned"],
+      issues: ["needs_decision", "queued", "wip", "delegated", "closed"],
+      issues_incubator: ["incubating", "internal", "rejected"],
+      reviews: ["active", "archived"]
+    };
+    TERMINAL_STATUSES = /* @__PURE__ */ new Set(["merged", "abandoned", "archived", "closed", "rejected"]);
+    QUEUE_FILES = {
+      branches: "MY_BRANCHES.md",
+      issues: "MY_ISSUES.md",
+      reviews: "MY_REVIEWS.md"
+    };
+  }
+});
 
 // node_modules/@profoundlogic/hogan/lib/compiler.js
 var require_compiler = __commonJS({
@@ -1255,7 +1454,7 @@ var require_core = __commonJS({
     var error = (message) => {
       console.error(message);
     };
-    var warn = (message, ...args) => {
+    var warn2 = (message, ...args) => {
       console.log(`WARN: ${message}`, ...args);
     };
     var deprecated = (version2, message) => {
@@ -1563,8 +1762,8 @@ var require_core = __commonJS({
         if (match) {
           const language = getLanguage(match[1]);
           if (!language) {
-            warn(LANGUAGE_NOT_FOUND.replace("{}", match[1]));
-            warn("Falling back to no-highlight mode for this block.", block);
+            warn2(LANGUAGE_NOT_FOUND.replace("{}", match[1]));
+            warn2("Falling back to no-highlight mode for this block.", block);
           }
           return language ? match[1] : "no-highlight";
         }
@@ -1796,13 +1995,13 @@ var require_core = __commonJS({
           return origin.returnEnd ? 0 : lexeme.length;
         }
         function processContinuations() {
-          const list2 = [];
+          const list3 = [];
           for (let current = top; current !== language; current = current.parent) {
             if (current.scope) {
-              list2.unshift(current.scope);
+              list3.unshift(current.scope);
             }
           }
-          list2.forEach((item2) => emitter.openNode(item2));
+          list3.forEach((item2) => emitter.openNode(item2));
         }
         let lastMatch = {};
         function processLexeme(textBeforeMatch, match) {
@@ -2033,8 +2232,8 @@ var require_core = __commonJS({
           wantsHighlight = true;
           return;
         }
-        const blocks = document.querySelectorAll(options.cssSelector);
-        blocks.forEach(highlightElement);
+        const blocks2 = document.querySelectorAll(options.cssSelector);
+        blocks2.forEach(highlightElement);
       }
       function registerLanguage(languageName, languageDefinition) {
         let lang = null;
@@ -2172,76 +2371,7591 @@ var require_core = __commonJS({
   }
 });
 
+// ../review-factory/src/model.ts
+function decodeRun(d, value, path, extra = []) {
+  const obj = d.object(value, path, [...extra, "model", "effort"]);
+  if (!obj) return null;
+  for (const key2 of extra) d.string(obj, key2, path);
+  d.string(obj, "model", path);
+  d.oneOf(obj, "effort", path, EFFORTS);
+  return obj;
+}
+function decodeBranch(d, value, path) {
+  const obj = d.object(value, path, ["name", "revision", "head", "commits"], ["pr_title", "description"]);
+  if (!obj) return;
+  d.string(obj, "name", path);
+  d.count(obj, "revision", path);
+  d.string(obj, "head", path, SHORT_SHA, "a commit SHA");
+  d.string(obj, "pr_title", path);
+  d.string(obj, "description", path);
+  d.list(obj, "commits", path).forEach((commit, i) => {
+    const at = `${path}.commits[${i}]`;
+    const c = d.object(commit, at, ["sha", "subject", "findings"], ["detail"]);
+    if (!c) return;
+    d.string(c, "sha", at, SHORT_SHA, "a commit SHA");
+    d.string(c, "subject", at);
+    d.string(c, "detail", at);
+    d.list(c, "findings", at, 1).forEach((id, j) => {
+      if (typeof id !== "string" || !(POSTABLE_ID.test(id) || FILTERED_ID.test(id))) d.fail(`${at}.findings[${j}]`, `${JSON.stringify(id)} isn't a finding id`);
+    });
+  });
+}
+function decodeFinding(d, value, path) {
+  const rawId = value && typeof value === "object" ? value.id : void 0;
+  const at = typeof rawId === "string" ? `${path} (${rawId})` : path;
+  const obj = d.object(value, at, ["id", "include", "title", "summary", "discovered_by"], ["implementation_verified", ...FINDING_TEXT_FIELDS, "filtered"]);
+  if (!obj) return;
+  d.string(obj, "id", at, /^(P[123] [1-9]\d*|F[1-9]\d*)$/, "P<priority> <n> or F<n>");
+  d.boolean(obj, "include", at);
+  d.string(obj, "title", at);
+  d.string(obj, "summary", at);
+  d.boolean(obj, "implementation_verified", at);
+  for (const key2 of FINDING_TEXT_FIELDS) d.string(obj, key2, at);
+  d.list(obj, "discovered_by", at, 1).forEach((one, i) => decodeRun(d, one, `${at}.discovered_by[${i}]`, ["profile"]));
+  if (obj.filtered != null) {
+    const f = d.object(obj.filtered, `${at}.filtered`, ["category", "reason"]);
+    if (f) {
+      d.oneOf(f, "category", `${at}.filtered`, FILTER_CATEGORIES);
+      d.string(f, "reason", `${at}.filtered`);
+    }
+  }
+}
+function decodeFindings(data) {
+  const d = new Decoder();
+  const root = d.object(data, "", ["round", "reviewed_commit", "agents", "verification", "actions", "findings"], ["followup_target", "branches"]);
+  if (root) {
+    d.count(root, "round", "");
+    d.string(root, "reviewed_commit", "", FULL_SHA, "a full 40-character SHA");
+    d.list(root, "agents", "", 1).forEach((agent, i) => decodeRun(d, agent, `agents[${i}]`, ["profile", "path"]));
+    decodeRun(d, root.verification, "verification");
+    d.string(root, "followup_target", "");
+    d.list(root, "branches", "").forEach((branch, i) => decodeBranch(d, branch, `branches[${i}]`));
+    const actions = d.object(root.actions, "actions", ACTIONS);
+    if (actions) for (const action of ACTIONS) d.boolean(actions, action, "actions");
+    d.list(root, "findings", "").forEach((finding, i) => decodeFinding(d, finding, `findings[${i}]`));
+  }
+  if (d.errors.length) return { file: null, errors: d.errors };
+  const file = data;
+  return {
+    file: {
+      ...file,
+      branches: file.branches ?? [],
+      findings: (file.findings ?? []).map((f) => ({ ...f, implementation_verified: f.implementation_verified ?? false }))
+    },
+    errors: []
+  };
+}
+function parseId(id) {
+  const p = POSTABLE_ID.exec(id);
+  if (p) return { kind: "P", priority: Number(p[1]), n: Number(p[2]) };
+  const f = FILTERED_ID.exec(id);
+  return f ? { kind: "F", n: Number(f[1]) } : null;
+}
+var ACTIONS, COMMENT_ACTIONS, FILTER_CATEGORIES, EFFORTS, POSTABLE_ID, FILTERED_ID, SHORT_SHA, FULL_SHA, FINDING_TEXT_FIELDS, UNKNOWN_HINT, sub, Decoder, idOrder, byId, latestBranch, includedFindings;
+var init_model = __esm({
+  "../review-factory/src/model.ts"() {
+    "use strict";
+    ACTIONS = [
+      "approve",
+      "approve_and_merge",
+      "comment",
+      "review_comment",
+      "request_changes",
+      "pull_request",
+      "push",
+      "issue_refactor",
+      "issue_galaxy_brain"
+    ];
+    COMMENT_ACTIONS = ["approve", "approve_and_merge", "comment", "review_comment", "request_changes"];
+    FILTER_CATEGORIES = ["disproved", "not_actionable", "relitigates_pr", "pre_existing", "comment_nit", "doctest", "prop_vitest"];
+    EFFORTS = ["low", "medium", "high", "xhigh", "max"];
+    POSTABLE_ID = /^P([123]) ([1-9]\d*)$/;
+    FILTERED_ID = /^F([1-9]\d*)$/;
+    SHORT_SHA = /^[0-9a-f]{7,40}$/;
+    FULL_SHA = /^[0-9a-f]{40}$/;
+    FINDING_TEXT_FIELDS = ["issue", "issue_details", "evidence", "fix", "fix_details"];
+    UNKNOWN_HINT = " (a dedented line inside a block scalar becomes a key; indent it)";
+    sub = (path, key2) => path ? `${path}.${key2}` : key2;
+    Decoder = class {
+      constructor() {
+        __publicField(this, "errors", []);
+      }
+      fail(path, message) {
+        this.errors.push(path ? `${path}: ${message}` : message);
+      }
+      /** The mapping at `path`, after reporting unknown and missing keys. */
+      object(value, path, required, optional = []) {
+        if (!value || typeof value !== "object" || Array.isArray(value)) {
+          this.fail(path, "expected a mapping");
+          return null;
+        }
+        const obj = value;
+        for (const key2 of Object.keys(obj)) if (!required.includes(key2) && !optional.includes(key2)) this.fail(path, `unknown key ${JSON.stringify(key2)}${UNKNOWN_HINT}`);
+        for (const key2 of required) if (obj[key2] == null) this.fail(path, `missing ${key2}`);
+        return obj;
+      }
+      string(obj, key2, path, pattern, what) {
+        const value = obj[key2];
+        if (value == null) return void 0;
+        if (typeof value !== "string" || !value.trim()) {
+          this.fail(sub(path, key2), "expected non-empty text");
+          return void 0;
+        }
+        if (pattern && !pattern.test(value)) this.fail(sub(path, key2), `${JSON.stringify(value)} isn't ${what}`);
+        return value;
+      }
+      oneOf(obj, key2, path, values) {
+        const value = obj[key2];
+        if (value == null) return void 0;
+        if (typeof value !== "string" || !values.includes(value)) {
+          this.fail(sub(path, key2), `${JSON.stringify(value)} isn't one of ${values.join(", ")}`);
+          return void 0;
+        }
+        return value;
+      }
+      boolean(obj, key2, path) {
+        const value = obj[key2];
+        if (value == null) return void 0;
+        if (typeof value !== "boolean") this.fail(sub(path, key2), `expected true or false, not ${JSON.stringify(value)}`);
+        return value === true;
+      }
+      count(obj, key2, path) {
+        const value = obj[key2];
+        if (value == null) return void 0;
+        if (!Number.isInteger(value) || value < 0) this.fail(sub(path, key2), "expected a whole number");
+        return value;
+      }
+      list(obj, key2, path, min = 0) {
+        const value = obj[key2];
+        if (value == null) return [];
+        if (!Array.isArray(value)) {
+          this.fail(sub(path, key2), "expected a list");
+          return [];
+        }
+        if (value.length < min) this.fail(sub(path, key2), `expected at least ${min}`);
+        return value;
+      }
+    };
+    idOrder = (id) => {
+      const parsed = parseId(id);
+      return !parsed ? Infinity : parsed.kind === "P" ? parsed.priority * 1e6 + parsed.n : 4e6 + parsed.n;
+    };
+    byId = (a, b) => idOrder(a.id) - idOrder(b.id);
+    latestBranch = (file) => file.branches.at(-1);
+    includedFindings = (file) => file.findings.filter((f) => f.include).sort(byId);
+  }
+});
+
+// ../review-factory/src/status.ts
+function trimWork(file) {
+  const work = { drop: [], restore: [], ask: [] };
+  const latest = latestBranch(file);
+  if (!latest) return work;
+  const included = new Set(file.findings.filter((f) => f.include).map((f) => f.id));
+  const sort = (commit) => {
+    const keep = commit.findings.filter((id) => included.has(id));
+    const drop = commit.findings.filter((id) => !included.has(id));
+    return { keep, drop };
+  };
+  const onLatest = /* @__PURE__ */ new Set();
+  for (const commit of latest.commits) {
+    const { keep, drop } = sort(commit);
+    keep.forEach((id) => onLatest.add(id));
+    if (!keep.length) work.drop.push({ sha: commit.sha, findings: drop });
+    else if (drop.length) work.ask.push({ sha: commit.sha, included: keep, excluded: drop });
+  }
+  const restored = /* @__PURE__ */ new Set();
+  for (const branch of file.branches.slice(0, -1).reverse()) {
+    for (const commit of branch.commits) {
+      const missing = commit.findings.filter((id) => included.has(id) && !onLatest.has(id) && !restored.has(id));
+      if (!missing.length) continue;
+      missing.forEach((id) => restored.add(id));
+      const { drop } = sort(commit);
+      if (drop.length) work.ask.push({ sha: commit.sha, included: missing, excluded: drop });
+      else work.restore.push({ sha: commit.sha, revision: branch.revision, findings: missing });
+    }
+  }
+  return work;
+}
+function trimLine(file) {
+  const { drop, restore, ask } = trimWork(file);
+  const parts = [
+    ...drop.map((c) => `drop ${c.sha} (${c.findings.join(", ")})`),
+    ...restore.map((c) => `restore ${c.sha} (${c.findings.join(", ")})`),
+    ...ask.map((c) => `ask John about ${c.sha} (keeps ${c.included.join(", ")}, drops ${c.excluded.join(", ")})`)
+  ];
+  return parts.length ? `\u2702\uFE0F Trim: ${parts.join(", ")}` : null;
+}
+var init_status = __esm({
+  "../review-factory/src/status.ts"() {
+    "use strict";
+    init_model();
+  }
+});
+
+// ../review-factory/src/gates.ts
+function fileGates(file) {
+  const errors = [];
+  const counts = /* @__PURE__ */ new Map();
+  for (const f of file.findings) counts.set(f.id, (counts.get(f.id) ?? 0) + 1);
+  for (const [id, n] of counts) if (n > 1) errors.push(`${id} is used by ${n} findings`);
+  const profiles = new Set(file.agents.map((a) => a.profile));
+  if (profiles.size !== file.agents.length) errors.push("agents lists a profile twice");
+  for (const f of file.findings) {
+    const filteredId = FILTERED_ID.test(f.id);
+    if (!filteredId && f.filtered) errors.push(`${f.id}: only F items are filtered`);
+    if (filteredId && !f.filtered) errors.push(`${f.id}: F items need filtered`);
+    if (!filteredId && !f.issue) errors.push(`${f.id}: missing issue`);
+    for (const d of f.discovered_by) if (!profiles.has(d.profile)) errors.push(`${f.id}: discovered by ${d.profile}, which isn't in agents`);
+  }
+  const names = /* @__PURE__ */ new Set();
+  file.branches.forEach((branch, i) => {
+    const at = `branches[${i}]`;
+    if (names.has(branch.name)) errors.push(`${at}: ${branch.name} is listed twice`);
+    names.add(branch.name);
+    const previous = file.branches[i - 1];
+    if (previous && branch.revision <= previous.revision) errors.push(`${at}: revision ${branch.revision} must be above the previous ${previous.revision}`);
+    const shas = /* @__PURE__ */ new Set();
+    for (const commit of branch.commits) {
+      if (shas.has(commit.sha)) errors.push(`${at}: commit ${commit.sha} is listed twice`);
+      shas.add(commit.sha);
+      for (const id of commit.findings) {
+        if (FILTERED_ID.test(id)) errors.push(`${at} commit ${commit.sha}: ${id} is filtered; trim gives a finding a P id before a commit can fix it`);
+        else if (!counts.has(id)) errors.push(`${at} commit ${commit.sha}: no finding ${id}`);
+      }
+    }
+  });
+  const latest = latestBranch(file);
+  if (latest?.commits.length && !latest.description) errors.push(`${latest.name}: missing description`);
+  return errors;
+}
+function mentions(text2) {
+  return [...text2.replace(CODE, "").matchAll(MENTION)].map((m) => m[1]);
+}
+function agentText(ctx) {
+  const out = [];
+  for (const f of includedFindings(ctx.file)) {
+    out.push([f.id, [f.title, ...FINDING_TEXT_FIELDS.map((k) => f[k] ?? "")].join("\n")]);
+  }
+  const latest = latestBranch(ctx.file);
+  if (latest) out.push([latest.name, [latest.pr_title, latest.description, ...latest.commits.flatMap((c) => [c.subject, c.detail])].join("\n")]);
+  if (ctx.risks) out.push(["risks.md", ctx.risks]);
+  if (ctx.followupIssue) out.push(["followup_refactor_issue.md", ctx.followupIssue]);
+  return out;
+}
+function composeGates(ctx, mode) {
+  const { file } = ctx;
+  const { actions } = file;
+  const errors = fileGates(file);
+  const warnings = [];
+  const checked = COMMENT_ACTIONS.filter((a) => actions[a]);
+  if (!checked.length) errors.push(`check one of ${COMMENT_ACTIONS.map(label).join(", ")}`);
+  if (checked.length > 1) errors.push(`check only one of ${checked.map(label).join(", ")}`);
+  if (noteIsEmpty(ctx.commentNote)) errors.push(`${commentNoteName(file.round)} is empty`);
+  const included = new Set(includedFindings(file).map((f) => f.id));
+  for (const [name, note] of [["comment note", ctx.commentNote], ["PR note", ctx.prNote]]) {
+    for (const id of new Set(noteText(note).match(CITATION) ?? [])) if (!included.has(id)) errors.push(`the ${name} cites ${id}, which isn't included`);
+  }
+  for (const f of includedFindings(file)) if (!POSTABLE_ID.test(f.id)) errors.push(`${f.id} is included; trim must verify it and give it a P id`);
+  const trim = trimLine(file);
+  if (trim) errors.push(trim);
+  for (const [where, text2] of agentText(ctx)) for (const login of new Set(mentions(text2))) errors.push(`${where} mentions @${login}; put it in backticks or drop the @`);
+  const branchCommits = latestBranch(file)?.commits.length ?? 0;
+  if (actions.pull_request) {
+    if (noteIsEmpty(ctx.prNote)) errors.push(`${prNoteName(file.round)} is empty`);
+    if (!branchCommits) errors.push("Pull request is checked but the review branch has no commits");
+    else if (!latestBranch(file).pr_title) errors.push(`${latestBranch(file).name}: missing pr_title`);
+    if (actions.push) errors.push("check Pull request or Push, not both");
+    if (mode === "comment" && !ctx.prUrl) errors.push("Pull request is checked: run `compose pr`, open the PR, then `compose comment --pr-url <url>`");
+  } else if (mode === "pr") errors.push("Pull request isn't checked");
+  if (actions.push && !branchCommits) errors.push("Push is checked but the review branch has no commits");
+  if (actions.issue_refactor && !ctx.followupIssue) errors.push("Issue (refactor) is checked but there's no followup_refactor_issue.md");
+  if (actions.issue_galaxy_brain && !ctx.learningIssue) errors.push("Issue (galaxy-brain) is checked but there's no learning_galaxy_followup_issue.md");
+  if (ctx.followupIssue && !file.followup_target) errors.push("followup_refactor_issue.md needs followup_target");
+  if (ctx.humanReview) {
+    const shas = ctx.humanReview.match(HUMAN_REVIEW_SHA) ?? [];
+    const other = shas.find((sha) => !file.reviewed_commit.startsWith(sha));
+    if (other && !shas.some((sha) => file.reviewed_commit.startsWith(sha))) warnings.push(`human_review.md names ${other}, not the reviewed commit ${file.reviewed_commit.slice(0, 11)}`);
+  }
+  return { errors, warnings };
+}
+var commentNoteName, prNoteName, PLACEHOLDER, HTML_COMMENT, noteText, noteIsEmpty, label, CODE, MENTION, CITATION, HUMAN_REVIEW_SHA;
+var init_gates = __esm({
+  "../review-factory/src/gates.ts"() {
+    "use strict";
+    init_model();
+    init_status();
+    commentNoteName = (round2) => `johns_review_${round2}_comment_note.md`;
+    prNoteName = (round2) => `johns_review_${round2}_pr_note.md`;
+    PLACEHOLDER = /\(space for John's free style comments[^)]*\)/g;
+    HTML_COMMENT = /<!--[\s\S]*?-->/g;
+    noteText = (note) => (note ?? "").replace(HTML_COMMENT, "").replace(PLACEHOLDER, "").trim();
+    noteIsEmpty = (note) => !noteText(note);
+    label = (action) => action.replace(/_/g, " ");
+    CODE = /```[\s\S]*?```|`[^`\n]*`/g;
+    MENTION = /(?<![\w`@])@([A-Za-z0-9](?:[A-Za-z0-9-]*[A-Za-z0-9])?)/g;
+    CITATION = /\bP[123] \d+\b/g;
+    HUMAN_REVIEW_SHA = /\b[0-9a-f]{7,40}\b/g;
+  }
+});
+
+// ../review-factory/src/compose.ts
+function agentDetails(ctx) {
+  const { file } = ctx;
+  const links = new Links(ctx.repo, file);
+  const runs = file.agents.map((a) => `- Review profile ${links.profile(a.profile)} was run via ${a.model} at ${a.effort} effort.`);
+  runs.push(`- Verification was run as documented [here](${PROCESS_URL}) via ${file.verification.model} at ${file.verification.effort} effort.`);
+  return details("Automated Review Details", blocks([ctx.repo === "galaxy" && FACTORY_LINE, runs.join("\n")]));
+}
+function branchBlock(ctx, branch) {
+  const links = new Links(ctx.repo, ctx.file);
+  const commits = branch.commits.map((c) => `- [\`${c.sha}\`](${links.commit(c.sha)}) ${c.detail ? `${c.subject}: ${c.detail.trim()}` : c.subject}`);
+  const inner = details("Branch and Commit Details", blocks([links.inline(branch.description.trim(), branch), commits.join("\n")]));
+  const intro = `This [review branch](${links.tree(branch.name)}) contains work the verification agent did to help verify findings and make sure suggestions make sense and are actionable. This doesn't necessarily represent production ready code. Feel free to include any commits in the PR but they should be reviewed by a human.`;
+  return details("Review Verification Branch Details", blocks([intro, inner]));
+}
+function postedBranch(file) {
+  const branch = latestBranch(file);
+  return branch?.commits.length ? branch : void 0;
+}
+function findingBody(ctx, f, branch) {
+  const { file } = ctx;
+  const links = new Links(ctx.repo, file);
+  const fixes = (branch?.commits ?? []).filter((c) => c.findings.includes(f.id)).map((c) => `[\`${c.sha}\`](${links.commit(c.sha)})`);
+  const verified = f.implementation_verified ? ` Verified via ${file.verification.model} at ${file.verification.effort} effort.` : "";
+  const provenance = `Discovered by ${list2(f.discovered_by.map((d) => discovery(links, d)))}.${verified}`;
+  return blocks([
+    f.issue.trim(),
+    f.issue_details && details("Details", f.issue_details),
+    f.evidence && details("Evidence", f.evidence),
+    f.fix?.trim(),
+    f.fix_details && details("Details", f.fix_details),
+    fixes.length > 0 && `Fixed on the review branch in ${list2(fixes)}.`,
+    details("Discovery & Verification Agent Details", provenance)
+  ]).trimEnd();
+}
+function fence(text2) {
+  const longest = Math.max(2, ...(text2.match(/`+/g) ?? []).map((run) => run.length));
+  return "`".repeat(longest + 1);
+}
+function followup(ctx) {
+  if (!ctx.followupIssue) return null;
+  const issue = ctx.followupIssue.trim();
+  const marks = fence(issue);
+  return details(
+    `Suggested Follow-Up Refactoring for ${ctx.file.followup_target}`,
+    `Here's draft text for a follow-up issue covering refactorings this review recommends that don't fit this PR or its target branch. When creating the issue, feel free to assign John (jmchilton).
+
+${marks}markdown
+${issue}
+${marks}`
+  );
+}
+function reviewBlocks(ctx) {
+  const findings = includedFindings(ctx.file);
+  const withBranch = postedBranch(ctx.file);
+  const out = [agentDetails(ctx)];
+  if (ctx.risks?.trim()) out.push(details("Risks", ctx.risks));
+  if (!findings.length) out.push(NO_FINDINGS[ctx.pr % 3]);
+  else {
+    out.push("## Automated Review Findings", ABOUT_FINDINGS);
+    if (withBranch) out.push(branchBlock(ctx, withBranch));
+    out.push(...findings.map((f) => findingBlock(ctx, f, withBranch)));
+  }
+  const issue = followup(ctx);
+  if (issue) out.push(issue);
+  return out;
+}
+function composeComment(ctx) {
+  const head = [noteText(ctx.commentNote), humanReview(ctx)];
+  if (ctx.file.actions.pull_request) {
+    return blocks([...head, `The automated review findings, and a branch with fixes for them, are in ${ctx.prUrl}.`]);
+  }
+  return blocks([...head, ...reviewBlocks(ctx)]);
+}
+var AGENTS_URL, PROCESS_URL, FACTORY_LINE, ABOUT_FINDINGS, NO_FINDINGS, details, blocks, list2, Links, discovery, findingBlock, humanReview, composePrBody;
+var init_compose = __esm({
+  "../review-factory/src/compose.ts"() {
+    "use strict";
+    init_repository_tabs();
+    init_gates();
+    init_model();
+    AGENTS_URL = "https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents";
+    PROCESS_URL = `${AGENTS_URL}/_shared/PROCESS_INITIAL_REVIEW.md`;
+    FACTORY_LINE = "Reviewed with [John's Galaxy Brain Review Factory](https://galaxy-brain.jmchilton.net/factory/galaxy-reviews/).";
+    ABOUT_FINDINGS = `<details><summary>About findings</summary>
+
+These are broken into P1 (must fix), P2 (should fix), and P3 (smaller nits). These ratings are agent defined and the priority to John may be different and called out above. If anything is rated P3 and not called out as important by John above - please don't feel compelled to act on them or respond to them.
+
+You're contributing to a repository John cares about and you deserve a human response. If any of these don't make sense or are missing important context - please push back and accept John's apology.
+
+</details>`;
+    NO_FINDINGS = [
+      "- What is this magic \u{1FA84} - no findings! What a trick you pulled off here.",
+      "- Exit 0 from these Unix-y agents \u{1F427} - everything must be okay.",
+      "- Heroic effort \u{1F9B8} - none of the agents found issues."
+    ];
+    details = (summary, body) => `<details><summary>${summary}</summary>
+
+${body.trim()}
+
+</details>`;
+    blocks = (parts) => `${parts.filter(Boolean).join("\n\n")}
+`;
+    list2 = (items) => items.length < 3 ? items.join(" and ") : `${items.slice(0, -1).join(", ")}, and ${items.at(-1)}`;
+    Links = class {
+      constructor(repo, file) {
+        __publicField(this, "repo", repo);
+        __publicField(this, "file", file);
+        __publicField(this, "tree", (branch) => `https://github.com/${FORK_OWNER}/${this.repo}/tree/${branch}`);
+        __publicField(this, "commit", (sha) => `https://github.com/${FORK_OWNER}/${this.repo}/commit/${sha}`);
+        __publicField(this, "profile", (profile) => {
+          const path = this.file.agents.find((a) => a.profile === profile)?.path;
+          return `[${profile}](${AGENTS_URL}/${path})`;
+        });
+      }
+      knownSha(token) {
+        if (!/^[0-9a-f]{7,40}$/.test(token)) return false;
+        const shas = [this.file.reviewed_commit, ...this.file.branches.flatMap((b) => [b.head, ...b.commits.map((c) => c.sha)])];
+        return shas.some((sha) => sha.startsWith(token) || token.startsWith(sha));
+      }
+      /** Links backticked branch names and known commit SHAs that aren't links yet. */
+      inline(text2, branch) {
+        return text2.replace(/(?<!\[)`([^`\n]+)`(?!\]\()/g, (span, token) => {
+          if (token === branch.name) return `[${span}](${this.tree(token)})`;
+          return this.knownSha(token) ? `[${span}](${this.commit(token)})` : span;
+        });
+      }
+    };
+    discovery = (links, d) => `${links.profile(d.profile)} via ${d.model} at ${d.effort} effort`;
+    findingBlock = (ctx, f, branch) => `### ${f.id}: ${f.title}${f.implementation_verified ? " (implementation verified)" : ""}
+
+${findingBody(ctx, f, branch)}`;
+    humanReview = (ctx) => ctx.humanReview?.trim() ? `## Human Review
+
+${ctx.humanReview.trim()}` : null;
+    composePrBody = (ctx) => blocks([noteText(ctx.prNote), ...reviewBlocks(ctx)]);
+  }
+});
+
+// ../review-factory/src/landing.ts
+function statusLine(ctx) {
+  const trim = trimLine(ctx.file);
+  if (trim) return trim;
+  const mode = gateMode(ctx);
+  const { errors } = composeGates(ctx, mode);
+  if (errors.length) return `\u26D4 ${errors[0]}${errors.length > 1 ? ` (+${errors.length - 1} more)` : ""}`;
+  if (mode === "pr") return "\u2705 Ready to open the PR";
+  return `\u2705 Ready to ${ACTIONS.filter((a) => ctx.file.actions[a]).map(label2).join(", ")}`;
+}
+function landing(ctx) {
+  const { file } = ctx;
+  const branch = postedBranch(file);
+  const applies = { pull_request: !!branch, push: !!branch, issue_refactor: !!ctx.followupIssue, issue_galaxy_brain: ctx.learningIssue };
+  const items = [...file.findings].sort(byId).map((f) => ({
+    id: f.id,
+    title: f.title,
+    summary: f.summary,
+    include: f.include,
+    ...f.filtered ? { filtered: f.filtered } : {},
+    fixedIn: (branch?.commits ?? []).filter((c) => c.findings.includes(f.id)).map((c) => c.sha),
+    ...f.issue ? { text: findingBody(ctx, f, branch) } : {}
+  }));
+  const mode = gateMode(ctx);
+  return {
+    status: statusLine(ctx),
+    ...composeGates(ctx, mode),
+    findings: items.filter((f) => !FILTERED_ID.test(f.id)),
+    filtered: items.filter((f) => FILTERED_ID.test(f.id)),
+    notes: [
+      { name: commentNoteName(file.round), state: noteState(ctx.commentNote) },
+      { name: prNoteName(file.round), state: noteState(ctx.prNote) }
+    ],
+    actions: ACTIONS.filter((a) => applies[a] !== false || file.actions[a]).map((action) => ({ action, label: ACTION_LABELS[action], checked: file.actions[action] })),
+    previews: {
+      comment: composeComment(mode === "pr" ? { ...ctx, prUrl: "the review-branch PR" } : ctx),
+      pr: branch ? composePrBody(ctx) : null
+    }
+  };
+}
+var label2, gateMode, ACTION_LABELS, noteLabel, TONES, statusTone, noteState;
+var init_landing = __esm({
+  "../review-factory/src/landing.ts"() {
+    "use strict";
+    init_compose();
+    init_gates();
+    init_model();
+    init_status();
+    label2 = (action) => action.replace(/_/g, " ");
+    gateMode = (ctx) => ctx.file.actions.pull_request && !ctx.prUrl ? "pr" : "comment";
+    ACTION_LABELS = {
+      approve: "Approve",
+      approve_and_merge: "Approve and merge",
+      comment: "Comment",
+      review_comment: "Review comment",
+      request_changes: "Request changes",
+      pull_request: "Pull request",
+      push: "Push",
+      issue_refactor: "Issue (refactor)",
+      issue_galaxy_brain: "Issue (galaxy-brain)"
+    };
+    noteLabel = ({ name, state }) => `\u{1F4DD} ${/_pr_note\.md$/.test(name) ? "PR note" : "Comment note"}${state === "written" ? "" : ` \xB7 ${state}`}`;
+    TONES = [
+      ["\u2705", "ready"],
+      ["\u2702\uFE0F", "trim"],
+      ["\u26A0\uFE0F", "warning"]
+    ];
+    statusTone = (line) => TONES.find(([mark]) => line.startsWith(mark))?.[1] ?? "blocked";
+    noteState = (note) => note === null ? "missing" : noteIsEmpty(note) ? "empty" : "written";
+  }
+});
+
+// node_modules/yaml/browser/dist/nodes/identity.js
+function isCollection(node) {
+  if (node && typeof node === "object")
+    switch (node[NODE_TYPE]) {
+      case MAP:
+      case SEQ:
+        return true;
+    }
+  return false;
+}
+function isNode(node) {
+  if (node && typeof node === "object")
+    switch (node[NODE_TYPE]) {
+      case ALIAS:
+      case MAP:
+      case SCALAR:
+      case SEQ:
+        return true;
+    }
+  return false;
+}
+var ALIAS, DOC, MAP, PAIR, SCALAR, SEQ, NODE_TYPE, isAlias, isDocument, isMap, isPair, isScalar, isSeq, hasAnchor;
+var init_identity = __esm({
+  "node_modules/yaml/browser/dist/nodes/identity.js"() {
+    ALIAS = /* @__PURE__ */ Symbol.for("yaml.alias");
+    DOC = /* @__PURE__ */ Symbol.for("yaml.document");
+    MAP = /* @__PURE__ */ Symbol.for("yaml.map");
+    PAIR = /* @__PURE__ */ Symbol.for("yaml.pair");
+    SCALAR = /* @__PURE__ */ Symbol.for("yaml.scalar");
+    SEQ = /* @__PURE__ */ Symbol.for("yaml.seq");
+    NODE_TYPE = /* @__PURE__ */ Symbol.for("yaml.node.type");
+    isAlias = (node) => !!node && typeof node === "object" && node[NODE_TYPE] === ALIAS;
+    isDocument = (node) => !!node && typeof node === "object" && node[NODE_TYPE] === DOC;
+    isMap = (node) => !!node && typeof node === "object" && node[NODE_TYPE] === MAP;
+    isPair = (node) => !!node && typeof node === "object" && node[NODE_TYPE] === PAIR;
+    isScalar = (node) => !!node && typeof node === "object" && node[NODE_TYPE] === SCALAR;
+    isSeq = (node) => !!node && typeof node === "object" && node[NODE_TYPE] === SEQ;
+    hasAnchor = (node) => (isScalar(node) || isCollection(node)) && !!node.anchor;
+  }
+});
+
+// node_modules/yaml/browser/dist/visit.js
+function visit(node, visitor) {
+  const visitor_ = initVisitor(visitor);
+  if (isDocument(node)) {
+    const cd = visit_(null, node.contents, visitor_, Object.freeze([node]));
+    if (cd === REMOVE)
+      node.contents = null;
+  } else
+    visit_(null, node, visitor_, Object.freeze([]));
+}
+function visit_(key2, node, visitor, path) {
+  const ctrl = callVisitor(key2, node, visitor, path);
+  if (isNode(ctrl) || isPair(ctrl)) {
+    replaceNode(key2, path, ctrl);
+    return visit_(key2, ctrl, visitor, path);
+  }
+  if (typeof ctrl !== "symbol") {
+    if (isCollection(node)) {
+      path = Object.freeze(path.concat(node));
+      for (let i = 0; i < node.items.length; ++i) {
+        const ci = visit_(i, node.items[i], visitor, path);
+        if (typeof ci === "number")
+          i = ci - 1;
+        else if (ci === BREAK)
+          return BREAK;
+        else if (ci === REMOVE) {
+          node.items.splice(i, 1);
+          i -= 1;
+        }
+      }
+    } else if (isPair(node)) {
+      path = Object.freeze(path.concat(node));
+      const ck = visit_("key", node.key, visitor, path);
+      if (ck === BREAK)
+        return BREAK;
+      else if (ck === REMOVE)
+        node.key = null;
+      const cv = visit_("value", node.value, visitor, path);
+      if (cv === BREAK)
+        return BREAK;
+      else if (cv === REMOVE)
+        node.value = null;
+    }
+  }
+  return ctrl;
+}
+async function visitAsync(node, visitor) {
+  const visitor_ = initVisitor(visitor);
+  if (isDocument(node)) {
+    const cd = await visitAsync_(null, node.contents, visitor_, Object.freeze([node]));
+    if (cd === REMOVE)
+      node.contents = null;
+  } else
+    await visitAsync_(null, node, visitor_, Object.freeze([]));
+}
+async function visitAsync_(key2, node, visitor, path) {
+  const ctrl = await callVisitor(key2, node, visitor, path);
+  if (isNode(ctrl) || isPair(ctrl)) {
+    replaceNode(key2, path, ctrl);
+    return visitAsync_(key2, ctrl, visitor, path);
+  }
+  if (typeof ctrl !== "symbol") {
+    if (isCollection(node)) {
+      path = Object.freeze(path.concat(node));
+      for (let i = 0; i < node.items.length; ++i) {
+        const ci = await visitAsync_(i, node.items[i], visitor, path);
+        if (typeof ci === "number")
+          i = ci - 1;
+        else if (ci === BREAK)
+          return BREAK;
+        else if (ci === REMOVE) {
+          node.items.splice(i, 1);
+          i -= 1;
+        }
+      }
+    } else if (isPair(node)) {
+      path = Object.freeze(path.concat(node));
+      const ck = await visitAsync_("key", node.key, visitor, path);
+      if (ck === BREAK)
+        return BREAK;
+      else if (ck === REMOVE)
+        node.key = null;
+      const cv = await visitAsync_("value", node.value, visitor, path);
+      if (cv === BREAK)
+        return BREAK;
+      else if (cv === REMOVE)
+        node.value = null;
+    }
+  }
+  return ctrl;
+}
+function initVisitor(visitor) {
+  if (typeof visitor === "object" && (visitor.Collection || visitor.Node || visitor.Value)) {
+    return Object.assign({
+      Alias: visitor.Node,
+      Map: visitor.Node,
+      Scalar: visitor.Node,
+      Seq: visitor.Node
+    }, visitor.Value && {
+      Map: visitor.Value,
+      Scalar: visitor.Value,
+      Seq: visitor.Value
+    }, visitor.Collection && {
+      Map: visitor.Collection,
+      Seq: visitor.Collection
+    }, visitor);
+  }
+  return visitor;
+}
+function callVisitor(key2, node, visitor, path) {
+  if (typeof visitor === "function")
+    return visitor(key2, node, path);
+  if (isMap(node))
+    return visitor.Map?.(key2, node, path);
+  if (isSeq(node))
+    return visitor.Seq?.(key2, node, path);
+  if (isPair(node))
+    return visitor.Pair?.(key2, node, path);
+  if (isScalar(node))
+    return visitor.Scalar?.(key2, node, path);
+  if (isAlias(node))
+    return visitor.Alias?.(key2, node, path);
+  return void 0;
+}
+function replaceNode(key2, path, node) {
+  const parent = path[path.length - 1];
+  if (isCollection(parent)) {
+    parent.items[key2] = node;
+  } else if (isPair(parent)) {
+    if (key2 === "key")
+      parent.key = node;
+    else
+      parent.value = node;
+  } else if (isDocument(parent)) {
+    parent.contents = node;
+  } else {
+    const pt = isAlias(parent) ? "alias" : "scalar";
+    throw new Error(`Cannot replace node with ${pt} parent`);
+  }
+}
+var BREAK, SKIP, REMOVE;
+var init_visit = __esm({
+  "node_modules/yaml/browser/dist/visit.js"() {
+    init_identity();
+    BREAK = /* @__PURE__ */ Symbol("break visit");
+    SKIP = /* @__PURE__ */ Symbol("skip children");
+    REMOVE = /* @__PURE__ */ Symbol("remove node");
+    visit.BREAK = BREAK;
+    visit.SKIP = SKIP;
+    visit.REMOVE = REMOVE;
+    visitAsync.BREAK = BREAK;
+    visitAsync.SKIP = SKIP;
+    visitAsync.REMOVE = REMOVE;
+  }
+});
+
+// node_modules/yaml/browser/dist/doc/directives.js
+var escapeChars, escapeTagName, Directives;
+var init_directives = __esm({
+  "node_modules/yaml/browser/dist/doc/directives.js"() {
+    init_identity();
+    init_visit();
+    escapeChars = {
+      "!": "%21",
+      ",": "%2C",
+      "[": "%5B",
+      "]": "%5D",
+      "{": "%7B",
+      "}": "%7D"
+    };
+    escapeTagName = (tn) => tn.replace(/[!,[\]{}]/g, (ch) => escapeChars[ch]);
+    Directives = class _Directives {
+      constructor(yaml2, tags) {
+        this.docStart = null;
+        this.docEnd = false;
+        this.yaml = Object.assign({}, _Directives.defaultYaml, yaml2);
+        this.tags = Object.assign({}, _Directives.defaultTags, tags);
+      }
+      clone() {
+        const copy = new _Directives(this.yaml, this.tags);
+        copy.docStart = this.docStart;
+        return copy;
+      }
+      /**
+       * During parsing, get a Directives instance for the current document and
+       * update the stream state according to the current version's spec.
+       */
+      atDocument() {
+        const res = new _Directives(this.yaml, this.tags);
+        switch (this.yaml.version) {
+          case "1.1":
+            this.atNextDocument = true;
+            break;
+          case "1.2":
+            this.atNextDocument = false;
+            this.yaml = {
+              explicit: _Directives.defaultYaml.explicit,
+              version: "1.2"
+            };
+            this.tags = Object.assign({}, _Directives.defaultTags);
+            break;
+        }
+        return res;
+      }
+      /**
+       * @param onError - May be called even if the action was successful
+       * @returns `true` on success
+       */
+      add(line, onError) {
+        if (this.atNextDocument) {
+          this.yaml = { explicit: _Directives.defaultYaml.explicit, version: "1.1" };
+          this.tags = Object.assign({}, _Directives.defaultTags);
+          this.atNextDocument = false;
+        }
+        const parts = line.trim().split(/[ \t]+/);
+        const name = parts.shift();
+        switch (name) {
+          case "%TAG": {
+            if (parts.length !== 2) {
+              onError(0, "%TAG directive should contain exactly two parts");
+              if (parts.length < 2)
+                return false;
+            }
+            const [handle, prefix] = parts;
+            this.tags[handle] = prefix;
+            return true;
+          }
+          case "%YAML": {
+            this.yaml.explicit = true;
+            if (parts.length !== 1) {
+              onError(0, "%YAML directive should contain exactly one part");
+              return false;
+            }
+            const [version] = parts;
+            if (version === "1.1" || version === "1.2") {
+              this.yaml.version = version;
+              return true;
+            } else {
+              const isValid = /^\d+\.\d+$/.test(version);
+              onError(6, `Unsupported YAML version ${version}`, isValid);
+              return false;
+            }
+          }
+          default:
+            onError(0, `Unknown directive ${name}`, true);
+            return false;
+        }
+      }
+      /**
+       * Resolves a tag, matching handles to those defined in %TAG directives.
+       *
+       * @returns Resolved tag, which may also be the non-specific tag `'!'` or a
+       *   `'!local'` tag, or `null` if unresolvable.
+       */
+      tagName(source, onError) {
+        if (source === "!")
+          return "!";
+        if (source[0] !== "!") {
+          onError(`Not a valid tag: ${source}`);
+          return null;
+        }
+        if (source[1] === "<") {
+          const verbatim = source.slice(2, -1);
+          if (verbatim === "!" || verbatim === "!!") {
+            onError(`Verbatim tags aren't resolved, so ${source} is invalid.`);
+            return null;
+          }
+          if (source[source.length - 1] !== ">")
+            onError("Verbatim tags must end with a >");
+          return verbatim;
+        }
+        const [, handle, suffix] = source.match(/^(.*!)([^!]*)$/s);
+        if (!suffix)
+          onError(`The ${source} tag has no suffix`);
+        const prefix = this.tags[handle];
+        if (prefix) {
+          try {
+            return prefix + decodeURIComponent(suffix);
+          } catch (error) {
+            onError(String(error));
+            return null;
+          }
+        }
+        if (handle === "!")
+          return source;
+        onError(`Could not resolve tag: ${source}`);
+        return null;
+      }
+      /**
+       * Given a fully resolved tag, returns its printable string form,
+       * taking into account current tag prefixes and defaults.
+       */
+      tagString(tag) {
+        for (const [handle, prefix] of Object.entries(this.tags)) {
+          if (tag.startsWith(prefix))
+            return handle + escapeTagName(tag.substring(prefix.length));
+        }
+        return tag[0] === "!" ? tag : `!<${tag}>`;
+      }
+      toString(doc) {
+        const lines = this.yaml.explicit ? [`%YAML ${this.yaml.version || "1.2"}`] : [];
+        const tagEntries = Object.entries(this.tags);
+        let tagNames;
+        if (doc && tagEntries.length > 0 && isNode(doc.contents)) {
+          const tags = {};
+          visit(doc.contents, (_key, node) => {
+            if (isNode(node) && node.tag)
+              tags[node.tag] = true;
+          });
+          tagNames = Object.keys(tags);
+        } else
+          tagNames = [];
+        for (const [handle, prefix] of tagEntries) {
+          if (handle === "!!" && prefix === "tag:yaml.org,2002:")
+            continue;
+          if (!doc || tagNames.some((tn) => tn.startsWith(prefix)))
+            lines.push(`%TAG ${handle} ${prefix}`);
+        }
+        return lines.join("\n");
+      }
+    };
+    Directives.defaultYaml = { explicit: false, version: "1.2" };
+    Directives.defaultTags = { "!!": "tag:yaml.org,2002:" };
+  }
+});
+
+// node_modules/yaml/browser/dist/doc/anchors.js
+function anchorIsValid(anchor) {
+  if (/[\x00-\x19\s,[\]{}]/.test(anchor)) {
+    const sa = JSON.stringify(anchor);
+    const msg = `Anchor must not contain whitespace or control characters: ${sa}`;
+    throw new Error(msg);
+  }
+  return true;
+}
+function anchorNames(root) {
+  const anchors = /* @__PURE__ */ new Set();
+  visit(root, {
+    Value(_key, node) {
+      if (node.anchor)
+        anchors.add(node.anchor);
+    }
+  });
+  return anchors;
+}
+function findNewAnchor(prefix, exclude) {
+  for (let i = 1; true; ++i) {
+    const name = `${prefix}${i}`;
+    if (!exclude.has(name))
+      return name;
+  }
+}
+function createNodeAnchors(doc, prefix) {
+  const aliasObjects = [];
+  const sourceObjects = /* @__PURE__ */ new Map();
+  let prevAnchors = null;
+  return {
+    onAnchor: (source) => {
+      aliasObjects.push(source);
+      prevAnchors ?? (prevAnchors = anchorNames(doc));
+      const anchor = findNewAnchor(prefix, prevAnchors);
+      prevAnchors.add(anchor);
+      return anchor;
+    },
+    /**
+     * With circular references, the source node is only resolved after all
+     * of its child nodes are. This is why anchors are set only after all of
+     * the nodes have been created.
+     */
+    setAnchors: () => {
+      for (const source of aliasObjects) {
+        const ref = sourceObjects.get(source);
+        if (typeof ref === "object" && ref.anchor && (isScalar(ref.node) || isCollection(ref.node))) {
+          ref.node.anchor = ref.anchor;
+        } else {
+          const error = new Error("Failed to resolve repeated object (this should not happen)");
+          error.source = source;
+          throw error;
+        }
+      }
+    },
+    sourceObjects
+  };
+}
+var init_anchors = __esm({
+  "node_modules/yaml/browser/dist/doc/anchors.js"() {
+    init_identity();
+    init_visit();
+  }
+});
+
+// node_modules/yaml/browser/dist/doc/applyReviver.js
+function applyReviver(reviver, obj, key2, val) {
+  if (val && typeof val === "object") {
+    if (Array.isArray(val)) {
+      for (let i = 0, len = val.length; i < len; ++i) {
+        const v0 = val[i];
+        const v1 = applyReviver(reviver, val, String(i), v0);
+        if (v1 === void 0)
+          delete val[i];
+        else if (v1 !== v0)
+          val[i] = v1;
+      }
+    } else if (val instanceof Map) {
+      for (const k of Array.from(val.keys())) {
+        const v0 = val.get(k);
+        const v1 = applyReviver(reviver, val, k, v0);
+        if (v1 === void 0)
+          val.delete(k);
+        else if (v1 !== v0)
+          val.set(k, v1);
+      }
+    } else if (val instanceof Set) {
+      for (const v0 of Array.from(val)) {
+        const v1 = applyReviver(reviver, val, v0, v0);
+        if (v1 === void 0)
+          val.delete(v0);
+        else if (v1 !== v0) {
+          val.delete(v0);
+          val.add(v1);
+        }
+      }
+    } else {
+      for (const [k, v0] of Object.entries(val)) {
+        const v1 = applyReviver(reviver, val, k, v0);
+        if (v1 === void 0)
+          delete val[k];
+        else if (v1 !== v0)
+          val[k] = v1;
+      }
+    }
+  }
+  return reviver.call(obj, key2, val);
+}
+var init_applyReviver = __esm({
+  "node_modules/yaml/browser/dist/doc/applyReviver.js"() {
+  }
+});
+
+// node_modules/yaml/browser/dist/nodes/toJS.js
+function toJS(value, arg, ctx) {
+  if (Array.isArray(value))
+    return value.map((v, i) => toJS(v, String(i), ctx));
+  if (value && typeof value.toJSON === "function") {
+    if (!ctx || !hasAnchor(value))
+      return value.toJSON(arg, ctx);
+    const data = { aliasCount: 0, count: 1, res: void 0 };
+    ctx.anchors.set(value, data);
+    ctx.onCreate = (res2) => {
+      data.res = res2;
+      delete ctx.onCreate;
+    };
+    const res = value.toJSON(arg, ctx);
+    if (ctx.onCreate)
+      ctx.onCreate(res);
+    return res;
+  }
+  if (typeof value === "bigint" && !ctx?.keep)
+    return Number(value);
+  return value;
+}
+var init_toJS = __esm({
+  "node_modules/yaml/browser/dist/nodes/toJS.js"() {
+    init_identity();
+  }
+});
+
+// node_modules/yaml/browser/dist/nodes/Node.js
+var NodeBase;
+var init_Node = __esm({
+  "node_modules/yaml/browser/dist/nodes/Node.js"() {
+    init_applyReviver();
+    init_identity();
+    init_toJS();
+    NodeBase = class {
+      constructor(type) {
+        Object.defineProperty(this, NODE_TYPE, { value: type });
+      }
+      /** Create a copy of this node.  */
+      clone() {
+        const copy = Object.create(Object.getPrototypeOf(this), Object.getOwnPropertyDescriptors(this));
+        if (this.range)
+          copy.range = this.range.slice();
+        return copy;
+      }
+      /** A plain JavaScript representation of this node. */
+      toJS(doc, { mapAsMap, maxAliasCount, onAnchor, reviver } = {}) {
+        if (!isDocument(doc))
+          throw new TypeError("A document argument is required");
+        const ctx = {
+          anchors: /* @__PURE__ */ new Map(),
+          doc,
+          keep: true,
+          mapAsMap: mapAsMap === true,
+          mapKeyWarned: false,
+          maxAliasCount: typeof maxAliasCount === "number" ? maxAliasCount : 100
+        };
+        const res = toJS(this, "", ctx);
+        if (typeof onAnchor === "function")
+          for (const { count, res: res2 } of ctx.anchors.values())
+            onAnchor(res2, count);
+        return typeof reviver === "function" ? applyReviver(reviver, { "": res }, "", res) : res;
+      }
+    };
+  }
+});
+
+// node_modules/yaml/browser/dist/nodes/Alias.js
+function getAliasCount(doc, node, anchors) {
+  if (isAlias(node)) {
+    const source = node.resolve(doc);
+    const anchor = anchors && source && anchors.get(source);
+    return anchor ? anchor.count * anchor.aliasCount : 0;
+  } else if (isCollection(node)) {
+    let count = 0;
+    for (const item2 of node.items) {
+      const c = getAliasCount(doc, item2, anchors);
+      if (c > count)
+        count = c;
+    }
+    return count;
+  } else if (isPair(node)) {
+    const kc = getAliasCount(doc, node.key, anchors);
+    const vc = getAliasCount(doc, node.value, anchors);
+    return Math.max(kc, vc);
+  }
+  return 1;
+}
+var Alias;
+var init_Alias = __esm({
+  "node_modules/yaml/browser/dist/nodes/Alias.js"() {
+    init_anchors();
+    init_visit();
+    init_identity();
+    init_Node();
+    init_toJS();
+    Alias = class extends NodeBase {
+      constructor(source) {
+        super(ALIAS);
+        this.source = source;
+        Object.defineProperty(this, "tag", {
+          set() {
+            throw new Error("Alias nodes cannot have tags");
+          }
+        });
+      }
+      /**
+       * Resolve the value of this alias within `doc`, finding the last
+       * instance of the `source` anchor before this node.
+       */
+      resolve(doc, ctx) {
+        if (ctx?.maxAliasCount === 0)
+          throw new ReferenceError("Alias resolution is disabled");
+        let nodes;
+        if (ctx?.aliasResolveCache) {
+          nodes = ctx.aliasResolveCache;
+        } else {
+          nodes = [];
+          visit(doc, {
+            Node: (_key, node) => {
+              if (isAlias(node) || hasAnchor(node))
+                nodes.push(node);
+            }
+          });
+          if (ctx)
+            ctx.aliasResolveCache = nodes;
+        }
+        let found = void 0;
+        for (const node of nodes) {
+          if (node === this)
+            break;
+          if (node.anchor === this.source)
+            found = node;
+        }
+        if (found && ctx) {
+          const { anchors, doc: doc2, maxAliasCount } = ctx;
+          let data = anchors.get(found);
+          if (!data) {
+            toJS(found, null, ctx);
+            data = anchors.get(found);
+          }
+          if (data?.res === void 0) {
+            const msg = "This should not happen: Alias anchor was not resolved?";
+            throw new ReferenceError(msg);
+          }
+          if (maxAliasCount >= 0) {
+            data.count += 1;
+            if (data.aliasCount === 0)
+              data.aliasCount = getAliasCount(doc2, found, anchors);
+            if (data.count * data.aliasCount > maxAliasCount) {
+              const msg = "Excessive alias count indicates a resource exhaustion attack";
+              throw new ReferenceError(msg);
+            }
+          }
+        }
+        return found;
+      }
+      toJSON(_arg, ctx) {
+        if (!ctx)
+          return { source: this.source };
+        const source = this.resolve(ctx.doc, ctx);
+        if (!source) {
+          const msg = `Unresolved alias (the anchor must be set before the alias): ${this.source}`;
+          throw new ReferenceError(msg);
+        }
+        return ctx.anchors.get(source).res;
+      }
+      toString(ctx, _onComment, _onChompKeep) {
+        const src = `*${this.source}`;
+        if (ctx) {
+          anchorIsValid(this.source);
+          if (ctx.options.verifyAliasOrder && !ctx.anchors.has(this.source)) {
+            const msg = `Unresolved alias (the anchor must be set before the alias): ${this.source}`;
+            throw new Error(msg);
+          }
+          if (ctx.implicitKey)
+            return `${src} `;
+        }
+        return src;
+      }
+    };
+  }
+});
+
+// node_modules/yaml/browser/dist/nodes/Scalar.js
+var isScalarValue, Scalar;
+var init_Scalar = __esm({
+  "node_modules/yaml/browser/dist/nodes/Scalar.js"() {
+    init_identity();
+    init_Node();
+    init_toJS();
+    isScalarValue = (value) => !value || typeof value !== "function" && typeof value !== "object";
+    Scalar = class extends NodeBase {
+      constructor(value) {
+        super(SCALAR);
+        this.value = value;
+      }
+      toJSON(arg, ctx) {
+        return ctx?.keep ? this.value : toJS(this.value, arg, ctx);
+      }
+      toString() {
+        return String(this.value);
+      }
+    };
+    Scalar.BLOCK_FOLDED = "BLOCK_FOLDED";
+    Scalar.BLOCK_LITERAL = "BLOCK_LITERAL";
+    Scalar.PLAIN = "PLAIN";
+    Scalar.QUOTE_DOUBLE = "QUOTE_DOUBLE";
+    Scalar.QUOTE_SINGLE = "QUOTE_SINGLE";
+  }
+});
+
+// node_modules/yaml/browser/dist/doc/createNode.js
+function findTagObject(value, tagName, tags) {
+  if (tagName) {
+    const match = tags.filter((t) => t.tag === tagName);
+    const tagObj = match.find((t) => !t.format) ?? match[0];
+    if (!tagObj)
+      throw new Error(`Tag ${tagName} not found`);
+    return tagObj;
+  }
+  return tags.find((t) => t.identify?.(value) && !t.format);
+}
+function createNode(value, tagName, ctx) {
+  if (isDocument(value))
+    value = value.contents;
+  if (isNode(value))
+    return value;
+  if (isPair(value)) {
+    const map2 = ctx.schema[MAP].createNode?.(ctx.schema, null, ctx);
+    map2.items.push(value);
+    return map2;
+  }
+  if (value instanceof String || value instanceof Number || value instanceof Boolean || typeof BigInt !== "undefined" && value instanceof BigInt) {
+    value = value.valueOf();
+  }
+  const { aliasDuplicateObjects, onAnchor, onTagObj, schema: schema4, sourceObjects } = ctx;
+  let ref = void 0;
+  if (aliasDuplicateObjects && value && typeof value === "object") {
+    ref = sourceObjects.get(value);
+    if (ref) {
+      ref.anchor ?? (ref.anchor = onAnchor(value));
+      return new Alias(ref.anchor);
+    } else {
+      ref = { anchor: null, node: null };
+      sourceObjects.set(value, ref);
+    }
+  }
+  if (tagName?.startsWith("!!"))
+    tagName = defaultTagPrefix + tagName.slice(2);
+  let tagObj = findTagObject(value, tagName, schema4.tags);
+  if (!tagObj) {
+    if (value && typeof value.toJSON === "function") {
+      value = value.toJSON();
+    }
+    if (!value || typeof value !== "object") {
+      const node2 = new Scalar(value);
+      if (ref)
+        ref.node = node2;
+      return node2;
+    }
+    tagObj = value instanceof Map ? schema4[MAP] : Symbol.iterator in Object(value) ? schema4[SEQ] : schema4[MAP];
+  }
+  if (onTagObj) {
+    onTagObj(tagObj);
+    delete ctx.onTagObj;
+  }
+  const node = tagObj?.createNode ? tagObj.createNode(ctx.schema, value, ctx) : typeof tagObj?.nodeClass?.from === "function" ? tagObj.nodeClass.from(ctx.schema, value, ctx) : new Scalar(value);
+  if (tagName)
+    node.tag = tagName;
+  else if (!tagObj.default)
+    node.tag = tagObj.tag;
+  if (ref)
+    ref.node = node;
+  return node;
+}
+var defaultTagPrefix;
+var init_createNode = __esm({
+  "node_modules/yaml/browser/dist/doc/createNode.js"() {
+    init_Alias();
+    init_identity();
+    init_Scalar();
+    defaultTagPrefix = "tag:yaml.org,2002:";
+  }
+});
+
+// node_modules/yaml/browser/dist/nodes/Collection.js
+function collectionFromPath(schema4, path, value) {
+  let v = value;
+  for (let i = path.length - 1; i >= 0; --i) {
+    const k = path[i];
+    if (typeof k === "number" && Number.isInteger(k) && k >= 0) {
+      const a = [];
+      a[k] = v;
+      v = a;
+    } else {
+      v = /* @__PURE__ */ new Map([[k, v]]);
+    }
+  }
+  return createNode(v, void 0, {
+    aliasDuplicateObjects: false,
+    keepUndefined: false,
+    onAnchor: () => {
+      throw new Error("This should not happen, please report a bug.");
+    },
+    schema: schema4,
+    sourceObjects: /* @__PURE__ */ new Map()
+  });
+}
+var isEmptyPath, Collection;
+var init_Collection = __esm({
+  "node_modules/yaml/browser/dist/nodes/Collection.js"() {
+    init_createNode();
+    init_identity();
+    init_Node();
+    isEmptyPath = (path) => path == null || typeof path === "object" && !!path[Symbol.iterator]().next().done;
+    Collection = class extends NodeBase {
+      constructor(type, schema4) {
+        super(type);
+        Object.defineProperty(this, "schema", {
+          value: schema4,
+          configurable: true,
+          enumerable: false,
+          writable: true
+        });
+      }
+      /**
+       * Create a copy of this collection.
+       *
+       * @param schema - If defined, overwrites the original's schema
+       */
+      clone(schema4) {
+        const copy = Object.create(Object.getPrototypeOf(this), Object.getOwnPropertyDescriptors(this));
+        if (schema4)
+          copy.schema = schema4;
+        copy.items = copy.items.map((it) => isNode(it) || isPair(it) ? it.clone(schema4) : it);
+        if (this.range)
+          copy.range = this.range.slice();
+        return copy;
+      }
+      /**
+       * Adds a value to the collection. For `!!map` and `!!omap` the value must
+       * be a Pair instance or a `{ key, value }` object, which may not have a key
+       * that already exists in the map.
+       */
+      addIn(path, value) {
+        if (isEmptyPath(path))
+          this.add(value);
+        else {
+          const [key2, ...rest] = path;
+          const node = this.get(key2, true);
+          if (isCollection(node))
+            node.addIn(rest, value);
+          else if (node === void 0 && this.schema)
+            this.set(key2, collectionFromPath(this.schema, rest, value));
+          else
+            throw new Error(`Expected YAML collection at ${key2}. Remaining path: ${rest}`);
+        }
+      }
+      /**
+       * Removes a value from the collection.
+       * @returns `true` if the item was found and removed.
+       */
+      deleteIn(path) {
+        const [key2, ...rest] = path;
+        if (rest.length === 0)
+          return this.delete(key2);
+        const node = this.get(key2, true);
+        if (isCollection(node))
+          return node.deleteIn(rest);
+        else
+          throw new Error(`Expected YAML collection at ${key2}. Remaining path: ${rest}`);
+      }
+      /**
+       * Returns item at `key`, or `undefined` if not found. By default unwraps
+       * scalar values from their surrounding node; to disable set `keepScalar` to
+       * `true` (collections are always returned intact).
+       */
+      getIn(path, keepScalar) {
+        const [key2, ...rest] = path;
+        const node = this.get(key2, true);
+        if (rest.length === 0)
+          return !keepScalar && isScalar(node) ? node.value : node;
+        else
+          return isCollection(node) ? node.getIn(rest, keepScalar) : void 0;
+      }
+      hasAllNullValues(allowScalar) {
+        return this.items.every((node) => {
+          if (!isPair(node))
+            return false;
+          const n = node.value;
+          return n == null || allowScalar && isScalar(n) && n.value == null && !n.commentBefore && !n.comment && !n.tag;
+        });
+      }
+      /**
+       * Checks if the collection includes a value with the key `key`.
+       */
+      hasIn(path) {
+        const [key2, ...rest] = path;
+        if (rest.length === 0)
+          return this.has(key2);
+        const node = this.get(key2, true);
+        return isCollection(node) ? node.hasIn(rest) : false;
+      }
+      /**
+       * Sets a value in this collection. For `!!set`, `value` needs to be a
+       * boolean to add/remove the item from the set.
+       */
+      setIn(path, value) {
+        const [key2, ...rest] = path;
+        if (rest.length === 0) {
+          this.set(key2, value);
+        } else {
+          const node = this.get(key2, true);
+          if (isCollection(node))
+            node.setIn(rest, value);
+          else if (node === void 0 && this.schema)
+            this.set(key2, collectionFromPath(this.schema, rest, value));
+          else
+            throw new Error(`Expected YAML collection at ${key2}. Remaining path: ${rest}`);
+        }
+      }
+    };
+  }
+});
+
+// node_modules/yaml/browser/dist/stringify/stringifyComment.js
+function indentComment(comment, indent) {
+  if (/^\n+$/.test(comment))
+    return comment.substring(1);
+  return indent ? comment.replace(/^(?! *$)/gm, indent) : comment;
+}
+var stringifyComment, lineComment;
+var init_stringifyComment = __esm({
+  "node_modules/yaml/browser/dist/stringify/stringifyComment.js"() {
+    stringifyComment = (str) => str.replace(/^(?!$)(?: $)?/gm, "#");
+    lineComment = (str, indent, comment) => str.endsWith("\n") ? indentComment(comment, indent) : comment.includes("\n") ? "\n" + indentComment(comment, indent) : (str.endsWith(" ") ? "" : " ") + comment;
+  }
+});
+
+// node_modules/yaml/browser/dist/stringify/foldFlowLines.js
+function foldFlowLines(text2, indent, mode = "flow", { indentAtStart, lineWidth = 80, minContentWidth = 20, onFold, onOverflow } = {}) {
+  if (!lineWidth || lineWidth < 0)
+    return text2;
+  if (lineWidth < minContentWidth)
+    minContentWidth = 0;
+  const endStep = Math.max(1 + minContentWidth, 1 + lineWidth - indent.length);
+  if (text2.length <= endStep)
+    return text2;
+  const folds = [];
+  const escapedFolds = {};
+  let end = lineWidth - indent.length;
+  if (typeof indentAtStart === "number") {
+    if (indentAtStart > lineWidth - Math.max(2, minContentWidth))
+      folds.push(0);
+    else
+      end = lineWidth - indentAtStart;
+  }
+  let split = void 0;
+  let prev = void 0;
+  let overflow = false;
+  let i = -1;
+  let escStart = -1;
+  let escEnd = -1;
+  if (mode === FOLD_BLOCK) {
+    i = consumeMoreIndentedLines(text2, i, indent.length);
+    if (i !== -1)
+      end = i + endStep;
+  }
+  for (let ch; ch = text2[i += 1]; ) {
+    if (mode === FOLD_QUOTED && ch === "\\") {
+      escStart = i;
+      switch (text2[i + 1]) {
+        case "x":
+          i += 3;
+          break;
+        case "u":
+          i += 5;
+          break;
+        case "U":
+          i += 9;
+          break;
+        default:
+          i += 1;
+      }
+      escEnd = i;
+    }
+    if (ch === "\n") {
+      if (mode === FOLD_BLOCK)
+        i = consumeMoreIndentedLines(text2, i, indent.length);
+      end = i + indent.length + endStep;
+      split = void 0;
+    } else {
+      if (ch === " " && prev && prev !== " " && prev !== "\n" && prev !== "	") {
+        const next = text2[i + 1];
+        if (next && next !== " " && next !== "\n" && next !== "	")
+          split = i;
+      }
+      if (i >= end) {
+        if (split) {
+          folds.push(split);
+          end = split + endStep;
+          split = void 0;
+        } else if (mode === FOLD_QUOTED) {
+          while (prev === " " || prev === "	") {
+            prev = ch;
+            ch = text2[i += 1];
+            overflow = true;
+          }
+          const j = i > escEnd + 1 ? i - 2 : escStart - 1;
+          if (escapedFolds[j])
+            return text2;
+          folds.push(j);
+          escapedFolds[j] = true;
+          end = j + endStep;
+          split = void 0;
+        } else {
+          overflow = true;
+        }
+      }
+    }
+    prev = ch;
+  }
+  if (overflow && onOverflow)
+    onOverflow();
+  if (folds.length === 0)
+    return text2;
+  if (onFold)
+    onFold();
+  let res = text2.slice(0, folds[0]);
+  for (let i2 = 0; i2 < folds.length; ++i2) {
+    const fold = folds[i2];
+    const end2 = folds[i2 + 1] || text2.length;
+    if (fold === 0)
+      res = `
+${indent}${text2.slice(0, end2)}`;
+    else {
+      if (mode === FOLD_QUOTED && escapedFolds[fold])
+        res += `${text2[fold]}\\`;
+      res += `
+${indent}${text2.slice(fold + 1, end2)}`;
+    }
+  }
+  return res;
+}
+function consumeMoreIndentedLines(text2, i, indent) {
+  let end = i;
+  let start = i + 1;
+  let ch = text2[start];
+  while (ch === " " || ch === "	") {
+    if (i < start + indent) {
+      ch = text2[++i];
+    } else {
+      do {
+        ch = text2[++i];
+      } while (ch && ch !== "\n");
+      end = i;
+      start = i + 1;
+      ch = text2[start];
+    }
+  }
+  return end;
+}
+var FOLD_FLOW, FOLD_BLOCK, FOLD_QUOTED;
+var init_foldFlowLines = __esm({
+  "node_modules/yaml/browser/dist/stringify/foldFlowLines.js"() {
+    FOLD_FLOW = "flow";
+    FOLD_BLOCK = "block";
+    FOLD_QUOTED = "quoted";
+  }
+});
+
+// node_modules/yaml/browser/dist/stringify/stringifyString.js
+function lineLengthOverLimit(str, lineWidth, indentLength) {
+  if (!lineWidth || lineWidth < 0)
+    return false;
+  const limit = lineWidth - indentLength;
+  const strLen = str.length;
+  if (strLen <= limit)
+    return false;
+  for (let i = 0, start = 0; i < strLen; ++i) {
+    if (str[i] === "\n") {
+      if (i - start > limit)
+        return true;
+      start = i + 1;
+      if (strLen - start <= limit)
+        return false;
+    }
+  }
+  return true;
+}
+function doubleQuotedString(value, ctx) {
+  const json2 = JSON.stringify(value);
+  if (ctx.options.doubleQuotedAsJSON)
+    return json2;
+  const { implicitKey } = ctx;
+  const minMultiLineLength = ctx.options.doubleQuotedMinMultiLineLength;
+  const indent = ctx.indent || (containsDocumentMarker(value) ? "  " : "");
+  let str = "";
+  let start = 0;
+  for (let i = 0, ch = json2[i]; ch; ch = json2[++i]) {
+    if (ch === " " && json2[i + 1] === "\\" && json2[i + 2] === "n") {
+      str += json2.slice(start, i) + "\\ ";
+      i += 1;
+      start = i;
+      ch = "\\";
+    }
+    if (ch === "\\")
+      switch (json2[i + 1]) {
+        case "u":
+          {
+            str += json2.slice(start, i);
+            const code = json2.substr(i + 2, 4);
+            switch (code) {
+              case "0000":
+                str += "\\0";
+                break;
+              case "0007":
+                str += "\\a";
+                break;
+              case "000b":
+                str += "\\v";
+                break;
+              case "001b":
+                str += "\\e";
+                break;
+              case "0085":
+                str += "\\N";
+                break;
+              case "00a0":
+                str += "\\_";
+                break;
+              case "2028":
+                str += "\\L";
+                break;
+              case "2029":
+                str += "\\P";
+                break;
+              default:
+                if (code.substr(0, 2) === "00")
+                  str += "\\x" + code.substr(2);
+                else
+                  str += json2.substr(i, 6);
+            }
+            i += 5;
+            start = i + 1;
+          }
+          break;
+        case "n":
+          if (implicitKey || json2[i + 2] === '"' || json2.length < minMultiLineLength) {
+            i += 1;
+          } else {
+            str += json2.slice(start, i) + "\n\n";
+            while (json2[i + 2] === "\\" && json2[i + 3] === "n" && json2[i + 4] !== '"') {
+              str += "\n";
+              i += 2;
+            }
+            str += indent;
+            if (json2[i + 2] === " ")
+              str += "\\";
+            i += 1;
+            start = i + 1;
+          }
+          break;
+        default:
+          i += 1;
+      }
+  }
+  str = start ? str + json2.slice(start) : json2;
+  return implicitKey ? str : foldFlowLines(str, indent, FOLD_QUOTED, getFoldOptions(ctx, false));
+}
+function singleQuotedString(value, ctx) {
+  if (ctx.options.singleQuote === false || ctx.implicitKey && value.includes("\n") || /[ \t]\n|\n[ \t]/.test(value))
+    return doubleQuotedString(value, ctx);
+  const indent = ctx.indent || (containsDocumentMarker(value) ? "  " : "");
+  const res = "'" + value.replace(/'/g, "''").replace(/\n+/g, `$&
+${indent}`) + "'";
+  return ctx.implicitKey ? res : foldFlowLines(res, indent, FOLD_FLOW, getFoldOptions(ctx, false));
+}
+function quotedString(value, ctx) {
+  const { singleQuote } = ctx.options;
+  let qs;
+  if (singleQuote === false)
+    qs = doubleQuotedString;
+  else {
+    const hasDouble = value.includes('"');
+    const hasSingle = value.includes("'");
+    if (hasDouble && !hasSingle)
+      qs = singleQuotedString;
+    else if (hasSingle && !hasDouble)
+      qs = doubleQuotedString;
+    else
+      qs = singleQuote ? singleQuotedString : doubleQuotedString;
+  }
+  return qs(value, ctx);
+}
+function blockString({ comment, type, value }, ctx, onComment, onChompKeep) {
+  const { blockQuote, commentString, lineWidth } = ctx.options;
+  if (!blockQuote || /\n[\t ]+$/.test(value)) {
+    return quotedString(value, ctx);
+  }
+  const indent = ctx.indent || (ctx.forceBlockIndent || containsDocumentMarker(value) ? "  " : "");
+  const literal = blockQuote === "literal" ? true : blockQuote === "folded" || type === Scalar.BLOCK_FOLDED ? false : type === Scalar.BLOCK_LITERAL ? true : !lineLengthOverLimit(value, lineWidth, indent.length);
+  if (!value)
+    return literal ? "|\n" : ">\n";
+  let chomp;
+  let endStart;
+  for (endStart = value.length; endStart > 0; --endStart) {
+    const ch = value[endStart - 1];
+    if (ch !== "\n" && ch !== "	" && ch !== " ")
+      break;
+  }
+  let end = value.substring(endStart);
+  const endNlPos = end.indexOf("\n");
+  if (endNlPos === -1) {
+    chomp = "-";
+  } else if (value === end || endNlPos !== end.length - 1) {
+    chomp = "+";
+    if (onChompKeep)
+      onChompKeep();
+  } else {
+    chomp = "";
+  }
+  if (end) {
+    value = value.slice(0, -end.length);
+    if (end[end.length - 1] === "\n")
+      end = end.slice(0, -1);
+    end = end.replace(blockEndNewlines, `$&${indent}`);
+  }
+  let startWithSpace = false;
+  let startEnd;
+  let startNlPos = -1;
+  for (startEnd = 0; startEnd < value.length; ++startEnd) {
+    const ch = value[startEnd];
+    if (ch === " ")
+      startWithSpace = true;
+    else if (ch === "\n")
+      startNlPos = startEnd;
+    else
+      break;
+  }
+  let start = value.substring(0, startNlPos < startEnd ? startNlPos + 1 : startEnd);
+  if (start) {
+    value = value.substring(start.length);
+    start = start.replace(/\n+/g, `$&${indent}`);
+  }
+  const indentSize = indent ? "2" : "1";
+  let header = (startWithSpace ? indentSize : "") + chomp;
+  if (comment) {
+    header += " " + commentString(comment.replace(/ ?[\r\n]+/g, " "));
+    if (onComment)
+      onComment();
+  }
+  if (!literal) {
+    const foldedValue = value.replace(/\n+/g, "\n$&").replace(/(?:^|\n)([\t ].*)(?:([\n\t ]*)\n(?![\n\t ]))?/g, "$1$2").replace(/\n+/g, `$&${indent}`);
+    let literalFallback = false;
+    const foldOptions = getFoldOptions(ctx, true);
+    if (blockQuote !== "folded" && type !== Scalar.BLOCK_FOLDED) {
+      foldOptions.onOverflow = () => {
+        literalFallback = true;
+      };
+    }
+    const body = foldFlowLines(`${start}${foldedValue}${end}`, indent, FOLD_BLOCK, foldOptions);
+    if (!literalFallback)
+      return `>${header}
+${indent}${body}`;
+  }
+  value = value.replace(/\n+/g, `$&${indent}`);
+  return `|${header}
+${indent}${start}${value}${end}`;
+}
+function plainString(item2, ctx, onComment, onChompKeep) {
+  const { type, value } = item2;
+  const { actualString, implicitKey, indent, indentStep, inFlow } = ctx;
+  if (implicitKey && value.includes("\n") || inFlow && /[[\]{},]/.test(value)) {
+    return quotedString(value, ctx);
+  }
+  if (/^[\n\t ,[\]{}#&*!|>'"%@`]|^[?-]$|^[?-][ \t]|[\n:][ \t]|[ \t]\n|[\n\t ]#|[\n\t :]$/.test(value)) {
+    return implicitKey || inFlow || !value.includes("\n") ? quotedString(value, ctx) : blockString(item2, ctx, onComment, onChompKeep);
+  }
+  if (!implicitKey && !inFlow && type !== Scalar.PLAIN && value.includes("\n")) {
+    return blockString(item2, ctx, onComment, onChompKeep);
+  }
+  if (containsDocumentMarker(value)) {
+    if (indent === "") {
+      ctx.forceBlockIndent = true;
+      return blockString(item2, ctx, onComment, onChompKeep);
+    } else if (implicitKey && indent === indentStep) {
+      return quotedString(value, ctx);
+    }
+  }
+  const str = value.replace(/\n+/g, `$&
+${indent}`);
+  if (actualString) {
+    const test = (tag) => tag.default && tag.tag !== "tag:yaml.org,2002:str" && tag.test?.test(str);
+    const { compat, tags } = ctx.doc.schema;
+    if (tags.some(test) || compat?.some(test))
+      return quotedString(value, ctx);
+  }
+  return implicitKey ? str : foldFlowLines(str, indent, FOLD_FLOW, getFoldOptions(ctx, false));
+}
+function stringifyString(item2, ctx, onComment, onChompKeep) {
+  const { implicitKey, inFlow } = ctx;
+  const ss = typeof item2.value === "string" ? item2 : Object.assign({}, item2, { value: String(item2.value) });
+  let { type } = item2;
+  if (type !== Scalar.QUOTE_DOUBLE) {
+    if (/[\x00-\x08\x0b-\x1f\x7f-\x9f\u{D800}-\u{DFFF}]/u.test(ss.value))
+      type = Scalar.QUOTE_DOUBLE;
+  }
+  const _stringify = (_type) => {
+    switch (_type) {
+      case Scalar.BLOCK_FOLDED:
+      case Scalar.BLOCK_LITERAL:
+        return implicitKey || inFlow ? quotedString(ss.value, ctx) : blockString(ss, ctx, onComment, onChompKeep);
+      case Scalar.QUOTE_DOUBLE:
+        return doubleQuotedString(ss.value, ctx);
+      case Scalar.QUOTE_SINGLE:
+        return singleQuotedString(ss.value, ctx);
+      case Scalar.PLAIN:
+        return plainString(ss, ctx, onComment, onChompKeep);
+      default:
+        return null;
+    }
+  };
+  let res = _stringify(type);
+  if (res === null) {
+    const { defaultKeyType, defaultStringType } = ctx.options;
+    const t = implicitKey && defaultKeyType || defaultStringType;
+    res = _stringify(t);
+    if (res === null)
+      throw new Error(`Unsupported default string type ${t}`);
+  }
+  return res;
+}
+var getFoldOptions, containsDocumentMarker, blockEndNewlines;
+var init_stringifyString = __esm({
+  "node_modules/yaml/browser/dist/stringify/stringifyString.js"() {
+    init_Scalar();
+    init_foldFlowLines();
+    getFoldOptions = (ctx, isBlock2) => ({
+      indentAtStart: isBlock2 ? ctx.indent.length : ctx.indentAtStart,
+      lineWidth: ctx.options.lineWidth,
+      minContentWidth: ctx.options.minContentWidth
+    });
+    containsDocumentMarker = (str) => /^(%|---|\.\.\.)/m.test(str);
+    try {
+      blockEndNewlines = new RegExp("(^|(?<!\n))\n+(?!\n|$)", "g");
+    } catch {
+      blockEndNewlines = /\n+(?!\n|$)/g;
+    }
+  }
+});
+
+// node_modules/yaml/browser/dist/stringify/stringify.js
+function createStringifyContext(doc, options) {
+  const opt = Object.assign({
+    blockQuote: true,
+    commentString: stringifyComment,
+    defaultKeyType: null,
+    defaultStringType: "PLAIN",
+    directives: null,
+    doubleQuotedAsJSON: false,
+    doubleQuotedMinMultiLineLength: 40,
+    falseStr: "false",
+    flowCollectionPadding: true,
+    indentSeq: true,
+    lineWidth: 80,
+    minContentWidth: 20,
+    nullStr: "null",
+    simpleKeys: false,
+    singleQuote: null,
+    trailingComma: false,
+    trueStr: "true",
+    verifyAliasOrder: true
+  }, doc.schema.toStringOptions, options);
+  let inFlow;
+  switch (opt.collectionStyle) {
+    case "block":
+      inFlow = false;
+      break;
+    case "flow":
+      inFlow = true;
+      break;
+    default:
+      inFlow = null;
+  }
+  return {
+    anchors: /* @__PURE__ */ new Set(),
+    doc,
+    flowCollectionPadding: opt.flowCollectionPadding ? " " : "",
+    indent: "",
+    indentStep: typeof opt.indent === "number" ? " ".repeat(opt.indent) : "  ",
+    inFlow,
+    options: opt
+  };
+}
+function getTagObject(tags, item2) {
+  if (item2.tag) {
+    const match = tags.filter((t) => t.tag === item2.tag);
+    if (match.length > 0)
+      return match.find((t) => t.format === item2.format) ?? match[0];
+  }
+  let tagObj = void 0;
+  let obj;
+  if (isScalar(item2)) {
+    obj = item2.value;
+    let match = tags.filter((t) => t.identify?.(obj));
+    if (match.length > 1) {
+      const testMatch = match.filter((t) => t.test);
+      if (testMatch.length > 0)
+        match = testMatch;
+    }
+    tagObj = match.find((t) => t.format === item2.format) ?? match.find((t) => !t.format);
+  } else {
+    obj = item2;
+    tagObj = tags.find((t) => t.nodeClass && obj instanceof t.nodeClass);
+  }
+  if (!tagObj) {
+    const name = obj?.constructor?.name ?? (obj === null ? "null" : typeof obj);
+    throw new Error(`Tag not resolved for ${name} value`);
+  }
+  return tagObj;
+}
+function stringifyProps(node, tagObj, { anchors, doc }) {
+  if (!doc.directives)
+    return "";
+  const props = [];
+  const anchor = (isScalar(node) || isCollection(node)) && node.anchor;
+  if (anchor && anchorIsValid(anchor)) {
+    anchors.add(anchor);
+    props.push(`&${anchor}`);
+  }
+  const tag = node.tag ?? (tagObj.default ? null : tagObj.tag);
+  if (tag)
+    props.push(doc.directives.tagString(tag));
+  return props.join(" ");
+}
+function stringify(item2, ctx, onComment, onChompKeep) {
+  if (isPair(item2))
+    return item2.toString(ctx, onComment, onChompKeep);
+  if (isAlias(item2)) {
+    if (ctx.doc.directives)
+      return item2.toString(ctx);
+    if (ctx.resolvedAliases?.has(item2)) {
+      throw new TypeError(`Cannot stringify circular structure without alias nodes`);
+    } else {
+      if (ctx.resolvedAliases)
+        ctx.resolvedAliases.add(item2);
+      else
+        ctx.resolvedAliases = /* @__PURE__ */ new Set([item2]);
+      item2 = item2.resolve(ctx.doc);
+    }
+  }
+  let tagObj = void 0;
+  const node = isNode(item2) ? item2 : ctx.doc.createNode(item2, { onTagObj: (o) => tagObj = o });
+  tagObj ?? (tagObj = getTagObject(ctx.doc.schema.tags, node));
+  const props = stringifyProps(node, tagObj, ctx);
+  if (props.length > 0)
+    ctx.indentAtStart = (ctx.indentAtStart ?? 0) + props.length + 1;
+  const str = typeof tagObj.stringify === "function" ? tagObj.stringify(node, ctx, onComment, onChompKeep) : isScalar(node) ? stringifyString(node, ctx, onComment, onChompKeep) : node.toString(ctx, onComment, onChompKeep);
+  if (!props)
+    return str;
+  return isScalar(node) || str[0] === "{" || str[0] === "[" ? `${props} ${str}` : `${props}
+${ctx.indent}${str}`;
+}
+var init_stringify = __esm({
+  "node_modules/yaml/browser/dist/stringify/stringify.js"() {
+    init_anchors();
+    init_identity();
+    init_stringifyComment();
+    init_stringifyString();
+  }
+});
+
+// node_modules/yaml/browser/dist/stringify/stringifyPair.js
+function stringifyPair({ key: key2, value }, ctx, onComment, onChompKeep) {
+  const { allNullValues, doc, indent, indentStep, options: { commentString, indentSeq, simpleKeys } } = ctx;
+  let keyComment = isNode(key2) && key2.comment || null;
+  if (simpleKeys) {
+    if (keyComment) {
+      throw new Error("With simple keys, key nodes cannot have comments");
+    }
+    if (isCollection(key2) || !isNode(key2) && typeof key2 === "object") {
+      const msg = "With simple keys, collection cannot be used as a key value";
+      throw new Error(msg);
+    }
+  }
+  let explicitKey = !simpleKeys && (!key2 || keyComment && value == null && !ctx.inFlow || isCollection(key2) || (isScalar(key2) ? key2.type === Scalar.BLOCK_FOLDED || key2.type === Scalar.BLOCK_LITERAL : typeof key2 === "object"));
+  ctx = Object.assign({}, ctx, {
+    allNullValues: false,
+    implicitKey: !explicitKey && (simpleKeys || !allNullValues),
+    indent: indent + indentStep
+  });
+  let keyCommentDone = false;
+  let chompKeep = false;
+  let str = stringify(key2, ctx, () => keyCommentDone = true, () => chompKeep = true);
+  if (!explicitKey && !ctx.inFlow && str.length > 1024) {
+    if (simpleKeys)
+      throw new Error("With simple keys, single line scalar must not span more than 1024 characters");
+    explicitKey = true;
+  }
+  if (ctx.inFlow) {
+    if (allNullValues || value == null) {
+      if (keyCommentDone && onComment)
+        onComment();
+      return str === "" ? "?" : explicitKey ? `? ${str}` : str;
+    }
+  } else if (allNullValues && !simpleKeys || value == null && explicitKey) {
+    str = `? ${str}`;
+    if (keyComment && !keyCommentDone) {
+      str += lineComment(str, ctx.indent, commentString(keyComment));
+    } else if (chompKeep && onChompKeep)
+      onChompKeep();
+    return str;
+  }
+  if (keyCommentDone)
+    keyComment = null;
+  if (explicitKey) {
+    if (keyComment)
+      str += lineComment(str, ctx.indent, commentString(keyComment));
+    str = `? ${str}
+${indent}:`;
+  } else {
+    str = `${str}:`;
+    if (keyComment)
+      str += lineComment(str, ctx.indent, commentString(keyComment));
+  }
+  let vsb, vcb, valueComment;
+  if (isNode(value)) {
+    vsb = !!value.spaceBefore;
+    vcb = value.commentBefore;
+    valueComment = value.comment;
+  } else {
+    vsb = false;
+    vcb = null;
+    valueComment = null;
+    if (value && typeof value === "object")
+      value = doc.createNode(value);
+  }
+  ctx.implicitKey = false;
+  if (!explicitKey && !keyComment && isScalar(value))
+    ctx.indentAtStart = str.length + 1;
+  chompKeep = false;
+  if (!indentSeq && indentStep.length >= 2 && !ctx.inFlow && !explicitKey && isSeq(value) && !value.flow && !value.tag && !value.anchor) {
+    ctx.indent = ctx.indent.substring(2);
+  }
+  let valueCommentDone = false;
+  const valueStr = stringify(value, ctx, () => valueCommentDone = true, () => chompKeep = true);
+  let ws = " ";
+  if (keyComment || vsb || vcb) {
+    ws = vsb ? "\n" : "";
+    if (vcb) {
+      const cs = commentString(vcb);
+      ws += `
+${indentComment(cs, ctx.indent)}`;
+    }
+    if (valueStr === "" && !ctx.inFlow) {
+      if (ws === "\n" && valueComment)
+        ws = "\n\n";
+    } else {
+      ws += `
+${ctx.indent}`;
+    }
+  } else if (!explicitKey && isCollection(value)) {
+    const vs0 = valueStr[0];
+    const nl0 = valueStr.indexOf("\n");
+    const hasNewline = nl0 !== -1;
+    const flow = ctx.inFlow ?? value.flow ?? value.items.length === 0;
+    if (hasNewline || !flow) {
+      let hasPropsLine = false;
+      if (hasNewline && (vs0 === "&" || vs0 === "!")) {
+        let sp0 = valueStr.indexOf(" ");
+        if (vs0 === "&" && sp0 !== -1 && sp0 < nl0 && valueStr[sp0 + 1] === "!") {
+          sp0 = valueStr.indexOf(" ", sp0 + 1);
+        }
+        if (sp0 === -1 || nl0 < sp0)
+          hasPropsLine = true;
+      }
+      if (!hasPropsLine)
+        ws = `
+${ctx.indent}`;
+    }
+  } else if (valueStr === "" || valueStr[0] === "\n") {
+    ws = "";
+  }
+  str += ws + valueStr;
+  if (ctx.inFlow) {
+    if (valueCommentDone && onComment)
+      onComment();
+  } else if (valueComment && !valueCommentDone) {
+    str += lineComment(str, ctx.indent, commentString(valueComment));
+  } else if (chompKeep && onChompKeep) {
+    onChompKeep();
+  }
+  return str;
+}
+var init_stringifyPair = __esm({
+  "node_modules/yaml/browser/dist/stringify/stringifyPair.js"() {
+    init_identity();
+    init_Scalar();
+    init_stringify();
+    init_stringifyComment();
+  }
+});
+
+// node_modules/yaml/browser/dist/log.js
+function warn(logLevel, warning) {
+  if (logLevel === "debug" || logLevel === "warn") {
+    console.warn(warning);
+  }
+}
+var init_log = __esm({
+  "node_modules/yaml/browser/dist/log.js"() {
+  }
+});
+
+// node_modules/yaml/browser/dist/schema/yaml-1.1/merge.js
+function addMergeToJSMap(ctx, map2, value) {
+  const source = resolveAliasValue(ctx, value);
+  if (isSeq(source))
+    for (const it of source.items)
+      mergeValue(ctx, map2, it);
+  else if (Array.isArray(source))
+    for (const it of source)
+      mergeValue(ctx, map2, it);
+  else
+    mergeValue(ctx, map2, source);
+}
+function mergeValue(ctx, map2, value) {
+  const source = resolveAliasValue(ctx, value);
+  if (!isMap(source))
+    throw new Error("Merge sources must be maps or map aliases");
+  const srcMap = source.toJSON(null, ctx, Map);
+  for (const [key2, value2] of srcMap) {
+    if (map2 instanceof Map) {
+      if (!map2.has(key2))
+        map2.set(key2, value2);
+    } else if (map2 instanceof Set) {
+      map2.add(key2);
+    } else if (!Object.prototype.hasOwnProperty.call(map2, key2)) {
+      Object.defineProperty(map2, key2, {
+        value: value2,
+        writable: true,
+        enumerable: true,
+        configurable: true
+      });
+    }
+  }
+  return map2;
+}
+function resolveAliasValue(ctx, value) {
+  return ctx && isAlias(value) ? value.resolve(ctx.doc, ctx) : value;
+}
+var MERGE_KEY, merge, isMergeKey;
+var init_merge = __esm({
+  "node_modules/yaml/browser/dist/schema/yaml-1.1/merge.js"() {
+    init_identity();
+    init_Scalar();
+    MERGE_KEY = "<<";
+    merge = {
+      identify: (value) => value === MERGE_KEY || typeof value === "symbol" && value.description === MERGE_KEY,
+      default: "key",
+      tag: "tag:yaml.org,2002:merge",
+      test: /^<<$/,
+      resolve: () => Object.assign(new Scalar(Symbol(MERGE_KEY)), {
+        addToJSMap: addMergeToJSMap
+      }),
+      stringify: () => MERGE_KEY
+    };
+    isMergeKey = (ctx, key2) => (merge.identify(key2) || isScalar(key2) && (!key2.type || key2.type === Scalar.PLAIN) && merge.identify(key2.value)) && ctx?.doc.schema.tags.some((tag) => tag.tag === merge.tag && tag.default);
+  }
+});
+
+// node_modules/yaml/browser/dist/nodes/addPairToJSMap.js
+function addPairToJSMap(ctx, map2, { key: key2, value }) {
+  if (isNode(key2) && key2.addToJSMap)
+    key2.addToJSMap(ctx, map2, value);
+  else if (isMergeKey(ctx, key2))
+    addMergeToJSMap(ctx, map2, value);
+  else {
+    const jsKey = toJS(key2, "", ctx);
+    if (map2 instanceof Map) {
+      map2.set(jsKey, toJS(value, jsKey, ctx));
+    } else if (map2 instanceof Set) {
+      map2.add(jsKey);
+    } else {
+      const stringKey = stringifyKey(key2, jsKey, ctx);
+      const jsValue = toJS(value, stringKey, ctx);
+      if (stringKey in map2)
+        Object.defineProperty(map2, stringKey, {
+          value: jsValue,
+          writable: true,
+          enumerable: true,
+          configurable: true
+        });
+      else
+        map2[stringKey] = jsValue;
+    }
+  }
+  return map2;
+}
+function stringifyKey(key2, jsKey, ctx) {
+  if (jsKey === null)
+    return "";
+  if (typeof jsKey !== "object")
+    return String(jsKey);
+  if (isNode(key2) && ctx?.doc) {
+    const strCtx = createStringifyContext(ctx.doc, {});
+    strCtx.anchors = /* @__PURE__ */ new Set();
+    for (const node of ctx.anchors.keys())
+      strCtx.anchors.add(node.anchor);
+    strCtx.inFlow = true;
+    strCtx.inStringifyKey = true;
+    const strKey = key2.toString(strCtx);
+    if (!ctx.mapKeyWarned) {
+      let jsonStr = JSON.stringify(strKey);
+      if (jsonStr.length > 40)
+        jsonStr = jsonStr.substring(0, 36) + '..."';
+      warn(ctx.doc.options.logLevel, `Keys with collection values will be stringified due to JS Object restrictions: ${jsonStr}. Set mapAsMap: true to use object keys.`);
+      ctx.mapKeyWarned = true;
+    }
+    return strKey;
+  }
+  return JSON.stringify(jsKey);
+}
+var init_addPairToJSMap = __esm({
+  "node_modules/yaml/browser/dist/nodes/addPairToJSMap.js"() {
+    init_log();
+    init_merge();
+    init_stringify();
+    init_identity();
+    init_toJS();
+  }
+});
+
+// node_modules/yaml/browser/dist/nodes/Pair.js
+function createPair(key2, value, ctx) {
+  const k = createNode(key2, void 0, ctx);
+  const v = createNode(value, void 0, ctx);
+  return new Pair(k, v);
+}
+var Pair;
+var init_Pair = __esm({
+  "node_modules/yaml/browser/dist/nodes/Pair.js"() {
+    init_createNode();
+    init_stringifyPair();
+    init_addPairToJSMap();
+    init_identity();
+    Pair = class _Pair {
+      constructor(key2, value = null) {
+        Object.defineProperty(this, NODE_TYPE, { value: PAIR });
+        this.key = key2;
+        this.value = value;
+      }
+      clone(schema4) {
+        let { key: key2, value } = this;
+        if (isNode(key2))
+          key2 = key2.clone(schema4);
+        if (isNode(value))
+          value = value.clone(schema4);
+        return new _Pair(key2, value);
+      }
+      toJSON(_, ctx) {
+        const pair = ctx?.mapAsMap ? /* @__PURE__ */ new Map() : {};
+        return addPairToJSMap(ctx, pair, this);
+      }
+      toString(ctx, onComment, onChompKeep) {
+        return ctx?.doc ? stringifyPair(this, ctx, onComment, onChompKeep) : JSON.stringify(this);
+      }
+    };
+  }
+});
+
+// node_modules/yaml/browser/dist/stringify/stringifyCollection.js
+function stringifyCollection(collection, ctx, options) {
+  const flow = ctx.inFlow ?? collection.flow;
+  const stringify4 = flow ? stringifyFlowCollection : stringifyBlockCollection;
+  return stringify4(collection, ctx, options);
+}
+function stringifyBlockCollection({ comment, items }, ctx, { blockItemPrefix, flowChars, itemIndent, onChompKeep, onComment }) {
+  const { indent, options: { commentString } } = ctx;
+  const itemCtx = Object.assign({}, ctx, { indent: itemIndent, type: null });
+  let chompKeep = false;
+  const lines = [];
+  for (let i = 0; i < items.length; ++i) {
+    const item2 = items[i];
+    let comment2 = null;
+    if (isNode(item2)) {
+      if (!chompKeep && item2.spaceBefore)
+        lines.push("");
+      addCommentBefore(ctx, lines, item2.commentBefore, chompKeep);
+      if (item2.comment)
+        comment2 = item2.comment;
+    } else if (isPair(item2)) {
+      const ik = isNode(item2.key) ? item2.key : null;
+      if (ik) {
+        if (!chompKeep && ik.spaceBefore)
+          lines.push("");
+        addCommentBefore(ctx, lines, ik.commentBefore, chompKeep);
+      }
+    }
+    chompKeep = false;
+    let str2 = stringify(item2, itemCtx, () => comment2 = null, () => chompKeep = true);
+    if (comment2)
+      str2 += lineComment(str2, itemIndent, commentString(comment2));
+    if (chompKeep && comment2)
+      chompKeep = false;
+    lines.push(blockItemPrefix + str2);
+  }
+  let str;
+  if (lines.length === 0) {
+    str = flowChars.start + flowChars.end;
+  } else {
+    str = lines[0];
+    for (let i = 1; i < lines.length; ++i) {
+      const line = lines[i];
+      str += line ? `
+${indent}${line}` : "\n";
+    }
+  }
+  if (comment) {
+    str += "\n" + indentComment(commentString(comment), indent);
+    if (onComment)
+      onComment();
+  } else if (chompKeep && onChompKeep)
+    onChompKeep();
+  return str;
+}
+function stringifyFlowCollection({ items }, ctx, { flowChars, itemIndent }) {
+  const { indent, indentStep, flowCollectionPadding: fcPadding, options: { commentString } } = ctx;
+  itemIndent += indentStep;
+  const itemCtx = Object.assign({}, ctx, {
+    indent: itemIndent,
+    inFlow: true,
+    type: null
+  });
+  let reqNewline = false;
+  let linesAtValue = 0;
+  const lines = [];
+  for (let i = 0; i < items.length; ++i) {
+    const item2 = items[i];
+    let comment = null;
+    if (isNode(item2)) {
+      if (item2.spaceBefore)
+        lines.push("");
+      addCommentBefore(ctx, lines, item2.commentBefore, false);
+      if (item2.comment)
+        comment = item2.comment;
+    } else if (isPair(item2)) {
+      const ik = isNode(item2.key) ? item2.key : null;
+      if (ik) {
+        if (ik.spaceBefore)
+          lines.push("");
+        addCommentBefore(ctx, lines, ik.commentBefore, false);
+        if (ik.comment)
+          reqNewline = true;
+      }
+      const iv = isNode(item2.value) ? item2.value : null;
+      if (iv) {
+        if (iv.comment)
+          comment = iv.comment;
+        if (iv.commentBefore)
+          reqNewline = true;
+      } else if (item2.value == null && ik?.comment) {
+        comment = ik.comment;
+      }
+    }
+    if (comment)
+      reqNewline = true;
+    let str = stringify(item2, itemCtx, () => comment = null);
+    reqNewline || (reqNewline = lines.length > linesAtValue || str.includes("\n"));
+    if (i < items.length - 1) {
+      str += ",";
+    } else if (ctx.options.trailingComma) {
+      if (ctx.options.lineWidth > 0) {
+        reqNewline || (reqNewline = lines.reduce((sum, line) => sum + line.length + 2, 2) + (str.length + 2) > ctx.options.lineWidth);
+      }
+      if (reqNewline) {
+        str += ",";
+      }
+    }
+    if (comment)
+      str += lineComment(str, itemIndent, commentString(comment));
+    lines.push(str);
+    linesAtValue = lines.length;
+  }
+  const { start, end } = flowChars;
+  if (lines.length === 0) {
+    return start + end;
+  } else {
+    if (!reqNewline) {
+      const len = lines.reduce((sum, line) => sum + line.length + 2, 2);
+      reqNewline = ctx.options.lineWidth > 0 && len > ctx.options.lineWidth;
+    }
+    if (reqNewline) {
+      let str = start;
+      for (const line of lines)
+        str += line ? `
+${indentStep}${indent}${line}` : "\n";
+      return `${str}
+${indent}${end}`;
+    } else {
+      return `${start}${fcPadding}${lines.join(" ")}${fcPadding}${end}`;
+    }
+  }
+}
+function addCommentBefore({ indent, options: { commentString } }, lines, comment, chompKeep) {
+  if (comment && chompKeep)
+    comment = comment.replace(/^\n+/, "");
+  if (comment) {
+    const ic = indentComment(commentString(comment), indent);
+    lines.push(ic.trimStart());
+  }
+}
+var init_stringifyCollection = __esm({
+  "node_modules/yaml/browser/dist/stringify/stringifyCollection.js"() {
+    init_identity();
+    init_stringify();
+    init_stringifyComment();
+  }
+});
+
+// node_modules/yaml/browser/dist/nodes/YAMLMap.js
+function findPair(items, key2) {
+  const k = isScalar(key2) ? key2.value : key2;
+  for (const it of items) {
+    if (isPair(it)) {
+      if (it.key === key2 || it.key === k)
+        return it;
+      if (isScalar(it.key) && it.key.value === k)
+        return it;
+    }
+  }
+  return void 0;
+}
+var YAMLMap;
+var init_YAMLMap = __esm({
+  "node_modules/yaml/browser/dist/nodes/YAMLMap.js"() {
+    init_stringifyCollection();
+    init_addPairToJSMap();
+    init_Collection();
+    init_identity();
+    init_Pair();
+    init_Scalar();
+    YAMLMap = class extends Collection {
+      static get tagName() {
+        return "tag:yaml.org,2002:map";
+      }
+      constructor(schema4) {
+        super(MAP, schema4);
+        this.items = [];
+      }
+      /**
+       * A generic collection parsing method that can be extended
+       * to other node classes that inherit from YAMLMap
+       */
+      static from(schema4, obj, ctx) {
+        const { keepUndefined, replacer } = ctx;
+        const map2 = new this(schema4);
+        const add = (key2, value) => {
+          if (typeof replacer === "function")
+            value = replacer.call(obj, key2, value);
+          else if (Array.isArray(replacer) && !replacer.includes(key2))
+            return;
+          if (value !== void 0 || keepUndefined)
+            map2.items.push(createPair(key2, value, ctx));
+        };
+        if (obj instanceof Map) {
+          for (const [key2, value] of obj)
+            add(key2, value);
+        } else if (obj && typeof obj === "object") {
+          for (const key2 of Object.keys(obj))
+            add(key2, obj[key2]);
+        }
+        if (typeof schema4.sortMapEntries === "function") {
+          map2.items.sort(schema4.sortMapEntries);
+        }
+        return map2;
+      }
+      /**
+       * Adds a value to the collection.
+       *
+       * @param overwrite - If not set `true`, using a key that is already in the
+       *   collection will throw. Otherwise, overwrites the previous value.
+       */
+      add(pair, overwrite) {
+        let _pair;
+        if (isPair(pair))
+          _pair = pair;
+        else if (!pair || typeof pair !== "object" || !("key" in pair)) {
+          _pair = new Pair(pair, pair?.value);
+        } else
+          _pair = new Pair(pair.key, pair.value);
+        const prev = findPair(this.items, _pair.key);
+        const sortEntries = this.schema?.sortMapEntries;
+        if (prev) {
+          if (!overwrite)
+            throw new Error(`Key ${_pair.key} already set`);
+          if (isScalar(prev.value) && isScalarValue(_pair.value))
+            prev.value.value = _pair.value;
+          else
+            prev.value = _pair.value;
+        } else if (sortEntries) {
+          const i = this.items.findIndex((item2) => sortEntries(_pair, item2) < 0);
+          if (i === -1)
+            this.items.push(_pair);
+          else
+            this.items.splice(i, 0, _pair);
+        } else {
+          this.items.push(_pair);
+        }
+      }
+      delete(key2) {
+        const it = findPair(this.items, key2);
+        if (!it)
+          return false;
+        const del = this.items.splice(this.items.indexOf(it), 1);
+        return del.length > 0;
+      }
+      get(key2, keepScalar) {
+        const it = findPair(this.items, key2);
+        const node = it?.value;
+        return (!keepScalar && isScalar(node) ? node.value : node) ?? void 0;
+      }
+      has(key2) {
+        return !!findPair(this.items, key2);
+      }
+      set(key2, value) {
+        this.add(new Pair(key2, value), true);
+      }
+      /**
+       * @param ctx - Conversion context, originally set in Document#toJS()
+       * @param {Class} Type - If set, forces the returned collection type
+       * @returns Instance of Type, Map, or Object
+       */
+      toJSON(_, ctx, Type) {
+        const map2 = Type ? new Type() : ctx?.mapAsMap ? /* @__PURE__ */ new Map() : {};
+        if (ctx?.onCreate)
+          ctx.onCreate(map2);
+        for (const item2 of this.items)
+          addPairToJSMap(ctx, map2, item2);
+        return map2;
+      }
+      toString(ctx, onComment, onChompKeep) {
+        if (!ctx)
+          return JSON.stringify(this);
+        for (const item2 of this.items) {
+          if (!isPair(item2))
+            throw new Error(`Map items must all be pairs; found ${JSON.stringify(item2)} instead`);
+        }
+        if (!ctx.allNullValues && this.hasAllNullValues(false))
+          ctx = Object.assign({}, ctx, { allNullValues: true });
+        return stringifyCollection(this, ctx, {
+          blockItemPrefix: "",
+          flowChars: { start: "{", end: "}" },
+          itemIndent: ctx.indent || "",
+          onChompKeep,
+          onComment
+        });
+      }
+    };
+  }
+});
+
+// node_modules/yaml/browser/dist/schema/common/map.js
+var map;
+var init_map = __esm({
+  "node_modules/yaml/browser/dist/schema/common/map.js"() {
+    init_identity();
+    init_YAMLMap();
+    map = {
+      collection: "map",
+      default: true,
+      nodeClass: YAMLMap,
+      tag: "tag:yaml.org,2002:map",
+      resolve(map2, onError) {
+        if (!isMap(map2))
+          onError("Expected a mapping for this tag");
+        return map2;
+      },
+      createNode: (schema4, obj, ctx) => YAMLMap.from(schema4, obj, ctx)
+    };
+  }
+});
+
+// node_modules/yaml/browser/dist/nodes/YAMLSeq.js
+function asItemIndex(key2) {
+  let idx = isScalar(key2) ? key2.value : key2;
+  if (idx && typeof idx === "string")
+    idx = Number(idx);
+  return typeof idx === "number" && Number.isInteger(idx) && idx >= 0 ? idx : null;
+}
+var YAMLSeq;
+var init_YAMLSeq = __esm({
+  "node_modules/yaml/browser/dist/nodes/YAMLSeq.js"() {
+    init_createNode();
+    init_stringifyCollection();
+    init_Collection();
+    init_identity();
+    init_Scalar();
+    init_toJS();
+    YAMLSeq = class extends Collection {
+      static get tagName() {
+        return "tag:yaml.org,2002:seq";
+      }
+      constructor(schema4) {
+        super(SEQ, schema4);
+        this.items = [];
+      }
+      add(value) {
+        this.items.push(value);
+      }
+      /**
+       * Removes a value from the collection.
+       *
+       * `key` must contain a representation of an integer for this to succeed.
+       * It may be wrapped in a `Scalar`.
+       *
+       * @returns `true` if the item was found and removed.
+       */
+      delete(key2) {
+        const idx = asItemIndex(key2);
+        if (typeof idx !== "number")
+          return false;
+        const del = this.items.splice(idx, 1);
+        return del.length > 0;
+      }
+      get(key2, keepScalar) {
+        const idx = asItemIndex(key2);
+        if (typeof idx !== "number")
+          return void 0;
+        const it = this.items[idx];
+        return !keepScalar && isScalar(it) ? it.value : it;
+      }
+      /**
+       * Checks if the collection includes a value with the key `key`.
+       *
+       * `key` must contain a representation of an integer for this to succeed.
+       * It may be wrapped in a `Scalar`.
+       */
+      has(key2) {
+        const idx = asItemIndex(key2);
+        return typeof idx === "number" && idx < this.items.length;
+      }
+      /**
+       * Sets a value in this collection. For `!!set`, `value` needs to be a
+       * boolean to add/remove the item from the set.
+       *
+       * If `key` does not contain a representation of an integer, this will throw.
+       * It may be wrapped in a `Scalar`.
+       */
+      set(key2, value) {
+        const idx = asItemIndex(key2);
+        if (typeof idx !== "number")
+          throw new Error(`Expected a valid index, not ${key2}.`);
+        const prev = this.items[idx];
+        if (isScalar(prev) && isScalarValue(value))
+          prev.value = value;
+        else
+          this.items[idx] = value;
+      }
+      toJSON(_, ctx) {
+        const seq2 = [];
+        if (ctx?.onCreate)
+          ctx.onCreate(seq2);
+        let i = 0;
+        for (const item2 of this.items)
+          seq2.push(toJS(item2, String(i++), ctx));
+        return seq2;
+      }
+      toString(ctx, onComment, onChompKeep) {
+        if (!ctx)
+          return JSON.stringify(this);
+        return stringifyCollection(this, ctx, {
+          blockItemPrefix: "- ",
+          flowChars: { start: "[", end: "]" },
+          itemIndent: (ctx.indent || "") + "  ",
+          onChompKeep,
+          onComment
+        });
+      }
+      static from(schema4, obj, ctx) {
+        const { replacer } = ctx;
+        const seq2 = new this(schema4);
+        if (obj && Symbol.iterator in Object(obj)) {
+          let i = 0;
+          for (let it of obj) {
+            if (typeof replacer === "function") {
+              const key2 = obj instanceof Set ? it : String(i++);
+              it = replacer.call(obj, key2, it);
+            }
+            seq2.items.push(createNode(it, void 0, ctx));
+          }
+        }
+        return seq2;
+      }
+    };
+  }
+});
+
+// node_modules/yaml/browser/dist/schema/common/seq.js
+var seq;
+var init_seq = __esm({
+  "node_modules/yaml/browser/dist/schema/common/seq.js"() {
+    init_identity();
+    init_YAMLSeq();
+    seq = {
+      collection: "seq",
+      default: true,
+      nodeClass: YAMLSeq,
+      tag: "tag:yaml.org,2002:seq",
+      resolve(seq2, onError) {
+        if (!isSeq(seq2))
+          onError("Expected a sequence for this tag");
+        return seq2;
+      },
+      createNode: (schema4, obj, ctx) => YAMLSeq.from(schema4, obj, ctx)
+    };
+  }
+});
+
+// node_modules/yaml/browser/dist/schema/common/string.js
+var string;
+var init_string = __esm({
+  "node_modules/yaml/browser/dist/schema/common/string.js"() {
+    init_stringifyString();
+    string = {
+      identify: (value) => typeof value === "string",
+      default: true,
+      tag: "tag:yaml.org,2002:str",
+      resolve: (str) => str,
+      stringify(item2, ctx, onComment, onChompKeep) {
+        ctx = Object.assign({ actualString: true }, ctx);
+        return stringifyString(item2, ctx, onComment, onChompKeep);
+      }
+    };
+  }
+});
+
+// node_modules/yaml/browser/dist/schema/common/null.js
+var nullTag;
+var init_null = __esm({
+  "node_modules/yaml/browser/dist/schema/common/null.js"() {
+    init_Scalar();
+    nullTag = {
+      identify: (value) => value == null,
+      createNode: () => new Scalar(null),
+      default: true,
+      tag: "tag:yaml.org,2002:null",
+      test: /^(?:~|[Nn]ull|NULL)?$/,
+      resolve: () => new Scalar(null),
+      stringify: ({ source }, ctx) => typeof source === "string" && nullTag.test.test(source) ? source : ctx.options.nullStr
+    };
+  }
+});
+
+// node_modules/yaml/browser/dist/schema/core/bool.js
+var boolTag;
+var init_bool = __esm({
+  "node_modules/yaml/browser/dist/schema/core/bool.js"() {
+    init_Scalar();
+    boolTag = {
+      identify: (value) => typeof value === "boolean",
+      default: true,
+      tag: "tag:yaml.org,2002:bool",
+      test: /^(?:[Tt]rue|TRUE|[Ff]alse|FALSE)$/,
+      resolve: (str) => new Scalar(str[0] === "t" || str[0] === "T"),
+      stringify({ source, value }, ctx) {
+        if (source && boolTag.test.test(source)) {
+          const sv = source[0] === "t" || source[0] === "T";
+          if (value === sv)
+            return source;
+        }
+        return value ? ctx.options.trueStr : ctx.options.falseStr;
+      }
+    };
+  }
+});
+
+// node_modules/yaml/browser/dist/stringify/stringifyNumber.js
+function stringifyNumber({ format, minFractionDigits, tag, value }) {
+  if (typeof value === "bigint")
+    return String(value);
+  const num = typeof value === "number" ? value : Number(value);
+  if (!isFinite(num))
+    return isNaN(num) ? ".nan" : num < 0 ? "-.inf" : ".inf";
+  let n = Object.is(value, -0) ? "-0" : JSON.stringify(value);
+  if (!format && minFractionDigits && (!tag || tag === "tag:yaml.org,2002:float") && /^-?\d/.test(n) && !n.includes("e")) {
+    let i = n.indexOf(".");
+    if (i < 0) {
+      i = n.length;
+      n += ".";
+    }
+    let d = minFractionDigits - (n.length - i - 1);
+    while (d-- > 0)
+      n += "0";
+  }
+  return n;
+}
+var init_stringifyNumber = __esm({
+  "node_modules/yaml/browser/dist/stringify/stringifyNumber.js"() {
+  }
+});
+
+// node_modules/yaml/browser/dist/schema/core/float.js
+var floatNaN, floatExp, float;
+var init_float = __esm({
+  "node_modules/yaml/browser/dist/schema/core/float.js"() {
+    init_Scalar();
+    init_stringifyNumber();
+    floatNaN = {
+      identify: (value) => typeof value === "number",
+      default: true,
+      tag: "tag:yaml.org,2002:float",
+      test: /^(?:[-+]?\.(?:inf|Inf|INF)|\.nan|\.NaN|\.NAN)$/,
+      resolve: (str) => str.slice(-3).toLowerCase() === "nan" ? NaN : str[0] === "-" ? Number.NEGATIVE_INFINITY : Number.POSITIVE_INFINITY,
+      stringify: stringifyNumber
+    };
+    floatExp = {
+      identify: (value) => typeof value === "number",
+      default: true,
+      tag: "tag:yaml.org,2002:float",
+      format: "EXP",
+      test: /^[-+]?(?:\.[0-9]+|[0-9]+(?:\.[0-9]*)?)[eE][-+]?[0-9]+$/,
+      resolve: (str) => parseFloat(str),
+      stringify(node) {
+        const num = Number(node.value);
+        return isFinite(num) ? num.toExponential() : stringifyNumber(node);
+      }
+    };
+    float = {
+      identify: (value) => typeof value === "number",
+      default: true,
+      tag: "tag:yaml.org,2002:float",
+      test: /^[-+]?(?:\.[0-9]+|[0-9]+\.[0-9]*)$/,
+      resolve(str) {
+        const node = new Scalar(parseFloat(str));
+        const dot = str.indexOf(".");
+        if (dot !== -1 && str[str.length - 1] === "0")
+          node.minFractionDigits = str.length - dot - 1;
+        return node;
+      },
+      stringify: stringifyNumber
+    };
+  }
+});
+
+// node_modules/yaml/browser/dist/schema/core/int.js
+function intStringify(node, radix, prefix) {
+  const { value } = node;
+  if (intIdentify(value) && value >= 0)
+    return prefix + value.toString(radix);
+  return stringifyNumber(node);
+}
+var intIdentify, intResolve, intOct, int, intHex;
+var init_int = __esm({
+  "node_modules/yaml/browser/dist/schema/core/int.js"() {
+    init_stringifyNumber();
+    intIdentify = (value) => typeof value === "bigint" || Number.isInteger(value);
+    intResolve = (str, offset, radix, { intAsBigInt }) => intAsBigInt ? BigInt(str) : parseInt(str.substring(offset), radix);
+    intOct = {
+      identify: (value) => intIdentify(value) && value >= 0,
+      default: true,
+      tag: "tag:yaml.org,2002:int",
+      format: "OCT",
+      test: /^0o[0-7]+$/,
+      resolve: (str, _onError, opt) => intResolve(str, 2, 8, opt),
+      stringify: (node) => intStringify(node, 8, "0o")
+    };
+    int = {
+      identify: intIdentify,
+      default: true,
+      tag: "tag:yaml.org,2002:int",
+      test: /^[-+]?[0-9]+$/,
+      resolve: (str, _onError, opt) => intResolve(str, 0, 10, opt),
+      stringify: stringifyNumber
+    };
+    intHex = {
+      identify: (value) => intIdentify(value) && value >= 0,
+      default: true,
+      tag: "tag:yaml.org,2002:int",
+      format: "HEX",
+      test: /^0x[0-9a-fA-F]+$/,
+      resolve: (str, _onError, opt) => intResolve(str, 2, 16, opt),
+      stringify: (node) => intStringify(node, 16, "0x")
+    };
+  }
+});
+
+// node_modules/yaml/browser/dist/schema/core/schema.js
+var schema;
+var init_schema = __esm({
+  "node_modules/yaml/browser/dist/schema/core/schema.js"() {
+    init_map();
+    init_null();
+    init_seq();
+    init_string();
+    init_bool();
+    init_float();
+    init_int();
+    schema = [
+      map,
+      seq,
+      string,
+      nullTag,
+      boolTag,
+      intOct,
+      int,
+      intHex,
+      floatNaN,
+      floatExp,
+      float
+    ];
+  }
+});
+
+// node_modules/yaml/browser/dist/schema/json/schema.js
+function intIdentify2(value) {
+  return typeof value === "bigint" || Number.isInteger(value);
+}
+var stringifyJSON, jsonScalars, jsonError, schema2;
+var init_schema2 = __esm({
+  "node_modules/yaml/browser/dist/schema/json/schema.js"() {
+    init_Scalar();
+    init_map();
+    init_seq();
+    stringifyJSON = ({ value }) => JSON.stringify(value);
+    jsonScalars = [
+      {
+        identify: (value) => typeof value === "string",
+        default: true,
+        tag: "tag:yaml.org,2002:str",
+        resolve: (str) => str,
+        stringify: stringifyJSON
+      },
+      {
+        identify: (value) => value == null,
+        createNode: () => new Scalar(null),
+        default: true,
+        tag: "tag:yaml.org,2002:null",
+        test: /^null$/,
+        resolve: () => null,
+        stringify: stringifyJSON
+      },
+      {
+        identify: (value) => typeof value === "boolean",
+        default: true,
+        tag: "tag:yaml.org,2002:bool",
+        test: /^true$|^false$/,
+        resolve: (str) => str === "true",
+        stringify: stringifyJSON
+      },
+      {
+        identify: intIdentify2,
+        default: true,
+        tag: "tag:yaml.org,2002:int",
+        test: /^-?(?:0|[1-9][0-9]*)$/,
+        resolve: (str, _onError, { intAsBigInt }) => intAsBigInt ? BigInt(str) : parseInt(str, 10),
+        stringify: ({ value }) => intIdentify2(value) ? value.toString() : JSON.stringify(value)
+      },
+      {
+        identify: (value) => typeof value === "number",
+        default: true,
+        tag: "tag:yaml.org,2002:float",
+        test: /^-?(?:0|[1-9][0-9]*)(?:\.[0-9]*)?(?:[eE][-+]?[0-9]+)?$/,
+        resolve: (str) => parseFloat(str),
+        stringify: stringifyJSON
+      }
+    ];
+    jsonError = {
+      default: true,
+      tag: "",
+      test: /^/,
+      resolve(str, onError) {
+        onError(`Unresolved plain scalar ${JSON.stringify(str)}`);
+        return str;
+      }
+    };
+    schema2 = [map, seq].concat(jsonScalars, jsonError);
+  }
+});
+
+// node_modules/yaml/browser/dist/schema/yaml-1.1/binary.js
+var binary;
+var init_binary = __esm({
+  "node_modules/yaml/browser/dist/schema/yaml-1.1/binary.js"() {
+    init_Scalar();
+    init_stringifyString();
+    binary = {
+      identify: (value) => value instanceof Uint8Array,
+      // Buffer inherits from Uint8Array
+      default: false,
+      tag: "tag:yaml.org,2002:binary",
+      /**
+       * Returns a Buffer in node and an Uint8Array in browsers
+       *
+       * To use the resulting buffer as an image, you'll want to do something like:
+       *
+       *   const blob = new Blob([buffer], { type: 'image/jpeg' })
+       *   document.querySelector('#photo').src = URL.createObjectURL(blob)
+       */
+      resolve(src, onError) {
+        if (typeof atob === "function") {
+          const str = atob(src.replace(/[\n\r]/g, ""));
+          const buffer = new Uint8Array(str.length);
+          for (let i = 0; i < str.length; ++i)
+            buffer[i] = str.charCodeAt(i);
+          return buffer;
+        } else {
+          onError("This environment does not support reading binary tags; either Buffer or atob is required");
+          return src;
+        }
+      },
+      stringify({ comment, type, value }, ctx, onComment, onChompKeep) {
+        if (!value)
+          return "";
+        const buf = value;
+        let str;
+        if (typeof btoa === "function") {
+          let s = "";
+          for (let i = 0; i < buf.length; ++i)
+            s += String.fromCharCode(buf[i]);
+          str = btoa(s);
+        } else {
+          throw new Error("This environment does not support writing binary tags; either Buffer or btoa is required");
+        }
+        type ?? (type = Scalar.BLOCK_LITERAL);
+        if (type !== Scalar.QUOTE_DOUBLE) {
+          const lineWidth = Math.max(ctx.options.lineWidth - ctx.indent.length, ctx.options.minContentWidth);
+          const n = Math.ceil(str.length / lineWidth);
+          const lines = new Array(n);
+          for (let i = 0, o = 0; i < n; ++i, o += lineWidth) {
+            lines[i] = str.substr(o, lineWidth);
+          }
+          str = lines.join(type === Scalar.BLOCK_LITERAL ? "\n" : " ");
+        }
+        return stringifyString({ comment, type, value: str }, ctx, onComment, onChompKeep);
+      }
+    };
+  }
+});
+
+// node_modules/yaml/browser/dist/schema/yaml-1.1/pairs.js
+function resolvePairs(seq2, onError) {
+  if (isSeq(seq2)) {
+    for (let i = 0; i < seq2.items.length; ++i) {
+      let item2 = seq2.items[i];
+      if (isPair(item2))
+        continue;
+      else if (isMap(item2)) {
+        if (item2.items.length > 1)
+          onError("Each pair must have its own sequence indicator");
+        const pair = item2.items[0] || new Pair(new Scalar(null));
+        if (item2.commentBefore)
+          pair.key.commentBefore = pair.key.commentBefore ? `${item2.commentBefore}
+${pair.key.commentBefore}` : item2.commentBefore;
+        if (item2.comment) {
+          const cn = pair.value ?? pair.key;
+          cn.comment = cn.comment ? `${item2.comment}
+${cn.comment}` : item2.comment;
+        }
+        item2 = pair;
+      }
+      seq2.items[i] = isPair(item2) ? item2 : new Pair(item2);
+    }
+  } else
+    onError("Expected a sequence for this tag");
+  return seq2;
+}
+function createPairs(schema4, iterable, ctx) {
+  const { replacer } = ctx;
+  const pairs2 = new YAMLSeq(schema4);
+  pairs2.tag = "tag:yaml.org,2002:pairs";
+  let i = 0;
+  if (iterable && Symbol.iterator in Object(iterable))
+    for (let it of iterable) {
+      if (typeof replacer === "function")
+        it = replacer.call(iterable, String(i++), it);
+      let key2, value;
+      if (Array.isArray(it)) {
+        if (it.length === 2) {
+          key2 = it[0];
+          value = it[1];
+        } else
+          throw new TypeError(`Expected [key, value] tuple: ${it}`);
+      } else if (it && it instanceof Object) {
+        const keys = Object.keys(it);
+        if (keys.length === 1) {
+          key2 = keys[0];
+          value = it[key2];
+        } else {
+          throw new TypeError(`Expected tuple with one key, not ${keys.length} keys`);
+        }
+      } else {
+        key2 = it;
+      }
+      pairs2.items.push(createPair(key2, value, ctx));
+    }
+  return pairs2;
+}
+var pairs;
+var init_pairs = __esm({
+  "node_modules/yaml/browser/dist/schema/yaml-1.1/pairs.js"() {
+    init_identity();
+    init_Pair();
+    init_Scalar();
+    init_YAMLSeq();
+    pairs = {
+      collection: "seq",
+      default: false,
+      tag: "tag:yaml.org,2002:pairs",
+      resolve: resolvePairs,
+      createNode: createPairs
+    };
+  }
+});
+
+// node_modules/yaml/browser/dist/schema/yaml-1.1/omap.js
+var YAMLOMap, omap;
+var init_omap = __esm({
+  "node_modules/yaml/browser/dist/schema/yaml-1.1/omap.js"() {
+    init_identity();
+    init_toJS();
+    init_YAMLMap();
+    init_YAMLSeq();
+    init_pairs();
+    YAMLOMap = class _YAMLOMap extends YAMLSeq {
+      constructor() {
+        super();
+        this.add = YAMLMap.prototype.add.bind(this);
+        this.delete = YAMLMap.prototype.delete.bind(this);
+        this.get = YAMLMap.prototype.get.bind(this);
+        this.has = YAMLMap.prototype.has.bind(this);
+        this.set = YAMLMap.prototype.set.bind(this);
+        this.tag = _YAMLOMap.tag;
+      }
+      /**
+       * If `ctx` is given, the return type is actually `Map<unknown, unknown>`,
+       * but TypeScript won't allow widening the signature of a child method.
+       */
+      toJSON(_, ctx) {
+        if (!ctx)
+          return super.toJSON(_);
+        const map2 = /* @__PURE__ */ new Map();
+        if (ctx?.onCreate)
+          ctx.onCreate(map2);
+        for (const pair of this.items) {
+          let key2, value;
+          if (isPair(pair)) {
+            key2 = toJS(pair.key, "", ctx);
+            value = toJS(pair.value, key2, ctx);
+          } else {
+            key2 = toJS(pair, "", ctx);
+          }
+          if (map2.has(key2))
+            throw new Error("Ordered maps must not include duplicate keys");
+          map2.set(key2, value);
+        }
+        return map2;
+      }
+      static from(schema4, iterable, ctx) {
+        const pairs2 = createPairs(schema4, iterable, ctx);
+        const omap2 = new this();
+        omap2.items = pairs2.items;
+        return omap2;
+      }
+    };
+    YAMLOMap.tag = "tag:yaml.org,2002:omap";
+    omap = {
+      collection: "seq",
+      identify: (value) => value instanceof Map,
+      nodeClass: YAMLOMap,
+      default: false,
+      tag: "tag:yaml.org,2002:omap",
+      resolve(seq2, onError) {
+        const pairs2 = resolvePairs(seq2, onError);
+        const seenKeys = [];
+        for (const { key: key2 } of pairs2.items) {
+          if (isScalar(key2)) {
+            if (seenKeys.includes(key2.value)) {
+              onError(`Ordered maps must not include duplicate keys: ${key2.value}`);
+            } else {
+              seenKeys.push(key2.value);
+            }
+          }
+        }
+        return Object.assign(new YAMLOMap(), pairs2);
+      },
+      createNode: (schema4, iterable, ctx) => YAMLOMap.from(schema4, iterable, ctx)
+    };
+  }
+});
+
+// node_modules/yaml/browser/dist/schema/yaml-1.1/bool.js
+function boolStringify({ value, source }, ctx) {
+  const boolObj = value ? trueTag : falseTag;
+  if (source && boolObj.test.test(source))
+    return source;
+  return value ? ctx.options.trueStr : ctx.options.falseStr;
+}
+var trueTag, falseTag;
+var init_bool2 = __esm({
+  "node_modules/yaml/browser/dist/schema/yaml-1.1/bool.js"() {
+    init_Scalar();
+    trueTag = {
+      identify: (value) => value === true,
+      default: true,
+      tag: "tag:yaml.org,2002:bool",
+      test: /^(?:Y|y|[Yy]es|YES|[Tt]rue|TRUE|[Oo]n|ON)$/,
+      resolve: () => new Scalar(true),
+      stringify: boolStringify
+    };
+    falseTag = {
+      identify: (value) => value === false,
+      default: true,
+      tag: "tag:yaml.org,2002:bool",
+      test: /^(?:N|n|[Nn]o|NO|[Ff]alse|FALSE|[Oo]ff|OFF)$/,
+      resolve: () => new Scalar(false),
+      stringify: boolStringify
+    };
+  }
+});
+
+// node_modules/yaml/browser/dist/schema/yaml-1.1/float.js
+var floatNaN2, floatExp2, float2;
+var init_float2 = __esm({
+  "node_modules/yaml/browser/dist/schema/yaml-1.1/float.js"() {
+    init_Scalar();
+    init_stringifyNumber();
+    floatNaN2 = {
+      identify: (value) => typeof value === "number",
+      default: true,
+      tag: "tag:yaml.org,2002:float",
+      test: /^(?:[-+]?\.(?:inf|Inf|INF)|\.nan|\.NaN|\.NAN)$/,
+      resolve: (str) => str.slice(-3).toLowerCase() === "nan" ? NaN : str[0] === "-" ? Number.NEGATIVE_INFINITY : Number.POSITIVE_INFINITY,
+      stringify: stringifyNumber
+    };
+    floatExp2 = {
+      identify: (value) => typeof value === "number",
+      default: true,
+      tag: "tag:yaml.org,2002:float",
+      format: "EXP",
+      test: /^[-+]?(?:[0-9][0-9_]*)?(?:\.[0-9_]*)?[eE][-+]?[0-9]+$/,
+      resolve: (str) => parseFloat(str.replace(/_/g, "")),
+      stringify(node) {
+        const num = Number(node.value);
+        return isFinite(num) ? num.toExponential() : stringifyNumber(node);
+      }
+    };
+    float2 = {
+      identify: (value) => typeof value === "number",
+      default: true,
+      tag: "tag:yaml.org,2002:float",
+      test: /^[-+]?(?:[0-9][0-9_]*)?\.[0-9_]*$/,
+      resolve(str) {
+        const node = new Scalar(parseFloat(str.replace(/_/g, "")));
+        const dot = str.indexOf(".");
+        if (dot !== -1) {
+          const f = str.substring(dot + 1).replace(/_/g, "");
+          if (f[f.length - 1] === "0")
+            node.minFractionDigits = f.length;
+        }
+        return node;
+      },
+      stringify: stringifyNumber
+    };
+  }
+});
+
+// node_modules/yaml/browser/dist/schema/yaml-1.1/int.js
+function intResolve2(str, offset, radix, { intAsBigInt }) {
+  const sign = str[0];
+  if (sign === "-" || sign === "+")
+    offset += 1;
+  str = str.substring(offset).replace(/_/g, "");
+  if (intAsBigInt) {
+    switch (radix) {
+      case 2:
+        str = `0b${str}`;
+        break;
+      case 8:
+        str = `0o${str}`;
+        break;
+      case 16:
+        str = `0x${str}`;
+        break;
+    }
+    const n2 = BigInt(str);
+    return sign === "-" ? BigInt(-1) * n2 : n2;
+  }
+  const n = parseInt(str, radix);
+  return sign === "-" ? -1 * n : n;
+}
+function intStringify2(node, radix, prefix) {
+  const { value } = node;
+  if (intIdentify3(value)) {
+    const str = value.toString(radix);
+    return value < 0 ? "-" + prefix + str.substr(1) : prefix + str;
+  }
+  return stringifyNumber(node);
+}
+var intIdentify3, intBin, intOct2, int2, intHex2;
+var init_int2 = __esm({
+  "node_modules/yaml/browser/dist/schema/yaml-1.1/int.js"() {
+    init_stringifyNumber();
+    intIdentify3 = (value) => typeof value === "bigint" || Number.isInteger(value);
+    intBin = {
+      identify: intIdentify3,
+      default: true,
+      tag: "tag:yaml.org,2002:int",
+      format: "BIN",
+      test: /^[-+]?0b[0-1_]+$/,
+      resolve: (str, _onError, opt) => intResolve2(str, 2, 2, opt),
+      stringify: (node) => intStringify2(node, 2, "0b")
+    };
+    intOct2 = {
+      identify: intIdentify3,
+      default: true,
+      tag: "tag:yaml.org,2002:int",
+      format: "OCT",
+      test: /^[-+]?0[0-7_]+$/,
+      resolve: (str, _onError, opt) => intResolve2(str, 1, 8, opt),
+      stringify: (node) => intStringify2(node, 8, "0")
+    };
+    int2 = {
+      identify: intIdentify3,
+      default: true,
+      tag: "tag:yaml.org,2002:int",
+      test: /^[-+]?[0-9][0-9_]*$/,
+      resolve: (str, _onError, opt) => intResolve2(str, 0, 10, opt),
+      stringify: stringifyNumber
+    };
+    intHex2 = {
+      identify: intIdentify3,
+      default: true,
+      tag: "tag:yaml.org,2002:int",
+      format: "HEX",
+      test: /^[-+]?0x[0-9a-fA-F_]+$/,
+      resolve: (str, _onError, opt) => intResolve2(str, 2, 16, opt),
+      stringify: (node) => intStringify2(node, 16, "0x")
+    };
+  }
+});
+
+// node_modules/yaml/browser/dist/schema/yaml-1.1/set.js
+var YAMLSet, set;
+var init_set = __esm({
+  "node_modules/yaml/browser/dist/schema/yaml-1.1/set.js"() {
+    init_identity();
+    init_Pair();
+    init_YAMLMap();
+    YAMLSet = class _YAMLSet extends YAMLMap {
+      constructor(schema4) {
+        super(schema4);
+        this.tag = _YAMLSet.tag;
+      }
+      add(key2) {
+        let pair;
+        if (isPair(key2))
+          pair = key2;
+        else if (key2 && typeof key2 === "object" && "key" in key2 && "value" in key2 && key2.value === null)
+          pair = new Pair(key2.key, null);
+        else
+          pair = new Pair(key2, null);
+        const prev = findPair(this.items, pair.key);
+        if (!prev)
+          this.items.push(pair);
+      }
+      /**
+       * If `keepPair` is `true`, returns the Pair matching `key`.
+       * Otherwise, returns the value of that Pair's key.
+       */
+      get(key2, keepPair) {
+        const pair = findPair(this.items, key2);
+        return !keepPair && isPair(pair) ? isScalar(pair.key) ? pair.key.value : pair.key : pair;
+      }
+      set(key2, value) {
+        if (typeof value !== "boolean")
+          throw new Error(`Expected boolean value for set(key, value) in a YAML set, not ${typeof value}`);
+        const prev = findPair(this.items, key2);
+        if (prev && !value) {
+          this.items.splice(this.items.indexOf(prev), 1);
+        } else if (!prev && value) {
+          this.items.push(new Pair(key2));
+        }
+      }
+      toJSON(_, ctx) {
+        return super.toJSON(_, ctx, Set);
+      }
+      toString(ctx, onComment, onChompKeep) {
+        if (!ctx)
+          return JSON.stringify(this);
+        if (this.hasAllNullValues(true))
+          return super.toString(Object.assign({}, ctx, { allNullValues: true }), onComment, onChompKeep);
+        else
+          throw new Error("Set items must all have null values");
+      }
+      static from(schema4, iterable, ctx) {
+        const { replacer } = ctx;
+        const set2 = new this(schema4);
+        if (iterable && Symbol.iterator in Object(iterable))
+          for (let value of iterable) {
+            if (typeof replacer === "function")
+              value = replacer.call(iterable, value, value);
+            set2.items.push(createPair(value, null, ctx));
+          }
+        return set2;
+      }
+    };
+    YAMLSet.tag = "tag:yaml.org,2002:set";
+    set = {
+      collection: "map",
+      identify: (value) => value instanceof Set,
+      nodeClass: YAMLSet,
+      default: false,
+      tag: "tag:yaml.org,2002:set",
+      createNode: (schema4, iterable, ctx) => YAMLSet.from(schema4, iterable, ctx),
+      resolve(map2, onError) {
+        if (isMap(map2)) {
+          if (map2.hasAllNullValues(true))
+            return Object.assign(new YAMLSet(), map2);
+          else
+            onError("Set items must all have null values");
+        } else
+          onError("Expected a mapping for this tag");
+        return map2;
+      }
+    };
+  }
+});
+
+// node_modules/yaml/browser/dist/schema/yaml-1.1/timestamp.js
+function parseSexagesimal(str, asBigInt) {
+  const sign = str[0];
+  const parts = sign === "-" || sign === "+" ? str.substring(1) : str;
+  const num = (n) => asBigInt ? BigInt(n) : Number(n);
+  const res = parts.replace(/_/g, "").split(":").reduce((res2, p) => res2 * num(60) + num(p), num(0));
+  return sign === "-" ? num(-1) * res : res;
+}
+function stringifySexagesimal(node) {
+  let { value } = node;
+  let num = (n) => n;
+  if (typeof value === "bigint")
+    num = (n) => BigInt(n);
+  else if (isNaN(value) || !isFinite(value))
+    return stringifyNumber(node);
+  let sign = "";
+  if (value < 0) {
+    sign = "-";
+    value *= num(-1);
+  }
+  const _60 = num(60);
+  const parts = [value % _60];
+  if (value < 60) {
+    parts.unshift(0);
+  } else {
+    value = (value - parts[0]) / _60;
+    parts.unshift(value % _60);
+    if (value >= 60) {
+      value = (value - parts[0]) / _60;
+      parts.unshift(value);
+    }
+  }
+  return sign + parts.map((n) => String(n).padStart(2, "0")).join(":").replace(/000000\d*$/, "");
+}
+var intTime, floatTime, timestamp;
+var init_timestamp = __esm({
+  "node_modules/yaml/browser/dist/schema/yaml-1.1/timestamp.js"() {
+    init_stringifyNumber();
+    intTime = {
+      identify: (value) => typeof value === "bigint" || Number.isInteger(value),
+      default: true,
+      tag: "tag:yaml.org,2002:int",
+      format: "TIME",
+      test: /^[-+]?[0-9][0-9_]*(?::[0-5]?[0-9])+$/,
+      resolve: (str, _onError, { intAsBigInt }) => parseSexagesimal(str, intAsBigInt),
+      stringify: stringifySexagesimal
+    };
+    floatTime = {
+      identify: (value) => typeof value === "number",
+      default: true,
+      tag: "tag:yaml.org,2002:float",
+      format: "TIME",
+      test: /^[-+]?[0-9][0-9_]*(?::[0-5]?[0-9])+\.[0-9_]*$/,
+      resolve: (str) => parseSexagesimal(str, false),
+      stringify: stringifySexagesimal
+    };
+    timestamp = {
+      identify: (value) => value instanceof Date,
+      default: true,
+      tag: "tag:yaml.org,2002:timestamp",
+      // If the time zone is omitted, the timestamp is assumed to be specified in UTC. The time part
+      // may be omitted altogether, resulting in a date format. In such a case, the time part is
+      // assumed to be 00:00:00Z (start of day, UTC).
+      test: RegExp("^([0-9]{4})-([0-9]{1,2})-([0-9]{1,2})(?:(?:t|T|[ \\t]+)([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2}(\\.[0-9]+)?)(?:[ \\t]*(Z|[-+][012]?[0-9](?::[0-9]{2})?))?)?$"),
+      resolve(str) {
+        const match = str.match(timestamp.test);
+        if (!match)
+          throw new Error("!!timestamp expects a date, starting with yyyy-mm-dd");
+        const [, year, month, day, hour, minute, second] = match.map(Number);
+        const millisec = match[7] ? Number((match[7] + "00").substr(1, 3)) : 0;
+        let date = Date.UTC(year, month - 1, day, hour || 0, minute || 0, second || 0, millisec);
+        const tz = match[8];
+        if (tz && tz !== "Z") {
+          let d = parseSexagesimal(tz, false);
+          if (Math.abs(d) < 30)
+            d *= 60;
+          date -= 6e4 * d;
+        }
+        return new Date(date);
+      },
+      stringify: ({ value }) => value?.toISOString().replace(/(T00:00:00)?\.000Z$/, "") ?? ""
+    };
+  }
+});
+
+// node_modules/yaml/browser/dist/schema/yaml-1.1/schema.js
+var schema3;
+var init_schema3 = __esm({
+  "node_modules/yaml/browser/dist/schema/yaml-1.1/schema.js"() {
+    init_map();
+    init_null();
+    init_seq();
+    init_string();
+    init_binary();
+    init_bool2();
+    init_float2();
+    init_int2();
+    init_merge();
+    init_omap();
+    init_pairs();
+    init_set();
+    init_timestamp();
+    schema3 = [
+      map,
+      seq,
+      string,
+      nullTag,
+      trueTag,
+      falseTag,
+      intBin,
+      intOct2,
+      int2,
+      intHex2,
+      floatNaN2,
+      floatExp2,
+      float2,
+      binary,
+      merge,
+      omap,
+      pairs,
+      set,
+      intTime,
+      floatTime,
+      timestamp
+    ];
+  }
+});
+
+// node_modules/yaml/browser/dist/schema/tags.js
+function getTags(customTags, schemaName, addMergeTag) {
+  const schemaTags = schemas.get(schemaName);
+  if (schemaTags && !customTags) {
+    return addMergeTag && !schemaTags.includes(merge) ? schemaTags.concat(merge) : schemaTags.slice();
+  }
+  let tags = schemaTags;
+  if (!tags) {
+    if (Array.isArray(customTags))
+      tags = [];
+    else {
+      const keys = Array.from(schemas.keys()).filter((key2) => key2 !== "yaml11").map((key2) => JSON.stringify(key2)).join(", ");
+      throw new Error(`Unknown schema "${schemaName}"; use one of ${keys} or define customTags array`);
+    }
+  }
+  if (Array.isArray(customTags)) {
+    for (const tag of customTags)
+      tags = tags.concat(tag);
+  } else if (typeof customTags === "function") {
+    tags = customTags(tags.slice());
+  }
+  if (addMergeTag)
+    tags = tags.concat(merge);
+  return tags.reduce((tags2, tag) => {
+    const tagObj = typeof tag === "string" ? tagsByName[tag] : tag;
+    if (!tagObj) {
+      const tagName = JSON.stringify(tag);
+      const keys = Object.keys(tagsByName).map((key2) => JSON.stringify(key2)).join(", ");
+      throw new Error(`Unknown custom tag ${tagName}; use one of ${keys}`);
+    }
+    if (!tags2.includes(tagObj))
+      tags2.push(tagObj);
+    return tags2;
+  }, []);
+}
+var schemas, tagsByName, coreKnownTags;
+var init_tags = __esm({
+  "node_modules/yaml/browser/dist/schema/tags.js"() {
+    init_map();
+    init_null();
+    init_seq();
+    init_string();
+    init_bool();
+    init_float();
+    init_int();
+    init_schema();
+    init_schema2();
+    init_binary();
+    init_merge();
+    init_omap();
+    init_pairs();
+    init_schema3();
+    init_set();
+    init_timestamp();
+    schemas = /* @__PURE__ */ new Map([
+      ["core", schema],
+      ["failsafe", [map, seq, string]],
+      ["json", schema2],
+      ["yaml11", schema3],
+      ["yaml-1.1", schema3]
+    ]);
+    tagsByName = {
+      binary,
+      bool: boolTag,
+      float,
+      floatExp,
+      floatNaN,
+      floatTime,
+      int,
+      intHex,
+      intOct,
+      intTime,
+      map,
+      merge,
+      null: nullTag,
+      omap,
+      pairs,
+      seq,
+      set,
+      timestamp
+    };
+    coreKnownTags = {
+      "tag:yaml.org,2002:binary": binary,
+      "tag:yaml.org,2002:merge": merge,
+      "tag:yaml.org,2002:omap": omap,
+      "tag:yaml.org,2002:pairs": pairs,
+      "tag:yaml.org,2002:set": set,
+      "tag:yaml.org,2002:timestamp": timestamp
+    };
+  }
+});
+
+// node_modules/yaml/browser/dist/schema/Schema.js
+var sortMapEntriesByKey, Schema;
+var init_Schema = __esm({
+  "node_modules/yaml/browser/dist/schema/Schema.js"() {
+    init_identity();
+    init_map();
+    init_seq();
+    init_string();
+    init_tags();
+    sortMapEntriesByKey = (a, b) => a.key < b.key ? -1 : a.key > b.key ? 1 : 0;
+    Schema = class _Schema {
+      constructor({ compat, customTags, merge: merge2, resolveKnownTags, schema: schema4, sortMapEntries, toStringDefaults }) {
+        this.compat = Array.isArray(compat) ? getTags(compat, "compat") : compat ? getTags(null, compat) : null;
+        this.name = typeof schema4 === "string" && schema4 || "core";
+        this.knownTags = resolveKnownTags ? coreKnownTags : {};
+        this.tags = getTags(customTags, this.name, merge2);
+        this.toStringOptions = toStringDefaults ?? null;
+        Object.defineProperty(this, MAP, { value: map });
+        Object.defineProperty(this, SCALAR, { value: string });
+        Object.defineProperty(this, SEQ, { value: seq });
+        this.sortMapEntries = typeof sortMapEntries === "function" ? sortMapEntries : sortMapEntries === true ? sortMapEntriesByKey : null;
+      }
+      clone() {
+        const copy = Object.create(_Schema.prototype, Object.getOwnPropertyDescriptors(this));
+        copy.tags = this.tags.slice();
+        return copy;
+      }
+    };
+  }
+});
+
+// node_modules/yaml/browser/dist/stringify/stringifyDocument.js
+function stringifyDocument(doc, options) {
+  const lines = [];
+  let hasDirectives = options.directives === true;
+  if (options.directives !== false && doc.directives) {
+    const dir = doc.directives.toString(doc);
+    if (dir) {
+      lines.push(dir);
+      hasDirectives = true;
+    } else if (doc.directives.docStart)
+      hasDirectives = true;
+  }
+  if (hasDirectives)
+    lines.push("---");
+  const ctx = createStringifyContext(doc, options);
+  const { commentString } = ctx.options;
+  if (doc.commentBefore) {
+    if (lines.length !== 1)
+      lines.unshift("");
+    const cs = commentString(doc.commentBefore);
+    lines.unshift(indentComment(cs, ""));
+  }
+  let chompKeep = false;
+  let contentComment = null;
+  if (doc.contents) {
+    if (isNode(doc.contents)) {
+      if (doc.contents.spaceBefore && hasDirectives)
+        lines.push("");
+      if (doc.contents.commentBefore) {
+        const cs = commentString(doc.contents.commentBefore);
+        lines.push(indentComment(cs, ""));
+      }
+      ctx.forceBlockIndent = !!doc.comment;
+      contentComment = doc.contents.comment;
+    }
+    const onChompKeep = contentComment ? void 0 : () => chompKeep = true;
+    let body = stringify(doc.contents, ctx, () => contentComment = null, onChompKeep);
+    if (contentComment)
+      body += lineComment(body, "", commentString(contentComment));
+    if ((body[0] === "|" || body[0] === ">") && lines[lines.length - 1] === "---") {
+      lines[lines.length - 1] = `--- ${body}`;
+    } else
+      lines.push(body);
+  } else {
+    lines.push(stringify(doc.contents, ctx));
+  }
+  if (doc.directives?.docEnd) {
+    if (doc.comment) {
+      const cs = commentString(doc.comment);
+      if (cs.includes("\n")) {
+        lines.push("...");
+        lines.push(indentComment(cs, ""));
+      } else {
+        lines.push(`... ${cs}`);
+      }
+    } else {
+      lines.push("...");
+    }
+  } else {
+    let dc = doc.comment;
+    if (dc && chompKeep)
+      dc = dc.replace(/^\n+/, "");
+    if (dc) {
+      if ((!chompKeep || contentComment) && lines[lines.length - 1] !== "")
+        lines.push("");
+      lines.push(indentComment(commentString(dc), ""));
+    }
+  }
+  return lines.join("\n") + "\n";
+}
+var init_stringifyDocument = __esm({
+  "node_modules/yaml/browser/dist/stringify/stringifyDocument.js"() {
+    init_identity();
+    init_stringify();
+    init_stringifyComment();
+  }
+});
+
+// node_modules/yaml/browser/dist/doc/Document.js
+function assertCollection(contents) {
+  if (isCollection(contents))
+    return true;
+  throw new Error("Expected a YAML collection as document contents");
+}
+var Document;
+var init_Document = __esm({
+  "node_modules/yaml/browser/dist/doc/Document.js"() {
+    init_Alias();
+    init_Collection();
+    init_identity();
+    init_Pair();
+    init_toJS();
+    init_Schema();
+    init_stringifyDocument();
+    init_anchors();
+    init_applyReviver();
+    init_createNode();
+    init_directives();
+    Document = class _Document {
+      constructor(value, replacer, options) {
+        this.commentBefore = null;
+        this.comment = null;
+        this.errors = [];
+        this.warnings = [];
+        Object.defineProperty(this, NODE_TYPE, { value: DOC });
+        let _replacer = null;
+        if (typeof replacer === "function" || Array.isArray(replacer)) {
+          _replacer = replacer;
+        } else if (options === void 0 && replacer) {
+          options = replacer;
+          replacer = void 0;
+        }
+        const opt = Object.assign({
+          intAsBigInt: false,
+          keepSourceTokens: false,
+          logLevel: "warn",
+          prettyErrors: true,
+          strict: true,
+          stringKeys: false,
+          uniqueKeys: true,
+          version: "1.2"
+        }, options);
+        this.options = opt;
+        let { version } = opt;
+        if (options?._directives) {
+          this.directives = options._directives.atDocument();
+          if (this.directives.yaml.explicit)
+            version = this.directives.yaml.version;
+        } else
+          this.directives = new Directives({ version });
+        this.setSchema(version, options);
+        this.contents = value === void 0 ? null : this.createNode(value, _replacer, options);
+      }
+      /**
+       * Create a deep copy of this Document and its contents.
+       *
+       * Custom Node values that inherit from `Object` still refer to their original instances.
+       */
+      clone() {
+        const copy = Object.create(_Document.prototype, {
+          [NODE_TYPE]: { value: DOC }
+        });
+        copy.commentBefore = this.commentBefore;
+        copy.comment = this.comment;
+        copy.errors = this.errors.slice();
+        copy.warnings = this.warnings.slice();
+        copy.options = Object.assign({}, this.options);
+        if (this.directives)
+          copy.directives = this.directives.clone();
+        copy.schema = this.schema.clone();
+        copy.contents = isNode(this.contents) ? this.contents.clone(copy.schema) : this.contents;
+        if (this.range)
+          copy.range = this.range.slice();
+        return copy;
+      }
+      /** Adds a value to the document. */
+      add(value) {
+        if (assertCollection(this.contents))
+          this.contents.add(value);
+      }
+      /** Adds a value to the document. */
+      addIn(path, value) {
+        if (assertCollection(this.contents))
+          this.contents.addIn(path, value);
+      }
+      /**
+       * Create a new `Alias` node, ensuring that the target `node` has the required anchor.
+       *
+       * If `node` already has an anchor, `name` is ignored.
+       * Otherwise, the `node.anchor` value will be set to `name`,
+       * or if an anchor with that name is already present in the document,
+       * `name` will be used as a prefix for a new unique anchor.
+       * If `name` is undefined, the generated anchor will use 'a' as a prefix.
+       */
+      createAlias(node, name) {
+        if (!node.anchor) {
+          const prev = anchorNames(this);
+          node.anchor = // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+          !name || prev.has(name) ? findNewAnchor(name || "a", prev) : name;
+        }
+        return new Alias(node.anchor);
+      }
+      createNode(value, replacer, options) {
+        let _replacer = void 0;
+        if (typeof replacer === "function") {
+          value = replacer.call({ "": value }, "", value);
+          _replacer = replacer;
+        } else if (Array.isArray(replacer)) {
+          const keyToStr = (v) => typeof v === "number" || v instanceof String || v instanceof Number;
+          const asStr = replacer.filter(keyToStr).map(String);
+          if (asStr.length > 0)
+            replacer = replacer.concat(asStr);
+          _replacer = replacer;
+        } else if (options === void 0 && replacer) {
+          options = replacer;
+          replacer = void 0;
+        }
+        const { aliasDuplicateObjects, anchorPrefix, flow, keepUndefined, onTagObj, tag } = options ?? {};
+        const { onAnchor, setAnchors, sourceObjects } = createNodeAnchors(
+          this,
+          // eslint-disable-next-line @typescript-eslint/prefer-nullish-coalescing
+          anchorPrefix || "a"
+        );
+        const ctx = {
+          aliasDuplicateObjects: aliasDuplicateObjects ?? true,
+          keepUndefined: keepUndefined ?? false,
+          onAnchor,
+          onTagObj,
+          replacer: _replacer,
+          schema: this.schema,
+          sourceObjects
+        };
+        const node = createNode(value, tag, ctx);
+        if (flow && isCollection(node))
+          node.flow = true;
+        setAnchors();
+        return node;
+      }
+      /**
+       * Convert a key and a value into a `Pair` using the current schema,
+       * recursively wrapping all values as `Scalar` or `Collection` nodes.
+       */
+      createPair(key2, value, options = {}) {
+        const k = this.createNode(key2, null, options);
+        const v = this.createNode(value, null, options);
+        return new Pair(k, v);
+      }
+      /**
+       * Removes a value from the document.
+       * @returns `true` if the item was found and removed.
+       */
+      delete(key2) {
+        return assertCollection(this.contents) ? this.contents.delete(key2) : false;
+      }
+      /**
+       * Removes a value from the document.
+       * @returns `true` if the item was found and removed.
+       */
+      deleteIn(path) {
+        if (isEmptyPath(path)) {
+          if (this.contents == null)
+            return false;
+          this.contents = null;
+          return true;
+        }
+        return assertCollection(this.contents) ? this.contents.deleteIn(path) : false;
+      }
+      /**
+       * Returns item at `key`, or `undefined` if not found. By default unwraps
+       * scalar values from their surrounding node; to disable set `keepScalar` to
+       * `true` (collections are always returned intact).
+       */
+      get(key2, keepScalar) {
+        return isCollection(this.contents) ? this.contents.get(key2, keepScalar) : void 0;
+      }
+      /**
+       * Returns item at `path`, or `undefined` if not found. By default unwraps
+       * scalar values from their surrounding node; to disable set `keepScalar` to
+       * `true` (collections are always returned intact).
+       */
+      getIn(path, keepScalar) {
+        if (isEmptyPath(path))
+          return !keepScalar && isScalar(this.contents) ? this.contents.value : this.contents;
+        return isCollection(this.contents) ? this.contents.getIn(path, keepScalar) : void 0;
+      }
+      /**
+       * Checks if the document includes a value with the key `key`.
+       */
+      has(key2) {
+        return isCollection(this.contents) ? this.contents.has(key2) : false;
+      }
+      /**
+       * Checks if the document includes a value at `path`.
+       */
+      hasIn(path) {
+        if (isEmptyPath(path))
+          return this.contents !== void 0;
+        return isCollection(this.contents) ? this.contents.hasIn(path) : false;
+      }
+      /**
+       * Sets a value in this document. For `!!set`, `value` needs to be a
+       * boolean to add/remove the item from the set.
+       */
+      set(key2, value) {
+        if (this.contents == null) {
+          this.contents = collectionFromPath(this.schema, [key2], value);
+        } else if (assertCollection(this.contents)) {
+          this.contents.set(key2, value);
+        }
+      }
+      /**
+       * Sets a value in this document. For `!!set`, `value` needs to be a
+       * boolean to add/remove the item from the set.
+       */
+      setIn(path, value) {
+        if (isEmptyPath(path)) {
+          this.contents = value;
+        } else if (this.contents == null) {
+          this.contents = collectionFromPath(this.schema, Array.from(path), value);
+        } else if (assertCollection(this.contents)) {
+          this.contents.setIn(path, value);
+        }
+      }
+      /**
+       * Change the YAML version and schema used by the document.
+       * A `null` version disables support for directives, explicit tags, anchors, and aliases.
+       * It also requires the `schema` option to be given as a `Schema` instance value.
+       *
+       * Overrides all previously set schema options.
+       */
+      setSchema(version, options = {}) {
+        if (typeof version === "number")
+          version = String(version);
+        let opt;
+        switch (version) {
+          case "1.1":
+            if (this.directives)
+              this.directives.yaml.version = "1.1";
+            else
+              this.directives = new Directives({ version: "1.1" });
+            opt = { resolveKnownTags: false, schema: "yaml-1.1" };
+            break;
+          case "1.2":
+          case "next":
+            if (this.directives)
+              this.directives.yaml.version = version;
+            else
+              this.directives = new Directives({ version });
+            opt = { resolveKnownTags: true, schema: "core" };
+            break;
+          case null:
+            if (this.directives)
+              delete this.directives;
+            opt = null;
+            break;
+          default: {
+            const sv = JSON.stringify(version);
+            throw new Error(`Expected '1.1', '1.2' or null as first argument, but found: ${sv}`);
+          }
+        }
+        if (options.schema instanceof Object)
+          this.schema = options.schema;
+        else if (opt)
+          this.schema = new Schema(Object.assign(opt, options));
+        else
+          throw new Error(`With a null YAML version, the { schema: Schema } option is required`);
+      }
+      // json & jsonArg are only used from toJSON()
+      toJS({ json: json2, jsonArg, mapAsMap, maxAliasCount, onAnchor, reviver } = {}) {
+        const ctx = {
+          anchors: /* @__PURE__ */ new Map(),
+          doc: this,
+          keep: !json2,
+          mapAsMap: mapAsMap === true,
+          mapKeyWarned: false,
+          maxAliasCount: typeof maxAliasCount === "number" ? maxAliasCount : 100
+        };
+        const res = toJS(this.contents, jsonArg ?? "", ctx);
+        if (typeof onAnchor === "function")
+          for (const { count, res: res2 } of ctx.anchors.values())
+            onAnchor(res2, count);
+        return typeof reviver === "function" ? applyReviver(reviver, { "": res }, "", res) : res;
+      }
+      /**
+       * A JSON representation of the document `contents`.
+       *
+       * @param jsonArg Used by `JSON.stringify` to indicate the array index or
+       *   property name.
+       */
+      toJSON(jsonArg, onAnchor) {
+        return this.toJS({ json: true, jsonArg, mapAsMap: false, onAnchor });
+      }
+      /** A YAML representation of the document. */
+      toString(options = {}) {
+        if (this.errors.length > 0)
+          throw new Error("Document with errors cannot be stringified");
+        if ("indent" in options && (!Number.isInteger(options.indent) || Number(options.indent) <= 0)) {
+          const s = JSON.stringify(options.indent);
+          throw new Error(`"indent" option must be a positive integer, not ${s}`);
+        }
+        return stringifyDocument(this, options);
+      }
+    };
+  }
+});
+
+// node_modules/yaml/browser/dist/errors.js
+var YAMLError, YAMLParseError, YAMLWarning, prettifyError;
+var init_errors = __esm({
+  "node_modules/yaml/browser/dist/errors.js"() {
+    YAMLError = class extends Error {
+      constructor(name, pos, code, message) {
+        super();
+        this.name = name;
+        this.code = code;
+        this.message = message;
+        this.pos = pos;
+      }
+    };
+    YAMLParseError = class extends YAMLError {
+      constructor(pos, code, message) {
+        super("YAMLParseError", pos, code, message);
+      }
+    };
+    YAMLWarning = class extends YAMLError {
+      constructor(pos, code, message) {
+        super("YAMLWarning", pos, code, message);
+      }
+    };
+    prettifyError = (src, lc) => (error) => {
+      if (error.pos[0] === -1)
+        return;
+      error.linePos = error.pos.map((pos) => lc.linePos(pos));
+      const { line, col } = error.linePos[0];
+      error.message += ` at line ${line}, column ${col}`;
+      let ci = col - 1;
+      let lineStr = src.substring(lc.lineStarts[line - 1], lc.lineStarts[line]).replace(/[\n\r]+$/, "");
+      if (ci >= 60 && lineStr.length > 80) {
+        const trimStart = Math.min(ci - 39, lineStr.length - 79);
+        lineStr = "\u2026" + lineStr.substring(trimStart);
+        ci -= trimStart - 1;
+      }
+      if (lineStr.length > 80)
+        lineStr = lineStr.substring(0, 79) + "\u2026";
+      if (line > 1 && /^ *$/.test(lineStr.substring(0, ci))) {
+        let prev = src.substring(lc.lineStarts[line - 2], lc.lineStarts[line - 1]);
+        if (prev.length > 80)
+          prev = prev.substring(0, 79) + "\u2026\n";
+        lineStr = prev + lineStr;
+      }
+      if (/[^ ]/.test(lineStr)) {
+        let count = 1;
+        const end = error.linePos[1];
+        if (end?.line === line && end.col > col) {
+          count = Math.max(1, Math.min(end.col - col, 80 - ci));
+        }
+        const pointer = " ".repeat(ci) + "^".repeat(count);
+        error.message += `:
+
+${lineStr}
+${pointer}
+`;
+      }
+    };
+  }
+});
+
+// node_modules/yaml/browser/dist/compose/resolve-props.js
+function resolveProps(tokens, { flow, indicator, next, offset, onError, parentIndent, startOnNewline }) {
+  let spaceBefore = false;
+  let atNewline = startOnNewline;
+  let hasSpace = startOnNewline;
+  let comment = "";
+  let commentSep = "";
+  let hasNewline = false;
+  let reqSpace = false;
+  let tab = null;
+  let anchor = null;
+  let tag = null;
+  let newlineAfterProp = null;
+  let comma = null;
+  let found = null;
+  let start = null;
+  for (const token of tokens) {
+    if (reqSpace) {
+      if (token.type !== "space" && token.type !== "newline" && token.type !== "comma")
+        onError(token.offset, "MISSING_CHAR", "Tags and anchors must be separated from the next token by white space");
+      reqSpace = false;
+    }
+    if (tab) {
+      if (atNewline && token.type !== "comment" && token.type !== "newline") {
+        onError(tab, "TAB_AS_INDENT", "Tabs are not allowed as indentation");
+      }
+      tab = null;
+    }
+    switch (token.type) {
+      case "space":
+        if (!flow && (indicator !== "doc-start" || next?.type !== "flow-collection") && token.source.includes("	")) {
+          tab = token;
+        }
+        hasSpace = true;
+        break;
+      case "comment": {
+        if (!hasSpace)
+          onError(token, "MISSING_CHAR", "Comments must be separated from other tokens by white space characters");
+        const cb = token.source.substring(1) || " ";
+        if (!comment)
+          comment = cb;
+        else
+          comment += commentSep + cb;
+        commentSep = "";
+        atNewline = false;
+        break;
+      }
+      case "newline":
+        if (atNewline) {
+          if (comment)
+            comment += token.source;
+          else if (!found || indicator !== "seq-item-ind")
+            spaceBefore = true;
+        } else
+          commentSep += token.source;
+        atNewline = true;
+        hasNewline = true;
+        if (anchor || tag)
+          newlineAfterProp = token;
+        hasSpace = true;
+        break;
+      case "anchor":
+        if (anchor)
+          onError(token, "MULTIPLE_ANCHORS", "A node can have at most one anchor");
+        if (token.source.endsWith(":"))
+          onError(token.offset + token.source.length - 1, "BAD_ALIAS", "Anchor ending in : is ambiguous", true);
+        anchor = token;
+        start ?? (start = token.offset);
+        atNewline = false;
+        hasSpace = false;
+        reqSpace = true;
+        break;
+      case "tag": {
+        if (tag)
+          onError(token, "MULTIPLE_TAGS", "A node can have at most one tag");
+        tag = token;
+        start ?? (start = token.offset);
+        atNewline = false;
+        hasSpace = false;
+        reqSpace = true;
+        break;
+      }
+      case indicator:
+        if (anchor || tag)
+          onError(token, "BAD_PROP_ORDER", `Anchors and tags must be after the ${token.source} indicator`);
+        if (found)
+          onError(token, "UNEXPECTED_TOKEN", `Unexpected ${token.source} in ${flow ?? "collection"}`);
+        found = token;
+        atNewline = indicator === "seq-item-ind" || indicator === "explicit-key-ind";
+        hasSpace = false;
+        break;
+      case "comma":
+        if (flow) {
+          if (comma)
+            onError(token, "UNEXPECTED_TOKEN", `Unexpected , in ${flow}`);
+          comma = token;
+          atNewline = false;
+          hasSpace = false;
+          break;
+        }
+      // else fallthrough
+      default:
+        onError(token, "UNEXPECTED_TOKEN", `Unexpected ${token.type} token`);
+        atNewline = false;
+        hasSpace = false;
+    }
+  }
+  const last = tokens[tokens.length - 1];
+  const end = last ? last.offset + last.source.length : offset;
+  if (reqSpace && next && next.type !== "space" && next.type !== "newline" && next.type !== "comma" && (next.type !== "scalar" || next.source !== "")) {
+    onError(next.offset, "MISSING_CHAR", "Tags and anchors must be separated from the next token by white space");
+  }
+  if (tab && (atNewline && tab.indent <= parentIndent || next?.type === "block-map" || next?.type === "block-seq"))
+    onError(tab, "TAB_AS_INDENT", "Tabs are not allowed as indentation");
+  return {
+    comma,
+    found,
+    spaceBefore,
+    comment,
+    hasNewline,
+    anchor,
+    tag,
+    newlineAfterProp,
+    end,
+    start: start ?? end
+  };
+}
+var init_resolve_props = __esm({
+  "node_modules/yaml/browser/dist/compose/resolve-props.js"() {
+  }
+});
+
+// node_modules/yaml/browser/dist/compose/util-contains-newline.js
+function containsNewline(key2) {
+  if (!key2)
+    return null;
+  switch (key2.type) {
+    case "alias":
+    case "scalar":
+    case "double-quoted-scalar":
+    case "single-quoted-scalar":
+      if (key2.source.includes("\n"))
+        return true;
+      if (key2.end) {
+        for (const st of key2.end)
+          if (st.type === "newline")
+            return true;
+      }
+      return false;
+    case "flow-collection":
+      for (const it of key2.items) {
+        for (const st of it.start)
+          if (st.type === "newline")
+            return true;
+        if (it.sep) {
+          for (const st of it.sep)
+            if (st.type === "newline")
+              return true;
+        }
+        if (containsNewline(it.key) || containsNewline(it.value))
+          return true;
+      }
+      return false;
+    default:
+      return true;
+  }
+}
+var init_util_contains_newline = __esm({
+  "node_modules/yaml/browser/dist/compose/util-contains-newline.js"() {
+  }
+});
+
+// node_modules/yaml/browser/dist/compose/util-flow-indent-check.js
+function flowIndentCheck(indent, fc, onError) {
+  if (fc?.type === "flow-collection") {
+    const end = fc.end[0];
+    if (end.indent === indent && (end.source === "]" || end.source === "}") && containsNewline(fc)) {
+      const msg = "Flow end indicator should be more indented than parent";
+      onError(end, "BAD_INDENT", msg, true);
+    }
+  }
+}
+var init_util_flow_indent_check = __esm({
+  "node_modules/yaml/browser/dist/compose/util-flow-indent-check.js"() {
+    init_util_contains_newline();
+  }
+});
+
+// node_modules/yaml/browser/dist/compose/util-map-includes.js
+function mapIncludes(ctx, items, search) {
+  const { uniqueKeys } = ctx.options;
+  if (uniqueKeys === false)
+    return false;
+  const isEqual = typeof uniqueKeys === "function" ? uniqueKeys : (a, b) => a === b || isScalar(a) && isScalar(b) && a.value === b.value;
+  return items.some((pair) => isEqual(pair.key, search));
+}
+var init_util_map_includes = __esm({
+  "node_modules/yaml/browser/dist/compose/util-map-includes.js"() {
+    init_identity();
+  }
+});
+
+// node_modules/yaml/browser/dist/compose/resolve-block-map.js
+function resolveBlockMap({ composeNode: composeNode2, composeEmptyNode: composeEmptyNode2 }, ctx, bm, onError, tag) {
+  const NodeClass = tag?.nodeClass ?? YAMLMap;
+  const map2 = new NodeClass(ctx.schema);
+  if (ctx.atRoot)
+    ctx.atRoot = false;
+  let offset = bm.offset;
+  let commentEnd = null;
+  for (const collItem of bm.items) {
+    const { start, key: key2, sep: sep2, value } = collItem;
+    const keyProps = resolveProps(start, {
+      indicator: "explicit-key-ind",
+      next: key2 ?? sep2?.[0],
+      offset,
+      onError,
+      parentIndent: bm.indent,
+      startOnNewline: true
+    });
+    const implicitKey = !keyProps.found;
+    if (implicitKey) {
+      if (key2) {
+        if (key2.type === "block-seq")
+          onError(offset, "BLOCK_AS_IMPLICIT_KEY", "A block sequence may not be used as an implicit map key");
+        else if ("indent" in key2 && key2.indent !== bm.indent)
+          onError(offset, "BAD_INDENT", startColMsg);
+      }
+      if (!keyProps.anchor && !keyProps.tag && !sep2) {
+        commentEnd = keyProps.end;
+        if (keyProps.comment) {
+          if (map2.comment)
+            map2.comment += "\n" + keyProps.comment;
+          else
+            map2.comment = keyProps.comment;
+        }
+        continue;
+      }
+      if (keyProps.newlineAfterProp || containsNewline(key2)) {
+        onError(key2 ?? start[start.length - 1], "MULTILINE_IMPLICIT_KEY", "Implicit keys need to be on a single line");
+      }
+    } else if (keyProps.found?.indent !== bm.indent) {
+      onError(offset, "BAD_INDENT", startColMsg);
+    }
+    ctx.atKey = true;
+    const keyStart = keyProps.end;
+    const keyNode = key2 ? composeNode2(ctx, key2, keyProps, onError) : composeEmptyNode2(ctx, keyStart, start, null, keyProps, onError);
+    if (ctx.schema.compat)
+      flowIndentCheck(bm.indent, key2, onError);
+    ctx.atKey = false;
+    if (mapIncludes(ctx, map2.items, keyNode))
+      onError(keyStart, "DUPLICATE_KEY", "Map keys must be unique");
+    const valueProps = resolveProps(sep2 ?? [], {
+      indicator: "map-value-ind",
+      next: value,
+      offset: keyNode.range[2],
+      onError,
+      parentIndent: bm.indent,
+      startOnNewline: !key2 || key2.type === "block-scalar"
+    });
+    offset = valueProps.end;
+    if (valueProps.found) {
+      if (implicitKey) {
+        if (value?.type === "block-map" && !valueProps.hasNewline)
+          onError(offset, "BLOCK_AS_IMPLICIT_KEY", "Nested mappings are not allowed in compact mappings");
+        if (ctx.options.strict && keyProps.start < valueProps.found.offset - 1024)
+          onError(keyNode.range, "KEY_OVER_1024_CHARS", "The : indicator must be at most 1024 chars after the start of an implicit block mapping key");
+      }
+      const valueNode = value ? composeNode2(ctx, value, valueProps, onError) : composeEmptyNode2(ctx, offset, sep2, null, valueProps, onError);
+      if (ctx.schema.compat)
+        flowIndentCheck(bm.indent, value, onError);
+      offset = valueNode.range[2];
+      const pair = new Pair(keyNode, valueNode);
+      if (ctx.options.keepSourceTokens)
+        pair.srcToken = collItem;
+      map2.items.push(pair);
+    } else {
+      if (implicitKey)
+        onError(keyNode.range, "MISSING_CHAR", "Implicit map keys need to be followed by map values");
+      if (valueProps.comment) {
+        if (keyNode.comment)
+          keyNode.comment += "\n" + valueProps.comment;
+        else
+          keyNode.comment = valueProps.comment;
+      }
+      const pair = new Pair(keyNode);
+      if (ctx.options.keepSourceTokens)
+        pair.srcToken = collItem;
+      map2.items.push(pair);
+    }
+  }
+  if (commentEnd && commentEnd < offset)
+    onError(commentEnd, "IMPOSSIBLE", "Map comment with trailing content");
+  map2.range = [bm.offset, offset, commentEnd ?? offset];
+  return map2;
+}
+var startColMsg;
+var init_resolve_block_map = __esm({
+  "node_modules/yaml/browser/dist/compose/resolve-block-map.js"() {
+    init_Pair();
+    init_YAMLMap();
+    init_resolve_props();
+    init_util_contains_newline();
+    init_util_flow_indent_check();
+    init_util_map_includes();
+    startColMsg = "All mapping items must start at the same column";
+  }
+});
+
+// node_modules/yaml/browser/dist/compose/resolve-block-seq.js
+function resolveBlockSeq({ composeNode: composeNode2, composeEmptyNode: composeEmptyNode2 }, ctx, bs, onError, tag) {
+  const NodeClass = tag?.nodeClass ?? YAMLSeq;
+  const seq2 = new NodeClass(ctx.schema);
+  if (ctx.atRoot)
+    ctx.atRoot = false;
+  if (ctx.atKey)
+    ctx.atKey = false;
+  let offset = bs.offset;
+  let commentEnd = null;
+  for (const { start, value } of bs.items) {
+    const props = resolveProps(start, {
+      indicator: "seq-item-ind",
+      next: value,
+      offset,
+      onError,
+      parentIndent: bs.indent,
+      startOnNewline: true
+    });
+    if (!props.found) {
+      if (props.anchor || props.tag || value) {
+        if (value?.type === "block-seq")
+          onError(props.end, "BAD_INDENT", "All sequence items must start at the same column");
+        else
+          onError(offset, "MISSING_CHAR", "Sequence item without - indicator");
+      } else {
+        commentEnd = props.end;
+        if (props.comment)
+          seq2.comment = props.comment;
+        continue;
+      }
+    }
+    const node = value ? composeNode2(ctx, value, props, onError) : composeEmptyNode2(ctx, props.end, start, null, props, onError);
+    if (ctx.schema.compat)
+      flowIndentCheck(bs.indent, value, onError);
+    offset = node.range[2];
+    seq2.items.push(node);
+  }
+  seq2.range = [bs.offset, offset, commentEnd ?? offset];
+  return seq2;
+}
+var init_resolve_block_seq = __esm({
+  "node_modules/yaml/browser/dist/compose/resolve-block-seq.js"() {
+    init_YAMLSeq();
+    init_resolve_props();
+    init_util_flow_indent_check();
+  }
+});
+
+// node_modules/yaml/browser/dist/compose/resolve-end.js
+function resolveEnd(end, offset, reqSpace, onError) {
+  let comment = "";
+  if (end) {
+    let hasSpace = false;
+    let sep2 = "";
+    for (const token of end) {
+      const { source, type } = token;
+      switch (type) {
+        case "space":
+          hasSpace = true;
+          break;
+        case "comment": {
+          if (reqSpace && !hasSpace)
+            onError(token, "MISSING_CHAR", "Comments must be separated from other tokens by white space characters");
+          const cb = source.substring(1) || " ";
+          if (!comment)
+            comment = cb;
+          else
+            comment += sep2 + cb;
+          sep2 = "";
+          break;
+        }
+        case "newline":
+          if (comment)
+            sep2 += source;
+          hasSpace = true;
+          break;
+        default:
+          onError(token, "UNEXPECTED_TOKEN", `Unexpected ${type} at node end`);
+      }
+      offset += source.length;
+    }
+  }
+  return { comment, offset };
+}
+var init_resolve_end = __esm({
+  "node_modules/yaml/browser/dist/compose/resolve-end.js"() {
+  }
+});
+
+// node_modules/yaml/browser/dist/compose/resolve-flow-collection.js
+function resolveFlowCollection({ composeNode: composeNode2, composeEmptyNode: composeEmptyNode2 }, ctx, fc, onError, tag) {
+  const isMap2 = fc.start.source === "{";
+  const fcName = isMap2 ? "flow map" : "flow sequence";
+  const NodeClass = tag?.nodeClass ?? (isMap2 ? YAMLMap : YAMLSeq);
+  const coll = new NodeClass(ctx.schema);
+  coll.flow = true;
+  const atRoot = ctx.atRoot;
+  if (atRoot)
+    ctx.atRoot = false;
+  if (ctx.atKey)
+    ctx.atKey = false;
+  let offset = fc.offset + fc.start.source.length;
+  for (let i = 0; i < fc.items.length; ++i) {
+    const collItem = fc.items[i];
+    const { start, key: key2, sep: sep2, value } = collItem;
+    const props = resolveProps(start, {
+      flow: fcName,
+      indicator: "explicit-key-ind",
+      next: key2 ?? sep2?.[0],
+      offset,
+      onError,
+      parentIndent: fc.indent,
+      startOnNewline: false
+    });
+    if (!props.found) {
+      if (!props.anchor && !props.tag && !sep2 && !value) {
+        if (i === 0 && props.comma)
+          onError(props.comma, "UNEXPECTED_TOKEN", `Unexpected , in ${fcName}`);
+        else if (i < fc.items.length - 1)
+          onError(props.start, "UNEXPECTED_TOKEN", `Unexpected empty item in ${fcName}`);
+        if (props.comment) {
+          if (coll.comment)
+            coll.comment += "\n" + props.comment;
+          else
+            coll.comment = props.comment;
+        }
+        offset = props.end;
+        continue;
+      }
+      if (!isMap2 && ctx.options.strict && containsNewline(key2))
+        onError(
+          key2,
+          // checked by containsNewline()
+          "MULTILINE_IMPLICIT_KEY",
+          "Implicit keys of flow sequence pairs need to be on a single line"
+        );
+    }
+    if (i === 0) {
+      if (props.comma)
+        onError(props.comma, "UNEXPECTED_TOKEN", `Unexpected , in ${fcName}`);
+    } else {
+      if (!props.comma)
+        onError(props.start, "MISSING_CHAR", `Missing , between ${fcName} items`);
+      if (props.comment) {
+        let prevItemComment = "";
+        loop: for (const st of start) {
+          switch (st.type) {
+            case "comma":
+            case "space":
+              break;
+            case "comment":
+              prevItemComment = st.source.substring(1);
+              break loop;
+            default:
+              break loop;
+          }
+        }
+        if (prevItemComment) {
+          let prev = coll.items[coll.items.length - 1];
+          if (isPair(prev))
+            prev = prev.value ?? prev.key;
+          if (prev.comment)
+            prev.comment += "\n" + prevItemComment;
+          else
+            prev.comment = prevItemComment;
+          props.comment = props.comment.substring(prevItemComment.length + 1);
+        }
+      }
+    }
+    if (!isMap2 && !sep2 && !props.found) {
+      const valueNode = value ? composeNode2(ctx, value, props, onError) : composeEmptyNode2(ctx, props.end, sep2, null, props, onError);
+      coll.items.push(valueNode);
+      offset = valueNode.range[2];
+      if (isBlock(value))
+        onError(valueNode.range, "BLOCK_IN_FLOW", blockMsg);
+    } else {
+      ctx.atKey = true;
+      const keyStart = props.end;
+      const keyNode = key2 ? composeNode2(ctx, key2, props, onError) : composeEmptyNode2(ctx, keyStart, start, null, props, onError);
+      if (isBlock(key2))
+        onError(keyNode.range, "BLOCK_IN_FLOW", blockMsg);
+      ctx.atKey = false;
+      const valueProps = resolveProps(sep2 ?? [], {
+        flow: fcName,
+        indicator: "map-value-ind",
+        next: value,
+        offset: keyNode.range[2],
+        onError,
+        parentIndent: fc.indent,
+        startOnNewline: false
+      });
+      if (valueProps.found) {
+        if (!isMap2 && !props.found && ctx.options.strict) {
+          if (sep2)
+            for (const st of sep2) {
+              if (st === valueProps.found)
+                break;
+              if (st.type === "newline") {
+                onError(st, "MULTILINE_IMPLICIT_KEY", "Implicit keys of flow sequence pairs need to be on a single line");
+                break;
+              }
+            }
+          if (props.start < valueProps.found.offset - 1024)
+            onError(valueProps.found, "KEY_OVER_1024_CHARS", "The : indicator must be at most 1024 chars after the start of an implicit flow sequence key");
+        }
+      } else if (value) {
+        if ("source" in value && value.source?.[0] === ":")
+          onError(value, "MISSING_CHAR", `Missing space after : in ${fcName}`);
+        else
+          onError(valueProps.start, "MISSING_CHAR", `Missing , or : between ${fcName} items`);
+      }
+      const valueNode = value ? composeNode2(ctx, value, valueProps, onError) : valueProps.found ? composeEmptyNode2(ctx, valueProps.end, sep2, null, valueProps, onError) : null;
+      if (valueNode) {
+        if (isBlock(value))
+          onError(valueNode.range, "BLOCK_IN_FLOW", blockMsg);
+      } else if (valueProps.comment) {
+        if (keyNode.comment)
+          keyNode.comment += "\n" + valueProps.comment;
+        else
+          keyNode.comment = valueProps.comment;
+      }
+      const pair = new Pair(keyNode, valueNode);
+      if (ctx.options.keepSourceTokens)
+        pair.srcToken = collItem;
+      if (isMap2) {
+        const map2 = coll;
+        if (mapIncludes(ctx, map2.items, keyNode))
+          onError(keyStart, "DUPLICATE_KEY", "Map keys must be unique");
+        map2.items.push(pair);
+      } else {
+        const map2 = new YAMLMap(ctx.schema);
+        map2.flow = true;
+        map2.items.push(pair);
+        const endRange = (valueNode ?? keyNode).range;
+        map2.range = [keyNode.range[0], endRange[1], endRange[2]];
+        coll.items.push(map2);
+      }
+      offset = valueNode ? valueNode.range[2] : valueProps.end;
+    }
+  }
+  const expectedEnd = isMap2 ? "}" : "]";
+  const [ce, ...ee] = fc.end;
+  let cePos = offset;
+  if (ce?.source === expectedEnd)
+    cePos = ce.offset + ce.source.length;
+  else {
+    const name = fcName[0].toUpperCase() + fcName.substring(1);
+    const msg = atRoot ? `${name} must end with a ${expectedEnd}` : `${name} in block collection must be sufficiently indented and end with a ${expectedEnd}`;
+    onError(offset, atRoot ? "MISSING_CHAR" : "BAD_INDENT", msg);
+    if (ce && ce.source.length !== 1)
+      ee.unshift(ce);
+  }
+  if (ee.length > 0) {
+    const end = resolveEnd(ee, cePos, ctx.options.strict, onError);
+    if (end.comment) {
+      if (coll.comment)
+        coll.comment += "\n" + end.comment;
+      else
+        coll.comment = end.comment;
+    }
+    coll.range = [fc.offset, cePos, end.offset];
+  } else {
+    coll.range = [fc.offset, cePos, cePos];
+  }
+  return coll;
+}
+var blockMsg, isBlock;
+var init_resolve_flow_collection = __esm({
+  "node_modules/yaml/browser/dist/compose/resolve-flow-collection.js"() {
+    init_identity();
+    init_Pair();
+    init_YAMLMap();
+    init_YAMLSeq();
+    init_resolve_end();
+    init_resolve_props();
+    init_util_contains_newline();
+    init_util_map_includes();
+    blockMsg = "Block collections are not allowed within flow collections";
+    isBlock = (token) => token && (token.type === "block-map" || token.type === "block-seq");
+  }
+});
+
+// node_modules/yaml/browser/dist/compose/compose-collection.js
+function resolveCollection(CN2, ctx, token, onError, tagName, tag) {
+  const coll = token.type === "block-map" ? resolveBlockMap(CN2, ctx, token, onError, tag) : token.type === "block-seq" ? resolveBlockSeq(CN2, ctx, token, onError, tag) : resolveFlowCollection(CN2, ctx, token, onError, tag);
+  const Coll = coll.constructor;
+  if (tagName === "!" || tagName === Coll.tagName) {
+    coll.tag = Coll.tagName;
+    return coll;
+  }
+  if (tagName)
+    coll.tag = tagName;
+  return coll;
+}
+function composeCollection(CN2, ctx, token, props, onError) {
+  const tagToken = props.tag;
+  const tagName = !tagToken ? null : ctx.directives.tagName(tagToken.source, (msg) => onError(tagToken, "TAG_RESOLVE_FAILED", msg));
+  if (token.type === "block-seq") {
+    const { anchor, newlineAfterProp: nl } = props;
+    const lastProp = anchor && tagToken ? anchor.offset > tagToken.offset ? anchor : tagToken : anchor ?? tagToken;
+    if (lastProp && (!nl || nl.offset < lastProp.offset)) {
+      const message = "Missing newline after block sequence props";
+      onError(lastProp, "MISSING_CHAR", message);
+    }
+  }
+  const expType = token.type === "block-map" ? "map" : token.type === "block-seq" ? "seq" : token.start.source === "{" ? "map" : "seq";
+  if (!tagToken || !tagName || tagName === "!" || tagName === YAMLMap.tagName && expType === "map" || tagName === YAMLSeq.tagName && expType === "seq") {
+    return resolveCollection(CN2, ctx, token, onError, tagName);
+  }
+  let tag = ctx.schema.tags.find((t) => t.tag === tagName && t.collection === expType);
+  if (!tag) {
+    const kt = ctx.schema.knownTags[tagName];
+    if (kt?.collection === expType) {
+      ctx.schema.tags.push(Object.assign({}, kt, { default: false }));
+      tag = kt;
+    } else {
+      if (kt) {
+        onError(tagToken, "BAD_COLLECTION_TYPE", `${kt.tag} used for ${expType} collection, but expects ${kt.collection ?? "scalar"}`, true);
+      } else {
+        onError(tagToken, "TAG_RESOLVE_FAILED", `Unresolved tag: ${tagName}`, true);
+      }
+      return resolveCollection(CN2, ctx, token, onError, tagName);
+    }
+  }
+  const coll = resolveCollection(CN2, ctx, token, onError, tagName, tag);
+  const res = tag.resolve?.(coll, (msg) => onError(tagToken, "TAG_RESOLVE_FAILED", msg), ctx.options) ?? coll;
+  const node = isNode(res) ? res : new Scalar(res);
+  node.range = coll.range;
+  node.tag = tagName;
+  if (tag?.format)
+    node.format = tag.format;
+  return node;
+}
+var init_compose_collection = __esm({
+  "node_modules/yaml/browser/dist/compose/compose-collection.js"() {
+    init_identity();
+    init_Scalar();
+    init_YAMLMap();
+    init_YAMLSeq();
+    init_resolve_block_map();
+    init_resolve_block_seq();
+    init_resolve_flow_collection();
+  }
+});
+
+// node_modules/yaml/browser/dist/compose/resolve-block-scalar.js
+function resolveBlockScalar(ctx, scalar, onError) {
+  const start = scalar.offset;
+  const header = parseBlockScalarHeader(scalar, ctx.options.strict, onError);
+  if (!header)
+    return { value: "", type: null, comment: "", range: [start, start, start] };
+  const type = header.mode === ">" ? Scalar.BLOCK_FOLDED : Scalar.BLOCK_LITERAL;
+  const lines = scalar.source ? splitLines2(scalar.source) : [];
+  let chompStart = lines.length;
+  for (let i = lines.length - 1; i >= 0; --i) {
+    const content = lines[i][1];
+    if (content === "" || content === "\r")
+      chompStart = i;
+    else
+      break;
+  }
+  if (chompStart === 0) {
+    const value2 = header.chomp === "+" && lines.length > 0 ? "\n".repeat(Math.max(1, lines.length - 1)) : "";
+    let end2 = start + header.length;
+    if (scalar.source)
+      end2 += scalar.source.length;
+    return { value: value2, type, comment: header.comment, range: [start, end2, end2] };
+  }
+  let trimIndent = scalar.indent + header.indent;
+  let offset = scalar.offset + header.length;
+  let contentStart = 0;
+  for (let i = 0; i < chompStart; ++i) {
+    const [indent, content] = lines[i];
+    if (content === "" || content === "\r") {
+      if (header.indent === 0 && indent.length > trimIndent)
+        trimIndent = indent.length;
+    } else {
+      if (indent.length < trimIndent) {
+        const message = "Block scalars with more-indented leading empty lines must use an explicit indentation indicator";
+        onError(offset + indent.length, "MISSING_CHAR", message);
+      }
+      if (header.indent === 0)
+        trimIndent = indent.length;
+      contentStart = i;
+      if (trimIndent === 0 && !ctx.atRoot) {
+        const message = "Block scalar values in collections must be indented";
+        onError(offset, "BAD_INDENT", message);
+      }
+      break;
+    }
+    offset += indent.length + content.length + 1;
+  }
+  for (let i = lines.length - 1; i >= chompStart; --i) {
+    if (lines[i][0].length > trimIndent)
+      chompStart = i + 1;
+  }
+  let value = "";
+  let sep2 = "";
+  let prevMoreIndented = false;
+  for (let i = 0; i < contentStart; ++i)
+    value += lines[i][0].slice(trimIndent) + "\n";
+  for (let i = contentStart; i < chompStart; ++i) {
+    let [indent, content] = lines[i];
+    offset += indent.length + content.length + 1;
+    const crlf = content[content.length - 1] === "\r";
+    if (crlf)
+      content = content.slice(0, -1);
+    if (content && indent.length < trimIndent) {
+      const src = header.indent ? "explicit indentation indicator" : "first line";
+      const message = `Block scalar lines must not be less indented than their ${src}`;
+      onError(offset - content.length - (crlf ? 2 : 1), "BAD_INDENT", message);
+      indent = "";
+    }
+    if (type === Scalar.BLOCK_LITERAL) {
+      value += sep2 + indent.slice(trimIndent) + content;
+      sep2 = "\n";
+    } else if (indent.length > trimIndent || content[0] === "	") {
+      if (sep2 === " ")
+        sep2 = "\n";
+      else if (!prevMoreIndented && sep2 === "\n")
+        sep2 = "\n\n";
+      value += sep2 + indent.slice(trimIndent) + content;
+      sep2 = "\n";
+      prevMoreIndented = true;
+    } else if (content === "") {
+      if (sep2 === "\n")
+        value += "\n";
+      else
+        sep2 = "\n";
+    } else {
+      value += sep2 + content;
+      sep2 = " ";
+      prevMoreIndented = false;
+    }
+  }
+  switch (header.chomp) {
+    case "-":
+      break;
+    case "+":
+      for (let i = chompStart; i < lines.length; ++i)
+        value += "\n" + lines[i][0].slice(trimIndent);
+      if (value[value.length - 1] !== "\n")
+        value += "\n";
+      break;
+    default:
+      value += "\n";
+  }
+  const end = start + header.length + scalar.source.length;
+  return { value, type, comment: header.comment, range: [start, end, end] };
+}
+function parseBlockScalarHeader({ offset, props }, strict, onError) {
+  if (props[0].type !== "block-scalar-header") {
+    onError(props[0], "IMPOSSIBLE", "Block scalar header not found");
+    return null;
+  }
+  const { source } = props[0];
+  const mode = source[0];
+  let indent = 0;
+  let chomp = "";
+  let error = -1;
+  for (let i = 1; i < source.length; ++i) {
+    const ch = source[i];
+    if (!chomp && (ch === "-" || ch === "+"))
+      chomp = ch;
+    else {
+      const n = Number(ch);
+      if (!indent && n)
+        indent = n;
+      else if (error === -1)
+        error = offset + i;
+    }
+  }
+  if (error !== -1)
+    onError(error, "UNEXPECTED_TOKEN", `Block scalar header includes extra characters: ${source}`);
+  let hasSpace = false;
+  let comment = "";
+  let length = source.length;
+  for (let i = 1; i < props.length; ++i) {
+    const token = props[i];
+    switch (token.type) {
+      case "space":
+        hasSpace = true;
+      // fallthrough
+      case "newline":
+        length += token.source.length;
+        break;
+      case "comment":
+        if (strict && !hasSpace) {
+          const message = "Comments must be separated from other tokens by white space characters";
+          onError(token, "MISSING_CHAR", message);
+        }
+        length += token.source.length;
+        comment = token.source.substring(1);
+        break;
+      case "error":
+        onError(token, "UNEXPECTED_TOKEN", token.message);
+        length += token.source.length;
+        break;
+      /* istanbul ignore next should not happen */
+      default: {
+        const message = `Unexpected token in block scalar header: ${token.type}`;
+        onError(token, "UNEXPECTED_TOKEN", message);
+        const ts = token.source;
+        if (ts && typeof ts === "string")
+          length += ts.length;
+      }
+    }
+  }
+  return { mode, indent, chomp, comment, length };
+}
+function splitLines2(source) {
+  const split = source.split(/\n( *)/);
+  const first = split[0];
+  const m = first.match(/^( *)/);
+  const line0 = m?.[1] ? [m[1], first.slice(m[1].length)] : ["", first];
+  const lines = [line0];
+  for (let i = 1; i < split.length; i += 2)
+    lines.push([split[i], split[i + 1]]);
+  return lines;
+}
+var init_resolve_block_scalar = __esm({
+  "node_modules/yaml/browser/dist/compose/resolve-block-scalar.js"() {
+    init_Scalar();
+  }
+});
+
+// node_modules/yaml/browser/dist/compose/resolve-flow-scalar.js
+function resolveFlowScalar(scalar, strict, onError) {
+  const { offset, type, source, end } = scalar;
+  let _type;
+  let value;
+  const _onError = (rel, code, msg) => onError(offset + rel, code, msg);
+  switch (type) {
+    case "scalar":
+      _type = Scalar.PLAIN;
+      value = plainValue(source, _onError);
+      break;
+    case "single-quoted-scalar":
+      _type = Scalar.QUOTE_SINGLE;
+      value = singleQuotedValue(source, _onError);
+      break;
+    case "double-quoted-scalar":
+      _type = Scalar.QUOTE_DOUBLE;
+      value = doubleQuotedValue(source, _onError);
+      break;
+    /* istanbul ignore next should not happen */
+    default:
+      onError(scalar, "UNEXPECTED_TOKEN", `Expected a flow scalar value, but found: ${type}`);
+      return {
+        value: "",
+        type: null,
+        comment: "",
+        range: [offset, offset + source.length, offset + source.length]
+      };
+  }
+  const valueEnd = offset + source.length;
+  const re = resolveEnd(end, valueEnd, strict, onError);
+  return {
+    value,
+    type: _type,
+    comment: re.comment,
+    range: [offset, valueEnd, re.offset]
+  };
+}
+function plainValue(source, onError) {
+  let badChar = "";
+  switch (source[0]) {
+    /* istanbul ignore next should not happen */
+    case "	":
+      badChar = "a tab character";
+      break;
+    case ",":
+      badChar = "flow indicator character ,";
+      break;
+    case "%":
+      badChar = "directive indicator character %";
+      break;
+    case "|":
+    case ">": {
+      badChar = `block scalar indicator ${source[0]}`;
+      break;
+    }
+    case "@":
+    case "`": {
+      badChar = `reserved character ${source[0]}`;
+      break;
+    }
+  }
+  if (badChar)
+    onError(0, "BAD_SCALAR_START", `Plain value cannot start with ${badChar}`);
+  return unfoldLines(source);
+}
+function singleQuotedValue(source, onError) {
+  if (source[source.length - 1] !== "'" || source.length === 1)
+    onError(source.length, "MISSING_CHAR", "Missing closing 'quote");
+  return unfoldLines(source.slice(1, -1)).replace(/''/g, "'");
+}
+function unfoldLines(source) {
+  const line = /(.*?)\r?\n/sy;
+  let match = line.exec(source);
+  if (!match)
+    return source;
+  let trimEnd, trimBoth;
+  try {
+    trimEnd = new RegExp("(?<![ 	])[ 	]+$");
+    trimBoth = new RegExp("^[ 	]+|(?<![ 	])[ 	]+$", "g");
+  } catch {
+    trimEnd = /[ \t]+$/;
+    trimBoth = /^[ \t]+|[ \t]+$/g;
+  }
+  let res = match[1].replace(trimEnd, "");
+  let sep2 = " ";
+  let pos = line.lastIndex;
+  while (match = line.exec(source)) {
+    const lm = match[1].replace(trimBoth, "");
+    if (lm === "") {
+      if (sep2 === "\n")
+        res += sep2;
+      else
+        sep2 = "\n";
+    } else {
+      res += sep2 + lm;
+      sep2 = " ";
+    }
+    pos = line.lastIndex;
+  }
+  const last = /[ \t]*(.*)/sy;
+  last.lastIndex = pos;
+  match = last.exec(source);
+  return res + sep2 + (match?.[1] ?? "");
+}
+function doubleQuotedValue(source, onError) {
+  let res = "";
+  for (let i = 1; i < source.length - 1; ++i) {
+    const ch = source[i];
+    if (ch === "\r" && source[i + 1] === "\n")
+      continue;
+    if (ch === "\n") {
+      const { fold, offset } = foldNewline(source, i);
+      res += fold;
+      i = offset;
+    } else if (ch === "\\") {
+      let next = source[++i];
+      const cc = escapeCodes[next];
+      if (cc)
+        res += cc;
+      else if (next === "\n") {
+        next = source[i + 1];
+        while (next === " " || next === "	")
+          next = source[++i + 1];
+      } else if (next === "\r" && source[i + 1] === "\n") {
+        next = source[++i + 1];
+        while (next === " " || next === "	")
+          next = source[++i + 1];
+      } else if (next === "x" || next === "u" || next === "U") {
+        const length = next === "x" ? 2 : next === "u" ? 4 : 8;
+        res += parseCharCode(source, i + 1, length, onError);
+        i += length;
+      } else {
+        const raw = source.substr(i - 1, 2);
+        onError(i - 1, "BAD_DQ_ESCAPE", `Invalid escape sequence ${raw}`);
+        res += raw;
+      }
+    } else if (ch === " " || ch === "	") {
+      const wsStart = i;
+      let next = source[i + 1];
+      while (next === " " || next === "	")
+        next = source[++i + 1];
+      if (next !== "\n" && !(next === "\r" && source[i + 2] === "\n"))
+        res += i > wsStart ? source.slice(wsStart, i + 1) : ch;
+    } else {
+      res += ch;
+    }
+  }
+  if (source[source.length - 1] !== '"' || source.length === 1)
+    onError(source.length, "MISSING_CHAR", 'Missing closing "quote');
+  return res;
+}
+function foldNewline(source, offset) {
+  let fold = "";
+  let ch = source[offset + 1];
+  while (ch === " " || ch === "	" || ch === "\n" || ch === "\r") {
+    if (ch === "\r" && source[offset + 2] !== "\n")
+      break;
+    if (ch === "\n")
+      fold += "\n";
+    offset += 1;
+    ch = source[offset + 1];
+  }
+  if (!fold)
+    fold = " ";
+  return { fold, offset };
+}
+function parseCharCode(source, offset, length, onError) {
+  const cc = source.substr(offset, length);
+  const ok = cc.length === length && /^[0-9a-fA-F]+$/.test(cc);
+  const code = ok ? parseInt(cc, 16) : NaN;
+  try {
+    return String.fromCodePoint(code);
+  } catch {
+    const raw = source.substr(offset - 2, length + 2);
+    onError(offset - 2, "BAD_DQ_ESCAPE", `Invalid escape sequence ${raw}`);
+    return raw;
+  }
+}
+var escapeCodes;
+var init_resolve_flow_scalar = __esm({
+  "node_modules/yaml/browser/dist/compose/resolve-flow-scalar.js"() {
+    init_Scalar();
+    init_resolve_end();
+    escapeCodes = {
+      "0": "\0",
+      // null character
+      a: "\x07",
+      // bell character
+      b: "\b",
+      // backspace
+      e: "\x1B",
+      // escape character
+      f: "\f",
+      // form feed
+      n: "\n",
+      // line feed
+      r: "\r",
+      // carriage return
+      t: "	",
+      // horizontal tab
+      v: "\v",
+      // vertical tab
+      N: "\x85",
+      // Unicode next line
+      _: "\xA0",
+      // Unicode non-breaking space
+      L: "\u2028",
+      // Unicode line separator
+      P: "\u2029",
+      // Unicode paragraph separator
+      " ": " ",
+      '"': '"',
+      "/": "/",
+      "\\": "\\",
+      "	": "	"
+    };
+  }
+});
+
+// node_modules/yaml/browser/dist/compose/compose-scalar.js
+function composeScalar(ctx, token, tagToken, onError) {
+  const { value, type, comment, range } = token.type === "block-scalar" ? resolveBlockScalar(ctx, token, onError) : resolveFlowScalar(token, ctx.options.strict, onError);
+  const tagName = tagToken ? ctx.directives.tagName(tagToken.source, (msg) => onError(tagToken, "TAG_RESOLVE_FAILED", msg)) : null;
+  let tag;
+  if (ctx.options.stringKeys && ctx.atKey) {
+    tag = ctx.schema[SCALAR];
+  } else if (tagName)
+    tag = findScalarTagByName(ctx.schema, value, tagName, tagToken, onError);
+  else if (token.type === "scalar")
+    tag = findScalarTagByTest(ctx, value, token, onError);
+  else
+    tag = ctx.schema[SCALAR];
+  let scalar;
+  try {
+    const res = tag.resolve(value, (msg) => onError(tagToken ?? token, "TAG_RESOLVE_FAILED", msg), ctx.options);
+    scalar = isScalar(res) ? res : new Scalar(res);
+  } catch (error) {
+    const msg = error instanceof Error ? error.message : String(error);
+    onError(tagToken ?? token, "TAG_RESOLVE_FAILED", msg);
+    scalar = new Scalar(value);
+  }
+  scalar.range = range;
+  scalar.source = value;
+  if (type)
+    scalar.type = type;
+  if (tagName)
+    scalar.tag = tagName;
+  if (tag.format)
+    scalar.format = tag.format;
+  if (comment)
+    scalar.comment = comment;
+  return scalar;
+}
+function findScalarTagByName(schema4, value, tagName, tagToken, onError) {
+  if (tagName === "!")
+    return schema4[SCALAR];
+  const matchWithTest = [];
+  for (const tag of schema4.tags) {
+    if (!tag.collection && tag.tag === tagName) {
+      if (tag.default && tag.test)
+        matchWithTest.push(tag);
+      else
+        return tag;
+    }
+  }
+  for (const tag of matchWithTest)
+    if (tag.test?.test(value))
+      return tag;
+  const kt = schema4.knownTags[tagName];
+  if (kt && !kt.collection) {
+    schema4.tags.push(Object.assign({}, kt, { default: false, test: void 0 }));
+    return kt;
+  }
+  onError(tagToken, "TAG_RESOLVE_FAILED", `Unresolved tag: ${tagName}`, tagName !== "tag:yaml.org,2002:str");
+  return schema4[SCALAR];
+}
+function findScalarTagByTest({ atKey, directives, schema: schema4 }, value, token, onError) {
+  const tag = schema4.tags.find((tag2) => (tag2.default === true || atKey && tag2.default === "key") && tag2.test?.test(value)) || schema4[SCALAR];
+  if (schema4.compat) {
+    const compat = schema4.compat.find((tag2) => tag2.default && tag2.test?.test(value)) ?? schema4[SCALAR];
+    if (tag.tag !== compat.tag) {
+      const ts = directives.tagString(tag.tag);
+      const cs = directives.tagString(compat.tag);
+      const msg = `Value may be parsed as either ${ts} or ${cs}`;
+      onError(token, "TAG_RESOLVE_FAILED", msg, true);
+    }
+  }
+  return tag;
+}
+var init_compose_scalar = __esm({
+  "node_modules/yaml/browser/dist/compose/compose-scalar.js"() {
+    init_identity();
+    init_Scalar();
+    init_resolve_block_scalar();
+    init_resolve_flow_scalar();
+  }
+});
+
+// node_modules/yaml/browser/dist/compose/util-empty-scalar-position.js
+function emptyScalarPosition(offset, before, pos) {
+  if (before) {
+    pos ?? (pos = before.length);
+    for (let i = pos - 1; i >= 0; --i) {
+      let st = before[i];
+      switch (st.type) {
+        case "space":
+        case "comment":
+        case "newline":
+          offset -= st.source.length;
+          continue;
+      }
+      st = before[++i];
+      while (st?.type === "space") {
+        offset += st.source.length;
+        st = before[++i];
+      }
+      break;
+    }
+  }
+  return offset;
+}
+var init_util_empty_scalar_position = __esm({
+  "node_modules/yaml/browser/dist/compose/util-empty-scalar-position.js"() {
+  }
+});
+
+// node_modules/yaml/browser/dist/compose/compose-node.js
+function composeNode(ctx, token, props, onError) {
+  const atKey = ctx.atKey;
+  const { spaceBefore, comment, anchor, tag } = props;
+  let node;
+  let isSrcToken = true;
+  switch (token.type) {
+    case "alias":
+      node = composeAlias(ctx, token, onError);
+      if (anchor || tag)
+        onError(token, "ALIAS_PROPS", "An alias node must not specify any properties");
+      break;
+    case "scalar":
+    case "single-quoted-scalar":
+    case "double-quoted-scalar":
+    case "block-scalar":
+      node = composeScalar(ctx, token, tag, onError);
+      if (anchor)
+        node.anchor = anchor.source.substring(1);
+      break;
+    case "block-map":
+    case "block-seq":
+    case "flow-collection":
+      try {
+        node = composeCollection(CN, ctx, token, props, onError);
+        if (anchor)
+          node.anchor = anchor.source.substring(1);
+      } catch (error) {
+        const message = error instanceof Error ? error.message : String(error);
+        onError(token, "RESOURCE_EXHAUSTION", message);
+      }
+      break;
+    default: {
+      const message = token.type === "error" ? token.message : `Unsupported token (type: ${token.type})`;
+      onError(token, "UNEXPECTED_TOKEN", message);
+      isSrcToken = false;
+    }
+  }
+  node ?? (node = composeEmptyNode(ctx, token.offset, void 0, null, props, onError));
+  if (anchor && node.anchor === "")
+    onError(anchor, "BAD_ALIAS", "Anchor cannot be an empty string");
+  if (atKey && ctx.options.stringKeys && (!isScalar(node) || typeof node.value !== "string" || node.tag && node.tag !== "tag:yaml.org,2002:str")) {
+    const msg = "With stringKeys, all keys must be strings";
+    onError(tag ?? token, "NON_STRING_KEY", msg);
+  }
+  if (spaceBefore)
+    node.spaceBefore = true;
+  if (comment) {
+    if (token.type === "scalar" && token.source === "")
+      node.comment = comment;
+    else
+      node.commentBefore = comment;
+  }
+  if (ctx.options.keepSourceTokens && isSrcToken)
+    node.srcToken = token;
+  return node;
+}
+function composeEmptyNode(ctx, offset, before, pos, { spaceBefore, comment, anchor, tag, end }, onError) {
+  const token = {
+    type: "scalar",
+    offset: emptyScalarPosition(offset, before, pos),
+    indent: -1,
+    source: ""
+  };
+  const node = composeScalar(ctx, token, tag, onError);
+  if (anchor) {
+    node.anchor = anchor.source.substring(1);
+    if (node.anchor === "")
+      onError(anchor, "BAD_ALIAS", "Anchor cannot be an empty string");
+  }
+  if (spaceBefore)
+    node.spaceBefore = true;
+  if (comment) {
+    node.comment = comment;
+    node.range[2] = end;
+  }
+  return node;
+}
+function composeAlias({ options }, { offset, source, end }, onError) {
+  const alias = new Alias(source.substring(1));
+  if (alias.source === "")
+    onError(offset, "BAD_ALIAS", "Alias cannot be an empty string");
+  if (alias.source.endsWith(":"))
+    onError(offset + source.length - 1, "BAD_ALIAS", "Alias ending in : is ambiguous", true);
+  const valueEnd = offset + source.length;
+  const re = resolveEnd(end, valueEnd, options.strict, onError);
+  alias.range = [offset, valueEnd, re.offset];
+  if (re.comment)
+    alias.comment = re.comment;
+  return alias;
+}
+var CN;
+var init_compose_node = __esm({
+  "node_modules/yaml/browser/dist/compose/compose-node.js"() {
+    init_Alias();
+    init_identity();
+    init_compose_collection();
+    init_compose_scalar();
+    init_resolve_end();
+    init_util_empty_scalar_position();
+    CN = { composeNode, composeEmptyNode };
+  }
+});
+
+// node_modules/yaml/browser/dist/compose/compose-doc.js
+function composeDoc(options, directives, { offset, start, value, end }, onError) {
+  const opts = Object.assign({ _directives: directives }, options);
+  const doc = new Document(void 0, opts);
+  const ctx = {
+    atKey: false,
+    atRoot: true,
+    directives: doc.directives,
+    options: doc.options,
+    schema: doc.schema
+  };
+  const props = resolveProps(start, {
+    indicator: "doc-start",
+    next: value ?? end?.[0],
+    offset,
+    onError,
+    parentIndent: 0,
+    startOnNewline: true
+  });
+  if (props.found) {
+    doc.directives.docStart = true;
+    if (value && (value.type === "block-map" || value.type === "block-seq") && !props.hasNewline)
+      onError(props.end, "MISSING_CHAR", "Block collection cannot start on same line with directives-end marker");
+  }
+  doc.contents = value ? composeNode(ctx, value, props, onError) : composeEmptyNode(ctx, props.end, start, null, props, onError);
+  const contentEnd = doc.contents.range[2];
+  const re = resolveEnd(end, contentEnd, false, onError);
+  if (re.comment)
+    doc.comment = re.comment;
+  doc.range = [offset, contentEnd, re.offset];
+  return doc;
+}
+var init_compose_doc = __esm({
+  "node_modules/yaml/browser/dist/compose/compose-doc.js"() {
+    init_Document();
+    init_compose_node();
+    init_resolve_end();
+    init_resolve_props();
+  }
+});
+
+// node_modules/yaml/browser/dist/compose/composer.js
+function getErrorPos(src) {
+  if (typeof src === "number")
+    return [src, src + 1];
+  if (Array.isArray(src))
+    return src.length === 2 ? src : [src[0], src[1]];
+  const { offset, source } = src;
+  return [offset, offset + (typeof source === "string" ? source.length : 1)];
+}
+function parsePrelude(prelude) {
+  let comment = "";
+  let atComment = false;
+  let afterEmptyLine = false;
+  for (let i = 0; i < prelude.length; ++i) {
+    const source = prelude[i];
+    switch (source[0]) {
+      case "#":
+        comment += (comment === "" ? "" : afterEmptyLine ? "\n\n" : "\n") + (source.substring(1) || " ");
+        atComment = true;
+        afterEmptyLine = false;
+        break;
+      case "%":
+        if (prelude[i + 1]?.[0] !== "#")
+          i += 1;
+        atComment = false;
+        break;
+      default:
+        if (!atComment)
+          afterEmptyLine = true;
+        atComment = false;
+    }
+  }
+  return { comment, afterEmptyLine };
+}
+var Composer;
+var init_composer = __esm({
+  "node_modules/yaml/browser/dist/compose/composer.js"() {
+    init_directives();
+    init_Document();
+    init_errors();
+    init_identity();
+    init_compose_doc();
+    init_resolve_end();
+    Composer = class {
+      constructor(options = {}) {
+        this.doc = null;
+        this.atDirectives = false;
+        this.prelude = [];
+        this.errors = [];
+        this.warnings = [];
+        this.onError = (source, code, message, warning) => {
+          const pos = getErrorPos(source);
+          if (warning)
+            this.warnings.push(new YAMLWarning(pos, code, message));
+          else
+            this.errors.push(new YAMLParseError(pos, code, message));
+        };
+        this.directives = new Directives({ version: options.version || "1.2" });
+        this.options = options;
+      }
+      decorate(doc, afterDoc) {
+        const { comment, afterEmptyLine } = parsePrelude(this.prelude);
+        if (comment) {
+          const dc = doc.contents;
+          if (afterDoc) {
+            doc.comment = doc.comment ? `${doc.comment}
+${comment}` : comment;
+          } else if (afterEmptyLine || doc.directives.docStart || !dc) {
+            doc.commentBefore = comment;
+          } else if (isCollection(dc) && !dc.flow && dc.items.length > 0) {
+            let it = dc.items[0];
+            if (isPair(it))
+              it = it.key;
+            const cb = it.commentBefore;
+            it.commentBefore = cb ? `${comment}
+${cb}` : comment;
+          } else {
+            const cb = dc.commentBefore;
+            dc.commentBefore = cb ? `${comment}
+${cb}` : comment;
+          }
+        }
+        if (afterDoc) {
+          for (let i = 0; i < this.errors.length; ++i)
+            doc.errors.push(this.errors[i]);
+          for (let i = 0; i < this.warnings.length; ++i)
+            doc.warnings.push(this.warnings[i]);
+        } else {
+          doc.errors = this.errors;
+          doc.warnings = this.warnings;
+        }
+        this.prelude = [];
+        this.errors = [];
+        this.warnings = [];
+      }
+      /**
+       * Current stream status information.
+       *
+       * Mostly useful at the end of input for an empty stream.
+       */
+      streamInfo() {
+        return {
+          comment: parsePrelude(this.prelude).comment,
+          directives: this.directives,
+          errors: this.errors,
+          warnings: this.warnings
+        };
+      }
+      /**
+       * Compose tokens into documents.
+       *
+       * @param forceDoc - If the stream contains no document, still emit a final document including any comments and directives that would be applied to a subsequent document.
+       * @param endOffset - Should be set if `forceDoc` is also set, to set the document range end and to indicate errors correctly.
+       */
+      *compose(tokens, forceDoc = false, endOffset = -1) {
+        for (const token of tokens)
+          yield* this.next(token);
+        yield* this.end(forceDoc, endOffset);
+      }
+      /** Advance the composer by one CST token. */
+      *next(token) {
+        switch (token.type) {
+          case "directive":
+            this.directives.add(token.source, (offset, message, warning) => {
+              const pos = getErrorPos(token);
+              pos[0] += offset;
+              this.onError(pos, "BAD_DIRECTIVE", message, warning);
+            });
+            this.prelude.push(token.source);
+            this.atDirectives = true;
+            break;
+          case "document": {
+            const doc = composeDoc(this.options, this.directives, token, this.onError);
+            if (this.atDirectives && !doc.directives.docStart)
+              this.onError(token, "MISSING_CHAR", "Missing directives-end/doc-start indicator line");
+            this.decorate(doc, false);
+            if (this.doc)
+              yield this.doc;
+            this.doc = doc;
+            this.atDirectives = false;
+            break;
+          }
+          case "byte-order-mark":
+          case "space":
+            break;
+          case "comment":
+          case "newline":
+            this.prelude.push(token.source);
+            break;
+          case "error": {
+            const msg = token.source ? `${token.message}: ${JSON.stringify(token.source)}` : token.message;
+            const error = new YAMLParseError(getErrorPos(token), "UNEXPECTED_TOKEN", msg);
+            if (this.atDirectives || !this.doc)
+              this.errors.push(error);
+            else
+              this.doc.errors.push(error);
+            break;
+          }
+          case "doc-end": {
+            if (!this.doc) {
+              const msg = "Unexpected doc-end without preceding document";
+              this.errors.push(new YAMLParseError(getErrorPos(token), "UNEXPECTED_TOKEN", msg));
+              break;
+            }
+            this.doc.directives.docEnd = true;
+            const end = resolveEnd(token.end, token.offset + token.source.length, this.doc.options.strict, this.onError);
+            this.decorate(this.doc, true);
+            if (end.comment) {
+              const dc = this.doc.comment;
+              this.doc.comment = dc ? `${dc}
+${end.comment}` : end.comment;
+            }
+            this.doc.range[2] = end.offset;
+            break;
+          }
+          default:
+            this.errors.push(new YAMLParseError(getErrorPos(token), "UNEXPECTED_TOKEN", `Unsupported token ${token.type}`));
+        }
+      }
+      /**
+       * Call at end of input to yield any remaining document.
+       *
+       * @param forceDoc - If the stream contains no document, still emit a final document including any comments and directives that would be applied to a subsequent document.
+       * @param endOffset - Should be set if `forceDoc` is also set, to set the document range end and to indicate errors correctly.
+       */
+      *end(forceDoc = false, endOffset = -1) {
+        if (this.doc) {
+          this.decorate(this.doc, true);
+          yield this.doc;
+          this.doc = null;
+        } else if (forceDoc) {
+          const opts = Object.assign({ _directives: this.directives }, this.options);
+          const doc = new Document(void 0, opts);
+          if (this.atDirectives)
+            this.onError(endOffset, "MISSING_CHAR", "Missing directives-end indicator line");
+          doc.range = [0, endOffset, endOffset];
+          this.decorate(doc, false);
+          yield doc;
+        }
+      }
+    };
+  }
+});
+
+// node_modules/yaml/browser/dist/parse/cst-scalar.js
+var init_cst_scalar = __esm({
+  "node_modules/yaml/browser/dist/parse/cst-scalar.js"() {
+    init_resolve_block_scalar();
+    init_resolve_flow_scalar();
+    init_errors();
+    init_stringifyString();
+  }
+});
+
+// node_modules/yaml/browser/dist/parse/cst-stringify.js
+var init_cst_stringify = __esm({
+  "node_modules/yaml/browser/dist/parse/cst-stringify.js"() {
+  }
+});
+
+// node_modules/yaml/browser/dist/parse/cst-visit.js
+function visit2(cst, visitor) {
+  if ("type" in cst && cst.type === "document")
+    cst = { start: cst.start, value: cst.value };
+  _visit(Object.freeze([]), cst, visitor);
+}
+function _visit(path, item2, visitor) {
+  let ctrl = visitor(item2, path);
+  if (typeof ctrl === "symbol")
+    return ctrl;
+  for (const field of ["key", "value"]) {
+    const token = item2[field];
+    if (token && "items" in token) {
+      for (let i = 0; i < token.items.length; ++i) {
+        const ci = _visit(Object.freeze(path.concat([[field, i]])), token.items[i], visitor);
+        if (typeof ci === "number")
+          i = ci - 1;
+        else if (ci === BREAK2)
+          return BREAK2;
+        else if (ci === REMOVE2) {
+          token.items.splice(i, 1);
+          i -= 1;
+        }
+      }
+      if (typeof ctrl === "function" && field === "key")
+        ctrl = ctrl(item2, path);
+    }
+  }
+  return typeof ctrl === "function" ? ctrl(item2, path) : ctrl;
+}
+var BREAK2, SKIP2, REMOVE2;
+var init_cst_visit = __esm({
+  "node_modules/yaml/browser/dist/parse/cst-visit.js"() {
+    BREAK2 = /* @__PURE__ */ Symbol("break visit");
+    SKIP2 = /* @__PURE__ */ Symbol("skip children");
+    REMOVE2 = /* @__PURE__ */ Symbol("remove item");
+    visit2.BREAK = BREAK2;
+    visit2.SKIP = SKIP2;
+    visit2.REMOVE = REMOVE2;
+    visit2.itemAtPath = (cst, path) => {
+      let item2 = cst;
+      for (const [field, index] of path) {
+        const tok = item2?.[field];
+        if (tok && "items" in tok) {
+          item2 = tok.items[index];
+        } else
+          return void 0;
+      }
+      return item2;
+    };
+    visit2.parentCollection = (cst, path) => {
+      const parent = visit2.itemAtPath(cst, path.slice(0, -1));
+      const field = path[path.length - 1][0];
+      const coll = parent?.[field];
+      if (coll && "items" in coll)
+        return coll;
+      throw new Error("Parent collection not found");
+    };
+  }
+});
+
+// node_modules/yaml/browser/dist/parse/cst.js
+function tokenType(source) {
+  switch (source) {
+    case BOM:
+      return "byte-order-mark";
+    case DOCUMENT:
+      return "doc-mode";
+    case FLOW_END:
+      return "flow-error-end";
+    case SCALAR2:
+      return "scalar";
+    case "---":
+      return "doc-start";
+    case "...":
+      return "doc-end";
+    case "":
+    case "\n":
+    case "\r\n":
+      return "newline";
+    case "-":
+      return "seq-item-ind";
+    case "?":
+      return "explicit-key-ind";
+    case ":":
+      return "map-value-ind";
+    case "{":
+      return "flow-map-start";
+    case "}":
+      return "flow-map-end";
+    case "[":
+      return "flow-seq-start";
+    case "]":
+      return "flow-seq-end";
+    case ",":
+      return "comma";
+  }
+  switch (source[0]) {
+    case " ":
+    case "	":
+      return "space";
+    case "#":
+      return "comment";
+    case "%":
+      return "directive-line";
+    case "*":
+      return "alias";
+    case "&":
+      return "anchor";
+    case "!":
+      return "tag";
+    case "'":
+      return "single-quoted-scalar";
+    case '"':
+      return "double-quoted-scalar";
+    case "|":
+    case ">":
+      return "block-scalar-header";
+  }
+  return null;
+}
+var BOM, DOCUMENT, FLOW_END, SCALAR2;
+var init_cst = __esm({
+  "node_modules/yaml/browser/dist/parse/cst.js"() {
+    init_cst_scalar();
+    init_cst_stringify();
+    init_cst_visit();
+    BOM = "\uFEFF";
+    DOCUMENT = "";
+    FLOW_END = "";
+    SCALAR2 = "";
+  }
+});
+
+// node_modules/yaml/browser/dist/parse/lexer.js
+function isEmpty(ch) {
+  switch (ch) {
+    case void 0:
+    case " ":
+    case "\n":
+    case "\r":
+    case "	":
+      return true;
+    default:
+      return false;
+  }
+}
+var hexDigits, tagChars, flowIndicatorChars, invalidAnchorChars, isNotAnchorChar, Lexer;
+var init_lexer = __esm({
+  "node_modules/yaml/browser/dist/parse/lexer.js"() {
+    init_cst();
+    hexDigits = new Set("0123456789ABCDEFabcdef");
+    tagChars = new Set("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-#;/?:@&=+$_.!~*'()");
+    flowIndicatorChars = new Set(",[]{}");
+    invalidAnchorChars = new Set(" ,[]{}\n\r	");
+    isNotAnchorChar = (ch) => !ch || invalidAnchorChars.has(ch);
+    Lexer = class {
+      constructor() {
+        this.atEnd = false;
+        this.blockScalarIndent = -1;
+        this.blockScalarKeep = false;
+        this.buffer = "";
+        this.flowKey = false;
+        this.flowLevel = 0;
+        this.indentNext = 0;
+        this.indentValue = 0;
+        this.lineEndPos = null;
+        this.next = null;
+        this.pos = 0;
+      }
+      /**
+       * Generate YAML tokens from the `source` string. If `incomplete`,
+       * a part of the last line may be left as a buffer for the next call.
+       *
+       * @returns A generator of lexical tokens
+       */
+      *lex(source, incomplete = false) {
+        if (source) {
+          if (typeof source !== "string")
+            throw TypeError("source is not a string");
+          this.buffer = this.buffer ? this.buffer + source : source;
+          this.lineEndPos = null;
+        }
+        this.atEnd = !incomplete;
+        let next = this.next ?? "stream";
+        while (next && (incomplete || this.hasChars(1)))
+          next = yield* this.parseNext(next);
+      }
+      atLineEnd() {
+        let i = this.pos;
+        let ch = this.buffer[i];
+        while (ch === " " || ch === "	")
+          ch = this.buffer[++i];
+        if (!ch || ch === "#" || ch === "\n")
+          return true;
+        if (ch === "\r")
+          return this.buffer[i + 1] === "\n";
+        return false;
+      }
+      charAt(n) {
+        return this.buffer[this.pos + n];
+      }
+      continueScalar(offset) {
+        let ch = this.buffer[offset];
+        if (this.indentNext > 0) {
+          let indent = 0;
+          while (ch === " ")
+            ch = this.buffer[++indent + offset];
+          if (ch === "\r") {
+            const next = this.buffer[indent + offset + 1];
+            if (next === "\n" || !next && !this.atEnd)
+              return offset + indent + 1;
+          }
+          return ch === "\n" || indent >= this.indentNext || !ch && !this.atEnd ? offset + indent : -1;
+        }
+        if (ch === "-" || ch === ".") {
+          const dt = this.buffer.substr(offset, 3);
+          if ((dt === "---" || dt === "...") && isEmpty(this.buffer[offset + 3]))
+            return -1;
+        }
+        return offset;
+      }
+      getLine() {
+        let end = this.lineEndPos;
+        if (typeof end !== "number" || end !== -1 && end < this.pos) {
+          end = this.buffer.indexOf("\n", this.pos);
+          this.lineEndPos = end;
+        }
+        if (end === -1)
+          return this.atEnd ? this.buffer.substring(this.pos) : null;
+        if (this.buffer[end - 1] === "\r")
+          end -= 1;
+        return this.buffer.substring(this.pos, end);
+      }
+      hasChars(n) {
+        return this.pos + n <= this.buffer.length;
+      }
+      setNext(state) {
+        this.buffer = this.buffer.substring(this.pos);
+        this.pos = 0;
+        this.lineEndPos = null;
+        this.next = state;
+        return null;
+      }
+      peek(n) {
+        return this.buffer.substr(this.pos, n);
+      }
+      *parseNext(next) {
+        switch (next) {
+          case "stream":
+            return yield* this.parseStream();
+          case "line-start":
+            return yield* this.parseLineStart();
+          case "block-start":
+            return yield* this.parseBlockStart();
+          case "doc":
+            return yield* this.parseDocument();
+          case "flow":
+            return yield* this.parseFlowCollection();
+          case "quoted-scalar":
+            return yield* this.parseQuotedScalar();
+          case "block-scalar":
+            return yield* this.parseBlockScalar();
+          case "plain-scalar":
+            return yield* this.parsePlainScalar();
+        }
+      }
+      *parseStream() {
+        let line = this.getLine();
+        if (line === null)
+          return this.setNext("stream");
+        if (line[0] === BOM) {
+          yield* this.pushCount(1);
+          line = line.substring(1);
+        }
+        if (line[0] === "%") {
+          let dirEnd = line.length;
+          let cs = line.indexOf("#");
+          while (cs !== -1) {
+            const ch = line[cs - 1];
+            if (ch === " " || ch === "	") {
+              dirEnd = cs - 1;
+              break;
+            } else {
+              cs = line.indexOf("#", cs + 1);
+            }
+          }
+          while (true) {
+            const ch = line[dirEnd - 1];
+            if (ch === " " || ch === "	")
+              dirEnd -= 1;
+            else
+              break;
+          }
+          const n = (yield* this.pushCount(dirEnd)) + (yield* this.pushSpaces(true));
+          yield* this.pushCount(line.length - n);
+          this.pushNewline();
+          return "stream";
+        }
+        if (this.atLineEnd()) {
+          const sp = yield* this.pushSpaces(true);
+          yield* this.pushCount(line.length - sp);
+          yield* this.pushNewline();
+          return "stream";
+        }
+        yield DOCUMENT;
+        return yield* this.parseLineStart();
+      }
+      *parseLineStart() {
+        const ch = this.charAt(0);
+        if (!ch && !this.atEnd)
+          return this.setNext("line-start");
+        if (ch === "-" || ch === ".") {
+          if (!this.atEnd && !this.hasChars(4))
+            return this.setNext("line-start");
+          const s = this.peek(3);
+          if ((s === "---" || s === "...") && isEmpty(this.charAt(3))) {
+            yield* this.pushCount(3);
+            this.indentValue = 0;
+            this.indentNext = 0;
+            return s === "---" ? "doc" : "stream";
+          }
+        }
+        this.indentValue = yield* this.pushSpaces(false);
+        if (this.indentNext > this.indentValue && !isEmpty(this.charAt(1)))
+          this.indentNext = this.indentValue;
+        return yield* this.parseBlockStart();
+      }
+      *parseBlockStart() {
+        const [ch0, ch1] = this.peek(2);
+        if (!ch1 && !this.atEnd)
+          return this.setNext("block-start");
+        if ((ch0 === "-" || ch0 === "?" || ch0 === ":") && isEmpty(ch1)) {
+          const n = (yield* this.pushCount(1)) + (yield* this.pushSpaces(true));
+          this.indentNext = this.indentValue + 1;
+          this.indentValue += n;
+          return "block-start";
+        }
+        return "doc";
+      }
+      *parseDocument() {
+        yield* this.pushSpaces(true);
+        const line = this.getLine();
+        if (line === null)
+          return this.setNext("doc");
+        let n = yield* this.pushIndicators();
+        switch (line[n]) {
+          case "#":
+            yield* this.pushCount(line.length - n);
+          // fallthrough
+          case void 0:
+            yield* this.pushNewline();
+            return yield* this.parseLineStart();
+          case "{":
+          case "[":
+            yield* this.pushCount(1);
+            this.flowKey = false;
+            this.flowLevel = 1;
+            return "flow";
+          case "}":
+          case "]":
+            yield* this.pushCount(1);
+            return "doc";
+          case "*":
+            yield* this.pushUntil(isNotAnchorChar);
+            return "doc";
+          case '"':
+          case "'":
+            return yield* this.parseQuotedScalar();
+          case "|":
+          case ">":
+            n += yield* this.parseBlockScalarHeader();
+            n += yield* this.pushSpaces(true);
+            yield* this.pushCount(line.length - n);
+            yield* this.pushNewline();
+            return yield* this.parseBlockScalar();
+          default:
+            return yield* this.parsePlainScalar();
+        }
+      }
+      *parseFlowCollection() {
+        let nl, sp;
+        let indent = -1;
+        do {
+          nl = yield* this.pushNewline();
+          if (nl > 0) {
+            sp = yield* this.pushSpaces(false);
+            this.indentValue = indent = sp;
+          } else {
+            sp = 0;
+          }
+          sp += yield* this.pushSpaces(true);
+        } while (nl + sp > 0);
+        const line = this.getLine();
+        if (line === null)
+          return this.setNext("flow");
+        if (indent !== -1 && indent < this.indentNext && line[0] !== "#" || indent === 0 && (line.startsWith("---") || line.startsWith("...")) && isEmpty(line[3])) {
+          const atFlowEndMarker = indent === this.indentNext - 1 && this.flowLevel === 1 && (line[0] === "]" || line[0] === "}");
+          if (!atFlowEndMarker) {
+            this.flowLevel = 0;
+            yield FLOW_END;
+            return yield* this.parseLineStart();
+          }
+        }
+        let n = 0;
+        while (line[n] === ",") {
+          n += yield* this.pushCount(1);
+          n += yield* this.pushSpaces(true);
+          this.flowKey = false;
+        }
+        n += yield* this.pushIndicators();
+        switch (line[n]) {
+          case void 0:
+            return "flow";
+          case "#":
+            yield* this.pushCount(line.length - n);
+            return "flow";
+          case "{":
+          case "[":
+            yield* this.pushCount(1);
+            this.flowKey = false;
+            this.flowLevel += 1;
+            return "flow";
+          case "}":
+          case "]":
+            yield* this.pushCount(1);
+            this.flowKey = true;
+            this.flowLevel -= 1;
+            return this.flowLevel ? "flow" : "doc";
+          case "*":
+            yield* this.pushUntil(isNotAnchorChar);
+            return "flow";
+          case '"':
+          case "'":
+            this.flowKey = true;
+            return yield* this.parseQuotedScalar();
+          case ":": {
+            const next = this.charAt(1);
+            if (this.flowKey || isEmpty(next) || next === ",") {
+              this.flowKey = false;
+              yield* this.pushCount(1);
+              yield* this.pushSpaces(true);
+              return "flow";
+            }
+          }
+          // fallthrough
+          default:
+            this.flowKey = false;
+            return yield* this.parsePlainScalar();
+        }
+      }
+      *parseQuotedScalar() {
+        const quote = this.charAt(0);
+        let end = this.buffer.indexOf(quote, this.pos + 1);
+        if (quote === "'") {
+          while (end !== -1 && this.buffer[end + 1] === "'")
+            end = this.buffer.indexOf("'", end + 2);
+        } else {
+          while (end !== -1) {
+            let n = 0;
+            while (this.buffer[end - 1 - n] === "\\")
+              n += 1;
+            if (n % 2 === 0)
+              break;
+            end = this.buffer.indexOf('"', end + 1);
+          }
+        }
+        const qb = this.buffer.substring(0, end);
+        let nl = qb.indexOf("\n", this.pos);
+        if (nl !== -1) {
+          while (nl !== -1) {
+            const cs = this.continueScalar(nl + 1);
+            if (cs === -1)
+              break;
+            nl = qb.indexOf("\n", cs);
+          }
+          if (nl !== -1) {
+            end = nl - (qb[nl - 1] === "\r" ? 2 : 1);
+          }
+        }
+        if (end === -1) {
+          if (!this.atEnd)
+            return this.setNext("quoted-scalar");
+          end = this.buffer.length;
+        }
+        yield* this.pushToIndex(end + 1, false);
+        return this.flowLevel ? "flow" : "doc";
+      }
+      *parseBlockScalarHeader() {
+        this.blockScalarIndent = -1;
+        this.blockScalarKeep = false;
+        let i = this.pos;
+        while (true) {
+          const ch = this.buffer[++i];
+          if (ch === "+")
+            this.blockScalarKeep = true;
+          else if (ch > "0" && ch <= "9")
+            this.blockScalarIndent = Number(ch) - 1;
+          else if (ch !== "-")
+            break;
+        }
+        return yield* this.pushUntil((ch) => isEmpty(ch) || ch === "#");
+      }
+      *parseBlockScalar() {
+        let nl = this.pos - 1;
+        let indent = 0;
+        let ch;
+        loop: for (let i2 = this.pos; ch = this.buffer[i2]; ++i2) {
+          switch (ch) {
+            case " ":
+              indent += 1;
+              break;
+            case "\n":
+              nl = i2;
+              indent = 0;
+              break;
+            case "\r": {
+              const next = this.buffer[i2 + 1];
+              if (!next && !this.atEnd)
+                return this.setNext("block-scalar");
+              if (next === "\n")
+                break;
+            }
+            // fallthrough
+            default:
+              break loop;
+          }
+        }
+        if (!ch && !this.atEnd)
+          return this.setNext("block-scalar");
+        if (indent >= this.indentNext) {
+          if (this.blockScalarIndent === -1)
+            this.indentNext = indent;
+          else {
+            this.indentNext = this.blockScalarIndent + (this.indentNext === 0 ? 1 : this.indentNext);
+          }
+          do {
+            const cs = this.continueScalar(nl + 1);
+            if (cs === -1)
+              break;
+            nl = this.buffer.indexOf("\n", cs);
+          } while (nl !== -1);
+          if (nl === -1) {
+            if (!this.atEnd)
+              return this.setNext("block-scalar");
+            nl = this.buffer.length;
+          }
+        }
+        let i = nl + 1;
+        ch = this.buffer[i];
+        while (ch === " ")
+          ch = this.buffer[++i];
+        if (ch === "	") {
+          while (ch === "	" || ch === " " || ch === "\r" || ch === "\n")
+            ch = this.buffer[++i];
+          nl = i - 1;
+        } else if (!this.blockScalarKeep) {
+          do {
+            let i2 = nl - 1;
+            let ch2 = this.buffer[i2];
+            if (ch2 === "\r")
+              ch2 = this.buffer[--i2];
+            const lastChar = i2;
+            while (ch2 === " ")
+              ch2 = this.buffer[--i2];
+            if (ch2 === "\n" && i2 >= this.pos && i2 + 1 + indent > lastChar)
+              nl = i2;
+            else
+              break;
+          } while (true);
+        }
+        yield SCALAR2;
+        yield* this.pushToIndex(nl + 1, true);
+        return yield* this.parseLineStart();
+      }
+      *parsePlainScalar() {
+        const inFlow = this.flowLevel > 0;
+        let end = this.pos - 1;
+        let i = this.pos - 1;
+        let ch;
+        while (ch = this.buffer[++i]) {
+          if (ch === ":") {
+            const next = this.buffer[i + 1];
+            if (isEmpty(next) || inFlow && flowIndicatorChars.has(next))
+              break;
+            end = i;
+          } else if (isEmpty(ch)) {
+            let next = this.buffer[i + 1];
+            if (ch === "\r") {
+              if (next === "\n") {
+                i += 1;
+                ch = "\n";
+                next = this.buffer[i + 1];
+              } else
+                end = i;
+            }
+            if (next === "#" || inFlow && flowIndicatorChars.has(next))
+              break;
+            if (ch === "\n") {
+              const cs = this.continueScalar(i + 1);
+              if (cs === -1)
+                break;
+              i = Math.max(i, cs - 2);
+            }
+          } else {
+            if (inFlow && flowIndicatorChars.has(ch))
+              break;
+            end = i;
+          }
+        }
+        if (!ch && !this.atEnd)
+          return this.setNext("plain-scalar");
+        yield SCALAR2;
+        yield* this.pushToIndex(end + 1, true);
+        return inFlow ? "flow" : "doc";
+      }
+      *pushCount(n) {
+        if (n > 0) {
+          yield this.buffer.substr(this.pos, n);
+          this.pos += n;
+          return n;
+        }
+        return 0;
+      }
+      *pushToIndex(i, allowEmpty) {
+        const s = this.buffer.slice(this.pos, i);
+        if (s) {
+          yield s;
+          this.pos += s.length;
+          return s.length;
+        } else if (allowEmpty)
+          yield "";
+        return 0;
+      }
+      *pushIndicators() {
+        let n = 0;
+        loop: while (true) {
+          switch (this.charAt(0)) {
+            case "!":
+              n += yield* this.pushTag();
+              n += yield* this.pushSpaces(true);
+              continue loop;
+            case "&":
+              n += yield* this.pushUntil(isNotAnchorChar);
+              n += yield* this.pushSpaces(true);
+              continue loop;
+            case "-":
+            // this is an error
+            case "?":
+            // this is an error outside flow collections
+            case ":": {
+              const inFlow = this.flowLevel > 0;
+              const ch1 = this.charAt(1);
+              if (isEmpty(ch1) || inFlow && flowIndicatorChars.has(ch1)) {
+                if (!inFlow)
+                  this.indentNext = this.indentValue + 1;
+                else if (this.flowKey)
+                  this.flowKey = false;
+                n += yield* this.pushCount(1);
+                n += yield* this.pushSpaces(true);
+                continue loop;
+              }
+            }
+          }
+          break loop;
+        }
+        return n;
+      }
+      *pushTag() {
+        if (this.charAt(1) === "<") {
+          let i = this.pos + 2;
+          let ch = this.buffer[i];
+          while (!isEmpty(ch) && ch !== ">")
+            ch = this.buffer[++i];
+          return yield* this.pushToIndex(ch === ">" ? i + 1 : i, false);
+        } else {
+          let i = this.pos + 1;
+          let ch = this.buffer[i];
+          while (ch) {
+            if (tagChars.has(ch))
+              ch = this.buffer[++i];
+            else if (ch === "%" && hexDigits.has(this.buffer[i + 1]) && hexDigits.has(this.buffer[i + 2])) {
+              ch = this.buffer[i += 3];
+            } else
+              break;
+          }
+          return yield* this.pushToIndex(i, false);
+        }
+      }
+      *pushNewline() {
+        const ch = this.buffer[this.pos];
+        if (ch === "\n")
+          return yield* this.pushCount(1);
+        else if (ch === "\r" && this.charAt(1) === "\n")
+          return yield* this.pushCount(2);
+        else
+          return 0;
+      }
+      *pushSpaces(allowTabs) {
+        let i = this.pos - 1;
+        let ch;
+        do {
+          ch = this.buffer[++i];
+        } while (ch === " " || allowTabs && ch === "	");
+        const n = i - this.pos;
+        if (n > 0) {
+          yield this.buffer.substr(this.pos, n);
+          this.pos = i;
+        }
+        return n;
+      }
+      *pushUntil(test) {
+        let i = this.pos;
+        let ch = this.buffer[i];
+        while (!test(ch))
+          ch = this.buffer[++i];
+        return yield* this.pushToIndex(i, false);
+      }
+    };
+  }
+});
+
+// node_modules/yaml/browser/dist/parse/line-counter.js
+var LineCounter;
+var init_line_counter = __esm({
+  "node_modules/yaml/browser/dist/parse/line-counter.js"() {
+    LineCounter = class {
+      constructor() {
+        this.lineStarts = [];
+        this.addNewLine = (offset) => this.lineStarts.push(offset);
+        this.linePos = (offset) => {
+          let low = 0;
+          let high = this.lineStarts.length;
+          while (low < high) {
+            const mid = low + high >> 1;
+            if (this.lineStarts[mid] < offset)
+              low = mid + 1;
+            else
+              high = mid;
+          }
+          if (this.lineStarts[low] === offset)
+            return { line: low + 1, col: 1 };
+          if (low === 0)
+            return { line: 0, col: offset };
+          const start = this.lineStarts[low - 1];
+          return { line: low, col: offset - start + 1 };
+        };
+      }
+    };
+  }
+});
+
+// node_modules/yaml/browser/dist/parse/parser.js
+function includesToken(list3, type) {
+  for (let i = 0; i < list3.length; ++i)
+    if (list3[i].type === type)
+      return true;
+  return false;
+}
+function findNonEmptyIndex(list3) {
+  for (let i = 0; i < list3.length; ++i) {
+    switch (list3[i].type) {
+      case "space":
+      case "comment":
+      case "newline":
+        break;
+      default:
+        return i;
+    }
+  }
+  return -1;
+}
+function isFlowToken(token) {
+  switch (token?.type) {
+    case "alias":
+    case "scalar":
+    case "single-quoted-scalar":
+    case "double-quoted-scalar":
+    case "flow-collection":
+      return true;
+    default:
+      return false;
+  }
+}
+function getPrevProps(parent) {
+  switch (parent.type) {
+    case "document":
+      return parent.start;
+    case "block-map": {
+      const it = parent.items[parent.items.length - 1];
+      return it.sep ?? it.start;
+    }
+    case "block-seq":
+      return parent.items[parent.items.length - 1].start;
+    /* istanbul ignore next should not happen */
+    default:
+      return [];
+  }
+}
+function getFirstKeyStartProps(prev) {
+  if (prev.length === 0)
+    return [];
+  let i = prev.length;
+  loop: while (--i >= 0) {
+    switch (prev[i].type) {
+      case "doc-start":
+      case "explicit-key-ind":
+      case "map-value-ind":
+      case "seq-item-ind":
+      case "newline":
+        break loop;
+    }
+  }
+  while (prev[++i]?.type === "space") {
+  }
+  return prev.splice(i, prev.length);
+}
+function arrayPushArray(target, source) {
+  if (source.length < 1e5)
+    Array.prototype.push.apply(target, source);
+  else
+    for (let i = 0; i < source.length; ++i)
+      target.push(source[i]);
+}
+function fixFlowSeqItems(fc) {
+  if (fc.start.type === "flow-seq-start") {
+    for (const it of fc.items) {
+      if (it.sep && !it.value && !includesToken(it.start, "explicit-key-ind") && !includesToken(it.sep, "map-value-ind")) {
+        if (it.key)
+          it.value = it.key;
+        delete it.key;
+        if (isFlowToken(it.value)) {
+          if (it.value.end)
+            arrayPushArray(it.value.end, it.sep);
+          else
+            it.value.end = it.sep;
+        } else
+          arrayPushArray(it.start, it.sep);
+        delete it.sep;
+      }
+    }
+  }
+}
+var Parser;
+var init_parser = __esm({
+  "node_modules/yaml/browser/dist/parse/parser.js"() {
+    init_cst();
+    init_lexer();
+    Parser = class {
+      /**
+       * @param onNewLine - If defined, called separately with the start position of
+       *   each new line (in `parse()`, including the start of input).
+       */
+      constructor(onNewLine) {
+        this.atNewLine = true;
+        this.atScalar = false;
+        this.indent = 0;
+        this.offset = 0;
+        this.onKeyLine = false;
+        this.stack = [];
+        this.source = "";
+        this.type = "";
+        this.lexer = new Lexer();
+        this.onNewLine = onNewLine;
+      }
+      /**
+       * Parse `source` as a YAML stream.
+       * If `incomplete`, a part of the last line may be left as a buffer for the next call.
+       *
+       * Errors are not thrown, but yielded as `{ type: 'error', message }` tokens.
+       *
+       * @returns A generator of tokens representing each directive, document, and other structure.
+       */
+      *parse(source, incomplete = false) {
+        if (this.onNewLine && this.offset === 0)
+          this.onNewLine(0);
+        for (const lexeme of this.lexer.lex(source, incomplete))
+          yield* this.next(lexeme);
+        if (!incomplete)
+          yield* this.end();
+      }
+      /**
+       * Advance the parser by the `source` of one lexical token.
+       */
+      *next(source) {
+        this.source = source;
+        if (this.atScalar) {
+          this.atScalar = false;
+          yield* this.step();
+          this.offset += source.length;
+          return;
+        }
+        const type = tokenType(source);
+        if (!type) {
+          const message = `Not a YAML token: ${source}`;
+          yield* this.pop({ type: "error", offset: this.offset, message, source });
+          this.offset += source.length;
+        } else if (type === "scalar") {
+          this.atNewLine = false;
+          this.atScalar = true;
+          this.type = "scalar";
+        } else {
+          this.type = type;
+          yield* this.step();
+          switch (type) {
+            case "newline":
+              this.atNewLine = true;
+              this.indent = 0;
+              if (this.onNewLine)
+                this.onNewLine(this.offset + source.length);
+              break;
+            case "space":
+              if (this.atNewLine && source[0] === " ")
+                this.indent += source.length;
+              break;
+            case "explicit-key-ind":
+            case "map-value-ind":
+            case "seq-item-ind":
+              if (this.atNewLine)
+                this.indent += source.length;
+              break;
+            case "doc-mode":
+            case "flow-error-end":
+              return;
+            default:
+              this.atNewLine = false;
+          }
+          this.offset += source.length;
+        }
+      }
+      /** Call at end of input to push out any remaining constructions */
+      *end() {
+        while (this.stack.length > 0)
+          yield* this.pop();
+      }
+      get sourceToken() {
+        const st = {
+          type: this.type,
+          offset: this.offset,
+          indent: this.indent,
+          source: this.source
+        };
+        return st;
+      }
+      *step() {
+        const top = this.peek(1);
+        if (this.type === "doc-end" && top?.type !== "doc-end") {
+          while (this.stack.length > 0)
+            yield* this.pop();
+          this.stack.push({
+            type: "doc-end",
+            offset: this.offset,
+            source: this.source
+          });
+          return;
+        }
+        if (!top)
+          return yield* this.stream();
+        switch (top.type) {
+          case "document":
+            return yield* this.document(top);
+          case "alias":
+          case "scalar":
+          case "single-quoted-scalar":
+          case "double-quoted-scalar":
+            return yield* this.scalar(top);
+          case "block-scalar":
+            return yield* this.blockScalar(top);
+          case "block-map":
+            return yield* this.blockMap(top);
+          case "block-seq":
+            return yield* this.blockSequence(top);
+          case "flow-collection":
+            return yield* this.flowCollection(top);
+          case "doc-end":
+            return yield* this.documentEnd(top);
+        }
+        yield* this.pop();
+      }
+      peek(n) {
+        return this.stack[this.stack.length - n];
+      }
+      *pop(error) {
+        const token = error ?? this.stack.pop();
+        if (!token) {
+          const message = "Tried to pop an empty stack";
+          yield { type: "error", offset: this.offset, source: "", message };
+        } else if (this.stack.length === 0) {
+          yield token;
+        } else {
+          const top = this.peek(1);
+          if (token.type === "block-scalar") {
+            token.indent = "indent" in top ? top.indent : 0;
+          } else if (token.type === "flow-collection" && top.type === "document") {
+            token.indent = 0;
+          }
+          if (token.type === "flow-collection")
+            fixFlowSeqItems(token);
+          switch (top.type) {
+            case "document":
+              top.value = token;
+              break;
+            case "block-scalar":
+              top.props.push(token);
+              break;
+            case "block-map": {
+              const it = top.items[top.items.length - 1];
+              if (it.value) {
+                top.items.push({ start: [], key: token, sep: [] });
+                this.onKeyLine = true;
+                return;
+              } else if (it.sep) {
+                it.value = token;
+              } else {
+                Object.assign(it, { key: token, sep: [] });
+                this.onKeyLine = !it.explicitKey;
+                return;
+              }
+              break;
+            }
+            case "block-seq": {
+              const it = top.items[top.items.length - 1];
+              if (it.value)
+                top.items.push({ start: [], value: token });
+              else
+                it.value = token;
+              break;
+            }
+            case "flow-collection": {
+              const it = top.items[top.items.length - 1];
+              if (!it || it.value)
+                top.items.push({ start: [], key: token, sep: [] });
+              else if (it.sep)
+                it.value = token;
+              else
+                Object.assign(it, { key: token, sep: [] });
+              return;
+            }
+            /* istanbul ignore next should not happen */
+            default:
+              yield* this.pop();
+              yield* this.pop(token);
+          }
+          if ((top.type === "document" || top.type === "block-map" || top.type === "block-seq") && (token.type === "block-map" || token.type === "block-seq")) {
+            const last = token.items[token.items.length - 1];
+            if (last && !last.sep && !last.value && last.start.length > 0 && findNonEmptyIndex(last.start) === -1 && (token.indent === 0 || last.start.every((st) => st.type !== "comment" || st.indent < token.indent))) {
+              if (top.type === "document")
+                top.end = last.start;
+              else
+                top.items.push({ start: last.start });
+              token.items.splice(-1, 1);
+            }
+          }
+        }
+      }
+      *stream() {
+        switch (this.type) {
+          case "directive-line":
+            yield { type: "directive", offset: this.offset, source: this.source };
+            return;
+          case "byte-order-mark":
+          case "space":
+          case "comment":
+          case "newline":
+            yield this.sourceToken;
+            return;
+          case "doc-mode":
+          case "doc-start": {
+            const doc = {
+              type: "document",
+              offset: this.offset,
+              start: []
+            };
+            if (this.type === "doc-start")
+              doc.start.push(this.sourceToken);
+            this.stack.push(doc);
+            return;
+          }
+        }
+        yield {
+          type: "error",
+          offset: this.offset,
+          message: `Unexpected ${this.type} token in YAML stream`,
+          source: this.source
+        };
+      }
+      *document(doc) {
+        if (doc.value)
+          return yield* this.lineEnd(doc);
+        switch (this.type) {
+          case "doc-start": {
+            if (findNonEmptyIndex(doc.start) !== -1) {
+              yield* this.pop();
+              yield* this.step();
+            } else
+              doc.start.push(this.sourceToken);
+            return;
+          }
+          case "anchor":
+          case "tag":
+          case "space":
+          case "comment":
+          case "newline":
+            doc.start.push(this.sourceToken);
+            return;
+        }
+        const bv = this.startBlockValue(doc);
+        if (bv)
+          this.stack.push(bv);
+        else {
+          yield {
+            type: "error",
+            offset: this.offset,
+            message: `Unexpected ${this.type} token in YAML document`,
+            source: this.source
+          };
+        }
+      }
+      *scalar(scalar) {
+        if (this.type === "map-value-ind") {
+          const prev = getPrevProps(this.peek(2));
+          const start = getFirstKeyStartProps(prev);
+          let sep2;
+          if (scalar.end) {
+            sep2 = scalar.end;
+            sep2.push(this.sourceToken);
+            delete scalar.end;
+          } else
+            sep2 = [this.sourceToken];
+          const map2 = {
+            type: "block-map",
+            offset: scalar.offset,
+            indent: scalar.indent,
+            items: [{ start, key: scalar, sep: sep2 }]
+          };
+          this.onKeyLine = true;
+          this.stack[this.stack.length - 1] = map2;
+        } else
+          yield* this.lineEnd(scalar);
+      }
+      *blockScalar(scalar) {
+        switch (this.type) {
+          case "space":
+          case "comment":
+          case "newline":
+            scalar.props.push(this.sourceToken);
+            return;
+          case "scalar":
+            scalar.source = this.source;
+            this.atNewLine = true;
+            this.indent = 0;
+            if (this.onNewLine) {
+              let nl = this.source.indexOf("\n") + 1;
+              while (nl !== 0) {
+                this.onNewLine(this.offset + nl);
+                nl = this.source.indexOf("\n", nl) + 1;
+              }
+            }
+            yield* this.pop();
+            break;
+          /* istanbul ignore next should not happen */
+          default:
+            yield* this.pop();
+            yield* this.step();
+        }
+      }
+      *blockMap(map2) {
+        const it = map2.items[map2.items.length - 1];
+        switch (this.type) {
+          case "newline":
+            this.onKeyLine = false;
+            if (it.value) {
+              const end = "end" in it.value ? it.value.end : void 0;
+              const last = Array.isArray(end) ? end[end.length - 1] : void 0;
+              if (last?.type === "comment")
+                end?.push(this.sourceToken);
+              else
+                map2.items.push({ start: [this.sourceToken] });
+            } else if (it.sep) {
+              it.sep.push(this.sourceToken);
+            } else {
+              it.start.push(this.sourceToken);
+            }
+            return;
+          case "space":
+          case "comment":
+            if (it.value) {
+              map2.items.push({ start: [this.sourceToken] });
+            } else if (it.sep) {
+              it.sep.push(this.sourceToken);
+            } else {
+              if (this.atIndentedComment(it.start, map2.indent)) {
+                const prev = map2.items[map2.items.length - 2];
+                const end = prev?.value?.end;
+                if (Array.isArray(end)) {
+                  arrayPushArray(end, it.start);
+                  end.push(this.sourceToken);
+                  map2.items.pop();
+                  return;
+                }
+              }
+              it.start.push(this.sourceToken);
+            }
+            return;
+        }
+        if (this.indent >= map2.indent) {
+          const atMapIndent = !this.onKeyLine && this.indent === map2.indent;
+          const atNextItem = atMapIndent && (it.sep || it.explicitKey) && this.type !== "seq-item-ind";
+          let start = [];
+          if (atNextItem && it.sep && !it.value) {
+            const nl = [];
+            for (let i = 0; i < it.sep.length; ++i) {
+              const st = it.sep[i];
+              switch (st.type) {
+                case "newline":
+                  nl.push(i);
+                  break;
+                case "space":
+                  break;
+                case "comment":
+                  if (st.indent > map2.indent)
+                    nl.length = 0;
+                  break;
+                default:
+                  nl.length = 0;
+              }
+            }
+            if (nl.length >= 2)
+              start = it.sep.splice(nl[1]);
+          }
+          switch (this.type) {
+            case "anchor":
+            case "tag":
+              if (atNextItem || it.value) {
+                start.push(this.sourceToken);
+                map2.items.push({ start });
+                this.onKeyLine = true;
+              } else if (it.sep) {
+                it.sep.push(this.sourceToken);
+              } else {
+                it.start.push(this.sourceToken);
+              }
+              return;
+            case "explicit-key-ind":
+              if (!it.sep && !it.explicitKey) {
+                it.start.push(this.sourceToken);
+                it.explicitKey = true;
+              } else if (atNextItem || it.value) {
+                start.push(this.sourceToken);
+                map2.items.push({ start, explicitKey: true });
+              } else {
+                this.stack.push({
+                  type: "block-map",
+                  offset: this.offset,
+                  indent: this.indent,
+                  items: [{ start: [this.sourceToken], explicitKey: true }]
+                });
+              }
+              this.onKeyLine = true;
+              return;
+            case "map-value-ind":
+              if (it.explicitKey) {
+                if (!it.sep) {
+                  if (includesToken(it.start, "newline")) {
+                    Object.assign(it, { key: null, sep: [this.sourceToken] });
+                  } else {
+                    const start2 = getFirstKeyStartProps(it.start);
+                    this.stack.push({
+                      type: "block-map",
+                      offset: this.offset,
+                      indent: this.indent,
+                      items: [{ start: start2, key: null, sep: [this.sourceToken] }]
+                    });
+                  }
+                } else if (it.value) {
+                  map2.items.push({ start: [], key: null, sep: [this.sourceToken] });
+                } else if (includesToken(it.sep, "map-value-ind")) {
+                  this.stack.push({
+                    type: "block-map",
+                    offset: this.offset,
+                    indent: this.indent,
+                    items: [{ start, key: null, sep: [this.sourceToken] }]
+                  });
+                } else if (isFlowToken(it.key) && !includesToken(it.sep, "newline")) {
+                  const start2 = getFirstKeyStartProps(it.start);
+                  const key2 = it.key;
+                  const sep2 = it.sep;
+                  sep2.push(this.sourceToken);
+                  delete it.key;
+                  delete it.sep;
+                  this.stack.push({
+                    type: "block-map",
+                    offset: this.offset,
+                    indent: this.indent,
+                    items: [{ start: start2, key: key2, sep: sep2 }]
+                  });
+                } else if (start.length > 0) {
+                  it.sep = it.sep.concat(start, this.sourceToken);
+                } else {
+                  it.sep.push(this.sourceToken);
+                }
+              } else {
+                if (!it.sep) {
+                  Object.assign(it, { key: null, sep: [this.sourceToken] });
+                } else if (it.value || atNextItem) {
+                  map2.items.push({ start, key: null, sep: [this.sourceToken] });
+                } else if (includesToken(it.sep, "map-value-ind")) {
+                  this.stack.push({
+                    type: "block-map",
+                    offset: this.offset,
+                    indent: this.indent,
+                    items: [{ start: [], key: null, sep: [this.sourceToken] }]
+                  });
+                } else {
+                  it.sep.push(this.sourceToken);
+                }
+              }
+              this.onKeyLine = true;
+              return;
+            case "alias":
+            case "scalar":
+            case "single-quoted-scalar":
+            case "double-quoted-scalar": {
+              const fs = this.flowScalar(this.type);
+              if (atNextItem || it.value) {
+                map2.items.push({ start, key: fs, sep: [] });
+                this.onKeyLine = true;
+              } else if (it.sep) {
+                this.stack.push(fs);
+              } else {
+                Object.assign(it, { key: fs, sep: [] });
+                this.onKeyLine = true;
+              }
+              return;
+            }
+            default: {
+              const bv = this.startBlockValue(map2);
+              if (bv) {
+                if (bv.type === "block-seq") {
+                  if (!it.explicitKey && it.sep && !includesToken(it.sep, "newline")) {
+                    yield* this.pop({
+                      type: "error",
+                      offset: this.offset,
+                      message: "Unexpected block-seq-ind on same line with key",
+                      source: this.source
+                    });
+                    return;
+                  }
+                } else if (atMapIndent) {
+                  map2.items.push({ start });
+                }
+                this.stack.push(bv);
+                return;
+              }
+            }
+          }
+        }
+        yield* this.pop();
+        yield* this.step();
+      }
+      *blockSequence(seq2) {
+        const it = seq2.items[seq2.items.length - 1];
+        switch (this.type) {
+          case "newline":
+            if (it.value) {
+              const end = "end" in it.value ? it.value.end : void 0;
+              const last = Array.isArray(end) ? end[end.length - 1] : void 0;
+              if (last?.type === "comment")
+                end?.push(this.sourceToken);
+              else
+                seq2.items.push({ start: [this.sourceToken] });
+            } else
+              it.start.push(this.sourceToken);
+            return;
+          case "space":
+          case "comment":
+            if (it.value)
+              seq2.items.push({ start: [this.sourceToken] });
+            else {
+              if (this.atIndentedComment(it.start, seq2.indent)) {
+                const prev = seq2.items[seq2.items.length - 2];
+                const end = prev?.value?.end;
+                if (Array.isArray(end)) {
+                  arrayPushArray(end, it.start);
+                  end.push(this.sourceToken);
+                  seq2.items.pop();
+                  return;
+                }
+              }
+              it.start.push(this.sourceToken);
+            }
+            return;
+          case "anchor":
+          case "tag":
+            if (it.value || this.indent <= seq2.indent)
+              break;
+            it.start.push(this.sourceToken);
+            return;
+          case "seq-item-ind":
+            if (this.indent !== seq2.indent)
+              break;
+            if (it.value || includesToken(it.start, "seq-item-ind"))
+              seq2.items.push({ start: [this.sourceToken] });
+            else
+              it.start.push(this.sourceToken);
+            return;
+        }
+        if (this.indent > seq2.indent) {
+          const bv = this.startBlockValue(seq2);
+          if (bv) {
+            this.stack.push(bv);
+            return;
+          }
+        }
+        yield* this.pop();
+        yield* this.step();
+      }
+      *flowCollection(fc) {
+        const it = fc.items[fc.items.length - 1];
+        if (this.type === "flow-error-end") {
+          let top;
+          do {
+            yield* this.pop();
+            top = this.peek(1);
+          } while (top?.type === "flow-collection");
+        } else if (fc.end.length === 0) {
+          switch (this.type) {
+            case "comma":
+            case "explicit-key-ind":
+              if (!it || it.sep)
+                fc.items.push({ start: [this.sourceToken] });
+              else
+                it.start.push(this.sourceToken);
+              return;
+            case "map-value-ind":
+              if (!it || it.value)
+                fc.items.push({ start: [], key: null, sep: [this.sourceToken] });
+              else if (it.sep)
+                it.sep.push(this.sourceToken);
+              else
+                Object.assign(it, { key: null, sep: [this.sourceToken] });
+              return;
+            case "space":
+            case "comment":
+            case "newline":
+            case "anchor":
+            case "tag":
+              if (!it || it.value)
+                fc.items.push({ start: [this.sourceToken] });
+              else if (it.sep)
+                it.sep.push(this.sourceToken);
+              else
+                it.start.push(this.sourceToken);
+              return;
+            case "alias":
+            case "scalar":
+            case "single-quoted-scalar":
+            case "double-quoted-scalar": {
+              const fs = this.flowScalar(this.type);
+              if (!it || it.value)
+                fc.items.push({ start: [], key: fs, sep: [] });
+              else if (it.sep)
+                this.stack.push(fs);
+              else
+                Object.assign(it, { key: fs, sep: [] });
+              return;
+            }
+            case "flow-map-end":
+            case "flow-seq-end":
+              fc.end.push(this.sourceToken);
+              return;
+          }
+          const bv = this.startBlockValue(fc);
+          if (bv)
+            this.stack.push(bv);
+          else {
+            yield* this.pop();
+            yield* this.step();
+          }
+        } else {
+          const parent = this.peek(2);
+          if (parent.type === "block-map" && (this.type === "map-value-ind" && parent.indent === fc.indent || this.type === "newline" && !parent.items[parent.items.length - 1].sep)) {
+            yield* this.pop();
+            yield* this.step();
+          } else if (this.type === "map-value-ind" && parent.type !== "flow-collection") {
+            const prev = getPrevProps(parent);
+            const start = getFirstKeyStartProps(prev);
+            fixFlowSeqItems(fc);
+            const sep2 = fc.end.splice(1, fc.end.length);
+            sep2.push(this.sourceToken);
+            const map2 = {
+              type: "block-map",
+              offset: fc.offset,
+              indent: fc.indent,
+              items: [{ start, key: fc, sep: sep2 }]
+            };
+            this.onKeyLine = true;
+            this.stack[this.stack.length - 1] = map2;
+          } else {
+            yield* this.lineEnd(fc);
+          }
+        }
+      }
+      flowScalar(type) {
+        if (this.onNewLine) {
+          let nl = this.source.indexOf("\n") + 1;
+          while (nl !== 0) {
+            this.onNewLine(this.offset + nl);
+            nl = this.source.indexOf("\n", nl) + 1;
+          }
+        }
+        return {
+          type,
+          offset: this.offset,
+          indent: this.indent,
+          source: this.source
+        };
+      }
+      startBlockValue(parent) {
+        switch (this.type) {
+          case "alias":
+          case "scalar":
+          case "single-quoted-scalar":
+          case "double-quoted-scalar":
+            return this.flowScalar(this.type);
+          case "block-scalar-header":
+            return {
+              type: "block-scalar",
+              offset: this.offset,
+              indent: this.indent,
+              props: [this.sourceToken],
+              source: ""
+            };
+          case "flow-map-start":
+          case "flow-seq-start":
+            return {
+              type: "flow-collection",
+              offset: this.offset,
+              indent: this.indent,
+              start: this.sourceToken,
+              items: [],
+              end: []
+            };
+          case "seq-item-ind":
+            return {
+              type: "block-seq",
+              offset: this.offset,
+              indent: this.indent,
+              items: [{ start: [this.sourceToken] }]
+            };
+          case "explicit-key-ind": {
+            this.onKeyLine = true;
+            const prev = getPrevProps(parent);
+            const start = getFirstKeyStartProps(prev);
+            start.push(this.sourceToken);
+            return {
+              type: "block-map",
+              offset: this.offset,
+              indent: this.indent,
+              items: [{ start, explicitKey: true }]
+            };
+          }
+          case "map-value-ind": {
+            this.onKeyLine = true;
+            const prev = getPrevProps(parent);
+            const start = getFirstKeyStartProps(prev);
+            return {
+              type: "block-map",
+              offset: this.offset,
+              indent: this.indent,
+              items: [{ start, key: null, sep: [this.sourceToken] }]
+            };
+          }
+        }
+        return null;
+      }
+      atIndentedComment(start, indent) {
+        if (this.type !== "comment")
+          return false;
+        if (this.indent <= indent)
+          return false;
+        return start.every((st) => st.type === "newline" || st.type === "space");
+      }
+      *documentEnd(docEnd) {
+        if (this.type !== "doc-mode") {
+          if (docEnd.end)
+            docEnd.end.push(this.sourceToken);
+          else
+            docEnd.end = [this.sourceToken];
+          if (this.type === "newline")
+            yield* this.pop();
+        }
+      }
+      *lineEnd(token) {
+        switch (this.type) {
+          case "comma":
+          case "doc-start":
+          case "doc-end":
+          case "flow-seq-end":
+          case "flow-map-end":
+          case "map-value-ind":
+            yield* this.pop();
+            yield* this.step();
+            break;
+          case "newline":
+            this.onKeyLine = false;
+          // fallthrough
+          case "space":
+          case "comment":
+          default:
+            if (token.end)
+              token.end.push(this.sourceToken);
+            else
+              token.end = [this.sourceToken];
+            if (this.type === "newline")
+              yield* this.pop();
+        }
+      }
+    };
+  }
+});
+
+// node_modules/yaml/browser/dist/public-api.js
+function parseOptions(options) {
+  const prettyErrors = options.prettyErrors !== false;
+  const lineCounter = options.lineCounter || prettyErrors && new LineCounter() || null;
+  return { lineCounter, prettyErrors };
+}
+function parseDocument(source, options = {}) {
+  const { lineCounter, prettyErrors } = parseOptions(options);
+  const parser = new Parser(lineCounter?.addNewLine);
+  const composer = new Composer(options);
+  let doc = null;
+  for (const _doc of composer.compose(parser.parse(source), true, source.length)) {
+    if (!doc)
+      doc = _doc;
+    else if (doc.options.logLevel !== "silent") {
+      doc.errors.push(new YAMLParseError(_doc.range.slice(0, 2), "MULTIPLE_DOCS", "Source contains multiple documents; please use YAML.parseAllDocuments()"));
+      break;
+    }
+  }
+  if (prettyErrors && lineCounter) {
+    doc.errors.forEach(prettifyError(source, lineCounter));
+    doc.warnings.forEach(prettifyError(source, lineCounter));
+  }
+  return doc;
+}
+function parse2(src, reviver, options) {
+  let _reviver = void 0;
+  if (typeof reviver === "function") {
+    _reviver = reviver;
+  } else if (options === void 0 && reviver && typeof reviver === "object") {
+    options = reviver;
+  }
+  const doc = parseDocument(src, options);
+  if (!doc)
+    return null;
+  doc.warnings.forEach((warning) => warn(doc.options.logLevel, warning));
+  if (doc.errors.length > 0) {
+    if (doc.options.logLevel !== "silent")
+      throw doc.errors[0];
+    else
+      doc.errors = [];
+  }
+  return doc.toJS(Object.assign({ reviver: _reviver }, options));
+}
+var init_public_api = __esm({
+  "node_modules/yaml/browser/dist/public-api.js"() {
+    init_composer();
+    init_Document();
+    init_errors();
+    init_log();
+    init_identity();
+    init_line_counter();
+    init_parser();
+  }
+});
+
+// node_modules/yaml/browser/dist/index.js
+var init_dist = __esm({
+  "node_modules/yaml/browser/dist/index.js"() {
+    init_composer();
+    init_Document();
+    init_Schema();
+    init_errors();
+    init_Alias();
+    init_identity();
+    init_Pair();
+    init_Scalar();
+    init_YAMLMap();
+    init_YAMLSeq();
+    init_cst();
+    init_lexer();
+    init_line_counter();
+    init_parser();
+    init_public_api();
+    init_visit();
+  }
+});
+
+// node_modules/yaml/browser/index.js
+var init_browser = __esm({
+  "node_modules/yaml/browser/index.js"() {
+    init_dist();
+    init_dist();
+  }
+});
+
+// ../differential-review/src/record.ts
+function readFrontmatter(markdown2) {
+  const m = /^---\r?\n([\s\S]*?)\r?\n---\r?\n/.exec(markdown2);
+  if (!m) return {};
+  const data = parse2(m[1]);
+  return data && typeof data === "object" ? data : {};
+}
+function recordLocation(abs) {
+  const parts = abs.split(import_node_path.sep);
+  const i = parts.lastIndexOf("repositories");
+  const parsed = i >= 0 ? parseRecordPath([...parts.slice(i), "index.md"].join("/")) : null;
+  if (parsed?.rest !== "index.md" || !isReviewableRecordKind(parsed.kind)) return { repo: null, kind: null };
+  return { repo: parsed.repo, kind: parsed.kind };
+}
+function readRecord(recordDir) {
+  const abs = (0, import_node_path.resolve)(recordDir);
+  const indexPath = (0, import_node_path.join)(abs, "index.md");
+  if (!(0, import_node_fs.existsSync)(indexPath)) {
+    throw new Error(
+      `no record at ${abs} (no index.md); --record must be an existing vault/repositories/<repo>/{branches,reviews}/<status>/<name> dir`
+    );
+  }
+  let fm;
+  try {
+    fm = readFrontmatter((0, import_node_fs.readFileSync)(indexPath, "utf8"));
+  } catch (e) {
+    throw new Error(`cannot parse frontmatter in ${indexPath}: ${e.message}`);
+  }
+  const str = (v) => typeof v === "string" && v.trim() ? v.trim() : null;
+  return {
+    ...recordLocation(abs),
+    branch: (0, import_node_path.basename)(abs),
+    upstreamBaseBranch: str(fm.upstream_base_branch),
+    parentBranch: str(fm.parent_branch)
+  };
+}
+var import_node_fs, import_node_path;
+var init_record = __esm({
+  "../differential-review/src/record.ts"() {
+    "use strict";
+    import_node_fs = require("node:fs");
+    import_node_path = require("node:path");
+    init_browser();
+    init_records();
+  }
+});
+
+// ../review-factory/src/parse.ts
+function parseFindings(text2) {
+  const lineCounter = new LineCounter();
+  const doc = parseDocument(text2, { lineCounter, prettyErrors: false });
+  const at = (offset) => {
+    const { line, col } = lineCounter.linePos(offset);
+    return `line ${line}, column ${col}`;
+  };
+  if (doc.errors.length) return { file: null, errors: doc.errors.map((e) => `${at(e.pos[0])}: ${e.message.split("\n")[0]}`) };
+  const errors = [];
+  visit(doc, {
+    Scalar(_key, node) {
+      if (typeof node.value === "number" && node.source && HEXISH.test(node.source)) node.value = node.source;
+      const multiLine = typeof node.value === "string" && node.value.trimEnd().includes("\n");
+      if (multiLine && node.type !== "BLOCK_LITERAL" && node.type !== "BLOCK_FOLDED" && node.range) {
+        errors.push(`${at(node.range[0])}: multi-line text must be a block scalar (\`|\`)`);
+      }
+    }
+  });
+  if (errors.length) return { file: null, errors };
+  return decodeFindings(doc.toJS());
+}
+var HEXISH;
+var init_parse = __esm({
+  "../review-factory/src/parse.ts"() {
+    "use strict";
+    init_browser();
+    init_model();
+    HEXISH = /^[0-9a-f]{7,40}$/;
+  }
+});
+
+// ../review-factory/src/record.ts
+function latestRound(dir) {
+  const rounds = (0, import_node_fs2.readdirSync)(dir).flatMap((name) => {
+    const m = FINDINGS_FILE.exec(name);
+    return m ? [Number(m[1])] : [];
+  });
+  return rounds.length ? Math.max(...rounds) : null;
+}
+function loadRecord(recordDir, prUrl) {
+  const dir = (0, import_node_path2.resolve)(recordDir);
+  const record = readRecord(dir);
+  if (record.kind !== "reviews" || !record.repo || !/^\d+$/.test(record.branch)) throw new Error(`${dir} isn't a PR review record`);
+  const round2 = latestRound(dir);
+  if (round2 === null) throw new Error(`${dir} has no review_<N>_findings.yml`);
+  const findingsPath = (0, import_node_path2.join)(dir, findingsName(round2));
+  const { file, errors } = parseFindings((0, import_node_fs2.readFileSync)(findingsPath, "utf8"));
+  if (file && file.round !== round2) errors.push(`${findingsName(round2)} says round ${file.round}`);
+  if (!file || errors.length) return { dir, round: round2, findingsPath, ctx: null, errors };
+  const roundDir = round2 === 0 ? dir : (0, import_node_path2.join)(dir, `round_${round2}`);
+  const ctx = {
+    file,
+    repo: record.repo,
+    pr: Number(record.branch),
+    commentNote: readIf((0, import_node_path2.join)(dir, commentNoteName(round2))),
+    prNote: readIf((0, import_node_path2.join)(dir, prNoteName(round2))),
+    humanReview: readIf((0, import_node_path2.join)(dir, "human_review.md")),
+    risks: readIf((0, import_node_path2.join)(roundDir, "risks.md")),
+    followupIssue: readIf((0, import_node_path2.join)(roundDir, "followup_refactor_issue.md")),
+    learningIssue: (0, import_node_fs2.existsSync)((0, import_node_path2.join)(roundDir, "learning_galaxy_followup_issue.md")),
+    prUrl
+  };
+  return { dir, round: round2, findingsPath, ctx, errors: [] };
+}
+var import_node_fs2, import_node_path2, FINDINGS_FILE, findingsName, readIf;
+var init_record2 = __esm({
+  "../review-factory/src/record.ts"() {
+    "use strict";
+    import_node_fs2 = require("node:fs");
+    import_node_path2 = require("node:path");
+    init_record();
+    init_gates();
+    init_parse();
+    FINDINGS_FILE = /^review_(\d+)_findings\.yml$/;
+    findingsName = (round2) => `review_${round2}_findings.yml`;
+    readIf = (path) => (0, import_node_fs2.existsSync)(path) ? (0, import_node_fs2.readFileSync)(path, "utf8") : null;
+  }
+});
+
+// ../review-factory/src/toggle.ts
+function load(text2, parse3) {
+  const doc = parse3(text2, { keepSourceTokens: true });
+  if (doc.errors.length) throw new Error(`findings YAML doesn't parse: ${doc.errors[0].message.split("\n")[0]}`);
+  return doc;
+}
+function splice(text2, node, value, what) {
+  const scalar = node;
+  if (!scalar?.range || typeof scalar.value !== "boolean") throw new Error(`${what} isn't true or false`);
+  if (scalar.value === value) return text2;
+  return text2.slice(0, scalar.range[0]) + String(value) + text2.slice(scalar.range[1]);
+}
+function setInclude(text2, id, include, parse3) {
+  const doc = load(text2, parse3);
+  const findings = doc.toJS().findings ?? [];
+  const index = findings.findIndex((f) => f?.id === id);
+  if (index < 0) throw new Error(`no finding ${id}`);
+  return splice(text2, doc.getIn(["findings", index, "include"], true), include, `${id} include`);
+}
+function setAction(text2, action, on, parse3) {
+  const doc = load(text2, parse3);
+  return splice(text2, doc.getIn(["actions", action], true), on, `action ${action}`);
+}
+var init_toggle = __esm({
+  "../review-factory/src/toggle.ts"() {
+    "use strict";
+  }
+});
+
+// ../review-factory/src/panel.ts
+var panel_exports = {};
+__export(panel_exports, {
+  findingsEdit: () => findingsEdit,
+  findingsPanel: () => findingsPanel
+});
+function findingsPanel(dir) {
+  const round2 = latestRound(dir);
+  if (round2 === null) return null;
+  const { ctx, errors } = loadRecord(dir);
+  return { round: round2, file: findingsName(round2), landing: ctx && landing(ctx), errors };
+}
+function findingsEdit(dir, edit2) {
+  const round2 = latestRound(dir);
+  if (round2 !== edit2.round) throw new Error(`${round2 === null ? "there's no findings YAML" : `${findingsName(round2)} is the latest round`} now; reload`);
+  if ("action" in edit2 && !ACTIONS.includes(edit2.action)) throw new Error(`unknown action ${edit2.action}`);
+  const { ctx } = loadRecord(dir);
+  if (!ctx) throw new Error(`fix ${findingsName(round2)} first`);
+  const file = findingsName(round2);
+  if ("action" in edit2) return { file, change: (text2) => setAction(text2, edit2.action, edit2.checked, parseDocument) };
+  if (!ctx.file.findings.some((f) => f.id === edit2.id)) return void 0;
+  return { file, change: (text2) => setInclude(text2, edit2.id, edit2.include, parseDocument) };
+}
+var init_panel = __esm({
+  "../review-factory/src/panel.ts"() {
+    "use strict";
+    init_browser();
+    init_landing();
+    init_model();
+    init_record2();
+    init_toggle();
+  }
+});
+
 // src/main.ts
 var main_exports = {};
 __export(main_exports, {
   default: () => GalaxyBrainPlugin
 });
 module.exports = __toCommonJS(main_exports);
-var import_obsidian10 = require("obsidian");
+var import_obsidian11 = require("obsidian");
 
-// ../site/src/lib/repository-tabs.ts
-var REPOSITORY_TABS = [
-  { id: "branches", label: "My branches" },
-  { id: "issues", label: "My issues" },
-  { id: "issues_incubator", label: "Issue incubator" },
-  { id: "reviews", label: "My reviews" },
-  { id: "my-drafts", label: "My drafts" },
-  { id: "conflicting", label: "Conflicting" },
-  { id: "new-prs", label: "New PRs" },
-  { id: "undrafted-prs", label: "Out of draft" },
-  { id: "new-issues", label: "New issues" }
-];
-var FORK_OWNER = "jmchilton";
-var GITHUB_LISTS = {
-  "my-drafts": { list: "pulls", query: (me) => `is:pr is:open author:${me} draft:true`, title: "My open draft PRs on GitHub" },
-  // GitHub has no conflict filter.
-  conflicting: { list: "pulls", query: (me) => `is:pr is:open author:${me}`, title: "My open PRs on GitHub (it can't filter by conflicts)" },
-  "new-prs": { list: "pulls", query: () => "is:pr is:open sort:created-desc", title: "Open PRs, newest first, on GitHub" },
-  // GitHub can't sort by ready-for-review time; recently updated non-drafts is the closest.
-  "undrafted-prs": { list: "pulls", query: () => "is:pr is:open draft:false sort:updated-desc", title: "Open non-draft PRs, recently updated, on GitHub" },
-  "new-issues": { list: "issues", query: () => "is:issue is:open sort:created-desc", title: "Open issues, newest first, on GitHub" }
-};
-var SEARCH_TABS = {
-  foundry: [
-    { id: "needs-triage", label: "Needs triage", query: "is:issue is:open label:needs-triage sort:created-desc", title: "Open issues labelled needs-triage, newest first, on GitHub" },
-    { id: "ready-implement", label: "Ready for implementation", query: "is:issue is:open label:work/ready-implement sort:created-desc", title: "Open issues ready to implement, newest first, on GitHub" },
-    { id: "ready-research", label: "Ready for research", query: "is:issue is:open label:work/ready-research sort:created-desc", title: "Open issues ready to research, newest first, on GitHub" }
-  ]
-};
-var hasOwn = (object2, key2) => Object.prototype.hasOwnProperty.call(object2, key2);
-var searchTabs = (repo) => hasOwn(SEARCH_TABS, repo) ? SEARCH_TABS[repo] : [];
-function repositoryTabs(repo) {
-  return [...REPOSITORY_TABS, ...searchTabs(repo).map(({ id, label }) => ({ id, label }))];
-}
-function githubList(repo, tab) {
-  if (hasOwn(GITHUB_LISTS, tab)) return GITHUB_LISTS[tab];
-  const search = searchTabs(repo).find((s) => s.id === tab);
-  if (!search) throw new Error(`no GitHub tab ${tab} for ${repo}`);
-  return { list: "issues", query: () => search.query, title: search.title };
-}
-function githubListUrl(owner, repo, tab, me = "@me") {
-  const { list: list2, query } = githubList(repo, tab);
-  return `https://github.com/${owner}/${repo}/${list2}?q=${encodeURIComponent(query(me))}`;
-}
-function githubListTitle(repo, tab) {
-  return githubList(repo, tab).title;
-}
-var MARKDOWN_LINK = /\[([^\]]*)\]\((https:\/\/github\.com\/[^)\s]+)\)/g;
-function githubLinks(body) {
-  return [...body.matchAll(MARKDOWN_LINK)].map((match) => ({ label: match[1], url: match[2] }));
-}
-var escapeRegExp = (text2) => text2.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-function upstreamOwner(repo, bodies) {
-  const pattern = new RegExp(`^https://github\\.com/([^/]+)/${escapeRegExp(repo)}/(pull|issues)/`);
-  const counts = /* @__PURE__ */ new Map();
-  for (const link of bodies.flatMap(githubLinks)) {
-    const owner = pattern.exec(link.url)?.[1];
-    if (owner) counts.set(owner, (counts.get(owner) ?? 0) + 1);
-  }
-  const ranked = [...counts].sort((a, b) => b[1] - a[1]).map(([owner]) => owner);
-  return ranked.find((owner) => owner !== FORK_OWNER) ?? ranked[0] ?? "galaxyproject";
-}
+// src/ci-status.ts
+init_repository_tabs();
 
 // src/record-frontmatter.ts
 var STRING_FIELDS = ["upstream_base_branch", "parent_branch"];
@@ -2377,9 +10091,9 @@ var CiStatusModal = class extends import_obsidian.Modal {
   }
 };
 function checkList(el3, checks, cls) {
-  const list2 = el3.createEl("ul", { cls });
+  const list3 = el3.createEl("ul", { cls });
   for (const check of checks) {
-    const item2 = list2.createEl("li");
+    const item2 = list3.createEl("li");
     item2.createEl("a", { text: check.name, href: check.url });
     if (check.workflow) item2.createSpan({ cls: "gb-ci-workflow", text: ` \xB7 ${check.workflow}` });
   }
@@ -2388,121 +10102,8 @@ function checkList(el3, checks, cls) {
 // src/agents-view.ts
 var import_obsidian5 = require("obsidian");
 
-// ../site/src/lib/records.ts
-var RECORD_KINDS = ["branches", "issues", "issues_incubator", "reviews"];
-var DEFAULTS_REPO = "_defaults";
-var REVIEWABLE_RECORD_KINDS = ["branches", "reviews"];
-function isReviewableRecordKind(kind) {
-  return REVIEWABLE_RECORD_KINDS.includes(kind);
-}
-function recordReviewDir(recordDir) {
-  return `${recordDir.replace(/\/+$/, "")}/differential-review`;
-}
-function parseRecordPath(rel) {
-  const parts = rel.split("/");
-  if (parts[0] !== "repositories" || parts.length < 5) return null;
-  const kind = parts[2];
-  if (!RECORD_KINDS.includes(kind)) return null;
-  return { repo: parts[1], kind, status: parts[3], id: parts[4], rest: parts.slice(5).join("/") };
-}
-var KIND_LABELS = {
-  branches: "Branches",
-  issues: "Issues",
-  issues_incubator: "Issue incubator",
-  reviews: "Reviews"
-};
-var STATUS_ORDER = {
-  branches: ["active", "merged", "abandoned"],
-  issues: ["needs_decision", "queued", "wip", "delegated", "closed"],
-  issues_incubator: ["incubating", "internal", "rejected"],
-  reviews: ["active", "archived"]
-};
-var TERMINAL_STATUSES = /* @__PURE__ */ new Set(["merged", "abandoned", "archived", "closed", "rejected"]);
-function isTerminalStatus(status) {
-  return TERMINAL_STATUSES.has(status);
-}
-function statusLabel(status) {
-  return status.replace(/_/g, " ");
-}
-function recordTitle(body) {
-  const m = body?.match(/^#\s+(.+?)\s*$/m);
-  return m ? m[1] : null;
-}
-function compareNames(a, b) {
-  const na = Number(a);
-  const nb = Number(b);
-  if (Number.isInteger(na) && Number.isInteger(nb)) return nb - na;
-  return a.localeCompare(b, void 0, { sensitivity: "base" });
-}
-function groupByStatus(records, kind) {
-  const byStatus = /* @__PURE__ */ new Map();
-  for (const record of records) {
-    if (record.kind !== kind) continue;
-    byStatus.set(record.status, [...byStatus.get(record.status) ?? [], record]);
-  }
-  const known = STATUS_ORDER[kind];
-  const statuses = [...byStatus.keys()].sort((a, b) => {
-    const ia = known.indexOf(a);
-    const ib = known.indexOf(b);
-    if (ia >= 0 && ib >= 0) return ia - ib;
-    if (ia >= 0) return -1;
-    if (ib >= 0) return 1;
-    return a.localeCompare(b);
-  });
-  return statuses.map((status) => ({
-    status,
-    records: byStatus.get(status).sort((a, b) => compareNames(a.name, b.name))
-  }));
-}
-var QUEUE_FILES = {
-  branches: "MY_BRANCHES.md",
-  issues: "MY_ISSUES.md",
-  reviews: "MY_REVIEWS.md"
-};
-function groupingFor(repo, kind) {
-  const file = QUEUE_FILES[kind];
-  return file ? `repositories/${repo}/${kind}/${file}` : void 0;
-}
-function resolveLink(from, link) {
-  const parts = from.split("/").slice(0, -1);
-  for (const part of link.split("/")) {
-    if (part === "..") parts.pop();
-    else if (part !== ".") parts.push(part);
-  }
-  return parts.join("/");
-}
-function parseGrouping(text2, path, repo, kind) {
-  const sections = [];
-  for (const line of text2.split("\n")) {
-    const heading = line.match(/^## (.+?)\s*\(`([^`]+)`\)\s*$/);
-    if (heading) {
-      sections.push({ label: heading[1], key: heading[2], names: [] });
-      continue;
-    }
-    const section2 = sections[sections.length - 1];
-    if (!line.startsWith("- ") || !section2) continue;
-    const record = [...line.matchAll(/\]\(([^)\s]+)\)/g)].filter((link) => !/^[a-z][a-z0-9+.-]*:/i.test(link[1])).map((link) => parseRecordPath(resolveLink(path, decodeURI(link[1])))).find((found) => found?.rest && found.repo === repo && found.kind === kind);
-    if (record && !section2.names.includes(record.id)) section2.names.push(record.id);
-  }
-  return sections;
-}
-function groupBySections(records, kind, grouping) {
-  const ofKind = records.filter((record) => record.kind === kind);
-  const byName = new Map(ofKind.map((record) => [record.name, record]));
-  const listed = /* @__PURE__ */ new Set();
-  const sections = (grouping ?? []).flatMap((section2) => {
-    const found = section2.names.flatMap((name) => {
-      const record = byName.get(name);
-      if (!record || listed.has(name)) return [];
-      listed.add(name);
-      return [record];
-    });
-    return found.length ? [{ key: section2.key, label: section2.label, records: found }] : [];
-  });
-  return { sections, rest: ofKind.filter((record) => !listed.has(record.name)) };
-}
-
 // src/launchers.ts
+init_records();
 var CLI_BIN_DIRS = ["/usr/local/bin", "/opt/homebrew/bin", "/Applications/Visual Studio Code.app/Contents/Resources/app/bin"];
 var KEY_LINE = /^(status|agent_dir|name|profile|command|routine|icon):\s*(.*)$/;
 var list = (value) => value.split(",").map((item2) => item2.trim()).filter(Boolean);
@@ -2517,8 +10118,8 @@ function agentFromPath(path) {
   return root === "agents" && agent && !agent.startsWith("_") && rest.length ? agent : null;
 }
 var agentLaunchersPath = (agent) => `agents/${agent}/LAUNCHERS.md`;
-function quickEmoji(label) {
-  return /^(\p{Extended_Pictographic}️?(?:‍\p{Extended_Pictographic}️?)*)\s+(?!\p{Extended_Pictographic})/u.exec(label)?.[1];
+function quickEmoji(label3) {
+  return /^(\p{Extended_Pictographic}️?(?:‍\p{Extended_Pictographic}️?)*)\s+(?!\p{Extended_Pictographic})/u.exec(label3)?.[1];
 }
 function parseAgentLaunchers(markdown2, agent) {
   return parseLaunchers(markdown2, { repo: null, kind: null }, agent).filter((launcher) => !launcher.command);
@@ -2539,16 +10140,16 @@ function parseLaunchers(markdown2, scope, defaultAgentDir) {
       fields[match[1]] = match[2].trim();
     }
     const prompt = lines.slice(i).join("\n").trim();
-    const label = heading.trim();
-    if (!label) continue;
+    const label3 = heading.trim();
+    if (!label3) continue;
     if (fields.command) {
-      launchers.push({ label, ...scope, statuses: list(fields.status ?? ""), agentDir: "", name: "", prompt: "", command: fields.command });
+      launchers.push({ label: label3, ...scope, statuses: list(fields.status ?? ""), agentDir: "", name: "", prompt: "", command: fields.command });
       continue;
     }
     const agentDir = fields.agent_dir || defaultAgentDir;
     if (!agentDir || !prompt) continue;
     launchers.push({
-      label,
+      label: label3,
       ...scope,
       statuses: list(fields.status ?? ""),
       agentDir,
@@ -2591,8 +10192,8 @@ function withSections(records, read) {
   });
 }
 function launchersFor(launchers, record) {
-  const live = record.labels?.map((label) => `label:${label}`);
-  const matches = (statuses) => statuses.includes(record.status) || (live ? live.some((label) => statuses.includes(label)) : record.section !== void 0 && statuses.includes(record.section));
+  const live = record.labels?.map((label3) => `label:${label3}`);
+  const matches = (statuses) => statuses.includes(record.status) || (live ? live.some((label3) => statuses.includes(label3)) : record.section !== void 0 && statuses.includes(record.section));
   return launchers.filter(
     (launcher) => (launcher.repo ?? record.repo) === record.repo && launcher.kind === record.kind && (matches(launcher.statuses) || launcher.statuses.length === 0 && record.status !== UNTRACKED)
   );
@@ -2613,6 +10214,7 @@ function commandArgs(launcher, record, vaultRoot) {
 }
 
 // src/task-list.ts
+init_records();
 var RECORD_REF = new RegExp(`^([^/\\s]+)/(${RECORD_KINDS.join("|")})/([^/\\s]+)$`);
 var FIELDS = ["prompt", "agent_dir", "profile", "description", "status", "priority", "kind", "link", "record", "suggested_by", "snoozed_until"];
 var DAY = /^\d{4}-\d{2}-\d{2}$/;
@@ -2658,10 +10260,10 @@ function parseTasks(data, known) {
     };
   });
 }
-function parseAgentTasks(source, note, known, parse2) {
+function parseAgentTasks(source, note, known, parse3) {
   if (note === null) return { source, tasks: [] };
   try {
-    const tasks = taskBlocks(note).flatMap((block) => parseTasks(parse2(block.source), known));
+    const tasks = taskBlocks(note).flatMap((block) => parseTasks(parse3(block.source), known));
     return { source, tasks: tasks.map((task) => ({ ...task, source })) };
   } catch (error) {
     return { source, tasks: [], error: error instanceof Error ? error.message : String(error) };
@@ -2693,31 +10295,31 @@ function taskBlocks(note) {
 }
 function fencedBlocks(note, language) {
   const lines = note.split("\n");
-  const blocks = [];
+  const blocks2 = [];
   for (let start = 0; start < lines.length; start++) {
     if (lines[start].trim() !== `\`\`\`${language}`) continue;
     const end = lines.findIndex((line, i) => i > start && line.trim() === "```");
     if (end < 0) break;
-    blocks.push({ start, end, source: lines.slice(start + 1, end).join("\n") });
+    blocks2.push({ start, end, source: lines.slice(start + 1, end).join("\n") });
     start = end;
   }
-  return blocks;
+  return blocks2;
 }
-function removeTask(note, task, parse2, stringify) {
-  return editBlockEntry(note, "gb-tasks", (entry) => entry?.prompt === task.prompt && entry?.agent_dir === task.agentDir, () => void 0, parse2, stringify);
+function removeTask(note, task, parse3, stringify4) {
+  return editBlockEntry(note, "gb-tasks", (entry) => entry?.prompt === task.prompt && entry?.agent_dir === task.agentDir, () => void 0, parse3, stringify4);
 }
-function snoozeTask(note, task, day, parse2, stringify) {
-  return editBlockEntry(note, "gb-tasks", (entry) => entry?.prompt === task.prompt && entry?.agent_dir === task.agentDir, (entry) => ({ ...entry, snoozed_until: day }), parse2, stringify);
+function snoozeTask(note, task, day, parse3, stringify4) {
+  return editBlockEntry(note, "gb-tasks", (entry) => entry?.prompt === task.prompt && entry?.agent_dir === task.agentDir, (entry) => ({ ...entry, snoozed_until: day }), parse3, stringify4);
 }
-function editBlockEntry(note, language, matches, edit, parse2, stringify) {
+function editBlockEntry(note, language, matches, edit2, parse3, stringify4) {
   for (const block of fencedBlocks(note, language)) {
-    const entries = parse2(block.source);
+    const entries = parse3(block.source);
     if (!Array.isArray(entries)) continue;
     const index = entries.findIndex(matches);
     if (index < 0) continue;
-    const edited = edit(entries[index]);
+    const edited = edit2(entries[index]);
     const rest = edited === void 0 ? entries.filter((_, i) => i !== index) : entries.map((entry, i) => i === index ? edited : entry);
-    return replaceBlockBody(note, block.start, block.end, rest.length ? stringify(rest) : "");
+    return replaceBlockBody(note, block.start, block.end, rest.length ? stringify4(rest) : "");
   }
   return void 0;
 }
@@ -2753,10 +10355,10 @@ function refinementPrompt(task) {
 
 // src/agent-routines.ts
 function agentRoutines(launchers, agent) {
-  return parseAgentLaunchers(launchers ?? "", agent).filter((launcher) => launcher.routine && !launcher.prompt.includes("{file}")).map(({ label, icon, name, prompt, agentDir, profile }) => {
-    const emoji = quickEmoji(label);
+  return parseAgentLaunchers(launchers ?? "", agent).filter((launcher) => launcher.routine && !launcher.prompt.includes("{file}")).map(({ label: label3, icon, name, prompt, agentDir, profile }) => {
+    const emoji = quickEmoji(label3);
     return {
-      label: emoji ? label.slice(emoji.length).trim() : label,
+      label: emoji ? label3.slice(emoji.length).trim() : label3,
       emoji: emoji ?? "\u25B6\uFE0F",
       ...icon ? { icon } : {},
       name: fillAgentTemplate(name, agent, ""),
@@ -2775,6 +10377,7 @@ function agentCounts(tasks, blockers, missed, today) {
 var tasksPath = (agentDir) => `agents/${agentDir}/TASKS.md`;
 
 // src/blockers.ts
+init_records();
 var blockersPath = (agentDir) => `agents/${agentDir}/blockers`;
 var isAgentBlocker = (blocker) => "agentDir" in blocker;
 var recordIdLabel = ({ repo, kind, name }) => `${repo}/${kind}/${name}`;
@@ -2863,7 +10466,7 @@ function parseMissedPrs(data) {
     return result;
   });
 }
-function setMissedPrReviewed(note, pr, reviewed, parse2, stringify) {
+function setMissedPrReviewed(note, pr, reviewed, parse3, stringify4) {
   return editBlockEntry(
     note,
     "gb-missed-prs",
@@ -2872,14 +10475,14 @@ function setMissedPrReviewed(note, pr, reviewed, parse2, stringify) {
       const { reviewed: _, ...rest } = entry ?? {};
       return reviewed ? { ...rest, reviewed: true } : rest;
     },
-    parse2,
-    stringify
+    parse3,
+    stringify4
   );
 }
-function parseCrackDay(file, note, parse2, agentDir) {
+function parseCrackDay(file, note, parse3, agentDir) {
   const day = { ...file, prs: [], ...agentDir ? { agentDir } : {} };
   try {
-    day.prs = fencedBlocks(note, "gb-missed-prs").flatMap((block) => parseMissedPrs(parse2(block.source)));
+    day.prs = fencedBlocks(note, "gb-missed-prs").flatMap((block) => parseMissedPrs(parse3(block.source)));
   } catch (error) {
     day.error = error instanceof Error ? error.message : String(error);
   }
@@ -2895,14 +10498,14 @@ function crackFiles(paths, dir) {
 
 // src/missed-pr-cards.ts
 function renderMissedPrCards(el3, prs, options = {}) {
-  const list2 = el3.createDiv({ cls: "gb-missed-prs" });
-  const empty2 = (text2) => list2.createDiv({ cls: "gb-missed-prs-empty", text: text2 });
+  const list3 = el3.createDiv({ cls: "gb-missed-prs" });
+  const empty2 = (text2) => list3.createDiv({ cls: "gb-missed-prs-empty", text: text2 });
   const shown = options.hideReviewed ? prs.filter((pr) => !pr.reviewed) : prs;
   if (prs.length === 0) empty2("No missed PRs.");
   else if (shown.length === 0) empty2("All reviewed.");
   for (const pr of shown) {
     let reviewed = pr.reviewed;
-    const card = list2.createDiv({ cls: "gb-missed-pr" });
+    const card = list3.createDiv({ cls: "gb-missed-pr" });
     card.toggleClass("gb-missed-pr-reviewed", reviewed);
     const head = card.createDiv({ cls: "gb-missed-pr-head" });
     head.createEl("a", { text: `#${pr.pr}`, href: pr.url, cls: "external-link", attr: { target: "_blank", rel: "noopener" } });
@@ -2910,11 +10513,11 @@ function renderMissedPrCards(el3, prs, options = {}) {
     const { setReviewed } = options;
     if (setReviewed) {
       const button2 = head.createEl("button", { cls: "clickable-icon" });
-      const label = () => {
+      const label3 = () => {
         (0, import_obsidian2.setIcon)(button2, reviewed ? "rotate-ccw" : "check");
         button2.setAttr("aria-label", reviewed ? "Mark unreviewed" : "Mark reviewed");
       };
-      label();
+      label3();
       button2.onclick = async () => {
         card.addClass("gb-missed-pr-pending");
         const ok = await setReviewed(pr, !reviewed);
@@ -2923,21 +10526,21 @@ function renderMissedPrCards(el3, prs, options = {}) {
         reviewed = !reviewed;
         if (options.hideReviewed && reviewed) {
           card.remove();
-          if (!list2.querySelector(".gb-missed-pr")) empty2("All reviewed.");
+          if (!list3.querySelector(".gb-missed-pr")) empty2("All reviewed.");
           return;
         }
         card.toggleClass("gb-missed-pr-reviewed", reviewed);
-        label();
+        label3();
       };
     }
     card.createDiv({ cls: "gb-missed-pr-meta", text: missedPrMeta(pr) });
     if (pr.summary) card.createDiv({ cls: "gb-missed-pr-summary", text: pr.summary.trim() });
     if (pr.discussionSummary) card.createDiv({ cls: "gb-missed-pr-discussion-summary", text: `\u{1F4AC} ${pr.discussionSummary.trim()}` });
-    for (const [label, text2] of [["Details", pr.details], ["Discussion", pr.discussion]]) {
+    for (const [label3, text2] of [["Details", pr.details], ["Discussion", pr.discussion]]) {
       if (!text2) continue;
-      const details = card.createEl("details", { cls: "gb-missed-pr-more" });
-      details.createEl("summary", { text: label });
-      details.createDiv({ cls: "gb-missed-pr-text", text: text2.trim() });
+      const details3 = card.createEl("details", { cls: "gb-missed-pr-more" });
+      details3.createEl("summary", { text: label3 });
+      details3.createDiv({ cls: "gb-missed-pr-text", text: text2.trim() });
     }
   }
 }
@@ -2987,21 +10590,21 @@ function renderCrackDays(app, el3, days, sourcePath) {
 
 // src/task-cards.ts
 var import_obsidian4 = require("obsidian");
-function actionButton(el3, icon, label, cls, onclick) {
-  const button2 = el3.createEl("button", { cls: `clickable-icon gb-task-action ${cls}`, attr: { "aria-label": label } });
+function actionButton(el3, icon, label3, cls, onclick) {
+  const button2 = el3.createEl("button", { cls: `clickable-icon gb-task-action ${cls}`, attr: { "aria-label": label3 } });
   (0, import_obsidian4.setIcon)(button2, icon);
   button2.onclick = onclick;
 }
 function renderTaskCards(el3, tasks, actions) {
   const today = localDay();
-  const list2 = el3.createDiv({ cls: "gb-tasks" });
+  const list3 = el3.createDiv({ cls: "gb-tasks" });
   const snoozed = tasks.filter((task) => isSnoozed(task, today)).length;
-  if (tasks.length === snoozed) list2.createDiv({ cls: "gb-tasks-empty", text: "No tasks." });
+  if (tasks.length === snoozed) list3.createDiv({ cls: "gb-tasks-empty", text: "No tasks." });
   tasks.forEach((task, index) => {
     if (isSnoozed(task, today)) return;
     const human = task.kind === "human";
     const cls = ["gb-task", task.status && `gb-task-${task.status}`, task.priority && `gb-task-${task.priority}`, human && "gb-task-human"];
-    const card = list2.createDiv({ cls: cls.filter(Boolean).join(" ") });
+    const card = list3.createDiv({ cls: cls.filter(Boolean).join(" ") });
     const main = card.createDiv({ cls: "gb-task-main" });
     main.createDiv({ cls: "gb-task-title", text: (task.description ?? task.prompt).trim() });
     const buttons = main.createDiv({ cls: "gb-task-actions" });
@@ -3043,7 +10646,7 @@ function renderTaskCards(el3, tasks, actions) {
       prompt.toggleClass("gb-task-prompt-folded", !prompt.hasClass("gb-task-prompt-folded"));
     };
   });
-  if (snoozed) list2.createDiv({ cls: "gb-tasks-empty", text: `${snoozed} snoozed` });
+  if (snoozed) list3.createDiv({ cls: "gb-tasks-empty", text: `${snoozed} snoozed` });
 }
 
 // src/agents-view.ts
@@ -3131,7 +10734,7 @@ var AgentsView = class extends import_obsidian5.ItemView {
         };
       }
     }
-    const tasks = byPriority(lists.flatMap((list2) => list2.tasks));
+    const tasks = byPriority(lists.flatMap((list3) => list3.tasks));
     const allBlockers = blockers.flat();
     const hasCracks = cracks.some((days) => days !== void 0);
     const crackDays = cracks.flatMap((days) => days ?? []).sort((a, b) => b.date.localeCompare(a.date));
@@ -3139,8 +10742,8 @@ var AgentsView = class extends import_obsidian5.ItemView {
     const bar = root.createDiv({ cls: "gb-agents-tabs" });
     const tabs = [["tasks", "Tasks", tasks.filter((task) => !isSnoozed(task, today)).length], ["blockers", "Blockers", allBlockers.length]];
     if (hasCracks) tabs.push(["cracks", "Fell Through the Cracks", unreviewedCount(crackDays)]);
-    for (const [id, label, count] of tabs) {
-      const button2 = bar.createEl("button", { text: label, cls: `gb-agents-tab${id === this.tab ? " is-active" : ""}` });
+    for (const [id, label3, count] of tabs) {
+      const button2 = bar.createEl("button", { text: label3, cls: `gb-agents-tab${id === this.tab ? " is-active" : ""}` });
       button2.createSpan({ text: String(count), cls: "gb-agents-tab-count" });
       button2.onclick = () => {
         this.tab = id;
@@ -3178,8 +10781,8 @@ var AgentsView = class extends import_obsidian5.ItemView {
     this.renderRoutineButtons(icons, dir, routines, false);
     if (!pending.length) return;
     const chips = tile.createDiv({ cls: "gb-agent-counts" });
-    for (const { tab, label } of pending) {
-      const chip = chips.createEl("button", { text: label, cls: `gb-agent-count gb-agent-count-${tab}` });
+    for (const { tab, label: label3 } of pending) {
+      const chip = chips.createEl("button", { text: label3, cls: `gb-agent-count gb-agent-count-${tab}` });
       chip.onclick = (event) => {
         event.stopPropagation();
         void this.showAgent(dir, tab);
@@ -3188,10 +10791,10 @@ var AgentsView = class extends import_obsidian5.ItemView {
   }
   /** One card per blocker: its name (opening index.md), agent dir on the landing page, and condition. */
   renderBlockers(root, blockers, all) {
-    const list2 = root.createDiv({ cls: "gb-tasks" });
-    if (!blockers.length) return void list2.createDiv({ text: "No blockers.", cls: "gb-tasks-empty" });
+    const list3 = root.createDiv({ cls: "gb-tasks" });
+    if (!blockers.length) return void list3.createDiv({ text: "No blockers.", cls: "gb-tasks-empty" });
     for (const blocker of blockers) {
-      const card = list2.createDiv({ cls: "gb-task" });
+      const card = list3.createDiv({ cls: "gb-task" });
       const head = card.createDiv({ cls: "gb-task-meta gb-blocker-head" });
       const link = head.createEl("a", { text: blocker.name, cls: "internal-link gb-blocker-name", href: "#" });
       link.onclick = (event) => {
@@ -3322,6 +10925,9 @@ function launchArgv(environment, vaultRoot, args) {
   const rerooted = args.map((arg) => arg.split(`${vaultRoot}/`).join(`${vault}/`));
   return [script, "--host", host, "--vault", vault, ...rerooted];
 }
+
+// src/main.ts
+init_records();
 
 // src/diff-review-view.ts
 var import_obsidian6 = require("obsidian");
@@ -3608,7 +11214,7 @@ function diffArrays(oldArr, newArr, options) {
 
 // ../differential-review-lib/node_modules/diff/libesm/patch/parse.js
 function parsePatch(uniDiff) {
-  const diffstr = uniDiff.split(/\n/), list2 = [];
+  const diffstr = uniDiff.split(/\n/), list3 = [];
   let i = 0;
   function isGitDiffHeader(line) {
     return /^diff --git /.test(line);
@@ -3626,7 +11232,7 @@ function parsePatch(uniDiff) {
     var _a;
     const index = {};
     index.hunks = [];
-    list2.push(index);
+    list3.push(index);
     let seenDiffHeader = false;
     while (i < diffstr.length) {
       const line = diffstr[i];
@@ -3939,7 +11545,7 @@ function parsePatch(uniDiff) {
   while (i < diffstr.length) {
     parseIndex();
   }
-  return list2;
+  return list3;
 }
 
 // ../differential-review-lib/node_modules/diff/libesm/patch/create.js
@@ -4388,13 +11994,13 @@ function cachedSimilarity(a, b) {
   return sim;
 }
 function matchHunks(oldRefs, newRefs, threshold = FUZZY_THRESHOLD) {
-  const pairs = [];
+  const pairs2 = [];
   const usedOld = /* @__PURE__ */ new Set();
   const usedNew = /* @__PURE__ */ new Set();
   const take = (i, j, match, sim) => {
     usedOld.add(i);
     usedNew.add(j);
-    pairs.push({ oldId: oldRefs[i].id, newId: newRefs[j].id, match, similarity: sim });
+    pairs2.push({ oldId: oldRefs[i].id, newId: newRefs[j].id, match, similarity: sim });
   };
   const oldById = /* @__PURE__ */ new Map();
   oldRefs.forEach((r, i) => oldById.set(r.id, i));
@@ -4421,7 +12027,7 @@ function matchHunks(oldRefs, newRefs, threshold = FUZZY_THRESHOLD) {
     if (!usedOld.has(c.i) && !usedNew.has(c.j)) take(c.i, c.j, "fuzzy", c.sim);
   }
   return {
-    pairs,
+    pairs: pairs2,
     added: newRefs.filter((_, j) => !usedNew.has(j)).map((r) => r.id),
     removed: oldRefs.filter((_, i) => !usedOld.has(i)).map((r) => r.id)
   };
@@ -4469,13 +12075,13 @@ function sortSnapshots(snapshots) {
 
 // ../differential-review-lib/src/core/queries.ts
 function commitLineage(snapshots, from, sha) {
-  const byId = new Map(snapshots.map((s) => [s.id, s]));
+  const byId2 = new Map(snapshots.map((s) => [s.id, s]));
   const steps = [];
   let snapshot = from;
   let current = sha;
   while (snapshot.mapping) {
     const entry = snapshot.mapping.commits.find((c) => c.sha === current);
-    const prev = byId.get(snapshot.mapping.previousSnapshotId);
+    const prev = byId2.get(snapshot.mapping.previousSnapshotId);
     if (!entry?.previousSha || !prev) break;
     const commit = prev.commits.find((c) => c.sha === entry.previousSha);
     if (!commit) break;
@@ -4587,9 +12193,9 @@ function revokeCommitSignoff(state, key2, now) {
 function zero() {
   return { reviewed: 0, new: 0, changed: 0 };
 }
-function reviewedRefs(state, byId) {
+function reviewedRefs(state, byId2) {
   return Object.entries(state.hunks).map(([id, rec]) => {
-    const snap = byId.get(rec.snapshotId);
+    const snap = byId2.get(rec.snapshotId);
     for (const file of snap ? snapshotFiles(snap) : []) {
       const hunk = file.hunks.find((h) => h.id === id);
       if (hunk) {
@@ -4605,13 +12211,13 @@ function fileState(counts, total) {
   return "changed";
 }
 function deriveReview(current, state, snapshots) {
-  const byId = new Map(snapshots.map((s) => [s.id, s]));
-  byId.set(current.id, current);
-  const all = [...byId.values()];
+  const byId2 = new Map(snapshots.map((s) => [s.id, s]));
+  byId2.set(current.id, current);
+  const all = [...byId2.values()];
   const counts = { hunks: zero(), files: zero(), commits: zero() };
   const parsed = snapshotFiles(current);
   const refs = hunkRefs(parsed);
-  const old = reviewedRefs(state, byId);
+  const old = reviewedRefs(state, byId2);
   const result = matchHunks(old, refs);
   const pairByNew = new Map(result.pairs.map((p) => [p.newId, p]));
   const files = parsed.map((file) => {
@@ -4881,8 +12487,8 @@ function buildReviewView(snapshots, state, options = {}) {
     });
     const visible = hunks.some((h) => h.visible);
     if (!visible) hidden.files++;
-    const { path, oldPath, status, binary } = source;
-    return { path, oldPath, status, binary, state: file.state, counts: file.counts, hunks, visible };
+    const { path, oldPath, status, binary: binary2 } = source;
+    return { path, oldPath, status, binary: binary2, state: file.state, counts: file.counts, hunks, visible };
   });
   const bySha = new Map(current.commits.map((c) => [c.sha, c]));
   const commits = review.commits.map((c) => {
@@ -4963,12 +12569,12 @@ function annotationPath(reviewDir, kind, id) {
   return `${annotationDir(reviewDir, kind)}/${annotationId(id)}.json`;
 }
 async function readAnnotations(adapter, reviewDir) {
-  async function read(kind, parse2) {
+  async function read(kind, parse3) {
     const names = (await adapter.listFiles(annotationDir(reviewDir, kind))).filter((name) => name.endsWith(".json")).sort();
     return Promise.all(names.map(async (name) => {
       const path = annotationPath(reviewDir, kind, name.slice(0, -5));
       try {
-        const value = parse2(JSON.parse(await adapter.read(path)));
+        const value = parse3(JSON.parse(await adapter.read(path)));
         if (value.id !== name.slice(0, -5)) throw new Error("id does not match filename");
         return value;
       } catch (e) {
@@ -4990,6 +12596,9 @@ function annotationStore(adapter, reviewDir) {
     }
   };
 }
+
+// src/diff-review-view.ts
+init_records();
 
 // src/diff-review-model.ts
 var AUTO_EXPAND_LINES = 400;
@@ -5645,26 +13254,26 @@ function longestCommonSuffix(str1, str2) {
   }
   return str1.slice(-i);
 }
-function replacePrefix(string, oldPrefix, newPrefix) {
-  if (string.slice(0, oldPrefix.length) != oldPrefix) {
-    throw Error(`string ${JSON.stringify(string)} doesn't start with prefix ${JSON.stringify(oldPrefix)}; this is a bug`);
+function replacePrefix(string2, oldPrefix, newPrefix) {
+  if (string2.slice(0, oldPrefix.length) != oldPrefix) {
+    throw Error(`string ${JSON.stringify(string2)} doesn't start with prefix ${JSON.stringify(oldPrefix)}; this is a bug`);
   }
-  return newPrefix + string.slice(oldPrefix.length);
+  return newPrefix + string2.slice(oldPrefix.length);
 }
-function replaceSuffix(string, oldSuffix, newSuffix) {
+function replaceSuffix(string2, oldSuffix, newSuffix) {
   if (!oldSuffix) {
-    return string + newSuffix;
+    return string2 + newSuffix;
   }
-  if (string.slice(-oldSuffix.length) != oldSuffix) {
-    throw Error(`string ${JSON.stringify(string)} doesn't end with suffix ${JSON.stringify(oldSuffix)}; this is a bug`);
+  if (string2.slice(-oldSuffix.length) != oldSuffix) {
+    throw Error(`string ${JSON.stringify(string2)} doesn't end with suffix ${JSON.stringify(oldSuffix)}; this is a bug`);
   }
-  return string.slice(0, -oldSuffix.length) + newSuffix;
+  return string2.slice(0, -oldSuffix.length) + newSuffix;
 }
-function removePrefix(string, oldPrefix) {
-  return replacePrefix(string, oldPrefix, "");
+function removePrefix(string2, oldPrefix) {
+  return replacePrefix(string2, oldPrefix, "");
 }
-function removeSuffix(string, oldSuffix) {
-  return replaceSuffix(string, oldSuffix, "");
+function removeSuffix(string2, oldSuffix) {
+  return replaceSuffix(string2, oldSuffix, "");
 }
 function maximumOverlap(string1, string2) {
   return string2.slice(0, overlapCount(string1, string2));
@@ -5678,17 +13287,17 @@ function overlapCount(a, b) {
   if (a.length < b.length) {
     endB = a.length;
   }
-  const map = Array(endB);
+  const map2 = Array(endB);
   let k = 0;
-  map[0] = 0;
+  map2[0] = 0;
   for (let j = 1; j < endB; j++) {
     if (b[j] == b[k]) {
-      map[j] = map[k];
+      map2[j] = map2[k];
     } else {
-      map[j] = k;
+      map2[j] = k;
     }
     while (k > 0 && b[j] != b[k]) {
-      k = map[k];
+      k = map2[k];
     }
     if (b[j] == b[k]) {
       k++;
@@ -5697,7 +13306,7 @@ function overlapCount(a, b) {
   k = 0;
   for (let i = startA; i < a.length; i++) {
     while (k > 0 && a[i] != b[k]) {
-      k = map[k];
+      k = map2[k];
     }
     if (a[i] == b[k]) {
       k++;
@@ -5705,9 +13314,9 @@ function overlapCount(a, b) {
   }
   return k;
 }
-function segment(string, segmenter) {
+function segment(string2, segmenter) {
   const parts = [];
-  for (const segmentObj of Array.from(segmenter.segment(string))) {
+  for (const segmentObj of Array.from(segmenter.segment(string2))) {
     const segment2 = segmentObj.segment;
     if (parts.length && /\s/.test(parts[parts.length - 1]) && /\s/.test(segment2)) {
       parts[parts.length - 1] += segment2;
@@ -5717,33 +13326,33 @@ function segment(string, segmenter) {
   }
   return parts;
 }
-function trailingWs(string, segmenter) {
+function trailingWs(string2, segmenter) {
   if (segmenter) {
-    return leadingAndTrailingWs(string, segmenter)[1];
+    return leadingAndTrailingWs(string2, segmenter)[1];
   }
   let i;
-  for (i = string.length - 1; i >= 0; i--) {
-    if (!string[i].match(/\s/)) {
+  for (i = string2.length - 1; i >= 0; i--) {
+    if (!string2[i].match(/\s/)) {
       break;
     }
   }
-  return string.substring(i + 1);
+  return string2.substring(i + 1);
 }
-function leadingWs(string, segmenter) {
+function leadingWs(string2, segmenter) {
   if (segmenter) {
-    return leadingAndTrailingWs(string, segmenter)[0];
+    return leadingAndTrailingWs(string2, segmenter)[0];
   }
-  const match = string.match(/^\s*/);
+  const match = string2.match(/^\s*/);
   return match ? match[0] : "";
 }
-function leadingAndTrailingWs(string, segmenter) {
+function leadingAndTrailingWs(string2, segmenter) {
   if (!segmenter) {
-    return [leadingWs(string), trailingWs(string)];
+    return [leadingWs(string2), trailingWs(string2)];
   }
   if (segmenter.resolvedOptions().granularity != "word") {
     throw new Error('The segmenter passed must have a granularity of "word"');
   }
-  const segments = segment(string, segmenter);
+  const segments = segment(string2, segmenter);
   const firstSeg = segments[0];
   const lastSeg = segments[segments.length - 1];
   const head = /\s/.test(firstSeg) ? firstSeg : "";
@@ -8924,8 +16533,8 @@ function javascript(hljs) {
     match: /\b[A-Z][A-Z_0-9]+\b/,
     className: "variable.constant"
   };
-  function noneOf(list2) {
-    return regex2.concat("(?!", list2.join("|"), ")");
+  function noneOf(list3) {
+    return regex2.concat("(?!", list3.join("|"), ")");
   }
   const FUNCTION_CALL = {
     match: regex2.concat(
@@ -9199,7 +16808,7 @@ function markdown(hljs) {
     begin: "^[-\\*]{3,}",
     end: "$"
   };
-  const CODE = {
+  const CODE2 = {
     className: "code",
     variants: [
       // TODO: fix to allow these to work with sublanguage also
@@ -9409,7 +17018,7 @@ function markdown(hljs) {
       BOLD,
       ITALIC,
       BLOCKQUOTE,
-      CODE,
+      CODE2,
       HORIZONTAL_RULE,
       LINK,
       LINK_REFERENCE,
@@ -11234,8 +18843,8 @@ function javascript2(hljs) {
     match: /\b[A-Z][A-Z_0-9]+\b/,
     className: "variable.constant"
   };
-  function noneOf(list2) {
-    return regex2.concat("(?!", list2.join("|"), ")");
+  function noneOf(list3) {
+    return regex2.concat("(?!", list3.join("|"), ")");
   }
   const FUNCTION_CALL = {
     match: regex2.concat(
@@ -11523,8 +19132,8 @@ function typescript(hljs) {
     className: "meta",
     begin: "@" + IDENT_RE$1
   };
-  const swapMode = (mode, label, replacement) => {
-    const indx = mode.contains.findIndex((m) => m.label === label);
+  const swapMode = (mode, label3, replacement) => {
+    const indx = mode.contains.findIndex((m) => m.label === label3);
     if (indx === -1) {
       throw new Error("can not find mode to replace");
     }
@@ -12114,11 +19723,11 @@ function button(parent, text2, click) {
   return b;
 }
 var errorText = (e) => e instanceof Error ? e.message : String(e);
-function editor(parent, state, label, save, saved, redraw) {
+function editor(parent, state, label3, save, saved, redraw) {
   const form = el(parent, "form", "gbdr-comment-form");
   const input = el(form, "textarea", "gbdr-comment-input");
-  input.setAttribute("aria-label", label);
-  input.placeholder = label;
+  input.setAttribute("aria-label", label3);
+  input.placeholder = label3;
   input.value = state.body;
   input.disabled = state.saving;
   input.oninput = () => {
@@ -12187,11 +19796,11 @@ function renderThread(parent, item2, view, ui, actions, redraw) {
     if (!ui.replyDrafts.has(t.id)) ui.replyDrafts.set(t.id, { body: "", saving: false });
     redraw();
   });
-  const resolve = button(controls, t.status === "open" ? "Resolve" : "Reopen", () => {
-    resolve.disabled = true;
+  const resolve3 = button(controls, t.status === "open" ? "Resolve" : "Reopen", () => {
+    resolve3.disabled = true;
     void actions.resolve(t.id, t.status === "open").then(() => actions.refresh()).catch((e) => {
       el(card, "p", "gbdr-comment-error", errorText(e));
-      resolve.disabled = false;
+      resolve3.disabled = false;
     });
   });
   const draft = ui.replyDrafts.get(t.id);
@@ -12263,12 +19872,12 @@ function el2(parent, tag, cls, text2) {
 function badge(parent, state) {
   el2(parent, "span", `gbdr-badge gbdr-${state}`, STATE_LABELS[state]);
 }
-function checkbox(parent, checked, label, onChange) {
+function checkbox(parent, checked, label3, onChange) {
   const box = el2(parent, "input", "gbdr-check");
   box.type = "checkbox";
   box.checked = checked;
-  box.title = label;
-  box.setAttribute("aria-label", label);
+  box.title = label3;
+  box.setAttribute("aria-label", label3);
   box.onclick = (event) => event.stopPropagation();
   box.onchange = onChange;
   return box;
@@ -12329,16 +19938,16 @@ function renderHunkBody(parent, source, ui) {
   if (patch) renderPatch(parent, patch, source.file.path, ui);
   else el2(parent, "pre", "gbdr-meta-lines", source.hunk.lines.join("\n"));
 }
-function progress(parent, label, counts) {
+function progress(parent, label3, counts) {
   const total = counts.reviewed + counts.new + counts.changed;
   const item2 = el2(parent, "span", "gbdr-progress-item");
-  el2(item2, "strong", void 0, `${label} `);
+  el2(item2, "strong", void 0, `${label3} `);
   item2.append(`${counts.reviewed}/${total}`);
   if (counts.changed) el2(item2, "span", "gbdr-badge gbdr-changed", `${counts.changed} changed`);
   if (counts.new) el2(item2, "span", "gbdr-badge gbdr-new", `${counts.new} new`);
 }
-function snapshotButton(parent, action, label) {
-  const button2 = el2(parent, "button", void 0, action.busy ? "Taking snapshot\u2026" : label);
+function snapshotButton(parent, action, label3) {
+  const button2 = el2(parent, "button", void 0, action.busy ? "Taking snapshot\u2026" : label3);
   button2.disabled = action.busy;
   button2.onclick = () => action.take();
 }
@@ -12360,8 +19969,8 @@ function renderHeader(root, view, ui, actions) {
   const meter = el2(header, "div", "gbdr-meter");
   el2(meter, "div", "gbdr-meter-fill").style.width = `${total ? 100 * view.counts.hunks.reviewed / total : 100}%`;
   const controls = el2(header, "div", "gbdr-controls");
-  const label = el2(controls, "label", void 0, "Show ");
-  const select = el2(label, "select", "dropdown gbdr-baseline");
+  const label3 = el2(controls, "label", void 0, "Show ");
+  const select = el2(label3, "select", "dropdown gbdr-baseline");
   const review = el2(select, "option", void 0, "everything, badged since my last review");
   review.value = "";
   for (const option of view.baselineOptions) {
@@ -12452,25 +20061,25 @@ function renderHunk(parent, view, file, hunk, ui, actions) {
   }
 }
 function section(parent, key2, ui, fill) {
-  const details = el2(parent, "details", "gbdr-section");
-  const summary = el2(details, "summary", "gbdr-nav");
+  const details3 = el2(parent, "details", "gbdr-section");
+  const summary = el2(details3, "summary", "gbdr-nav");
   summary.dataset.key = key2;
   let filled = false;
-  const body = el2(details, "div", "gbdr-section-body");
+  const body = el2(details3, "div", "gbdr-section-body");
   const fillOnce = () => {
     if (filled) return;
     filled = true;
     fill(body);
   };
-  details.open = ui.expanded.has(key2);
-  if (details.open) fillOnce();
-  details.ontoggle = () => {
-    if (details.open) {
+  details3.open = ui.expanded.has(key2);
+  if (details3.open) fillOnce();
+  details3.ontoggle = () => {
+    if (details3.open) {
       ui.expanded.add(key2);
       fillOnce();
     } else ui.expanded.delete(key2);
   };
-  return { details, summary };
+  return { details: details3, summary };
 }
 function renderFile(parent, view, file, ui, actions) {
   const { summary } = section(parent, `file:${file.path}`, ui, (body) => {
@@ -12506,8 +20115,8 @@ function renderCommit(parent, view, commit, ui, actions) {
     }
   });
   summary.classList.add(`gbdr-state-${commit.state}`);
-  const label = commit.state === "reviewed" ? "Revoke sign-off (x)" : "Sign off commit (x)";
-  checkbox(summary, commit.state === "reviewed", label, () => actions.toggleCommit(commit));
+  const label3 = commit.state === "reviewed" ? "Revoke sign-off (x)" : "Sign off commit (x)";
+  checkbox(summary, commit.state === "reviewed", label3, () => actions.toggleCommit(commit));
   badge(summary, commit.state);
   el2(summary, "code", "gbdr-sha", commit.sha.slice(0, 8));
   el2(summary, "span", "gbdr-path", commit.subject);
@@ -12560,8 +20169,8 @@ function renderReview(root, view, ui, actions) {
     }
     const resolved = view.threads.filter((t) => t.thread.status === "resolved");
     if (resolved.length) {
-      const label = el2(root, "label", void 0, ` Show resolved threads (${resolved.length}) `);
-      checkbox(label, ui.showResolved, "Show resolved threads", () => {
+      const label3 = el2(root, "label", void 0, ` Show resolved threads (${resolved.length}) `);
+      checkbox(label3, ui.showResolved, "Show resolved threads", () => {
         ui.showResolved = !ui.showResolved;
         redraw();
       });
@@ -12930,10 +20539,11 @@ var DiffReviewView = class extends import_obsidian6.ItemView {
 };
 
 // src/record-links.ts
+init_repository_tabs();
 function githubUrl(record, body) {
   const all = githubLinks(body);
   const id = escapeRegExp(record.name);
-  const find = (pattern, label) => all.find((link) => pattern.test(link.url) && (!label || label.test(link.label)))?.url;
+  const find = (pattern, label3) => all.find((link) => pattern.test(link.url) && (!label3 || label3.test(link.label)))?.url;
   const upstream = `https://github.com/${upstreamOwner(record.repo, [body])}/${record.repo}`;
   if (record.kind === "reviews") return find(new RegExp(`/pull/${id}$`)) ?? `${upstream}/pull/${record.name}`;
   if (record.kind === "issues") return find(new RegExp(`/issues/${id}$`)) ?? `${upstream}/issues/${record.name}`;
@@ -12958,6 +20568,7 @@ function worktreeCandidates(record, body, home) {
 }
 
 // src/record-agents.ts
+init_records();
 var SYNC_PROCESSES = {
   issues: "PROCESS_SYNC_ISSUE_STATE.md",
   reviews: "PROCESS_SYNC_REVIEW_STATE.md"
@@ -12965,18 +20576,19 @@ var SYNC_PROCESSES = {
 var SYNC_PROFILE = "Sonnet (medium)";
 function parseRecordAgents(data) {
   if (!data || typeof data !== "object" || Array.isArray(data)) return {};
-  const map = {};
+  const map2 = {};
   for (const [repo, kinds] of Object.entries(data)) {
-    map[repo] = {};
+    map2[repo] = {};
     if (!kinds || typeof kinds !== "object") continue;
     for (const [kind, agent] of Object.entries(kinds)) {
-      if (RECORD_KINDS.includes(kind) && typeof agent === "string") map[repo][kind] = agent;
+      if (RECORD_KINDS.includes(kind) && typeof agent === "string") map2[repo][kind] = agent;
     }
   }
-  return map;
+  return map2;
 }
 
 // src/repository.ts
+init_records();
 function repositoryNames(files) {
   const names = /* @__PURE__ */ new Set();
   for (const file of files) {
@@ -13030,6 +20642,8 @@ function repositorySections(records) {
 
 // src/repository-view.ts
 var import_obsidian8 = require("obsidian");
+init_records();
+init_repository_tabs();
 
 // src/github-feed.ts
 var FIELDS3 = "number title url createdAt author { login } labels(first: 20) { nodes { name } }";
@@ -13063,7 +20677,7 @@ var item = (node, at = node.createdAt) => ({
   author: node.author?.login ?? "ghost",
   at,
   isDraft: node.isDraft ?? false,
-  labels: node.labels?.nodes.map((label) => label.name) ?? [],
+  labels: node.labels?.nodes.map((label3) => label3.name) ?? [],
   ...node.headRefName ? { branch: node.headRefName } : {}
 });
 function feedArgs(owner, name, searches = []) {
@@ -13148,9 +20762,10 @@ var BlockerModal = class extends import_obsidian7.Modal {
 };
 
 // src/record-groups.ts
+init_records();
 function groupRecords(records, kind, grouping) {
   const { sections, rest } = groupBySections(records, kind, grouping);
-  const groups = sections.map(({ key: key2, label, records: records2 }) => ({ status: key2, label, collapsed: false, records: records2 }));
+  const groups = sections.map(({ key: key2, label: label3, records: records2 }) => ({ status: key2, label: label3, collapsed: false, records: records2 }));
   return [...groups, ...repositorySections(rest).find((section2) => section2.kind === kind)?.groups ?? []];
 }
 
@@ -13274,8 +20889,8 @@ var RepositoryView = class extends import_obsidian8.ItemView {
     const controls = root.createDiv({ cls: "gbr-tabs" });
     const choose = (options, value, onChange) => {
       const select = controls.createEl("select", { cls: "dropdown" });
-      for (const [key2, label] of Object.entries(options)) {
-        select.createEl("option", { text: label, value: key2 }).selected = key2 === value;
+      for (const [key2, label3] of Object.entries(options)) {
+        select.createEl("option", { text: label3, value: key2 }).selected = key2 === value;
       }
       select.onchange = () => {
         onChange(select.value);
@@ -13290,11 +20905,11 @@ var RepositoryView = class extends import_obsidian8.ItemView {
     const unread = recent.flatMap((record) => record.indexPath && !bodies.has(record.indexPath) ? [record.indexPath] : []);
     for (const [path, body] of await this.readIndexes(unread)) bodies.set(path, body);
     if (recent.length === 0) root.createEl("p", { text: "No records.", cls: "gbr-empty" });
-    const list2 = root.createEl("ul");
+    const list3 = root.createEl("ul");
     for (const record of recent) {
       const body = record.indexPath && bodies.get(record.indexPath) || "";
       const tags = [...all ? [record.repo] : [], ...this.recentKind ? [] : [RECORD_NOUNS[record.kind]], statusLabel(record.status)];
-      this.renderRecord(list2, { ...record, title: recordTitle(body) ?? record.title }, body, launchable.has(record.dir), {
+      this.renderRecord(list3, { ...record, title: recordTitle(body) ?? record.title }, body, launchable.has(record.dir), {
         time: this.recentBy === "created" ? record.created : record.indexMtime,
         tags
       });
@@ -13305,17 +20920,17 @@ var RepositoryView = class extends import_obsidian8.ItemView {
     if (groups.length === 0) root.createEl("p", { text: "No records.", cls: "gbr-empty" });
     for (const group of groups) {
       const key2 = `${kind}/${group.status}`;
-      const details = root.createEl("details", { cls: "gbr-group" });
-      details.open = group.collapsed === this.toggled.has(key2);
-      details.ontoggle = () => {
-        if (details.open === group.collapsed) this.toggled.add(key2);
+      const details3 = root.createEl("details", { cls: "gbr-group" });
+      details3.open = group.collapsed === this.toggled.has(key2);
+      details3.ontoggle = () => {
+        if (details3.open === group.collapsed) this.toggled.add(key2);
         else this.toggled.delete(key2);
       };
-      details.createEl("summary", { text: `${group.label ?? statusLabel(group.status)} (${group.records.length})` });
-      const list2 = details.createEl("ul");
+      details3.createEl("summary", { text: `${group.label ?? statusLabel(group.status)} (${group.records.length})` });
+      const list3 = details3.createEl("ul");
       for (const record of group.records) {
         const body = record.indexPath && bodies.get(record.indexPath) || "";
-        this.renderRecord(list2, record, body, launchable.has(record.dir));
+        this.renderRecord(list3, record, body, launchable.has(record.dir));
       }
     }
     if (queue) void this.renderQueue(root, queue);
@@ -13380,21 +20995,21 @@ var RepositoryView = class extends import_obsidian8.ItemView {
     if (unchecked) root.createEl("p", { text: `GitHub hasn't checked ${unchecked} PR(s) yet; refresh to recheck.`, cls: "gbr-empty" });
     if (search && search.total > search.items.length) root.createEl("p", { text: `Showing ${search.items.length} of ${search.total}.`, cls: "gbr-empty" });
     if (items.length === 0) root.createEl("p", { text: isMine(tab) || search ? "None." : "Nothing recent.", cls: "gbr-empty" });
-    const list2 = root.createEl("ul");
+    const list3 = root.createEl("ul");
     for (const item2 of items) {
       const matched = matchRecords(item2, isIssue, records, bodyOf);
-      this.renderFeedItem(list2, item2, isIssue, matched, bodyOf);
+      this.renderFeedItem(list3, item2, isIssue, matched, bodyOf);
     }
   }
-  renderFeedItem(list2, item2, isIssue, matched, bodyOf) {
-    const row = list2.createEl("li", { cls: "gbr-record" });
+  renderFeedItem(list3, item2, isIssue, matched, bodyOf) {
+    const row = list3.createEl("li", { cls: "gbr-record" });
     const actions = row.createSpan({ cls: "gbr-actions" });
     const live = (record) => ({ ...record, labels: item2.labels });
     row.createEl("a", { text: `#${item2.number} ${item2.title}`, href: item2.url, cls: "external-link" });
     if (item2.isDraft) row.createSpan({ text: "draft", cls: "gbr-tag" });
     row.createSpan({ text: `${item2.author} \xB7 ${timeAgo(Date.parse(item2.at), Date.now())}`, cls: "gbr-time" });
-    const action = (icon, label, onClick) => {
-      const button2 = actions.createEl("button", { cls: "clickable-icon", attr: { "aria-label": label } });
+    const action = (icon, label3, onClick) => {
+      const button2 = actions.createEl("button", { cls: "clickable-icon", attr: { "aria-label": label3 } });
       (0, import_obsidian8.setIcon)(button2, icon);
       button2.onclick = onClick;
     };
@@ -13478,8 +21093,8 @@ var RepositoryView = class extends import_obsidian8.ItemView {
   recordRefActions(repo, body, action) {
     for (const link of recordLinks(body, repo)) action(link.icon, link.label, (event) => openRecordLink(this.app, link, event));
   }
-  renderRecord(list2, record, body, launchable, { time = record.mtime, tags = [] } = {}) {
-    const item2 = list2.createEl("li", { cls: "gbr-record" });
+  renderRecord(list3, record, body, launchable, { time = record.mtime, tags = [] } = {}) {
+    const item2 = list3.createEl("li", { cls: "gbr-record" });
     const actions = item2.createSpan({ cls: "gbr-actions" });
     const link = item2.createEl("a", { text: record.title, cls: "internal-link", href: "#" });
     link.onclick = (event) => {
@@ -13489,8 +21104,8 @@ var RepositoryView = class extends import_obsidian8.ItemView {
     if (record.title !== record.name) item2.createSpan({ text: record.name, cls: "gbr-name" });
     for (const tag of tags) item2.createSpan({ text: tag, cls: "gbr-tag" });
     item2.createSpan({ text: timeAgo(time, Date.now()), cls: "gbr-time" });
-    const action = (icon, label, onClick) => {
-      const button2 = actions.createEl("button", { cls: "clickable-icon", attr: { "aria-label": label } });
+    const action = (icon, label3, onClick) => {
+      const button2 = actions.createEl("button", { cls: "clickable-icon", attr: { "aria-label": label3 } });
       (0, import_obsidian8.setIcon)(button2, icon);
       button2.onclick = onClick;
     };
@@ -13513,6 +21128,8 @@ var RepositoryView = class extends import_obsidian8.ItemView {
 var import_obsidian9 = require("obsidian");
 
 // ../site/src/lib/file-docs.ts
+init_records();
+init_records();
 function parseFileDocs(text2) {
   let title = null;
   const sections = [];
@@ -13635,15 +21252,15 @@ function recordFiles(app, record) {
 async function renderRecordStrip(app, el3, record, launchers) {
   const { documented, other } = recordFileLinks(recordFiles(app, record), await loadSources(app, record));
   const open = (path, event) => void app.workspace.openLinkText(`${record.dir}/${path}`, "", event.metaKey || event.ctrlKey);
-  const chip = (row, label, tooltip, onClick, cls = "") => {
-    const button2 = row.createEl("button", { text: label, cls: `gb-record-chip ${cls}`.trim() });
+  const chip = (row, label3, tooltip, onClick, cls = "") => {
+    const button2 = row.createEl("button", { text: label3, cls: `gb-record-chip ${cls}`.trim() });
     if (tooltip) (0, import_obsidian9.setTooltip)(button2, tooltip, { placement: "bottom" });
     button2.onclick = onClick;
   };
   const menu = (event, paths) => {
-    const list2 = new import_obsidian9.Menu();
-    for (const path of paths) list2.addItem((item2) => item2.setTitle(path).onClick((clicked) => open(path, clicked)));
-    list2.showAtMouseEvent(event);
+    const list3 = new import_obsidian9.Menu();
+    for (const path of paths) list3.addItem((item2) => item2.setTitle(path).onClick((clicked) => open(path, clicked)));
+    list3.showAtMouseEvent(event);
   };
   const link = (row, one) => chip(row, recordFileLabel(one), one.hint, (event) => one.files ? menu(event, one.files) : open(one.path, event));
   const index = app.vault.getFileByPath(`${record.dir}/index.md`);
@@ -13661,23 +21278,127 @@ async function renderRecordStrip(app, el3, record, launchers) {
   for (const launcher of launchers) chip(actions, launcher.label, launcher.tooltip, launcher.run, "gb-record-chip-launch");
 }
 
+// src/findings-strip.ts
+var import_obsidian10 = require("obsidian");
+init_landing();
+var panelModel = () => (init_panel(), __toCommonJS(panel_exports));
+var FILTERED = "filtered";
+async function edit(app, record, dir, panel, change) {
+  try {
+    const found = panelModel().findingsEdit(dir, { round: panel.round, ...change });
+    const file = found && app.vault.getFileByPath(`${record.dir}/${found.file}`);
+    if (!found || !file) return void new import_obsidian10.Notice("id" in change ? `${change.id} is no longer in ${panel.file}` : `${panel.file} is gone`);
+    await app.vault.process(file, found.change);
+  } catch (error) {
+    new import_obsidian10.Notice(`${panel.file} not updated: ${error instanceof Error ? error.message : error}`);
+  }
+}
+var toneLine = (el3, line, cls = "") => el3.createDiv({ text: line, cls: `gb-findings-${statusTone(line)} ${cls}`.trim() });
+function details2(el3, key2, label3, hooks, fill) {
+  const box = el3.createEl("details", { cls: "gb-findings-details" });
+  box.createEl("summary", { text: label3 });
+  const body = box.createDiv({ cls: "gb-findings-body" });
+  let filled = false;
+  const sync = () => {
+    if (box.open && !filled) {
+      filled = true;
+      fill(body);
+    }
+  };
+  box.open = hooks.state.opened.has(key2);
+  sync();
+  box.addEventListener("toggle", () => {
+    if (box.open) hooks.state.opened.add(key2);
+    else hooks.state.opened.delete(key2);
+    sync();
+  });
+  return box;
+}
+function checkbox2(el3, checked, tooltip, onChange) {
+  const input = el3.createEl("input", { type: "checkbox", attr: { "aria-label": tooltip, title: tooltip } });
+  input.checked = checked;
+  input.onchange = () => onChange(input.checked);
+  return input;
+}
+function renderFindings(app, el3, record, hooks) {
+  const dir = `${hooks.vaultRoot}/${record.dir}`;
+  let panel;
+  try {
+    panel = panelModel().findingsPanel(dir);
+  } catch (error) {
+    el3.createDiv({ text: `\u26D4 Findings: ${error instanceof Error ? error.message : error}`, cls: "gb-findings-blocked" });
+    return;
+  }
+  if (!panel) return;
+  const root = el3.createDiv({ cls: "gb-findings" });
+  root.createDiv({ text: `Findings \xB7 ${panel.file}`, cls: "gb-findings-title" });
+  const { landing: landing2 } = panel;
+  if (!landing2) {
+    root.createDiv({ text: `\u26A0\uFE0F ${panel.file} has errors; fix them to see the findings`, cls: "gb-findings-blocked" });
+    for (const error of panel.errors) root.createDiv({ text: error, cls: "gb-findings-blocked" });
+    return;
+  }
+  const markdown2 = (body, text2) => void import_obsidian10.MarkdownRenderer.render(app, text2, body, `${record.dir}/index.md`, hooks.component);
+  const change = (one) => void edit(app, record, dir, panel, one);
+  toneLine(root, landing2.status, "gb-findings-status");
+  for (const error of landing2.errors.slice(1)) toneLine(root, `\u26D4 ${error}`);
+  for (const warning of landing2.warnings) toneLine(root, `\u26A0\uFE0F ${warning}`);
+  const notes = root.createDiv({ cls: "gb-record-row" });
+  for (const note of landing2.notes) {
+    const button2 = notes.createEl("button", { text: noteLabel(note), cls: "gb-record-chip", attr: { title: `Edit ${note.name}` } });
+    button2.onclick = (event) => void app.workspace.openLinkText(`${record.dir}/${note.name}`, "", event.metaKey || event.ctrlKey);
+  }
+  const actions = root.createDiv({ cls: "gb-record-row gb-findings-actions" });
+  for (const one of landing2.actions) {
+    const label3 = actions.createEl("label");
+    checkbox2(label3, one.checked, one.checked ? `Uncheck ${one.label}` : `Check ${one.label}`, (checked) => change({ action: one.action, checked }));
+    label3.appendText(one.label);
+  }
+  const checkRow = root.createDiv({ cls: "gb-record-row" });
+  const { check, checking } = hooks.state;
+  const run = checkRow.createEl("button", { text: checking ? "\u{1F50D} Checking\u2026" : "\u{1F50D} Check before posting", cls: "gb-record-chip gb-record-chip-launch", attr: { title: "Every refusal Respond would give, with git: fetches the PR and the review branch" } });
+  run.disabled = checking;
+  run.onclick = () => hooks.runCheck();
+  for (const line of check?.message.split("\n").filter(Boolean) ?? []) toneLine(root, line, "gb-findings-check");
+  const row = (list4, f) => {
+    const item2 = list4.createDiv({ cls: "gb-findings-item" });
+    checkbox2(item2, f.include, f.include ? `Leave ${f.id} out` : `Include ${f.id}`, (include) => change({ id: f.id, include }));
+    const main = item2.createDiv({ cls: "gb-findings-main" });
+    const label3 = `${f.id} ${f.title}${f.fixedIn.length ? ` \u{1F33F} ${f.fixedIn.join(", ")}` : ""}`;
+    const head = f.text ? details2(main, f.id, label3, hooks, (body) => markdown2(body, f.text)) : main.createDiv({ text: label3 });
+    head.toggleClass("gb-findings-out", !f.include);
+    main.createDiv({ text: f.filtered ? `${f.filtered.category}: ${f.filtered.reason}` : f.summary, cls: "gb-findings-summary" });
+  };
+  const list3 = root.createDiv({ cls: "gb-findings-list" });
+  for (const f of landing2.findings) row(list3, f);
+  if (landing2.filtered.length) {
+    details2(root, FILTERED, `Filtered (${landing2.filtered.length})`, hooks, (body) => {
+      for (const f of landing2.filtered) row(body, f);
+    });
+  }
+  details2(root, "preview:comment", "Preview comment", hooks, (body) => markdown2(body, landing2.previews.comment));
+  if (landing2.previews.pr !== null) details2(root, "preview:pr", "Preview PR body", hooks, (body) => markdown2(body, landing2.previews.pr));
+}
+
 // src/main.ts
 var PROFILES_PATH = "agents/_shared/AGENT_PROFILES.yml";
 var ENVIRONMENTS_PATH = "agents/_shared/ENVIRONMENTS.yml";
 var RECORD_AGENTS_PATH = "agents/_shared/RECORD_AGENTS.yml";
 var FACTORY_AGENT_DIR = "factory";
-var GalaxyBrainPlugin = class extends import_obsidian10.Plugin {
+var GalaxyBrainPlugin = class extends import_obsidian11.Plugin {
   constructor() {
     super(...arguments);
     this.recordActions = /* @__PURE__ */ new WeakMap();
     this.agentActions = /* @__PURE__ */ new WeakMap();
     this.recordStrips = /* @__PURE__ */ new WeakMap();
+    /** Findings panels' state, by record dir. */
+    this.findingsStates = /* @__PURE__ */ new Map();
   }
   async onload() {
     registerDifferentialReview(this);
     this.registerEvent(
       this.app.workspace.on("file-menu", (menu, file) => {
-        if (!(file instanceof import_obsidian10.TFile)) return;
+        if (!(file instanceof import_obsidian11.TFile)) return;
         menu.addItem(
           (item2) => item2.setTitle("Copy contents").setIcon("copy").onClick(() => this.copyContents(file))
         );
@@ -13718,7 +21439,7 @@ var GalaxyBrainPlugin = class extends import_obsidian10.Plugin {
     this.registerMarkdownCodeBlockProcessor("gb-missed-prs", (source, el3, ctx) => this.renderMissedPrs(source, el3, ctx.sourcePath));
     this.registerMarkdownCodeBlockProcessor("gb-missed-prs-feed", (source, el3, ctx) => this.renderMissedPrsFeed(source, el3, ctx));
     this.registerRecordStrips();
-    if (!import_obsidian10.Platform.isDesktopApp) return;
+    if (!import_obsidian11.Platform.isDesktopApp) return;
     this.addCommand({
       id: "launch-agent",
       name: "Launch agent for this record",
@@ -13741,9 +21462,9 @@ var GalaxyBrainPlugin = class extends import_obsidian10.Plugin {
   async copyContents(file) {
     try {
       await navigator.clipboard.writeText(await this.app.vault.read(file));
-      new import_obsidian10.Notice(`Copied ${file.name}`);
+      new import_obsidian11.Notice(`Copied ${file.name}`);
     } catch (error) {
-      new import_obsidian10.Notice(`Could not copy ${file.name}: ${error}`);
+      new import_obsidian11.Notice(`Could not copy ${file.name}: ${error}`);
     }
   }
   /** Keeps the landing strips on open record index.md notes current. */
@@ -13753,15 +21474,15 @@ var GalaxyBrainPlugin = class extends import_obsidian10.Plugin {
     this.registerEvent(this.app.workspace.on("layout-change", refresh));
     this.register(() => {
       for (const leaf of this.app.workspace.getLeavesOfType("markdown")) {
-        if (leaf.view instanceof import_obsidian10.MarkdownView) this.recordStrips.get(leaf.view)?.el.remove();
+        if (leaf.view instanceof import_obsidian11.MarkdownView) this.recordStrips.get(leaf.view)?.el.remove();
       }
     });
-    const redraw = (0, import_obsidian10.debounce)(() => this.refreshRecordStrips(true), 300, true);
+    const redraw = (0, import_obsidian11.debounce)(() => this.refreshRecordStrips(true), 300, true);
     const onFile = ({ path }) => {
       if (path.startsWith("repositories/")) redraw();
     };
     const onModify = ({ path }) => {
-      if (path.startsWith("repositories/") && /\/(FILE_DOCS|LAUNCHERS|MY_[A-Z]+|index)\.md$/.test(path)) redraw();
+      if (path.startsWith("repositories/") && /\/((FILE_DOCS|LAUNCHERS|MY_[A-Z]+|index|human_review|johns_review_\d+_(comment|pr)_note)\.md|review_\d+_findings\.yml)$/.test(path)) redraw();
     };
     this.app.workspace.onLayoutReady(() => {
       refresh();
@@ -13775,26 +21496,26 @@ var GalaxyBrainPlugin = class extends import_obsidian10.Plugin {
   refreshRecordStrips(redraw = false) {
     for (const leaf of this.app.workspace.getLeavesOfType("markdown")) {
       const view = leaf.view;
-      if (!(view instanceof import_obsidian10.MarkdownView)) continue;
+      if (!(view instanceof import_obsidian11.MarkdownView)) continue;
       const path = view.file?.path;
       const record = path ? recordFromPath(path) : null;
-      const landing = record && path === `${record.dir}/index.md` ? path : null;
+      const landing2 = record && path === `${record.dir}/index.md` ? path : null;
       const existing = this.recordStrips.get(view);
-      if (existing && existing.path === landing) {
+      if (existing && existing.path === landing2) {
         if (redraw && record) void this.fillRecordStrip(existing.el, record);
         continue;
       }
       existing?.el.remove();
       this.recordStrips.delete(view);
-      if (!record || !landing) continue;
+      if (!record || !landing2) continue;
       const el3 = createDiv({ cls: "gb-record-strip" });
       view.contentEl.before(el3);
-      this.recordStrips.set(view, { path: landing, el: el3 });
+      this.recordStrips.set(view, { path: landing2, el: el3 });
       void this.fillRecordStrip(el3, record);
     }
   }
   async fillRecordStrip(el3, record) {
-    const launchers = import_obsidian10.Platform.isDesktopApp ? await this.launchersFor(record) : [];
+    const launchers = import_obsidian11.Platform.isDesktopApp ? await this.launchersFor(record) : [];
     const filled = createDiv();
     await renderRecordStrip(
       this.app,
@@ -13802,13 +21523,42 @@ var GalaxyBrainPlugin = class extends import_obsidian10.Plugin {
       record,
       launchers.map((launcher) => ({ label: launcher.label, tooltip: launcher.command ?? launcher.prompt, run: () => void this.confirmLaunch(launcher, record) }))
     );
+    const adapter = this.app.vault.adapter;
+    if (record.kind === "reviews" && adapter instanceof import_obsidian11.FileSystemAdapter) {
+      const vaultRoot = adapter.getBasePath();
+      const state = this.findingsState(record);
+      renderFindings(this.app, filled, record, { vaultRoot, component: this, state, runCheck: () => this.runFindingsCheck(vaultRoot, record, state) });
+    }
     el3.replaceChildren(...Array.from(filled.childNodes));
+  }
+  findingsState(record) {
+    let state = this.findingsStates.get(record.dir);
+    if (!state) this.findingsStates.set(record.dir, state = { opened: /* @__PURE__ */ new Set(), check: null, checking: false });
+    return state;
+  }
+  /** Runs review-factory check, which fetches; git can't prompt, since no one would answer. */
+  runFindingsCheck(vaultRoot, record, state) {
+    if (state.checking) return;
+    const { execFile } = require("child_process");
+    const { homedir } = require("os");
+    const PATH = [`${homedir()}/.local/bin`, ...CLI_BIN_DIRS, process.env.PATH].join(":");
+    const env = { ...process.env, PATH, GIT_TERMINAL_PROMPT: "0", GIT_SSH_COMMAND: "ssh -o BatchMode=yes" };
+    const redraw = () => this.refreshRecordStrips(true);
+    state.checking = true;
+    state.check = null;
+    redraw();
+    execFile(`${vaultRoot}/../review-factory/bin/review-factory`, ["check", "--record", `${vaultRoot}/${record.dir}`], { env, timeout: 18e4 }, (error, stdout, stderr) => {
+      const message = [stdout.trim(), stderr.trim()].filter(Boolean).join("\n");
+      state.check = { ok: !error, message: message || `\u26D4 ${error?.message ?? "no output"}` };
+      state.checking = false;
+      redraw();
+    });
   }
   /** Code, GitHub (not issue incubator), agent, (branches/reviews) differential review and (branches) compare icons in the header of notes inside a repository record. */
   refreshRecordActions() {
     for (const leaf of this.app.workspace.getLeavesOfType("markdown")) {
       const view = leaf.view;
-      if (!(view instanceof import_obsidian10.MarkdownView)) continue;
+      if (!(view instanceof import_obsidian11.MarkdownView)) continue;
       const record = view.file && recordFromPath(view.file.path);
       const reviewable = !!record && isReviewableRecordKind(record.kind);
       const hasCi = record?.kind === "branches" || record?.kind === "reviews";
@@ -13839,7 +21589,7 @@ var GalaxyBrainPlugin = class extends import_obsidian10.Plugin {
   refreshAgentActions() {
     for (const leaf of this.app.workspace.getLeavesOfType("markdown")) {
       const view = leaf.view;
-      if (!(view instanceof import_obsidian10.MarkdownView)) continue;
+      if (!(view instanceof import_obsidian11.MarkdownView)) continue;
       const agent = view.file && agentFromPath(view.file.path);
       const existing = this.agentActions.get(view);
       if (existing && existing.agent !== agent) {
@@ -13861,7 +21611,7 @@ var GalaxyBrainPlugin = class extends import_obsidian10.Plugin {
     if (!vaultRoot) return;
     const file = this.app.vault.getFileByPath(agentLaunchersPath(agent));
     const launchers = file ? parseAgentLaunchers(await this.app.vault.cachedRead(file), agent) : [];
-    if (launchers.length === 0) return void new import_obsidian10.Notice(`No launchers in ${agentLaunchersPath(agent)}`);
+    if (launchers.length === 0) return void new import_obsidian11.Notice(`No launchers in ${agentLaunchersPath(agent)}`);
     const absolute = path ? `${vaultRoot}/${path}` : "";
     new LauncherSuggest(this.app, launchers, (launcher) => {
       const name = fillAgentTemplate(launcher.name, agent, absolute);
@@ -13876,32 +21626,32 @@ var GalaxyBrainPlugin = class extends import_obsidian10.Plugin {
   }
   /** The record's worktree, if one exists on disk. */
   worktreeFor(record, body) {
-    const { existsSync } = require("fs");
+    const { existsSync: existsSync3 } = require("fs");
     const { homedir } = require("os");
-    return worktreeCandidates(record, body, homedir()).find((path) => existsSync(path)) ?? null;
+    return worktreeCandidates(record, body, homedir()).find((path) => existsSync3(path)) ?? null;
   }
   openInCode(path) {
     const { execFile } = require("child_process");
     const PATH = [...CLI_BIN_DIRS, process.env.PATH].join(":");
     execFile("code", [path], { env: { ...process.env, PATH } }, (error) => {
-      if (error) new import_obsidian10.Notice(`Could not run the VS Code \`code\` CLI: ${error.message}`, 1e4);
+      if (error) new import_obsidian11.Notice(`Could not run the VS Code \`code\` CLI: ${error.message}`, 1e4);
     });
   }
   /** okWithOutput: resolve with stdout despite a nonzero exit, as `gh pr checks` exits 1/8 for failed/pending checks. */
   runGh(args, okWithOutput = false) {
     const { execFile } = require("child_process");
     const PATH = [...CLI_BIN_DIRS, process.env.PATH].join(":");
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve3, reject) => {
       execFile("gh", args, { env: { ...process.env, PATH }, timeout: 6e4, maxBuffer: 16 * 1024 * 1024 }, (error, stdout, stderr) => {
         if (error && !(okWithOutput && stdout.trim())) reject(new Error((stderr || error.message).trim()));
-        else resolve(stdout);
+        else resolve3(stdout);
       });
     });
   }
   async openRecordInCode(record) {
     const worktree = this.worktreeFor(record, await this.indexBody(record));
     if (worktree) this.openInCode(worktree);
-    else new import_obsidian10.Notice(`No worktree on disk for ${record.name}`);
+    else new import_obsidian11.Notice(`No worktree on disk for ${record.name}`);
   }
   async openCiStatus(record) {
     const sources = ciSources(record, await this.indexBody(record));
@@ -13919,7 +21669,7 @@ var GalaxyBrainPlugin = class extends import_obsidian10.Plugin {
   async openRecordCompare(record) {
     const url = compareUrl(record, await this.indexBody(record));
     if (url) window.open(url);
-    else new import_obsidian10.Notice(`No upstream_base_branch in ${record.name}'s index.md`);
+    else new import_obsidian11.Notice(`No upstream_base_branch in ${record.name}'s index.md`);
   }
   async loadLaunchers() {
     const files = this.app.vault.getMarkdownFiles().flatMap((file) => {
@@ -13959,7 +21709,7 @@ var GalaxyBrainPlugin = class extends import_obsidian10.Plugin {
     new ChoiceSuggest(this.app, repositoryNames(files), "Open repository\u2026", (repo) => void this.openRepository(repo)).open();
   }
   async addLaunchItems(menu, file) {
-    if (!import_obsidian10.Platform.isDesktopApp) return;
+    if (!import_obsidian11.Platform.isDesktopApp) return;
     const record = recordFromPath(file.path);
     if (!record) return;
     for (const launcher of await this.launchersFor(record)) {
@@ -13971,23 +21721,23 @@ var GalaxyBrainPlugin = class extends import_obsidian10.Plugin {
   async pickLauncher(record) {
     const launchers = await this.launchersFor(record);
     if (launchers.length === 0) {
-      new import_obsidian10.Notice(`No launchers for ${record.repo}/${record.kind} (${record.status}) in repositories/${record.repo}/${record.kind}/LAUNCHERS.md`);
+      new import_obsidian11.Notice(`No launchers for ${record.repo}/${record.kind} (${record.status}) in repositories/${record.repo}/${record.kind}/LAUNCHERS.md`);
       return;
     }
     new LauncherSuggest(this.app, launchers, (launcher) => void this.confirmLaunch(launcher, record)).open();
   }
   async loadProfiles() {
     try {
-      const profiles = parseProfiles((0, import_obsidian10.parseYaml)(await this.app.vault.adapter.read(PROFILES_PATH)));
+      const profiles = parseProfiles((0, import_obsidian11.parseYaml)(await this.app.vault.adapter.read(PROFILES_PATH)));
       if (profiles.length > 0) return profiles;
     } catch (error) {
-      new import_obsidian10.Notice(`Could not read ${PROFILES_PATH}: ${error}`);
+      new import_obsidian11.Notice(`Could not read ${PROFILES_PATH}: ${error}`);
     }
     return FALLBACK_PROFILES;
   }
   async loadEnvironments() {
     try {
-      const environments = parseEnvironments((0, import_obsidian10.parseYaml)(await this.app.vault.adapter.read(ENVIRONMENTS_PATH)));
+      const environments = parseEnvironments((0, import_obsidian11.parseYaml)(await this.app.vault.adapter.read(ENVIRONMENTS_PATH)));
       if (environments.length > 0) return environments;
     } catch {
     }
@@ -14015,13 +21765,13 @@ var GalaxyBrainPlugin = class extends import_obsidian10.Plugin {
   }
   vaultRoot() {
     const adapter = this.app.vault.adapter;
-    if (adapter instanceof import_obsidian10.FileSystemAdapter) return adapter.getBasePath();
-    new import_obsidian10.Notice("Launching agents needs the desktop app");
+    if (adapter instanceof import_obsidian11.FileSystemAdapter) return adapter.getBasePath();
+    new import_obsidian11.Notice("Launching agents needs the desktop app");
     return null;
   }
   async syncAgent(repo, kind) {
     try {
-      return parseRecordAgents((0, import_obsidian10.parseYaml)(await this.app.vault.adapter.read(RECORD_AGENTS_PATH)))[repo]?.[kind];
+      return parseRecordAgents((0, import_obsidian11.parseYaml)(await this.app.vault.adapter.read(RECORD_AGENTS_PATH)))[repo]?.[kind];
     } catch {
       return void 0;
     }
@@ -14044,7 +21794,7 @@ var GalaxyBrainPlugin = class extends import_obsidian10.Plugin {
     let raw;
     let tasks;
     try {
-      raw = (0, import_obsidian10.parseYaml)(source);
+      raw = (0, import_obsidian11.parseYaml)(source);
       tasks = parseTasks(raw, { profiles: profiles.map((p) => p.name), agentDirs: await this.agentDirs() });
     } catch (error) {
       el3.createDiv({ cls: "gb-tasks-error", text: `gb-tasks: ${error instanceof Error ? error.message : error}` });
@@ -14053,10 +21803,10 @@ var GalaxyBrainPlugin = class extends import_obsidian10.Plugin {
     const rewrite = async (entries2) => {
       const file = this.app.vault.getFileByPath(ctx.sourcePath);
       const section2 = ctx.getSectionInfo(el3);
-      if (!file || !section2) return void new import_obsidian10.Notice("Could not locate this gb-tasks block");
+      if (!file || !section2) return void new import_obsidian11.Notice("Could not locate this gb-tasks block");
       await this.app.vault.process(
         file,
-        (note) => replaceBlockBody(note, section2.lineStart, section2.lineEnd, entries2.length ? (0, import_obsidian10.stringifyYaml)(entries2) : "")
+        (note) => replaceBlockBody(note, section2.lineStart, section2.lineEnd, entries2.length ? (0, import_obsidian11.stringifyYaml)(entries2) : "")
       );
     };
     const entries = raw;
@@ -14064,7 +21814,7 @@ var GalaxyBrainPlugin = class extends import_obsidian10.Plugin {
     const snooze = (index, day) => rewrite(entries.map((entry, i) => i === index ? { ...entry, snoozed_until: day } : entry));
     renderTaskCards(el3, tasks, {
       defaultProfile: profiles[0]?.name ?? "",
-      ...import_obsidian10.Platform.isDesktopApp ? {
+      ...import_obsidian11.Platform.isDesktopApp ? {
         launch: (task, index, pending) => void this.confirmTask(task, () => void remove(index), task.agentDir, pending),
         refine: (task) => void this.refineTask(task)
       } : {},
@@ -14076,7 +21826,7 @@ var GalaxyBrainPlugin = class extends import_obsidian10.Plugin {
   /** Cards for a ```gb-missed-prs block in the note at path; ✔ / ↺ toggle `reviewed`. */
   renderMissedPrs(source, el3, path) {
     try {
-      renderMissedPrCards(el3, parseMissedPrs((0, import_obsidian10.parseYaml)(source)), { setReviewed: (pr, reviewed) => setReviewedInFile(this.app, path, pr, reviewed) });
+      renderMissedPrCards(el3, parseMissedPrs((0, import_obsidian11.parseYaml)(source)), { setReviewed: (pr, reviewed) => setReviewedInFile(this.app, path, pr, reviewed) });
     } catch (error) {
       renderMissedPrsError(el3, error);
     }
@@ -14089,7 +21839,7 @@ var GalaxyBrainPlugin = class extends import_obsidian10.Plugin {
   /** Opens a task's record index.md, wherever its status puts it. */
   openTaskRecord(record, newLeaf) {
     const path = recordIndexPath(record, this.app.vault.getMarkdownFiles().map((file) => file.path));
-    if (!path) return void new import_obsidian10.Notice(`No record ${record.repo}/${record.kind}/${record.name}`);
+    if (!path) return void new import_obsidian11.Notice(`No record ${record.repo}/${record.kind}/${record.name}`);
     void this.app.workspace.openLinkText(path, "", newLeaf);
   }
   /** Launch dialog for the factory agent to discuss refining task. */
@@ -14114,21 +21864,21 @@ var GalaxyBrainPlugin = class extends import_obsidian10.Plugin {
       launch: (profile, environment, name2, prompt) => this.launch(vaultRoot, launcher, profile, environment, name2, prompt, launched, pending)
     }).open();
   }
-  runCommand(label, [executable, ...args]) {
+  runCommand(label3, [executable, ...args]) {
     const { execFile } = require("child_process");
     const { homedir } = require("os");
     const PATH = [`${homedir()}/.local/bin`, ...CLI_BIN_DIRS, process.env.PATH].join(":");
-    const started = new import_obsidian10.Notice(`Running ${label}\u2026`, 0);
+    const started = new import_obsidian11.Notice(`Running ${label3}\u2026`, 0);
     execFile(executable, args, { env: { ...process.env, PATH }, timeout: 18e4 }, (error, stdout, stderr) => {
       started.hide();
-      if (error) new import_obsidian10.Notice(`${label} failed: ${(stderr || error.message).trim()}`, 0);
-      else new import_obsidian10.Notice(stdout.trim() || `${label} done`, 15e3);
+      if (error) new import_obsidian11.Notice(`${label3} failed: ${(stderr || error.message).trim()}`, 0);
+      else new import_obsidian11.Notice(stdout.trim() || `${label3} done`, 15e3);
     });
   }
   launch(vaultRoot, launcher, profile, environment, name, prompt, launched, pending) {
     const { execFile } = require("child_process");
     const where = environment.host ? ` on ${environment.name}` : "";
-    const started = new import_obsidian10.Notice(`Launching ${profile.name} in ${launcher.agentDir}${where}\u2026`, 0);
+    const started = new import_obsidian11.Notice(`Launching ${profile.name} in ${launcher.agentDir}${where}\u2026`, 0);
     pending?.(true);
     const [executable, ...args] = launchArgv(environment, vaultRoot, [launcher.agentDir, profile.agent, name, prompt, ...profileArgs(profile)]);
     execFile(
@@ -14139,26 +21889,26 @@ var GalaxyBrainPlugin = class extends import_obsidian10.Plugin {
         started.hide();
         if (error) {
           pending?.(false);
-          new import_obsidian10.Notice(`Launch failed: ${(stderr || error.message).trim()}`, 15e3);
+          new import_obsidian11.Notice(`Launch failed: ${(stderr || error.message).trim()}`, 15e3);
         } else {
-          new import_obsidian10.Notice(stdout.trim(), 1e4);
+          new import_obsidian11.Notice(stdout.trim(), 1e4);
           launched?.();
         }
       }
     );
   }
 };
-var CommandModal = class extends import_obsidian10.Modal {
-  constructor(app, label, args, run) {
+var CommandModal = class extends import_obsidian11.Modal {
+  constructor(app, label3, args, run) {
     super(app);
-    this.label = label;
+    this.label = label3;
     this.args = args;
     this.run = run;
   }
   onOpen() {
     this.setTitle(this.label);
     this.contentEl.createEl("pre", { text: this.args.join(" \\\n  ") });
-    new import_obsidian10.Setting(this.contentEl).addButton(
+    new import_obsidian11.Setting(this.contentEl).addButton(
       (button2) => button2.setButtonText("Run").setCta().onClick(() => {
         this.close();
         this.run();
@@ -14169,7 +21919,7 @@ var CommandModal = class extends import_obsidian10.Modal {
     this.contentEl.empty();
   }
 };
-var LauncherSuggest = class extends import_obsidian10.FuzzySuggestModal {
+var LauncherSuggest = class extends import_obsidian11.FuzzySuggestModal {
   constructor(app, launchers, choose) {
     super(app);
     this.launchers = launchers;
@@ -14186,7 +21936,7 @@ var LauncherSuggest = class extends import_obsidian10.FuzzySuggestModal {
     this.choose(launcher);
   }
 };
-var ChoiceSuggest = class extends import_obsidian10.FuzzySuggestModal {
+var ChoiceSuggest = class extends import_obsidian11.FuzzySuggestModal {
   constructor(app, choices, placeholder, choose) {
     super(app);
     this.choices = choices;
@@ -14203,24 +21953,24 @@ var ChoiceSuggest = class extends import_obsidian10.FuzzySuggestModal {
     this.choose(choice);
   }
 };
-var LaunchModal = class extends import_obsidian10.Modal {
-  constructor(app, launcher, details) {
+var LaunchModal = class extends import_obsidian11.Modal {
+  constructor(app, launcher, details3) {
     super(app);
     this.launcher = launcher;
-    this.details = details;
+    this.details = details3;
   }
   onOpen() {
     const { launcher } = this;
     let { name, prompt, profile, environment } = this.details;
     this.setTitle(`${launcher.label} in ${launcher.agentDir}`);
-    new import_obsidian10.Setting(this.contentEl).setName("Agent name").addText(
+    new import_obsidian11.Setting(this.contentEl).setName("Agent name").addText(
       (text2) => text2.setValue(name).onChange((value) => name = value)
     );
-    new import_obsidian10.Setting(this.contentEl).setName("Prompt").addTextArea((area) => {
+    new import_obsidian11.Setting(this.contentEl).setName("Prompt").addTextArea((area) => {
       area.setValue(prompt).onChange((value) => prompt = value);
       area.inputEl.rows = 6;
     }).settingEl.addClass("galaxy-brain-launch-prompt");
-    new import_obsidian10.Setting(this.contentEl).addDropdown((dropdown) => {
+    new import_obsidian11.Setting(this.contentEl).addDropdown((dropdown) => {
       for (const option of this.details.profiles) dropdown.addOption(option.name, option.name);
       dropdown.setValue(profile.name).onChange((value) => {
         profile = this.details.profiles.find((option) => option.name === value) ?? profile;

@@ -381,3 +381,38 @@
 	color: var(--text-normal);
 	background: var(--background-secondary);
 }
+
+/* A review record's findings panel, in its landing strip. */
+.gb-findings {
+	display: flex;
+	flex-direction: column;
+	gap: var(--size-4-1);
+	padding: var(--size-4-2);
+	border: var(--border-width) solid var(--background-modifier-border);
+	border-radius: var(--radius-m);
+	font-size: var(--font-ui-small);
+}
+
+.gb-findings-title {
+	font-size: var(--font-ui-smaller);
+	font-weight: var(--font-semibold);
+	color: var(--text-faint);
+}
+
+.gb-findings-status { font-weight: var(--font-semibold); }
+.gb-findings-ready { color: var(--text-success); }
+.gb-findings-trim,
+.gb-findings-warning { color: var(--text-warning); }
+.gb-findings-blocked { color: var(--text-error); }
+.gb-findings-check { padding-left: var(--size-4-2); font-size: var(--font-ui-smaller); }
+
+.gb-findings-actions { gap: var(--size-4-3); }
+.gb-findings-actions label { display: inline-flex; align-items: center; gap: var(--size-2-1); }
+
+.gb-findings-list { display: flex; flex-direction: column; gap: var(--size-4-1); }
+.gb-findings-item { display: flex; align-items: flex-start; gap: var(--size-4-1); }
+.gb-findings-main { flex: 1; min-width: 0; }
+.gb-findings-out { color: var(--text-muted); }
+.gb-findings-summary { padding-left: var(--size-4-4); font-size: var(--font-ui-smaller); color: var(--text-faint); }
+.gb-findings-details > summary { cursor: pointer; }
+.gb-findings-body { padding-left: var(--size-4-3); border-left: 2px solid var(--background-modifier-border); }
