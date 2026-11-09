@@ -19,6 +19,10 @@ Local gate: lint, format, typecheck, `lint:unused:ci` and build green; tests gre
 
 [PR description](pr_description.md) · [titles](pr_titles.md) · [tags](pr_tags.md) · [implementation debrief](implementation_debrief.md) · [polish debrief](polish_debrief.md) · [normal review](subagents/normal_review.md) · [Codex review](codex_review.md) · [thermo review](thermo_nuclear_review.md) · [demo](demo/demo_output.txt)
 
+## Decisions
+
+- 2026-11-09: keep `failures` / `all_failures` in tree validation reports; templates need them for the per-row failure count. See the [polish debrief](polish_debrief.md).
+
 ## Notes
 
 - Issue: [galaxy-tool-util-ts#216](https://github.com/jmchilton/galaxy-tool-util-ts/issues/216), record [issues/wip/216](../../../issues/wip/216/index.md).

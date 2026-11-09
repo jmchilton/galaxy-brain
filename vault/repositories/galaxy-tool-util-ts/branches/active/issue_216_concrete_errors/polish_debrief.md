@@ -39,7 +39,7 @@ created /home/ubuntu/projects/repositories/galaxy-brain/vault/repositories/galax
 
 - **Unlabelled steps.** Answered 2026-11-07: an unlabelled inner step reports `outer/<id>` (`bf3a5b6b`). Unlabelled top-level steps and everything under an unlabelled top-level subworkflow stay null, so those entries still can't be told apart.
 - **`/` in a label.** It makes the `outer/inner` path ambiguous. Acceptable?
-- **`failures[]` in `validate-tree --json`.** It still has only the positional step. Add `label` in a follow-up?
+- **`failures[]` in `validate-tree --json`.** Decided 2026-11-09: keep `failures` and `all_failures` alongside `results[]`. They're computed fields that the shared Jinja2/Nunjucks templates render from (Python `_report_models.py` on `wf_tool_state`), and the templates can't reproduce the per-row "N failure(s)" count portably. Accumulating in a loop gives 3 in Nunjucks and 0 in Jinja2. Whether `failures[]` gains `label` for human-readable output is still open.
 - **Deriving `ok`.** Compute it from `collectConcreteErrors`, so an entry exists by construction? It rewrites how an existing field is computed, so I left it as a follow-up.
 - **`gxwf validate --connections --json`.** foundry#668 calls this the identical problem. It gets `label` here. Does it need its own top-level rollup?
 - **Crashes under `--json`.** `draft-validate --json` prints a stack trace and no JSON in some cases, including `--connections` on `synthetic-draft-bad-shorthand-input-type` and a string container in `tool_state`. The strengthening round saw the same on `main`. Should it catch them?
