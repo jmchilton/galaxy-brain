@@ -17,7 +17,7 @@ branches:
         subject: Share one ListHeader select-all selector
         detail: adds a `list_header` component (`${scope} .list-header` root, `select_all` on its `.g-checkbox` label), drops the two per-page selectors, and points both callers at it.
         findings: [P3 1]
-actions: {approve: false, approve_and_merge: false, comment: false, review_comment: false, request_changes: false, pull_request: false, push: false, issue_refactor: false, issue_galaxy_brain: false}
+actions: {approve: true, approve_and_merge: false, comment: false, review_comment: false, request_changes: false, pull_request: false, push: false, issue_refactor: false, issue_galaxy_brain: false}
 findings:
   - id: P3 1
     include: true
