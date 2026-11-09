@@ -150,6 +150,17 @@ describe("recordPage", () => {
 		expect(["reviews/1", "reviews/2", "reviews/3", "issues/4"].map((id) => recordPage(reviews, `galaxy/${id}`)?.review)).toEqual([true, true, true, false]);
 	});
 
+	it("says whether a review record has findings YAML", () => {
+		const reviews = vault({
+			"repositories/galaxy/reviews/active/1/index.md": "# One\n",
+			"repositories/galaxy/reviews/active/1/review_0_findings.yml": "round: 0\n",
+			"repositories/galaxy/reviews/active/2/index.md": "# Two\n",
+			"repositories/galaxy/branches/active/b/index.md": "# B\n",
+			"repositories/galaxy/branches/active/b/review_0_findings.yml": "round: 0\n",
+		});
+		expect(["reviews/1", "reviews/2", "branches/b"].map((id) => recordPage(reviews, `galaxy/${id}`)!.findings)).toEqual([true, false, false]);
+	});
+
 	it("gives its related records, and agent blockers' conditions and Obsidian links", () => {
 		const related = vault({
 			"agents/gx_reviews/blockers/wait/condition.md": "It merged.\n",

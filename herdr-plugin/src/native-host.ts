@@ -11,6 +11,7 @@ import { defaultEnvironment, type Environment, launchArgv } from "../../obsidian
 import { type CrackDay, crackFiles, cracksPath, parseCrackDay, unreviewedCount } from "../../obsidian-plugin/src/missed-prs";
 import { defaultProfile, type Profile, profileArgs } from "../../obsidian-plugin/src/profiles";
 import { type ListedTask, localDay, parseAgentTasks } from "../../obsidian-plugin/src/task-list";
+import { latestRound } from "../../review-factory/src/record";
 import { type RecordFileLinks, recordFileLinks } from "../../site/src/lib/file-docs";
 import { loadFileDocs } from "../../site/src/lib/file-docs-load";
 import { isReviewableRecordKind } from "../../site/src/lib/records";
@@ -225,6 +226,8 @@ export interface RecordPage {
 	links: RecordFileLinks;
 	/** It has a differential review to open. */
 	review: boolean;
+	/** A PR review with findings YAML, for the findings panel. */
+	findings: boolean;
 	/** "owner/name" of the upstream repository, whatever `record.github` points at. */
 	upstream: string;
 	/** The first is the default. */
@@ -255,6 +258,7 @@ export function recordPage(vaultRoot: string, ref: string): RecordPage | null {
 		related: relatedRecords(vaultRoot, vault.body(record), record.repo),
 		links: recordFileLinks(files, loadFileDocs(vaultRoot, record.repo, record.kind)),
 		review: isReviewableRecordKind(record.kind),
+		findings: record.kind === "reviews" && latestRound(join(vaultRoot, record.dir)) !== null,
 		upstream: `${upstreamOwner(record.repo, [vault.body(record)])}/${record.repo}`,
 		profiles: profiles.map(({ name }) => ({ name })),
 		environments: environmentChoices(vaultRoot),

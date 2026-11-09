@@ -1,4 +1,4 @@
-import { existsSync, mkdirSync, mkdtempSync, readFileSync, writeFileSync } from "node:fs";
+import { cpSync, existsSync, mkdirSync, mkdtempSync, readFileSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { describe, expect, it } from "vitest";
@@ -100,6 +100,67 @@ describe("note edits", () => {
 			});
 		expect(edit).toThrow("changed");
 		expect(readFileSync(file, "utf8")).toBe("theirs");
+	});
+});
+
+describe("findings panel", () => {
+	const REVIEW = "repositories/galaxy/reviews/active/24706";
+	const FINDINGS = `${REVIEW}/review_0_findings.yml`;
+	const ref = "galaxy/reviews/24706";
+
+	function review(): AppHostDeps {
+		const d = deps({ [`${REVIEW}/index.md`]: "# #24706\n", "repositories/galaxy/reviews/active/24707/index.md": "# #24707\n" });
+		cpSync(join(__dirname, "../../review-factory/src/fixtures/24706"), join(d.vaultRoot, REVIEW), { recursive: true });
+		return d;
+	}
+	const text = (d: AppHostDeps) => readFileSync(join(d.vaultRoot, FINDINGS), "utf8");
+
+	it("gives the landing for the latest round, and null without findings YAML", () => {
+		const d = review();
+		expect(appRequest({ type: "findings", ref }, d)).toMatchObject({ round: 0, file: "review_0_findings.yml", errors: [], landing: { status: "✅ Ready to approve" } });
+		expect(appRequest({ type: "findings", ref: "galaxy/reviews/24707" }, d)).toBeNull();
+	});
+
+	it("shows parse errors instead of a landing", () => {
+		const d = review();
+		writeFileSync(join(d.vaultRoot, FINDINGS), text(d).replace("round: 0", "round: zero"));
+		expect(appRequest({ type: "findings", ref }, d)).toEqual({ round: 0, file: "review_0_findings.yml", errors: ["round: expected a whole number"], landing: null });
+	});
+
+	it("sets one include, leaving the rest of the file, and answers with the new landing", () => {
+		const d = review();
+		const before = text(d);
+		const panel = appRequest({ type: "setFindingInclude", ref, round: 0, id: "P3 2", include: false }, d);
+		expect(panel).toMatchObject({ landing: { status: "✂️ Trim: drop bef11669426 (P3 2)" } });
+		expect(text(d)).toBe(before.replace("- id: P3 2\n    include: true", "- id: P3 2\n    include: false"));
+		appRequest({ type: "setFindingInclude", ref, round: 0, id: "P3 2", include: false }, d);
+		expect(text(d)).toBe(before.replace("- id: P3 2\n    include: true", "- id: P3 2\n    include: false"));
+	});
+
+	it("sets an action", () => {
+		const d = review();
+		appRequest({ type: "setFindingAction", ref, round: 0, action: "comment", checked: true }, d);
+		expect(text(d)).toContain("  comment: true\n");
+	});
+
+	it("says false when the finding is gone", () => {
+		const d = review();
+		const before = text(d);
+		expect(appRequest({ type: "setFindingInclude", ref, round: 0, id: "P3 99", include: false }, d)).toBe(false);
+		expect(text(d)).toBe(before);
+	});
+
+	it("refuses a stale round, a bad ref or action, and a file that doesn't parse", () => {
+		const d = review();
+		const set = (edit: object) => () => appRequest({ type: "setFindingInclude", ref, round: 0, id: "P3 2", include: false, ...edit } as never, d);
+		expect(set({ round: 1 })).toThrow("review_0_findings.yml is the latest round now; reload");
+		expect(set({ ref: "galaxy/reviews/../24706" })).toThrow("no review record");
+		expect(set({ ref: "galaxy/branches/24706" })).toThrow("no review record");
+		expect(() => appRequest({ type: "setFindingAction", ref, round: 0, action: "merge" as never, checked: true }, d)).toThrow("unknown action merge");
+		writeFileSync(join(d.vaultRoot, FINDINGS), text(d).replace("round: 0", "round: zero"));
+		const broken = text(d);
+		expect(set({})).toThrow("fix review_0_findings.yml first");
+		expect(text(d)).toBe(broken);
 	});
 });
 

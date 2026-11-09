@@ -1,4 +1,4 @@
-// `app` requests, for the Herdr app's mods only, not Chrome: note edits and environments, which keep the YAML parser out of
+// `app` requests, for the Herdr app's mods only, not Chrome: note edits, the findings panel and environments, which keep the YAML parser out of
 // the app's one script heap, repository listings, and the error log.
 
 import { readFileSync, existsSync } from "node:fs";
@@ -8,6 +8,8 @@ import { tasksPath } from "../../obsidian-plugin/src/agent-routines";
 import { isCrackFile, setMissedPrReviewed } from "../../obsidian-plugin/src/missed-prs";
 import { removeTask, snoozeTask } from "../../obsidian-plugin/src/task-list";
 import { type ErrorLogDeps, logRenderFailure, logStatusErrors } from "./error-log";
+import { findingsEdit, findingsPanel } from "./findings-host";
+import type { FindingsEdit } from "./findings-types";
 import { agentDirs } from "./native-host";
 import { recordIndex, repositoryPage } from "./repository-host";
 import type { RepositoryPageRequest } from "./repository-types";
@@ -28,6 +30,10 @@ export type AppRequest =
 	| { type: "removeTask"; task: TaskRef }
 	| { type: "snoozeTask"; task: TaskRef; day: string }
 	| { type: "markPrReviewed"; path: string; pr: number }
+	| { type: "findings"; ref: string }
+	/** These answer the new panel, or false when the finding is gone. */
+	| ({ type: "setFindingInclude" } & FindingsEdit)
+	| ({ type: "setFindingAction" } & FindingsEdit)
 	| { type: "logRenderFailure"; mod: string; message: string }
 	| { type: "logStatusErrors" };
 
@@ -71,6 +77,13 @@ export function appRequest(request: AppRequest, deps: AppHostDeps): unknown {
 		case "markPrReviewed":
 			if (!isCrackFile(request.path)) throw new Error(`not a the_cracks file: ${request.path}`);
 			return editNote(vaultRoot, request.path, (note) => setMissedPrReviewed(note, request.pr, true, parse, unwrapped));
+		case "findings":
+			return findingsPanel(vaultRoot, request.ref);
+		case "setFindingInclude":
+		case "setFindingAction": {
+			const edit = findingsEdit(vaultRoot, request);
+			return Boolean(edit && editNote(vaultRoot, edit.path, edit.change)) && findingsPanel(vaultRoot, request.ref);
+		}
 		case "logRenderFailure":
 			return logRenderFailure(deps, request.mod, request.message);
 		case "logStatusErrors":
