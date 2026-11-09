@@ -242,6 +242,12 @@ Action checkboxes play no part in this. They say what Respond does, and Pull req
 - The closed decoder caught a real error in the hand conversion: an unquoted comma in a flow mapping split a reason into a bogus key.
 - Not done: generalizing Herdr's detached runner. It moves to Phase 2, where the first button needs it.
 
+**Phase 2, Herdr panel started 2026-11-08, uncommitted.**
+- `review-factory/src/landing.ts` `landing(ctx)` is the panel model both apps share. Expanded finding text reuses compose's `findingBody`.
+- On the host, `herdr-plugin/src/findings-host.ts` answers the `findings`, `setFindingInclude` and `setFindingAction` app requests. Edits take a ref and a round, never a path, and set a value rather than flipping it. `recordPage` says `findings` when there's a findings round.
+- In the mod, `herdr-app-mod/src/findings-panel.ts` draws the panel in `gb-record`; notes open in Obsidian.
+- Not done: the detached runner and branch-gate button, and the Obsidian strip.
+
 ## Cutover
 
 The switch is per round, based on whether `review_<N>_findings.yml` exists. There's no backfill, the same precedent as `FACTORY_LANDING_PAGES_PLAN.md`. Roughly ten unposted active records finish on the old flow, and a later round on an old record uses the new one.
