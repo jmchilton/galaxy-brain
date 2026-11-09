@@ -73,14 +73,20 @@ function branchBlock(ctx: ComposeContext, branch: Branch): string {
 
 const discovery = (links: Links, d: Discovery): string => `${links.profile(d.profile)} via ${d.model} at ${d.effort} effort`;
 
-function findingBlock(ctx: ComposeContext, f: Finding, branch: Branch | undefined): string {
+/** The branch its fixes link into: the latest revision, when it has commits. */
+export function postedBranch(file: FindingsFile): Branch | undefined {
+  const branch = latestBranch(file);
+  return branch?.commits.length ? branch : undefined;
+}
+
+/** A postable finding's posted text below its heading. */
+export function findingBody(ctx: ComposeContext, f: Finding, branch: Branch | undefined): string {
   const { file } = ctx;
   const links = new Links(ctx.repo, file);
   const fixes = (branch?.commits ?? []).filter((c) => c.findings.includes(f.id)).map((c) => `[\`${c.sha}\`](${links.commit(c.sha)})`);
   const verified = f.implementation_verified ? ` Verified via ${file.verification.model} at ${file.verification.effort} effort.` : "";
   const provenance = `Discovered by ${list(f.discovered_by.map((d) => discovery(links, d)))}.${verified}`;
   return blocks([
-    `### ${f.id}: ${f.title}${f.implementation_verified ? " (implementation verified)" : ""}`,
     f.issue!.trim(),
     f.issue_details && details("Details", f.issue_details),
     f.evidence && details("Evidence", f.evidence),
@@ -90,6 +96,9 @@ function findingBlock(ctx: ComposeContext, f: Finding, branch: Branch | undefine
     details("Discovery & Verification Agent Details", provenance),
   ]).trimEnd();
 }
+
+const findingBlock = (ctx: ComposeContext, f: Finding, branch: Branch | undefined): string =>
+  `### ${f.id}: ${f.title}${f.implementation_verified ? " (implementation verified)" : ""}\n\n${findingBody(ctx, f, branch)}`;
 
 function fence(text: string): string {
   const longest = Math.max(2, ...(text.match(/`+/g) ?? []).map((run) => run.length));
@@ -109,8 +118,7 @@ function followup(ctx: ComposeContext): string | null {
 /** Agent details through the follow-up issue: everything but John's note and the human review. */
 function reviewBlocks(ctx: ComposeContext): string[] {
   const findings = includedFindings(ctx.file);
-  const branch = latestBranch(ctx.file);
-  const withBranch = branch?.commits.length ? branch : undefined;
+  const withBranch = postedBranch(ctx.file);
   const out = [agentDetails(ctx)];
   if (ctx.risks?.trim()) out.push(details("Risks", ctx.risks));
   if (!findings.length) out.push(NO_FINDINGS[ctx.pr % 3]!);
