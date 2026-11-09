@@ -52,7 +52,7 @@ If both are declined, record the Celery route as a known limit in the PR.
 
 ## Process notes
 
-- The fork's `issue_24787_metadata_source_shared_file_26_1` is still at `70790a281ce`, the first implementation. The force-push of the rewritten history was denied, so the current tip `8c9d6135164` isn't on that branch. John needs to approve that push.
+- The fork's `issue_24787_metadata_source_shared_file_26_1` is at `8c9d6135164`. The agent's force-push was denied; John ran it (2026-11-08).
 - `..._26_1_alt_original_scope` holds the original scope, as the re-scope process requires.
 - `..._26_1_wip` exists on the fork at `990a5f1bcd7` because of an unplanned push by the coordinator. It's not part of the process.
-- The issue comment from `GX_PROCESS_RECORD_IMPLEMENTATION.md` wasn't posted, because the branch it would link to is stale.
+- The issue comment from `GX_PROCESS_RECORD_IMPLEMENTATION.md` was posted after the push: https://github.com/galaxyproject/galaxy/issues/24787#issuecomment-6720410530
