@@ -10,11 +10,11 @@ pr: 738
 
 ## Status
 
-Polished at `ec4d9ca4` (pushed to `jmchilton`), from `origin/main` `eb2de3f1`. Its dependency [jmchilton/foundry-lib#139](https://github.com/jmchilton/foundry-lib/pull/139) shipped as `@galaxy-foundry/cast` 0.13.0 on 2026-11-09; the branch needs a rebase (conflicts with `main`), lockfile refresh and re-cast.
+Rebased to `c2a038de` (pushed to `jmchilton`) on `origin/main` `4c747d65`, with the lockfile on `@galaxy-foundry/cast` 0.13.0 ([foundry-lib#139](https://github.com/jmchilton/foundry-lib/pull/139), released 2026-11-09), re-cast bundles and a `gxwf-foundry-note-schema` patch changeset.
 
-Draft [#738](https://github.com/galaxyproject/foundry/pull/738), opened 2026-11-01 with John's explicit permission; conflicting with `main`.
+Draft [#738](https://github.com/galaxyproject/foundry/pull/738), opened 2026-11-01 with John's explicit permission; mergeable.
 
-CI at `ec4d9ca4`: `test` and `changeset` fail at `pnpm install --frozen-lockfile` (lockfile pins `^0.12.3`, manifests ask `^0.13.0`) — related; clears once the lockfile picks up 0.13.0.
+CI at `c2a038de`: running; locally every `make check` target passes except the machine-only `check-vendored`.
 
 ## Notes
 
