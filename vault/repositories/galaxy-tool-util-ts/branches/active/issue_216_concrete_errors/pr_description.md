@@ -43,7 +43,7 @@ The step numbers don't help either. The same step reports as `0` under `tool_sta
 
 ***An empty `concrete_errors` doesn't mean the workflow passed.*** It lists only failures of checks that ran, so `--no-tool-state` or a missing tool without `--strict-state` can leave it empty. Read `ok` and `concrete.ok` for the verdict, and `topology_errors` and `semantic_errors` for draft-level failures.
 
-***`concrete_errors` exists only on `draft-validate --concrete`.*** `gxwf validate --connections --json` gets `label` but no such array.
+***`concrete_errors` exists only on `draft-validate --concrete`.*** `gxwf validate --connections --json` gets `label` but no such array; that's #220.
 
 ***`step` keeps its numbering.*** Renumbering would change the meaning of a field consumers already use, and either number would still count the extracted subset. So `concrete_errors` entries have no `step`, and they name the step by label. Tool-state and connection results give a top-level step the same label, including a list-form step's non-numeric `id`, because both now go through `nativeStepLabel`. Steps inside a subworkflow have no `connection_report` entry; there, the outer step carries the label.
 

@@ -22,6 +22,7 @@ Local gate: lint, format, typecheck, `lint:unused:ci` and build green; tests gre
 ## Decisions
 
 - 2026-11-09: keep `failures` / `all_failures` in tree validation reports; templates need them for the per-row failure count. See the [polish debrief](polish_debrief.md).
+- 2026-11-09: a `gxwf validate --connections --json` rollup is a follow-up, [#220](https://github.com/jmchilton/galaxy-tool-util-ts/issues/220); related bugs filed as [#218](https://github.com/jmchilton/galaxy-tool-util-ts/issues/218) and [#219](https://github.com/jmchilton/galaxy-tool-util-ts/issues/219).
 
 ## Notes
 
