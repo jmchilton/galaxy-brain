@@ -20,6 +20,7 @@ import { originalRelPath } from '../../../lib/project-paths';
 import { findRecordCollisions, vaultPathToSlug } from '../../../lib/vault-urls';
 import { marked } from 'marked';
 import { isAgentBlocker, recordIdLabel, recordLinks } from '../../../../../obsidian-plugin/src/blockers';
+import { findingsPanel } from '../../../../../review-factory/src/panel';
 
 export async function getStaticPaths() {
   const collisions = findRecordCollisions(path.resolve('../vault'));
@@ -62,6 +63,9 @@ const relatedLinks = isRecordRoot && entry?.filePath ? recordLinks(fs.readFileSy
 const relatedHref = (link: (typeof relatedLinks)[number]) =>
   isAgentBlocker(link.target) ? undefined : `${base}/repositories/${recordIdLabel(link.target)}/`;
 const fileLinkHref = (rel: string) => `${base}/${vaultPathToSlug(`${record!.originalDir}/${rel.replace(/\/$/, '')}`)}/`;
+// Findings YAML isn't Markdown, so the record shows the comment it composes to.
+const findings = isRecordRoot && record.kind === 'reviews' ? findingsPanel(path.resolve('../vault', record.originalDir)) : null;
+const findingsHtml = findings?.landing && marked.parse(findings.landing.previews.comment, { async: false }) as string;
 const fileDocHint = (childPath: string, childIsFolder: boolean) => {
   const doc = record && resolveFileDoc(fileDocs, recordRelPath(record.originalDir, childPath, childIsFolder));
   return doc ? fileDocSummary(doc.section.body) : undefined;
@@ -116,6 +120,13 @@ const fileDocHint = (childPath: string, childIsFolder: boolean) => {
     <article class="prose prose-slate max-w-none dark:prose-invert" data-pagefind-body>
       <Content />
     </article>
+  )}
+
+  {findingsHtml && (
+    <section class="mt-8">
+      <h2 class="mb-3 text-lg font-bold border-b-2 border-(--color-accent)/20 pb-2">Findings · {findings!.file}</h2>
+      <article class="prose prose-slate max-w-none dark:prose-invert" data-pagefind-body set:html={findingsHtml} />
+    </section>
   )}
 
   {children && children.length > 0 && (
