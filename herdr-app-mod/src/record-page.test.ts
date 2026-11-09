@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { isImagePath, linkTarget, recordTabName, withoutTitle } from "./record-page";
+import { isImagePath, linkTarget, noteLabel, recordTabName, statusTone, withoutTitle } from "./record-page";
 
 describe("isImagePath", () => {
 	it("knows image files, in any case", () => {
@@ -41,6 +41,18 @@ describe("linkTarget", () => {
 describe("recordTabName", () => {
 	it("names the whole ref, which is unique across repositories and kinds", () => {
 		expect(recordTabName("galaxy/reviews/7")).toBe("📓 galaxy/reviews/7");
+	});
+});
+
+describe("findings labels", () => {
+	it("names a note by kind and state", () => {
+		expect(noteLabel({ name: "johns_review_0_comment_note.md", state: "written" })).toBe("📝 Comment note");
+		expect(noteLabel({ name: "johns_review_1_pr_note.md", state: "empty" })).toBe("📝 PR note · empty");
+		expect(noteLabel({ name: "johns_review_0_pr_note.md", state: "missing" })).toBe("📝 PR note · missing");
+	});
+
+	it("tones the status by its mark", () => {
+		expect(["✅ Ready to approve", "⛔ johns_review_0_comment_note.md is empty", "✂️ Trim: drop bef11669426 (P3 2)"].map(statusTone)).toEqual(["ready", "blocked", "trim"]);
 	});
 });
 

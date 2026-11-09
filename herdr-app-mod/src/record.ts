@@ -6,10 +6,13 @@ import { h_flex, v_flex } from "gpui-base";
 import { exec, openOverlay, props, readTextFile, theme, watchFolder } from "herdr";
 import { withoutFrontmatter } from "../../obsidian-plugin/src/record-frontmatter";
 import { type RecordFileLink, recordFileLabel, type RecordFileLinks } from "../../site/src/lib/file-docs";
+import type { FindingsChange, FindingsPanel } from "../../herdr-plugin/src/findings-types";
 import { chip } from "./chip";
-import { delay, host, logRenderFailures, obsidianUrl, openUrl } from "./host";
+import { type FindingsUi, renderFindingsPanel } from "./findings-panel";
+import { appHost, delay, host, logRenderFailures, obsidianUrl, openUrl } from "./host";
 import { type MarkdownBlock, markdownBlocks } from "./markdown-blocks";
 import { type MarkdownHost, renderMarkdown } from "./markdown-view";
+import { editFindings } from "./note-edits";
 import { isImagePath, linkTarget, withoutTitle } from "./record-page";
 import { openRecordTab, openRepositoryTab, openReviewTab } from "./record-tab";
 
@@ -35,6 +38,7 @@ interface Page {
 		launchers: Array<{ label: string; prompt: string; profile: string }>;
 	};
 	review: boolean;
+	findings: boolean;
 	upstream: string;
 	related: Array<{ text: string; label: string; ref?: string; condition?: string; obsidian?: string }>;
 	links: RecordFileLinks;
@@ -54,6 +58,12 @@ export default class GbRecord extends View {
 	declare toggled: Map<string, boolean>;
 	/** The folder link, or OTHER, whose files show. */
 	declare unfolded: string | null;
+	/** Null for records without findings YAML. */
+	declare findings: FindingsPanel | null;
+	/** The panel's parts opened by hand, kept across reloads. */
+	declare findingsOpened: Set<string>;
+	/** Parsed finding texts and previews, by source; cleared on each load. */
+	declare findingsBlocks: Map<string, MarkdownBlock[]>;
 
 	init(_props: unknown, cx: Cx) {
 		this.page = null;
@@ -62,6 +72,9 @@ export default class GbRecord extends View {
 		this.blocks = null;
 		this.toggled = new Map();
 		this.unfolded = null;
+		this.findings = null;
+		this.findingsOpened = new Set();
+		this.findingsBlocks = new Map();
 		cx.spawn(async (cx: Cx) => {
 			await this.load(cx);
 			await this.watch(cx);
@@ -74,6 +87,7 @@ export default class GbRecord extends View {
 			this.page = await host({ type: "recordPage", ref });
 			this.error = this.page ? null : `${ref} isn't in this vault; resync.`;
 			if (this.page) await this.read();
+			this.setFindings(this.page?.findings ? await appHost({ type: "findings", ref }) : null);
 		} catch (error) {
 			this.error = String(error);
 		}
@@ -85,6 +99,39 @@ export default class GbRecord extends View {
 		const text: string | null = await readTextFile(path).catch(() => null);
 		if (text === null) this.blocks = null;
 		else this.blocks = markdownBlocks(this.file === INDEX ? withoutTitle(withoutFrontmatter(text)) : withoutFrontmatter(text), { repo: this.page!.upstream });
+	}
+
+	setFindings(panel: FindingsPanel | null) {
+		this.findings = panel;
+		this.findingsBlocks = new Map();
+	}
+
+	/** Sets one value in the findings YAML; the reply is the panel after it. */
+	editFindings(cx: Cx, change: FindingsChange) {
+		const { findings } = this;
+		if (!findings) return;
+		cx.spawn(async (cx: Cx) => {
+			const panel = await editFindings(`${this.page!.record.key}/${findings.file}`, { ...change, ref: props()?.ref as string, round: findings.round });
+			if (panel) this.setFindings(panel);
+			cx.notify();
+		});
+	}
+
+	findingsUi(): FindingsUi {
+		const { findingsBlocks: cache } = this;
+		const { key } = this.page!.record;
+		return {
+			opened: this.findingsOpened,
+			blocks: (text) => {
+				let blocks = cache.get(text);
+				if (!blocks) cache.set(text, (blocks = markdownBlocks(text, { repo: this.page!.upstream })));
+				return blocks;
+			},
+			markdownHost: (scope) => this.markdownHost(scope),
+			setInclude: (id, include, cx) => this.editFindings(cx, { id, include }),
+			setAction: (action, checked, cx) => this.editFindings(cx, { action, checked }),
+			openNote: (name, cx) => cx.spawn(async () => openUrl(obsidianUrl(`${key}/${name}`))),
+		};
 	}
 
 	/** Opened outside the app: TextView can't load a file's image. */
@@ -141,17 +188,19 @@ export default class GbRecord extends View {
 				.when(related.length > 0, (el: El) => el.child(this.renderRelated(t)))
 				.child(this.renderFiles(t, links))
 				.when(record.launchers.length > 0, (el: El) => el.child(this.renderLaunchers(t)))
+				.when(this.findings !== null, (el: El) => el.child(renderFindingsPanel(t, this.findings!, this.findingsUi())))
 				.child(div().border_b(1).border_color(t.border))
 				.child(this.blocks === null ? div().text_color(t.dim).child(`No ${this.file} in this record.`) : renderMarkdown(t, this.blocks, this.markdownHost())),
 		);
 	}
 
-	markdownHost(): MarkdownHost {
-		const { file, toggled } = this;
+	/** For the shown file, or for a part of the findings panel. */
+	markdownHost(scope = this.file): MarkdownHost {
+		const { toggled } = this;
 		return {
-			id: `gb-rec-md-${file}`,
-			isOpen: (key, initial) => toggled.get(`${file}#${key}`) ?? initial,
-			setOpen: (key, open) => toggled.set(`${file}#${key}`, open),
+			id: `gb-rec-md-${scope}`,
+			isOpen: (key, initial) => toggled.get(`${scope}#${key}`) ?? initial,
+			setOpen: (key, open) => toggled.set(`${scope}#${key}`, open),
 			onLink: (url, cx) => this.onLink(url, cx),
 		};
 	}
