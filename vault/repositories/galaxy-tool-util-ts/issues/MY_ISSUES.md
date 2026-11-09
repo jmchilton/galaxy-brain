@@ -19,4 +19,6 @@ GitHub state last refreshed: 2026-11-06. Issues here are not assigned to jmchilt
 
 ## Untriaged (`untriaged`)
 
-None yet.
+- [#218](https://github.com/jmchilton/galaxy-tool-util-ts/issues/218) — `gxwf validate --mode json-schema` silently ignores `--connections` and strict flags
+- [#219](https://github.com/jmchilton/galaxy-tool-util-ts/issues/219) — `gxwf validate --json` prints no JSON when `--strict-structure` or `--strict-encoding` fails
+- [#220](https://github.com/jmchilton/galaxy-tool-util-ts/issues/220) — `gxwf validate --connections --json` fails with nothing in the report saying why
