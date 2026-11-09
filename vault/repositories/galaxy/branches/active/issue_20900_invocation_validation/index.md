@@ -15,7 +15,7 @@ Fork CI is not assessed.
 
 Validates workflow invocation requests before creating histories or other side effects (#20900). Standing branch: [standing record](../../../../../agents/gx_standing/standing_branches/issue_20900_invocation_validation/index.md).
 
-[Implementation debrief](implementation_debrief.md) · [Scope evaluation](scope_evaluation.md) · [Baseline refactor](baseline_refactor.md) · [Rebase onto dev](rebase_reconciliation.md) · [Further split candidates](remaining_split_candidates.md) · [Tracking history](tracking_history.md) · [Poster](poster/poster.png) ([sources](poster/SOURCES.md), [recommendations](poster/branch_recommendations.md)) · Earlier: [drafts 1](earlier_drafts/1/implementation_debrief.md), [drafts 2](earlier_drafts/2/implementation_debrief.md)
+[Implementation debrief](implementation_debrief.md) · [Scope evaluation](scope_evaluation.md) · [Baseline refactor](baseline_refactor.md) · [Rebase onto dev](rebase_reconciliation.md) · [Further split candidates](remaining_split_candidates.md) · [Tracking history](tracking_history.md) · [Poster](poster/poster.html) ([sources](poster/SOURCES.md), [recommendations](poster/branch_recommendations.md)) · Earlier: [drafts 1](earlier_drafts/1/implementation_debrief.md), [drafts 2](earlier_drafts/2/implementation_debrief.md)
 
 ## TICK — 2026-10-11
 

@@ -19,3 +19,5 @@ site/.astro/
 !/vault/projects/foundries/biodata_poster/designs/**/*.md
 !/vault/projects/foundries/biodata_poster/designs/**/*.py
 !/vault/projects/foundries/biodata_poster/designs/**/*.yml
+# Record posters: commit the source (HTML/SVG), not PNG renders.
+/vault/repositories/**/poster/*.png
