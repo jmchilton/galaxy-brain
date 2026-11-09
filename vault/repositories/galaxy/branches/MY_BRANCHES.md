@@ -1,6 +1,6 @@
 # Open PR and branch queue
 
-Snapshot: 2026-11-09 (reclassified from GitHub: #24555 merged, removed). Previous 2026-11-07.
+Snapshot: 2026-11-09 (reclassified from GitHub: #24555 merged, removed; #22996 rebased, to `ci_wait`). Previous 2026-11-07.
 
 ## Open Galaxy PRs — ready from our side (`ready`)
 
@@ -34,6 +34,7 @@ None yet.
 
 ## Draft Galaxy PRs — waiting for CI (`ci_wait`)
 
+- [`wf_tool_state`](active/wf_tool_state/index.md) — Adds gxwf CLI tooling for validating and converting stateful workflows. [#22996](https://github.com/galaxyproject/galaxy/pull/22996). Rebased 2026-11-09 at `6c670761a20`.
 
 ## Draft Galaxy PRs — needs author work (`author_work`)
 
@@ -44,7 +45,6 @@ None yet.
 - [`tool_parameter_references`](active/tool_parameter_references/index.md) — Developer reference for the inconsistent ways tools, APIs and workflows reference nested tool parameters. [#23877](https://github.com/galaxyproject/galaxy/pull/23877).
 - [`subworkflow_mapping`](active/subworkflow_mapping/index.md) — Brings subworkflow mapping inline between the workflow editor and the backend. [#23676](https://github.com/galaxyproject/galaxy/pull/23676).
 - [`htcondor_pulsar`](active/htcondor_pulsar/index.md) — Shares HTCondor mechanics with Pulsar and bounds held-job handling. [#23326](https://github.com/galaxyproject/galaxy/pull/23326).
-- [`wf_tool_state`](active/wf_tool_state/index.md) — Adds gxwf CLI tooling for validating and converting stateful workflows. [#22996](https://github.com/galaxyproject/galaxy/pull/22996).
 - [`fix_copied_datasets`](active/fix_copied_datasets/index.md) — Fixes workflow extraction for datasets copied across histories. [#21806](https://github.com/galaxyproject/galaxy/pull/21806).
 - [`collection_restructure_panel`](active/collection_restructure_panel/index.md) — Adds a panel for transforming dataset collection layouts. [#12238](https://github.com/galaxyproject/galaxy/pull/12238).
 - [`pulsar-mq-pull`](active/pulsar-mq-pull/index.md) — Polls for Pulsar MQ jobs missed by normal event handling. [#9911](https://github.com/galaxyproject/galaxy/pull/9911).
