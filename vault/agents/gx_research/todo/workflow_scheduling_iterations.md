@@ -15,3 +15,4 @@ PR #24670 fixes cached map-over steps that were rescheduled forever under a per-
 ## Requested by
 
 - vault/repositories/galaxy/reviews/active/24670/: scheduling-iteration and mapped-step resume semantics for PR #24670
+- vault/repositories/galaxy/reviews/active/24770/: tracked vs untracked delays and tool input-readiness dependencies (readiness snapshots) for PR #24770
