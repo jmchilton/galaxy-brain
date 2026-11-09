@@ -132,6 +132,7 @@ describe("parseLaunchers", () => {
 			["💭 New session", "", "gx_branches"],
 			["🛝 Build Slides - Pitch", "", "gx_branches"],
 			["🗣 Build Slides - Implementation", "", "gx_branches"],
+			["🖼️ Build Poster", "", "gx_branches"],
 			["📝 Address diff comments", "active", "gx_branches"],
 			["🗄️ Shelve", "active", "gx_branches"],
 			["🪦 Abandon", "active", "gx_branches"],
