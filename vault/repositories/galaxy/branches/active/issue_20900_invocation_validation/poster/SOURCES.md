@@ -1,6 +1,6 @@
 # Poster sources
 
-Poster: `poster.html` → `poster.png` (4224 × 4224 px, 44 in square at 96 px/in). Branch head `bcbd2de187c` (jmchilton fork), merge base and "dev" = `7e16f446410` unless a row says otherwise. Code was read with `git show <sha>:<path>` in `~/projects/repositories/galaxy`; nothing was run against a Galaxy server.
+Poster: `poster.html` → `poster.svg` (44 in square; 3168 pt viewBox). Branch head `bcbd2de187c` (jmchilton fork), merge base and "dev" = `7e16f446410` unless a row says otherwise. Code was read with `git show <sha>:<path>` in `~/projects/repositories/galaxy`; nothing was run against a Galaxy server.
 
 Abbreviations: **RR** = `lib/galaxy/workflow/run_request.py`, **SVC** = `lib/galaxy/webapps/galaxy/services/workflows.py`, **MOD** = `lib/galaxy/workflow/modules.py`, **TW** = `lib/galaxy_test/api/test_workflows.py`, **TL** = `lib/galaxy_test/api/test_landing.py`, **TCD** = `test_challenges_debrief.md` (branch record), **ID** = `implementation_debrief.md`, **PCD** = `performance_challenges_debrief.md`.
 

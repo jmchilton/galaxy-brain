@@ -7,7 +7,7 @@ Everything goes in `BRANCH_RECORD/poster/`:
 | File | Written by | Holds |
 |---|---|---|
 | `PLAN.md` | planner | concept, visual hook, layout, content per region |
-| poster source and `poster.png` | implementer, reviewer | the poster and a full render of it |
+| `poster.svg` and any source it's built from | implementer, reviewer | the poster as one standalone SVG |
 | `SOURCES.md` | implementer, reviewer | each claim, number and image on the poster → its source |
 | `branch_recommendations.md` | all three | ideas to strengthen the branch itself (see below) |
 | `implementation_debrief.md` | implementer | what was built, choices, friction |
@@ -48,7 +48,8 @@ Have an Opus (high) or Sol (high) subagent implement and refine the plan.
 
 - If the branch name has an even number of characters, use [styles/STYLE_GALAXY_PLUS.md](styles/STYLE_GALAXY_PLUS.md); otherwise use [styles/STYLE_GALAXY.md](styles/STYLE_GALAXY.md). The style sets look only; the concept comes from the plan.
 - Build it as SVG, HTML or Typst, whichever suits the plan.
-- Render to `poster.png` and look at it before finishing.
+- Deliver `poster.svg` as one file that works on its own. Embed fonts as data URIs (subset them) or turn text into outlines, and inline any images. No scripts, no external links, and no `<foreignObject>`: GitHub shows SVGs in PRs as plain images, so anything external won't load. Keep the `viewBox` so it scales. From HTML, one route that works: print to PDF in Chromium, convert with PyMuPDF `get_svg_image(text_as_path=True)`, then run svgo with `removeViewBox` off.
+- Render a PNG and look at it before finishing, but don't commit it (`.gitignore` covers `poster/*.png`).
 - Write `SOURCES.md`: every claim, number and screenshot on the poster, with its source (commit, file path, test, URL, record note) and what the number does and doesn't measure. No claim on the poster without a source.
 - Write `implementation_debrief.md`, and append to `branch_recommendations.md` what it couldn't show because the branch lacks it.
 
@@ -57,7 +58,7 @@ Have an Opus (high) or Sol (high) subagent implement and refine the plan.
 Have an Opus (medium) or Sol (medium) subagent check the poster against the branch, not just against the plan.
 
 - **Correctness.** Check every `SOURCES.md` row against the code and record at the branch head. Fix wrong claims, names that don't match the code, and stale screenshots.
-- **Render.** Render it, look at the full poster and at a downscaled copy the size of a PR-description image, and check overflow, the size floors and the style guide's do and don't list.
+- **Render.** View `poster.svg` the way GitHub will, inside an `<img>` tag, at full size and at PR-image width. Check overflow, the size floors and the style guide's do and don't list.
 - **Clarity and persuasion.** Can a reader get the point in ten seconds? Does it show more than it tells? Does the hook carry the argument, or just decorate it?
 - Fix errors and make improvements directly. Write `review_debrief_<N>.md`, and append the ranked review recommendations to `branch_recommendations.md`.
 
@@ -65,6 +66,6 @@ If the reviewer made big changes (new regions, a new layout, new images), run on
 
 ## On Finish
 
-- Report: path to `poster.png`, format, style guide used, review passes run, and any claims in `SOURCES.md` still marked unsourced or soft.
+- Report: path to `poster.svg`, format, style guide used, review passes run, and any claims in `SOURCES.md` still marked unsourced or soft.
 - Summarize the top items from `branch_recommendations.md`, and offer to file them as tasks or launch a subagent to work on them, whichever fits.
 - Don't edit `pr_description.md` or open PRs unless the launcher says so.
