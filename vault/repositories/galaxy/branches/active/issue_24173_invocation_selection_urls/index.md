@@ -9,17 +9,17 @@ upstream_base_branch: dev
 
 ## Status
 
-Review fixes are pushed at `0e46a8984b4`; John's final read-through (including the human-read checklist item) is still pending.
+Rebased onto `dev` `e4c2dec84b1` and pushed at `0e56e22f36a`; John's final read-through (including the human-read checklist item) is still pending.
 
 [#24307](https://github.com/galaxyproject/galaxy/pull/24307) is open and non-draft against `dev`; all five inline replies and the summary response to mvdbeek are posted.
 
-CI on `0e46a8984b4` is green as of 2026-10-27 (all checks that ran passed); 148 local client tests and both targeted Playwright tests pass.
+CI on `0e56e22f36a` not yet run after the 2026-11-09 rebase (prior `0e46a8984b4` was green); 167 local vitest tests pass, selenium not rerun.
 
 ## Branch
 
 - Issue: https://github.com/galaxyproject/galaxy/issues/24173
 - Worktree: `/Users/jxc755/projects/worktrees/galaxy/branch/issue_24173_invocation_selection_urls`
-- Stacked on [prep](../issue_24173_invocation_selection_prep/index.md); its four commits are carried here rebased onto `dev` `f1772b6775d` (prep's own branch still at `195bbc6c7e0` on `5bf7abf5e32`).
+- Stacked on [prep](../issue_24173_invocation_selection_prep/index.md); its four commits are carried here rebased onto `dev` (prep's own branch still at `195bbc6c7e0` on `5bf7abf5e32`).
 
 ## Decisions
 
@@ -29,6 +29,8 @@ CI on `0e46a8984b4` is green as of 2026-10-27 (all checks that ran passed); 148 
 - Polish (2026-10-20): delete baseline-only `Analysis.test.ts`; strip unresolvable `job`/`output`/`step_tab` once the step or invocation is terminal; add a browser test for `output=` links.
 
 - Rebase (2026-10-23): `1dd5eb07d8e` → `d0b76746d47` on `dev` `f1772b6775d`. Dev's `956c561c8a2` replaced `WorkflowInvocationSteps.test.ts` mocking (`useInvocationGraph` → `workflowStore.getFullWorkflowCached`), so the grouped-input selection test was ported onto dev's mocks (hoisted `steps`/`selection`), with `order_index: 0` added to dev's invocation fixture since step lookup is by order index. Selenium file: kept both new tests. Later polish edits to that test replayed by hand. Component code merged cleanly; 27 vitest files (159 tests) in Invocation/, WorkflowInvocationState/, invocationSelection, GenericItem, entry/analysis pass; selenium not run.
+
+- Rebase (2026-11-09): `0e46a8984b4` → `0e56e22f36a` on `dev` `e4c2dec84b1`. Dev's `b1bdb4a3271` added `/tools/list` keep-mounted logic and its own `Analysis.test.ts`: `routerViewKey` now combines it with `reuseOnQueryChange`; our branch's Analysis test dropped (final state equals dev's file, since polish had reduced it to a case dev already covers). 29 vitest files (167 tests) pass; needed `pnpm install` for dev's happy-dom bump and `--no-experimental-webstorage`.
 
 ## Review response
 
