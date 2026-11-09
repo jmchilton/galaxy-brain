@@ -181,4 +181,31 @@
     📮 Conflicting shed data table halts startup with an actionable error (#24328). dannon approved; reply to review 1 awaits posting.
   status: recommended
   suggested_by: gx_branches/SUGGESTED_TASKS.md#Post Drafted Review Replies
+- prompt: De-conflict branch wf_tool_state. BRANCH_DIRECTORY is vault/repositories/galaxy/branches/active/wf_tool_state/. Rebase it onto its actual base branch (`parent_branch` when present, otherwise `upstream_base_branch`, per ../_shared/REPOSITORY_BRANCHES.md), reconciling any disagreement with the PR's `baseRefName` first. Resolve mechanical and clear conflicts, and stop and ask me about substantial ones. Force-push with `--force-with-lease` to the `jmchilton` fork, update the SHA in the branch record and queue, and take a `revision` snapshot per ../_shared/PROCESS_DIFFERENTIAL_REVIEW_SNAPSHOT.md.
+  agent_dir: gx_branches
+  link: https://github.com/galaxyproject/galaxy/pull/22996
+  record: galaxy/branches/wf_tool_state
+  profile: Sonnet (high)
+  description: |
+    🔀 Adds gxwf CLI tooling for validating and converting stateful workflows. Conflicts: see PR.
+  status: recommended
+  suggested_by: gx_branches/SUGGESTED_TASKS.md#De-conflict Branches
+- prompt: De-conflict branch subworkflow_mapping. BRANCH_DIRECTORY is vault/repositories/galaxy/branches/active/subworkflow_mapping/. Rebase it onto its actual base branch (`parent_branch` when present, otherwise `upstream_base_branch`, per ../_shared/REPOSITORY_BRANCHES.md), reconciling any disagreement with the PR's `baseRefName` first. Resolve mechanical and clear conflicts, and stop and ask me about substantial ones. Force-push with `--force-with-lease` to the `jmchilton` fork, update the SHA in the branch record and queue, and take a `revision` snapshot per ../_shared/PROCESS_DIFFERENTIAL_REVIEW_SNAPSHOT.md.
+  agent_dir: gx_branches
+  link: https://github.com/galaxyproject/galaxy/pull/23676
+  record: galaxy/branches/subworkflow_mapping
+  profile: Sonnet (high)
+  description: |
+    🔀 Brings subworkflow mapping inline between the workflow editor and the backend. Conflicts: see PR.
+  status: recommended
+  suggested_by: gx_branches/SUGGESTED_TASKS.md#De-conflict Branches
+- prompt: De-conflict branch vitest_story_play. BRANCH_DIRECTORY is vault/repositories/galaxy/branches/active/vitest_story_play/. Rebase it onto its actual base branch (`parent_branch` when present, otherwise `upstream_base_branch`, per ../_shared/REPOSITORY_BRANCHES.md), reconciling any disagreement with the PR's `baseRefName` first. Resolve mechanical and clear conflicts, and stop and ask me about substantial ones. Force-push with `--force-with-lease` to the `jmchilton` fork, update the SHA in the branch record and queue, and take a `revision` snapshot per ../_shared/PROCESS_DIFFERENTIAL_REVIEW_SNAPSHOT.md.
+  agent_dir: gx_branches
+  link: https://github.com/galaxyproject/galaxy/pull/24300
+  record: galaxy/branches/vitest_story_play
+  profile: Sonnet (high)
+  description: |
+    🔀 Storybook stories, browser plays and accessibility checks for richer client-test review. Keep draft RFC per John. Conflicts: see PR.
+  status: recommended
+  suggested_by: gx_branches/SUGGESTED_TASKS.md#De-conflict Branches
 ```

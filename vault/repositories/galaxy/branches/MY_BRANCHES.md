@@ -1,6 +1,6 @@
 # Open PR and branch queue
 
-Snapshot: 2026-11-07 (reclassified from GitHub: #24773 to ready on green CI, #24555 to attention on conflicts then back to ready after deconflict at `94b188d4881`, #24228/#24211 to attention on undiagnosed reds). Previous 2026-11-06. 2026-11-08: #24349 to ready after dannon review reply (only PR re-queried).
+Snapshot: 2026-11-09 (reclassified from GitHub: #24555 merged, removed). Previous 2026-11-07.
 
 ## Open Galaxy PRs — ready from our side (`ready`)
 
@@ -17,7 +17,6 @@ Snapshot: 2026-11-07 (reclassified from GitHub: #24773 to ready on green CI, #24
 - [`selenium_dataset_tags_auto_detect`](active/selenium_dataset_tags_auto_detect/index.md) — Missing E2E tests: history item Add Tags reaching a tool output, Attributes tab metadata Auto-detect. Base `release_26.2`. [#24347](https://github.com/galaxyproject/galaxy/pull/24347).
 - [`issue_23978_parameter_tools_xsd`](active/issue_23978_parameter_tools_xsd/index.md) — Makes framework test tools XSD-valid and validates test-tool subdirectories in CI (#23978). [#24302](https://github.com/galaxyproject/galaxy/pull/24302). Rebased 2026-11-06 at `9ff979543c6`; CI pending.
 - [`issue_24648_shed_field_border`](active/issue_24648_shed_field_border/index.md) — Tool Shed form fields get 3:1 grey-500 borders and consistent hover and focus states. [#24771](https://github.com/galaxyproject/galaxy/pull/24771).
-- [`issue_3899_pulsar_container_deps`](active/issue_3899_pulsar_container_deps/index.md) — Respects a Pulsar container job’s dependency-resolution opt-in (#3899). [#24555](https://github.com/galaxyproject/galaxy/pull/24555). Deconflicted 2026-11-07 at `94b188d4881`; fresh CI pending.
 - [`issue_24328_data_table_mismatch_26.1`](active/issue_24328_data_table_mismatch_26.1/index.md) — Conflicting shed data table halts startup with an actionable error; installs no longer wipe Galaxy's tables (#24328). Base `release_26.1`. [#24349](https://github.com/galaxyproject/galaxy/pull/24349).
 
 ## Open Galaxy PRs — needs attention (`attention`)
