@@ -13,4 +13,9 @@ Branch `issue-765-bump-planemo` on `jmchilton`, base `main`; `~/projects/worktre
 
 PR [#766](https://github.com/galaxyproject/foundry/pull/766) is open and not a draft. John asked for it on 2026-11-09.
 
-CI pending at `01d2b587`. Locally, `make check` is green except `check-vendored`, which fails on this machine only; the gxwf-pi-harness container test passes against a locally built 0.75.48 image.
+CI green at `01d2b587`, including all verification workflows under 0.75.48 on release_26.1. The continue-on-error lint step exits 2 identically under 0.75.47 (pre-existing: `planemo lint` on `.gxwf.yml`). Locally `check-vendored` fails on this machine only; the gxwf-pi-harness container test passes.
+
+## Follow-ups
+
+- Verification lint step: `planemo lint` exits 2 on every `.gxwf.yml` (0.75.47 and 0.75.48), hidden by `continue-on-error`; likely wants `workflow_lint`.
+- `check:planemo-cli` output depends on unpinned click; click 8.4 vs 8.5 changes flag defaults in the CLI pages.
