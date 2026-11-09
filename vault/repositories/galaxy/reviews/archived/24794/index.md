@@ -11,3 +11,7 @@ Draft PR by mvdbeek against `dev`, no failing checks at last look.
 ## Decisions
 
 - First review on the findings YAML flow, per [PROCESS_FINDINGS_YAML.md](../../../../../agents/_shared/PROCESS_FINDINGS_YAML.md).
+
+## Archived
+
+Merged on GitHub 2026-11-09; tracking ended (PR merged). Worktree removed 2026-11-09.

@@ -7,3 +7,7 @@
 Initial review trimmed by John on `5006c8fbfe3`, not delivered; two P2s and nine P3s, ten fixed on `pr_24706_review_1` (`f003e6c059e`).
 
 PR open against `dev`, CI green at last check, no reviews yet.
+
+## Archived
+
+Merged on GitHub 2026-11-09; tracking ended (PR merged). Worktree removed 2026-11-09.

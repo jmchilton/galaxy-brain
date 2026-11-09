@@ -7,3 +7,7 @@
 Approved and delivered 2026-11-06 on `f76e9ce6925` (five P2s + six P3s, fixed on `pr_24747_review_0`, pushed to fork only; not pushed into PR). Awaiting merge.
 
 PR open against `dev`, mergeable; #24738 expected to conflict in the user store.
+
+## Archived
+
+Merged on GitHub 2026-11-06; tracking ended (PR merged). Worktree removed 2026-11-09.

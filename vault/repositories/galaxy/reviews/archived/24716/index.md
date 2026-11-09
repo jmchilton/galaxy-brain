@@ -7,3 +7,7 @@
 Initial review complete on `79c6aac67bb`, not delivered; one P3, fixed on `pr_24716_review_0` (`14b1a7b7b58`), awaiting John's action.
 
 PR open against `release_26.2`.
+
+## Archived
+
+Merged on GitHub 2026-11-06; tracking ended (PR merged). Worktree removed 2026-11-09.

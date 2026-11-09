@@ -1,16 +1,11 @@
-# Galaxy review sync — 2026-11-06 (gx_reviews)
+# Galaxy review sync — 2026-11-09 (agent dir: gx_reviews)
 
-## Archived (merged)
-#24222, #24586 (11-06, good morning pass; no worktrees present). #24511 (11-05), #24704 (11-05), #24361 (11-06), #24420 (11-05). Worktrees removed (clean, pushed).
+**Archived (merged):** #24693, #24706, #24716, #24719, #24747, #24769, #24794. Worktrees removed (clean, branches pushed to fork).
 
-## Re-review needed (new head since review)
-#24101 → 584c25e181f; #24484 → 380309990e5; #24288 → 5252d0cf037; #24290 → b8eb71665f2; #24415 → 469ab3d3131; #24407 → 4c49b5d9c78; #24409 → 9a08fe4a2db (already flagged in queue except #24101, updated).
+**New head since review:** #24288 (`b0fc15085c5`), #24708 (`284444a8e6a`), #24673 (`1565f5e61b4`, our push), #24101 (`584c25e181f`, already noted).
 
-## Mismatches
-Active records with no queue entry: #23676 (#24716 in progress by another session). Not added/dropped.
+**Status changes:** none beyond the above.
 
-## Failing checks
-#24407 (10), #24484 (7), #24409 (6), #24415 (5), #23560 draft (8), #24647 (2).
+**Mismatches:** active record #23676 has no queue entry (architectural comparison only; left as is).
 
-## Removable worktrees
-None beyond those removed.
+**Removable worktrees:** none beyond those removed.
