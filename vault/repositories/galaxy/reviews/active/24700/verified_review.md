@@ -1,15 +1,3 @@
-### P3 1: PR description no longer matches the code
-
-The description says the fix "catches `ValueError` as well" and is "deliberately narrow", leaving out `OSError` so truncated-image errors aren't swallowed. Since `ecf63ae446b` the clause is `except Exception`. So truncated images (`OSError`), decompression-bomb errors and missing files now log a warning and leave metadata unset instead of failing. That is a reasonable choice, and it matches `galaxy.util.image_util.image_type`, which already wraps `Image.open` in `except Exception`. The description just needs to say so.
-
-Update the description to say the catch was widened on purpose, and mention the decompression-bomb case. The description doesn't cover it, but the PR now tests it.
-
-<details><summary>Discovery & Verification Agent Details</summary>
-
-Discovered by [default](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/reviewers/default.md) via Claude Opus 5.5 at medium effort. Also raised by [gx_test_challenger](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/reviewers/gx_test_challenger.md) via Claude Opus 5.5 at medium effort.
-
-</details>
-
 ### P3 2: A failure partway through `set_meta` leaves partial metadata (implementation verified)
 
 `width`, `height` and `depth` are set on `dataset.metadata` before `getattr(im, "n_frames", 0)` and the dtype calculation run. When either of those raises, the new `except Exception` keeps width/height/depth and leaves frames/dtype/axes/channels unset. That contradicts the new comment's "leaves it unset". Before this PR the same failure failed metadata entirely.

@@ -1,21 +1,14 @@
 ## PRs to review (`to_review`)
 
-- [#24700](https://github.com/galaxyproject/galaxy/pull/24700) — initial review ready on `ef448e3cde0`, unposted (four P3s; three fixed on `pr_24700_round_0_rev_0`). [notes](active/24700/index.md)
+- [#24700](https://github.com/galaxyproject/galaxy/pull/24700) — initial review on `ef448e3cde0` unposted (three P3s; fixes from `pr_24700_round_0_rev_0` pushed into PR, head `141c94cad96`). [notes](active/24700/index.md)
 
-- [#24794](https://github.com/galaxyproject/galaxy/pull/24794) — Draft; initial review ready on `9d005f67cfd`, unposted (one P3, fixed on `pr_24794_round_0_rev_0`; findings YAML pilot). [notes](active/24794/index.md)
 - [#24772](https://github.com/galaxyproject/galaxy/pull/24772) — approved on `49fa5544810` with review response (one P2 + two P3s; fixes on fork branch `pr_24772_review_0`, not pushed into PR); awaiting merge. [notes](active/24772/index.md)
 - [#24685](https://github.com/galaxyproject/galaxy/pull/24685) — approved on `150cb834122` 2026-11-07 with review; awaiting merge (one P2 + two P3s; all fixed on `pr_24685_review_1`, not pushed to PR). [notes](active/24685/index.md)
 - [#24687](https://github.com/galaxyproject/galaxy/pull/24687) — approved on `82550bcf062` 2026-11-07 with review (3 P2s + 10 P3s; all fixed on `pr_24687_review_0`). [notes](active/24687/index.md)
 - [#24696](https://github.com/galaxyproject/galaxy/pull/24696) — approved on `b26614f7c11` 2026-11-06; awaiting merge (one P2 + two P3s; all fixed on `pr_24696_review_0`). [notes](active/24696/index.md)
 - [#24708](https://github.com/galaxyproject/galaxy/pull/24708) — approved with initial review on `86a724b7bf5`; awaiting merge (four P2s + twelve P3s; all fixed on `pr_24708_review_0`). [notes](active/24708/index.md)
-- [#24706](https://github.com/galaxyproject/galaxy/pull/24706) — initial review trimmed on `5006c8fbfe3`, unposted (two P2s + nine P3s; ten fixed on `pr_24706_review_1`). [notes](active/24706/index.md)
-- [#24719](https://github.com/galaxyproject/galaxy/pull/24719) — approved on `e2c3677d3ae` (2026-11-06); awaiting merge. Review branch `pr_24719_review_0` on fork, not pushed into PR. [notes](active/24719/index.md)
 - [#24745](https://github.com/galaxyproject/galaxy/pull/24745) — shelved until #24787 closes; initial review ready on `5fad7684e37`, unposted (one P1 + three P2s + six P3s; all but one P3 fixed on `pr_24745_review_0`). [notes](active/24745/index.md)
-- [#24769](https://github.com/galaxyproject/galaxy/pull/24769) — approved on `b4d1c730ac7` with review (2026-11-06); review branch not pushed to PR; awaiting merge. [notes](active/24769/index.md)
-- [#24716](https://github.com/galaxyproject/galaxy/pull/24716) — initial review ready on `79c6aac67bb`, unposted (one P3; fixed on `pr_24716_review_0`). [notes](active/24716/index.md)
-- [#24693](https://github.com/galaxyproject/galaxy/pull/24693) — approved + delivered on `db8d06be733`; awaiting merge (two P2s + three P3s; all fixed on `pr_24693_review_0`). [notes](active/24693/index.md)
 - [#24673](https://github.com/galaxyproject/galaxy/pull/24673) — approved on `7db61c5f53a` 2026-11-06; awaiting merge (two P2s + seven P3s in review; eight fixed on `pr_24673_review_0`, not pushed to PR). [notes](active/24673/index.md)
-- [#24747](https://github.com/galaxyproject/galaxy/pull/24747) — approved on `f76e9ce6925`, delivered; awaiting merge (five P2s + six P3s, fixes on `pr_24747_review_0`, not pushed to PR). [notes](active/24747/index.md)
 - [#24598](https://github.com/galaxyproject/galaxy/pull/24598) — approved + review branch `e278e8edcea` pushed into PR; awaiting merge. [notes](active/24598/index.md)
 - [#24647](https://github.com/galaxyproject/galaxy/pull/24647) — review delivered 2026-11-04 as APPROVE on `7247fea9983` (P2 integration test + three P3s; three fixed on `pr_24647_review_0`). Also approved by davelopez; head now 59f6bfe152b; awaiting merge. [notes](active/24647/index.md)
 - [#24635](https://github.com/galaxyproject/galaxy/pull/24635) — round 1 re-review on `9ee89b52d9` delivered as comment 2026-11-04, approval stands (four P2s + six P3s, all fixed on `pr_24635_review_1`, not pushed to PR); awaiting merge/author. [notes](active/24635/index.md)
@@ -42,4 +35,4 @@ PRs to Skip For 7 Days:
 PRs Blocked:
 None yet.
 
-GitHub state last refreshed: 2026-11-06 (#24222, #24586 merged and archived).
+GitHub state last refreshed: 2026-11-09 (#24693, #24706, #24716, #24719, #24747, #24769, #24794 merged and archived).
