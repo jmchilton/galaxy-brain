@@ -7,7 +7,7 @@ import { trimLine } from "./status";
 const label = (action: string): string => action.replace(/_/g, " ");
 
 /** Pull request mode until the PR exists. */
-const gateMode = (ctx: ComposeContext): Mode => (ctx.file.actions.pull_request && !ctx.prUrl ? "pr" : "comment");
+export const gateMode =(ctx: ComposeContext): Mode => (ctx.file.actions.pull_request && !ctx.prUrl ? "pr" : "comment");
 
 export function statusLine(ctx: ComposeContext): string {
   const trim = trimLine(ctx.file);
@@ -55,6 +55,33 @@ export interface Landing {
   actions: Array<{ action: Action; label: string; checked: boolean }>;
   previews: { comment: string; pr: string | null };
 }
+
+/** What the apps' findings panels draw. */
+export interface FindingsPanel {
+  round: number;
+  /** Its name, record-relative. */
+  file: string;
+  /** Null while the file has errors. */
+  landing: Landing | null;
+  errors: string[];
+}
+
+/** Sets a value, never flips one, so a click on a stale panel can't undo a newer edit. */
+export type FindingsChange = { id: string; include: boolean } | { action: Action; checked: boolean };
+
+export const noteLabel = ({ name, state }: { name: string; state: NoteState }): string =>
+  `📝 ${/_pr_note\.md$/.test(name) ? "PR note" : "Comment note"}${state === "written" ? "" : ` · ${state}`}`;
+
+export type Tone = "ready" | "blocked" | "trim" | "warning";
+
+const TONES: Array<[string, Tone]> = [
+  ["✅", "ready"],
+  ["✂️", "trim"],
+  ["⚠️", "warning"],
+];
+
+/** A status, or a line of check output, by its leading mark. */
+export const statusTone = (line: string): Tone => TONES.find(([mark]) => line.startsWith(mark))?.[1] ?? "blocked";
 
 const noteState = (note: string | null): NoteState => (note === null ? "missing" : noteIsEmpty(note) ? "empty" : "written");
 

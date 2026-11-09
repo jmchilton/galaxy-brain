@@ -1,14 +1,11 @@
 // review-factory CLI: validate findings YAML, report a record's status, and compose posted text.
 import { existsSync, readdirSync, readFileSync, statSync } from "node:fs";
-import { homedir } from "node:os";
 import { basename, join } from "node:path";
 import { parseArgs } from "node:util";
-import { checkout } from "../../differential-review/src/capture";
-import { readRecord } from "../../differential-review/src/record";
-import { branchGates } from "./branch-gates";
+import { recordBranchGates } from "./branch-gates";
 import { compose, composeComment, composePrBody } from "./compose";
 import { composeGates, fileGates, type Mode } from "./gates";
-import { statusLine } from "./landing";
+import { gateMode, statusLine } from "./landing";
 import { latestBranch } from "./model";
 import { parseFindings } from "./parse";
 import { loadRecord } from "./record";
@@ -25,6 +22,7 @@ const USAGE = `usage: review-factory <command> [options]
 
   validate [path...]                     check every review_<N>_findings.yml under the paths (default vault/repositories)
   status --record <dir> [--json]         the record's status, trim work and refusals, without git
+  check --record <dir> [--no-git]        every refusal and warning compose would give for the checked actions
   compose comment --record <dir> [--pr-url <url>] [--no-git] [--preview]
                                          the comment or review for the reviewed PR
   compose pr --record <dir> [--title] [--no-git] [--preview]
@@ -85,6 +83,26 @@ function status(argv: string[], io: Io): number {
   return 0;
 }
 
+/** Every refusal and warning compose would give for the checked actions, with git unless --no-git. */
+function check(argv: string[], io: Io): number {
+  const { values } = parse(argv, { "no-git": { type: "boolean" } });
+  if (!values.record) throw new UsageError("--record is required");
+  const loaded = loadRecord(values.record as string);
+  if (!loaded.ctx) {
+    for (const error of loaded.errors) io.out(`⛔ ${error}`);
+    return 1;
+  }
+  const { errors, warnings } = composeGates(loaded.ctx, gateMode(loaded.ctx));
+  if (!values["no-git"]) {
+    const git = recordBranchGates(loaded.dir, loaded.ctx);
+    errors.push(...git.errors);
+    warnings.push(...git.warnings);
+  }
+  for (const line of [...errors.map((e) => `⛔ ${e}`), ...warnings.map((w) => `⚠️ ${w}`)]) io.out(line);
+  if (!errors.length) io.out("✅ Every check passes");
+  return errors.length ? 1 : 0;
+}
+
 function composeCommand(argv: string[], io: Io): number {
   const { values, positionals } = parse(argv, { "pr-url": { type: "string" }, title: { type: "boolean" }, "no-git": { type: "boolean" }, preview: { type: "boolean" } });
   const mode = positionals[0] as Mode | undefined;
@@ -104,9 +122,7 @@ function composeCommand(argv: string[], io: Io): number {
   }
   const result = compose(loaded.ctx, mode);
   if (!values["no-git"]) {
-    const record = readRecord(loaded.dir);
-    const body = readFileSync(join(loaded.dir, "index.md"), "utf8");
-    const git = branchGates(loaded.ctx, checkout({ ...record, repo: record.repo!, kind: "reviews" }, body, homedir()));
+    const git = recordBranchGates(loaded.dir, loaded.ctx);
     result.errors.push(...git.errors);
     result.warnings.push(...git.warnings);
   }
@@ -132,6 +148,7 @@ export async function run(argv: string[], io: Io): Promise<number> {
       return validate(rest, io);
     }
     if (command === "status") return status(rest, io);
+    if (command === "check") return check(rest, io);
     if (command === "compose") return composeCommand(rest, io);
     throw new UsageError(`unknown command ${command}`);
   } catch (e) {

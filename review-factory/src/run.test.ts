@@ -66,6 +66,18 @@ describe("review-factory CLI", () => {
     expect(JSON.parse(status.out)).toMatchObject({ status: "✂️ Trim: drop bef11669426 (P3 2)", trim: { drop: [{ sha: "bef11669426", findings: ["P3 2"] }] } });
   });
 
+  it("checks what Respond would refuse, as one line each", async () => {
+    expect(await cli("check", "--record", record24706(), "--no-git")).toEqual({ code: 0, out: "✅ Every check passes", err: "" });
+    const dir = record24706();
+    writeFileSync(join(dir, "johns_review_0_comment_note.md"), "Cites P2 3.\n");
+    writeFileSync(join(dir, "human_review.md"), "Reviewed abcdef12345.\n");
+    expect(await cli("check", "--record", dir, "--no-git")).toEqual({
+      code: 1,
+      out: "⛔ the comment note cites P2 3, which isn't included\n⚠️ human_review.md names abcdef12345, not the reviewed commit 5006c8fbfe3",
+      err: "",
+    });
+  });
+
   it("validates findings files under a path", async () => {
     const dir = record24706();
     expect(await cli("validate", dir)).toEqual({ code: 0, out: "1 of 1 findings files valid", err: "" });

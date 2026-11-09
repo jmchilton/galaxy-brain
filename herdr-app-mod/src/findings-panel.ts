@@ -3,13 +3,12 @@
 
 import { div } from "gpui-kit";
 import { h_flex, v_flex } from "gpui-base";
-import type { FindingsPanel } from "../../herdr-plugin/src/findings-types";
+import type { FindingsCheck, FindingsPanel } from "../../herdr-plugin/src/findings-types";
 import type { Action } from "../../review-factory/src/model";
-import type { LandingFinding } from "../../review-factory/src/landing";
+import { type LandingFinding, noteLabel, statusTone, type Tone } from "../../review-factory/src/landing";
 import { chip } from "./chip";
 import type { MarkdownBlock } from "./markdown-blocks";
 import { type MarkdownHost, renderMarkdown } from "./markdown-view";
-import { noteLabel, statusTone } from "./record-page";
 
 type Cx = any;
 type El = any;
@@ -22,6 +21,10 @@ export interface FindingsUi {
 	setInclude(id: string, include: boolean, cx: Cx): void;
 	setAction(action: Action, checked: boolean, cx: Cx): void;
 	openNote(name: string, cx: Cx): void;
+	/** The last check's output, and whether one runs now. */
+	check: FindingsCheck | null;
+	checking: boolean;
+	runCheck(cx: Cx): void;
 }
 
 const FILTERED = "filtered";
@@ -84,6 +87,16 @@ function findingRow(t: any, ui: FindingsUi, f: LandingFinding): El {
 		.when(open && Boolean(f.text), (el: El) => el.child(div().pl(26).child(renderMarkdown(t, ui.blocks(f.text!), ui.markdownHost(`fd-${key}`)))));
 }
 
+function checkRow(t: any, ui: FindingsUi): El {
+	const lines = ui.check?.message.split("\n").filter(Boolean) ?? [];
+	return v_flex()
+		.gap(4)
+		.child(h_flex().child(chip(t, "gb-fd-check", ui.checking ? "🔍 Checking…" : "🔍 Check before posting", "Every refusal Respond would give, with git: fetches the PR and the review branch", false, (cx) => ui.runCheck(cx))))
+		.children(lines.map((line) => div().pl(10).text_size(12).text_color(toneColor(t, statusTone(line))).child(line)));
+}
+
+const toneColor = (t: any, tone: Tone) => ({ ready: t.ansi2, trim: t.ansi3, warning: t.ansi3, blocked: t.blocked })[tone];
+
 function preview(t: any, ui: FindingsUi, key: string, label: string, text: string): El {
 	const open = ui.opened.has(key);
 	return v_flex()
@@ -99,11 +112,10 @@ export function renderFindingsPanel(t: any, panel: FindingsPanel, ui: FindingsUi
 	if (!landing) {
 		return root.child(title).child(div().text_color(t.blocked).child(`⚠️ ${panel.file} has errors; fix them to see the findings`)).children(panel.errors.map((error) => div().text_size(12).text_color(t.blocked).child(error)));
 	}
-	const tone = statusTone(landing.status);
 	const filteredOpen = ui.opened.has(FILTERED);
 	return root
 		.child(title)
-		.child(div().font_semibold().text_color(tone === "ready" ? t.ansi2 : tone === "trim" ? t.ansi3 : t.blocked).child(landing.status))
+		.child(div().font_semibold().text_color(toneColor(t, statusTone(landing.status))).child(landing.status))
 		.when(landing.errors.length > 1, (el: El) => el.children(landing.errors.slice(1).map((error) => div().text_size(12).text_color(t.blocked).child(`⛔ ${error}`))))
 		.children(landing.warnings.map((warning) => div().text_size(12).text_color(t.ansi3).child(`⚠️ ${warning}`)))
 		.child(
@@ -125,6 +137,7 @@ export function renderFindingsPanel(t: any, panel: FindingsPanel, ui: FindingsUi
 					),
 				),
 		)
+		.child(checkRow(t, ui))
 		.child(v_flex().gap(6).children(landing.findings.map((f) => findingRow(t, ui, f))))
 		.when(landing.filtered.length > 0, (el: El) =>
 			el.child(

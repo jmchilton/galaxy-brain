@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { composeComment, composePrBody } from "./compose";
-import { landing } from "./landing";
+import { landing, noteLabel, statusTone } from "./landing";
 import { context24706, finding } from "./test-fixtures";
 
 describe("landing", () => {
@@ -60,5 +60,18 @@ describe("landing", () => {
     expect(page.errors).toEqual(["johns_review_0_pr_note.md is empty"]);
     expect(page.previews.comment).toContain("are in the review-branch PR.");
     expect(page.previews.comment).not.toContain("undefined");
+  });
+});
+
+describe("findings labels", () => {
+  it("names a note by kind and state", () => {
+    expect(noteLabel({ name: "johns_review_0_comment_note.md", state: "written" })).toBe("📝 Comment note");
+    expect(noteLabel({ name: "johns_review_1_pr_note.md", state: "empty" })).toBe("📝 PR note · empty");
+    expect(noteLabel({ name: "johns_review_0_pr_note.md", state: "missing" })).toBe("📝 PR note · missing");
+  });
+
+  it("tones the status, or a line of check output, by its mark", () => {
+    const lines = ["✅ Ready to approve", "⛔ johns_review_0_comment_note.md is empty", "✂️ Trim: drop bef11669426 (P3 2)", "⚠️ PR #24706 has moved"];
+    expect(lines.map(statusTone)).toEqual(["ready", "blocked", "trim", "warning"]);
   });
 });

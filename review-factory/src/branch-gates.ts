@@ -1,6 +1,10 @@
 // Refusals that need git: the review branch on John's fork must be exactly what the findings YAML lists.
+import { readFileSync } from "node:fs";
+import { homedir } from "node:os";
+import { join } from "node:path";
 import { revParse, tryGit } from "../../differential-review-lib/src/cli/git.js";
-import { fetched, fetchedFromFork } from "../../differential-review/src/capture";
+import { checkout, fetched, fetchedFromFork } from "../../differential-review/src/capture";
+import { readRecord } from "../../differential-review/src/record";
 import type { ComposeContext, GateResult } from "./gates";
 import { latestBranch } from "./model";
 
@@ -31,4 +35,11 @@ export function branchGates(ctx: ComposeContext, worktree: string): GateResult {
     errors.push(`pushing ${branch.name} onto PR #${ctx.pr} wouldn't fast-forward from ${short(prHead)}`);
   }
   return { errors, warnings };
+}
+
+/** branchGates in the record's PR checkout. */
+export function recordBranchGates(dir: string, ctx: ComposeContext): GateResult {
+  const record = readRecord(dir);
+  const body = readFileSync(join(dir, "index.md"), "utf8");
+  return branchGates(ctx, checkout({ ...record, repo: record.repo!, kind: "reviews" }, body, homedir()));
 }

@@ -1,17 +1,10 @@
 // The findings panel's requests and reply, free of Node so the Herdr app's record tab can share them.
-import type { Landing } from "../../review-factory/src/landing";
-import type { Action } from "../../review-factory/src/model";
+import type { FindingsChange } from "../../review-factory/src/landing";
+import type { CaptureResult } from "./review-types";
 
-export interface FindingsPanel {
-	round: number;
-	/** Its name, record-relative. */
-	file: string;
-	/** Null while the file has errors. */
-	landing: Landing | null;
-	errors: string[];
-}
-
-/** Sets a value, never flips one, so a click on a stale panel can't undo a newer edit. */
-export type FindingsChange = { id: string; include: boolean } | { action: Action; checked: boolean };
+export type { FindingsChange, FindingsPanel } from "../../review-factory/src/landing";
 
 export type FindingsEdit = { ref: string; round: number } & FindingsChange;
+
+/** `review-factory check`'s output; started, then collected once it's done. */
+export type FindingsCheck = CaptureResult;

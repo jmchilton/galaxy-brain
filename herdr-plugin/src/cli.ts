@@ -2,7 +2,7 @@
 // `actions <agent_dir>` prints that dir's launchers as prompts (JSON) for the Herdr app's pane header;
 // `host <request JSON>` answers one Chrome native host request (JSON), for the Herdr app mods;
 // `review <request JSON>` loads or changes a differential review, or starts a snapshot, for the Herdr app's review tab;
-// `capture <record dir> <result file>` is that snapshot's own process;
+// `capture <record dir> <result file>` is that snapshot's own process, and `run <result file> <argv JSON>` any other command's;
 // `app <request JSON>` answers what only the Herdr app's mods ask for.
 
 import { spawnSync } from "node:child_process";
@@ -14,6 +14,7 @@ import { defaultEnvironment, type Environment, launchArgv } from "../../obsidian
 import { defaultProfile, type Profile, profileArgs } from "../../obsidian-plugin/src/profiles";
 import { agentActions } from "./agent-actions";
 import { appRequest } from "./app-host";
+import { runCommand } from "./detached";
 import { hostRun } from "./host-run";
 import { fzfKey, fzfLine } from "./fzf-lines";
 import { parseGithubRef, recordsForRef } from "./github-ref";
@@ -181,6 +182,7 @@ else if (command === "review" && process.argv[3]) {
 	const request = JSON.parse(process.argv[3]);
 	answer("capture" in request ? Promise.resolve().then(() => captureRequest(vaultRoot, request)) : reviewRequest(vaultRoot, request));
 } else if (command === "capture" && process.argv[3] && process.argv[4]) void runCapture(process.argv[3], process.argv[4]);
+else if (command === "run" && process.argv[3] && process.argv[4]) void runCommand(process.argv[3], JSON.parse(process.argv[4]));
 else if (command === "app" && process.argv[3]) {
 	const appHome = process.env.HERDR_APP_HOME ?? join(homedir(), ".config/herdr-app");
 	answer(Promise.resolve(process.argv[3]).then((request) => appRequest(JSON.parse(request), { vaultRoot, appHome, run: hostRun, now: () => new Date() })));

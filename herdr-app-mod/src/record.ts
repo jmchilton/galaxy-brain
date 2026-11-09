@@ -6,7 +6,7 @@ import { h_flex, v_flex } from "gpui-base";
 import { exec, openOverlay, props, readTextFile, theme, watchFolder } from "herdr";
 import { withoutFrontmatter } from "../../obsidian-plugin/src/record-frontmatter";
 import { type RecordFileLink, recordFileLabel, type RecordFileLinks } from "../../site/src/lib/file-docs";
-import type { FindingsChange, FindingsPanel } from "../../herdr-plugin/src/findings-types";
+import type { FindingsChange, FindingsCheck, FindingsPanel } from "../../herdr-plugin/src/findings-types";
 import { chip } from "./chip";
 import { type FindingsUi, renderFindingsPanel } from "./findings-panel";
 import { appHost, delay, host, logRenderFailures, obsidianUrl, openUrl } from "./host";
@@ -20,6 +20,8 @@ const VAULT = `${__GB_ROOT__}/vault`;
 const INDEX = "index.md";
 const OTHER = "other";
 const POLL_MS = 30_000;
+/** Seconds to wait for a check, which fetches from GitHub. */
+const CHECK_POLLS = 180;
 
 type Cx = any;
 type El = any;
@@ -64,6 +66,8 @@ export default class GbRecord extends View {
 	declare findingsOpened: Set<string>;
 	/** Parsed finding texts and previews, by source; cleared on each load. */
 	declare findingsBlocks: Map<string, MarkdownBlock[]>;
+	declare check: FindingsCheck | null;
+	declare checking: boolean;
 
 	init(_props: unknown, cx: Cx) {
 		this.page = null;
@@ -75,6 +79,8 @@ export default class GbRecord extends View {
 		this.findings = null;
 		this.findingsOpened = new Set();
 		this.findingsBlocks = new Map();
+		this.check = null;
+		this.checking = false;
 		cx.spawn(async (cx: Cx) => {
 			await this.load(cx);
 			await this.watch(cx);
@@ -117,6 +123,29 @@ export default class GbRecord extends View {
 		});
 	}
 
+	/** Runs review-factory check in its own process, polling for its output. */
+	runCheck(cx: Cx) {
+		if (this.checking) return;
+		const ref = props()?.ref as string;
+		this.checking = true;
+		this.check = null;
+		cx.notify();
+		cx.spawn(async (cx: Cx) => {
+			try {
+				await appHost({ type: "findingsCheck", ref, check: "start" });
+				for (let i = 0; i < CHECK_POLLS && !this.check; i++) {
+					await delay(cx, 1000);
+					this.check = await appHost({ type: "findingsCheck", ref, check: "result" });
+				}
+				this.check ??= { ok: false, message: `⛔ no result after ${CHECK_POLLS} s; try again` };
+			} catch (error) {
+				this.check = { ok: false, message: `⛔ ${error}` };
+			}
+			this.checking = false;
+			cx.notify();
+		});
+	}
+
 	findingsUi(): FindingsUi {
 		const { findingsBlocks: cache } = this;
 		const { key } = this.page!.record;
@@ -131,6 +160,9 @@ export default class GbRecord extends View {
 			setInclude: (id, include, cx) => this.editFindings(cx, { id, include }),
 			setAction: (action, checked, cx) => this.editFindings(cx, { action, checked }),
 			openNote: (name, cx) => cx.spawn(async () => openUrl(obsidianUrl(`${key}/${name}`))),
+			check: this.check,
+			checking: this.checking,
+			runCheck: (cx) => this.runCheck(cx),
 		};
 	}
 

@@ -3,7 +3,9 @@ import { tmpdir } from "node:os";
 import { dirname, join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { type AppHostDeps, appRequest, editNote } from "./app-host";
+import { jobFile } from "./detached";
 import { newErrors } from "./error-log";
+import { findingsCheck } from "./findings-host";
 
 const TASKS = "agents/alpha/TASKS.md";
 const CRACKS = "agents/alpha/the_cracks/2026-11-04.md";
@@ -161,6 +163,15 @@ describe("findings panel", () => {
 		const broken = text(d);
 		expect(set({})).toThrow("fix review_0_findings.yml first");
 		expect(text(d)).toBe(broken);
+	});
+
+	it("starts review-factory check on the record in its own process", () => {
+		const d = review();
+		const started: string[][] = [];
+		const file = jobFile("check", ref);
+		expect(findingsCheck(d.vaultRoot, { ref, check: "start" }, (args) => started.push(args))).toBeNull();
+		expect(started).toEqual([["run", file, JSON.stringify([join(d.vaultRoot, "../review-factory/bin/review-factory"), "check", "--record", join(d.vaultRoot, REVIEW)])]]);
+		expect(() => findingsCheck(d.vaultRoot, { ref: "galaxy/branches/24706", check: "start" }, () => undefined)).toThrow("no review record");
 	});
 });
 

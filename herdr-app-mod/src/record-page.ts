@@ -1,7 +1,5 @@
 // Pure parts of the gb-record mod, a record's landing page.
 
-import type { NoteState } from "../../review-factory/src/landing";
-
 export type LinkTarget = { file: string } | { vault: string } | { url: string };
 
 export const recordTabName = (ref: string) => `📓 ${ref}`;
@@ -10,11 +8,6 @@ export const reviewTabName = (ref: string) => `🔎 ${ref}`;
 
 /** The text after a leading `# ` heading, which the page's header already shows. */
 export const withoutTitle = (text: string): string => text.replace(/^# .*\n+/, "");
-
-export const noteLabel = ({ name, state }: { name: string; state: NoteState }): string =>
-	`📝 ${/_pr_note\.md$/.test(name) ? "PR note" : "Comment note"}${state === "written" ? "" : ` · ${state}`}`;
-
-export const statusTone = (status: string): "ready" | "blocked" | "trim" => (status.startsWith("✅") ? "ready" : status.startsWith("✂️") ? "trim" : "blocked");
 
 export const isImagePath =(path: string): boolean => /\.(?:png|jpe?g|gif|webp|svg)$/i.test(path);
 
