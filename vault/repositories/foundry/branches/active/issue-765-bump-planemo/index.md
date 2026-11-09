@@ -13,4 +13,4 @@ Branch `issue-765-bump-planemo` on `jmchilton`, base `main`; `~/projects/worktre
 
 PR [#766](https://github.com/galaxyproject/foundry/pull/766) is open and not a draft. John asked for it on 2026-11-09.
 
-CI pending at `f176c4a9`. Locally, `make check` is green except `check-vendored`, which fails on this machine only, and the Docker container test was skipped because Docker wasn't running.
+CI pending at `01d2b587`. Locally, `make check` is green except `check-vendored`, which fails on this machine only; the gxwf-pi-harness container test passes against a locally built 0.75.48 image.
