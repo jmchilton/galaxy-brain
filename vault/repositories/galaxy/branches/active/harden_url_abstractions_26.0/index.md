@@ -8,9 +8,9 @@ upstream_base_branch: release_26.0
 
 ## Status
 
-Status: implemented with DRS lookups hardened. Base: `release_26.0` (`784549f48d6`), head `36d780b40bd`. [Debrief](implementation_debrief.md). Worktree: `~/projects/worktrees/galaxy/branch/harden_url_abstractions_26.0`.
+Status: implemented with DRS lookups hardened. Base: `release_26.0` (`784549f48d6`), head `2ceafdbaf31`; mvdbeek review 1 ported and CI reds fixed 2026-11-09 ([response](review_mvdbeek_response.md)). [Debrief](implementation_debrief.md). Worktree: `~/projects/worktrees/galaxy/branch/harden_url_abstractions_26.0`.
 
-No PR yet. Fork CI pending.
+No PR yet. Fork CI pending on `2ceafdbaf31`; reds on `36d780b40bd` diagnosed in the response.
 
 ## Scope
 
