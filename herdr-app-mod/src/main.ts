@@ -135,6 +135,7 @@ export default class GbPane extends View {
 	declare profile: string | null;
 	declare environment: string | null;
 	declare menu: string | null;
+	declare starting: boolean;
 
 	init(_props: unknown, cx: Cx) {
 		const p = props() ?? {};
@@ -146,6 +147,7 @@ export default class GbPane extends View {
 			this.profile = p.launch?.profile ?? null;
 			this.environment = p.launch?.environment ?? null;
 			this.menu = null;
+			this.starting = false;
 			this.draft = TextareaState.new({ value: p.text ?? "", rows: 10 });
 			this.draft.on("submit", (_e: unknown, cx: Cx) => this.sendDraft(cx));
 			this.draft.focus();
@@ -453,19 +455,26 @@ export default class GbPane extends View {
 					)
 					.child(div().flex_1())
 					.child(textButton(t, "gb-dc", "Cancel", false, () => closeOverlay(p.overlay)))
-					.child(textButton(t, "gb-ds", p.launch ? "Launch" : "Send", true, (cx) => this.sendDraft(cx))),
+					.child(textButton(t, "gb-ds", this.starting ? "Starting…" : p.launch ? "Launch" : "Send", true, (cx) => this.sendDraft(cx))),
 			);
 	}
 
+	/** A launch closes the dialog once done; closing first would cancel the task removal and error toast. */
 	sendDraft(cx: Cx) {
 		const p = props() ?? {};
 		const text = this.draft.value();
-		closeOverlay(p.overlay);
-		if (!text.trim()) return;
+		if (this.starting) return;
+		if (!p.launch || !text.trim()) {
+			closeOverlay(p.overlay);
+			if (text.trim()) cx.spawn(async () => send(p.terminal, p.pane, text));
+			return;
+		}
+		this.starting = true;
+		cx.notify();
 		const request = { ...p.launch, profile: this.profile, environment: this.environment };
 		cx.spawn(async () => {
-			if (!p.launch) return send(p.terminal, p.pane, text);
 			if ((await launch(request, p.label, text)) && p.task) await removeListedTask(p.task);
+			closeOverlay(p.overlay);
 		});
 	}
 }
