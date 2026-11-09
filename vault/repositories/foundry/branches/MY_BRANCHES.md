@@ -13,6 +13,7 @@ Snapshot: 2026-10-28 (originally recovered from live GitHub state, local worktre
 - [`start-contributing-intro`](active/start-contributing-intro/index.md) — Replaces Start Contributing intro TODO; adds contribution-loop paragraph and IWC Lab pointer. [#745](https://github.com/galaxyproject/foundry/pull/745).
 - [`issue-725-brief-scope-conflicts`](active/issue-725-brief-scope-conflicts/index.md) — Clear scope vs source conflicts become brief open questions (#725). [#728](https://github.com/galaxyproject/foundry/pull/728).
 - [`issue-661-conditional-fan-in`](active/issue-661-conditional-fan-in/index.md) — Route pattern covers mapped `when`-gated branches, verified on `release_26.1` (#661). [#755](https://github.com/galaxyproject/foundry/pull/755).
+- [`issue-765-bump-planemo`](active/issue-765-bump-planemo/index.md) — Bump planemo pin to 0.75.48; regenerate CLI pages, vendored artifacts, casts (#765). [#766](https://github.com/galaxyproject/foundry/pull/766).
 
 ## Open Foundry PRs — needs attention (`attention`)
 
