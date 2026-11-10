@@ -9,4 +9,6 @@ Origin: filed from foundry#668 triage; the drafted text is in [foundry 668's not
 - Root cause confirmed: `_walk_draft_validation` has no cycle check, and `_topo_ordered_steps` drains a cycle alphabetically on the assumption that validation reports it. It also drops self-edges, so a step sourcing its own output never even registers. TS `walkDraftValidation` / `topoOrderedSteps` have the same gap.
 - Right repository: gxformat2 owns the draft contract and the shared fixtures; TS ports it.
 
+PRs: [galaxyproject/gxformat2#294](https://github.com/galaxyproject/gxformat2/pull/294), which merges first, and [jmchilton/galaxy-tool-util-ts#228](https://github.com/jmchilton/galaxy-tool-util-ts/pull/228).
+
 Branches: [gxformat2](../../../branches/active/issue_288_draft_cycles/index.md), [TS port](../../../../galaxy-tool-util-ts/branches/active/issue_288_draft_cycles/index.md). Debrief: [implementation](../../../../galaxy-tool-util-ts/branches/active/issue_288_draft_cycles/implementation_debrief.md).

@@ -53,7 +53,7 @@ Risks are minimal - this change doesn't lock the project into particular difficu
 
 ## Context
 
-Port of 🌿[gxformat2 `issue_288_draft_cycles`](https://github.com/jmchilton/gxformat2/tree/issue_288_draft_cycles), which owns the shared fixtures and expectations and merges first. Builds on 🔀 #217, which left cycles to gxformat2#288.
+Port of 🔀 [galaxyproject/gxformat2#294](https://github.com/galaxyproject/gxformat2/pull/294), which owns the shared fixtures and expectations and merges first. Builds on 🔀 #217, which left cycles to gxformat2#288.
 
 ## Agentic Checks
 

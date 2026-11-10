@@ -1,21 +1,22 @@
 ---
 upstream_base_branch: main
+pr: 294
 blocking: galaxy-tool-util-ts/branches/issue_288_draft_cycles
 related_records: galaxy-tool-util-ts/branches/issue_288_draft_cycles
 ---
 
 # validate_draft: reject step cycles (#288)
 
-- [Open PR](https://github.com/galaxyproject/gxformat2/compare/main...jmchilton:gxformat2:issue_288_draft_cycles)
+- [PR #294](https://github.com/galaxyproject/gxformat2/pull/294)
 - [View on GitHub](https://github.com/jmchilton/gxformat2/tree/issue_288_draft_cycles)
 
 ## Status
 
-Polished at `6cc1d0a` on the `jmchilton` fork, branched from `origin/main` `4e245c2`; ready for John's final review.
+Polished at `6cc1d0a` on the `jmchilton` fork, branched from `origin/main` `4e245c2`.
 
-No PR yet.
+PR #294 opened at John's request on 2026-11-10 against `main`, labelled `bug`; it merges before the paired galaxy-tool-util-ts#228.
 
-Fork CI green at `6cc1d0a`.
+Fork CI green at `6cc1d0a`; PR CI running.
 
 ## Polish
 

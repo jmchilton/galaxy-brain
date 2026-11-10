@@ -4,7 +4,7 @@ Snapshot: 2026-11-07 (live GitHub state for jmchilton's open gxformat2 PRs).
 
 ## Open gxformat2 PRs — ready from our side (`ready`)
 
-None yet.
+- [`issue_288_draft_cycles`](active/issue_288_draft_cycles/index.md) — `validate_draft` rejects step dependency cycles, incl. self-loops (#288). [#294](https://github.com/galaxyproject/gxformat2/pull/294).
 
 ## Open gxformat2 PRs — needs attention (`attention`)
 
@@ -36,7 +36,7 @@ None yet.
 
 ## gxformat2 branches — ready for final review (`branches_ready_for_final_review`)
 
-- [`issue_288_draft_cycles`](active/issue_288_draft_cycles/index.md) — `validate_draft` rejects step dependency cycles, incl. self-loops (#288). [Open PR](https://github.com/galaxyproject/gxformat2/compare/main...jmchilton:gxformat2:issue_288_draft_cycles).
+None yet.
 
 ## gxformat2 branches — approved, opens when green (`branches_need_pr`)
 

@@ -1,21 +1,22 @@
 ---
 upstream_base_branch: main
+pr: 228
 blockers: gxformat2/branches/issue_288_draft_cycles
 related_records: gxformat2/branches/issue_288_draft_cycles
 ---
 
 # validateDraft: reject step cycles (gxformat2#288 port)
 
-- [Open PR](https://github.com/jmchilton/galaxy-tool-util-ts/compare/main...issue_288_draft_cycles)
+- [PR #228](https://github.com/jmchilton/galaxy-tool-util-ts/pull/228)
 - [View on GitHub](https://github.com/jmchilton/galaxy-tool-util-ts/tree/issue_288_draft_cycles)
 
 ## Status
 
-Polished at `8c04726c`, branched from `origin/main` `68451c8e`; ready for John's final review.
+Polished at `8c04726c`, branched from `origin/main` `68451c8e`.
 
-No PR yet.
+PR #228 opened at John's request on 2026-11-10 against `main`, labelled `bug`; it merges after the paired galaxyproject/gxformat2#294.
 
-No CI yet (PR-only); local gate green at `8c04726c`: `make check`, `make test` (gxwf-web's `--output-schema` test timed out once under two concurrent suite runs, passed on rerun).
+PR CI running at `8c04726c`; local gate green at `8c04726c`: `make check`, `make test` (gxwf-web's `--output-schema` test timed out once under two concurrent suite runs, passed on rerun).
 
 ## Polish
 

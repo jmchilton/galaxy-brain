@@ -48,7 +48,7 @@ Risks are minimal - this change doesn't lock the project into particular difficu
 
 ## Context
 
-Builds on 🔀 #289; its TypeScript pair, jmchilton/galaxy-tool-util-ts#217, left cycles to this issue. Nothing else in gxformat2 calls `validate_draft`, and gxwf-web and the VS Code extension don't use it. Paired with 🌿[galaxy-tool-util-ts `issue_288_draft_cycles`](https://github.com/jmchilton/galaxy-tool-util-ts/tree/issue_288_draft_cycles), which syncs the fixtures and expectations added here and ports the check, so this merges first. Python and TypeScript give identical verdicts, topology errors and `next_draft_step` results on the 209 real drafts both load and on every draft fixture.
+Builds on 🔀 #289; its TypeScript pair, jmchilton/galaxy-tool-util-ts#217, left cycles to this issue. Nothing else in gxformat2 calls `validate_draft`, and gxwf-web and the VS Code extension don't use it. Paired with 🔀 [jmchilton/galaxy-tool-util-ts#228](https://github.com/jmchilton/galaxy-tool-util-ts/pull/228), which syncs the fixtures and expectations added here and ports the check, so this merges first. Python and TypeScript give identical verdicts, topology errors and `next_draft_step` results on the 209 real drafts both load and on every draft fixture.
 
 ## Agentic Checks
 
