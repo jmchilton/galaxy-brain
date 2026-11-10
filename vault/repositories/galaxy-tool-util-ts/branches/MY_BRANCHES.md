@@ -24,6 +24,7 @@ None yet.
 ## Branches — implemented (`branches_implemented`)
 
 - [`issue_288_draft_cycles`](active/issue_288_draft_cycles/index.md) — `validateDraft` rejects step dependency cycles, incl. self-loops (gxformat2#288 port). [Open PR](https://github.com/jmchilton/galaxy-tool-util-ts/compare/main...issue_288_draft_cycles).
+- [`issue_225_frame_labels`](active/issue_225_frame_labels/index.md) — `gxwf lint`/`convert` reject unknown frame `contains_steps`/`contains_comments` labels; empty-frame warning (#225). [Open PR](https://github.com/jmchilton/galaxy-tool-util-ts/compare/main...issue_225_frame_labels).
 
 ## Branches — needs polish (`branches_need_polish`)
 

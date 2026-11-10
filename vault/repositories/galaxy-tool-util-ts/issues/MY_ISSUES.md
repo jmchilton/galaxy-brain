@@ -10,6 +10,7 @@ GitHub state last refreshed: 2026-11-06. Issues here are not assigned to jmchilt
 - [#210](https://github.com/jmchilton/galaxy-tool-util-ts/issues/210) — `validate-tests --workflow` ignores collection shape and datatype; stacked branches `issue_210_datatypes_snapshot` → `issue_210_test_kind_checks` (asks 1+2). [notes](wip/210/index.md)
 - [#212](https://github.com/jmchilton/galaxy-tool-util-ts/issues/212) — UDT expressions never check `inputs.*` member paths against the runtime model; branch `issue_212_udt_expression_paths`. [notes](wip/212/index.md)
 - [#216](https://github.com/jmchilton/galaxy-tool-util-ts/issues/216) — `draft-validate --concrete --json` says `ok: false` with empty `*_errors`, unlabelled steps; branch `issue_216_concrete_errors`. [notes](wip/216/index.md)
+- [#225](https://github.com/jmchilton/galaxy-tool-util-ts/issues/225) — unknown frame `contains_steps` label passes validate/lint, converts to `child_steps: [null]`; branch `issue_225_frame_labels`. [notes](wip/225/index.md)
 
 ## Queued (`queued`)
 

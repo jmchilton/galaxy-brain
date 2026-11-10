@@ -28,7 +28,7 @@ None yet.
 
 ## gxformat2 branches — implemented, work left, green (`branches_implemented`)
 
-None yet.
+- [`issue_292_frame_labels`](active/issue_292_frame_labels/index.md) — Lint and conversion reject unknown frame `contains_steps`/`contains_comments` labels; empty-frame warning (#292). [Open PR](https://github.com/galaxyproject/gxformat2/compare/main...jmchilton:gxformat2:issue_292_frame_labels).
 
 ## gxformat2 branches — needs polish (`branches_need_polish`)
 
