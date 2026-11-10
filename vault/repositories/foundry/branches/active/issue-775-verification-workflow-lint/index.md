@@ -1,12 +1,13 @@
 ---
 upstream_base_branch: main
+pr: 779
 related_records:
   - foundry/branches/issue-765-bump-planemo
   - foundry/issues/775
 ---
 # Lint verification workflows with planemo workflow_lint
 
-- [Open PR](https://github.com/galaxyproject/foundry/compare/main...jmchilton:foundry:issue-775-verification-workflow-lint)
+- [Open PR](https://github.com/galaxyproject/foundry/pull/779)
 - [View on GitHub](https://github.com/jmchilton/foundry/tree/issue-775-verification-workflow-lint)
 - [PR description](pr_description.md)
 
@@ -14,9 +15,9 @@ related_records:
 
 Branch `issue-775-verification-workflow-lint` on `jmchilton`, base `main`; `~/projects/worktrees/foundry/branch/issue-775-verification-workflow-lint`. Closes #775.
 
-No PR yet; it waits for John's go-ahead.
+PR [#779](https://github.com/galaxyproject/foundry/pull/779) is open and not a draft. John opened it on 2026-11-10.
 
-No CI yet because the fork branch has none. Locally, all 31 workflows pass `workflow_lint --skip best_practices` and `make check` is green. With the new `aaafc0ac4dd2` pin, `planemo test` on the datamash workflow passed on release_26.1. Two targets fail, neither from this branch: `validate-roadmap` (#768 and others have no roadmap work areas on GitHub) and `check-vendored`, which fails on this machine only.
+CI queued on the PR at `b7e8c0a7`. Locally, all 31 workflows pass `workflow_lint --skip best_practices` and `make check` is green. With the new `aaafc0ac4dd2` pin, `planemo test` on the datamash workflow passed on release_26.1. Two targets fail, neither from this branch: `validate-roadmap` (#768 and others have no roadmap work areas on GitHub) and `check-vendored`, which fails on this machine only.
 
 ## Decisions
 
