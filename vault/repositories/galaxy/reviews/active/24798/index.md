@@ -8,9 +8,9 @@
 
 ## Status
 
-Initial review (round 0) on `5abbfd9d5a6` ready, unposted: three P2s + five P3s, seven fixed on `pr_24798_round_0_rev_0`.
+Initial review (round 0) on `5abbfd9d5a6` unposted except P3 5, which John posted as a comment 2026-11-09; the other two P2s + four P3s, fixed on `pr_24798_round_0_rev_0`, are now stale against the new head.
 
-PR open, out of draft.
+PR open, out of draft; author force-pushed `50af35ba627` 2026-11-10 adopting P3 5 (dedicated `ReferenceDataParameterModel` / `gx_reference_data`), no reply comment; other findings not re-checked.
 
 ## Standing instructions
 
