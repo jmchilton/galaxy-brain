@@ -6,6 +6,6 @@
 
 ## Status
 
-Round 0 initial review on `8ec2452c3bb` (2026-11-09), unposted. Four P3s (P3 1–4), all fixed on `pr_24770_round_0_rev_2` (fork, not pushed into PR). Ten items filtered; John trimmed the test findings (P2 1, P2 2, P3 6) 2026-11-10.
+Round 0 initial review on `8ec2452c3bb` (2026-11-09). Delivered 2026-11-10: `pr_24770_round_0_rev_2` fast-forward pushed into PR (head `1115269108f`), approved with the response. Awaiting merge. Four P3s (P3 1–4), all fixed on `pr_24770_round_0_rev_2` (fork, not pushed into PR). Ten items filtered; John trimmed the test findings (P2 1, P2 2, P3 6) 2026-11-10.
 
 2026-11-10: author pushed `c44640e7442` (exception dependencies moved to `ToolInputsNotReadyWithDependencies`), resolving P3 5; it moved to filtered. Review branch rebased onto it as `rev_1` without our P3 5 commit; edited tests re-run green (10/15/14).
