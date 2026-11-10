@@ -1,0 +1,324 @@
+round: 0
+reviewed_commit: a08303706ea4b66fc46b5f03a5016b355e0e1414
+agents:
+  - {profile: default, path: _shared/reviewers/default.md, model: Claude Opus 5.5, effort: medium}
+  - {profile: thermo_review, path: _shared/reviewers/thermo_review.md, model: Claude Opus 5.5, effort: medium}
+  - {profile: generic_test_challenger, path: _shared/reviewers/generic_test_challenger.md, model: Claude Opus 5.5, effort: medium}
+  - {profile: generic_risk_assessment, path: _shared/reviewers/generic_risk_assessment.md, model: Claude Opus 5.5, effort: low}
+verification: {model: Claude Opus 5.5, effort: medium}
+branches:
+  - name: pr_571_round_0_rev_0
+    revision: 0
+    head: 45c474bd718
+    pr_title: Declare EngageQueue CLI capabilities and fail rejected submits
+    description: |
+      `pr_571_round_0_rev_0` builds on `a08303706ea`. It replaces the `getattr` capability probes and the `EngageQueue` name check with hooks declared on `BaseJobExec` and `ManagerInterface`, and moves the per-job resource allowlist onto the plugin. It also fails submits the executor rejected instead of leaving them queued, rejects non-uuid `assign_ids`, and keeps the raise on a failed delete for confirmed-cancel plugins only. Smaller commits switch to `asbool`, drop the unread `submission_uncertain` marker, and tidy `stateful.py`, the collection-ack keys and the tests. A new test covers collection-ack opt-in through local setup and launch. No MQ or relay collection-ack support is added.
+    commits:
+      - sha: 8a12c64dd45
+        subject: Declare recoverable-submission hooks on BaseJobExec and ManagerInterface
+        detail: adds class defaults and no-op hooks to `BaseJobExec`, declares the ack methods and `recoverable_submission` on `ManagerInterface` and `ManagerProxy`, and resolves the plugin class instead of comparing `job_plugin == "EngageQueue"`.
+        findings: [P1 1]
+      - sha: 890eb8d7118
+        subject: Reject non-uuid assign_ids for EngageQueue
+        detail: turns the plugin's assign_ids default into `required_assign_ids` and raises `ValueError` at manager construction on a mismatch, with a parametrized test.
+        findings: [P3 2]
+      - sha: b02206c32f1
+        subject: Fail EngageQueue submits the executor rejected
+        detail: adds a `submission_rejected` hook and a `SubmissionMissing` exception so a submit that exits 2 with nothing found on lookup becomes `preprocessing_failed` with its stderr, and always logs submit stderr.
+        findings: [P2 2]
+      - sha: bcaa28a1ad6
+        subject: Raise on failed delete only for confirms_cancellation plugins
+        detail: logs a warning for other CLI plugins instead of raising, with a Slurm test.
+        findings: [P3 3]
+      - sha: 13c70036b1d
+        subject: Use asbool for EngageQueue options and launch opt-in
+        detail: replaces the four `str(...).lower() == "true"` checks and adds a truthy-values test.
+        findings: [P3 1]
+      - sha: 7c112da0d49
+        subject: Drop unread submission_uncertain marker, lock preprocessed write
+        detail: removes the write-only metadata key and takes the `status` lock for the `preprocessed` write in the `SubmissionUncertain` branch.
+        findings: [P3 4]
+      - sha: 1686a6f1f0f
+        subject: Simplify recoverable branches in stateful launch and recovery
+        detail: moves the locked cancel check, activation and `submission_started` marker into `_begin_recoverable_dispatch`, and writes `preprocessed` once after the try/except in `recover_active_jobs`.
+        findings: [P2 5]
+      - sha: 10c68d1adc8
+        subject: Move per-job submit param allowlist onto the CLI plugin
+        detail: adds `submit_param_overrides` to `BaseJobExec` (default empty) and sets it on `EngageQueue`.
+        findings: [P2 3]
+      - sha: fcb0ef44cfb
+        subject: Hoist test imports, comment platform-only lock imports
+        detail: moves `Bunch`, `os` and `shutil` to module top in `engagequeue_cli_test.py` and comments the `msvcrt`/`fcntl` imports.
+        findings: [P3 5]
+      - sha: 99b5793c7c1
+        subject: Drop dead hasattr branch in collection ack race test
+        detail: calls `_app_for(manager)` directly.
+        findings: [P3 6]
+      - sha: 4ea9f5b8860
+        subject: Test collection ack opt-in through local setup and launch
+        detail: adds a `LocalSetupHandler` client test that launches with the returned config, cleans, then acknowledges; it fails with either the M3 or M9 mutation applied.
+        findings: [P2 1]
+      - sha: ef90a46ffdc
+        subject: Name collection ack metadata keys, linearize clean()
+        detail: adds `JOB_METADATA_COLLECTION_*` constants and rewrites `clean()` with early returns.
+        findings: [P2 6]
+      - sha: 63e6cf956b3
+        subject: Move executor-free adapter tests out of the importorskip module
+        detail: moves the quoting and state-map tests to `engagequeue_optional_test.py` and renames the latter `test_single_status_maps_executor_states`.
+        findings: [P3 8]
+      - sha: 100f0a48d34
+        subject: Inject submit-boundary cancel at the dispatch helper, not a call count
+        detail: patches `_begin_recoverable_dispatch` to record the cancel instead of counting `_was_cancelled` calls; removing the in-lock check still fails the test.
+        findings: [P3 9]
+      - sha: 45c474bd718
+        subject: Assert which recovery branch the two uncertain-submit tests reach
+        detail: asserts the logged recovery error is `SubmissionMissing` for the rc 3 test and a plain `SubmissionUncertain` for the rc 124 test.
+        findings: [P3 10]
+actions: {approve: false, approve_and_merge: false, comment: false, review_comment: false, request_changes: false, pull_request: false, push: false, issue_refactor: false, issue_galaxy_brain: false}
+findings:
+  - id: P1 1
+    include: true
+    title: EngageQueue capabilities reach generic managers through getattr probes and a plugin-name check
+    summary: undeclared duck-typed hooks plus `job_plugin == "EngageQueue"` in the generic CLI manager; declare them on the base classes.
+    implementation_verified: true
+    issue: |
+      `CliQueueManager.__init__` hard-codes `if kwds.get("job_plugin") == "EngageQueue": kwds.setdefault("assign_ids", "uuid")`. The new behavior is then wired in through attributes no base class declares:
+
+      - `getattr(job_interface, "idempotent_submission", False)` appears 5 times in `queued_cli.py`.
+      - `getattr(job_interface, "confirms_cancellation", False)` gates a second `get_status`.
+      - `_recover_active_job` probes `recover_submission`, then calls `submission_missing` and `parse_return_code` unguarded. These are methods only `EngageQueue` defines, so the code works only because the two flags happen to be set together.
+      - `StatefulManagerProxy` probes `getattr(self._proxied_manager, "recoverable_submission", False)` 3 times.
+      - `require_collection_ack` and `acknowledge_collection` were added to `BaseManager` and `ManagerProxy` but not to `ManagerInterface`.
+    fix: |
+      Declared the capabilities on `BaseJobExec` with defaults: `idempotent_submission`, `confirms_cancellation`, `required_assign_ids`, and no-op `recover_submission`, `submission_missing` and `parse_return_code` hooks. `CliQueueManager` now resolves the plugin class to apply its assign_ids and reads typed attributes. `ManagerInterface` declares `recoverable_submission` (default `False`) and the two ack methods, and `ManagerProxy` forwards `recoverable_submission`. `stateful.py` reads it directly.
+    fix_details: |
+      Not done on the branch, and optional: moving the recoverable launch and status flow into a `CliQueueManager` subclass or a strategy chosen at construction, so the legacy path keeps its original shape.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+      - {profile: thermo_review, model: Claude Opus 5.5, effort: medium}
+  - id: P2 1
+    include: true
+    title: Collection ack opt-in is self-confirmed on local-setup clients, and MQ, relay and CLI clients have no ack path
+    summary: local setup echoes its own confirmation; message clients forward the opt-in but can never ack or clean server-side.
+    implementation_verified: true
+    issue: |
+      `BaseJobClient.setup` raises unless the response has `require_collection_ack: True`. But `LocalSetupHandler.setup` writes that key into the `job_config` it builds itself, so the check only means something on the `RemoteSetupHandler` (HTTP, no `job_directory`) path. Elsewhere:
+
+      - **MQ, relay and CLI clients** (`MessageJobClient`, `RelayJobClient`, `MessageCLIJobClient`) always set up locally, so `setup(require_collection_ack=True)` succeeds. `_setup_params_from_job_config` then forwards the flag, and the server marks the job ack-required. But `BaseMessageJobClient` has no `acknowledge_collection`, its `clean()` only drops the client-side cache, and `bind_amqp`/`bind_relay` have no ack message. The staging directory is retained with no way to release it.
+      - **HTTP `JobClient` with a local `job_directory`**: confirmation is again local. Against a server that predates this PR, `submit` ignores the opt-in and `clean()` deletes staging before import, which is what the protocol says it prevents.
+
+      Before this round no test exercised the local-setup chain: removing either the `preprocess_and_launch` opt-in call or the `LocalSetupHandler` echo left every test green. No test pins what an opted-in MQ job does.
+    evidence: |
+      `BaseMessageJobClient` (`pulsar/client/client.py:449`) defines `clean` but no `acknowledge_collection`, and nothing under `pulsar/messaging/` handles an ack. With the `LocalSetupHandler` echo removed, the new local-setup test fails in `client.setup` with "did not confirm", which shows the confirmation is generated client-side.
+    fix: |
+      Added `test_local_setup_client_opt_in_reaches_server_through_launch`, which sets up through `LocalSetupHandler`, launches with the returned config, cleans (directory retained) and acknowledges (directory gone). It fails with either mutation applied.
+
+      The protocol gaps are not fixed on the branch. Only a server response should count as confirmation. `BaseRemoteConfiguredJobClient.setup` should reject `require_collection_ack` until a message type exists. Local-setup HTTP clients should either be rejected or get confirmation through the `submit` response. If the echo is removed, the new test needs to change with it. This belongs in the separate, generic collection-ack PR maintainers asked for on #550. Estimate: about 40 to 60 lines plus a `memory://` MQ test.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+      - {profile: generic_test_challenger, model: Claude Opus 5.5, effort: medium}
+  - id: P2 2
+    include: true
+    title: A submit the executor rejected becomes "uncertain" and the job stays queued forever
+    summary: any nonzero submit goes to lookup, gets "missing", and is retained as QUEUED; stderr is discarded.
+    implementation_verified: true
+    issue: |
+      For an `idempotent_submission` plugin, `CliQueueManager.launch` sends any nonzero submit to `_recover_active_job`. If the executor rejected the submission, the lookup returns 3 and the code raises `SubmissionUncertain`. The proxy then marks the job preprocessed and leaves it active, and every later `get_status` re-runs lookup and returns `QUEUED`. The submit stderr is never logged, because the `log.warning` sits after the early return.
+
+      The PR keeps a missing lookup nonterminal because the original submit process might still accept later. That only holds when the submit was timed out or killed. Acceptance in EngageQueue is a synchronous store transaction inside the submit CLI process, so once that process exits on its own nothing can accept later.
+    evidence: |
+      With `engagequeue==0.1.1`, `submit --pool nosuchpool` and `submit --cpus abc` both exit 2 ("Unknown execution pool", argparse error), and `lookup` then exits 3. A new test using an unknown pool reported `queued` before the fix.
+    fix: |
+      Added a `submission_rejected(result)` hook on `BaseJobExec` (default `False`); `EngageQueue` returns `result.returncode == 2`. Lookup now raises a `SubmissionMissing` subclass when nothing is found. `launch` turns that into an ordinary failure carrying the submit stderr only when the plugin says the submit was rejected. Timeouts, ssh 255 and EngageQueue's 124 stay uncertain. Submit stderr is always logged. `test_rejected_submission_fails_with_executor_error` asserts `FAILED`, the executor message in stderr, and deactivation.
+    fix_details: |
+      Lookup still runs first, because EngageQueue also exits 2 for `OSError`, which could happen after the acceptance transaction commits.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+  - id: P2 3
+    include: true
+    title: Per-job resource override allowlist is hard-coded in the generic manager
+    summary: EngageQueue's option names live in `queued_cli.launch`, gated on idempotency.
+    implementation_verified: true
+    issue: |
+      `queued_cli.launch` copies `("cpus", "memory_mb", "timeout", "output_limit")` from `submit_params` into `job_interface.params` when the plugin is idempotent. Those are EngageQueue's option names, and per-job resource passing has nothing to do with idempotent submission. Other CLI plugins (for example Slurm's `argmap`) can't use the mechanism without adding more lists here.
+    fix: |
+      Added `submit_param_overrides` to `BaseJobExec` (default empty) and set it on `EngageQueue`. `launch` now applies whatever the plugin declares, unconditionally.
+    discovered_by:
+      - {profile: thermo_review, model: Claude Opus 5.5, effort: medium}
+  - id: P2 4
+    include: true
+    title: queued_cli.get_status re-implements ExternalBaseManager.get_status as a parallel path
+    summary: a 45-line flag-gated status method duplicates the base template and writes `return_code` from a getter.
+    issue: |
+      The `confirms_cancellation` branch of `CliQueueManager.get_status` re-does external-id lookup, cancel redelivery, the status command, return-code reconciliation and the cancelled mapping. The base `get_status` → `_get_status_external` template still exists for the other plugins. The new path also changes the base ordering: the base returns `CANCELLED` as soon as a cancel is recorded, while the new one polls until the executor confirms. It writes `return_code` as a side effect inside a status getter and calls `self._was_cancelled(job_id)` twice.
+    fix: |
+      Keep one template in `ExternalBaseManager.get_status`, with small overridable steps. For example: `_resolve_external_id(job_id)` (default: current LOST behavior; recoverable: lookup, else QUEUED), `_cancelled_status(job_id, external_id)` (default: CANCELLED; recoverable: redeliver and keep polling), and `_get_status_external` reconciling the return code. Not done on the branch: the right shape, template hooks or a dedicated subclass, depends on how the PR is split. Estimate: about 100 lines, covered by the existing EngageQueue tests.
+    discovered_by:
+      - {profile: thermo_review, model: Claude Opus 5.5, effort: medium}
+  - id: P2 5
+    include: true
+    title: Launch handling and recover_active_jobs gain flag-gated branches
+    summary: a pre-dispatch block inlined in the busiest proxy method, and an identical metadata write in both try and except.
+    implementation_verified: true
+    issue: |
+      `_handling_of_preprocessing_state` gained a `recoverable_submission` local and a pre-dispatch lock/activate/marker block. It also gained a conditional re-activation after launch, a new `except SubmissionUncertain` arm and a conditional `deactivate_job`. `recover_active_jobs` writes `store_metadata(JOB_FILE_PREPROCESSED, True, atomic=True)` identically in the `try` and the `except` arm, each behind its own `getattr`.
+    fix: |
+      Extracted the pre-dispatch block into `_begin_recoverable_dispatch(job_id, job_directory) -> bool`. `recover_active_jobs` now reads `recoverable_submission` once and writes `preprocessed` once after the try/except.
+    discovered_by:
+      - {profile: thermo_review, model: Claude Opus 5.5, effort: medium}
+  - id: P2 6
+    include: true
+    title: Collection-ack lifecycle is inlined into BaseManager with bare metadata keys
+    summary: a small state machine spread over three string literals, a lock and a two-branch `clean()`.
+    implementation_verified: true
+    issue: |
+      `BaseManager.clean`, `require_collection_ack` and `acknowledge_collection` together implement required → clean-requested / acknowledged → deleted. The state is spread over three string literals (`"collection_ack_required"`, `"collection_acknowledged"`, `"collection_clean_requested"`), a staging-root lock, and a restructured `clean()` that checks `job_directory.exists()` in two branches. Other job metadata names are module constants.
+    fix: |
+      Added `JOB_METADATA_COLLECTION_*` constants and rewrote `clean()` with early returns.
+    fix_details: |
+      Not done on the branch: moving the constants, lock path and transitions into a focused module (for example `pulsar/managers/collection_ack.py`) that `BaseManager` delegates to. That fits better in the separate collection-ack PR. Estimate: about 80 lines.
+    discovered_by:
+      - {profile: thermo_review, model: Claude Opus 5.5, effort: medium}
+  - id: P2 7
+    include: true
+    title: Neither EngageQueue nor collection ack goes through the client/staging integration harness
+    summary: no `run_job`/`check.py` test, so `HttpPulsarInterface` ack wiring and real staging for EngageQueue are untested.
+    issue: |
+      The existing Slurm and Torque CLI tests use `run_job`/`pulsar/client/test/check.py`. No new test does, so these are untested:
+
+      - `HttpPulsarInterface` for the new `acknowledge_collection` command (path, method, boolean serialization);
+      - real staging up and down for an EngageQueue job.
+
+      The in-tree `finish_job` never calls `acknowledge_collection`, so no current consumer drives the protocol.
+    fix: |
+      Add `test_integration_cli_engagequeue` next to the Slurm and Torque tests, with `skip_unless_module("engagequeue")`, a `job_state_dir` and an executor teardown. Add a `require_collection_ack` option to `check.py` that acks before `finish_job` and asserts the staging directory is removed, and run it under the default and `local_setup` configurations. Not done on the branch: it extends the shared harness, and the ack half depends on the split. Estimate: about 60 to 100 lines.
+    discovered_by:
+      - {profile: generic_test_challenger, model: Claude Opus 5.5, effort: medium}
+  - id: P3 1
+    include: true
+    title: Hand-rolled boolean parsing instead of asbool
+    summary: '`str(x).lower() == "true"` in stateful and the adapter rejects "yes"/"1" that `asbool` accepts.'
+    implementation_verified: true
+    issue: |
+      The PR imports `galaxy.util.asbool` in `client.py`, `setup_handler.py` and `routes.py`. It hand-rolls `str(...).lower() == "true"` in `stateful.py` (`preprocess_and_launch`) and in `engagequeue.py` for `attach_only`, `require_hard_limits` and `cancel_wait`. Those checks reject `"yes"`, `"1"` and `"True "`, which `asbool` accepts.
+    fix: |
+      Switched all four to `asbool`, and added a parametrized adapter test for truthy values. It failed for `"yes"` and `"1"` before the change.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+      - {profile: thermo_review, model: Claude Opus 5.5, effort: medium}
+  - id: P3 2
+    include: true
+    title: Overriding assign_ids silently reuses EngageQueue submission keys across attempts
+    summary: the key hashes the script path, so a non-uuid job directory can hand back an earlier attempt.
+    implementation_verified: true
+    issue: |
+      `assign_ids` was only defaulted to `uuid`. `EngageQueue.submission_key` hashes the resolved script path and relies on UUID directories. With `assign_ids: galaxy` or `galaxy_prefixed`, a resubmitted Galaxy job, or a re-setup after `clean`, gets the same key. EngageQueue's idempotent submit then returns the earlier attempt, for example the failed one being resubmitted with more memory.
+    fix: |
+      The plugin now declares `required_assign_ids = "uuid"`. `CliQueueManager` raises `ValueError` at construction when a different `assign_ids` is configured. Added a parametrized test.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+  - id: P3 3
+    include: true
+    title: _kill_external now raises for every CLI plugin
+    summary: Slurm/PBS/Torque now log a traceback whenever `scancel`/`qdel` exits nonzero.
+    implementation_verified: true
+    issue: |
+      `CliQueueManager._kill_external` raises `RuntimeError` on any nonzero delete status. Only the EngageQueue cancel-retry path needs that, but `ExternalBaseManager.kill` is shared. Slurm, PBS and Torque now emit `log.exception` tracebacks for routine cases such as deleting a job that already finished.
+    fix: |
+      The raise is now limited to `confirms_cancellation` plugins. Others log a one-line warning with the delete stderr. Added a Slurm test that fails before the change.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+      - {profile: thermo_review, model: Claude Opus 5.5, effort: medium}
+  - id: P3 4
+    include: true
+    title: Write-only submission_uncertain marker and an unlocked metadata write
+    summary: nothing reads `"submission_uncertain"`, and its branch skips the status lock its siblings take.
+    implementation_verified: true
+    issue: |
+      The `except SubmissionUncertain` arm of `_handling_of_preprocessing_state` stores `preprocessed` and `"submission_uncertain"` without `job_directory.lock("status")`, which the sibling writes take. Nothing in `pulsar/` or `test/` reads `"submission_uncertain"`. It is also a bare literal, while its sibling got `JOB_METADATA_SUBMISSION_STARTED`.
+    fix: |
+      Dropped the marker and took the `status` lock for the `preprocessed` write.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+      - {profile: thermo_review, model: Claude Opus 5.5, effort: medium}
+  - id: P3 5
+    include: true
+    title: Imports inside functions without a reason
+    summary: platform imports in `interprocess_lock` and test imports inside test bodies.
+    implementation_verified: true
+    issue: |
+      `pulsar/locks.py` `interprocess_lock` imports `msvcrt` and `fcntl` inside the function with no comment. In `test/engagequeue_cli_test.py`, `from galaxy.util.bunch import Bunch` (twice) and `import os`/`import shutil` sit inside test functions.
+    fix: |
+      Commented the platform-only imports, and moved the test imports to module top. The imports below the `TYPE_CHECKING` block in `locks.py` follow the existing layout on `master`, so they were left in place.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+      - {profile: thermo_review, model: Claude Opus 5.5, effort: medium}
+      - {profile: generic_test_challenger, model: Claude Opus 5.5, effort: medium}
+  - id: P3 6
+    include: true
+    title: Dead hasattr branch in the collection-ack race test
+    summary: '`QueueManager` has no `app`, so `manager.app if hasattr(...)` never takes its first branch.'
+    implementation_verified: true
+    issue: |
+      `test_generic_guard_coordinates_independent_manager_instances` builds the second manager with `manager.app if hasattr(manager, "app") else _app_for(manager)`. Managers have no `app` attribute, so the first branch is dead.
+    fix: |
+      The test now calls `_app_for(manager)` directly.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+      - {profile: generic_test_challenger, model: Claude Opus 5.5, effort: medium}
+  - id: P3 7
+    include: true
+    title: acknowledge_collection returns a bool that is always True
+    summary: the route wraps a constant in `bool(...)`; return None or a value that varies.
+    issue: |
+      `BaseManager.acknowledge_collection` is typed `-> bool` but returns `True` on every path, and the route returns `{"acknowledged": bool(manager.acknowledge_collection(job_id))}`. The declaration on `ManagerInterface` is covered by P1 1.
+    fix: |
+      Return `None` and have the route return the constant `{"acknowledged": True}`, or return a value that actually varies (for example whether the directory was deleted). Not done on the branch, because existing tests assert the truthy return. Estimate: under 10 lines plus those assertions.
+    discovered_by:
+      - {profile: thermo_review, model: Claude Opus 5.5, effort: medium}
+  - id: P3 8
+    include: true
+    title: Executor-free adapter tests skip wherever engagequeue isn't installed
+    summary: two pure tests sit behind the module-level `importorskip`; one is misnamed.
+    implementation_verified: true
+    issue: |
+      `test_adapter_quotes_paths_and_supports_relative_container_sidecars` and `test_nonterminal_uncertainty_does_not_authorize_collection` need no executor. They sit in `engagequeue_cli_test.py`, so they skip wherever engagequeue isn't installed (Python < 3.10, `install_wheel`). The second one tests the state map, including terminal states, and has nothing to do with collection.
+    fix: |
+      Moved both to `engagequeue_optional_test.py` and renamed the second `test_single_status_maps_executor_states`. Merging it with `test_status_parsers_preserve_parent_keyword_contract` was left optional.
+    discovered_by:
+      - {profile: generic_test_challenger, model: Claude Opus 5.5, effort: medium}
+  - id: P3 9
+    include: true
+    title: Submit-boundary cancel test depends on the internal call count
+    summary: cancel was injected on the second `_was_cancelled` call, so adding or removing a check moves it.
+    implementation_verified: true
+    issue: |
+      `test_cancellation_winning_at_submit_boundary_prevents_dispatch` records the cancel on the second `_was_cancelled` call. Adding or removing one internal check silently moves the injection point.
+    fix: |
+      The test now wraps the new `_begin_recoverable_dispatch` seam (P2 5) to record the cancel, and asserts that seam ran once. Disabling the in-lock cancel check still fails the test.
+    discovered_by:
+      - {profile: generic_test_challenger, model: Claude Opus 5.5, effort: medium}
+  - id: P3 10
+    include: true
+    title: Two recovery tests can't tell their branches apart
+    summary: the rc 3 and rc 124 tests both just reach QUEUED.
+    implementation_verified: true
+    issue: |
+      `test_unknown_submission_transport_does_not_become_failed_or_complete` (rc 124) and `test_missing_submission_remains_nonterminal_without_replay` (rc 3) both reach QUEUED through `SubmissionUncertain`. Neither asserts anything specific to its branch.
+    fix: |
+      Both tests now assert the logged recovery error: `SubmissionMissing` (from P2 2) for rc 3, and a plain `SubmissionUncertain` for rc 124.
+    discovered_by:
+      - {profile: generic_test_challenger, model: Claude Opus 5.5, effort: medium}
+  - id: P3 11
+    include: true
+    title: Remaining test hygiene in engagequeue_cli_test.py
+    summary: Bunch fakes, duplicated executor teardown, inline child scripts, and a name the unit env doesn't exclude.
+    issue: |
+      - `Bunch(returncode=..., stdout=..., stderr=...)` fakes stand in for command results.
+      - The executor teardown (cancel every job, then shutdown) is duplicated in the fixture and `test_crash_after_acceptance...`.
+      - Two inline child scripts rebuild `make_manager` by hand. They use `from test.test_utils import ...`, which only resolves when cwd is the repo root.
+      - The file runs about 2 minutes of real subprocess work, but `test-unit`'s `--ignore-glob='*integration*.py'` doesn't exclude it.
+    fix: |
+      Use a small module-level dataclass for the fakes, and extract the teardown into a helper. Move the child scripts into one importable `test/` helper module that reuses `make_manager`, run with `-m`. Rename the file `integration_test_engagequeue_cli.py`, following `integration_test_cli_submit.py`. All optional, and not done on the branch. Estimate: about 80 lines, mostly moves.
+    discovered_by:
+      - {profile: generic_test_challenger, model: Claude Opus 5.5, effort: medium}

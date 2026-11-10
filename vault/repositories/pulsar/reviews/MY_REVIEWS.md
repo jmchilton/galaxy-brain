@@ -1,5 +1,6 @@
 ## PRs to review (`to_review`)
 
+- [#571](https://github.com/galaxyproject/pulsar/pull/571) — Round 0 done (1 P1, 7 P2, 11 P3) + design review (recommends split); review branch pushed; ready for John. [notes](active/571/index.md)
 - [#553](https://github.com/galaxyproject/pulsar/pull/553) — Initial review done (1 P2 coverage gap); response and test-only review branch ready for John. [notes](active/553/index.md)
 - [#552](https://github.com/galaxyproject/pulsar/pull/552) — Approved 2026-10-26 with review fixes (770948e, 47ebb2b) pushed onto PR branch; awaiting merge. [notes](active/552/index.md)
 - [#550](https://github.com/galaxyproject/pulsar/pull/550) — Initial review done (1 P1, 13 P2, 11 P3); response + review branch ready for John. [notes](active/550/index.md)
