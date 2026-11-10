@@ -17,7 +17,7 @@ None yet.
 
 ## Draft PRs — waiting for CI (`ci_wait`)
 
-None yet.
+- [`issue_216_concrete_errors`](active/issue_216_concrete_errors/index.md) — `draft-validate --concrete --json`: top-level `concrete_errors`, step `label` on results (#216). Draft until John reviews. [#226](https://github.com/jmchilton/galaxy-tool-util-ts/pull/226).
 
 ## Draft PRs — author work (`author_work`)
 
@@ -33,7 +33,6 @@ None yet.
 
 ## Branches — ready for final review (`branches_ready_for_final_review`)
 
-- [`issue_216_concrete_errors`](active/issue_216_concrete_errors/index.md) — `draft-validate --concrete --json`: top-level `concrete_errors`, step `label` on results (#216). [Open PR](https://github.com/jmchilton/galaxy-tool-util-ts/compare/main...issue_216_concrete_errors).
 - [`issue_212_udt_expression_paths`](active/issue_212_udt_expression_paths/index.md) — UDT checks: `inputs.*` paths in templates and output labels vs Galaxy's job runtime model (#212). [Open PR](https://github.com/jmchilton/galaxy-tool-util-ts/compare/main...issue_212_udt_expression_paths).
 - [`issue_210_datatypes_snapshot`](active/issue_210_datatypes_snapshot/index.md) — Committed usegalaxy.org datatypes snapshot + `snapshotDatatypesMapper()` in workflow-graph (#210). [Open PR](https://github.com/jmchilton/galaxy-tool-util-ts/compare/main...issue_210_datatypes_snapshot).
 - [`issue_210_test_kind_checks`](active/issue_210_test_kind_checks/index.md) — validate-tests checks collection shape; datatype warnings (#210 asks 1+2). [Open PR](https://github.com/jmchilton/galaxy-tool-util-ts/compare/issue_210_datatypes_snapshot...issue_210_test_kind_checks).
