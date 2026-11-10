@@ -26,7 +26,7 @@ Snapshot: 2026-11-09 (reclassified from GitHub: #24555 merged, removed; #22996 r
 - [`issue_24093_batch_element_labels_26.1`](active/issue_24093_batch_element_labels_26.1/index.md) — Labels every tool-form batch value, including dropped hidden collection elements (#24093). Base `release_26.1`. [#24211](https://github.com/galaxyproject/galaxy/pull/24211). CI reds undiagnosed (stale 2026-10-23 run).
 - [`selenium_tool_form_helpers`](active/selenium_tool_form_helpers/index.md) — Public tool-form fill/describe helpers on `NavigatesGalaxy`; fixes nested repeats, sections, editor steps. [#24331](https://github.com/galaxyproject/galaxy/pull/24331).
 - [`issue_24173_invocation_selection_urls`](active/issue_24173_invocation_selection_urls/index.md) — Makes invocation step, job and output selections shareable through URLs (#24173). [#24307](https://github.com/galaxyproject/galaxy/pull/24307). Opened by accident; final read-through still pending.
-- [`issue_24722_unversioned_tool_preflight_26_2`](active/issue_24722_unversioned_tool_preflight_26_2/index.md) — Exact-version workflow tool lookups resolve unversioned/short ids at the named version only; safe updates kept. [#24742](https://github.com/galaxyproject/galaxy/pull/24742). Took mvdbeek's #98; description stale.
+- [`issue_24722_unversioned_tool_preflight_26_2`](active/issue_24722_unversioned_tool_preflight_26_2/index.md) — Exact-version workflow tool lookups resolve unversioned/short ids at the named version only. [#24742](https://github.com/galaxyproject/galaxy/pull/24742). Took mvdbeek's #98; description stale; safe-update decision open.
 
 ## Draft Galaxy PRs — ready to undraft (`draft_ready`)
 
