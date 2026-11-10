@@ -66,10 +66,10 @@ None yet.
 - (mvp) (assigned) [#570](https://github.com/galaxyproject/foundry/issues/570) — Pattern MOCs are cast without the leaf pattern pages they link; draft [#738](https://github.com/galaxyproject/foundry/pull/738) + foundry-lib#139. [notes](wip/570/index.md)
 - (mvp) [#735](https://github.com/galaxyproject/foundry/issues/735) — test-data Molds stage data tables planemo ignores (unsuffixed conf, absolute `.loc`); draft PR [#749](https://github.com/galaxyproject/foundry/pull/749). [notes](wip/735/index.md)
 - (mvp) [#568](https://github.com/galaxyproject/foundry/issues/568) — Review the prompt-to-pipeline agent benchmark preprint for comparisons and lessons; draft PR [#750](https://github.com/galaxyproject/foundry/pull/750). [notes](wip/568/index.md)
+- (mvp) [#757](https://github.com/galaxyproject/foundry/issues/757) — channel-shape note has no route for per-element parameters; branch `issue-757-meta-driven-parameters`. [notes](wip/757/index.md)
 
 ## Queued to implement (`queued_implement`)
 
-- (mvp) [#757](https://github.com/galaxyproject/foundry/issues/757) — channel-shape note has no route for per-element parameters; next: implement and open a PR. [notes](queued/757/index.md)
 - (mvp) [#758](https://github.com/galaxyproject/foundry/issues/758) — pages say `when` can't act per element; next: implement after #755 and open a PR. [notes](queued/758/index.md)
 - [#3](https://github.com/galaxyproject/foundry/issues/3) — Hero pipeline-fan widget (replace pipeline matrix / new /pipelines/ landing); next: implement and open a PR. [notes](queued/3/index.md)
 - (large) [#40](https://github.com/galaxyproject/foundry/issues/40) — Write IWC exemplar match schema; next: implement and open a PR. [notes](queued/40/index.md)
