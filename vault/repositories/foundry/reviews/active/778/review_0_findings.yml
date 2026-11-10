@@ -1,0 +1,208 @@
+round: 0
+reviewed_commit: 4e4df0290d0b6e4be25fbfc8df7d206bb2bf3f77
+agents:
+  - {profile: default, path: _shared/reviewers/default.md, model: Claude Opus 5.5, effort: medium}
+  - {profile: foundry_domain_review, path: wf_foundry/reviewers/foundry_domain_review.md, model: Claude Opus 5.5, effort: medium}
+  - {profile: generic_test_challenger, path: _shared/reviewers/generic_test_challenger.md, model: Claude Opus 5.5, effort: medium}
+  - {profile: generic_risk_assessment, path: _shared/reviewers/generic_risk_assessment.md, model: Claude Opus 5.5, effort: low}
+verification: {model: Claude Opus 5.5, effort: medium}
+branches:
+  - name: pr_778_round_0_rev_0
+    revision: 0
+    head: e4e83886
+    pr_title: Fold into drafty consumers, give the fold an oracle, and commit a STAR fixture
+    description: |
+      `pr_778_round_0_rev_0` builds on `4e4df029`. It lets repair fold into drafty consumers through `_plan_state`, says a fold isn't a narrowing, records its per-job cost as a ledger decision, and gives the fold an eval property. It commits a synthetic `star-index-fold` fixture that the implement, advance and repair STAR cases now name, and adds an advance case for the found-wrapper skip. Smaller commits fix the advance authoring property for a rejected `weak` candidate, record a dropped wrapper parameter as `kind: dropped` with a property for it, exempt data managers from discover's never-a-miss rule, cut rationale clauses from the Mold bodies, trim the discover STAR case, and narrow implement's failure-ownership oracle. Casts are regenerated in each commit.
+    commits:
+      - sha: 5ba816c7
+        subject: Fold into drafty consumers through _plan_state
+        detail: has the fold rewire into the consumer ports the entry quotes and select the mode in `state` on a realized consumer or `_plan_state` on a drafty one, only into a consumer pinned to the quoted wrapper, and makes the scenario's consumers identity-pinned.
+        findings: [P2 1]
+      - sha: 8425bb0d
+        subject: Give repair's fold an eval property and exempt it from narrowing
+        detail: "says in the Mold that a fold appends no `kind: dropped` entry and its resolve note quotes the option, carves the fold out of the Ledger paragraph and the two removal properties, and adds a fold property."
+        findings: [P2 2]
+      - sha: dac2bf5f
+        subject: Record a fold's per-job cost as a ledger decision
+        detail: has the fold append a `decisions` entry for what it costs, such as an index rebuilt in every consumer job, and adds it to the scenario's expect.
+        findings: [P3 1]
+      - sha: 0bda0df8
+        subject: Commit a STAR index fold fixture for implement, advance and repair
+        detail: adds `repair-galaxy-draft-topology/examples/star-index-fold/` (draft, ledger entry quoted from the `rna_star` 2.7.11b+galaxy1 summary, folded draft, README), points the three cases at it, and adds a re-entry case and an advance routing case.
+        findings: [P2 3]
+      - sha: 2a399911
+        subject: Let advance's authoring property allow a rejected weak candidate
+        detail: lets the property accept authoring after a `weak` candidate that confirmation shows doesn't run the named work.
+        findings: [P2 4]
+      - sha: cbb44372
+        subject: "Record a dropped wrapper parameter as kind: dropped, and test it"
+        detail: "makes the wrapper-choice bucket append a `kind: dropped` entry with `units` and a `because`, names the chosen wrapper, and adds a routing property for the rule."
+        findings: [P3 2]
+      - sha: 2e40608e
+        subject: Exempt data managers from discover's never-a-miss rule
+        detail: qualifies the `miss` definition, the never-a-miss rule, the classify step and the eval property with "outside a data manager".
+        findings: [P3 3]
+      - sha: bfac010f
+        subject: Cut rationale clauses from discover, implement and repair
+        detail: removes the four flagged justification clauses, plus one this branch added to the fold, and leaves the instructions.
+        findings: [P3 4]
+      - sha: 80c55c42
+        subject: Trim discover's STAR case to its expectation
+        detail: drops the search-ranking remark and the data-manager rationale from the expect.
+        findings: [P3 5]
+      - sha: e4e83886
+        subject: Narrow implement's failure-ownership oracle to wrappers that carry the plan
+        detail: scopes the eval property and its case to a wrapper that carries the plan but could still fail at runtime.
+        findings: [P3 6]
+actions: {approve: false, approve_and_merge: false, comment: false, review_comment: false, request_changes: false, pull_request: false, push: false, issue_refactor: false, issue_galaxy_brain: false}
+findings:
+  - id: P2 1
+    include: true
+    title: The fold assumes realized consumers, which the topological picker never produces
+    summary: Picker leaves the aligners drafty when the index step's entry is raised; fold and scenario assumed realized rna_star with state.
+    implementation_verified: true
+    issue: |
+      `draft-next-step` picks topologically: a step waits until its `in:` sources are concretized (`content/cli/gxwf/draft-next-step.md`). The STAR index step feeds both aligners, so when implement raises the blocking entry on it, both `rna_star` consumers are still drafty, at most identity-pinned with `_plan_state` and no `state`. The fold said to `change-parameter` on the consumers, and the scenario used "two realized `rna_star` steps" with `--concrete --strict-state`. Repair's Claims paragraph also forbids picking a wrapper, so the fold needs a rule for which consumers it may touch.
+    evidence: |
+      `gxwf draft-next-step` 1.15.0 on the new fixture picks `star_genome_index` while both `rna_star` steps sit at `tool_version: TODO`.
+    fix: |
+      The fold now rewires into the consumer ports the entry quotes and selects the mode in `state` on a realized consumer or in `_plan_state` on a drafty one. It folds only into a consumer pinned to the wrapper the entry quotes. The scenario's consumers are identity-pinned, keep no `state`, and are checked with plain `gxwf draft-validate`.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+  - id: P2 2
+    include: true
+    title: Repair's fold has no eval property, and two removal properties fail a correct fold
+    summary: '"a removal needs standing" and "a narrowing is recorded" read against the fold; no property checks the fold itself.'
+    issue: |
+      `repair-galaxy-draft-topology/eval.md` didn't change. "A removal needs standing" says no step is removed "when a consumer truly needs its output", and the aligners do need an index. "A narrowing is recorded" leaves open whether the fold needs a `kind: dropped` entry. A judge applying them as written can fail the outcome the PR expects. The Mold body has the same conflict: its Ledger paragraph leaves an entry `open` "when a consumer truly needs the removed output".
+    fix: |
+      The Mold now says a fold is not a narrowing: it appends no `kind: dropped` entry, and its resolve note quotes the consumer option. The Ledger paragraph's open-entry rule applies only when no fold moves the work into the consumer. In the eval, "a narrowing is recorded" exempts the fold, "a removal needs standing" counts the quoted consumer option as standing, and a new property, "a fold moves the work into the consumers", fails an added producer, a consumer left on a mode that still reads the removed output, or a fold into a consumer not pinned to the quoted wrapper.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+      - {profile: foundry_domain_review, model: Claude Opus 5.5, effort: medium}
+      - {profile: generic_test_challenger, model: Claude Opus 5.5, effort: medium}
+  - id: P2 3
+    include: true
+    title: The STAR cases have no committed fixture, and advance's new skip has no case
+    summary: Repair case said "No committed fixture yet", implement case was prose, advance skip had no case; galaxy0/galaxy1 drift. All fixed with one fixture.
+    implementation_verified: true
+    issue: |
+      The repair fold case said "No committed fixture yet." and described its fixture in prose, and the implement STAR case named the summary by pin, not by file. The extended advance step-1 skip, for an entry recording a found wrapper that can't serve the step, had no `## Case:`. The repair case also said "as in `examples/star-sa-index-input/`", which pins `rna_star` 2.7.11b+galaxy0, while the new cases name galaxy1.
+
+      The PR lists "No repair fixture" as a known limitation. That callout covers only repair. One small fixture also makes the implement and advance cases runnable, so the finding stands.
+    fix: |
+      Added `repair-galaxy-draft-topology/examples/star-index-fold/`: the draft the loop picks `star_genome_index` from, with both `rna_star` steps identity-pinned to 2.7.11b+galaxy1; the blocking entry implement raises, whose outputs and `geneSource` option are quoted from `galaxy-tool-cache summarize` of that version; the expected `folded.gxwf.yml`; and a README. Both drafts pass `gxwf draft-validate` 1.15.0. The repair and implement cases now name the fixture. The repair case drops its maturity note and says only the wiring follows `star-sa-index-input`. A new "folded draft re-enters the loop" case runs `gxwf draft-next-step`, and a new advance case expects the pick to go straight to repair with no discover or author call.
+    fix_details: |
+      The implement case names the `galaxy-tool-cache summarize` command, not a committed summary. The summary is about 7,800 lines, and no Mold example commits one.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+      - {profile: foundry_domain_review, model: Claude Opus 5.5, effort: medium}
+      - {profile: generic_test_challenger, model: Claude Opus 5.5, effort: medium}
+  - id: P2 4
+    include: true
+    title: Advance's "only a miss falls through" property fails a correct run
+    summary: Eval said author only when discover returns miss; Mold says a rejected weak counts as a miss.
+    issue: |
+      `advance-galaxy-draft-step/eval.md` said the skill invokes `author-galaxy-tool-wrapper` "only when `discover-shed-tool` returns `miss`". `index.md` step 2 says a `weak` candidate that confirmation shows doesn't run the named work "counts as a `miss`". Discovery returned `weak` in that run, so a judge applying the property literally fails a correct run.
+    fix: |
+      The property now also allows authoring after a `weak` candidate that confirmation shows doesn't run the named work.
+    discovered_by:
+      - {profile: generic_test_challenger, model: Claude Opus 5.5, effort: medium}
+  - id: P3 1
+    include: true
+    title: The fold doesn't record its per-job index cost
+    summary: geneSource history rebuilds the index in every alignment job; the ledger has a decisions collection for this.
+    issue: |
+      Folding into `rna_star` with `geneSource: history` rebuilds the index in every alignment job, once per sample when mapped over a collection. #678's research flagged this. The fold didn't ask repair to record it, though the ledger's `decisions` collection exists for this kind of knowledge.
+    fix: |
+      The fold now appends a `decisions` entry recording what it costs, such as an index rebuilt in every consumer job, and the scenario's expect checks for it.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+  - id: P3 2
+    include: true
+    title: A dropped wrapper parameter is logged as a plain entry, and the rule is untested
+    summary: Ledger defines dropped as source work not carried incl. parameter surfaces; rule was plain-entry, "it" ambiguous, no property.
+    issue: |
+      The advance wrapper-choice bucket said that when no wrapper running the step's work satisfies the contract "and it lacks only a parameter, drop that setting and append a plain entry". The ledger defines `kind: dropped` as source work the pipeline declined to carry, "a parameter surface not exposed" included, and a plain entry doesn't count toward the drop totals. "It" also reads as the contract, not the wrapper. This is the one new rule that lowers a blocker, and no property covered it.
+    fix: |
+      The bucket now names the chosen wrapper and appends a `kind: dropped` entry, with the setting in `units` and a `because` quoting the wrapper's parameters. A new routing property checks that a missing parameter is a recorded drop and that a declared output the wrapper can't produce always gets a blocking entry.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+      - {profile: generic_test_challenger, model: Claude Opus 5.5, effort: medium}
+  - id: P3 3
+    include: true
+    title: "\"Never a miss\" conflicts with dropping data-manager hits"
+    summary: A STAR index data manager runs the named executable but is dropped in scoring; the miss rule and eval didn't exempt it.
+    issue: |
+      `discover-shed-tool` says "A wrapper that runs the named executable is never a `miss`" and also "Drop data-manager hits". A STAR index data manager runs `STAR --runMode genomeGenerate`. If it were the only wrapper running the named executable, the two rules would disagree. The eval property has the same gap.
+    fix: |
+      The `miss` definition, the never-a-miss rule, the classify step and the eval property now say "a wrapper outside a data manager". The schema's `status` description stays a summary without the qualifier; the Mold carries the procedure.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+  - id: P3 4
+    include: true
+    title: Mold bodies defend their own instructions
+    summary: Four rationale clauses in discover, repair and implement bodies; casts are runtime instructions.
+    issue: |
+      Four new clauses justify the instruction beside them: discover's "Fit depends on the step's ports, which discovery doesn't see…", its reason for dropping data-manager hits ("they're admin-only and write a tool data table…"), repair's "An added producer for the same work would raise the entry again", and implement's "so the step stays drafty for repair". The reasons belong in the PR description or `open-requirements-ledger`.
+    fix: |
+      Cut the four clauses, plus a similar one the fold fix on this branch added, and kept the instructions. Discover's never-a-miss rule stays, because its eval property mirrors it.
+    discovered_by:
+      - {profile: foundry_domain_review, model: Claude Opus 5.5, effort: medium}
+  - id: P3 5
+    include: true
+    title: The discover STAR case records search ranking and explains itself
+    summary: '"rna_starsolo outranks it" is today''s ranking; data-manager rationale sat in the expect.'
+    issue: |
+      The discover STAR case's expect said "`rna_starsolo`, which outranks it in search, may be an alternate", which records today's Tool Shed ranking. It also explained why the data manager isn't the candidate.
+    fix: |
+      The expect now reads: `hit` or `weak` with `iuc/rgrnastar/rna_star` as `candidate`, never `miss`, and no `data_manager_*` repo as the candidate.
+    discovered_by:
+      - {profile: foundry_domain_review, model: Claude Opus 5.5, effort: medium}
+  - id: P3 6
+    include: true
+    title: Implement's old failure-ownership oracle overlaps the new blocking-entry property
+    summary: Mold narrowed Failure ownership to wrappers that carry the plan; eval and case still covered output mismatches.
+    issue: |
+      The PR narrowed implement's Failure ownership prose to a wrapper that carries what the plan needs but could still fail at runtime. The "runtime failure ownership hint" property and its case still covered mismatches in "inputs, outputs, datatype, or collection support". The output mismatch now overlaps the new blocking-entry property. Because eval properties apply to every run, the STAR run would also be judged on writing an ownership hint.
+    fix: |
+      The property and its case are now scoped to a wrapper that carries the plan, where a datatype, parameter or collection shape could still fail at runtime.
+    discovered_by:
+      - {profile: generic_test_challenger, model: Claude Opus 5.5, effort: medium}
+  - id: F1
+    include: false
+    title: author-galaxy-tool-wrapper still accepts a weak fall-through
+    summary: author:67/:84 and its eval still allow weak to author.
+    filtered:
+      category: relitigates_pr
+      reason: The PR description leaves author-galaxy-tool-wrapper to #773, whose diff rewrites the same line 84, so editing it here would conflict.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+      - {profile: foundry_domain_review, model: Claude Opus 5.5, effort: medium}
+  - id: F2
+    include: false
+    title: The design tier still adds the index step repair then folds
+    summary: nextflow-to-galaxy-reference-data-mapping:95 adds a build-index step past ~3 rebuilds.
+    filtered:
+      category: pre_existing
+      reason: The line sits in a research note the PR doesn't touch. It could be filed as a separate work/ready-implement issue.
+    discovered_by:
+      - {profile: foundry_domain_review, model: Claude Opus 5.5, effort: medium}
+  - id: F3
+    include: false
+    title: Older implement cases have abstract fixtures
+    summary: '"concrete step preserves failure evidence" and "runtime failure ownership hint" name no fixture path.'
+    filtered:
+      category: pre_existing
+      reason: Both cases predate the PR, and their prose fixtures aren't part of its change.
+    discovered_by:
+      - {profile: foundry_domain_review, model: Claude Opus 5.5, effort: medium}
+  - id: F4
+    include: false
+    title: Show red-to-green with a discover run on base and branch casts
+    summary: Run /test-mold discover-shed-tool on the STAR case with both casts.
+    filtered:
+      category: relitigates_pr
+      reason: The PR lists "No run. No pipeline run or eval has exercised these changes." as a known limitation.
+    discovered_by:
+      - {profile: generic_test_challenger, model: Claude Opus 5.5, effort: medium}
