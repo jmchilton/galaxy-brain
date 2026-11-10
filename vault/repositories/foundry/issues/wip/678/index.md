@@ -1,5 +1,7 @@
 ---
-related_records: foundry/issues/723
+related_records:
+  - foundry/issues/723
+  - foundry/branches/issue-678-capability-gap-route
 ---
 
 # #678 `galaxy-tool-discovery` `status` has no `unsuitable` case; a capability miss routes to authoring a wrapper that exists
@@ -10,7 +12,7 @@ related_records: foundry/issues/723
 
 ## Derived status
 
-`wip`, rule 2: AnastasiaSee's draft PR [#773](https://github.com/galaxyproject/foundry/pull/773) (opened 2026-11-10) says it closes this. The research comment is still unanswered.
+`wip`, rule 2: AnastasiaSee's draft PR [#773](https://github.com/galaxyproject/foundry/pull/773) (opened 2026-11-10) says it closes this. John chose the research comment's ledger route on 2026-11-10, and branch `issue-678-capability-gap-route` implements it. #773 keeps the authoring gate. The comment asking it to drop `unsuitable` is drafted in the branch record, not posted.
 
 ## #773, checked 2026-11-10 against `origin/main` `94ce4ea2`
 
