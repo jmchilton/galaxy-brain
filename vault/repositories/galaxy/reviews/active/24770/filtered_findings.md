@@ -9,3 +9,5 @@
 - **One blocker per step defers noticing other failures** (gx_risk_assessment; default note): an explicit tradeoff in the PR description.
 - **Untracked `ToolInputsNotReadyException` from other call sites** (gx_risk_assessment): disproved. All eight `ToolInputsNotReadyException(` raise sites under `lib/galaxy` pass `dependencies=`. They are in `tools/__init__.py`, `tools/actions/__init__.py`, `tools/execute.py` and `tools/parameters/meta.py`. The only remaining untracked case is failed population, filtered above.
 - **Use adapter `dataset_instances` instead of `adapting`** (default P3 3, third bullet): would load every member HDA of a DCE's child collection into Python and bypass the SQL `LIMIT 1` search. The rest of that finding is kept as P3 4.
+
+- P3 5 (`galaxy.exceptions` imports `galaxy.workflow`; thermo P2 2 + default P3 4) — addressed by author in `c44640e7442` (2026-11-10): dependencies moved to `ToolInputsNotReadyWithDependencies` in `galaxy.workflow.scheduling_dependencies`; our `8c1faccd7fa` dropped from `pr_24770_round_0_rev_1`.

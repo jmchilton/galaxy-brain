@@ -55,20 +55,19 @@ You're contributing to a repository John cares about and you deserve a human res
 
 <details><summary>Review Verification Branch Details</summary>
 
-This [review branch](https://github.com/jmchilton/galaxy/tree/pr_24770_round_0_rev_0) contains work the verification agent did to help verify findings and make sure suggestions make sense and are actionable. This doesn't necessarily represent production ready code. Feel free to include any commits in the PR but they should be reviewed by a human.
+This [review branch](https://github.com/jmchilton/galaxy/tree/pr_24770_round_0_rev_1) contains work the verification agent did to help verify findings and make sure suggestions make sense and are actionable. This doesn't necessarily represent production ready code. Feel free to include any commits in the PR but they should be reviewed by a human.
 
 <details><summary>Branch and Commit Details</summary>
 
-Branch [`pr_24770_round_0_rev_0`](https://github.com/jmchilton/galaxy/tree/pr_24770_round_0_rev_0) (from reviewed head `8ec2452c3bb`) tightens the readiness-snapshot mechanism without changing its design. The snapshot query now lives once in `galaxy.model.dataset_collections.readiness`, and the monitor calls it. Snapshots treat all non-ready states as one value, so a blocker moving queued → running no longer replays the invocation. Pick-value (`require_ready`) connection waits now record snapshots too, so a paused input stops replaying every pass. The collection blocker search requires `states` and has typed input, and `galaxy.exceptions` (galaxy-util) no longer imports `galaxy.workflow`. Tests now cover snapshot wakes on deletion, missing rows and batching, prove that the running member (not the errored one) wakes the auto-extension wait, and cover the element/adapter branches. HDA-column wake assertions are isolated from the history-audit trigger. All edited test files pass: `test_scheduling_manager.py` (15), `test_workflow_progress.py` (14), `test_input_readiness.py` (10). Each new test was red-checked against a deliberately broken implementation.
+Branch [`pr_24770_round_0_rev_1`](https://github.com/jmchilton/galaxy/tree/pr_24770_round_0_rev_1) (rebased onto PR head `c44640e7442`) tightens the readiness-snapshot mechanism without changing its design. The snapshot query now lives once in `galaxy.model.dataset_collections.readiness`, and the monitor calls it. Snapshots treat all non-ready states as one value, so a blocker moving queued → running no longer replays the invocation. Pick-value (`require_ready`) connection waits now record snapshots too, so a paused input stops replaying every pass. The collection blocker search requires `states` and has typed input. Tests now cover snapshot wakes on deletion, missing rows and batching, prove that the running member (not the errored one) wakes the auto-extension wait, and cover the element/adapter branches. HDA-column wake assertions are isolated from the history-audit trigger. All edited test files pass: `test_scheduling_manager.py` (15), `test_workflow_progress.py` (14), `test_input_readiness.py` (10). Each new test was red-checked against a deliberately broken implementation.
 
-- [`cfa2feb02d7`](https://github.com/jmchilton/galaxy/commit/cfa2feb02d7) Test readiness snapshot wakes on deletion, missing rows, batches — parametrized monitor test for state, HDA deleted, dataset deleted and missing-row changes, plus a 501-dependency batch test. (P2 2)
-- [`ad7a71773f4`](https://github.com/jmchilton/galaxy/commit/ad7a71773f4) Define readiness snapshot query once, next to ReadinessSnapshot — adds `readiness_snapshots(session, ids)` with shared column helpers used by `blocking_dataset` and the monitor. (P3 2)
-- [`e0d4cc455ca`](https://github.com/jmchilton/galaxy/commit/e0d4cc455ca) Assert the running member, not the errored one, wakes auto-extension wait — completes the running member and asserts a wake and failure; adds `SchedulingHarness.restore_history_update_time()` so HDA-column wakes exercise the snapshot. (P2 1)
-- [`6edf0e005be`](https://github.com/jmchilton/galaxy/commit/6edf0e005be) Ignore moves between non-ready states in readiness snapshots — normalizes `Dataset.non_ready_states` to one sentinel in the single snapshot constructor. (P3 3)
-- [`72e901d3db0`](https://github.com/jmchilton/galaxy/commit/72e901d3db0) Track connection HDA waits by readiness snapshot — `replacement_for_connection` attaches `dataset_readiness(...)` to both HDA dependencies; requires `6edf0e005be`. (P3 1)
-- [`2c4c5360b32`](https://github.com/jmchilton/galaxy/commit/2c4c5360b32) Split known-blocked dataset tracking from collection blocker search — `dataset_dependencies(dataset)` for known-blocked datasets; `input_readiness_dependencies(value: ReadinessInput, *, states, extensions=None)`. (P3 4)
-- [`8c1faccd7fa`](https://github.com/jmchilton/galaxy/commit/8c1faccd7fa) Keep galaxy.exceptions free of galaxy.workflow imports — `ToolInputsNotReadyException.dependencies` typed `Iterable[Any]`. (P3 5)
-- [`2a63e46fabf`](https://github.com/jmchilton/galaxy/commit/2a63e46fabf) Test blocker search through collection elements and adapters — direct test over a DCE, `DCECollectionAdapter`, `PromoteDatasetToCollection` and `PromoteDatasetsToCollection`. (P3 6)
+- [`30f85cb4b46`](https://github.com/jmchilton/galaxy/commit/30f85cb4b46) Test readiness snapshot wakes on deletion, missing rows, batches — parametrized monitor test for state, HDA deleted, dataset deleted and missing-row changes, plus a 501-dependency batch test. (P2 2)
+- [`81d820e5b65`](https://github.com/jmchilton/galaxy/commit/81d820e5b65) Define readiness snapshot query once, next to ReadinessSnapshot — adds `readiness_snapshots(session, ids)` with shared column helpers used by `blocking_dataset` and the monitor. (P3 2)
+- [`f1cc0c0c706`](https://github.com/jmchilton/galaxy/commit/f1cc0c0c706) Assert the running member, not the errored one, wakes auto-extension wait — completes the running member and asserts a wake and failure; adds `SchedulingHarness.restore_history_update_time()` so HDA-column wakes exercise the snapshot. (P2 1)
+- [`25080a76f30`](https://github.com/jmchilton/galaxy/commit/25080a76f30) Ignore moves between non-ready states in readiness snapshots — normalizes `Dataset.non_ready_states` to one sentinel in the single snapshot constructor. (P3 3)
+- [`327827e646d`](https://github.com/jmchilton/galaxy/commit/327827e646d) Track connection HDA waits by readiness snapshot — `replacement_for_connection` attaches `dataset_readiness(...)` to both HDA dependencies; requires `25080a76f30`. (P3 1)
+- [`aa21d1d218b`](https://github.com/jmchilton/galaxy/commit/aa21d1d218b) Split known-blocked dataset tracking from collection blocker search — `dataset_dependencies(dataset)` for known-blocked datasets; `input_readiness_dependencies(value: ReadinessInput, *, states, extensions=None)`. (P3 4)
+- [`318b5e6014f`](https://github.com/jmchilton/galaxy/commit/318b5e6014f) Test blocker search through collection elements and adapters — direct test over a DCE, `DCECollectionAdapter`, `PromoteDatasetToCollection` and `PromoteDatasetsToCollection`. (P3 6)
 
 </details>
 
@@ -92,7 +91,7 @@ Red-check: adding `ERROR` to the `states` filter in `DefaultToolAction` makes th
 
 </details>
 
-Fixed on the review branch in [`e0d4cc455ca`](https://github.com/jmchilton/galaxy/commit/e0d4cc455ca).
+Fixed on the review branch in [`f1cc0c0c706`](https://github.com/jmchilton/galaxy/commit/f1cc0c0c706).
 
 <details><summary>Discovery & Verification Agent Details</summary>
 
@@ -112,7 +111,7 @@ Red-check: dropping the missing-row check and the deleted fields from the compar
 
 </details>
 
-Fixed on the review branch in [`cfa2feb02d7`](https://github.com/jmchilton/galaxy/commit/cfa2feb02d7).
+Fixed on the review branch in [`30f85cb4b46`](https://github.com/jmchilton/galaxy/commit/30f85cb4b46).
 
 <details><summary>Discovery & Verification Agent Details</summary>
 
@@ -132,7 +131,7 @@ Tests: `test_paused_dataset_delays_with_readiness_dependency_when_ready_required
 
 </details>
 
-Fixed on the review branch in [`72e901d3db0`](https://github.com/jmchilton/galaxy/commit/72e901d3db0).
+Fixed on the review branch in [`327827e646d`](https://github.com/jmchilton/galaxy/commit/327827e646d).
 
 <details><summary>Discovery & Verification Agent Details</summary>
 
@@ -152,7 +151,7 @@ The failure mode of drift is replays, not stalls, hence P3 rather than P2.
 
 </details>
 
-Fixed on the review branch in [`ad7a71773f4`](https://github.com/jmchilton/galaxy/commit/ad7a71773f4).
+Fixed on the review branch in [`81d820e5b65`](https://github.com/jmchilton/galaxy/commit/81d820e5b65).
 
 <details><summary>Discovery & Verification Agent Details</summary>
 
@@ -172,7 +171,7 @@ Test: `test_readiness_snapshot_ignores_moves_between_non_ready_states` sets queu
 
 </details>
 
-Fixed on the review branch in [`6edf0e005be`](https://github.com/jmchilton/galaxy/commit/6edf0e005be).
+Fixed on the review branch in [`25080a76f30`](https://github.com/jmchilton/galaxy/commit/25080a76f30).
 
 <details><summary>Discovery & Verification Agent Details</summary>
 
@@ -192,27 +191,7 @@ The `CollectionAdapter` branch should keep dispatching on `adapting`. It should 
 
 </details>
 
-Fixed on the review branch in [`2c4c5360b32`](https://github.com/jmchilton/galaxy/commit/2c4c5360b32).
-
-<details><summary>Discovery & Verification Agent Details</summary>
-
-Discovered by [thermo_review](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/reviewers/thermo_review.md) via Claude Opus 5.5 at low effort and [default](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/reviewers/default.md) via Claude Opus 5.5 at medium effort. Verified via Claude Opus 5.5 at medium effort.
-
-</details>
-
-### P3 5: `galaxy.exceptions` (galaxy-util) now imports `galaxy.workflow` (implementation verified)
-
-`lib/galaxy/exceptions/__init__.py` ships in `packages/util`, which on the base branch imports no other Galaxy package. It now has a `TYPE_CHECKING` import of `galaxy.workflow.scheduling_dependencies` (galaxy-app). This works only because `ignore_missing_imports` degrades the import to `Any`.
-
-Type `ToolInputsNotReadyException.dependencies` opaquely (`Iterable[Any]`) in `galaxy.exceptions`. The raise sites still build typed `SchedulingDependency` lists through the helpers.
-
-<details><summary>Details</summary>
-
-Both reviews also flagged the new runtime imports from `galaxy.tools` into `galaxy.workflow.scheduling_dependencies`, and suggested moving `SchedulingDependency` into `galaxy.model`. That move doesn't address `galaxy.exceptions`, since `galaxy.model` lives in galaxy-data, not galaxy-util. `galaxy.tools` and `galaxy.workflow` share the galaxy-app package, and the new module imports only `galaxy.model`, so there is no cycle. The relocation is left for `dev` if wanted rather than done on `release_26.2`.
-
-</details>
-
-Fixed on the review branch in [`8c1faccd7fa`](https://github.com/jmchilton/galaxy/commit/8c1faccd7fa).
+Fixed on the review branch in [`aa21d1d218b`](https://github.com/jmchilton/galaxy/commit/aa21d1d218b).
 
 <details><summary>Discovery & Verification Agent Details</summary>
 
@@ -232,7 +211,7 @@ Red-check: breaking either the DCE child-collection routing or the adapter list 
 
 </details>
 
-Fixed on the review branch in [`2a63e46fabf`](https://github.com/jmchilton/galaxy/commit/2a63e46fabf).
+Fixed on the review branch in [`318b5e6014f`](https://github.com/jmchilton/galaxy/commit/318b5e6014f).
 
 <details><summary>Discovery & Verification Agent Details</summary>
 
