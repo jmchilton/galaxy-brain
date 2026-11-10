@@ -3,6 +3,7 @@ upstream_base_branch: main
 related_records:
   - foundry/issues/678
   - foundry/reviews/778
+  - foundry/branches/issue-723-authoring-gate
 pr: 778
 ---
 # Route a found wrapper that can't serve its step to repair, not authoring

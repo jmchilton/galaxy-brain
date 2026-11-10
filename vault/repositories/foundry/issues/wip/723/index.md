@@ -1,5 +1,7 @@
 ---
-related_records: foundry/issues/678
+related_records:
+  - foundry/issues/678
+  - foundry/branches/issue-723-authoring-gate
 ---
 
 # #723 Require existing Galaxy/IUC/Tool Shed tools; prohibit replacement UDTs when a corresponding tool exists

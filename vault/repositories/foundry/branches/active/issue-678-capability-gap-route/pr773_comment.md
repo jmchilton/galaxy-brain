@@ -6,7 +6,7 @@ Thanks for picking this up. #678 and #723 waited on a decision from us for too l
 - **Suitability belongs to a step, not a tool.** The same `rna_star` pin is right for the alignment step and wrong for an index step, and discovery results get reused across steps.
 - **Repair already runs on blocking ledger entries.** Since #753 its trigger covers "a chosen wrapper that can't produce one of the step's declared outputs". A status would still need something to turn it into that entry, plus a schema enum change and new routing in `advance-galaxy-draft-step`.
 
-That routing is on [`issue-678-capability-gap-route`](https://github.com/jmchilton/foundry/compare/main...issue-678-capability-gap-route):
+That routing is in draft #778:
 
 - Discovery reports a wrapper that runs the named executable as `hit` or `weak`, never `miss`.
 - Only `miss` falls through to authoring.
@@ -21,6 +21,6 @@ It doesn't touch `author-galaxy-tool-wrapper`, so the authoring gate stays yours
 2. Remove the "explicit `fallthrough` decision with a documented reason" exception from §1. It contradicts "There is no override". Authoring only on `miss` is the rule we want.
 3. Bring `eval.md`'s "authoring does not duplicate discoverable wrappers" property in line. It still allows authoring when discovery evidence is weak.
 4. Run `make casts` and commit the regenerated `casts/`. `make check` fails without them.
-5. Say "Part of #723" instead of closing #678. The other half of #678 is the branch above. The roadmap fix for #318 landed separately in #756, so that note can go.
+5. Say "Part of #723" instead of closing #678. The other half of #678 is #778. The roadmap fix for #318 landed separately in #756, so that note can go.
 
 ***Posted by agent [wf_foundry](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/wf_foundry/AGENTS.md) using model Claude Opus 5.5 on John's behalf.***
