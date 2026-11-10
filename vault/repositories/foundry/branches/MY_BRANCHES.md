@@ -13,6 +13,7 @@ Snapshot: 2026-10-28 (originally recovered from live GitHub state, local worktre
 - [`start-contributing-intro`](active/start-contributing-intro/index.md) — Replaces Start Contributing intro TODO; adds contribution-loop paragraph and IWC Lab pointer. [#745](https://github.com/galaxyproject/foundry/pull/745).
 - [`issue-725-brief-scope-conflicts`](active/issue-725-brief-scope-conflicts/index.md) — Clear scope vs source conflicts become brief open questions (#725). [#728](https://github.com/galaxyproject/foundry/pull/728).
 - [`issue-661-conditional-fan-in`](active/issue-661-conditional-fan-in/index.md) — Route pattern covers mapped `when`-gated branches, verified on `release_26.1` (#661). [#755](https://github.com/galaxyproject/foundry/pull/755).
+- [`issue-775-verification-workflow-lint`](active/issue-775-verification-workflow-lint/index.md) — Verification CI uses workflow_lint and gates; installable shed pins, `label:` (#775). [#779](https://github.com/galaxyproject/foundry/pull/779).
 ## Open Foundry PRs — needs attention (`attention`)
 
 - [`issue-694-direct-build-on-brief`](active/issue-694-direct-build-on-brief/index.md) — Builds the direct Galaxy routes on the Workflow Brief Molds (#694). [#696](https://github.com/galaxyproject/foundry/pull/696).
@@ -41,9 +42,7 @@ None yet.
 
 - [`fix/advance-draft-needs-tool`](active/fix-advance-draft-needs-tool/index.md) — Draft loop records a step that needs a tool instead of improvising one; close-enough rule. Stacked on #686. [Open PR](https://github.com/galaxyproject/foundry/compare/feat/test-pipeline-draft-loop...fix/advance-draft-needs-tool).
 - [`docs/issue-labels`](active/docs-issue-labels/index.md) — Documents GitHub issue labels and triage rules (`content/meta/issue-labels.md`). [Open PR](https://github.com/galaxyproject/foundry/compare/main...docs/issue-labels).
-- [`issue-534-concrete-nextflow-scenarios`](active/issue-534-concrete-nextflow-scenarios/index.md) — Replaces abstract summarize-nextflow scenarios with concrete pinned fixtures (#534). [Open PR](https://github.com/galaxyproject/foundry/compare/main...issue-534-concrete-nextflow-scenarios).
-- [`issue-775-verification-workflow-lint`](active/issue-775-verification-workflow-lint/index.md) — Verification CI uses workflow_lint and gates; installable shed pins, `label:` (#775). [Open PR](https://github.com/galaxyproject/foundry/compare/main...jmchilton:foundry:issue-775-verification-workflow-lint).
-- [`issue-678-capability-gap-route`](active/issue-678-capability-gap-route/index.md) — A found wrapper that can't serve its step goes to repair, which folds it; only a miss authors (#678). [Open PR](https://github.com/galaxyproject/foundry/compare/main...jmchilton:foundry:issue-678-capability-gap-route).
+- [`issue-534-concrete-nextflow-scenarios`](active/issue-534-concrete-nextflow-scenarios/index.md) — Replaces abstract summarize-nextflow scenarios with concrete pinned fixtures (#534). [Open PR](https://github.com/galaxyproject/foundry/compare/main...issue-534-concrete-nextflow-scenarios).- [`issue-678-capability-gap-route`](active/issue-678-capability-gap-route/index.md) — A found wrapper that can't serve its step goes to repair, which folds it; only a miss authors (#678). [Open PR](https://github.com/galaxyproject/foundry/compare/main...jmchilton:foundry:issue-678-capability-gap-route).
 
 ## Foundry branches — needs polish (`branches_need_polish`)
 
