@@ -75,7 +75,7 @@ Not acted on: a single resolved-edge index per workflow level, which restructure
 
 <details><summary>One confirmed issue, fixed in both languages: two cycles sharing a step got advice that one edge would break them.</summary>
 
-The TypeScript session found nothing, but its sandbox couldn't run Vitest. The finding came from the paired Python review and applies to the shared logic. The message now says the steps depend on each other through a cycle, and a shared-step case was added.
+The TypeScript session found nothing, but its sandbox couldn't run Vitest. The finding came from the paired Python review and applies to the shared logic. The message now says the steps depend on each other through a cycle, and a shared-step case was added. It reviewed `59565c31`, so it hasn't seen the rewording, the thermo-nuclear cleanups or the later test cases.
 
 [Full report](https://galaxy-brain.jmchilton.net/repositories/galaxy-tool-util-ts/branches/issue_288_draft_cycles/codex_review/). Run via gpt-6-sol at medium effort.
 

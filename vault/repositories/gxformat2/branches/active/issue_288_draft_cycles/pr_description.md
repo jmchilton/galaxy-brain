@@ -48,7 +48,7 @@ Risks are minimal - this change doesn't lock the project into particular difficu
 
 ## Context
 
-Builds on 🔀 #289, which left cycles to this issue. Paired with 🌿[galaxy-tool-util-ts `issue_288_draft_cycles`](https://github.com/jmchilton/galaxy-tool-util-ts/tree/issue_288_draft_cycles), which syncs the fixtures and expectations added here and ports the check, so this merges first. Python and TypeScript give identical verdicts, topology errors and `next_draft_step` results on the 209 real drafts both load and on every draft fixture.
+Builds on 🔀 #289; its TypeScript pair, jmchilton/galaxy-tool-util-ts#217, left cycles to this issue. Nothing else in gxformat2 calls `validate_draft`, and gxwf-web and the VS Code extension don't use it. Paired with 🌿[galaxy-tool-util-ts `issue_288_draft_cycles`](https://github.com/jmchilton/galaxy-tool-util-ts/tree/issue_288_draft_cycles), which syncs the fixtures and expectations added here and ports the check, so this merges first. Python and TypeScript give identical verdicts, topology errors and `next_draft_step` results on the 209 real drafts both load and on every draft fixture.
 
 ## Agentic Checks
 
@@ -66,7 +66,7 @@ The step-graph helpers moved into their own section, the cycle wording moved out
 
 <details><summary>One confirmed issue, fixed: two cycles sharing a step got advice that one edge would break them.</summary>
 
-The groups are mutually reachable sets, and such a set can hold more than one cycle. Listing every simple cycle can blow up combinatorially, so the message now says the steps depend on each other through a cycle. A shared-step case was added. The paired TypeScript review found nothing further.
+The groups are mutually reachable sets, and such a set can hold more than one cycle. Listing every simple cycle can blow up combinatorially, so the message now says the steps depend on each other through a cycle. A shared-step case was added. The paired TypeScript review found nothing further. It reviewed `021fd1b`, so it hasn't seen the rewording, the thermo-nuclear cleanups or the later test cases.
 
 [Full report](https://galaxy-brain.jmchilton.net/repositories/galaxy-tool-util-ts/branches/issue_288_draft_cycles/codex_review/). Run via gpt-6-sol at medium effort.
 
