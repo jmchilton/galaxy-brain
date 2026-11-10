@@ -11,9 +11,9 @@ Addresses [#757](https://github.com/galaxyproject/foundry/issues/757). Branched 
 
 ## Status
 
-Polished at `61da1159`. Waiting for John's final review.
+Polished at `124a8a2a`. Waiting for John's final review.
 
-No PR yet.
+No PR yet: the auto-mode classifier blocked `gh pr create` for the draft PR. The body is in [pr_description.md](pr_description.md).
 
 No CI: fork branch. The local gate is green apart from `check-vendored` (local drift) and `validate-roadmap` (unrelated #768/#783 labels).
 

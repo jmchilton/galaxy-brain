@@ -17,7 +17,7 @@ per-element values (list) ──> param_value_from_file (mapped) ──> integer
 reads (list) ──────────────────────────────────────────> Show beginning1 (mapped, lineNum)
 ```
 
-The first case is the route. The second shows that Galaxy pairs the two collections by position, not by identifier, so the values have to come out of a step mapped over the data collection, or be reordered to match it.
+The first case is the route, and the third shows it choosing a `select` option per element. The second shows that Galaxy pairs the two collections by position, not by identifier, so the values have to come out of a step mapped over the data collection, or be reordered to match it.
 
 nf-core does this. A process computes a value per sample, writes it into `meta`, and a later process reads it as a tool argument. nf-core/rnaseq's `strandedness: auto` path does this with `meta.strandedness`. The note's `val(meta)` row stopped at "parameters", so a run had nothing to follow and invented a run-once-and-re-run substitute (#674).
 
@@ -31,7 +31,7 @@ nf-core does this. A process computes a value per sample, writes it into `meta`,
   - Wiring only: a parameter inside a conditional's case (IWC `consensus-peaks-atac-cutandrun`, where every element gets the same value).
   - Not tested: a float parameter.
   - Open: a conditional's test parameter.
-- ***Fall back only for the Open target, or when a workflow test of the route fails.*** Wiring-only and Not-tested targets use the route, covered by a workflow test whose elements carry different values. rnaseq's strandedness reaches a Verified target, featureCounts' `select`, and the Open one, Salmon's `--libType`, which takes the fallback.
+- ***Fall back only for the Open target, or when a workflow test of the route fails.*** Wiring-only and Not-tested targets use the route, covered by a workflow test whose elements carry different values. rnaseq's strandedness reaches a Verified target, featureCounts' `select` (after translating its strings to option values), and the Open one, Salmon's `--libType`, which takes the fallback.
 - **Fallback order.** The first fallback is one `when`-gated branch per value. The branches rejoin with a mapped built-in `pick_value`, never `__MERGE_COLLECTION__`, which yields one element per branch per sample (#661). Galaxy's `..._map_over_expression_tool_pick_value` API test covers that rejoin. The last resort is one workflow-level value, with a `kind: dropped` ledger entry and the computed values exposed as an output.
 - **Mold trigger.** `implement-galaxy-tool-step` loads this note on demand. Its trigger now also covers wiring a per-element value into a mapped step's parameter, so the new section is reachable at that decision.
 
