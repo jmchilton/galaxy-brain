@@ -11,8 +11,23 @@ Addresses [#757](https://github.com/galaxyproject/foundry/issues/757). Branched 
 
 ## Status
 
-Implemented ([debrief](implementation_debrief.md)); reviews and hardening in progress.
+Polished at `61da1159`. Waiting for John's final review.
 
 No PR yet.
 
-No CI (fork branch).
+No CI: fork branch. The local gate is green apart from `check-vendored` (local drift) and `validate-roadmap` (unrelated #768/#783 labels).
+
+## Files
+
+- [Implementation debrief](implementation_debrief.md)
+- Reviews: [normal](subagents/normal_review.md), [Codex](codex_review.md), [domain](subagents/domain_review.md), [docs](subagents/docs_review.md). Thermo-nuclear review skipped because the branch has no implementation code, only docs and YAML fixtures.
+- Polish: [debrief](polish_debrief.md), [PR description](pr_description.md), [titles](pr_titles.md), [tags](pr_tags.md)
+
+## Open questions for John
+
+These are listed in [polish_debrief.md](polish_debrief.md):
+
+- Whether to file upstream issues for #661/#667.
+- What to do with the untouched "Low-Confidence TODOs" and "Mold Use" sections.
+- Fixtures: `state:` versus `tool_state:`.
+- Whether to add a test for the Open row.

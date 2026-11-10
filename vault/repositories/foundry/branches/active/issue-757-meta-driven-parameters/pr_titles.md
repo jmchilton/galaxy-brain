@@ -1,0 +1,4 @@
+- Route per-element parameters computed from `meta` in the channel-shape note
+- Channel-shape note: per-element parameters via mapped `param_value_from_file`
+- Give per-sample `meta` values a Galaxy route: mapped `param_value_from_file`
+- Document and verify per-element tool parameters from mapped `param_value_from_file`
