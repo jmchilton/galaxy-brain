@@ -1,0 +1,4 @@
+- Check frame `contains_steps`/`contains_comments` labels in lint and convert
+- `gxwf lint`/`convert`: reject unknown frame labels instead of writing `child_steps: [null]`
+- Lint unknown frame references and empty frames (gxformat2#292 port)
+- Fail conversion on unresolved frame labels; lint them and empty frames

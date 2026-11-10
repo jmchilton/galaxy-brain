@@ -15,6 +15,7 @@ None yet.
 
 ## Draft PRs — waiting for CI (`ci_wait`)
 
+- [`issue_225_frame_labels`](active/issue_225_frame_labels/index.md) — `gxwf lint`/`convert` reject unknown frame `contains_steps`/`contains_comments` labels; empty-frame warning (#225). Draft until John reviews. [#227](https://github.com/jmchilton/galaxy-tool-util-ts/pull/227).
 - [`issue_216_concrete_errors`](active/issue_216_concrete_errors/index.md) — `draft-validate --concrete --json`: top-level `concrete_errors`, step `label` on results (#216). Draft until John reviews. [#226](https://github.com/jmchilton/galaxy-tool-util-ts/pull/226).
 
 ## Draft PRs — author work (`author_work`)
@@ -24,7 +25,6 @@ None yet.
 ## Branches — implemented (`branches_implemented`)
 
 - [`issue_288_draft_cycles`](active/issue_288_draft_cycles/index.md) — `validateDraft` rejects step dependency cycles, incl. self-loops (gxformat2#288 port). [Open PR](https://github.com/jmchilton/galaxy-tool-util-ts/compare/main...issue_288_draft_cycles).
-- [`issue_225_frame_labels`](active/issue_225_frame_labels/index.md) — `gxwf lint`/`convert` reject unknown frame `contains_steps`/`contains_comments` labels; empty-frame warning (#225). [Open PR](https://github.com/jmchilton/galaxy-tool-util-ts/compare/main...issue_225_frame_labels).
 
 ## Branches — needs polish (`branches_need_polish`)
 

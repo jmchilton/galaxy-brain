@@ -1,0 +1,1 @@
+- `bug` — `convert` emitted `child_steps: [null]`, which Galaxy rejects; lint missed it.

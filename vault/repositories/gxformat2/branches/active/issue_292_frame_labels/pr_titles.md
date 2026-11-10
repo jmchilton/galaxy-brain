@@ -1,0 +1,4 @@
+- Check frame `contains_steps`/`contains_comments` labels in lint and conversion
+- Lint and reject unknown frame labels instead of crashing conversion
+- Name the frame and label when `contains_steps` doesn't resolve
+- Lint unknown frame references and empty frames

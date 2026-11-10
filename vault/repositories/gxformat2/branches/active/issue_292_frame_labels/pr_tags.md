@@ -1,0 +1,1 @@
+- `bug` — conversion crashed with an unhelpful `int()` error; lint missed it.

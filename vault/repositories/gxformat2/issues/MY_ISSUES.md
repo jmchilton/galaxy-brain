@@ -7,7 +7,7 @@ None yet.
 ## In progress (`wip`)
 
 - [#288](https://github.com/galaxyproject/gxformat2/issues/288) — `validate_draft` accepts cyclic step graphs; paired TS port; branch `issue_288_draft_cycles`. [notes](wip/288/index.md)
-- [#292](https://github.com/galaxyproject/gxformat2/issues/292) — unknown frame `contains_steps` label crashes conversion; lint misses it and empty frames; branch `issue_292_frame_labels`. [notes](wip/292/index.md)
+- [#292](https://github.com/galaxyproject/gxformat2/issues/292) — unknown frame `contains_steps` label crashes conversion; lint misses it and empty frames; PR [#293](https://github.com/galaxyproject/gxformat2/pull/293). [notes](wip/292/index.md)
 
 ## Queued (`queued`)
 
