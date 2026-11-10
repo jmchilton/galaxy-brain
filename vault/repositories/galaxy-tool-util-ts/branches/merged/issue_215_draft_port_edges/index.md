@@ -1,7 +1,6 @@
 ---
 upstream_base_branch: main
 pr: 217
-blockers: gxformat2/branches/issue_215_draft_port_edges
 related_records: gxformat2/branches/issue_215_draft_port_edges
 ---
 
@@ -12,11 +11,9 @@ related_records: gxformat2/branches/issue_215_draft_port_edges
 
 ## Status
 
-Polished at `c2e6868e`, branched from `origin/main` `f5470fe5`.
+Merged, after the paired galaxyproject/gxformat2#289.
 
-PR #217 opened at John's request on 2026-11-07 against `main`; it merges after the paired galaxyproject/gxformat2#289.
-
-PR CI is still running at `c2e6868e`.
+PR #217 merged into `main` on 2026-11-09.
 
 ## Polish
 
@@ -24,6 +21,6 @@ PR CI is still running at `c2e6868e`.
 
 ## Notes
 
-- Issue: [galaxy-tool-util-ts#215](https://github.com/jmchilton/galaxy-tool-util-ts/issues/215), record [issues/wip/215](../../../issues/wip/215/index.md).
+- Issue: [galaxy-tool-util-ts#215](https://github.com/jmchilton/galaxy-tool-util-ts/issues/215), record [issues/closed/215](../../../issues/closed/215/index.md).
 - Worktree: `~/projects/worktrees/galaxy-tool-util-ts/branch/issue_215_draft_port_edges`.
 - Expectations and fixtures are synced from the gxformat2 branch, so that one lands first.

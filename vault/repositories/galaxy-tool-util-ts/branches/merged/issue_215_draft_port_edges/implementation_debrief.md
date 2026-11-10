@@ -1,6 +1,6 @@
 # Implementation debrief
 
-Paired with [the gxformat2 branch](../../../../gxformat2/branches/active/issue_215_draft_port_edges/index.md), which owns the shared expectations and fixtures and has to land first.
+Paired with [the gxformat2 branch](../../../../gxformat2/branches/merged/issue_215_draft_port_edges/index.md), which owns the shared expectations and fixtures and has to land first.
 
 ## Is this a good idea?
 
@@ -39,7 +39,7 @@ Yes for the two core changes, checked against real data. The survey count is lef
 ## Snapshot
 
 ```text
-created .../galaxy-tool-util-ts/branches/active/issue_215_draft_port_edges/differential-review/snapshots/20261106T211735Z-implementation-
+created .../galaxy-tool-util-ts/branches/merged/issue_215_draft_port_edges/differential-review/snapshots/20261106T211735Z-implementation-
   implementation @ d447be46e911 vs origin/main (merge-base f5470fe5ac3b)
   first snapshot: 2 commits, 10 files, 22 hunks
 ```

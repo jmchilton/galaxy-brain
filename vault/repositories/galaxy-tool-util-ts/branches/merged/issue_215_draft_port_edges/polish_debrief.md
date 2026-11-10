@@ -4,7 +4,7 @@ Polished `issue_215_draft_port_edges` without code changes, so the branches stay
 
 ## Steps
 
-- **Descriptions.** Wrote [`pr_description.md`](pr_description.md) and the [gxformat2 one](../../../../gxformat2/branches/active/issue_215_draft_port_edges/pr_description.md). Before and after output comes from the same CLI, built at `main` `f5470fe5` and on this branch.
+- **Descriptions.** Wrote [`pr_description.md`](pr_description.md) and the [gxformat2 one](../../../../gxformat2/branches/merged/issue_215_draft_port_edges/pr_description.md). Before and after output comes from the same CLI, built at `main` `f5470fe5` and on this branch.
 - **Strengthening round, one subagent, Claude Opus 5.5 at high effort.** It found no development that would strengthen the pitch. Applied:
   - **"Only place" overclaim.** `gxwf mermaid` shows step-level edges, so the headline now says "in the work list".
   - **Port counts.** 14,262 ports in 402 files became 14,197 in 337 real files (223 distinct). Still 0 unwired or default-only.
@@ -33,7 +33,7 @@ Polished `issue_215_draft_port_edges` without code changes, so the branches stay
 ## Differential review snapshot
 
 ```text
-created /home/ubuntu/projects/repositories/galaxy-brain/vault/repositories/galaxy-tool-util-ts/branches/active/issue_215_draft_port_edges/differential-review/snapshots/20261106T235928Z-polishing-c2e6868e57a4.json
+created /home/ubuntu/projects/repositories/galaxy-brain/vault/repositories/galaxy-tool-util-ts/branches/merged/issue_215_draft_port_edges/differential-review/snapshots/20261106T235928Z-polishing-c2e6868e57a4.json
   polishing @ c2e6868e57a4 vs origin/main (merge-base f5470fe5ac3b)
   since 20261106T232458Z-hardening-c2e6868e57a4:
     commits: 4 same, 0 rebased, 0 changed, 0 new, 0 dropped

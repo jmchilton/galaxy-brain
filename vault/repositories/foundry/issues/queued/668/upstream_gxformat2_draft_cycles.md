@@ -29,6 +29,6 @@ Expected: `validate_draft` reports a `topology_errors` entry naming the steps in
 
 - Keep the check in draft validation. `format2/synthetic-cycle.gxwf.yml` is an existing non-draft fixture used by the layout and interop tests.
 - `@galaxy-tool-util/schema` has the same gap and the same comment in `topoOrderedSteps`: gxwf 1.15.0's `draft-validate` prints `draft valid` on this workflow. It syncs its draft fixtures and expectations from here, so a new `synthetic-draft-bad-*` case reaches it that way, and the check itself needs porting.
-- The open `issue_215_draft_port_edges` branches for jmchilton/galaxy-tool-util-ts#215 document that a step isn't offered while a step feeding it still has work, "cycles aside". That caveat can go once cycles are rejected.
+- The merged `issue_215_draft_port_edges` branches for jmchilton/galaxy-tool-util-ts#215 document that a step isn't offered while a step feeding it still has work, "cycles aside". That caveat can go once cycles are rejected.
 
 Found while triaging galaxyproject/foundry#668.
