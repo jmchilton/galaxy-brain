@@ -1,19 +1,20 @@
 ---
 upstream_base_branch: main
+pr: 223
 ---
 
 # Bump Playwright to 1.65 for ubuntu-26.04 runners
 
-- [Open PR](https://github.com/jmchilton/galaxy-tool-util-ts/compare/main...playwright_ubuntu_2604)
+- [PR #223](https://github.com/jmchilton/galaxy-tool-util-ts/pull/223)
 - [View on GitHub](https://github.com/jmchilton/galaxy-tool-util-ts/tree/playwright_ubuntu_2604)
 
 ## Status
 
 Implemented and pushed at `b62910e6`, branched from `origin/main` `5327f62c`.
 
-No PR yet.
+PR #223 opened at John's request on 2026-11-10 against `main`.
 
-No CI yet; it only runs on PRs. Locally, e2e gave 7 passed / 26 skipped (same as the last green `main` run), core browser tests passed, and lint and `changeset status` passed.
+PR CI is running at `b62910e6`. Locally, e2e gave 7 passed / 26 skipped (same as the last green `main` run), core browser tests passed, and lint and `changeset status` passed.
 
 ## Notes
 
