@@ -55,67 +55,18 @@ You're contributing to a repository John cares about and you deserve a human res
 
 <details><summary>Review Verification Branch Details</summary>
 
-This [review branch](https://github.com/jmchilton/galaxy/tree/pr_24770_round_0_rev_1) contains work the verification agent did to help verify findings and make sure suggestions make sense and are actionable. This doesn't necessarily represent production ready code. Feel free to include any commits in the PR but they should be reviewed by a human.
+This [review branch](https://github.com/jmchilton/galaxy/tree/pr_24770_round_0_rev_2) contains work the verification agent did to help verify findings and make sure suggestions make sense and are actionable. This doesn't necessarily represent production ready code. Feel free to include any commits in the PR but they should be reviewed by a human.
 
 <details><summary>Branch and Commit Details</summary>
 
-Branch [`pr_24770_round_0_rev_1`](https://github.com/jmchilton/galaxy/tree/pr_24770_round_0_rev_1) (rebased onto PR head `c44640e7442`) tightens the readiness-snapshot mechanism without changing its design. The snapshot query now lives once in `galaxy.model.dataset_collections.readiness`, and the monitor calls it. Snapshots treat all non-ready states as one value, so a blocker moving queued → running no longer replays the invocation. Pick-value (`require_ready`) connection waits now record snapshots too, so a paused input stops replaying every pass. The collection blocker search requires `states` and has typed input. Tests now cover snapshot wakes on deletion, missing rows and batching, prove that the running member (not the errored one) wakes the auto-extension wait, and cover the element/adapter branches. HDA-column wake assertions are isolated from the history-audit trigger. All edited test files pass: `test_scheduling_manager.py` (15), `test_workflow_progress.py` (14), `test_input_readiness.py` (10). Each new test was red-checked against a deliberately broken implementation.
+Branch [`pr_24770_round_0_rev_2`](https://github.com/jmchilton/galaxy/tree/pr_24770_round_0_rev_2) (from PR head `c44640e7442`) tightens the readiness-snapshot mechanism without changing its design. The snapshot query now lives once in `galaxy.model.dataset_collections.readiness`, and the monitor calls it. Snapshots treat all non-ready states as one value, so a blocker moving queued → running no longer replays the invocation. Pick-value (`require_ready`) connection waits now record snapshots too, so a paused input stops replaying every pass. The collection blocker search requires `states` and has typed input. Edited test files pass: `test_scheduling_manager.py` (10), `test_workflow_progress.py` (14), `test_input_readiness.py` (9); the non-ready-normalization test was red-checked against the unnormalized snapshot.
 
-- [`30f85cb4b46`](https://github.com/jmchilton/galaxy/commit/30f85cb4b46) Test readiness snapshot wakes on deletion, missing rows, batches — parametrized monitor test for state, HDA deleted, dataset deleted and missing-row changes, plus a 501-dependency batch test. (P2 2)
-- [`81d820e5b65`](https://github.com/jmchilton/galaxy/commit/81d820e5b65) Define readiness snapshot query once, next to ReadinessSnapshot — adds `readiness_snapshots(session, ids)` with shared column helpers used by `blocking_dataset` and the monitor. (P3 2)
-- [`f1cc0c0c706`](https://github.com/jmchilton/galaxy/commit/f1cc0c0c706) Assert the running member, not the errored one, wakes auto-extension wait — completes the running member and asserts a wake and failure; adds `SchedulingHarness.restore_history_update_time()` so HDA-column wakes exercise the snapshot. (P2 1)
-- [`25080a76f30`](https://github.com/jmchilton/galaxy/commit/25080a76f30) Ignore moves between non-ready states in readiness snapshots — normalizes `Dataset.non_ready_states` to one sentinel in the single snapshot constructor. (P3 3)
-- [`327827e646d`](https://github.com/jmchilton/galaxy/commit/327827e646d) Track connection HDA waits by readiness snapshot — `replacement_for_connection` attaches `dataset_readiness(...)` to both HDA dependencies; requires `25080a76f30`. (P3 1)
-- [`aa21d1d218b`](https://github.com/jmchilton/galaxy/commit/aa21d1d218b) Split known-blocked dataset tracking from collection blocker search — `dataset_dependencies(dataset)` for known-blocked datasets; `input_readiness_dependencies(value: ReadinessInput, *, states, extensions=None)`. (P3 4)
-- [`318b5e6014f`](https://github.com/jmchilton/galaxy/commit/318b5e6014f) Test blocker search through collection elements and adapters — direct test over a DCE, `DCECollectionAdapter`, `PromoteDatasetToCollection` and `PromoteDatasetsToCollection`. (P3 6)
+- [`b14d31e24bd`](https://github.com/jmchilton/galaxy/commit/b14d31e24bd) Define readiness snapshot query once, next to ReadinessSnapshot — adds `readiness_snapshots(session, ids)` with shared column helpers used by `blocking_dataset` and the monitor. (P3 2)
+- [`0a8d2291361`](https://github.com/jmchilton/galaxy/commit/0a8d2291361) Ignore moves between non-ready states in readiness snapshots — normalizes `Dataset.non_ready_states` to one sentinel in the single snapshot constructor. (P3 3)
+- [`f2ffabe3d73`](https://github.com/jmchilton/galaxy/commit/f2ffabe3d73) Track connection HDA waits by readiness snapshot — `replacement_for_connection` attaches `dataset_readiness(...)` to both HDA dependencies; requires `0a8d2291361`. (P3 1)
+- [`1115269108f`](https://github.com/jmchilton/galaxy/commit/1115269108f) Split known-blocked dataset tracking from collection blocker search — `dataset_dependencies(dataset)` for known-blocked datasets; `input_readiness_dependencies(value: ReadinessInput, *, states, extensions=None)`. (P3 4)
 
 </details>
-
-</details>
-
-### P2 1: Auto-extension wait test can't detect a wrong blocker (implementation verified)
-
-`test_unresolved_extension_waits_on_any_pending_member` (collection with `error` and `running` members, extension `auto`) only asserts that the step waits without replays. If the blocker search picked the `error` member, its snapshot would never change and the test would still pass. In production that regression means the step never wakes.
-
-<details><summary>Details</summary>
-
-Related: wake assertions driven by HDA-column updates (`extension`, `_state`) in `test_waiting_collection_is_retried_only_after_input_changes` and the paused-override test can also be met by the history-audit trigger. `history_dataset_association` UPDATEs bump `history.update_time`, which the monitor checks on its own. As written, those assertions don't isolate the readiness snapshot.
-
-</details>
-
-After the wait, complete the running member's `Dataset` row (that table has no audit trigger). Then assert the invocation wakes and fails on the unresolved `auto` extension. For the HDA-column cases, reset the history audit to the last observed time before the attempt.
-
-<details><summary>Details</summary>
-
-Red-check: adding `ERROR` to the `states` filter in `DefaultToolAction` makes the strengthened test fail. The review branch adds `SchedulingHarness.restore_history_update_time()` and uses it in the HDA-column cases. With the snapshot's extension masked, the `auto` extension-wake case still passes without the restore and fails with it, which confirms the trigger was driving that wake.
-
-</details>
-
-Fixed on the review branch in [`f1cc0c0c706`](https://github.com/jmchilton/galaxy/commit/f1cc0c0c706).
-
-<details><summary>Discovery & Verification Agent Details</summary>
-
-Discovered by [gx_test_challenger](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/reviewers/gx_test_challenger.md) via Claude Opus 5.5 at low effort. Verified via Claude Opus 5.5 at medium effort.
-
-</details>
-
-### P2 2: Monitor snapshot wakes on deletion, missing rows, and batching are untested (implementation verified)
-
-`WorkflowRequestMonitor._any_dependency_satisfied` wakes when `deleted` or `dataset_deleted` changes, when a blocker's row disappears, and it queries in batches of 500. No test exercises any of these. A wrong answer here stalls invocations rather than failing them.
-
-Add synthetic `SchedulingDependency(HDA, id, dataset_readiness(hda))` cases to `test_scheduling_manager.py`. Cover state, HDA `deleted`, `Dataset.deleted` and deleted-row changes, plus a test with more than 500 dependencies.
-
-<details><summary>Details</summary>
-
-Red-check: dropping the missing-row check and the deleted fields from the comparison fails the `deleted`, `dataset_deleted` and `missing` cases.
-
-</details>
-
-Fixed on the review branch in [`30f85cb4b46`](https://github.com/jmchilton/galaxy/commit/30f85cb4b46).
-
-<details><summary>Discovery & Verification Agent Details</summary>
-
-Discovered by [gx_test_challenger](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/reviewers/gx_test_challenger.md) via Claude Opus 5.5 at low effort. Verified via Claude Opus 5.5 at medium effort.
 
 </details>
 
@@ -131,7 +82,7 @@ Tests: `test_paused_dataset_delays_with_readiness_dependency_when_ready_required
 
 </details>
 
-Fixed on the review branch in [`327827e646d`](https://github.com/jmchilton/galaxy/commit/327827e646d).
+Fixed on the review branch in [`f2ffabe3d73`](https://github.com/jmchilton/galaxy/commit/f2ffabe3d73).
 
 <details><summary>Discovery & Verification Agent Details</summary>
 
@@ -151,7 +102,7 @@ The failure mode of drift is replays, not stalls, hence P3 rather than P2.
 
 </details>
 
-Fixed on the review branch in [`81d820e5b65`](https://github.com/jmchilton/galaxy/commit/81d820e5b65).
+Fixed on the review branch in [`b14d31e24bd`](https://github.com/jmchilton/galaxy/commit/b14d31e24bd).
 
 <details><summary>Discovery & Verification Agent Details</summary>
 
@@ -171,7 +122,7 @@ Test: `test_readiness_snapshot_ignores_moves_between_non_ready_states` sets queu
 
 </details>
 
-Fixed on the review branch in [`25080a76f30`](https://github.com/jmchilton/galaxy/commit/25080a76f30).
+Fixed on the review branch in [`0a8d2291361`](https://github.com/jmchilton/galaxy/commit/0a8d2291361).
 
 <details><summary>Discovery & Verification Agent Details</summary>
 
@@ -191,7 +142,7 @@ The `CollectionAdapter` branch should keep dispatching on `adapting`. It should 
 
 </details>
 
-Fixed on the review branch in [`aa21d1d218b`](https://github.com/jmchilton/galaxy/commit/aa21d1d218b).
+Fixed on the review branch in [`1115269108f`](https://github.com/jmchilton/galaxy/commit/1115269108f).
 
 <details><summary>Discovery & Verification Agent Details</summary>
 
@@ -199,22 +150,3 @@ Discovered by [thermo_review](https://github.com/jmchilton/galaxy-brain/blob/mai
 
 </details>
 
-### P3 6: Element and adapter branches of the blocker search are unexercised (implementation verified)
-
-Every test passes a whole HDCA. The `DatasetCollectionElement` and `CollectionAdapter` branches of `input_readiness_dependencies` are never reached, although `DefaultToolAction` hands adapters to it.
-
-Add a direct test that runs the search over a DCE, a `DCECollectionAdapter`, `PromoteDatasetToCollection` and `PromoteDatasetsToCollection`, and asserts the running member's id and snapshot.
-
-<details><summary>Details</summary>
-
-Red-check: breaking either the DCE child-collection routing or the adapter list walk fails the test.
-
-</details>
-
-Fixed on the review branch in [`318b5e6014f`](https://github.com/jmchilton/galaxy/commit/318b5e6014f).
-
-<details><summary>Discovery & Verification Agent Details</summary>
-
-Discovered by [gx_test_challenger](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/reviewers/gx_test_challenger.md) via Claude Opus 5.5 at low effort. Verified via Claude Opus 5.5 at medium effort.
-
-</details>

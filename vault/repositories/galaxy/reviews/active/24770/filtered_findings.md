@@ -11,3 +11,9 @@
 - **Use adapter `dataset_instances` instead of `adapting`** (default P3 3, third bullet): would load every member HDA of a DCE's child collection into Python and bypass the SQL `LIMIT 1` search. The rest of that finding is kept as P3 4.
 
 - P3 5 (`galaxy.exceptions` imports `galaxy.workflow`; thermo P2 2 + default P3 4) — addressed by author in `c44640e7442` (2026-11-10): dependencies moved to `ToolInputsNotReadyWithDependencies` in `galaxy.workflow.scheduling_dependencies`; our `8c1faccd7fa` dropped from `pr_24770_round_0_rev_1`.
+
+## Trimmed by John
+
+- 2026-11-10 Auto-extension wait test can't detect a wrong blocker. Discovered by gx_test_challenger via Claude Opus 5.5 at low.
+- 2026-11-10 Monitor snapshot wakes on deletion, missing rows, and batching are untested. Discovered by gx_test_challenger via Claude Opus 5.5 at low.
+- 2026-11-10 Element and adapter branches of the blocker search are unexercised. Discovered by gx_test_challenger via Claude Opus 5.5 at low.

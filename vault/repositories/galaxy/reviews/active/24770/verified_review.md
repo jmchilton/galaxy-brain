@@ -1,45 +1,3 @@
-### P2 1: Auto-extension wait test can't detect a wrong blocker (implementation verified)
-
-`test_unresolved_extension_waits_on_any_pending_member` (collection with `error` and `running` members, extension `auto`) only asserts that the step waits without replays. If the blocker search picked the `error` member, its snapshot would never change and the test would still pass. In production that regression means the step never wakes.
-
-<details><summary>Details</summary>
-
-Related: wake assertions driven by HDA-column updates (`extension`, `_state`) in `test_waiting_collection_is_retried_only_after_input_changes` and the paused-override test can also be met by the history-audit trigger. `history_dataset_association` UPDATEs bump `history.update_time`, which the monitor checks on its own. As written, those assertions don't isolate the readiness snapshot.
-
-</details>
-
-After the wait, complete the running member's `Dataset` row (that table has no audit trigger). Then assert the invocation wakes and fails on the unresolved `auto` extension. For the HDA-column cases, reset the history audit to the last observed time before the attempt.
-
-<details><summary>Details</summary>
-
-Red-check: adding `ERROR` to the `states` filter in `DefaultToolAction` makes the strengthened test fail. The review branch adds `SchedulingHarness.restore_history_update_time()` and uses it in the HDA-column cases. With the snapshot's extension masked, the `auto` extension-wake case still passes without the restore and fails with it, which confirms the trigger was driving that wake.
-
-</details>
-
-<details><summary>Discovery & Verification Agent Details</summary>
-
-Discovered by [gx_test_challenger](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/reviewers/gx_test_challenger.md) via Claude Opus 5.5 at low effort. Verified via Claude Opus 5.5 at medium effort.
-
-</details>
-
-### P2 2: Monitor snapshot wakes on deletion, missing rows, and batching are untested (implementation verified)
-
-`WorkflowRequestMonitor._any_dependency_satisfied` wakes when `deleted` or `dataset_deleted` changes, when a blocker's row disappears, and it queries in batches of 500. No test exercises any of these. A wrong answer here stalls invocations rather than failing them.
-
-Add synthetic `SchedulingDependency(HDA, id, dataset_readiness(hda))` cases to `test_scheduling_manager.py`. Cover state, HDA `deleted`, `Dataset.deleted` and deleted-row changes, plus a test with more than 500 dependencies.
-
-<details><summary>Details</summary>
-
-Red-check: dropping the missing-row check and the deleted fields from the comparison fails the `deleted`, `dataset_deleted` and `missing` cases.
-
-</details>
-
-<details><summary>Discovery & Verification Agent Details</summary>
-
-Discovered by [gx_test_challenger](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/reviewers/gx_test_challenger.md) via Claude Opus 5.5 at low effort. Verified via Claude Opus 5.5 at medium effort.
-
-</details>
-
 ### P3 1: Paused inputs on `require_ready` connections still replay every pass (implementation verified)
 
 `WorkflowProgress.replacement_for_connection` still records `SchedulingDependency(DependencyType.HDA, id)` without a snapshot when an input `is_pending_or_paused` (pick-value's `require_ready`). The legacy HDA check counts any state outside `Dataset.non_ready_states` as satisfied, and `paused` is outside it. So a paused input wakes the invocation on every monitor pass, the replay this PR removes for internal tools.
@@ -112,20 +70,3 @@ Discovered by [thermo_review](https://github.com/jmchilton/galaxy-brain/blob/mai
 
 </details>
 
-### P3 6: Element and adapter branches of the blocker search are unexercised (implementation verified)
-
-Every test passes a whole HDCA. The `DatasetCollectionElement` and `CollectionAdapter` branches of `input_readiness_dependencies` are never reached, although `DefaultToolAction` hands adapters to it.
-
-Add a direct test that runs the search over a DCE, a `DCECollectionAdapter`, `PromoteDatasetToCollection` and `PromoteDatasetsToCollection`, and asserts the running member's id and snapshot.
-
-<details><summary>Details</summary>
-
-Red-check: breaking either the DCE child-collection routing or the adapter list walk fails the test.
-
-</details>
-
-<details><summary>Discovery & Verification Agent Details</summary>
-
-Discovered by [gx_test_challenger](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/reviewers/gx_test_challenger.md) via Claude Opus 5.5 at low effort. Verified via Claude Opus 5.5 at medium effort.
-
-</details>
