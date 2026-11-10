@@ -1,3 +1,6 @@
+---
+related_records: pulsar/reviews/550
+---
 # pulsar#571 — Add optional EngageQueue CLI execution and collection acknowledgment
 
 - [View on GitHub](https://github.com/galaxyproject/pulsar/pull/571) · [Findings](review_0_findings.yml) · [Design review](design_review.md) · [Diagrams](https://claude.ai/artifact/DvDNQBGBuJbFv4w7xsshZa) · [Code review](initial_review.md) · [Thermo review](thermo_review.md) · [Test review](test_challenges_review.md) · [Test debrief](test_challenges_debrief.md) · [Risks](risks.md) · [Comment note](johns_review_0_comment_note.md) · [PR note](johns_review_0_pr_note.md) · [Review branch](https://github.com/jmchilton/pulsar/tree/pr_571_round_0_rev_0)

@@ -3,7 +3,6 @@
 - [#571](https://github.com/galaxyproject/pulsar/pull/571) — Round 0 done (1 P1, 7 P2, 11 P3) + design review (recommends split); review branch pushed; ready for John. [notes](active/571/index.md)
 - [#553](https://github.com/galaxyproject/pulsar/pull/553) — Initial review done (1 P2 coverage gap); response and test-only review branch ready for John. [notes](active/553/index.md)
 - [#552](https://github.com/galaxyproject/pulsar/pull/552) — Approved 2026-10-26 with review fixes (770948e, 47ebb2b) pushed onto PR branch; awaiting merge. [notes](active/552/index.md)
-- [#550](https://github.com/galaxyproject/pulsar/pull/550) — Initial review done (1 P1, 13 P2, 11 P3); response + review branch ready for John. [notes](active/550/index.md)
 - [#545](https://github.com/galaxyproject/pulsar/pull/545) — Changelog migration needs `no changelog` exemption (Check changes/ entry failing); mvdbeek review + fix PR jmchilton/pulsar#2; nsoranzo asks for rationale. [notes](active/545/index.md)
 - [#530](https://github.com/galaxyproject/pulsar/pull/530) — Rebased onto release_0.15; head now `364eeb3` (adds datetime-alias fix); 2 Test (3.10, dev) checks failing. [notes](active/530/index.md)
 - [#518](https://github.com/galaxyproject/pulsar/pull/518) — Review fixes pushed; mergeable now; Test (3.10, master, directory) red. [notes](active/518/index.md)
