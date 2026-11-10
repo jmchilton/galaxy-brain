@@ -15,7 +15,7 @@ Polished at `6cc1d0a` on the `jmchilton` fork, branched from `origin/main` `4e24
 
 No PR yet.
 
-Fork CI green at `5b962ba`; running at `6cc1d0a` (fixture/expectation-only change on top).
+Fork CI green at `6cc1d0a`.
 
 ## Polish
 

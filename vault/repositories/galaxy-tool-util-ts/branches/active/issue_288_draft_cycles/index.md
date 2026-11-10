@@ -15,7 +15,7 @@ Polished at `8c04726c`, branched from `origin/main` `68451c8e`; ready for John's
 
 No PR yet.
 
-No CI yet (PR-only); local gate green at `8c04726c`: `make check`, schema vitest; full `make test` green at `69e17639`.
+No CI yet (PR-only); local gate green at `8c04726c`: `make check`, `make test` (gxwf-web's `--output-schema` test timed out once under two concurrent suite runs, passed on rerun).
 
 ## Polish
 
