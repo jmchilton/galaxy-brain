@@ -41,7 +41,7 @@ None yet.
 
 ## Foundry branches — implemented, work left, green (`branches_implemented`)
 
-- [`issue-723-authoring-gate`](active/issue-723-authoring-gate/index.md) — #773's authoring gate without `unsuitable`, concrete nf-core/rnaseq scenarios; for AnastasiaSee to adopt (#723). [Open PR](https://github.com/galaxyproject/foundry/compare/main...jmchilton:foundry:issue-723-authoring-gate).
+- [`issue-723-authoring-gate`](active/issue-723-authoring-gate/index.md) — PR into #773's branch: keeps the authoring gate, reverts `unsuitable`, concrete rnaseq scenarios (#723). [Open PR](https://github.com/AnastasiaSee/foundry/compare/fix/723-authoring-gate...jmchilton:foundry:issue-723-authoring-gate).
 - [`fix/advance-draft-needs-tool`](active/fix-advance-draft-needs-tool/index.md) — Draft loop records a step that needs a tool instead of improvising one; close-enough rule. Stacked on #686. [Open PR](https://github.com/galaxyproject/foundry/compare/feat/test-pipeline-draft-loop...fix/advance-draft-needs-tool).
 - [`docs/issue-labels`](active/docs-issue-labels/index.md) — Documents GitHub issue labels and triage rules (`content/meta/issue-labels.md`). [Open PR](https://github.com/galaxyproject/foundry/compare/main...docs/issue-labels).
 - [`issue-534-concrete-nextflow-scenarios`](active/issue-534-concrete-nextflow-scenarios/index.md) — Replaces abstract summarize-nextflow scenarios with concrete pinned fixtures (#534). [Open PR](https://github.com/galaxyproject/foundry/compare/main...issue-534-concrete-nextflow-scenarios).

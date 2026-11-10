@@ -1,19 +1,20 @@
 ---
 upstream_base_branch: main
+pr: 226
 ---
 
 # draft-validate --concrete: top-level `concrete_errors` and step labels (#216)
 
-- [Open PR](https://github.com/jmchilton/galaxy-tool-util-ts/compare/main...issue_216_concrete_errors)
+- [PR #226](https://github.com/jmchilton/galaxy-tool-util-ts/pull/226)
 - [View on GitHub](https://github.com/jmchilton/galaxy-tool-util-ts/tree/issue_216_concrete_errors)
 
 ## Status
 
-Polished; ready for John's final review. Pushed to `origin` at `bf3a5b6b` on `origin/main` `f5470fe5`.
+Polished; awaiting John's final review. Pushed to `origin` at `bf3a5b6b` on `origin/main` `f5470fe5`; merges cleanly with `origin/main` `68451c8e`.
 
-No PR yet.
+Draft PR [#226](https://github.com/jmchilton/galaxy-tool-util-ts/pull/226) opened 2026-11-10, titled "Explain `draft-validate --concrete --json` failures from the top of the report", labelled `bug`.
 
-Local gate: lint, format, typecheck, `lint:unused:ci` and build green; tests green except 3 integration-tests that fail identically on `origin/main`; CI runs on PRs only.
+CI pending on `bf3a5b6b`.
 
 ## Links
 
@@ -21,6 +22,7 @@ Local gate: lint, format, typecheck, `lint:unused:ci` and build green; tests gre
 
 ## Decisions
 
+- 2026-11-10: John asked for a draft PR, kept in draft until John reviews it. Don't undraft it.
 - 2026-11-09: keep `failures` / `all_failures` in tree validation reports; templates need them for the per-row failure count. See the [polish debrief](polish_debrief.md).
 - 2026-11-09: a `gxwf validate --connections --json` rollup is a follow-up, [#220](https://github.com/jmchilton/galaxy-tool-util-ts/issues/220); related bugs filed as [#218](https://github.com/jmchilton/galaxy-tool-util-ts/issues/218) and [#219](https://github.com/jmchilton/galaxy-tool-util-ts/issues/219).
 
