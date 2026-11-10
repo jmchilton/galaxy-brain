@@ -2,8 +2,10 @@
 
 - [View on GitHub](https://github.com/galaxyproject/galaxy/pull/24770) · base `release_26.2` · author mvdbeek · worktree `~/projects/worktrees/galaxy/pr/24770`
 - [default](initial_review.md) · [thermo](thermo_review.md) · [test challenges](test_challenges_review.md) · [risks](risks.md) · [performance](performance_challenges_review.md) · [learning galaxy](learning_galaxy.md) ([follow-up issue](learning_galaxy_followup_issue.md))
-- [verified review](verified_review.md) · [filtered findings](filtered_findings.md) · [review branch](https://github.com/jmchilton/galaxy/tree/pr_24770_round_0_rev_0) ([details](round_0_rev_0_branch_details.md)) · [response](initial_review_response.md) · [agents](initial_review_agents.md) · [action](initial_response_action.md) · [findings checklist](verified_findings_checklist.md)
+- [verified review](verified_review.md) · [filtered findings](filtered_findings.md) · [review branch](https://github.com/jmchilton/galaxy/tree/pr_24770_round_0_rev_1) ([details](round_0_rev_1_branch_details.md); superseded [rev_0](round_0_rev_0_branch_details.md)) · [response](initial_review_response.md) · [agents](initial_review_agents.md) · [action](initial_response_action.md) · [findings checklist](verified_findings_checklist.md)
 
 ## Status
 
-Round 0 initial review on `8ec2452c3bb` (2026-11-09), unposted. Two P2s + six P3s, all fixed on `pr_24770_round_0_rev_0` (fork, not pushed into PR). Nine items filtered.
+Round 0 initial review on `8ec2452c3bb` (2026-11-09), unposted. Two P2s + five P3s, all fixed on `pr_24770_round_0_rev_1` (fork, not pushed into PR). Ten items filtered.
+
+2026-11-10: author pushed `c44640e7442` (exception dependencies moved to `ToolInputsNotReadyWithDependencies`), resolving P3 5; it moved to filtered. Review branch rebased onto it as `rev_1` without our P3 5 commit; edited tests re-run green (10/15/14).

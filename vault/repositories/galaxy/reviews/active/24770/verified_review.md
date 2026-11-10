@@ -112,24 +112,6 @@ Discovered by [thermo_review](https://github.com/jmchilton/galaxy-brain/blob/mai
 
 </details>
 
-### P3 5: `galaxy.exceptions` (galaxy-util) now imports `galaxy.workflow` (implementation verified)
-
-`lib/galaxy/exceptions/__init__.py` ships in `packages/util`, which on the base branch imports no other Galaxy package. It now has a `TYPE_CHECKING` import of `galaxy.workflow.scheduling_dependencies` (galaxy-app). This works only because `ignore_missing_imports` degrades the import to `Any`.
-
-Type `ToolInputsNotReadyException.dependencies` opaquely (`Iterable[Any]`) in `galaxy.exceptions`. The raise sites still build typed `SchedulingDependency` lists through the helpers.
-
-<details><summary>Details</summary>
-
-Both reviews also flagged the new runtime imports from `galaxy.tools` into `galaxy.workflow.scheduling_dependencies`, and suggested moving `SchedulingDependency` into `galaxy.model`. That move doesn't address `galaxy.exceptions`, since `galaxy.model` lives in galaxy-data, not galaxy-util. `galaxy.tools` and `galaxy.workflow` share the galaxy-app package, and the new module imports only `galaxy.model`, so there is no cycle. The relocation is left for `dev` if wanted rather than done on `release_26.2`.
-
-</details>
-
-<details><summary>Discovery & Verification Agent Details</summary>
-
-Discovered by [thermo_review](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/reviewers/thermo_review.md) via Claude Opus 5.5 at low effort and [default](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/reviewers/default.md) via Claude Opus 5.5 at medium effort. Verified via Claude Opus 5.5 at medium effort.
-
-</details>
-
 ### P3 6: Element and adapter branches of the blocker search are unexercised (implementation verified)
 
 Every test passes a whole HDCA. The `DatasetCollectionElement` and `CollectionAdapter` branches of `input_readiness_dependencies` are never reached, although `DefaultToolAction` hands adapters to it.

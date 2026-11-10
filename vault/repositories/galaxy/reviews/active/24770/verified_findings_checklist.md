@@ -4,7 +4,6 @@
 - [x] P3 2: Snapshot shape defined three times — single `readiness_snapshots()` in readiness.py.
 - [x] P3 3: Every non-ready state transition replays — non-ready states collapse to one snapshot value.
 - [x] P3 4: Loose `input_readiness_dependencies` contract — typed `ReadinessInput`, required `states`, `dataset_dependencies()`.
-- [x] P3 5: `galaxy.exceptions` imports `galaxy.workflow` — drop TYPE_CHECKING import (no model-layer move on release branch).
 - [x] P3 6: Element/adapter blocker-search branches unexercised — tests added.
 
 Other Actions:
