@@ -26,6 +26,7 @@ Snapshot: 2026-10-28 (originally recovered from live GitHub state, local worktre
 
 ## Draft Foundry PRs — waiting for CI (`ci_wait`)
 
+- [`issue-678-capability-gap-route`](active/issue-678-capability-gap-route/index.md) — A found wrapper that can't serve its step goes to repair, which folds it; only a miss authors (#678). [#778](https://github.com/galaxyproject/foundry/pull/778).
 - [`issue-674-single-workflow-posture`](active/issue-674-single-workflow-posture/index.md) — Say a tool choice doesn't need a second workflow (part of #674). [#759](https://github.com/galaxyproject/foundry/pull/759).
 - [`issue-568-review-agent-benchmark-paper`](active/issue-568-review-agent-benchmark-paper/index.md) — Comparisons page: contrast with one detailed prompt, from the Munn and Grenier study (#568). [#750](https://github.com/galaxyproject/foundry/pull/750).
 
@@ -43,7 +44,6 @@ None yet.
 - [`docs/issue-labels`](active/docs-issue-labels/index.md) — Documents GitHub issue labels and triage rules (`content/meta/issue-labels.md`). [Open PR](https://github.com/galaxyproject/foundry/compare/main...docs/issue-labels).
 - [`issue-534-concrete-nextflow-scenarios`](active/issue-534-concrete-nextflow-scenarios/index.md) — Replaces abstract summarize-nextflow scenarios with concrete pinned fixtures (#534). [Open PR](https://github.com/galaxyproject/foundry/compare/main...issue-534-concrete-nextflow-scenarios).
 - [`issue-775-verification-workflow-lint`](active/issue-775-verification-workflow-lint/index.md) — Verification CI uses workflow_lint and gates; installable shed pins, `label:` (#775). [Open PR](https://github.com/galaxyproject/foundry/compare/main...jmchilton:foundry:issue-775-verification-workflow-lint).
-- [`issue-678-capability-gap-route`](active/issue-678-capability-gap-route/index.md) — A found wrapper that can't serve its step goes to repair, which folds it; only a miss authors (#678). [Open PR](https://github.com/galaxyproject/foundry/compare/main...jmchilton:foundry:issue-678-capability-gap-route).
 
 ## Foundry branches — needs polish (`branches_need_polish`)
 
