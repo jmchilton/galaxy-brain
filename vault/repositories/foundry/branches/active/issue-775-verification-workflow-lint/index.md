@@ -16,7 +16,7 @@ Branch `issue-775-verification-workflow-lint` on `jmchilton`, base `main`; `~/pr
 
 No PR yet; it waits for John's go-ahead.
 
-No CI yet because the fork branch has none. Locally, all 31 workflows pass `workflow_lint --skip best_practices` and `make check` is green. Two targets fail, neither from this branch: `validate-roadmap` (#768 and others have no roadmap work areas on GitHub) and `check-vendored`, which fails on this machine only.
+No CI yet because the fork branch has none. Locally, all 31 workflows pass `workflow_lint --skip best_practices` and `make check` is green. With the new `aaafc0ac4dd2` pin, `planemo test` on the datamash workflow passed on release_26.1. Two targets fail, neither from this branch: `validate-roadmap` (#768 and others have no roadmap work areas on GitHub) and `check-vendored`, which fails on this machine only.
 
 ## Decisions
 
