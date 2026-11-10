@@ -1,6 +1,7 @@
 # galaxy-tool-util-ts#215 — `draft-next-step` work items omit the edges around `TODO_*` ports
 
 Issue: https://github.com/jmchilton/galaxy-tool-util-ts/issues/215
+Closed 2026-11-09 by #217 merging.
 Downstream: galaxyproject/foundry#668 (part 2), galaxyproject/foundry#654 (correction 4).
 
 ## Triage (2026-11-06)
@@ -10,4 +11,4 @@ Downstream: galaxyproject/foundry#668 (part 2), galaxyproject/foundry#654 (corre
 
 PRs: [#217](https://github.com/jmchilton/galaxy-tool-util-ts/pull/217), [galaxyproject/gxformat2#289](https://github.com/galaxyproject/gxformat2/pull/289), which merges first.
 
-Branches: [TS](../../../branches/active/issue_215_draft_port_edges/index.md), [gxformat2](../../../../gxformat2/branches/active/issue_215_draft_port_edges/index.md). See the [implementation debrief](../../../branches/active/issue_215_draft_port_edges/implementation_debrief.md) for whether this is a good idea.
+Branches: [TS](../../../branches/merged/issue_215_draft_port_edges/index.md), [gxformat2](../../../../gxformat2/branches/merged/issue_215_draft_port_edges/index.md). See the [implementation debrief](../../../branches/merged/issue_215_draft_port_edges/implementation_debrief.md) for whether this is a good idea.

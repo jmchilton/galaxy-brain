@@ -5,7 +5,7 @@ Snapshot: 2026-11-07.
 ## Open galaxy-tool-util-ts PRs — ready from our side (`ready`)
 
 - [`issue_202_fill_defaults`](active/issue_202_fill_defaults/index.md) — Optional `gxwf fill-defaults` preserves sparse-state validation and connections (#202). [#207](https://github.com/jmchilton/galaxy-tool-util-ts/pull/207).
-- [`issue_215_draft_port_edges`](active/issue_215_draft_port_edges/index.md) — `draft-next-step` items show edges around `TODO_*` ports; `draft-validate` rejects unwired ones (#215). [#217](https://github.com/jmchilton/galaxy-tool-util-ts/pull/217).
+- [`playwright_ubuntu_2604`](active/playwright_ubuntu_2604/index.md) — Bump Playwright to 1.65 so e2e installs chromium deps on ubuntu-26.04 runners. [#223](https://github.com/jmchilton/galaxy-tool-util-ts/pull/223).
 
 ## Open galaxy-tool-util-ts PRs — needs attention (`attention`)
 

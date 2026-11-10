@@ -70,7 +70,7 @@ No file crossed 1,000 lines on this branch. The added validation branch is small
 ## Differential review snapshot
 
 ```text
-created /home/ubuntu/projects/repositories/galaxy-brain/vault/repositories/galaxy-tool-util-ts/branches/active/issue_215_draft_port_edges/differential-review/snapshots/20261106T232458Z-hardening-c2e6868e57a4.json
+created /home/ubuntu/projects/repositories/galaxy-brain/vault/repositories/galaxy-tool-util-ts/branches/merged/issue_215_draft_port_edges/differential-review/snapshots/20261106T232458Z-hardening-c2e6868e57a4.json
   hardening @ c2e6868e57a4 vs origin/main (merge-base f5470fe5ac3b)
   since 20261106T211735Z-implementation-d447be46e911:
     commits: 2 same, 0 rebased, 0 changed, 2 new, 0 dropped
@@ -82,7 +82,7 @@ created /home/ubuntu/projects/repositories/galaxy-brain/vault/repositories/galax
 ## Differential review snapshot (gxformat2)
 
 ```text
-created /home/ubuntu/projects/repositories/galaxy-brain/vault/repositories/gxformat2/branches/active/issue_215_draft_port_edges/differential-review/snapshots/20261106T232459Z-hardening-103fc229aa89.json
+created /home/ubuntu/projects/repositories/galaxy-brain/vault/repositories/gxformat2/branches/merged/issue_215_draft_port_edges/differential-review/snapshots/20261106T232459Z-hardening-103fc229aa89.json
   hardening @ 103fc229aa89 vs origin/main (merge-base b0241eee5438)
   since 20261106T211735Z-implementation-735814742d10:
     commits: 2 same, 0 rebased, 0 changed, 2 new, 0 dropped

@@ -1,0 +1,101 @@
+round: 0
+reviewed_commit: 5a70538cf56893f10d7e01c0b4a8b9d36a2be742
+agents:
+  - {profile: default, path: _shared/reviewers/default.md, model: Claude Opus 5.5, effort: medium}
+  - {profile: gx_test_challenger, path: _shared/reviewers/gx_test_challenger.md, model: Claude Opus 5.5, effort: medium}
+  - {profile: gx_risk_assessment, path: _shared/reviewers/gx_risk_assessment.md, model: Claude Opus 5.5, effort: low}
+verification: {model: Claude Opus 5.5, effort: medium}
+branches:
+  - name: pr_24817_round_0_rev_0
+    revision: 0
+    head: 5777dbf0421
+    pr_title: Format and tighten sample sheet control-character tests
+    description: |
+      `pr_24817_round_0_rev_0` builds on `5a70538cf56`. It applies black so the format lint passes and pins the API rejection loop to the new control-character error. It also adds fast unit tests for the per-character rejection matrix and moves the TSV export check out of the job-cache test into its own `test_tools.py` test. The source change is untouched.
+    commits:
+      - sha: 1d55b74c188
+        subject: Apply black formatting to sample sheet regression tests
+        detail: runs `black==26.10.1` on `test_dataset_collections.py` and `test_workflows.py`; no content changes.
+        findings: [P2 1]
+      - sha: b23ee027579
+        subject: Assert control-character cause in sample sheet rejection test
+        detail: adds `assert_error_message_contains(response, "Column 'db_type' contains control characters")` after each 400 in the rejection loop.
+        findings: [P3 1]
+      - sha: 4af563068f5
+        subject: Add unit coverage for sample sheet string control characters
+        detail: adds a parametrized `test_sample_sheet_validation_string_rejects_control_characters` and a punctuation-allowed case to `test_sample_sheet_util.py`.
+        findings: [P3 2]
+      - sha: 5777dbf0421
+        subject: Move sample sheet TSV export check out of job-cache test
+        detail: restores `test_run_workflow_use_cached_job_with_sample_sheet` to its `dev` form and adds `test_sample_sheet_to_tabular_preserves_punctuation` to `test_tools.py`.
+        findings: [P3 3]
+actions: {approve: false, approve_and_merge: false, comment: false, review_comment: false, request_changes: false, pull_request: false, push: false, issue_refactor: false, issue_galaxy_brain: false}
+findings:
+  - id: P2 1
+    include: true
+    title: Test changes fail the black format lint
+    summary: both edited test files fail `black --check` with pinned black 26.10.1.
+    implementation_verified: true
+    issue: |
+      Galaxy's format lint runs `black --check --diff .` with the pinned `black==26.10.1`. Both edited test files would be reformatted. In `test_dataset_collections.py`, the two wrapped `assert ... == [...]` lists fit on one line. In `test_workflows.py`, `rows={"sample1": [1, "short;long"],"sample2": [2, "--min=10 --max=50"],}` is missing a space and has a magic trailing comma.
+    fix: |
+      Ran `black` on both files. `isort` was already clean.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+      - {profile: gx_test_challenger, model: Claude Opus 5.5, effort: medium}
+  - id: P3 1
+    include: true
+    title: Rejection loop only asserts status 400
+    summary: control-character loop passes on any 400; pin it to the new error message.
+    implementation_verified: true
+    issue: |
+      The `\n`, `\t` and `\x00` loop in `test_sample_sheet_validating_against_column_definition` only checks `assert_status_code_is(response, 400)`. The same test already expects 400s for other reasons, so an unrelated payload mistake would also pass. Today all three values are rejected by the new check, so the test is correct; it's just not pinned to it.
+    fix: |
+      Added `assert_error_message_contains(response, "Column 'db_type' contains control characters")` after each 400. The helper was already imported. The test passes for all three values.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+      - {profile: gx_test_challenger, model: Claude Opus 5.5, effort: medium}
+  - id: P3 2
+    include: true
+    title: No unit coverage for the control-character check
+    summary: restore the unit-level control-character cases that b5b6fbd979c dropped.
+    implementation_verified: true
+    issue: |
+      b5b6fbd979c ("Relax validation requirement for non-sample identifiers") turned this check into a call that discarded its result. The same commit deleted the tab case from `test_sample_sheet_validation_string_type` in `test/unit/data/dataset_collections/test_sample_sheet_util.py`, so nothing caught the no-op. That file already covers every other column-type rule and is the fast place for the per-character matrix. This is optional; the PR's API coverage is already a valid regression test.
+    fix: |
+      Added a parametrized `test_sample_sheet_validation_string_rejects_control_characters` (`\n`, `\t`, `\r`, `\x00`, `\x7f`) and `test_sample_sheet_validation_string_allows_punctuation` (`;`, `--min=10`, `/`, quotes). All five rejection cases fail against the `dev` source and pass with the PR's change.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+  - id: P3 3
+    include: true
+    title: TSV export check piggybacks on the job-cache test
+    summary: TSV assertions in the use_cached_job test make an export failure look like a caching regression.
+    implementation_verified: true
+    issue: |
+      `test_run_workflow_use_cached_job_with_sample_sheet` is about `use_cached_job`. The PR swaps its row values for nf-core-style strings and adds `__SAMPLE_SHEET_TO_TABULAR__` output assertions in the middle of it. A failure in either now looks like a caching regression. The export check also passes on `dev`, so it's a regression lock, not coverage of the fix.
+    fix: |
+      Restored the job-cache test to its `dev` form and added `test_sample_sheet_to_tabular_preserves_punctuation` to `test_tools.py`, next to `test_convert_sample_sheet_to_list`. It uses `create_sample_sheet`, runs the tool directly, and asserts the exact output lines. The workflow-framework fixture (`collection_semantics_cat_sample_sheet`) can't host this. Its staging (`staging.py`, `cwl/util.py`) sends `rows` but not `column_definitions`, so it never declares a string column. Both tests pass.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+      - {profile: gx_test_challenger, model: Claude Opus 5.5, effort: medium}
+  - id: P3 4
+    include: false
+    title: Column-definition strings still accept control characters
+    summary: string default_value/restrictions/suggestions with control characters pass definition validation; optional.
+    implementation_verified: true
+    issue: |
+      Row values are now rejected when they contain control characters, but a `string` column's `default_value`, `restrictions` and `suggestions` (`SampleSheetColumnDefinitionModel`) still accept them. The failure is loud, not silent: a row filled from such a default is rejected at create time. But a definition that carries a value that can never pass is unsupported input, and it's cheaper to reject it up front. This is optional and arguably out of scope.
+    evidence: |
+      `validate_column_definitions([{"type": "string", "name": "c", "optional": False, "default_value": "a\tb", "restrictions": ["x\ny"], "suggestions": ["p\x00q"]}])` succeeds. `validate_row(["a\tb"], ...)` against the same definition then raises "Column 'c' contains control characters".
+    fix: |
+      Apply the same `strip_control_characters(v) != v` check to `default_value`, `restrictions` and `suggestions` in a `model_validator` beside `check_nature_of_default`. Optional.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+  - id: P3 5
+    include: false
+    title: New API cases appended to a heavily mutated payload
+    summary: rejection/preservation cases reuse a payload mutated three times; a named API test would read better. Optional.
+    issue: |
+      The preservation and rejection blocks in `test_sample_sheet_validating_against_column_definition` reuse a payload that was mutated three times above them. A dedicated `test_sample_sheet_string_column_rejects_control_characters` would read better and name the regression. This is optional. The unit tests added on the review branch now carry the per-character matrix, so the API block works as an end-to-end check where it is.
+    discovered_by:
+      - {profile: gx_test_challenger, model: Claude Opus 5.5, effort: medium}

@@ -1,7 +1,6 @@
 ---
 upstream_base_branch: main
 pr: 289
-blocking: galaxy-tool-util-ts/branches/issue_215_draft_port_edges
 related_records: galaxy-tool-util-ts/branches/issue_215_draft_port_edges
 ---
 
@@ -12,11 +11,9 @@ related_records: galaxy-tool-util-ts/branches/issue_215_draft_port_edges
 
 ## Status
 
-Polished at `103fc22` on the `jmchilton` fork, branched from `origin/main` `b0241eee`.
+Merged at `103fc22`, before the paired galaxy-tool-util-ts#217.
 
-PR #289 opened at John's request on 2026-11-07 against `main`; it merges before the paired galaxy-tool-util-ts#217.
-
-Fork CI green at `103fc22` (2026-11-07); PR CI is still running.
+PR #289 merged into `main` on 2026-11-09 as `ff53c87`.
 
 ## Polish
 
@@ -24,5 +21,5 @@ Fork CI green at `103fc22` (2026-11-07); PR CI is still running.
 
 ## Notes
 
-- Tracked by [galaxy-tool-util-ts#215](https://github.com/jmchilton/galaxy-tool-util-ts/issues/215), record [issues/wip/215](../../../../galaxy-tool-util-ts/issues/wip/215/index.md); the TS branch is the port.
+- Tracked by [galaxy-tool-util-ts#215](https://github.com/jmchilton/galaxy-tool-util-ts/issues/215), record [issues/closed/215](../../../../galaxy-tool-util-ts/issues/closed/215/index.md); the TS branch is the port.
 - Worktree: `~/projects/worktrees/gxformat2/branch/issue_215_draft_port_edges`.
