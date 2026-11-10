@@ -6,4 +6,4 @@ Paired: [galaxyproject/gxformat2#292](../../../../gxformat2/issues/wip/292/index
 ## Triage (2026-11-10)
 
 - Claimed by workflow_libs workhorse. No open PR or branch addressed it.
-- Branch: [`issue_225_frame_labels`](../../../branches/active/issue_225_frame_labels/index.md); paired gxformat2 branch `issue_292_frame_labels` holds the shared declarative cases.
+- PR [#227](https://github.com/jmchilton/galaxy-tool-util-ts/pull/227) (draft); branch: [`issue_225_frame_labels`](../../../branches/active/issue_225_frame_labels/index.md); paired gxformat2 branch `issue_292_frame_labels` holds the shared declarative cases.

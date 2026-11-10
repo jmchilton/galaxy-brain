@@ -11,11 +11,11 @@ pr: 227
 
 ## Status
 
-Polished; head `5d66d799` on `origin/main` `68451c8e`.
+Polished; head `35bc3740` on `origin/main` `68451c8e`.
 
 Draft PR [#227](https://github.com/jmchilton/galaxy-tool-util-ts/pull/227), opened 2026-11-10 at John's request; draft until John's read-through.
 
-CI running on `5d66d799`; local gate (`make check`, `lint:unused:ci`, build, `make test`) green.
+CI running on `35bc3740`; local gate (`make check`, `lint:unused:ci`, build, `make test`) green.
 
 ## Links
 
