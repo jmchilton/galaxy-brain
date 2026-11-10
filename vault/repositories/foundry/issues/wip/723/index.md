@@ -16,7 +16,7 @@ related_records: foundry/issues/678
 
 ## Derived status
 
-`needs_decision` (`needs_decision_labels`), rule 3: labels are staged in `issue_tags.md`. Once applied as proposed it becomes `queued_research`.
+`wip`, rule 2: AnastasiaSee's draft PR [#773](https://github.com/galaxyproject/foundry/pull/773) (opened 2026-11-10) hardens `author-galaxy-tool-wrapper` §1 for this issue. The labels in `issue_tags.md` are still unapplied. #773 covers only the authoring gate, not requirements 1, 5 and 6. Its gate still allows an explicit fallthrough, then says there is no override, and `author/eval.md:27-35` and `discover:106` keep the `weak` exception. Detail: [#678's record](../678/index.md).
 
 ## Findings
 

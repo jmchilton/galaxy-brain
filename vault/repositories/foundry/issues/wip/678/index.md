@@ -10,7 +10,18 @@ related_records: foundry/issues/723
 
 ## Derived status
 
-`needs_decision` (`needs_decision_review`), rule 8: John answers the research comment.
+`wip`, rule 2: AnastasiaSee's draft PR [#773](https://github.com/galaxyproject/foundry/pull/773) (opened 2026-11-10) says it closes this. The research comment is still unanswered.
+
+## #773, checked 2026-11-10 against `origin/main` `94ce4ea2`
+
+It adds `unsuitable` to `discover-shed-tool`'s prose, which our comment recommended against, and an authoring gate for #723. #753 has since given repair a removal destination (`repair` "Removal"), but nothing routes `unsuitable` there:
+
+- The schema enum (`packages/gxwf-foundry/src/schemas/galaxy-tool-discovery/galaxy-tool-discovery.schema.json:24-27`) still lists only `hit`, `weak`, `miss`. An `unsuitable` result fails `validate-galaxy-tool-discovery`.
+- `advance:169` and `:182` still send these cases to authoring. No Mold appends the blocking entry that repair runs on.
+- `discover:106` still lets `weak` fall through, which contradicts the new gate.
+- No recast, and only the triage workflow has run on it.
+
+Overlaps: `fix/advance-draft-needs-tool` (the `needs_tool` entry, in `advance` step 2), #545 (the same `author` files) and #686 (`advance`).
 
 ## Research result
 

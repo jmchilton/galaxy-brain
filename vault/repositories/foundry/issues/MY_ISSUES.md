@@ -12,7 +12,6 @@ Review `issue_tags.md` in the record, then use 👀 Diff / 🔖 Apply staged lab
 - [#574](https://github.com/galaxyproject/foundry/issues/574) — Tool Shed tool search ignores `repo_name`/`id`, so slug queries miss; decide: apply staged labels, then repo-search retry in discover-shed-tool. [notes](needs_decision/574/index.md)
 - (mvp) [#580](https://github.com/galaxyproject/foundry/issues/580) — frame comments without position/size rejected by real Galaxy import; decide: apply staged labels, then require geometry in 4 template Molds + evals. [notes](needs_decision/580/index.md)
 - (mvp) [#673](https://github.com/galaxyproject/foundry/issues/673) — Runtime Note reads as a blanket source-read ban; phases disagree on reading pinned source; decide: apply staged labels, then generator line + per-Mold fixes. [notes](needs_decision/673/index.md)
-- (mvp) [#723](https://github.com/galaxyproject/foundry/issues/723) — weak-hit and capability-gap fallbacks let runs author UDTs for tools that already exist; decide: apply staged labels, merge with #678 or sequence, then research. [notes](needs_decision/723/index.md)
 
 ## Waiting on John (`needs_decision`)
 
@@ -45,7 +44,7 @@ Review `issue_tags.md` in the record, then use 👀 Diff / 🔖 Apply staged lab
 
 ## Research to review (`needs_decision_review`)
 
-- (mvp) [#678](https://github.com/galaxyproject/foundry/issues/678) — discovery `status` has no `unsuitable`; capability miss routes to authoring an existing wrapper; decide: review [research comment](https://github.com/galaxyproject/foundry/issues/678#issuecomment-6690347893) (no new status; dead-end handling). [notes](needs_decision/678/index.md)
+None yet.
 
 ## John drives (`needs_decision_human`)
 
@@ -53,6 +52,8 @@ None yet.
 
 ## In motion (`wip`)
 
+- (mvp) [#678](https://github.com/galaxyproject/foundry/issues/678) — discovery `status` has no `unsuitable`; capability miss routes to authoring an existing wrapper; contributor draft PR [#773](https://github.com/galaxyproject/foundry/pull/773). [notes](wip/678/index.md)
+- (mvp) [#723](https://github.com/galaxyproject/foundry/issues/723) — weak-hit and capability-gap fallbacks let runs author UDTs for tools that already exist; contributor draft PR [#773](https://github.com/galaxyproject/foundry/pull/773). [notes](wip/723/index.md)
 - (mvp) [#674](https://github.com/galaxyproject/foundry/issues/674) — interface notes lack a shape-changing param rule; PR [#759](https://github.com/galaxyproject/foundry/pull/759), part of the issue. [notes](wip/674/index.md)
 - [#534](https://github.com/galaxyproject/foundry/issues/534) — Replace abstract summarize-nextflow scenarios with concrete pinned fixtures; branch `issue-534-concrete-nextflow-scenarios`. [notes](wip/534/index.md)
 - [#548](https://github.com/galaxyproject/foundry/issues/548) — `gxwf draft-validate --concrete`: the other half of #166 — a ParsedTool decode failure's `Error.message` is…; draft PR [#554](https://github.com/galaxyproject/foundry/pull/554). [notes](wip/548/index.md)
