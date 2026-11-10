@@ -79,7 +79,7 @@ findings:
       - {profile: default, model: Claude Opus 5.5, effort: medium}
       - {profile: gx_test_challenger, model: Claude Opus 5.5, effort: medium}
   - id: P3 4
-    include: true
+    include: false
     title: Column-definition strings still accept control characters
     summary: string default_value/restrictions/suggestions with control characters pass definition validation; optional.
     implementation_verified: true
@@ -92,7 +92,7 @@ findings:
     discovered_by:
       - {profile: default, model: Claude Opus 5.5, effort: medium}
   - id: P3 5
-    include: true
+    include: false
     title: New API cases appended to a heavily mutated payload
     summary: rejection/preservation cases reuse a payload mutated three times; a named API test would read better. Optional.
     issue: |

@@ -7,4 +7,4 @@
 
 ## Status
 
-Round 0 initial review on `5a70538cf56` (2026-11-10), unposted. One P2 + five P3s; four fixed on `pr_24817_round_0_rev_0` (head `5777dbf0421`, fork, not pushed into PR). Nothing filtered.
+Round 0 initial review on `5a70538cf56` (2026-11-10), approved + delivered (2026-11-10). One P2 + five P3s; four fixed on `pr_24817_round_0_rev_0` (head `5777dbf0421`), fast-forward pushed onto PR branch `fix-191-samplesheet-controls`. Awaiting merge. Nothing filtered.

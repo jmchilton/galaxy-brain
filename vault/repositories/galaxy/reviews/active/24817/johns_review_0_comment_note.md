@@ -1,1 +1,1 @@
-<!-- John's words for the comment; must not be empty to post -->
+Looks great to me - thanks so much. I'm having my agent push some small tweaks - I hope that is okay. Thank you so much.

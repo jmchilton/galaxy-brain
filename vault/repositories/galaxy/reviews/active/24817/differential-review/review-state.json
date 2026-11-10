@@ -1,0 +1,53 @@
+{
+  "schemaVersion": 1,
+  "kind": "differential-review-state",
+  "updatedAt": "2026-11-10T09:00:03.121Z",
+  "hunks": {
+    "h1:a291295a0069b3d3": {
+      "snapshotId": "20261110T075243Z-review-5a70538cf568",
+      "path": "lib/galaxy/model/dataset_collections/types/sample_sheet_util.py",
+      "reviewedAt": "2026-11-10T08:59:56.398Z"
+    },
+    "h1:75674140679949f2": {
+      "snapshotId": "20261110T075243Z-review-5a70538cf568",
+      "path": "lib/galaxy_test/api/test_dataset_collections.py",
+      "reviewedAt": "2026-11-10T08:59:56.722Z"
+    },
+    "h1:046380a69e6512f3": {
+      "snapshotId": "20261110T075243Z-review-5a70538cf568",
+      "path": "lib/galaxy_test/api/test_workflows.py",
+      "reviewedAt": "2026-11-10T08:59:57.329Z"
+    },
+    "h1:779a484c91eb6760": {
+      "snapshotId": "20261110T075243Z-review-5a70538cf568",
+      "path": "lib/galaxy_test/api/test_workflows.py",
+      "reviewedAt": "2026-11-10T08:59:57.329Z"
+    }
+  },
+  "commits": {
+    "c6b8cc0fda0bca52fb63ce291bbfa8eefbe26c9f": {
+      "sha": "a4bf9cdf8720f5deb7133566094c7cad45620217",
+      "subject": "Reject control characters in sample sheet string values",
+      "snapshotId": "20261110T075243Z-review-5a70538cf568",
+      "signedOffAt": "2026-11-10T08:59:58.985Z"
+    },
+    "a12618ad0738e570ccc4598a6df2995263d4d7cb": {
+      "sha": "ccf3d4199125f97a93d51a1dacd533e9be47630f",
+      "subject": "Add sample sheet validation regression tests",
+      "snapshotId": "20261110T075243Z-review-5a70538cf568",
+      "signedOffAt": "2026-11-10T08:59:59.432Z"
+    },
+    "5f794ff2b6a7a21580f03e2b1b73b678b07c7834": {
+      "sha": "6a7ec5afd83ccb10bd3dcb233bf511b4296d2d2a",
+      "subject": "Verify nf-core sample sheet values are preserved in TSV export",
+      "snapshotId": "20261110T075243Z-review-5a70538cf568",
+      "signedOffAt": "2026-11-10T08:59:59.827Z"
+    },
+    "4a299438e2e2f3693152704c583a1dbd6d2dbfc9": {
+      "sha": "5a70538cf56893f10d7e01c0b4a8b9d36a2be742",
+      "subject": "Remove obsolete commented validation code",
+      "snapshotId": "20261110T075243Z-review-5a70538cf568",
+      "signedOffAt": "2026-11-10T09:00:03.121Z"
+    }
+  }
+}
