@@ -24,7 +24,7 @@ None yet.
 
 ## gxformat2 branches — implemented, work left (`branches_implemented_needs_ci`)
 
-None yet.
+- [`issue_288_draft_cycles`](active/issue_288_draft_cycles/index.md) — `validate_draft` rejects step dependency cycles, incl. self-loops (#288). [Open PR](https://github.com/galaxyproject/gxformat2/compare/main...jmchilton:gxformat2:issue_288_draft_cycles).
 
 ## gxformat2 branches — implemented, work left, green (`branches_implemented`)
 

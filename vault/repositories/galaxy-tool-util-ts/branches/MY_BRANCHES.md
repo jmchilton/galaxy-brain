@@ -5,8 +5,6 @@ Snapshot: 2026-11-07.
 ## Open galaxy-tool-util-ts PRs — ready from our side (`ready`)
 
 - [`issue_202_fill_defaults`](active/issue_202_fill_defaults/index.md) — Optional `gxwf fill-defaults` preserves sparse-state validation and connections (#202). [#207](https://github.com/jmchilton/galaxy-tool-util-ts/pull/207).
-- [`playwright_ubuntu_2604`](active/playwright_ubuntu_2604/index.md) — Bump Playwright to 1.65 so e2e installs chromium deps on ubuntu-26.04 runners. [#223](https://github.com/jmchilton/galaxy-tool-util-ts/pull/223).
-
 ## Open galaxy-tool-util-ts PRs — needs attention (`attention`)
 
 None yet.
@@ -25,7 +23,7 @@ None yet.
 
 ## Branches — implemented (`branches_implemented`)
 
-None yet.
+- [`issue_288_draft_cycles`](active/issue_288_draft_cycles/index.md) — `validateDraft` rejects step dependency cycles, incl. self-loops (gxformat2#288 port). [Open PR](https://github.com/jmchilton/galaxy-tool-util-ts/compare/main...issue_288_draft_cycles).
 
 ## Branches — needs polish (`branches_need_polish`)
 
