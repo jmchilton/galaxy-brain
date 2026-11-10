@@ -1,0 +1,1 @@
+- `bug`: `validate_draft` accepted cyclic drafts that `_topo_ordered_steps` assumed it would reject (#288).

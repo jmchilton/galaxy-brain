@@ -1,0 +1,4 @@
+- Reject step cycles in `validateDraft` / `gxwf draft-validate`
+- `gxwf draft-validate`: report steps that depend on each other through a cycle
+- Port gxformat2#288: report draft step cycles as topology errors
+- Fix `validateDraft` accepting cyclic step graphs

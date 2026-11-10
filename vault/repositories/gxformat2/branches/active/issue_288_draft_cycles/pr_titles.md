@@ -1,0 +1,4 @@
+- Reject step cycles in `validate_draft`
+- `validate_draft`: report steps that depend on each other through a cycle
+- Report draft step cycles, including self-loops, as topology errors
+- Fix `validate_draft` accepting cyclic step graphs

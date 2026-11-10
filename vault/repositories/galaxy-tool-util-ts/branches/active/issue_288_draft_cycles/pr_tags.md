@@ -1,0 +1,2 @@
+- `bug`: `validateDraft` accepted cyclic drafts that `topoOrderedSteps` assumed it would reject.
+- `documentation`: optional; the draft format guide drops its "cycles aside" caveat.

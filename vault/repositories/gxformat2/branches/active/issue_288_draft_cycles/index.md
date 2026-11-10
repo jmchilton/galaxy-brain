@@ -11,11 +11,15 @@ related_records: galaxy-tool-util-ts/branches/issue_288_draft_cycles
 
 ## Status
 
-Implemented at `7118519` on the `jmchilton` fork, branched from `origin/main` `4e245c2`.
+Polished at `6cc1d0a` on the `jmchilton` fork, branched from `origin/main` `4e245c2`; ready for John's final review.
 
 No PR yet.
 
-Fork CI pending at `7118519`; the first push (`960bcce`) failed `lintdocstrings` (D401), fixed by amend.
+Fork CI green at `5b962ba`; running at `6cc1d0a` (fixture/expectation-only change on top).
+
+## Polish
+
+- [PR description](pr_description.md), [titles](pr_titles.md), [tags](pr_tags.md); [polish debrief](../../../../galaxy-tool-util-ts/branches/active/issue_288_draft_cycles/polish_debrief.md) (holds the questions for John).
 
 ## Notes
 

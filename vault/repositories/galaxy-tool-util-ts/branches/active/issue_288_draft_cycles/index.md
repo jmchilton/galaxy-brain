@@ -11,11 +11,16 @@ related_records: gxformat2/branches/issue_288_draft_cycles
 
 ## Status
 
-Implemented at `69e17639`, branched from `origin/main` `68451c8e`.
+Polished at `8c04726c`, branched from `origin/main` `68451c8e`; ready for John's final review.
 
 No PR yet.
 
-No CI yet (PR-only); local gate green: `make check`, `make test`.
+No CI yet (PR-only); local gate green at `8c04726c`: `make check`, schema vitest; full `make test` green at `69e17639`.
+
+## Polish
+
+- [PR description](pr_description.md), [titles](pr_titles.md), [tags](pr_tags.md), [polish debrief](polish_debrief.md) (holds the questions for John).
+- Reviews: [normal](subagents/normal_review.md), [codex](codex_review.md), [thermo-nuclear](thermo_nuclear_review.md).
 
 ## Notes
 
