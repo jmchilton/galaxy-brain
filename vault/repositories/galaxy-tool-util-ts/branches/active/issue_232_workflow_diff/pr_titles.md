@@ -1,0 +1,4 @@
+- Add `gxwf diff`: structural diff of two Format2 workflows (port of gxformat2#296)
+- Add `diffWorkflows` and `gxwf diff BEFORE AFTER [--json] [--exit-code]`
+- `gxwf diff`: report removed steps, rewires and unwired inputs between a draft and its final workflow
+- Port gxformat2's `gxwf-diff` to TypeScript, sharing its `diff.yml` cases
