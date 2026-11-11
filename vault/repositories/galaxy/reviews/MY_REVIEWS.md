@@ -1,5 +1,6 @@
 ## PRs to review (`to_review`)
 
+- [#24818](https://github.com/galaxyproject/galaxy/pull/24818) — round 0 initial review on `efa3e7bbdaf` in progress. [notes](active/24818/index.md)
 - [#24817](https://github.com/galaxyproject/galaxy/pull/24817) — approved 2026-11-10 on `5a70538cf56`; review-branch fixes (`5777dbf0421`) pushed to PR branch; awaiting merge. [notes](active/24817/index.md)
 - [#24798](https://github.com/galaxyproject/galaxy/pull/24798) — John posted P3 5 (new type) 2026-11-09; author adopted it in force-push `50af35ba627`; rest of round 0 (`5abbfd9d5a6`, in context of #23888) unposted, stale vs new head. [notes](active/24798/index.md)
 - [#24738](https://github.com/galaxyproject/galaxy/pull/24738) — initial review on `c55d04482f9` ready, unposted (four P2s + seven P3s; eight fixed on `pr_24738_round_0_rev_0`, not pushed into PR). [notes](active/24738/index.md)
