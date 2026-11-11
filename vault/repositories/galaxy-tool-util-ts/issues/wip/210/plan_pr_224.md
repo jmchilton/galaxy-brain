@@ -2,7 +2,17 @@
 
 [#224](https://github.com/jmchilton/galaxy-tool-util-ts/pull/224) (draft, "Check workflow test datatypes and collection shapes") comes from a first-time contributor and covers the same ground as [`issue_210_test_kind_checks`](../../../branches/active/issue_210_test_kind_checks/index.md). It has one commit, `e82bc455`, on `origin/main` `68451c8e`, from the fork branch `denzasikora-lab:fix/validate-workflow-test-metadata`. **"Allow edits by maintainers" is off**, so we can't push to the branch directly. The plan is to open a PR into their branch, so the work lands under their PR and they keep the credit.
 
-Written 2026-11-10. Nothing here has been acted on.
+Written 2026-11-10.
+
+## Decisions (John, 2026-11-11)
+
+- Everything goes into one PR into their branch, the datatypes snapshot included. Nothing goes to `main` ahead of #224, so step 1 below is dropped and the snapshot commits are picked onto their head.
+- Bring the whole set from step 2, the English rewrite of their Russian comments included.
+- Severity defaults weren't revisited; the step-2 work uses the ones listed under "Decisions for John".
+
+## Progress (2026-11-11)
+
+Steps 0, 2 and 3 are done: [`pr_224_kind_checks`](../../../branches/active/pr_224_kind_checks/index.md) `eb283dd8`, with [verification](../../../branches/active/pr_224_kind_checks/verification.md). Step 2 went to ten commits, ~1,000 changed lines outside the generated snapshot (tests are most of it), against the 600–800 estimated. Step 4 is drafted and waits for John.
 
 ## Same design, different details
 
@@ -48,7 +58,7 @@ Our [verification](../../../branches/active/issue_210_test_kind_checks/verificat
 ## Steps
 
 0. **Measure #224 first.** Run the same corpus sweeps (`validate-tests-tree --auto-workflow --json`, `main` vs `e82bc455`) and the egapx repro. That turns "we think these are false positives" into counts we can put in front of the contributor. If the counts show #224 doesn't hit them, revise the rest of this plan.
-1. **Land the datatypes snapshot on its own.** [`issue_210_datatypes_snapshot`](../../../branches/active/issue_210_datatypes_snapshot/index.md) touches none of #224's files: it changes `workflow-graph`, `Makefile` and `scripts/`, and adds no behaviour. Open it as our own PR against `main` and merge it, then ask the contributor to rebase, or include the rebase in our PR into their branch. This keeps 5k lines of generated JSON out of their PR.
+1. ~~**Land the datatypes snapshot on its own.**~~ Dropped 2026-11-11: the snapshot commits go into the PR into their branch instead. [`issue_210_datatypes_snapshot`](../../../branches/active/issue_210_datatypes_snapshot/index.md) touches none of #224's files: it changes `workflow-graph`, `Makefile` and `scripts/`, and adds no behaviour. Open it as our own PR against `main` and merge it, then ask the contributor to rebase, or include the rebase in our PR into their branch. This keeps 5k lines of generated JSON out of their PR.
 2. **Build `pr_224_kind_checks` from `e82bc455`.** Rewrite our work as deltas on their code rather than rebasing ours; the two branches conflict in every shared file. Use one commit per change, so each can be reviewed or dropped on its own:
    1. map-over warnings, the `severity` field and `warnings[]`, and skipping output checks when shapes diverge;
    2. the `element_tests`/`elements` collection form;

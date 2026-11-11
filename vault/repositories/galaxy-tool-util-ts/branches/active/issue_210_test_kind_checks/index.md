@@ -1,6 +1,7 @@
 ---
 upstream_base_branch: main
 parent_branch: issue_210_datatypes_snapshot
+related_records: galaxy-tool-util-ts/branches/pr_224_kind_checks
 ---
 
 # validate-tests: collection shape and datatype checks (#210 Phase B)
