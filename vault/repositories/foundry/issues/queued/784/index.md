@@ -10,9 +10,9 @@ related_records:
 
 [Issue](https://github.com/galaxyproject/foundry/issues/784). Labels: `needs-triage`, `BioHackEU26`. No PR or branch. John commented "This is such a good idea!" (2026-11-10). arash77's comment (2026-11-11) says the report must diff the final workflow against the source and not trust only the ledger's `kind: dropped` entries. Triaged 2026-11-11 against `origin/main` `8cbb5f22`, together with #798 ([record](../798/index.md)).
 
-## Proposed labels
+## Labels
 
-Staged in [issue_tags.md](issue_tags.md). Keep `BioHackEU26`.
+Applied 2026-11-11. Keep `BioHackEU26`.
 
 - `roadmap/off`: John, 2026-11-11, keeps all four issues off the roadmap (#332 had been proposed as parent).
 - `priority/mvp`: John, 2026-11-11.
@@ -24,7 +24,7 @@ A new Nextflow parity Mold runs after the test, in the `nextflow-summary-to-gala
 
 ## Derived status
 
-`needs_decision` (`needs_decision_labels`), rule 3.
+`queued` (`queued_research`), rule 7.
 
 ## Findings
 
@@ -46,6 +46,6 @@ Not verified: tool-version parity (section 2). I didn't check whether the summar
 
 ## Next
 
-- Once labels are applied: one research pass shared with #798. It defines the source units and their dispositions, says where the inventory lives (a ledger collection, or a file of its own), and splits the work between the #796 check and this report.
-- Build order: #781 and #796's generic layer now, in parallel; research on #798's scope owner; this Mold last.
-- John, 2026-11-11: no umbrella; all four stay `roadmap/off`. He leans strongly against adding new pipeline steps, which affects where this report and #796's gate go.
+- Research: design the Nextflow parity Mold (inputs, output format, how it shows #781 and #798 rows). Build order: #781 and #796's generic layer now, in parallel; research on #798's scope owner; this Mold last.
+
+Staged labels applied 2026-11-11: +roadmap/off, +priority/mvp, +work/ready-research.

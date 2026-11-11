@@ -8,9 +8,9 @@ related_records:
 
 [Issue](https://github.com/galaxyproject/foundry/issues/781), opened by arash77's AI assistant (BioHackathon Europe 2026). Labels: `needs-triage`, `BioHackEU26`. No comments, PR or branch. Triaged 2026-11-11 against `origin/main` `3060503e`, together with #798, #784 and #796.
 
-## Proposed labels
+## Labels
 
-Staged in [issue_tags.md](issue_tags.md). Keep `BioHackEU26`.
+Applied 2026-11-11. Keep `BioHackEU26`.
 
 - `roadmap/off`: John's call, 2026-11-11.
 - `priority/mvp`: John, 2026-11-11.
@@ -23,7 +23,7 @@ Staged in [issue_tags.md](issue_tags.md). Keep `BioHackEU26`.
 
 ## Derived status
 
-`needs_decision` (`needs_decision_labels`), rule 3.
+`queued` (`queued_implement`), rule 6.
 
 ## Findings
 
@@ -39,5 +39,7 @@ This is the parameter slice of #784's section 3. Use the same dispositions the o
 
 ## Next
 
-- Once labels are applied: implement the template `_plan_state` change now. The report table follows with #784's Mold. The process→step mapping comes from the `_plan_*` provenance or the data-flow brief.
+- Implement the template `_plan_state` change now. The report table follows with #784's Mold. The process→step mapping comes from the `_plan_*` provenance or the data-flow brief.
 - Related: #791 (`ext.when` in `withName:` selectors is not captured), which could add a gate column to the same table.
+
+Staged labels applied 2026-11-11: +roadmap/off, +priority/mvp, +work/ready-implement.

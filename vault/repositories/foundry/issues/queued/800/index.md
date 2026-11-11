@@ -6,7 +6,7 @@ related_records:
 
 # #800 Test phase: steps removed on a justification that later turns out wrong are never restored
 
-[Issue](https://github.com/galaxyproject/foundry/issues/800). Filed 2026-11-11 by wf_foundry at John's request, split from #796 part 3 ([record](../../needs_decision/796/index.md)). Labels at filing: `roadmap/off`, `priority/v2`, `work/ready-research`. [Filed draft](issue_draft.md).
+[Issue](https://github.com/galaxyproject/foundry/issues/800). Filed 2026-11-11 by wf_foundry at John's request, split from #796 part 3 ([record](../796/index.md)). Labels at filing: `roadmap/off`, `priority/v2`, `work/ready-research`. [Filed draft](issue_draft.md).
 
 ## Derived status
 
