@@ -54,7 +54,7 @@ None yet.
 
 ## In motion (`wip`)
 
-- (mvp) [#789](https://github.com/galaxyproject/foundry/issues/789) — maturation Mold's README carries development archeology (failed runs, old invocations); branch `issue-789-readme-no-archeology`. [notes](wip/789/index.md)
+- (mvp) [#789](https://github.com/galaxyproject/foundry/issues/789) — maturation Mold's README carries development archeology (failed runs, old invocations); draft PR [#801](https://github.com/galaxyproject/foundry/pull/801). [notes](wip/789/index.md)
 - [#775](https://github.com/galaxyproject/foundry/issues/775) — verification CI used `planemo lint` (tool XML), hiding bad shed pins and strict-schema errors; PR [#779](https://github.com/galaxyproject/foundry/pull/779). [notes](wip/775/index.md)
 - (mvp) [#674](https://github.com/galaxyproject/foundry/issues/674) — interface notes lack a shape-changing param rule; PR [#759](https://github.com/galaxyproject/foundry/pull/759), part of the issue. [notes](wip/674/index.md)
 - [#534](https://github.com/galaxyproject/foundry/issues/534) — Replace abstract summarize-nextflow scenarios with concrete pinned fixtures; branch `issue-534-concrete-nextflow-scenarios`. [notes](wip/534/index.md)
