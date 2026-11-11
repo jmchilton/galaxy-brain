@@ -1,0 +1,4 @@
+- Keep run evidence out of the IWC maturation README
+- mature-galaxy-workflow-for-iwc: README describes the workflow, not its run history
+- Move maturation run history from the README to the report
+- Stop IWC maturation READMEs from carrying invocation ids and failed attempts

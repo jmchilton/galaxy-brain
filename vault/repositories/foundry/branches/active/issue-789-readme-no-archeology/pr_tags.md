@@ -1,0 +1,3 @@
+- `bug` — the Mold produced READMEs reviewers objected to.
+- `documentation` — Mold guidance only, no code.
+- `BioHackEU26` — matches the issue; the reported run came from the hackathon.
