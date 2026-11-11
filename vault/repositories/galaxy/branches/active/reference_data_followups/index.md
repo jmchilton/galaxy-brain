@@ -10,11 +10,15 @@ related_records:
 
 ## Status
 
-Hardened READY (re-scoped once), head `a4637890126`; alt `reference_data_followups_alt_original_scope` keeps the pre-rescope scope.
+Polished, ready for final review, head `ce427b0feea`; alt `reference_data_followups_alt_original_scope` keeps the pre-rescope scope.
 
 No PR yet.
 
-No CI yet; local unit and API tests pass.
+Fork CI on `a4637890126`: mypy red in `test_reference_data.py` (fixed in `ce427b0feea`); singularity-install reds unrelated (also on dev).
+
+## Polish
+
+[PR description](pr_description.md) · [titles](pr_titles.md) · [tags](pr_tags.md) · [checklist](pr_checklist.md) · [polish debrief](polish_debrief.md)
 
 ## Standing instructions
 

@@ -66,7 +66,6 @@ None yet.
 - [`issue_24176_rerun_full_form_prefill`](active/issue_24176_rerun_full_form_prefill/index.md) — Prefills the expanded rerun form from the original run (server-seeded steps, inputs incl. legacy input keys, workflow settings) (#24176). Stacked on `issue_24178_subworkflow_step_params_export`; re-scoped, head `ced412c6248`; fresh CI pending. [Open PR](https://github.com/galaxyproject/galaxy/compare/issue_24178_subworkflow_step_params_export...jmchilton:galaxy:issue_24176_rerun_full_form_prefill?expand=1).
 - [`issue_24177_rerun_step_params_full_form`](active/issue_24177_rerun_step_params_full_form/index.md) — Keeps reruns with tool step params in the expanded form, prefills simple-form settings and fixes simple-form workflow params (`replacement_params`) (#24177). Stacked on `issue_24176_rerun_full_form_prefill`; re-scoped, head `46db8f9d5b6`; fresh CI pending. [Open PR](https://github.com/galaxyproject/galaxy/compare/issue_24176_rerun_full_form_prefill...jmchilton:galaxy:issue_24177_rerun_step_params_full_form?expand=1).
 - [`cwl_fixes_5`](active/cwl_fixes_5/index.md) — Collects CWL validation, typing, output-path and job-document fixes. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:cwl_fixes_5?expand=1).
-- [`reference_data_followups`](active/reference_data_followups/index.md) — Follow-up to merged #24798 from John's remaining review findings: reference_data contract-harness tests, YAML-only guard (XML `<options>` bypass), loading through its authoring model, shared runtime/access helpers; plus `YamlTextParameter.to_internal()` dropping text defaults, with a fixture-wide parity guard. Hardened READY (re-scoped once). Base `dev`, head `a4637890126`; alt `_alt_original_scope`. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:reference_data_followups?expand=1).
 
 ## Galaxy branches — implemented, work left, green (`branches_implemented`)
 
@@ -91,6 +90,7 @@ None yet.
 
 ## Galaxy branches — ready for final review (`branches_ready_for_final_review`)
 
+- [`reference_data_followups`](active/reference_data_followups/index.md) — #24798 review follow-ups: reference_data guard, authoring-model loading, tests; fixes YAML text defaults. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:reference_data_followups?expand=1).
 - [`issue_24532_user_deletion_refusal_25.1`](active/issue_24532_user_deletion_refusal_25.1/index.md) — Delete Account modal explains a config-refused self-deletion and stays open on failure (#24532). [Open PR](https://github.com/galaxyproject/galaxy/compare/release_25.1...jmchilton:galaxy:issue_24532_user_deletion_refusal_25.1?expand=1).
 
 - [`invocation_graph_embedded_outputs`](active/invocation_graph_embedded_outputs/index.md) — Stage 3: steps can star a preferred output; with Embed Outputs on, a step is drawn as it and the layout grows. [Open PR](https://github.com/jmchilton/galaxy/compare/invocation_graph_embedded_workflow_outputs...invocation_graph_embedded_outputs?expand=1).
