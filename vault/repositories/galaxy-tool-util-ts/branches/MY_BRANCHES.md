@@ -26,7 +26,7 @@ None yet.
 
 ## Branches — implemented (`branches_implemented`)
 
-None yet.
+- [`pr_224_kind_checks`](active/pr_224_kind_checks/index.md) — #224 plus our #210 work: map-over warnings, datatypes snapshot, per-output resolution. PR targets #224's branch. [Open PR](https://github.com/denzasikora-lab/galaxy-tool-util-ts/compare/fix/validate-workflow-test-metadata...jmchilton:galaxy-tool-util-ts:pr_224_kind_checks).
 
 ## Branches — needs polish (`branches_need_polish`)
 

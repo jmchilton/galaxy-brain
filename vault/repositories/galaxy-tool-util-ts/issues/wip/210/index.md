@@ -1,3 +1,7 @@
+---
+related_records: galaxy-tool-util-ts/branches/pr_224_kind_checks
+---
+
 # galaxy-tool-util-ts#210 — `validate-tests --workflow` ignores collection shape and datatype
 
 Issue: https://github.com/jmchilton/galaxy-tool-util-ts/issues/210
@@ -6,6 +10,10 @@ Downstream: [galaxyproject/foundry#731](https://github.com/galaxyproject/foundry
 [Plan](plan.md) · [Plan: fold into #224](plan_pr_224.md) · [Galaxy datatype research](research_galaxy_datatypes.md) · [TS consumer research](research_ts_consumers.md)
 
 Branches (stacked): [`issue_210_datatypes_snapshot`](../../../branches/active/issue_210_datatypes_snapshot/index.md) (Phase A) → [`issue_210_test_kind_checks`](../../../branches/active/issue_210_test_kind_checks/index.md) (Phase B, asks 1+2; [verification](../../../branches/active/issue_210_test_kind_checks/verification.md)). Ask 3 (output `ftype`) deferred. [Draft Galaxy issue](galaxy_issue_draft_datatype_mapping_collisions.md) (datatype class-name collisions; not posted).
+
+## Status (2026-11-11)
+
+Contributor PR [#224](https://github.com/jmchilton/galaxy-tool-util-ts/pull/224) covers asks 1–3. John chose to fold all our work into it: [`pr_224_kind_checks`](../../../branches/active/pr_224_kind_checks/index.md) is #224's commit plus ten of ours, pushed, with the PR into the contributor's branch and the #224 comment drafted for John's approval ([plan](plan_pr_224.md)).
 
 ## Status (2026-10-27)
 
