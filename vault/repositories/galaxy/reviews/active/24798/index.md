@@ -1,3 +1,6 @@
+---
+related_records: galaxy/branches/reference_data_followups
+---
 # #24798 — Add reference_data input for YAML tools
 
 - [View on GitHub](https://github.com/galaxyproject/galaxy/pull/24798) · base `dev` · author mvdbeek · worktree `~/projects/worktrees/galaxy/pr/24798`
@@ -8,9 +11,9 @@
 
 ## Status
 
-Initial review (round 0) on `5abbfd9d5a6` unposted except P3 5, which John posted as a comment 2026-11-09; the other two P2s + four P3s, fixed on `pr_24798_round_0_rev_0`, are now stale against the new head.
+Initial review (round 0) on `5abbfd9d5a6` unposted except P3 5, which John posted as a comment 2026-11-09; the remaining findings are being carried as follow-up branch `reference_data_followups`.
 
-PR open, out of draft; author force-pushed `50af35ba627` 2026-11-10 adopting P3 5 (dedicated `ReferenceDataParameterModel` / `gx_reference_data`), no reply comment; other findings not re-checked.
+PR merged into `dev` 2026-11-11 (`a73355ea2e5`) with P3 5 adopted (dedicated `ReferenceDataParameterModel` / `gx_reference_data`) and `filter` dropped.
 
 ## Standing instructions
 
