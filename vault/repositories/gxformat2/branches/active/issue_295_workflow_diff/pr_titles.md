@@ -1,0 +1,4 @@
+- Add `gxwf-diff`: structural diff of two Format2 workflows
+- Add `diff_workflows` and `gxwf-diff` for comparing Format2 workflows and drafts
+- Report added, removed and changed steps between two Format2 workflows
+- Structural workflow diff (`diff_workflows` / `gxwf-diff`) with shared declarative cases

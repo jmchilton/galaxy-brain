@@ -1,0 +1,2 @@
+- `enhancement` — new `diff_workflows` API and `gxwf-diff` console script (#295).
+- `BioHackEU26` (optional) — the motivating Foundry issue (galaxyproject/foundry#796) came out of BioHackathon Europe 2026 project 31; sibling draft-tooling PRs #289, #293 and #294 carry the label.
