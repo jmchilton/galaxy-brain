@@ -9,7 +9,7 @@ related_records:
 
 ## Status
 
-`wip`: branch `issue-757-meta-driven-parameters` ([record](../../../branches/active/issue-757-meta-driven-parameters/index.md)), no PR yet.
+`wip`: branch `issue-757-meta-driven-parameters` ([record](../../../branches/active/issue-757-meta-driven-parameters/index.md)), draft PR [#799](https://github.com/galaxyproject/foundry/pull/799).
 
 ## Findings
 

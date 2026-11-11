@@ -1,10 +1,11 @@
 ---
 upstream_base_branch: main
 related_records: foundry/issues/757
+pr: 799
 ---
 # Meta-driven per-element parameters in the channel-shape note
 
-- [Open PR](https://github.com/galaxyproject/foundry/compare/main...jmchilton:foundry:issue-757-meta-driven-parameters?expand=1)
+- [Open PR](https://github.com/galaxyproject/foundry/pull/799)
 - [View on GitHub](https://github.com/jmchilton/foundry/tree/issue-757-meta-driven-parameters)
 
 Addresses [#757](https://github.com/galaxyproject/foundry/issues/757). Branched from `origin/main` at `e72d75cb`.
@@ -13,9 +14,9 @@ Addresses [#757](https://github.com/galaxyproject/foundry/issues/757). Branched 
 
 Polished at `124a8a2a`. Waiting for John's final review.
 
-No PR yet: the auto-mode classifier blocked `gh pr create` for the draft PR. The body is in [pr_description.md](pr_description.md).
+Draft [#799](https://github.com/galaxyproject/foundry/pull/799) opened 2026-11-11 at John's go-ahead, body from [pr_description.md](pr_description.md).
 
-No CI: fork branch. The local gate is green apart from `check-vendored` (local drift) and `validate-roadmap` (unrelated #768/#783 labels).
+CI first run pending on `124a8a2a`; local gate green apart from `check-vendored` (local drift) and `validate-roadmap` (unrelated #768/#783 labels).
 
 ## Files
 

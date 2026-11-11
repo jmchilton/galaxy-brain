@@ -27,6 +27,7 @@ Snapshot: 2026-10-28 (originally recovered from live GitHub state, local worktre
 
 ## Draft Foundry PRs — waiting for CI (`ci_wait`)
 
+- [`issue-757-meta-driven-parameters`](active/issue-757-meta-driven-parameters/index.md) — Channel-shape note routes per-element parameters via mapped `param_value_from_file`, plus verification workflows (#757). [#799](https://github.com/galaxyproject/foundry/pull/799).
 - [`issue-678-capability-gap-route`](active/issue-678-capability-gap-route/index.md) — A found wrapper that can't serve its step goes to repair, which folds it; only a miss authors (#678). [#778](https://github.com/galaxyproject/foundry/pull/778).
 - [`issue-674-single-workflow-posture`](active/issue-674-single-workflow-posture/index.md) — Say a tool choice doesn't need a second workflow (part of #674). [#759](https://github.com/galaxyproject/foundry/pull/759).
 - [`issue-568-review-agent-benchmark-paper`](active/issue-568-review-agent-benchmark-paper/index.md) — Comparisons page: contrast with one detailed prompt, from the Munn and Grenier study (#568). [#750](https://github.com/galaxyproject/foundry/pull/750).
@@ -52,7 +53,6 @@ None yet.
 
 ## Foundry branches — ready for final review (`branches_ready_for_final_review`)
 
-- [`issue-757-meta-driven-parameters`](active/issue-757-meta-driven-parameters/index.md) — Channel-shape note routes per-element parameters via mapped `param_value_from_file`, plus verification workflows (#757). [Open PR](https://github.com/galaxyproject/foundry/compare/main...jmchilton:foundry:issue-757-meta-driven-parameters).
 - [`issue-672-udt-authoring-note`](active/issue-672-udt-authoring-note/index.md) — UDT authoring note: collection inputs/outputs, vendoring recipes, `inputs.x` shape (#672). Draft [#710](https://github.com/galaxyproject/foundry/pull/710). [Open PR](https://github.com/galaxyproject/foundry/compare/main...issue-672-udt-authoring-note).
 
 ## Foundry branches — approved, opens when green (`branches_need_pr`)
