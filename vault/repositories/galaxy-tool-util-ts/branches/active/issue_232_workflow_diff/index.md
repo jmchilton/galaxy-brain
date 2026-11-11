@@ -11,11 +11,11 @@ related_records: gxformat2/branches/issue_295_workflow_diff
 
 ## Status
 
-Implemented at `bb20f750`, branched from `origin/main` `7370df1b`; pushed to `origin`.
+Implemented and normal-reviewed at `54c68efb`, branched from `origin/main` `7370df1b`; pushed to `origin`.
 
 No PR yet.
 
-No CI (runs only on PRs); local gate green at `bb20f750`: `make check`, `pnpm lint:unused:ci`, `pnpm build`, `pnpm test`.
+No CI (runs only on PRs); local gate green at `54c68efb`: `make check`, `pnpm lint:unused:ci`, `pnpm build`, `pnpm test`.
 
 ## Notes
 

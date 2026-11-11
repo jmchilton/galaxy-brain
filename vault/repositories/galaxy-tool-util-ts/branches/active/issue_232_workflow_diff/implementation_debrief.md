@@ -1,11 +1,12 @@
 # Implementation debrief: `issue_232_workflow_diff`
 
-Head `bb20f750`, base `origin/main` `7370df1b`. Four commits:
+Head `54c68efb`, base `origin/main` `7370df1b`. Five commits:
 
 1. `9090d439`: syncs the fixtures and adds `fixture_after` to the declarative runner. The 20 `diff.yml` cases run as unknown-op expected failures here.
 2. `e2d4d3b6`: adds `diffWorkflows`.
 3. `5f81ba02`: adds the `gxwf diff` CLI.
 4. `bb20f750`: treats explicit `null` keys in nested input-model lists as unset, to match pydantic's null-fill. Found by probe; red-to-green.
+5. `54c68efb` (normal review, [subagents/normal_review.md](subagents/normal_review.md)): untyped steps with a `run` report `type: subworkflow` (shared `inferredStepType`, also used by mermaid/cytoscape); `StepSummary.connections` dedupes self-sourcing edges; output actions derive from the step-output schema fields; `plan_fields` typed by `PlanField`. Red-to-green.
 
 ## What was built
 
@@ -39,7 +40,9 @@ Head `bb20f750`, base `origin/main` `7370df1b`. Four commits:
 
 ## Divergences from the Python contract
 
-- **JS integer-like keys:** they iterate numerically in result objects, for example index-id step keys `"1"`, `"2"`. Order is kept internally (Maps), but JSON objects keyed by such names lose workflow order. No assertion depends on it.
+- **JS integer-like keys:** JS objects hoist integer-like keys ahead of all string keys, in numeric order. Index ids rise with position, so all-unlabeled list-form steps keep workflow order; mixed labeled/unlabeled steps `[a, <2>, c]` come out `2, a, c` (Python: `a, 2, c`) in both JSON and `renderWorkflowDiff` text. `Side` Maps keep order; the result objects don't. Accepted: JSON object order isn't semantic, and those steps already warn.
+- **Step type precedence:** `inferredStepType` treats a `GalaxyUserTool` run as `tool` even with an explicit `type:`, whereas Python honors `type:` first. The input is invalid, so this is accepted.
+- **Undeclared `out` keys:** TS compares only the declared output actions. Python dumps the `extra="allow"` model, so an extra key such as `_plan_note` on an `out` entry counts as an action change there, against the contract's action list and "`_plan_*` never compared". Python should change.
 - **Lenient normalization:** TS normalization doesn't validate the way pydantic does. Python raises on malformed input (for example, a list-form input with a string `format`), while TS diffs it, and `format` is listified in the diff.
 - **Nested input models** (`validators`, `restrictions`, `suggestions`, `fields`, `column_definitions`):
   - Python compares these as pydantic dumps, which fill unset keys with `null`. TS drops `null` keys before comparing, so membership matches.
