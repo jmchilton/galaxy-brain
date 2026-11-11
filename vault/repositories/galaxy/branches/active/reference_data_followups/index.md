@@ -10,7 +10,7 @@ related_records:
 
 ## Status
 
-Hardened READY (re-scoped once), head `05f155c5e78`; alt `reference_data_followups_alt_original_scope` keeps the pre-rescope scope.
+Hardened READY (re-scoped once), head `a4637890126`; alt `reference_data_followups_alt_original_scope` keeps the pre-rescope scope.
 
 No PR yet.
 

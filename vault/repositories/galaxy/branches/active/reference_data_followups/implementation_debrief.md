@@ -1,13 +1,16 @@
 # Implementation debrief
 
-**STATUS: READY.** Follow-up to merged #24798 carrying John's remaining round 0 review findings onto `dev`, re-scoped once to add a fixture-wide `to_internal()` drift guard and the text-default bug it caught. Head `05f155c5e78` (pushed), base `dev`, +301/−50 across 16 files (about +69/−36 production).
+**STATUS: READY.** Follow-up to merged #24798 carrying John's remaining round 0 review findings onto `dev`, re-scoped once to add a fixture-wide `to_internal()` drift guard and the text-default bug it caught. Head `a4637890126` (pushed), base `dev`, +344/−50 across 16 files (about +69/−36 production).
 
 ```
-exists .../reference_data_followups/differential-review/snapshots/20261111T165827Z-hardening-05f155c5e78d.json
-  hardening @ 05f155c5e78d vs origin/dev (merge-base a73355ea2e5c)
-  since 20261111T142512Z-implementation-f03e586886f1:
-    commits: 1 same, 0 rebased, 6 changed, 1 new, 0 dropped
+created .../reference_data_followups/differential-review/snapshots/20261111T170345Z-hardening-a46378901264.json
+  hardening @ a46378901264 vs origin/dev (merge-base a73355ea2e5c)
+  since 20261111T165827Z-hardening-05f155c5e78d:
+    commits: 4 same, 3 rebased, 1 changed, 1 new, 0 dropped
+    hunks:   34 carried, 1 changed, 1 new, 1 dropped
 ```
+
+Added after hardening (advisor check): a Baseline test that reference_data nested in a section and a conditional `when` loads through tool creation and the parameter models — guards the subclass dispatch in `_canonical_input_source()`, which no fixture exercised. Passes on dev and at head.
 
 ## Commits
 
@@ -15,10 +18,11 @@ exists .../reference_data_followups/differential-review/snapshots/20261111T16582
 2. `11fd2719823` Baseline tests: closed-table tests assert which check fires (P2 2).
 3. `35b5cbf55d4` Baseline tests: admin `GalaxyTool` reads a closed table via the API (P3 4).
 4. `b02887560b1` Baseline tests: reference_data parsed model equals `to_internal()` across tool class × dump.
-5. `f6723040770` Share runtime dumping (`reference_data_runtime_json`) and the table access rule (`ToolDataTable.readable_by(*, trusted)`) (P3 3). Behavior-preserving.
-6. `901be64fe60` Reject reference_data unless GalaxyTool/GalaxyUserTool YAML (`InputSource.parse_reference_data()`); closes the XML `<options>` bypass and the factory accepting XML/class-less reference_data (P3 1).
-7. `9d4560807d4` Load reference_data through its authoring model (P2 3): `CanonicalYamlReferenceDataInputSource` validates once and exposes coerced values; factory returns `to_internal()`. Disk tools now reject what the API rejects, and `multiple: "false"` no longer diverges between form and model (Codex).
-8. `05f155c5e78` Fix YAML text defaults dropped by `to_internal()` (re-scope): parity test over all functional YAML fixtures × tool class × full/`exclude_unset` dumps.
+5. `a610accbfa8` Baseline tests: reference_data nested in sections and conditional whens.
+6. `eb161062b99` Share runtime dumping (`reference_data_runtime_json`) and the table access rule (`ToolDataTable.readable_by(*, trusted)`) (P3 3). Behavior-preserving.
+7. `0b481f9d687` Reject reference_data unless GalaxyTool/GalaxyUserTool YAML (`InputSource.parse_reference_data()`); closes the XML `<options>` bypass and the factory accepting XML/class-less reference_data (P3 1).
+8. `f1ff2f8d6e9` Load reference_data through its authoring model (P2 3): `CanonicalYamlReferenceDataInputSource` validates once and exposes coerced values; factory returns `to_internal()`. Disk tools now reject what the API rejects, and `multiple: "false"` no longer diverges between form and model (Codex).
+9. `a4637890126` Fix YAML text defaults dropped by `to_internal()` (re-scope): parity test over all functional YAML fixtures × tool class × full/`exclude_unset` dumps.
 
 ## Choices
 
@@ -33,7 +37,7 @@ First evaluation: expand modestly (done; original scope kept as `reference_data_
 
 ## Verification
 
-Unit 400+ passed (reference_data, yaml_parameters, user_tool_source_fixtures, evaluation, parsing, parameter spec). API: `test_user_tool_contract.py` 78 and `test_unprivileged_tools.py` 29 passed at re-scope; reference subsets re-run green after later changes. Red checks against dev lib confirmed for every non-baseline test. Format clean; mypy identical to dev. No CI yet.
+Unit 412 passed (reference_data, yaml_parameters, user_tool_source_fixtures, evaluation, parsing, parameter spec). API: `test_user_tool_contract.py` 78 and `test_unprivileged_tools.py` 29 passed at re-scope; reference subsets re-run green after later changes. Red checks against dev lib confirmed for every non-baseline test. Format clean; mypy identical to dev. No CI yet.
 
 ## Reviews
 
