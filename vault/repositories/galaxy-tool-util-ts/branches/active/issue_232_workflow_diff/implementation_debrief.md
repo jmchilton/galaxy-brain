@@ -48,12 +48,13 @@ Head `54c68efb`, base `origin/main` `7370df1b`. Five commits:
   - Python compares these as pydantic dumps, which fill unset keys with `null`. TS drops `null` keys before comparing, so membership matches.
   - Reported values differ in shape: TS shows the raw objects without the filled-in nulls.
   - Where an input type doesn't declare the field (for example `validators` on an `int` input, which is invalid Format2 that Python keeps raw), Python treats an explicit `null` as a change and TS doesn't.
+  - TS fills the pydantic `type` defaults the TS schemas lack (validator `regex`, record field `File`, column `string`; `709e1b7c`). On such invalid input Python also counts an omitted defaulted `type` as a change and TS doesn't.
 - **Numbers:** Python compares `1` and `1.0` as different. JS can't tell them apart.
 - **Text output:** values use Python `json.dumps` separators, but non-ASCII is not `\u`-escaped. The text format is not part of the contract.
 
 ## Left undone / follow-ups
 
-- Re-sync `diff.yml` and the fixtures from gxformat2 main after galaxyproject/gxformat2#296 merges.
+- Re-sync `diff.yml` and the fixtures from gxformat2 main after galaxyproject/gxformat2#296 merges (last re-synced from the branch at `729027d` in `62d073cc`).
 - Pre-existing drift from gxformat2 main was left unsynced: `synthetic-extra-field-output.gxwf.yml` and the `validate_format2.yml` strict cases. TS doesn't reject an extra output field under strict validation (`test_extra_field_output_rejected_format2_strict` fails), so it needs its own issue.
 - Nothing else beyond Python's own "left undone" list (subworkflow recursion, native, `$graph`).
-- No review, harden or polish yet. That is the coordinator's step.
+- Reviewed and hardened afterwards: [normal review](subagents/normal_review.md), [Codex](codex_review.md) (`e6000747`, `709e1b7c`), [thermo-nuclear](thermo_nuclear_review.md) (`e796e9d7`, `a8c6ea89`).
