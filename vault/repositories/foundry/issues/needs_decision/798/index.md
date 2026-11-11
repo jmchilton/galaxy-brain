@@ -1,5 +1,7 @@
 ---
-related_records: foundry/issues/784
+related_records:
+  - foundry/issues/784
+  - foundry/issues/796
 ---
 
 # #798 nextflow-to-galaxy: multi-path pipelines (Sarek) collapse to one path without surfacing the alternatives
@@ -34,7 +36,7 @@ Not verified:
 
 ## Shared model with #784, #796, #781
 
-All four concern one thing: an inventory of source units, each given a disposition (carried / subsumed / dropped with a cited reason / out of the selected scope). This is the conservation rule that `open-requirements-ledger` :225 leaves "deliberately not attempted".
+All four concern one thing: an inventory of source units, each given a disposition (carried / subsumed / dropped with a cited reason / out of the selected scope). This is close to the conservation rule that `open-requirements-ledger` :225 leaves "deliberately not attempted". John closed that as #480 in favour of #479's labels. The approach to propose instead: diff the artifacts and require a label for each difference, with no totals. See [#796](../796/index.md).
 
 - #798 writes the out-of-scope dispositions at design time.
 - #784 renders them at the end and diffs the final workflow against the source.
