@@ -7,3 +7,7 @@
 Initial review (round 0) against `2ffe63c3` complete: 1 P1, 8 P2, 9 P3, with 14 fixed on the review branch (tip `49775ee0`); not delivered.
 
 PR open by rplanel; base `master`; no CI checks reported on the PR head yet.
+
+## Related
+
+- Galaxy-side bug found during review, queued for an issue: [select_wrapper_iter_skips_sanitization](../../../../galaxy/issues_incubator/incubating/select_wrapper_iter_skips_sanitization/index.md) (multiple-select iteration skips sanitization; the review branch's `SecurityRawParamValue` loop check depends on it).
