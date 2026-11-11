@@ -10,3 +10,4 @@ Document how a dataset's metadata and its metadata files work: `MetadataCollecti
 
 - vault/repositories/galaxy/branches/active/issue_24787_metadata_source_shared_file_26_1: needed the handler vs in-job `make_copy` behaviour and how copies, discovery and set_metadata create or share `MetadataFile` rows.
 - vault/repositories/galaxy/reviews/active/24745: purge paths needed to know which rows can share a file.
+- vault/repositories/galaxy/reviews/active/24818: needed how tools reach index metadata files (Cheetah `$input.metadata.<name>` via `tools/wrappers.py`, `input_metadata_rewrite` as the trigger for Pulsar staging, and the new datatype-level `secondary_file_suffixes` for user-defined tools); worth covering which datatypes keep indexes in which `FileParameter` elements (e.g. BAM's CSI index stored in `bam_index`).

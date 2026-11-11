@@ -1,0 +1,170 @@
+round: 0
+reviewed_commit: efa3e7bbdaf10581dc1ffb037ec762d879dd8869
+agents:
+  - {profile: default, path: _shared/reviewers/default.md, model: Claude Opus 5.5, effort: medium}
+  - {profile: gx_test_challenger, path: _shared/reviewers/gx_test_challenger.md, model: Claude Opus 5.5, effort: medium}
+  - {profile: gx_risk_assessment, path: _shared/reviewers/gx_risk_assessment.md, model: Claude Opus 5.5, effort: low}
+  - {profile: learning_galaxy, path: gx_reviews/reviewers/learning_galaxy.md, model: Claude Opus 5.5, effort: medium}
+verification: {model: Claude Opus 5.5, effort: medium}
+branches:
+  - name: pr_24818_round_0_rev_0
+    revision: 0
+    head: 323625a69f8
+    pr_title: Tighten secondary_files validation, errors and tests
+    description: |
+      `pr_24818_round_0_rev_0` builds on `efa3e7bbdaf`. It rejects `secondary_files` at tool creation on an input none of whose formats Galaxy indexes, makes a missing index a job rejection instead of an unexpected failure, and builds the index list from `SecondaryFileInternalJson` on both paths. The help now says when an input that doesn't opt in still gets the list. On the test side it adds API tests for `cram`, `bcf` and `vcf_bgzip` indexes and tool-request variants of the `multiple` and map-over tests, tests BAI/CSI detection on `Bam` with real indexes, follows a converted input through `adapt_dataset`, and drops unit cases the API tests already cover.
+    commits:
+      - sha: eb8a83cf2b5
+        subject: Say when an input without secondary_files still lists the index
+        detail: adds to the `authoringHelp.yml` sentence that an input without the option still gets the list when the job passes the same dataset to an input that sets it.
+        findings: [P2 1]
+      - sha: e92055a6167
+        subject: Reject a job whose indexed input has no index as a job error
+        detail: adds `MissingIndexError(ValueError)` to `galaxy.tools.runtime`, raises it from `secondary_files_json`, and adds it to the rejections `prepare_job` handles without a traceback.
+        findings: [P3 2]
+      - sha: 0e9b6ba866c
+        subject: Build secondary files as SecondaryFileInternalJson
+        detail: makes `secondary_files_json` return `list[SecondaryFileInternalJson]` and has `to_cwl` dump each with `by_alias=True`.
+        findings: [P3 4]
+      - sha: 8189c840546
+        subject: Reject secondary_files on an input whose formats Galaxy never indexes
+        detail: adds `_validate_secondary_files` to `create_unprivileged_tool`, walking conditionals, repeats and sections, plus an API test that a `[sam, fasta]` input is refused with a 400.
+        findings: [P3 1]
+      - sha: 9e7e00e7138
+        subject: Test the index of a converted input through adapt_dataset
+        detail: replaces the set-only unit test with one that follows an `unsorted.bam` converted to an indexed `bam` through `setup_for_runtimeify` and checks the index is listed.
+        findings: [P2 2]
+      - sha: 0e213e38be0
+        subject: Test the index of cram, bcf and vcf_bgzip datasets end to end
+        detail: adds a parametrized API test that links the index of `2.cram`, `bcf_index_metadata_test.bcf` and `test.vcf.gz`, checks `nameext` and compares the bytes with Galaxy's metadata file, and drops the `cram` unit case.
+        findings: [P2 3]
+      - sha: bab7e1f2096
+        subject: Test BAI/CSI detection on the Bam datatype with real indexes
+        detail: adds a `test_bam.py` test that builds BAI and CSI indexes of `1.bam` with pysam and checks `Bam.secondary_file_suffix`, and drops the hand-written CSI case from `test_runtime.py`.
+        findings: [P3 5]
+      - sha: c4942be0464
+        subject: Drop unit cases the API tests already cover
+        detail: drops the `datatype-without-index` case and the `/api/tools` assertions of the `to_cwl` unit test, keeping the non-user-tool case.
+        findings: [P3 6]
+      - sha: 323625a69f8
+        subject: Test multiple and mapped-over inputs through tool requests too
+        detail: runs the `multiple` and map-over tests through both `/api/tools` and tool requests, and maps over `1.bam` and `3.bam` so each element must link its own index.
+        findings: [P3 7]
+actions: {approve: false, approve_and_merge: false, comment: false, review_comment: false, request_changes: false, pull_request: false, push: false, issue_refactor: false, issue_galaxy_brain: false}
+findings:
+  - id: P2 1
+    include: true
+    title: Opt-in is decided per dataset, not per input, contradicting the documented contract
+    summary: a dataset passed to an opted-in and a non-opted-in input gets secondaryFiles on both; help says otherwise.
+    implementation_verified: true
+    issue: |
+      `UserToolEvaluator._datasets_with_secondary_files` collects a set of datasets from the inputs that set `secondary_files`, and `setup_for_runtimeify`'s `adapt_dataset` and `to_cwl` attach `secondaryFiles` to any input whose dataset is in that set. So when the same HDA goes to two inputs, one with `secondary_files: true` and one without, both get a populated list. The implicit-conversion step widens this: any job input that is a conversion of a selected dataset is included, whatever parameter received it.
+
+      `authoringHelp.yml` says "`secondaryFiles` is also empty for an input that doesn't set the option." `test_run_secondary_files_empty_unless_asked_for_and_indexed` only passes because it gives `not_asked` and `not_indexed` different datasets. The practical impact is small, since the extra list only names an index the job already stages, but what a tool sees depends on what the user picked.
+    evidence: |
+      A scratch unit test passing one indexed HDA as both `asked` (`secondary_files=True`) and `not_asked` showed `adapt_dataset` returning the `.bai` entry for `not_asked` too.
+    fix: |
+      Added to the help sentence that an input without the option still gets the list when the job passes the same dataset to an input that sets it. Keying the decision on the parameter would make the original sentence true and remove the need for the conversion set, but the runtime parameter models don't carry `secondary_files`, so it needs the field on `DataParameterModel` / `DataCollectionParameterModel` and through runtimeify's adapter callback. That is the author's call.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+  - id: P2 2
+    include: true
+    title: Implicit conversion is only tested through a private method with Bunch stand-ins
+    summary: the converted-input test only checks the set the evaluator returns; nothing follows the conversion through adapt_dataset.
+    implementation_verified: true
+    issue: |
+      `test_user_tool_finds_a_converted_input_of_an_input_with_secondary_files` calls `UserToolEvaluator._datasets_with_secondary_files` with a `Bunch` tool and checks only the returned set. It never exercises how `setup_for_runtimeify` resolves the request's dataset id to the converted dataset and lists that dataset's index, though the PR description names "after implicit conversion" as a behaviour.
+
+      An API test isn't practical here: `sam` converts only to `unsorted.bam`, and every converter to an indexed format (`to_coordinate_sorted_bam`, `cram_to_bam`, `vcf_to_vcf_bgzip`, `uncompressed_to_gz`) needs samtools or htslib, which API tests don't resolve because the test driver turns conda off.
+    fix: |
+      Replaced the test with one that marks an `unsorted.bam` HDA as the parent of an indexed `bam` conversion, gets the evaluator's set, then calls `adapt_dataset` with the parent's id and `["bam"]` and checks that the converted dataset's path and `.bai` entry come back.
+    discovered_by:
+      - {profile: gx_test_challenger, model: Claude Opus 5.5, effort: medium}
+  - id: P2 3
+    include: true
+    title: Only BAM is exercised against real metadata
+    summary: the cram_index, bcf_index and tabix_index names are never checked against what set_meta stores.
+    implementation_verified: true
+    issue: |
+      `secondary_file_suffixes` names `cram_index`, `bcf_index` and `tabix_index`, but no test checks those names against what `set_meta` actually stores. The one non-BAM case is the `cram` unit param, which sets a fake `cram_index` by hand, so a misnamed key or a datatype that doesn't populate its index would still pass.
+    fix: |
+      Added `test_run_links_secondary_file_of_each_indexed_format`, parametrized over `2.cram`, `bcf_index_metadata_test.bcf` and `test.vcf.gz`. It links the index, checks `nameext` (`.crai`, `.csi`, `.tbi`) and compares the bytes with `get_history_dataset_metadata_file`. Dropped the `cram` unit case. All three pass locally.
+    discovered_by:
+      - {profile: gx_test_challenger, model: Claude Opus 5.5, effort: medium}
+  - id: P3 1
+    include: true
+    title: "`secondary_files: true` on an input that can never be indexed is accepted silently"
+    summary: format sam/txt-only inputs with secondary_files validate and always yield []; reject at creation.
+    implementation_verified: true
+    issue: |
+      An input such as `{type: data, format: sam, secondary_files: true}` validates and always yields `[]`. When none of an input's declared formats, or their subclasses, has `secondary_file_suffixes`, rejecting the tool when it's created catches the author's mistake early. Mixed lists like `[bam, sam]` stay valid, as the PR description intends, and so does the default `data`. This one is optional, since the runtime behaviour is documented.
+    fix: |
+      Added `_validate_secondary_files` to `DynamicToolManager.create_unprivileged_tool`. It walks conditionals, repeats and sections and refuses an input with `secondary_files` when no accepted format, or a registered subclass of one, declares `secondary_file_suffixes`; unknown extensions are let through. An API test checks that a `[sam, fasta]` input gets a 400. Note that `txt` counts as indexable because the tabix interval types subclass it.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+  - id: P3 2
+    include: true
+    title: Missing-index failure goes down the "unexpected exception" path
+    summary: RequestParameterInvalidException isn't a job rejection in prepare_job, so each affected job logs a server traceback.
+    implementation_verified: true
+    issue: |
+      `secondary_files_json` raises `RequestParameterInvalidException`. `build_param_dict` isn't wrapped by `global_tool_logs`, so it reaches `BaseJobRunner.prepare_job`, which treats only `ParameterValueError`, `ExpressionTemplateError` and `InsufficientPermissionsException` as rejections (`log.info` and `fail(..., exception=False)`). Everything else gets `log.exception("Failure preparing job")` and `exception=True`. A dataset whose metadata failed is a user-data condition, not a server fault, yet it logs a traceback for each affected job, and for each element when mapping over. An HTTP request exception is also an odd fit for code that runs in the job handler.
+    fix: |
+      Added `MissingIndexError(ValueError)` in `galaxy.tools.runtime`, raised it from `secondary_files_json`, and added it to the rejections `prepare_job` handles. `ParameterValueError` wasn't used because `secondary_files_json` doesn't know the parameter name it requires.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+  - id: P3 3
+    include: true
+    title: PR description still uses the pre-rename key
+    summary: description example uses secondary_files[0]; the runtime value is secondaryFiles since efa3e7bbdaf.
+    issue: |
+      The last commit, `efa3e7bbdaf` ("Name the runtime index list secondaryFiles, as CWL does"), renamed the runtime value. The PR description's example and prose still use `$(inputs.bam.secondary_files[0].path)` and "lists its index under `secondary_files`", while the code, help and agent prompt use `secondaryFiles`. Anyone who copies the example from the PR or its squash message gets an expression that evaluates to `undefined`.
+    fix: |
+      Update the description's example and prose to `secondaryFiles`.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+      - {profile: gx_risk_assessment, model: Claude Opus 5.5, effort: low}
+  - id: P3 4
+    include: true
+    title: "`secondary_files_json` returns untyped dicts though a model exists"
+    summary: SecondaryFileInternalJson is only validated on the runtimeify path; to_cwl gets unchecked dicts.
+    implementation_verified: true
+    issue: |
+      `SecondaryFileInternalJson` was added to `tool_util_models.parameters`, but `secondary_files_json` returns `list[dict[str, Any]]`. The shape is checked only when `DataInternalJson` validates it on the runtimeify path, never on the `to_cwl` path. This one is optional.
+    fix: |
+      `secondary_files_json` now returns `list[SecondaryFileInternalJson]`, and `to_cwl` dumps each entry with `by_alias=True`, so both paths build the same checked shape.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+  - id: P3 5
+    include: true
+    title: Test the BAI/CSI magic-byte detection on the datatype, with a real CSI index
+    summary: CSI detection is tested with hand-written bytes through setup_for_runtimeify instead of on Bam with a real index.
+    implementation_verified: true
+    issue: |
+      The `csi-kept-in-bam_index` unit case passes `b"\x1f\x8b\x08\x04bgzf compressed CSI index"` through `setup_for_runtimeify`, though the logic lives in `Bam.secondary_file_suffix`. Testing it on the datatype against indexes pysam really builds checks the actual format.
+    fix: |
+      Added `test_secondary_file_suffix_of_bam_index_follows_its_format` to `test/unit/data/datatypes/test_bam.py`, which builds BAI (`-b`) and CSI (`-c`) indexes of `1.bam` into `tmp_path` and checks `Bam().secondary_file_suffix("bam_index", path)`. Dropped the `csi-kept-in-bam_index` case and kept the one-per-suffix case as a plain test.
+    discovered_by:
+      - {profile: gx_test_challenger, model: Claude Opus 5.5, effort: medium}
+  - id: P3 6
+    include: true
+    title: Drop unit cases already covered by API tests
+    summary: datatype-without-index and the to_cwl opted-in/out assertions repeat what the API tests check.
+    implementation_verified: true
+    issue: |
+      `test_adapt_dataset_without_secondary_files[datatype-without-index]` checks what `test_run_secondary_files_empty_unless_asked_for_and_indexed` checks end to end. In `test_to_cwl_lists_the_index_for_user_tools_only`, the `opted_in` and `opted_out` assertions duplicate the `/api/tools` API tests; only the `secondary_file_datasets=None` case, where non-user-tool callers get no key, is unique. The `not-opted-in` case is worth keeping, since it also asserts nothing is staged through `input_metadata_rewrite`, which the API tests can't see.
+    fix: |
+      Dropped the `datatype-without-index` case and reduced the `to_cwl` test to the non-user-tool case, renamed `test_to_cwl_lists_no_index_outside_user_tools`. Kept `not-opted-in` and `deferred`.
+    discovered_by:
+      - {profile: gx_test_challenger, model: Claude Opus 5.5, effort: medium}
+  - id: P3 7
+    include: true
+    title: "`multiple` and map-over are only tested through `/api/tools`"
+    summary: single and collection inputs are tested both ways; multiple and map-over aren't, and map-over uses one element.
+    implementation_verified: true
+    issue: |
+      The PR says these cases work "through both `/api/tools` and tool requests", but `test_run_multiple_input_lists_secondary_files` and `test_run_mapped_over_list_lists_secondary_files` use only `/api/tools`, while single and collection inputs are tested both ways. The map-over test also maps over a one-element list and reads the newest history dataset, so it can't show that each job got its own element's index.
+    fix: |
+      Added `test_tool_request_multiple_input_lists_secondary_files` and `test_tool_request_mapped_over_list_lists_secondary_files`, sharing helpers with the `/api/tools` tests. The map-over tests now map over `1.bam` and `3.bam`, whose indexes differ, and compare each element's output in the implicit collection with that element's own index bytes. All four pass locally.
+    discovered_by:
+      - {profile: gx_test_challenger, model: Claude Opus 5.5, effort: medium}

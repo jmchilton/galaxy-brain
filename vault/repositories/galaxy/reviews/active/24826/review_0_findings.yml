@@ -1,0 +1,87 @@
+round: 0
+reviewed_commit: 4c330c4ed47de5048ea172e64ec186604767c24e
+agents:
+  - {profile: default, path: _shared/reviewers/default.md, model: Claude Opus 5.5, effort: medium}
+  - {profile: gx_test_challenger, path: _shared/reviewers/gx_test_challenger.md, model: Claude Opus 5.5, effort: low}
+  - {profile: gx_risk_assessment, path: _shared/reviewers/gx_risk_assessment.md, model: Claude Opus 5.5, effort: low}
+verification: {model: Claude Opus 5.5, effort: medium}
+branches:
+  - name: pr_24826_round_0_rev_0
+    revision: 0
+    head: 5d22e2d6816
+    pr_title: Tighten element identifier check and add discovery tests for optional ext groups
+    description: |
+      `pr_24826_round_0_rev_0` builds on `4c330c4ed47`. It makes `has_element_identifier` check the identifiers discovery actually resolves, tidies the two new unit tests, and adds a framework test tool that discovers an extension-less file through the PR's optional-ext pattern for both a collection and a primary `<data>` output. It leaves the skip behavior from `4c330c4ed47` as is; that is a separate finding.
+    commits:
+      - sha: b056170dc10
+        subject: Check the resolved element identifiers in has_element_identifier
+        detail: replaces the raw group checks with `None not in self.element_identifiers` and adds a unit test for a pattern with an optional `designation` group and a matched `name` group.
+        findings: [P3 1]
+      - sha: ddd0ed9ccd8
+        subject: Use TemporaryDirectory in discovered-pattern unit tests
+        detail: wraps both new unit tests in `tempfile.TemporaryDirectory()` and drops the intermediate `match.ext == "data"` assertion.
+        findings: [P3 2]
+      - sha: 5d22e2d6816
+        subject: Add framework test for discover patterns with an optional ext group
+        detail: adds `test/functional/tools/discover_optional_ext.xml` and registers it in `sample_tool_conf.xml`.
+        findings: [P2 2]
+actions: {approve: false, approve_and_merge: false, comment: false, review_comment: false, request_changes: false, pull_request: false, push: false, issue_refactor: false, issue_galaxy_brain: false}
+findings:
+  - id: P2 1
+    include: true
+    title: Skipping files without an element identifier also drops primary-dataset discoveries that worked before
+    summary: commit 4c330c4ed47 (not in the PR description) silently drops primary discoveries from patterns with no designation/name group, and hides collection misconfigurations behind a log warning.
+    implementation_verified: true
+    issue: |
+      The second commit (`4c330c4ed47`), which the PR title and description don't mention, makes `DatasetCollector.match` return `None` for any regex match without a non-`None` `designation`, `name` or `identifier_N` group. That check runs for every regex discovery, including `discover_datasets` on plain `<data>` outputs, not only collections. It also rejects patterns that define none of those groups. Before this PR such patterns worked for primary datasets: `collect_primary_datasets` accepted `designation = None` and, with `assign_primary_output="true"`, moved the file into the primary output. Now the file is dropped, the job still succeeds, and the only trace is a server log warning.
+
+      For collections the old behavior was a crash, so nothing relied on it. But turning that crash into a successful job with elements quietly missing is harder for users to notice than a clear failure. The new XSD text also adds a "must always capture an element identifier" requirement on a release branch.
+    evidence: |
+      At the PR head:
+
+      ```
+      >>> c = dataset_collector(FilePatternDatasetCollectionDescription(pattern=r"report\.html", format="html", assign_primary_output=True))
+      >>> c.match(None, "report.html")
+      Skipped discovered file [report.html]: the discover pattern [report\.html] captured no element identifier ...
+      None
+      ```
+
+      No in-repo tool uses such a pattern, so CI won't catch it, but Tool Shed tools could.
+    fix: |
+      Keep this release-branch PR to the ext fallback it describes, and drop `4c330c4ed47`. If the missing-identifier crash still needs handling, scope the check to collection discovery and fail the job with a clear error, for example by raising in `_populate_elements` when an element identifier is `None`, instead of skipping. A linter for optional `designation`/`name`/`identifier_N` groups could follow on `dev`.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+  - id: P2 2
+    include: true
+    title: No framework test for the optional-ext pattern, its default-format arm or primary discovery
+    summary: unit tests only cover the "data" fallback through collections; added a framework tool covering collection default format and primary discovery.
+    implementation_verified: true
+    issue: |
+      The bug reaches users through tool XML, but both new tests are unit tests that drive `find_files` and `populate_collection_elements` with no `default_ext`. So the `collector.default_ext` arm of the new `ext` property is untested, only the `"data"` fallback is. The PR says the fix also covers `collect_primary_datasets`, and `has_element_identifier` now gates primary discovery too, but no test exercises that path. `test/functional/tools/discover_default_ext.xml` already covers default-format fallback for discovered collections, so a sibling tool fits.
+    fix: |
+      Added `discover_optional_ext.xml`, which writes an extension-less `yelp` file for a collection with `format="fasta"` and for a primary `<data>` output whose `discover_datasets` sets `format="tabular"`. Both use the PR's Unzip pattern. The test asserts the element is `fasta` and the discovered dataset is `tabular`. It passes on the branch and fails without `c19b6a27fda` with the reported `AttributeError: 'NoneType' object has no attribute 'lower'`.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+      - {profile: gx_test_challenger, model: Claude Opus 5.5, effort: low}
+  - id: P3 1
+    include: true
+    title: "`has_element_identifier` doesn't follow `designation`'s precedence"
+    summary: optional designation plus a matched name passes the check but still yields a None element identifier.
+    implementation_verified: true
+    issue: |
+      `designation` returns `as_dict["designation"]` whenever that key exists, even when its value is `None`, and only falls back to `name` when the key is absent. `has_element_identifier` instead accepts a match whose `designation` is `None` as long as `name` is set. For `(?P<designation>a)?(?P<name>.*)\.txt` against `b.txt`, the check passes but `element_identifiers == [None]`, so the collection crash the commit targets can still happen. This only matters if `4c330c4ed47` stays (see P2 1).
+    fix: |
+      Changed `has_element_identifier` to `return None not in self.element_identifiers`, so it checks the identifiers discovery actually uses. Added a unit test for the pattern above; it fails without the change.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+  - id: P3 2
+    include: true
+    title: New unit tests leak temp directories and carry a redundant assertion
+    summary: use TemporaryDirectory like the neighbouring test and drop the intermediate match.ext check.
+    implementation_verified: true
+    issue: |
+      Both new tests create their working directory with `tempfile.mkdtemp()` and never remove it; the neighbouring test uses `tempfile.TemporaryDirectory()`. The intermediate `filenames[0].match.ext == "data"` assertion ties the test to the match object, and the final `extension == "data"` check already covers the behavior. Optional.
+    fix: |
+      Wrapped both tests in `tempfile.TemporaryDirectory()` and removed the intermediate assertion.
+    discovered_by:
+      - {profile: gx_test_challenger, model: Claude Opus 5.5, effort: low}
