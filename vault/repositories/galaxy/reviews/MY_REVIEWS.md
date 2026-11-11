@@ -4,7 +4,7 @@
 - [#24818](https://github.com/galaxyproject/galaxy/pull/24818) — initial review on `efa3e7bbdaf` ready, unposted (three P2s + seven P3s; nine fixed on `pr_24818_round_0_rev_0`, not pushed into PR). [notes](active/24818/index.md)
 - [#24817](https://github.com/galaxyproject/galaxy/pull/24817) — approved 2026-11-10 on `5a70538cf56`; review-branch fixes (`5777dbf0421`) pushed to PR branch; awaiting merge. [notes](active/24817/index.md)
 - [#24798](https://github.com/galaxyproject/galaxy/pull/24798) — John posted P3 5 (new type) 2026-11-09; author adopted it in force-push `50af35ba627`; rest of round 0 (`5abbfd9d5a6`, in context of #23888) unposted, stale vs new head. [notes](active/24798/index.md)
-- [#24738](https://github.com/galaxyproject/galaxy/pull/24738) — initial review on `c55d04482f9` ready, unposted (four P2s + seven P3s; eight fixed on `pr_24738_round_0_rev_0`, not pushed into PR). [notes](active/24738/index.md)
+- [#24738](https://github.com/galaxyproject/galaxy/pull/24738) — initial review on `c55d04482f9` ready, unposted (trimmed to two P2s + three P3s; all fixed on `pr_24738_round_0_rev_1`, not pushed into PR). [notes](active/24738/index.md)
 - [#24770](https://github.com/galaxyproject/galaxy/pull/24770) — approved 2026-11-10 with review response; four P3s fixed on `pr_24770_round_0_rev_2`, pushed into PR (head `1115269108f`); awaiting merge. [notes](active/24770/index.md)
 - [#24700](https://github.com/galaxyproject/galaxy/pull/24700) — initial review on `ef448e3cde0` unposted (three P3s; fixes from `pr_24700_round_0_rev_0` pushed into PR, head `141c94cad96`). [notes](active/24700/index.md)
 
