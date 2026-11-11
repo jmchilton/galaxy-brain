@@ -3,6 +3,7 @@ related_records:
   - foundry/issues/798
   - foundry/issues/796
   - foundry/issues/781
+  - foundry/issues/800
 ---
 
 # #784 nextflow-to-galaxy: emit a Nextflow-vs-Galaxy divergence report at the end of the run
