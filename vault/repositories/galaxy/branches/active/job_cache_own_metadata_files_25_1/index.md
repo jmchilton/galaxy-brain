@@ -8,11 +8,11 @@ upstream_base_branch: release_25.1
 
 ## Status
 
-Implementation in progress.
+Parked for a scope decision: the second scope evaluation recommends also filtering purged replacements in `get_replacement_dataset` (see `implementation_debrief.md`).
 
-No PR yet.
+No PR yet; the fork branch is at `ff28c6828a9`, and a restructured history waits on local `job_cache_own_metadata_files_25_1_refactor_baseline_2`.
 
-No CI yet.
+No CI yet; local unit, integration, API and Postgres pgcleanup tests pass.
 
 ## Decisions
 
