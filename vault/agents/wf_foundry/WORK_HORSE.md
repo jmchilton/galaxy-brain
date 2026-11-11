@@ -18,7 +18,7 @@ After you're done with the implementation - run a "Normal Review Subagent" with 
 
 After you're done - please harden the branch according to `../_shared/PROCESS_GENERIC_HARDEN_BRANCH.md`.
 
-Please have a subagent review the work using `.reviewers/DOMAIN_REVIEW.md` and make sure the work aligns with project values and best practices. Make changes according to this work.
+Please have a subagent review the work using [reviewers/DOMAIN_REVIEW.md](reviewers/DOMAIN_REVIEW.md) and make sure the work aligns with project values and best practices. Make changes according to this work.
 
 If this PR contains a more than a few lines of Markdown related to documentation, notes, or skills - please have a subagent review it using `FOUNDRY_BRANCH/.agents/skills/foundry-documentation/SKILL.md` and make sure the documentation and skills read well and within project standards and rewrite as needed.
 
