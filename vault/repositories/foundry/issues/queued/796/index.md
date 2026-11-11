@@ -4,6 +4,8 @@ related_records:
   - foundry/issues/798
   - foundry/issues/781
   - foundry/issues/800
+  - gxformat2/issues/295
+  - gxformat2/branches/issue_295_workflow_diff
 ---
 
 # #796 Test phase: steps removed to make planemo test pass are never checked against the extracted workflow or restored

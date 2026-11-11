@@ -1,5 +1,6 @@
 ---
 upstream_base_branch: main
+pr: 801
 related_records: foundry/issues/789
 ---
 # Maturation README describes the finished workflow, not its development history
@@ -9,9 +10,11 @@ related_records: foundry/issues/789
 
 ## Status
 
-Polished at `dbe77aaf` on `~/projects/worktrees/foundry/branch/issue-789-readme-no-archeology`, branched from `origin/main` at `8cbb5f22`; ready for John's final review.
+Polished at `dbe77aaf` on `~/projects/worktrees/foundry/branch/issue-789-readme-no-archeology`, branched from `origin/main` at `8cbb5f22`.
 
-No PR yet: opening the draft was blocked by the permission classifier.
+Draft PR [#801](https://github.com/galaxyproject/foundry/pull/801), opened by John 2026-11-11.
+
+CI on `dbe77aaf` is running.
 
 Local `make check`: green apart from `validate-roadmap` (#783 missing from #768's roadmap, live GitHub state) and `check-vendored` (machine-only).
 

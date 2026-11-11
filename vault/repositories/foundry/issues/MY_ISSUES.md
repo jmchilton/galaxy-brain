@@ -54,7 +54,7 @@ None yet.
 
 ## In motion (`wip`)
 
-- (mvp) [#789](https://github.com/galaxyproject/foundry/issues/789) — maturation Mold's README carries development archeology (failed runs, old invocations); branch `issue-789-readme-no-archeology`. [notes](wip/789/index.md)
+- (mvp) [#789](https://github.com/galaxyproject/foundry/issues/789) — maturation Mold's README carries development archeology (failed runs, old invocations); draft PR [#801](https://github.com/galaxyproject/foundry/pull/801). [notes](wip/789/index.md)
 - [#775](https://github.com/galaxyproject/foundry/issues/775) — verification CI used `planemo lint` (tool XML), hiding bad shed pins and strict-schema errors; PR [#779](https://github.com/galaxyproject/foundry/pull/779). [notes](wip/775/index.md)
 - (mvp) [#674](https://github.com/galaxyproject/foundry/issues/674) — interface notes lack a shape-changing param rule; PR [#759](https://github.com/galaxyproject/foundry/pull/759), part of the issue. [notes](wip/674/index.md)
 - [#534](https://github.com/galaxyproject/foundry/issues/534) — Replace abstract summarize-nextflow scenarios with concrete pinned fixtures; branch `issue-534-concrete-nextflow-scenarios`. [notes](wip/534/index.md)
@@ -73,6 +73,8 @@ None yet.
 
 - (mvp) [#796](https://github.com/galaxyproject/foundry/issues/796) — test phase removes steps to go green, unchecked; next: `gxwf` draft diff + `run-workflow-test` label check (parts 1–2 only). [notes](queued/796/index.md)
 - (mvp) [#781](https://github.com/galaxyproject/foundry/issues/781) — nothing checks Galaxy step state against captured nf-core `ext.args`; next: template copies `resolved_args` into `_plan_state`. [notes](queued/781/index.md)
+- (mvp) [#798](https://github.com/galaxyproject/foundry/issues/798) — multi-path pipelines (sarek) narrow scope silently; next: interface Mold records scope decisions (stacked, see 784/stack_plan.md). [notes](queued/798/index.md)
+- (mvp) [#784](https://github.com/galaxyproject/foundry/issues/784) — end-of-run Nextflow-vs-Galaxy divergence report; next: report-only Nextflow parity Mold, top of stack. [notes](queued/784/index.md)
 - (mvp) [#758](https://github.com/galaxyproject/foundry/issues/758) — pages say `when` can't act per element; next: implement after #755 and open a PR. [notes](queued/758/index.md)
 - [#3](https://github.com/galaxyproject/foundry/issues/3) — Hero pipeline-fan widget (replace pipeline matrix / new /pipelines/ landing); next: implement and open a PR. [notes](queued/3/index.md)
 - (large) [#40](https://github.com/galaxyproject/foundry/issues/40) — Write IWC exemplar match schema; next: implement and open a PR. [notes](queued/40/index.md)
@@ -91,8 +93,6 @@ None yet.
 
 ## Queued to research (`queued_research`)
 
-- (mvp) [#798](https://github.com/galaxyproject/foundry/issues/798) — multi-path pipelines (sarek) narrow scope silently; next: research which Mold owns the scope decision. [notes](queued/798/index.md)
-- (mvp) [#784](https://github.com/galaxyproject/foundry/issues/784) — end-of-run Nextflow-vs-Galaxy divergence report; next: design the report-only Nextflow parity Mold. [notes](queued/784/index.md)
 - [#800](https://github.com/galaxyproject/foundry/issues/800) — test phase never restores steps removed on a later-disproved reason (split from #796); next: research after #796/#784 land. [notes](queued/800/index.md)
 - [#48](https://github.com/galaxyproject/foundry/issues/48) — Write target test plan schema; next: research and add a first comment. [notes](queued/48/index.md)
 - [#49](https://github.com/galaxyproject/foundry/issues/49) — Write workflow test run report schema; next: research and add a first comment. [notes](queued/49/index.md)
