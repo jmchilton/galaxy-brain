@@ -3,18 +3,22 @@
 
 import { div } from "gpui-kit";
 import { h_flex, v_flex } from "gpui-base";
+import { settings } from "herdr";
 import type { FindingsCheck, FindingsPanel } from "../../herdr-plugin/src/findings-types";
+import type { CodeToken } from "../../obsidian-plugin/src/diff-highlight";
 import type { Action } from "../../review-factory/src/model";
 import { type LandingFinding, noteLabel, statusTone, type Tone } from "../../review-factory/src/landing";
 import { chip } from "./chip";
+import { codeLine, ROW } from "./diff-lines";
 import type { MarkdownBlock } from "./markdown-blocks";
 import { type MarkdownHost, renderMarkdown } from "./markdown-view";
+import { type CommitLines, linesWidth } from "./review-rows";
 
 type Cx = any;
 type El = any;
 
 export interface FindingsUi {
-	/** Finding ids, FILTERED and previews, opened by hand. */
+	/** Finding ids, FILTERED, previews and commit keys, opened by hand. */
 	opened: Set<string>;
 	blocks(text: string): MarkdownBlock[];
 	markdownHost(scope: string): MarkdownHost;
@@ -25,7 +29,15 @@ export interface FindingsUi {
 	check: FindingsCheck | null;
 	checking: boolean;
 	runCheck(cx: Cx): void;
+	/** A fixing commit's lines; undefined until first opened. */
+	commit(sha: string): ShownCommit | "loading" | undefined;
+	toggleCommit(sha: string, cx: Cx): void;
 }
+
+/** Lines with their tokens, row for row. */
+export type ShownCommit = { missing: string } | { files: Array<CommitLines["files"][number] & { tokens: CodeToken[][] }>; hidden: number };
+
+export const commitKey = (sha: string) => `commit:${sha}`;
 
 const FILTERED = "filtered";
 const COMMENT_PREVIEW = "preview:comment";
@@ -56,9 +68,66 @@ function heading(t: any, text: string): El {
 	return div().text_size(11.5).font_semibold().text_color(t.dim).child(text);
 }
 
+function commitBody(t: any, shown: ShownCommit | "loading" | undefined, sha: string): El {
+	if (!shown || shown === "loading") return div().pl(16).text_size(12).text_color(t.dim).child("Loading…");
+	if ("missing" in shown) return div().pl(16).text_size(12).text_color(t.ansi3).child(`⚠️ ${shown.missing}`);
+	const lines = shown.files.flatMap((file) => file.rows);
+	return v_flex()
+		.rounded(4)
+		.border_1()
+		.border_color(t.border)
+		.font_family(settings().font_family ?? "JetBrains Mono")
+		.text_size(12)
+		.child(
+			div()
+				.id(`gb-fd-diff-${safeId(sha)}`)
+				.w_full()
+				.h(ROW * (lines.length + shown.files.length))
+				.overflow_x_scrollbar()
+				.child(
+					v_flex()
+						.min_w(linesWidth(lines))
+						.children(
+							shown.files.flatMap((file) => [
+								h_flex()
+									.h(ROW)
+									.px(8)
+									.gap(8)
+									.items_center()
+									.bg(t.raised)
+									.child(div().flex_none().font_semibold().child(file.path))
+									.child(div().flex_none().text_color(t.ansi2).child(`+${file.added}`))
+									.child(div().flex_none().text_color(t.ansi1).child(`−${file.removed}`)),
+								...file.rows.map((row, i) => codeLine(t, row, file.tokens[i] ?? [{ text: row.text }])),
+							]),
+						),
+				),
+		)
+		.when(shown.hidden > 0, (el: El) => el.child(div().h(ROW).px(8).text_color(t.dim).child(`… ${shown.hidden} more lines: git show ${sha}`)));
+}
+
+function commitRow(t: any, ui: FindingsUi, { sha, subject }: LandingFinding["fixedIn"][number]): El {
+	const open = ui.opened.has(commitKey(sha));
+	return v_flex()
+		.gap(4)
+		.child(
+			h_flex()
+				.id(`gb-fd-commit-${safeId(sha)}`)
+				.gap(6)
+				.cursor_pointer()
+				.tooltip(open ? "Hide the diff" : "Show the diff")
+				.on_click((_e: unknown, cx: Cx) => ui.toggleCommit(sha, cx))
+				.child(div().flex_none().text_color(t.dim).child(open ? "▾" : "▸"))
+				.child(div().flex_none().text_color(t.dim).child(`🌿 ${sha}`))
+				.child(div().flex_1().min_w(0).truncate().child(subject)),
+		)
+		.when(open, (el: El) => el.child(commitBody(t, ui.commit(sha), sha)));
+}
+
 function findingRow(t: any, ui: FindingsUi, f: LandingFinding): El {
 	const key = safeId(f.id);
 	const open = ui.opened.has(f.id);
+	const expandable = Boolean(f.text) || f.fixedIn.length > 0;
 	const detail = f.filtered ? `${f.filtered.category}: ${f.filtered.reason}` : f.summary;
 	return v_flex()
 		.gap(4)
@@ -72,19 +141,27 @@ function findingRow(t: any, ui: FindingsUi, f: LandingFinding): El {
 						.id(`gb-fd-row-${key}`)
 						.flex_1()
 						.min_w(0)
-						.when(Boolean(f.text), (el: El) => el.cursor_pointer().on_click((_e: unknown, cx: Cx) => toggle(ui, f.id)(cx)))
+						.when(expandable, (el: El) => el.cursor_pointer().on_click((_e: unknown, cx: Cx) => toggle(ui, f.id)(cx)))
 						.child(
 							h_flex()
 								.gap(6)
-								.child(div().flex_none().text_color(t.dim).child(f.text ? (open ? "▾" : "▸") : " "))
+								.child(div().flex_none().text_color(t.dim).child(expandable ? (open ? "▾" : "▸") : " "))
 								.child(div().flex_none().font_semibold().child(f.id))
 								.child(div().flex_1().min_w(0).text_color(f.include ? t.foreground : t.muted).child(f.title))
-								.when(f.fixedIn.length > 0, (el: El) => el.child(div().flex_none().text_size(11).text_color(t.dim).child(`🌿 ${f.fixedIn.join(", ")}`))),
+								.when(f.fixedIn.length > 0, (el: El) => el.child(div().flex_none().text_size(11).text_color(t.dim).child(`🌿 ${f.fixedIn.map((c) => c.sha).join(", ")}`))),
 						)
 						.child(div().pl(16).text_size(12).text_color(t.dim).child(detail)),
 				),
 		)
-		.when(open && Boolean(f.text), (el: El) => el.child(div().pl(26).child(renderMarkdown(t, ui.blocks(f.text!), ui.markdownHost(`fd-${key}`)))));
+		.when(open && expandable, (el: El) =>
+			el.child(
+				v_flex()
+					.pl(26)
+					.gap(6)
+					.when(Boolean(f.text), (el: El) => el.child(renderMarkdown(t, ui.blocks(f.text!), ui.markdownHost(`fd-${key}`))))
+					.children(f.fixedIn.map((c) => commitRow(t, ui, c))),
+			),
+		);
 }
 
 function checkRow(t: any, ui: FindingsUi): El {

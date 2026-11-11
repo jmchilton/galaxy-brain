@@ -113,6 +113,45 @@ var init_repository_tabs = __esm({
   }
 });
 
+// src/record-frontmatter.ts
+function recordFrontmatter(body) {
+  const block = /^---\n([\s\S]*?)^---$/m.exec(body);
+  if (!block || block.index !== 0) return {};
+  const raw = {};
+  let listKey;
+  for (const line of block[1].split("\n")) {
+    const item2 = /^\s*-\s+(.+)$/.exec(line);
+    if (item2 && listKey) {
+      raw[listKey].push(unquote(item2[1]));
+      continue;
+    }
+    listKey = void 0;
+    const m = /^(\w+):\s*(.*?)\s*$/.exec(line);
+    if (!m) continue;
+    const key2 = m[1];
+    const value = m[2];
+    const flow = /^\[(.*)\]$/.exec(value);
+    if (flow) raw[key2] = flow[1].split(",").map(unquote).filter(Boolean);
+    else if (value) raw[key2] = [unquote(value)];
+    else raw[listKey = key2] = [];
+  }
+  const fields = {};
+  for (const key2 of STRING_FIELDS) if (raw[key2]?.[0]) fields[key2] = raw[key2][0];
+  for (const key2 of LIST_FIELDS) if (raw[key2]?.length) fields[key2] = raw[key2];
+  const pr = raw.pr?.[0];
+  if (pr && /^\d+$/.test(pr)) fields.pr = Number(pr);
+  return fields;
+}
+var STRING_FIELDS, LIST_FIELDS, unquote;
+var init_record_frontmatter = __esm({
+  "src/record-frontmatter.ts"() {
+    "use strict";
+    STRING_FIELDS = ["upstream_base_branch", "parent_branch"];
+    LIST_FIELDS = ["blockers", "blocking", "related_records", "child_branches"];
+    unquote = (value) => value.trim().replace(/^(["'])(.*)\1$/, "$2");
+  }
+});
+
 // ../site/src/lib/records.ts
 function isReviewableRecordKind(kind) {
   return REVIEWABLE_RECORD_KINDS.includes(kind);
@@ -230,6 +269,1926 @@ var init_records = __esm({
       issues: "MY_ISSUES.md",
       reviews: "MY_REVIEWS.md"
     };
+  }
+});
+
+// ../differential-review-lib/src/core/types.ts
+function isPhase(value) {
+  return PHASES.includes(value);
+}
+var SNAPSHOT_SCHEMA_VERSION, REVIEW_STATE_SCHEMA_VERSION, FINGERPRINT_VERSION, PHASES;
+var init_types = __esm({
+  "../differential-review-lib/src/core/types.ts"() {
+    "use strict";
+    SNAPSHOT_SCHEMA_VERSION = 1;
+    REVIEW_STATE_SCHEMA_VERSION = 1;
+    FINGERPRINT_VERSION = "h1";
+    PHASES = ["implementation", "hardening", "polishing", "revision", "review"];
+  }
+});
+
+// ../differential-review-lib/node_modules/diff/libesm/diff/base.js
+var Diff;
+var init_base = __esm({
+  "../differential-review-lib/node_modules/diff/libesm/diff/base.js"() {
+    Diff = class {
+      diff(oldStr, newStr, options = {}) {
+        let callback;
+        if (typeof options === "function") {
+          callback = options;
+          options = {};
+        } else if ("callback" in options) {
+          callback = options.callback;
+        }
+        const oldString = this.castInput(oldStr, options);
+        const newString = this.castInput(newStr, options);
+        const oldTokens = this.removeEmpty(this.tokenize(oldString, options));
+        const newTokens = this.removeEmpty(this.tokenize(newString, options));
+        return this.diffWithOptionsObj(oldTokens, newTokens, options, callback);
+      }
+      diffWithOptionsObj(oldTokens, newTokens, options, callback) {
+        var _a;
+        const done = (value) => {
+          value = this.postProcess(value, options);
+          if (callback) {
+            setTimeout(function() {
+              callback(value);
+            }, 0);
+            return void 0;
+          } else {
+            return value;
+          }
+        };
+        const newLen = newTokens.length, oldLen = oldTokens.length;
+        let editLength = 1;
+        let maxEditLength = newLen + oldLen;
+        if (options.maxEditLength != null) {
+          maxEditLength = Math.min(maxEditLength, options.maxEditLength);
+        }
+        const maxExecutionTime = (_a = options.timeout) !== null && _a !== void 0 ? _a : Infinity;
+        const abortAfterTimestamp = Date.now() + maxExecutionTime;
+        const bestPath = [{ oldPos: -1, lastComponent: void 0 }];
+        let newPos = this.extractCommon(bestPath[0], newTokens, oldTokens, 0, options);
+        if (bestPath[0].oldPos + 1 >= oldLen && newPos + 1 >= newLen) {
+          return done(this.buildValues(bestPath[0].lastComponent, newTokens, oldTokens));
+        }
+        let minDiagonalToConsider = -Infinity, maxDiagonalToConsider = Infinity;
+        const execEditLength = () => {
+          for (let diagonalPath = Math.max(minDiagonalToConsider, -editLength); diagonalPath <= Math.min(maxDiagonalToConsider, editLength); diagonalPath += 2) {
+            let basePath;
+            const removePath = bestPath[diagonalPath - 1], addPath = bestPath[diagonalPath + 1];
+            if (removePath) {
+              bestPath[diagonalPath - 1] = void 0;
+            }
+            let canAdd = false;
+            if (addPath) {
+              const addPathNewPos = addPath.oldPos - diagonalPath;
+              canAdd = addPath && 0 <= addPathNewPos && addPathNewPos < newLen;
+            }
+            const canRemove = removePath && removePath.oldPos + 1 < oldLen;
+            if (!canAdd && !canRemove) {
+              bestPath[diagonalPath] = void 0;
+              continue;
+            }
+            if (!canRemove || canAdd && removePath.oldPos < addPath.oldPos) {
+              basePath = this.addToPath(addPath, true, false, 0, options);
+            } else {
+              basePath = this.addToPath(removePath, false, true, 1, options);
+            }
+            newPos = this.extractCommon(basePath, newTokens, oldTokens, diagonalPath, options);
+            if (basePath.oldPos + 1 >= oldLen && newPos + 1 >= newLen) {
+              return done(this.buildValues(basePath.lastComponent, newTokens, oldTokens)) || true;
+            } else {
+              bestPath[diagonalPath] = basePath;
+              if (basePath.oldPos + 1 >= oldLen) {
+                maxDiagonalToConsider = Math.min(maxDiagonalToConsider, diagonalPath - 1);
+              }
+              if (newPos + 1 >= newLen) {
+                minDiagonalToConsider = Math.max(minDiagonalToConsider, diagonalPath + 1);
+              }
+            }
+          }
+          editLength++;
+        };
+        if (callback) {
+          (function exec() {
+            setTimeout(function() {
+              if (editLength > maxEditLength || Date.now() > abortAfterTimestamp) {
+                return callback(void 0);
+              }
+              if (!execEditLength()) {
+                exec();
+              }
+            }, 0);
+          })();
+        } else {
+          while (editLength <= maxEditLength && Date.now() <= abortAfterTimestamp) {
+            const ret = execEditLength();
+            if (ret) {
+              return ret;
+            }
+          }
+        }
+      }
+      addToPath(path, added, removed, oldPosInc, options) {
+        const last = path.lastComponent;
+        if (last && !options.oneChangePerToken && last.added === added && last.removed === removed) {
+          return {
+            oldPos: path.oldPos + oldPosInc,
+            lastComponent: { count: last.count + 1, added, removed, previousComponent: last.previousComponent }
+          };
+        } else {
+          return {
+            oldPos: path.oldPos + oldPosInc,
+            lastComponent: { count: 1, added, removed, previousComponent: last }
+          };
+        }
+      }
+      extractCommon(basePath, newTokens, oldTokens, diagonalPath, options) {
+        const newLen = newTokens.length, oldLen = oldTokens.length;
+        let oldPos = basePath.oldPos, newPos = oldPos - diagonalPath, commonCount = 0;
+        while (newPos + 1 < newLen && oldPos + 1 < oldLen && this.equals(oldTokens[oldPos + 1], newTokens[newPos + 1], options)) {
+          newPos++;
+          oldPos++;
+          commonCount++;
+          if (options.oneChangePerToken) {
+            basePath.lastComponent = { count: 1, previousComponent: basePath.lastComponent, added: false, removed: false };
+          }
+        }
+        if (commonCount && !options.oneChangePerToken) {
+          basePath.lastComponent = { count: commonCount, previousComponent: basePath.lastComponent, added: false, removed: false };
+        }
+        basePath.oldPos = oldPos;
+        return newPos;
+      }
+      equals(left, right, options) {
+        if (options.comparator) {
+          return options.comparator(left, right);
+        } else {
+          return left === right || !!options.ignoreCase && left.toLowerCase() === right.toLowerCase();
+        }
+      }
+      removeEmpty(array) {
+        const ret = [];
+        for (let i = 0; i < array.length; i++) {
+          if (array[i]) {
+            ret.push(array[i]);
+          }
+        }
+        return ret;
+      }
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      castInput(value, options) {
+        return value;
+      }
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      tokenize(value, options) {
+        return Array.from(value);
+      }
+      join(chars) {
+        return chars.join("");
+      }
+      postProcess(changeObjects, options) {
+        return changeObjects;
+      }
+      get useLongestToken() {
+        return false;
+      }
+      buildValues(lastComponent, newTokens, oldTokens) {
+        const components = [];
+        let nextComponent;
+        while (lastComponent) {
+          components.push(lastComponent);
+          nextComponent = lastComponent.previousComponent;
+          delete lastComponent.previousComponent;
+          lastComponent = nextComponent;
+        }
+        components.reverse();
+        const componentLen = components.length;
+        let componentPos = 0, newPos = 0, oldPos = 0;
+        for (; componentPos < componentLen; componentPos++) {
+          const component = components[componentPos];
+          if (!component.removed) {
+            if (!component.added && this.useLongestToken) {
+              let value = newTokens.slice(newPos, newPos + component.count);
+              value = value.map(function(value2, i) {
+                const oldValue = oldTokens[oldPos + i];
+                return oldValue.length > value2.length ? oldValue : value2;
+              });
+              component.value = this.join(value);
+            } else {
+              component.value = this.join(newTokens.slice(newPos, newPos + component.count));
+            }
+            newPos += component.count;
+            if (!component.added) {
+              oldPos += component.count;
+            }
+          } else {
+            component.value = this.join(oldTokens.slice(oldPos, oldPos + component.count));
+            oldPos += component.count;
+          }
+        }
+        return components;
+      }
+    };
+  }
+});
+
+// ../differential-review-lib/node_modules/diff/libesm/diff/character.js
+function diffChars(oldStr, newStr, options) {
+  return characterDiff.diff(oldStr, newStr, options);
+}
+var CharacterDiff, characterDiff;
+var init_character = __esm({
+  "../differential-review-lib/node_modules/diff/libesm/diff/character.js"() {
+    init_base();
+    CharacterDiff = class extends Diff {
+    };
+    characterDiff = new CharacterDiff();
+  }
+});
+
+// ../differential-review-lib/node_modules/diff/libesm/diff/line.js
+function diffLines(oldStr, newStr, options) {
+  return lineDiff.diff(oldStr, newStr, options);
+}
+function tokenize(value, options) {
+  if (options.stripTrailingCr) {
+    value = value.replace(/\r\n/g, "\n");
+  }
+  const retLines = [], linesAndNewlines = value.split(/(\n|\r\n)/);
+  if (!linesAndNewlines[linesAndNewlines.length - 1]) {
+    linesAndNewlines.pop();
+  }
+  for (let i = 0; i < linesAndNewlines.length; i++) {
+    const line = linesAndNewlines[i];
+    if (i % 2 && !options.newlineIsToken) {
+      retLines[retLines.length - 1] += line;
+    } else {
+      retLines.push(line);
+    }
+  }
+  return retLines;
+}
+var LineDiff, lineDiff;
+var init_line = __esm({
+  "../differential-review-lib/node_modules/diff/libesm/diff/line.js"() {
+    init_base();
+    LineDiff = class extends Diff {
+      constructor() {
+        super(...arguments);
+        this.tokenize = tokenize;
+      }
+      equals(left, right, options) {
+        if (options.ignoreWhitespace) {
+          if (!options.newlineIsToken || !left.includes("\n")) {
+            left = left.trim();
+          }
+          if (!options.newlineIsToken || !right.includes("\n")) {
+            right = right.trim();
+          }
+        } else if (options.ignoreNewlineAtEof && !options.newlineIsToken) {
+          if (left.endsWith("\n")) {
+            left = left.slice(0, -1);
+          }
+          if (right.endsWith("\n")) {
+            right = right.slice(0, -1);
+          }
+        }
+        return super.equals(left, right, options);
+      }
+    };
+    lineDiff = new LineDiff();
+  }
+});
+
+// ../differential-review-lib/node_modules/diff/libesm/diff/array.js
+function diffArrays(oldArr, newArr, options) {
+  return arrayDiff.diff(oldArr, newArr, options);
+}
+var ArrayDiff, arrayDiff;
+var init_array = __esm({
+  "../differential-review-lib/node_modules/diff/libesm/diff/array.js"() {
+    init_base();
+    ArrayDiff = class extends Diff {
+      tokenize(value) {
+        return value.slice();
+      }
+      join(value) {
+        return value;
+      }
+      removeEmpty(value) {
+        return value;
+      }
+    };
+    arrayDiff = new ArrayDiff();
+  }
+});
+
+// ../differential-review-lib/node_modules/diff/libesm/patch/parse.js
+function parsePatch(uniDiff) {
+  const diffstr = uniDiff.split(/\n/), list3 = [];
+  let i = 0;
+  function isGitDiffHeader(line) {
+    return /^diff --git /.test(line);
+  }
+  function isDiffHeader(line) {
+    return isGitDiffHeader(line) || /^Index:\s/.test(line) || /^diff(?: -r \w+)+\s/.test(line);
+  }
+  function isFileHeader(line) {
+    return /^(---|\+\+\+)\s/.test(line);
+  }
+  function isHunkHeader(line) {
+    return /^@@\s/.test(line);
+  }
+  function parseIndex() {
+    var _a;
+    const index = {};
+    index.hunks = [];
+    list3.push(index);
+    let seenDiffHeader = false;
+    while (i < diffstr.length) {
+      const line = diffstr[i];
+      if (isFileHeader(line) || isHunkHeader(line)) {
+        break;
+      }
+      if (isGitDiffHeader(line)) {
+        if (seenDiffHeader) {
+          return;
+        }
+        seenDiffHeader = true;
+        index.isGit = true;
+        const paths = parseGitDiffHeader(line);
+        if (paths) {
+          index.oldFileName = paths.oldFileName;
+          index.newFileName = paths.newFileName;
+        }
+        i++;
+        while (i < diffstr.length) {
+          const extLine = diffstr[i];
+          if (isFileHeader(extLine) || isHunkHeader(extLine) || isDiffHeader(extLine)) {
+            break;
+          }
+          const renameFromMatch = /^rename from (.*)/.exec(extLine);
+          if (renameFromMatch) {
+            index.oldFileName = "a/" + unquoteIfQuoted(renameFromMatch[1]);
+            index.isRename = true;
+          }
+          const renameToMatch = /^rename to (.*)/.exec(extLine);
+          if (renameToMatch) {
+            index.newFileName = "b/" + unquoteIfQuoted(renameToMatch[1]);
+            index.isRename = true;
+          }
+          const copyFromMatch = /^copy from (.*)/.exec(extLine);
+          if (copyFromMatch) {
+            index.oldFileName = "a/" + unquoteIfQuoted(copyFromMatch[1]);
+            index.isCopy = true;
+          }
+          const copyToMatch = /^copy to (.*)/.exec(extLine);
+          if (copyToMatch) {
+            index.newFileName = "b/" + unquoteIfQuoted(copyToMatch[1]);
+            index.isCopy = true;
+          }
+          const newFileModeMatch = /^new file mode (\d+)/.exec(extLine);
+          if (newFileModeMatch) {
+            index.isCreate = true;
+            index.newMode = newFileModeMatch[1];
+          }
+          const deletedFileModeMatch = /^deleted file mode (\d+)/.exec(extLine);
+          if (deletedFileModeMatch) {
+            index.isDelete = true;
+            index.oldMode = deletedFileModeMatch[1];
+          }
+          const oldModeMatch = /^old mode (\d+)/.exec(extLine);
+          if (oldModeMatch) {
+            index.oldMode = oldModeMatch[1];
+          }
+          const newModeMatch = /^new mode (\d+)/.exec(extLine);
+          if (newModeMatch) {
+            index.newMode = newModeMatch[1];
+          }
+          if (/^Binary files /.test(extLine)) {
+            index.isBinary = true;
+          }
+          i++;
+        }
+        continue;
+      } else if (isDiffHeader(line)) {
+        if (seenDiffHeader) {
+          return;
+        }
+        seenDiffHeader = true;
+        const headerMatch = /^(?:Index:|diff(?: -r \w+)+)\s+/.exec(line);
+        if (headerMatch) {
+          index.index = line.substring(headerMatch[0].length).trim();
+        }
+      }
+      i++;
+    }
+    parseFileHeader(index);
+    parseFileHeader(index);
+    if (index.oldFileName === void 0 !== (index.newFileName === void 0)) {
+      throw new Error("Missing " + (index.oldFileName !== void 0 ? '"+++ ..."' : '"--- ..."') + " file header for " + ((_a = index.oldFileName) !== null && _a !== void 0 ? _a : index.newFileName));
+    }
+    while (i < diffstr.length) {
+      const line = diffstr[i];
+      if (isDiffHeader(line) || isFileHeader(line) || /^===================================================================/.test(line)) {
+        break;
+      } else if (isHunkHeader(line)) {
+        index.hunks.push(parseHunk());
+      } else {
+        i++;
+      }
+    }
+  }
+  function parseGitDiffHeader(line) {
+    const rest = line.substring("diff --git ".length);
+    if (rest.startsWith('"')) {
+      const oldPath = parseQuotedFileName(rest);
+      if (oldPath === null) {
+        return null;
+      }
+      const afterOld = rest.substring(oldPath.rawLength + 1);
+      let newFileName;
+      if (afterOld.startsWith('"')) {
+        const newPath = parseQuotedFileName(afterOld);
+        if (newPath === null) {
+          return null;
+        }
+        newFileName = newPath.fileName;
+      } else {
+        newFileName = afterOld;
+      }
+      return {
+        oldFileName: oldPath.fileName,
+        newFileName
+      };
+    }
+    const quoteIdx = rest.indexOf('"');
+    if (quoteIdx > 0) {
+      const oldFileName = rest.substring(0, quoteIdx - 1);
+      const newPath = parseQuotedFileName(rest.substring(quoteIdx));
+      if (newPath === null) {
+        return null;
+      }
+      return {
+        oldFileName,
+        newFileName: newPath.fileName
+      };
+    }
+    if (rest.startsWith("a/")) {
+      const splits = [];
+      let idx = 0;
+      while (true) {
+        idx = rest.indexOf(" b/", idx + 1);
+        if (idx === -1) {
+          break;
+        }
+        splits.push(idx);
+      }
+      if (splits.length > 0) {
+        const mid = splits[Math.floor(splits.length / 2)];
+        return {
+          oldFileName: rest.substring(0, mid),
+          newFileName: rest.substring(mid + 1)
+        };
+      }
+    }
+    return null;
+  }
+  function unquoteIfQuoted(s) {
+    if (s.startsWith('"')) {
+      const parsed = parseQuotedFileName(s);
+      if (parsed) {
+        return parsed.fileName;
+      }
+    }
+    return s;
+  }
+  function parseQuotedFileName(s) {
+    if (!s.startsWith('"')) {
+      return null;
+    }
+    let result = "";
+    let j = 1;
+    while (j < s.length) {
+      if (s[j] === '"') {
+        return { fileName: result, rawLength: j + 1 };
+      }
+      if (s[j] === "\\" && j + 1 < s.length) {
+        j++;
+        switch (s[j]) {
+          case "a":
+            result += "\x07";
+            break;
+          case "b":
+            result += "\b";
+            break;
+          case "f":
+            result += "\f";
+            break;
+          case "n":
+            result += "\n";
+            break;
+          case "r":
+            result += "\r";
+            break;
+          case "t":
+            result += "	";
+            break;
+          case "v":
+            result += "\v";
+            break;
+          case "\\":
+            result += "\\";
+            break;
+          case '"':
+            result += '"';
+            break;
+          case "0":
+          case "1":
+          case "2":
+          case "3":
+          case "4":
+          case "5":
+          case "6":
+          case "7": {
+            if (j + 2 >= s.length || s[j + 1] < "0" || s[j + 1] > "7" || s[j + 2] < "0" || s[j + 2] > "7") {
+              return null;
+            }
+            const bytes = [parseInt(s.substring(j, j + 3), 8)];
+            j += 3;
+            while (s[j] === "\\" && s[j + 1] >= "0" && s[j + 1] <= "7") {
+              if (j + 3 >= s.length || s[j + 2] < "0" || s[j + 2] > "7" || s[j + 3] < "0" || s[j + 3] > "7") {
+                return null;
+              }
+              bytes.push(parseInt(s.substring(j + 1, j + 4), 8));
+              j += 4;
+            }
+            result += new TextDecoder("utf-8").decode(new Uint8Array(bytes));
+            continue;
+          }
+          // Note that in C, there are also three kinds of hex escape sequences:
+          // - \xhh
+          // - \uhhhh
+          // - \Uhhhhhhhh
+          // We do not bother to parse them here because, so far as we know,
+          // they are never emitted by any tools that generate unified diff
+          // format diffs, and so for now jsdiff does not consider them legal.
+          default:
+            return null;
+        }
+      } else {
+        result += s[j];
+      }
+      j++;
+    }
+    return null;
+  }
+  function parseFileHeader(index) {
+    const fileHeaderMatch = /^(---|\+\+\+)\s+/.exec(diffstr[i]);
+    if (fileHeaderMatch) {
+      const prefix = fileHeaderMatch[1], data = diffstr[i].substring(3).trim().split("	", 2), header = (data[1] || "").trim();
+      let fileName = data[0];
+      if (fileName.startsWith('"')) {
+        fileName = unquoteIfQuoted(fileName);
+      } else {
+        fileName = fileName.replace(/\\\\/g, "\\");
+      }
+      if (prefix === "---") {
+        index.oldFileName = fileName;
+        index.oldHeader = header;
+      } else {
+        index.newFileName = fileName;
+        index.newHeader = header;
+      }
+      i++;
+    }
+  }
+  function parseHunk() {
+    var _a;
+    const chunkHeaderIndex = i, chunkHeaderLine = diffstr[i++], chunkHeader = chunkHeaderLine.split(/@@ -(\d+)(?:,(\d+))? \+(\d+)(?:,(\d+))? @@/);
+    const hunk = {
+      oldStart: +chunkHeader[1],
+      oldLines: typeof chunkHeader[2] === "undefined" ? 1 : +chunkHeader[2],
+      newStart: +chunkHeader[3],
+      newLines: typeof chunkHeader[4] === "undefined" ? 1 : +chunkHeader[4],
+      lines: []
+    };
+    if (hunk.oldLines === 0) {
+      hunk.oldStart += 1;
+    }
+    if (hunk.newLines === 0) {
+      hunk.newStart += 1;
+    }
+    let addCount = 0, removeCount = 0;
+    for (; i < diffstr.length && (removeCount < hunk.oldLines || addCount < hunk.newLines || ((_a = diffstr[i]) === null || _a === void 0 ? void 0 : _a.startsWith("\\"))); i++) {
+      const operation = diffstr[i].length == 0 && i != diffstr.length - 1 ? " " : diffstr[i][0];
+      if (operation === "+" || operation === "-" || operation === " " || operation === "\\") {
+        hunk.lines.push(diffstr[i]);
+        if (operation === "+") {
+          addCount++;
+        } else if (operation === "-") {
+          removeCount++;
+        } else if (operation === " ") {
+          addCount++;
+          removeCount++;
+        }
+      } else {
+        throw new Error(`Hunk at line ${chunkHeaderIndex + 1} contained invalid line ${diffstr[i]}`);
+      }
+    }
+    if (!addCount && hunk.newLines === 1) {
+      hunk.newLines = 0;
+    }
+    if (!removeCount && hunk.oldLines === 1) {
+      hunk.oldLines = 0;
+    }
+    if (addCount !== hunk.newLines) {
+      throw new Error("Added line count did not match for hunk at line " + (chunkHeaderIndex + 1));
+    }
+    if (removeCount !== hunk.oldLines) {
+      throw new Error("Removed line count did not match for hunk at line " + (chunkHeaderIndex + 1));
+    }
+    if (i < diffstr.length && diffstr[i] && /^[+ -]/.test(diffstr[i]) && !isFileHeader(diffstr[i])) {
+      throw new Error("Hunk at line " + (chunkHeaderIndex + 1) + " has more lines than expected (expected " + hunk.oldLines + " old lines and " + hunk.newLines + " new lines)");
+    }
+    return hunk;
+  }
+  while (i < diffstr.length) {
+    parseIndex();
+  }
+  return list3;
+}
+var init_parse = __esm({
+  "../differential-review-lib/node_modules/diff/libesm/patch/parse.js"() {
+  }
+});
+
+// ../differential-review-lib/node_modules/diff/libesm/patch/create.js
+function structuredPatch(oldFileName, newFileName, oldStr, newStr, oldHeader, newHeader, options) {
+  let optionsObj;
+  if (!options) {
+    optionsObj = {};
+  } else if (typeof options === "function") {
+    optionsObj = { callback: options };
+  } else {
+    optionsObj = options;
+  }
+  if (typeof optionsObj.context === "undefined") {
+    optionsObj.context = 4;
+  }
+  const context = optionsObj.context;
+  if (optionsObj.newlineIsToken) {
+    throw new Error("newlineIsToken may not be used with patch-generation functions, only with diffing functions");
+  }
+  if (!optionsObj.callback) {
+    return diffLinesResultToPatch(diffLines(oldStr, newStr, optionsObj));
+  } else {
+    const { callback } = optionsObj;
+    diffLines(oldStr, newStr, Object.assign(Object.assign({}, optionsObj), { callback: (diff2) => {
+      const patch = diffLinesResultToPatch(diff2);
+      callback(patch);
+    } }));
+  }
+  function diffLinesResultToPatch(diff2) {
+    if (!diff2) {
+      return;
+    }
+    diff2.push({ value: "", lines: [] });
+    function contextLines(lines) {
+      return lines.map(function(entry) {
+        return " " + entry;
+      });
+    }
+    const hunks = [];
+    let oldRangeStart = 0, newRangeStart = 0, curRange = [], oldLine = 1, newLine = 1;
+    for (let i = 0; i < diff2.length; i++) {
+      const current = diff2[i], lines = current.lines || splitLines(current.value);
+      current.lines = lines;
+      if (current.added || current.removed) {
+        if (!oldRangeStart) {
+          const prev = diff2[i - 1];
+          oldRangeStart = oldLine;
+          newRangeStart = newLine;
+          if (prev) {
+            curRange = context > 0 ? contextLines(prev.lines.slice(-context)) : [];
+            oldRangeStart -= curRange.length;
+            newRangeStart -= curRange.length;
+          }
+        }
+        for (const line of lines) {
+          curRange.push((current.added ? "+" : "-") + line);
+        }
+        if (current.added) {
+          newLine += lines.length;
+        } else {
+          oldLine += lines.length;
+        }
+      } else {
+        if (oldRangeStart) {
+          if (lines.length <= context * 2 && i < diff2.length - 2) {
+            for (const line of contextLines(lines)) {
+              curRange.push(line);
+            }
+          } else {
+            const contextSize = Math.min(lines.length, context);
+            for (const line of contextLines(lines.slice(0, contextSize))) {
+              curRange.push(line);
+            }
+            const hunk = {
+              oldStart: oldRangeStart,
+              oldLines: oldLine - oldRangeStart + contextSize,
+              newStart: newRangeStart,
+              newLines: newLine - newRangeStart + contextSize,
+              lines: curRange
+            };
+            hunks.push(hunk);
+            oldRangeStart = 0;
+            newRangeStart = 0;
+            curRange = [];
+          }
+        }
+        oldLine += lines.length;
+        newLine += lines.length;
+      }
+    }
+    for (const hunk of hunks) {
+      for (let i = 0; i < hunk.lines.length; i++) {
+        if (hunk.lines[i].endsWith("\n")) {
+          hunk.lines[i] = hunk.lines[i].slice(0, -1);
+        } else {
+          hunk.lines.splice(i + 1, 0, "\\ No newline at end of file");
+          i++;
+        }
+      }
+    }
+    return {
+      oldFileName,
+      newFileName,
+      oldHeader,
+      newHeader,
+      hunks
+    };
+  }
+}
+function splitLines(text2) {
+  const hasTrailingNl = text2.endsWith("\n");
+  const result = text2.split("\n").map((line) => line + "\n");
+  if (hasTrailingNl) {
+    result.pop();
+  } else {
+    result.push(result.pop().slice(0, -1));
+  }
+  return result;
+}
+var init_create = __esm({
+  "../differential-review-lib/node_modules/diff/libesm/patch/create.js"() {
+    init_line();
+  }
+});
+
+// ../differential-review-lib/node_modules/diff/libesm/index.js
+var init_libesm = __esm({
+  "../differential-review-lib/node_modules/diff/libesm/index.js"() {
+    init_character();
+    init_array();
+    init_parse();
+    init_create();
+  }
+});
+
+// ../differential-review-lib/src/core/sha256.ts
+function utf8(text2) {
+  const out = [];
+  for (const ch of text2) {
+    let cp = ch.codePointAt(0);
+    if (cp >= 55296 && cp <= 57343) cp = 65533;
+    if (cp < 128) out.push(cp);
+    else if (cp < 2048) out.push(192 | cp >> 6, 128 | cp & 63);
+    else if (cp < 65536) out.push(224 | cp >> 12, 128 | cp >> 6 & 63, 128 | cp & 63);
+    else out.push(240 | cp >> 18, 128 | cp >> 12 & 63, 128 | cp >> 6 & 63, 128 | cp & 63);
+  }
+  return out;
+}
+function sha256Hex(text2) {
+  const bytes = utf8(text2);
+  const bitLength = bytes.length * 8;
+  bytes.push(128);
+  while (bytes.length % 64 !== 56) bytes.push(0);
+  const hi = Math.floor(bitLength / 4294967296);
+  const lo = bitLength >>> 0;
+  bytes.push(hi >>> 24 & 255, hi >>> 16 & 255, hi >>> 8 & 255, hi & 255);
+  bytes.push(lo >>> 24 & 255, lo >>> 16 & 255, lo >>> 8 & 255, lo & 255);
+  const h = new Uint32Array([
+    1779033703,
+    3144134277,
+    1013904242,
+    2773480762,
+    1359893119,
+    2600822924,
+    528734635,
+    1541459225
+  ]);
+  const w = new Uint32Array(64);
+  const rotr = (x, n) => x >>> n | x << 32 - n;
+  for (let offset = 0; offset < bytes.length; offset += 64) {
+    for (let i = 0; i < 16; i++) {
+      const j = offset + i * 4;
+      w[i] = bytes[j] << 24 | bytes[j + 1] << 16 | bytes[j + 2] << 8 | bytes[j + 3];
+    }
+    for (let i = 16; i < 64; i++) {
+      const s0 = rotr(w[i - 15], 7) ^ rotr(w[i - 15], 18) ^ w[i - 15] >>> 3;
+      const s1 = rotr(w[i - 2], 17) ^ rotr(w[i - 2], 19) ^ w[i - 2] >>> 10;
+      w[i] = w[i - 16] + s0 + w[i - 7] + s1;
+    }
+    let [a, b, c, d, e, f, g, hh] = h;
+    for (let i = 0; i < 64; i++) {
+      const s1 = rotr(e, 6) ^ rotr(e, 11) ^ rotr(e, 25);
+      const ch = e & f ^ ~e & g;
+      const t1 = hh + s1 + ch + K[i] + w[i] >>> 0;
+      const s0 = rotr(a, 2) ^ rotr(a, 13) ^ rotr(a, 22);
+      const maj = a & b ^ a & c ^ b & c;
+      const t2 = s0 + maj >>> 0;
+      hh = g;
+      g = f;
+      f = e;
+      e = d + t1 >>> 0;
+      d = c;
+      c = b;
+      b = a;
+      a = t1 + t2 >>> 0;
+    }
+    h[0] += a;
+    h[1] += b;
+    h[2] += c;
+    h[3] += d;
+    h[4] += e;
+    h[5] += f;
+    h[6] += g;
+    h[7] += hh;
+  }
+  return Array.from(h, (x) => x.toString(16).padStart(8, "0")).join("");
+}
+var K;
+var init_sha256 = __esm({
+  "../differential-review-lib/src/core/sha256.ts"() {
+    "use strict";
+    K = new Uint32Array([
+      1116352408,
+      1899447441,
+      3049323471,
+      3921009573,
+      961987163,
+      1508970993,
+      2453635748,
+      2870763221,
+      3624381080,
+      310598401,
+      607225278,
+      1426881987,
+      1925078388,
+      2162078206,
+      2614888103,
+      3248222580,
+      3835390401,
+      4022224774,
+      264347078,
+      604807628,
+      770255983,
+      1249150122,
+      1555081692,
+      1996064986,
+      2554220882,
+      2821834349,
+      2952996808,
+      3210313671,
+      3336571891,
+      3584528711,
+      113926993,
+      338241895,
+      666307205,
+      773529912,
+      1294757372,
+      1396182291,
+      1695183700,
+      1986661051,
+      2177026350,
+      2456956037,
+      2730485921,
+      2820302411,
+      3259730800,
+      3345764771,
+      3516065817,
+      3600352804,
+      4094571909,
+      275423344,
+      430227734,
+      506948616,
+      659060556,
+      883997877,
+      958139571,
+      1322822218,
+      1537002063,
+      1747873779,
+      1955562222,
+      2024104815,
+      2227730452,
+      2361852424,
+      2428436474,
+      2756734187,
+      3204031479,
+      3329325298
+    ]);
+  }
+});
+
+// ../differential-review-lib/src/core/diff.ts
+function hash(text2) {
+  return `${FINGERPRINT_VERSION}:${sha256Hex(text2).slice(0, 16)}`;
+}
+function splitDiffSections(diffText) {
+  if (!diffText.trim()) return [];
+  const lines = diffText.split("\n");
+  const sections = [];
+  for (const line of lines) {
+    if (line.startsWith("diff --git ") || sections.length === 0) sections.push([]);
+    sections[sections.length - 1].push(line);
+  }
+  return sections.map((s) => s.join("\n").replace(/\n+$/, "") + "\n");
+}
+function stripPrefix(name, prefix) {
+  if (!name || name === "/dev/null") return null;
+  return name.startsWith(prefix) ? name.slice(prefix.length) : name;
+}
+function normalizeChangedLines(lines) {
+  const out = [];
+  let afterChange = false;
+  for (const line of lines) {
+    const marker = line[0];
+    if (marker === "+" || marker === "-") {
+      out.push(marker + line.slice(1).replace(/\s+$/, ""));
+      afterChange = true;
+    } else if (marker === "\\") {
+      if (afterChange) out.push("\\ No newline at end of file");
+    } else {
+      afterChange = false;
+    }
+  }
+  return out;
+}
+function contentHashOf(changed) {
+  return hash(changed.join("\n"));
+}
+function hunkId(path, contentHash, occurrence) {
+  return hash(`${path}\0${contentHash}\0${occurrence}`);
+}
+function isWhitespaceOnly(changed) {
+  const squash = (marker) => changed.filter((l) => l[0] === marker).map((l) => l.slice(1).replace(/\s+/g, "")).join("");
+  return squash("-") === squash("+");
+}
+function fileStatus(p) {
+  if (p.isCreate) return "added";
+  if (p.isDelete) return "deleted";
+  if (p.isRename) return "renamed";
+  if (p.isCopy) return "copied";
+  return "modified";
+}
+function metaUnit(file, hasText) {
+  const modeChanged = !!file.oldMode && !!file.newMode && file.oldMode !== file.newMode;
+  const moved = file.status === "renamed" || file.status === "copied";
+  if (!file.binary && !moved && !modeChanged && hasText) return null;
+  const lines = [
+    `# status ${file.status}`,
+    `# old ${file.oldPath ?? "-"} ${file.oldMode ?? "-"}`,
+    `# new ${file.newPath ?? "-"} ${file.newMode ?? "-"}`
+  ];
+  const parts = [];
+  if (moved) parts.push(`${file.status} ${file.oldPath} \u2192 ${file.newPath}`);
+  if (modeChanged) parts.push(`mode ${file.oldMode} \u2192 ${file.newMode}`);
+  if (file.binary) {
+    lines.push(`# binary ${file.oldBlob ?? "-"}..${file.newBlob ?? "-"}`);
+    parts.push("binary file changed");
+  }
+  if (!parts.length) parts.push(file.status === "deleted" ? "deleted empty file" : `${file.status} empty file`);
+  return { header: parts.join(", "), oldStart: 0, oldLines: 0, newStart: 0, newLines: 0, lines, kind: "meta" };
+}
+function parseSection(text2) {
+  const patches = parsePatch(text2);
+  if (patches.length !== 1) throw new Error(`expected one file per diff section, got ${patches.length}`);
+  const p = patches[0];
+  const oldPath = stripPrefix(p.oldFileName, "a/");
+  const newPath = stripPrefix(p.newFileName, "b/");
+  const blobs = INDEX_LINE.exec(text2);
+  const status = fileStatus(p);
+  const base = {
+    path: newPath ?? oldPath,
+    oldPath: status === "added" ? null : oldPath,
+    newPath: status === "deleted" ? null : newPath,
+    status,
+    binary: !!p.isBinary,
+    oldMode: p.oldMode ?? null,
+    newMode: p.newMode ?? null,
+    oldBlob: blobs?.[1] ?? null,
+    newBlob: blobs?.[2] ?? null
+  };
+  const headers = text2.split("\n").filter((l) => l.startsWith("@@"));
+  if (headers.length !== p.hunks.length) throw new Error(`hunk header mismatch in ${base.path}`);
+  const raw = p.hunks.map((h, i) => {
+    const m = HUNK_HEADER.exec(headers[i]);
+    if (!m) throw new Error(`bad hunk header: ${headers[i]}`);
+    return {
+      header: headers[i],
+      oldStart: Number(m[1]),
+      oldLines: m[2] === void 0 ? 1 : Number(m[2]),
+      newStart: Number(m[3]),
+      newLines: m[4] === void 0 ? 1 : Number(m[4]),
+      lines: h.lines,
+      kind: "text"
+    };
+  });
+  const meta = metaUnit(base, raw.length > 0);
+  if (meta) raw.unshift(meta);
+  const seen = /* @__PURE__ */ new Map();
+  const hunks = raw.map((h) => {
+    const changed = h.kind === "meta" ? h.lines : normalizeChangedLines(h.lines);
+    const contentHash = contentHashOf(changed);
+    const occurrence = seen.get(contentHash) ?? 0;
+    seen.set(contentHash, occurrence + 1);
+    return {
+      id: hunkId(base.path, contentHash, occurrence),
+      contentHash,
+      occurrence,
+      kind: h.kind,
+      header: h.header,
+      oldStart: h.oldStart,
+      oldLines: h.oldLines,
+      newStart: h.newStart,
+      newLines: h.newLines,
+      added: changed.filter((l) => l[0] === "+").length,
+      removed: changed.filter((l) => l[0] === "-").length,
+      whitespaceOnly: h.kind === "text" && isWhitespaceOnly(changed),
+      lines: h.lines,
+      changed
+    };
+  });
+  return { ...base, basePath: base.oldPath, text: text2, hunks };
+}
+function parseDiff(diffText) {
+  return splitDiffSections(diffText).map(parseSection);
+}
+function toFileIndex(file) {
+  return {
+    path: file.path,
+    oldPath: file.oldPath,
+    newPath: file.newPath,
+    status: file.status,
+    binary: file.binary,
+    oldMode: file.oldMode,
+    newMode: file.newMode,
+    hunks: file.hunks.map(({ lines: _lines, changed: _changed, ...hunk }) => hunk)
+  };
+}
+var HUNK_HEADER, INDEX_LINE;
+var init_diff = __esm({
+  "../differential-review-lib/src/core/diff.ts"() {
+    "use strict";
+    init_libesm();
+    init_sha256();
+    init_types();
+    HUNK_HEADER = /^@@ -(\d+)(?:,(\d+))? \+(\d+)(?:,(\d+))? @@/;
+    INDEX_LINE = /^index ([0-9a-f]+)\.\.([0-9a-f]+)/m;
+  }
+});
+
+// ../differential-review-lib/src/core/match.ts
+function hunkRefs(files) {
+  return files.flatMap(
+    (f) => f.hunks.map((h) => ({
+      id: h.id,
+      contentHash: h.contentHash,
+      kind: h.kind,
+      path: f.path,
+      basePath: f.basePath,
+      changed: h.changed
+    }))
+  );
+}
+function sameFile(a, b) {
+  return a.path === b.path || a.basePath !== null && a.basePath === b.basePath;
+}
+function dice(common, a, b) {
+  return a + b === 0 ? 1 : 2 * common / (a + b);
+}
+function lineSimilarity(a, b) {
+  const parts = diffArrays(a, b, { maxEditLength: MAX_EDIT_LENGTH });
+  if (!parts) return 0;
+  const common = parts.filter((p) => !p.added && !p.removed).reduce((n, p) => n + p.count, 0);
+  return dice(common, a.length, b.length);
+}
+function similarity(a, b) {
+  const ta = a.join("\n");
+  const tb = b.join("\n");
+  if (ta === tb) return 1;
+  if (ta.length + tb.length > CHAR_DIFF_LIMIT) return lineSimilarity(a, b);
+  const parts = diffChars(ta, tb, { maxEditLength: MAX_EDIT_LENGTH });
+  if (!parts) return lineSimilarity(a, b);
+  const common = parts.filter((p) => !p.added && !p.removed).reduce((n, p) => n + p.value.length, 0);
+  return dice(common, ta.length, tb.length);
+}
+function cachedSimilarity(a, b) {
+  if (!a.contentHash || !b.contentHash) return similarity(a.changed, b.changed);
+  const key2 = `${a.contentHash}\0${b.contentHash}`;
+  let sim = similarityCache.get(key2);
+  if (sim === void 0) {
+    if (similarityCache.size >= SIMILARITY_CACHE_LIMIT) similarityCache.clear();
+    sim = similarity(a.changed, b.changed);
+    similarityCache.set(key2, sim);
+  }
+  return sim;
+}
+function matchHunks(oldRefs, newRefs, threshold = FUZZY_THRESHOLD) {
+  const pairs2 = [];
+  const usedOld = /* @__PURE__ */ new Set();
+  const usedNew = /* @__PURE__ */ new Set();
+  const take = (i, j, match, sim) => {
+    usedOld.add(i);
+    usedNew.add(j);
+    pairs2.push({ oldId: oldRefs[i].id, newId: newRefs[j].id, match, similarity: sim });
+  };
+  const oldById = /* @__PURE__ */ new Map();
+  oldRefs.forEach((r, i) => oldById.set(r.id, i));
+  newRefs.forEach((r, j) => {
+    const i = oldById.get(r.id);
+    if (i !== void 0 && !usedOld.has(i)) take(i, j, "exact", 1);
+  });
+  newRefs.forEach((r, j) => {
+    if (usedNew.has(j)) return;
+    const i = oldRefs.findIndex((o, k) => !usedOld.has(k) && o.contentHash === r.contentHash && sameFile(o, r));
+    if (i >= 0) take(i, j, "moved", 1);
+  });
+  const candidates = [];
+  newRefs.forEach((r, j) => {
+    if (usedNew.has(j)) return;
+    oldRefs.forEach((o, i) => {
+      if (usedOld.has(i) || o.kind !== r.kind || !sameFile(o, r) || !o.changed || !r.changed) return;
+      const sim = cachedSimilarity(o, r);
+      if (sim >= threshold || r.kind === "meta") candidates.push({ i, j, sim });
+    });
+  });
+  candidates.sort((a, b) => b.sim - a.sim || a.j - b.j || a.i - b.i);
+  for (const c of candidates) {
+    if (!usedOld.has(c.i) && !usedNew.has(c.j)) take(c.i, c.j, "fuzzy", c.sim);
+  }
+  return {
+    pairs: pairs2,
+    added: newRefs.filter((_, j) => !usedNew.has(j)).map((r) => r.id),
+    removed: oldRefs.filter((_, i) => !usedOld.has(i)).map((r) => r.id)
+  };
+}
+function toHunkMatches(newRefs, result) {
+  const byNew = new Map(result.pairs.map((p) => [p.newId, p]));
+  return newRefs.map((r) => {
+    const p = byNew.get(r.id);
+    return p ? { id: r.id, previousId: p.oldId, match: p.match, similarity: round(p.similarity) } : { id: r.id, previousId: null, match: "new", similarity: 0 };
+  });
+}
+function round(n) {
+  return Math.round(n * 1e3) / 1e3;
+}
+var FUZZY_THRESHOLD, CHAR_DIFF_LIMIT, MAX_EDIT_LENGTH, similarityCache, SIMILARITY_CACHE_LIMIT;
+var init_match = __esm({
+  "../differential-review-lib/src/core/match.ts"() {
+    "use strict";
+    init_libesm();
+    FUZZY_THRESHOLD = 0.6;
+    CHAR_DIFF_LIMIT = 2e4;
+    MAX_EDIT_LENGTH = 2e3;
+    similarityCache = /* @__PURE__ */ new Map();
+    SIMILARITY_CACHE_LIMIT = 1e5;
+  }
+});
+
+// ../differential-review-lib/src/core/snapshot.ts
+function snapshotId(createdAt, phase, head) {
+  const stamp = createdAt.replace(/\.\d+Z$/, "Z").replace(/[-:]/g, "");
+  return `${stamp}-${phase}-${head.slice(0, 12)}`;
+}
+function verifyFingerprints(stored, parsed) {
+  const ids = (files) => files.flatMap((f) => f.hunks.map((h) => h.id)).join(",");
+  if (ids(stored) !== ids(parsed)) {
+    throw new Error(`stored fingerprints don't match this parser (${FINGERPRINT_VERSION}); rebuild or bump the fingerprint version`);
+  }
+}
+function cachedParse(owner) {
+  let files = parsedCache.get(owner);
+  if (!files) {
+    files = parseDiff(owner.diff);
+    if (owner.files) verifyFingerprints(owner.files, files);
+    parsedCache.set(owner, files);
+  }
+  return files;
+}
+function snapshotFiles(snapshot) {
+  return cachedParse(snapshot);
+}
+function commitFiles(commit) {
+  return cachedParse(commit);
+}
+function commitKey(commit) {
+  return commit.patchId ?? `sha:${commit.sha}`;
+}
+function buildMapping(previous, next, rangeDiffPairs) {
+  const oldRefs = hunkRefs(snapshotFiles(previous));
+  const newRefs = hunkRefs(snapshotFiles(next));
+  const hunkResult = matchHunks(oldRefs, newRefs);
+  const usedPrev = /* @__PURE__ */ new Set();
+  const mapped = /* @__PURE__ */ new Map();
+  const pair = (sha, previousSha, method) => {
+    usedPrev.add(previousSha);
+    const prevCommit = previous.commits.find((c) => c.sha === previousSha);
+    const commit = next.commits.find((c) => c.sha === sha);
+    const changed = sha !== previousSha && (prevCommit.patchId === null || prevCommit.patchId !== commit.patchId);
+    const entry = { sha, previousSha, method, patchIdChanged: changed };
+    if (changed) {
+      const o = hunkRefs(commitFiles(prevCommit));
+      const n = hunkRefs(commitFiles(commit));
+      entry.hunks = toHunkMatches(n, matchHunks(o, n));
+    }
+    mapped.set(sha, entry);
+  };
+  for (const commit of next.commits) {
+    if (previous.commits.some((p) => p.sha === commit.sha)) pair(commit.sha, commit.sha, "sha");
+  }
+  for (const commit of next.commits) {
+    if (commit.patchId === null || mapped.has(commit.sha)) continue;
+    const prev = previous.commits.find((p) => !usedPrev.has(p.sha) && p.patchId === commit.patchId);
+    if (prev) pair(commit.sha, prev.sha, "patch-id");
+  }
+  if (rangeDiffPairs) {
+    for (const { previousSha, sha } of rangeDiffPairs) {
+      if (mapped.has(sha) || usedPrev.has(previousSha)) continue;
+      if (!previous.commits.some((c) => c.sha === previousSha) || !next.commits.some((c) => c.sha === sha)) continue;
+      pair(sha, previousSha, "range-diff");
+    }
+  } else {
+    for (const commit of next.commits) {
+      if (mapped.has(commit.sha)) continue;
+      const prev = previous.commits.find((p) => !usedPrev.has(p.sha) && p.subject === commit.subject);
+      if (prev) pair(commit.sha, prev.sha, "subject");
+    }
+  }
+  return {
+    previousSnapshotId: previous.id,
+    previousHead: previous.head,
+    rangeDiff: rangeDiffPairs !== null,
+    commits: next.commits.map(
+      (c) => mapped.get(c.sha) ?? { sha: c.sha, previousSha: null, method: null, patchIdChanged: false }
+    ),
+    droppedCommits: previous.commits.filter((c) => !usedPrev.has(c.sha)).map((c) => c.sha),
+    hunks: toHunkMatches(newRefs, hunkResult),
+    droppedHunks: hunkResult.removed
+  };
+}
+function buildSnapshot(input) {
+  const commits = input.commits.map((c) => ({
+    ...c,
+    files: parseDiff(c.diff).map(toFileIndex)
+  }));
+  const partial = { diff: input.diff, commits };
+  return {
+    schemaVersion: SNAPSHOT_SCHEMA_VERSION,
+    kind: "differential-review-snapshot",
+    fingerprintVersion: FINGERPRINT_VERSION,
+    id: snapshotId(input.createdAt, input.phase, input.head),
+    createdAt: input.createdAt,
+    phase: input.phase,
+    repo: input.repo,
+    branch: input.branch,
+    head: input.head,
+    base: input.base,
+    previousSnapshotId: input.previous?.id ?? null,
+    diff: input.diff,
+    files: parseDiff(input.diff).map(toFileIndex),
+    commits,
+    mapping: input.previous ? buildMapping(input.previous, partial, input.rangeDiffPairs) : null
+  };
+}
+function sortSnapshots(snapshots) {
+  return [...snapshots].sort((a, b) => a.createdAt.localeCompare(b.createdAt) || a.id.localeCompare(b.id));
+}
+var parsedCache;
+var init_snapshot = __esm({
+  "../differential-review-lib/src/core/snapshot.ts"() {
+    "use strict";
+    init_diff();
+    init_match();
+    init_types();
+    parsedCache = /* @__PURE__ */ new WeakMap();
+  }
+});
+
+// ../differential-review-lib/src/core/queries.ts
+function commitLineage(snapshots, from, sha) {
+  const byId2 = new Map(snapshots.map((s) => [s.id, s]));
+  const steps = [];
+  let snapshot = from;
+  let current = sha;
+  while (snapshot.mapping) {
+    const entry = snapshot.mapping.commits.find((c) => c.sha === current);
+    const prev = byId2.get(snapshot.mapping.previousSnapshotId);
+    if (!entry?.previousSha || !prev) break;
+    const commit = prev.commits.find((c) => c.sha === entry.previousSha);
+    if (!commit) break;
+    steps.push({ snapshot: prev, commit });
+    snapshot = prev;
+    current = commit.sha;
+  }
+  return steps;
+}
+function changesBetween(snapshots, from, to) {
+  const oldRefs = hunkRefs(snapshotFiles(from));
+  const newRefs = hunkRefs(snapshotFiles(to));
+  const result = matchHunks(oldRefs, newRefs);
+  const used = /* @__PURE__ */ new Set();
+  const commits = to.commits.map((c) => {
+    const same = from.commits.find((p) => !used.has(p.sha) && p.sha === c.sha) ?? (c.patchId !== null && from.commits.find((p) => !used.has(p.sha) && p.patchId === c.patchId));
+    if (same) {
+      used.add(same.sha);
+      return { sha: c.sha, change: "unchanged", previousSha: same.sha };
+    }
+    const ancestor = commitLineage(snapshots, to, c.sha).find((step) => step.snapshot.id === from.id);
+    if (ancestor && !used.has(ancestor.commit.sha)) {
+      used.add(ancestor.commit.sha);
+      return { sha: c.sha, change: "modified", previousSha: ancestor.commit.sha };
+    }
+    return { sha: c.sha, change: "added", previousSha: null };
+  });
+  return {
+    from: from.id,
+    to: to.id,
+    hunks: toHunkMatches(newRefs, result),
+    droppedHunks: result.removed,
+    commits,
+    droppedCommits: from.commits.filter((c) => !used.has(c.sha)).map((c) => c.sha)
+  };
+}
+function commitDelta(entry) {
+  if (!entry?.method) return "new";
+  if (entry.patchIdChanged) return "changed";
+  return entry.method === "sha" ? "same" : "rebased";
+}
+function summarizeSnapshot(snapshot) {
+  const mapping = snapshot.mapping;
+  const commits = { same: 0, rebased: 0, changed: 0, new: 0, dropped: mapping?.droppedCommits.length ?? 0 };
+  const flaggedCommits = [];
+  for (const commit of snapshot.commits) {
+    const entry = mapping?.commits.find((c) => c.sha === commit.sha);
+    const delta = commitDelta(entry);
+    commits[delta]++;
+    if (delta === "changed" || delta === "new") {
+      const differing = entry?.hunks?.filter((h) => HUNK_DELTA[h.match] !== "carried").length ?? null;
+      flaggedCommits.push({ sha: commit.sha, subject: commit.subject, change: delta, differingHunks: differing });
+    }
+  }
+  const hunks = { carried: 0, changed: 0, new: 0, dropped: mapping?.droppedHunks.length ?? 0 };
+  if (mapping) {
+    for (const h of mapping.hunks) hunks[HUNK_DELTA[h.match]]++;
+  } else {
+    hunks.new = snapshot.files.reduce((n, f) => n + f.hunks.length, 0);
+  }
+  return { previousSnapshotId: mapping?.previousSnapshotId ?? null, commits, hunks, flaggedCommits };
+}
+var HUNK_DELTA;
+var init_queries = __esm({
+  "../differential-review-lib/src/core/queries.ts"() {
+    "use strict";
+    init_match();
+    init_snapshot();
+    HUNK_DELTA = { exact: "carried", moved: "carried", fuzzy: "changed", new: "new" };
+  }
+});
+
+// ../differential-review-lib/src/core/review-state.ts
+function emptyReviewState() {
+  return { schemaVersion: REVIEW_STATE_SCHEMA_VERSION, kind: "differential-review-state", updatedAt: null, hunks: {}, commits: {} };
+}
+function parseReviewState(json2) {
+  const s = json2;
+  if (!s || s.kind !== "differential-review-state") throw new Error("not a differential-review state file");
+  if (s.schemaVersion !== REVIEW_STATE_SCHEMA_VERSION) {
+    throw new Error(`unsupported review-state schemaVersion ${s.schemaVersion}`);
+  }
+  return { ...emptyReviewState(), ...s, hunks: { ...s.hunks }, commits: { ...s.commits } };
+}
+function findHunkPath(snapshot, id) {
+  for (const f of snapshot.files) if (f.hunks.some((h) => h.id === id)) return f.path;
+  throw new Error(`hunk ${id} not in snapshot ${snapshot.id}`);
+}
+function markHunksReviewed(state, snapshot, ids, now) {
+  const hunks = { ...state.hunks };
+  for (const id of ids) hunks[id] = { snapshotId: snapshot.id, path: findHunkPath(snapshot, id), reviewedAt: now };
+  return { ...state, updatedAt: now, hunks };
+}
+function unmarkHunks(state, ids, now) {
+  const hunks = { ...state.hunks };
+  for (const id of ids) delete hunks[id];
+  return { ...state, updatedAt: now, hunks };
+}
+function markFileReviewed(state, snapshot, path, now) {
+  const file = snapshot.files.find((f) => f.path === path);
+  if (!file) throw new Error(`file ${path} not in snapshot ${snapshot.id}`);
+  return markHunksReviewed(state, snapshot, file.hunks.map((h) => h.id), now);
+}
+function signOffCommit(state, snapshot, sha, now, note) {
+  const commit = snapshot.commits.find((c) => c.sha === sha);
+  if (!commit) throw new Error(`commit ${sha} not in snapshot ${snapshot.id}`);
+  const record = { sha, subject: commit.subject, snapshotId: snapshot.id, signedOffAt: now, ...note ? { note } : {} };
+  return { ...state, updatedAt: now, commits: { ...state.commits, [commitKey(commit)]: record } };
+}
+function revokeCommitSignoff(state, key2, now) {
+  const commits = { ...state.commits };
+  delete commits[key2];
+  return { ...state, updatedAt: now, commits };
+}
+var init_review_state = __esm({
+  "../differential-review-lib/src/core/review-state.ts"() {
+    "use strict";
+    init_snapshot();
+    init_types();
+  }
+});
+
+// ../differential-review-lib/src/core/derive.ts
+function zero() {
+  return { reviewed: 0, new: 0, changed: 0 };
+}
+function reviewedRefs(state, byId2) {
+  return Object.entries(state.hunks).map(([id, rec]) => {
+    const snap = byId2.get(rec.snapshotId);
+    for (const file of snap ? snapshotFiles(snap) : []) {
+      const hunk = file.hunks.find((h) => h.id === id);
+      if (hunk) {
+        return { id, contentHash: hunk.contentHash, kind: hunk.kind, path: file.path, basePath: file.basePath, changed: hunk.changed };
+      }
+    }
+    return { id, contentHash: "", kind: "text", path: rec.path, basePath: null, changed: null };
+  });
+}
+function fileState(counts, total) {
+  if (counts.reviewed === total) return "reviewed";
+  if (counts.new === total) return "new";
+  return "changed";
+}
+function deriveReview(current, state, snapshots) {
+  const byId2 = new Map(snapshots.map((s) => [s.id, s]));
+  byId2.set(current.id, current);
+  const all = [...byId2.values()];
+  const counts = { hunks: zero(), files: zero(), commits: zero() };
+  const parsed = snapshotFiles(current);
+  const refs = hunkRefs(parsed);
+  const old = reviewedRefs(state, byId2);
+  const result = matchHunks(old, refs);
+  const pairByNew = new Map(result.pairs.map((p) => [p.newId, p]));
+  const files = parsed.map((file) => {
+    const fileCounts = zero();
+    const hunks = file.hunks.map((h) => {
+      const pair = pairByNew.get(h.id);
+      const hunkState = !pair ? "new" : pair.match === "fuzzy" ? "changed" : "reviewed";
+      fileCounts[hunkState]++;
+      counts.hunks[hunkState]++;
+      const reviewedAs = pair ? { hunkId: pair.oldId, snapshotId: state.hunks[pair.oldId].snapshotId, similarity: pair.similarity } : null;
+      return { id: h.id, path: file.path, kind: h.kind, state: hunkState, reviewedAs };
+    });
+    const fs = fileState(fileCounts, hunks.length);
+    counts.files[fs]++;
+    return { path: file.path, state: fs, hunks, counts: fileCounts };
+  });
+  const commits = current.commits.map((commit) => {
+    const key2 = commitKey(commit);
+    let review = { sha: commit.sha, subject: commit.subject, key: key2, state: "new", signoff: null, differingHunks: null };
+    if (state.commits[key2]) {
+      review = { ...review, state: "reviewed", signoff: { ...state.commits[key2], key: key2 } };
+    } else {
+      const signed = commitLineage(all, current, commit.sha).find((step) => state.commits[commitKey(step.commit)]);
+      if (signed) {
+        const signedKey = commitKey(signed.commit);
+        const n = hunkRefs(commitFiles(commit));
+        const m = matchHunks(hunkRefs(commitFiles(signed.commit)), n);
+        const same = new Set(m.pairs.filter((p) => p.match !== "fuzzy").map((p) => p.newId));
+        review = {
+          ...review,
+          state: "changed",
+          signoff: { ...state.commits[signedKey], key: signedKey },
+          differingHunks: n.map((r) => r.id).filter((id) => !same.has(id))
+        };
+      }
+    }
+    counts.commits[review.state]++;
+    return review;
+  });
+  return { snapshotId: current.id, files, commits, counts };
+}
+var init_derive = __esm({
+  "../differential-review-lib/src/core/derive.ts"() {
+    "use strict";
+    init_match();
+    init_queries();
+    init_snapshot();
+  }
+});
+
+// ../differential-review-lib/src/core/storage.ts
+function join(...parts) {
+  return parts.filter(Boolean).join("/").replace(/\/+/g, "/");
+}
+function snapshotsDir(reviewDir) {
+  return join(reviewDir, SNAPSHOTS_DIR);
+}
+function snapshotPath(reviewDir, id) {
+  return join(snapshotsDir(reviewDir), `${id}.json`);
+}
+function reviewStatePath(reviewDir) {
+  return join(reviewDir, REVIEW_STATE_FILE);
+}
+function parseSnapshot(json2) {
+  const s = json2;
+  if (!s || s.kind !== "differential-review-snapshot") throw new Error("not a differential-review snapshot");
+  if (s.schemaVersion !== SNAPSHOT_SCHEMA_VERSION) throw new Error(`unsupported snapshot schemaVersion ${s.schemaVersion}`);
+  if (s.fingerprintVersion !== FINGERPRINT_VERSION) throw new Error(`unsupported fingerprintVersion ${s.fingerprintVersion}`);
+  return s;
+}
+function snapshotReader(adapter, reviewDir) {
+  return {
+    async listSnapshotIds() {
+      const names = await adapter.listFiles(snapshotsDir(reviewDir));
+      return names.filter((n) => n.endsWith(".json")).map((n) => n.slice(0, -5)).sort();
+    },
+    async readSnapshot(id) {
+      const path = snapshotPath(reviewDir, id);
+      try {
+        return parseSnapshot(JSON.parse(await adapter.read(path)));
+      } catch (e) {
+        throw new Error(`unreadable snapshot ${path}: ${e.message}`);
+      }
+    }
+  };
+}
+async function readReviewState(adapter, reviewDir) {
+  const path = reviewStatePath(reviewDir);
+  if (!await adapter.exists(path)) return null;
+  return parseReviewState(JSON.parse(await adapter.read(path)));
+}
+function reviewStateStore(adapter, reviewDir) {
+  return {
+    readReviewState: () => readReviewState(adapter, reviewDir),
+    async writeReviewState(state) {
+      await adapter.write(reviewStatePath(reviewDir), JSON.stringify(state, null, 2) + "\n");
+    }
+  };
+}
+async function updateReviewState(store, mutate) {
+  const next = mutate(await store.readReviewState() ?? emptyReviewState());
+  await store.writeReviewState(next);
+  return next;
+}
+async function readAllSnapshots(reader) {
+  const ids = await reader.listSnapshotIds();
+  return sortSnapshots(await Promise.all(ids.map((id) => reader.readSnapshot(id))));
+}
+var SNAPSHOTS_DIR, REVIEW_STATE_FILE;
+var init_storage = __esm({
+  "../differential-review-lib/src/core/storage.ts"() {
+    "use strict";
+    init_review_state();
+    init_snapshot();
+    init_types();
+    SNAPSHOTS_DIR = "snapshots";
+    REVIEW_STATE_FILE = "review-state.json";
+  }
+});
+
+// ../differential-review-lib/src/core/annotations.ts
+function sourceLines(hunk, side) {
+  let line = side === "old" ? hunk.oldStart : hunk.newStart;
+  const out = [];
+  for (const text2 of hunk.lines) {
+    if (text2[0] === " " || text2[0] === (side === "old" ? "-" : "+")) out.push({ line: line++, text: text2.slice(1) });
+  }
+  return out;
+}
+function validRange(range) {
+  return Array.isArray(range) && range.length === 2 && range.every((n) => Number.isSafeInteger(n) && n > 0) && range[0] <= range[1];
+}
+function annotationId(id) {
+  if (!/^[a-zA-Z0-9][a-zA-Z0-9_-]{0,127}$/.test(id)) throw new Error("invalid annotation id");
+  return id;
+}
+function nonempty(value, field) {
+  if (typeof value !== "string" || !value.trim()) throw new Error(`annotation ${field} must be non-empty text`);
+}
+function object(value) {
+  if (!value || typeof value !== "object" || Array.isArray(value)) throw new Error("invalid annotation object");
+  return value;
+}
+function parseOrigin(value) {
+  const o = object(value);
+  for (const key2 of ["snapshotId", "path", "hunkId"]) nonempty(o[key2], key2);
+  if (o.basePath !== null && typeof o.basePath !== "string") throw new Error("invalid annotation basePath");
+  if (o.side !== "old" && o.side !== "new") throw new Error("invalid annotation side");
+  if (!validRange(o.range)) throw new Error("invalid annotation range");
+  if (typeof o.quote !== "string" || o.quote.split("\n").length !== o.range[1] - o.range[0] + 1) throw new Error("invalid annotation quote");
+  for (const key2 of ["contextBefore", "contextAfter"]) {
+    if (!Array.isArray(o[key2]) || !o[key2].every((v) => typeof v === "string")) throw new Error(`invalid annotation ${key2}`);
+  }
+  return o;
+}
+function parseReviewThread(value) {
+  const t = object(value);
+  if (t.kind !== "differential-review-thread") throw new Error("not a differential-review thread");
+  if (t.schemaVersion !== 1) throw new Error(`unsupported thread schemaVersion ${t.schemaVersion}`);
+  nonempty(t.id, "id");
+  annotationId(t.id);
+  for (const key2 of ["body", "author", "createdAt"]) nonempty(t[key2], key2);
+  parseOrigin(t.origin);
+  if (t.status !== "open" && t.status !== "resolved") throw new Error("invalid thread status");
+  if (t.resolvedAt !== null && typeof t.resolvedAt !== "string") throw new Error("invalid resolvedAt");
+  return t;
+}
+function parseReviewReply(value) {
+  const r = object(value);
+  if (r.kind !== "differential-review-reply") throw new Error("not a differential-review reply");
+  if (r.schemaVersion !== 1) throw new Error(`unsupported reply schemaVersion ${r.schemaVersion}`);
+  for (const key2 of ["id", "threadId", "body", "author", "createdAt"]) nonempty(r[key2], key2);
+  annotationId(r.id);
+  annotationId(r.threadId);
+  if (r.source !== "human" && r.source !== "agent") throw new Error("invalid reply source");
+  if (r.snapshotId !== void 0) nonempty(r.snapshotId, "snapshotId");
+  return r;
+}
+function captureReviewOrigin(snapshot, target) {
+  if (!validRange(target.range)) throw new Error("invalid annotation range");
+  const file = snapshotFiles(snapshot).find((f) => f.path === target.path);
+  const hunk = file?.hunks.find((h) => h.id === target.hunkId && h.kind === "text");
+  if (!file || !hunk) throw new Error("annotation target is not a text hunk in this snapshot");
+  const lines = sourceLines(hunk, target.side);
+  const start = lines.findIndex((l) => l.line === target.range[0]);
+  const end = lines.findIndex((l) => l.line === target.range[1]);
+  if (start < 0 || end < start) throw new Error("annotation range must be within one diff hunk");
+  return {
+    snapshotId: snapshot.id,
+    path: file.path,
+    basePath: file.basePath,
+    hunkId: hunk.id,
+    side: target.side,
+    range: [...target.range],
+    quote: lines.slice(start, end + 1).map((l) => l.text).join("\n"),
+    contextBefore: lines.slice(Math.max(0, start - 3), start).map((l) => l.text),
+    contextAfter: lines.slice(end + 1, end + 4).map((l) => l.text)
+  };
+}
+function createReviewThread(input) {
+  return parseReviewThread({ ...input, schemaVersion: 1, kind: "differential-review-thread", status: "open", resolvedAt: null });
+}
+function setThreadResolved(thread, resolved, now) {
+  return { ...thread, status: resolved ? "resolved" : "open", resolvedAt: resolved ? now : null };
+}
+function locateThread(thread, current, snapshots) {
+  const o = thread.origin;
+  const file = snapshotFiles(current).find((f) => f.path === o.path || o.basePath !== null && f.basePath === o.basePath);
+  if (!file) return { state: "unmapped", path: null, hunkId: null, range: null };
+  const quoted = o.quote.split("\n");
+  const previous = snapshots.find((s) => s.id === o.snapshotId);
+  if (current.id === o.snapshotId || previous && previous.diff === current.diff) {
+    const hunk = file.hunks.find((h) => h.id === o.hunkId);
+    const selected = hunk && sourceLines(hunk, o.side).filter((l) => l.line >= o.range[0] && l.line <= o.range[1]);
+    if (selected && selected.length === quoted.length && selected.every((l, i) => l.text === quoted[i])) {
+      return { state: current.id === o.snapshotId ? "active" : "moved", path: file.path, hunkId: o.hunkId, range: [...o.range] };
+    }
+  }
+  const matches = [];
+  for (const h of file.hunks.filter((h2) => h2.kind === "text")) {
+    const lines = sourceLines(h, o.side);
+    for (let i = 0; i + quoted.length <= lines.length; i++) {
+      if (!quoted.every((text2, j) => lines[i + j].text === text2)) continue;
+      const before = lines.slice(Math.max(0, i - o.contextBefore.length), i).map((l) => l.text);
+      const after = lines.slice(i + quoted.length, i + quoted.length + o.contextAfter.length).map((l) => l.text);
+      matches.push({ hunkId: h.id, range: [lines[i].line, lines[i + quoted.length - 1].line], context: JSON.stringify(before) === JSON.stringify(o.contextBefore) && JSON.stringify(after) === JSON.stringify(o.contextAfter) });
+    }
+  }
+  const contextual = matches.filter((m) => m.context);
+  const certain = matches.length === 1 ? matches[0] : contextual.length === 1 ? contextual[0] : null;
+  if (certain) return {
+    state: current.id === o.snapshotId ? "active" : "moved",
+    path: file.path,
+    hunkId: certain.hunkId,
+    range: certain.range
+  };
+  const oldFile = previous && snapshotFiles(previous).find((f) => f.path === o.path);
+  const pair = oldFile && matchHunks(hunkRefs([oldFile]), hunkRefs([file])).pairs.find((p) => p.oldId === o.hunkId);
+  return { state: "outdated", path: file.path, hunkId: pair?.newId ?? null, range: null };
+}
+function deriveThreads(annotations, current, snapshots) {
+  return annotations.threads.map((thread) => ({
+    thread,
+    replies: annotations.replies.filter((r) => r.threadId === thread.id).sort((a, b) => a.createdAt.localeCompare(b.createdAt) || a.id.localeCompare(b.id)),
+    placement: locateThread(thread, current, snapshots)
+  })).sort((a, b) => a.thread.createdAt.localeCompare(b.thread.createdAt) || a.thread.id.localeCompare(b.thread.id));
+}
+var init_annotations = __esm({
+  "../differential-review-lib/src/core/annotations.ts"() {
+    "use strict";
+    init_match();
+    init_snapshot();
+  }
+});
+
+// ../differential-review-lib/src/core/view.ts
+function snapshotLabel(s) {
+  return `${s.phase} @ ${s.head.slice(0, 8)} (${s.createdAt.slice(0, 16).replace("T", " ")}Z)`;
+}
+function buildReviewView(snapshots, state, options = {}) {
+  const ordered = sortSnapshots(snapshots);
+  const current = ordered[ordered.length - 1];
+  if (!current) return null;
+  const hideReviewed = options.hideReviewed ?? false;
+  const requested = options.baseline?.kind === "snapshot" ? options.baseline.snapshotId : null;
+  const baselineSnapshot = requested && ordered.find((s) => s.id === requested && s !== current) || null;
+  const baseline = baselineSnapshot ? { kind: "snapshot", snapshotId: baselineSnapshot.id } : { kind: "review" };
+  const review = deriveReview(current, state ?? emptyReviewState(), ordered);
+  const changes = baselineSnapshot ? changesBetween(ordered, baselineSnapshot, current) : null;
+  const hunkChange = new Map(changes?.hunks.map((h) => [h.id, h]));
+  const commitChange = new Map(changes?.commits.map((c) => [c.sha, c.change]));
+  const threads = deriveThreads(options.annotations ?? { threads: [], replies: [] }, current, ordered);
+  const openHunks = new Set(threads.filter((t) => t.thread.status === "open").map((t) => t.placement.hunkId));
+  const hidden = { files: 0, hunks: 0, commits: 0 };
+  const parsed = new Map(snapshotFiles(current).map((f) => [f.path, f]));
+  const files = review.files.map((file) => {
+    const source = parsed.get(file.path);
+    const hunks = file.hunks.map((h, i) => {
+      const index = source.hunks[i];
+      const match = hunkChange.get(h.id);
+      const sinceBaseline = match ? HUNK_DELTA2[match.match] : null;
+      const visible2 = openHunks.has(h.id) || !(hideReviewed && h.state === "reviewed") && sinceBaseline !== "carried";
+      if (!visible2) hidden.hunks++;
+      return {
+        ...h,
+        header: index.header,
+        added: index.added,
+        removed: index.removed,
+        whitespaceOnly: index.whitespaceOnly,
+        sinceBaseline,
+        baselineHunkId: match?.match === "fuzzy" ? match.previousId : null,
+        visible: visible2
+      };
+    });
+    const visible = hunks.some((h) => h.visible);
+    if (!visible) hidden.files++;
+    const { path, oldPath, status, binary: binary2 } = source;
+    return { path, oldPath, status, binary: binary2, state: file.state, counts: file.counts, hunks, visible };
+  });
+  const bySha = new Map(current.commits.map((c) => [c.sha, c]));
+  const commits = review.commits.map((c) => {
+    const commit = bySha.get(c.sha);
+    const sinceBaseline = commitChange.get(c.sha) ?? null;
+    const visible = !(hideReviewed && c.state === "reviewed") && sinceBaseline !== "unchanged";
+    if (!visible) hidden.commits++;
+    return {
+      ...c,
+      message: commit.message,
+      author: commit.author,
+      authorDate: commit.authorDate,
+      sinceBaseline,
+      contextOnly: c.state === "changed" && c.differingHunks?.length === 0,
+      visible
+    };
+  });
+  return {
+    threads,
+    snapshot: current,
+    snapshots: ordered,
+    summary: summarizeSnapshot(current),
+    baseline,
+    baselineSnapshot,
+    baselineOptions: ordered.filter((s) => s !== current).reverse().map((s) => ({ id: s.id, label: snapshotLabel(s) })),
+    files,
+    commits,
+    counts: review.counts,
+    needsRelook: commits.some((c) => c.state === "changed"),
+    hidden
+  };
+}
+function findHunk(files, id) {
+  for (const file of files) {
+    const hunk = file.hunks.find((h) => h.id === id);
+    if (hunk) return { file, hunk };
+  }
+  return null;
+}
+function fileHeader(file) {
+  const lines = file.text.split("\n");
+  const end = lines.findIndex((l) => l.startsWith("@@"));
+  return lines.slice(0, end < 0 ? lines.length : end).join("\n").replace(/\n+$/, "");
+}
+function hunkPatch({ file, hunk }) {
+  if (hunk.kind === "meta") return null;
+  return `${fileHeader(file)}
+${hunk.header}
+${hunk.lines.join("\n")}
+`;
+}
+function previousHunk(view, hunk, against) {
+  const ref = against === "reviewed" ? hunk.state === "changed" && hunk.reviewedAs && { snapshotId: hunk.reviewedAs.snapshotId, id: hunk.reviewedAs.hunkId } : view.baselineSnapshot && hunk.baselineHunkId && { snapshotId: view.baselineSnapshot.id, id: hunk.baselineHunkId };
+  const snapshot = ref && view.snapshots.find((s) => s.id === ref.snapshotId);
+  return snapshot && ref ? findHunk(snapshotFiles(snapshot), ref.id) : null;
+}
+function interdiffPatch(path, before, after) {
+  const text2 = (h) => h.lines.filter((l) => l[0] === "+" || l[0] === "-").join("\n") + "\n";
+  const patch = structuredPatch(path, path, text2(before), text2(after), "", "", { context: 3 });
+  const out = [`diff --git a/${path} b/${path}`, `--- a/${path}`, `+++ b/${path}`];
+  for (const h of patch.hunks) {
+    out.push(`@@ -${h.oldStart},${h.oldLines} +${h.newStart},${h.newLines} @@`, ...h.lines);
+  }
+  return out.join("\n") + "\n";
+}
+function commitHunks(commit, ids) {
+  const files = commitFiles(commit);
+  if (!ids) return files;
+  const keep = new Set(ids);
+  return files.map((f) => ({ ...f, hunks: f.hunks.filter((h) => keep.has(h.id)) })).filter((f) => f.hunks.length > 0);
+}
+var HUNK_DELTA2;
+var init_view = __esm({
+  "../differential-review-lib/src/core/view.ts"() {
+    "use strict";
+    init_annotations();
+    init_libesm();
+    init_derive();
+    init_queries();
+    init_review_state();
+    init_snapshot();
+    HUNK_DELTA2 = { exact: "carried", moved: "carried", fuzzy: "changed", new: "new" };
+  }
+});
+
+// ../differential-review-lib/src/core/annotation-storage.ts
+function annotationDir(reviewDir, kind) {
+  return `${reviewDir.replace(/\/$/, "")}/annotations/${kind}`;
+}
+function annotationPath(reviewDir, kind, id) {
+  return `${annotationDir(reviewDir, kind)}/${annotationId(id)}.json`;
+}
+async function readAnnotations(adapter, reviewDir) {
+  async function read(kind, parse3) {
+    const names = (await adapter.listFiles(annotationDir(reviewDir, kind))).filter((name) => name.endsWith(".json")).sort();
+    return Promise.all(names.map(async (name) => {
+      const path = annotationPath(reviewDir, kind, name.slice(0, -5));
+      try {
+        const value = parse3(JSON.parse(await adapter.read(path)));
+        if (value.id !== name.slice(0, -5)) throw new Error("id does not match filename");
+        return value;
+      } catch (e) {
+        throw new Error(`unreadable annotation ${path}: ${e.message}`);
+      }
+    }));
+  }
+  const [threads, replies] = await Promise.all([read("threads", parseReviewThread), read("replies", parseReviewReply)]);
+  return { threads, replies };
+}
+function annotationStore(adapter, reviewDir) {
+  return {
+    read: () => readAnnotations(adapter, reviewDir),
+    writeThread: (thread) => adapter.write(annotationPath(reviewDir, "threads", thread.id), JSON.stringify(parseReviewThread(thread), null, 2) + "\n"),
+    async writeReply(reply) {
+      const path = annotationPath(reviewDir, "replies", reply.id);
+      if (await adapter.exists(path)) throw new Error(`reply already exists: ${reply.id}`);
+      await adapter.write(path, JSON.stringify(parseReviewReply(reply), null, 2) + "\n");
+    }
+  };
+}
+var init_annotation_storage = __esm({
+  "../differential-review-lib/src/core/annotation-storage.ts"() {
+    "use strict";
+    init_annotations();
+  }
+});
+
+// ../differential-review-lib/src/core/index.ts
+var init_core = __esm({
+  "../differential-review-lib/src/core/index.ts"() {
+    "use strict";
+    init_types();
+    init_diff();
+    init_match();
+    init_snapshot();
+    init_queries();
+    init_review_state();
+    init_derive();
+    init_storage();
+    init_sha256();
+    init_view();
+    init_annotations();
+    init_annotation_storage();
   }
 });
 
@@ -812,9 +2771,9 @@ var require_template = __commonJS({
       function coerceToString(val) {
         return String(val === null || val === void 0 ? "" : val);
       }
-      function hoganEscape(str) {
-        str = coerceToString(str);
-        return hChars.test(str) ? str.replace(rAmp, "&amp;").replace(rLt, "&lt;").replace(rGt, "&gt;").replace(rApos, "&#39;").replace(rQuot, "&quot;") : str;
+      function hoganEscape(str2) {
+        str2 = coerceToString(str2);
+        return hChars.test(str2) ? str2.replace(rAmp, "&amp;").replace(rLt, "&lt;").replace(rGt, "&gt;").replace(rApos, "&#39;").replace(rQuot, "&quot;") : str2;
       }
       var isArray = Array.isArray || function(a) {
         return Object.prototype.toString.call(a) === "[object Array]";
@@ -2371,6 +4330,41 @@ var require_core = __commonJS({
   }
 });
 
+// src/record-links.ts
+function githubUrl(record, body) {
+  const all = githubLinks(body);
+  const id = escapeRegExp(record.name);
+  const find = (pattern, label3) => all.find((link) => pattern.test(link.url) && (!label3 || label3.test(link.label)))?.url;
+  const upstream = `https://github.com/${upstreamOwner(record.repo, [body])}/${record.repo}`;
+  if (record.kind === "reviews") return find(new RegExp(`/pull/${id}$`)) ?? `${upstream}/pull/${record.name}`;
+  if (record.kind === "issues") return find(new RegExp(`/issues/${id}$`)) ?? `${upstream}/issues/${record.name}`;
+  if (record.kind === "issues_incubator") return void 0;
+  const statusPr = /^Status:.*?\bPR #(\d+)/m.exec(body)?.[1];
+  const pr = recordFrontmatter(body).pr;
+  return (pr ? `${upstream}/pull/${pr}` : void 0) ?? find(/\/pull\/\d+$/, /^(View )?PR #\d+$/) ?? (statusPr ? `${upstream}/pull/${statusPr}` : void 0) ?? find(new RegExp(`/tree/${id}$`)) ?? `https://github.com/${FORK_OWNER}/${record.repo}/tree/${record.name}`;
+}
+function compareUrl(record, body) {
+  if (record.kind !== "branches") return void 0;
+  const base = recordFrontmatter(body).upstream_base_branch;
+  if (!base) return void 0;
+  const upstream = upstreamOwner(record.repo, [body]);
+  return `https://github.com/${upstream}/${record.repo}/compare/${base}...${FORK_OWNER}:${record.repo}:${record.name}`;
+}
+function worktreeCandidates(record, body, home) {
+  const root = `${home}/projects/worktrees/${record.repo}`;
+  if (record.kind === "reviews") return [`${root}/pr/${record.name}`];
+  if (record.kind !== "branches") return [];
+  const listed = /Worktree:\**\s*`([^`]+)`/.exec(body)?.[1]?.replace(/^~(?=\/)/, home);
+  return [...listed ? [listed] : [], `${root}/branch/${record.name}`];
+}
+var init_record_links = __esm({
+  "src/record-links.ts"() {
+    "use strict";
+    init_repository_tabs();
+    init_record_frontmatter();
+  }
+});
+
 // ../review-factory/src/model.ts
 function decodeRun(d, value, path, extra = []) {
   const obj = d.object(value, path, [...extra, "model", "effort"]);
@@ -2484,14 +4478,14 @@ var init_model = __esm({
         this.errors.push(path ? `${path}: ${message}` : message);
       }
       /** The mapping at `path`, after reporting unknown and missing keys. */
-      object(value, path, required, optional = []) {
+      object(value, path, required2, optional = []) {
         if (!value || typeof value !== "object" || Array.isArray(value)) {
           this.fail(path, "expected a mapping");
           return null;
         }
         const obj = value;
-        for (const key2 of Object.keys(obj)) if (!required.includes(key2) && !optional.includes(key2)) this.fail(path, `unknown key ${JSON.stringify(key2)}${UNKNOWN_HINT}`);
-        for (const key2 of required) if (obj[key2] == null) this.fail(path, `missing ${key2}`);
+        for (const key2 of Object.keys(obj)) if (!required2.includes(key2) && !optional.includes(key2)) this.fail(path, `unknown key ${JSON.stringify(key2)}${UNKNOWN_HINT}`);
+        for (const key2 of required2) if (obj[key2] == null) this.fail(path, `missing ${key2}`);
         return obj;
       }
       string(obj, key2, path, pattern, what) {
@@ -2660,15 +4654,15 @@ function composeGates(ctx, mode) {
   const trim = trimLine(file);
   if (trim) errors.push(trim);
   for (const [where, text2] of agentText(ctx)) for (const login of new Set(mentions(text2))) errors.push(`${where} mentions @${login}; put it in backticks or drop the @`);
-  const branchCommits = latestBranch(file)?.commits.length ?? 0;
+  const branchCommits2 = latestBranch(file)?.commits.length ?? 0;
   if (actions.pull_request) {
     if (noteIsEmpty(ctx.prNote)) errors.push(`${prNoteName(file.round)} is empty`);
-    if (!branchCommits) errors.push("Pull request is checked but the review branch has no commits");
+    if (!branchCommits2) errors.push("Pull request is checked but the review branch has no commits");
     else if (!latestBranch(file).pr_title) errors.push(`${latestBranch(file).name}: missing pr_title`);
     if (actions.push) errors.push("check Pull request or Push, not both");
     if (mode === "comment" && !ctx.prUrl) errors.push("Pull request is checked: run `compose pr`, open the PR, then `compose comment --pr-url <url>`");
   } else if (mode === "pr") errors.push("Pull request isn't checked");
-  if (actions.push && !branchCommits) errors.push("Push is checked but the review branch has no commits");
+  if (actions.push && !branchCommits2) errors.push("Push is checked but the review branch has no commits");
   if (actions.issue_refactor && !ctx.followupIssue) errors.push("Issue (refactor) is checked but there's no followup_refactor_issue.md");
   if (actions.issue_galaxy_brain && !ctx.learningIssue) errors.push("Issue (galaxy-brain) is checked but there's no learning_galaxy_followup_issue.md");
   if (ctx.followupIssue && !file.followup_target) errors.push("followup_refactor_issue.md needs followup_target");
@@ -2735,7 +4729,7 @@ function findingBody(ctx, f, branch) {
   ]).trimEnd();
 }
 function fence(text2) {
-  const longest = Math.max(2, ...(text2.match(/`+/g) ?? []).map((run) => run.length));
+  const longest = Math.max(2, ...(text2.match(/`+/g) ?? []).map((run2) => run2.length));
   return "`".repeat(longest + 1);
 }
 function followup(ctx) {
@@ -2858,7 +4852,7 @@ function landing(ctx) {
     summary: f.summary,
     include: f.include,
     ...f.filtered ? { filtered: f.filtered } : {},
-    fixedIn: (branch?.commits ?? []).filter((c) => c.findings.includes(f.id)).map((c) => c.sha),
+    fixedIn: (branch?.commits ?? []).filter((c) => c.findings.includes(f.id)).map(({ sha, subject }) => ({ sha, subject })),
     ...f.issue ? { text: findingBody(ctx, f, branch) } : {}
   }));
   const mode = gateMode(ctx);
@@ -3826,8 +5820,8 @@ function indentComment(comment, indent) {
 var stringifyComment, lineComment;
 var init_stringifyComment = __esm({
   "node_modules/yaml/browser/dist/stringify/stringifyComment.js"() {
-    stringifyComment = (str) => str.replace(/^(?!$)(?: $)?/gm, "#");
-    lineComment = (str, indent, comment) => str.endsWith("\n") ? indentComment(comment, indent) : comment.includes("\n") ? "\n" + indentComment(comment, indent) : (str.endsWith(" ") ? "" : " ") + comment;
+    stringifyComment = (str2) => str2.replace(/^(?!$)(?: $)?/gm, "#");
+    lineComment = (str2, indent, comment) => str2.endsWith("\n") ? indentComment(comment, indent) : comment.includes("\n") ? "\n" + indentComment(comment, indent) : (str2.endsWith(" ") ? "" : " ") + comment;
   }
 });
 
@@ -3964,15 +5958,15 @@ var init_foldFlowLines = __esm({
 });
 
 // node_modules/yaml/browser/dist/stringify/stringifyString.js
-function lineLengthOverLimit(str, lineWidth, indentLength) {
+function lineLengthOverLimit(str2, lineWidth, indentLength) {
   if (!lineWidth || lineWidth < 0)
     return false;
   const limit = lineWidth - indentLength;
-  const strLen = str.length;
+  const strLen = str2.length;
   if (strLen <= limit)
     return false;
   for (let i = 0, start = 0; i < strLen; ++i) {
-    if (str[i] === "\n") {
+    if (str2[i] === "\n") {
       if (i - start > limit)
         return true;
       start = i + 1;
@@ -3989,11 +5983,11 @@ function doubleQuotedString(value, ctx) {
   const { implicitKey } = ctx;
   const minMultiLineLength = ctx.options.doubleQuotedMinMultiLineLength;
   const indent = ctx.indent || (containsDocumentMarker(value) ? "  " : "");
-  let str = "";
+  let str2 = "";
   let start = 0;
   for (let i = 0, ch = json2[i]; ch; ch = json2[++i]) {
     if (ch === " " && json2[i + 1] === "\\" && json2[i + 2] === "n") {
-      str += json2.slice(start, i) + "\\ ";
+      str2 += json2.slice(start, i) + "\\ ";
       i += 1;
       start = i;
       ch = "\\";
@@ -4002,38 +5996,38 @@ function doubleQuotedString(value, ctx) {
       switch (json2[i + 1]) {
         case "u":
           {
-            str += json2.slice(start, i);
+            str2 += json2.slice(start, i);
             const code = json2.substr(i + 2, 4);
             switch (code) {
               case "0000":
-                str += "\\0";
+                str2 += "\\0";
                 break;
               case "0007":
-                str += "\\a";
+                str2 += "\\a";
                 break;
               case "000b":
-                str += "\\v";
+                str2 += "\\v";
                 break;
               case "001b":
-                str += "\\e";
+                str2 += "\\e";
                 break;
               case "0085":
-                str += "\\N";
+                str2 += "\\N";
                 break;
               case "00a0":
-                str += "\\_";
+                str2 += "\\_";
                 break;
               case "2028":
-                str += "\\L";
+                str2 += "\\L";
                 break;
               case "2029":
-                str += "\\P";
+                str2 += "\\P";
                 break;
               default:
                 if (code.substr(0, 2) === "00")
-                  str += "\\x" + code.substr(2);
+                  str2 += "\\x" + code.substr(2);
                 else
-                  str += json2.substr(i, 6);
+                  str2 += json2.substr(i, 6);
             }
             i += 5;
             start = i + 1;
@@ -4043,14 +6037,14 @@ function doubleQuotedString(value, ctx) {
           if (implicitKey || json2[i + 2] === '"' || json2.length < minMultiLineLength) {
             i += 1;
           } else {
-            str += json2.slice(start, i) + "\n\n";
+            str2 += json2.slice(start, i) + "\n\n";
             while (json2[i + 2] === "\\" && json2[i + 3] === "n" && json2[i + 4] !== '"') {
-              str += "\n";
+              str2 += "\n";
               i += 2;
             }
-            str += indent;
+            str2 += indent;
             if (json2[i + 2] === " ")
-              str += "\\";
+              str2 += "\\";
             i += 1;
             start = i + 1;
           }
@@ -4059,8 +6053,8 @@ function doubleQuotedString(value, ctx) {
           i += 1;
       }
   }
-  str = start ? str + json2.slice(start) : json2;
-  return implicitKey ? str : foldFlowLines(str, indent, FOLD_QUOTED, getFoldOptions(ctx, false));
+  str2 = start ? str2 + json2.slice(start) : json2;
+  return implicitKey ? str2 : foldFlowLines(str2, indent, FOLD_QUOTED, getFoldOptions(ctx, false));
 }
 function singleQuotedString(value, ctx) {
   if (ctx.options.singleQuote === false || ctx.implicitKey && value.includes("\n") || /[ \t]\n|\n[ \t]/.test(value))
@@ -4182,15 +6176,15 @@ function plainString(item2, ctx, onComment, onChompKeep) {
       return quotedString(value, ctx);
     }
   }
-  const str = value.replace(/\n+/g, `$&
+  const str2 = value.replace(/\n+/g, `$&
 ${indent}`);
   if (actualString) {
-    const test = (tag) => tag.default && tag.tag !== "tag:yaml.org,2002:str" && tag.test?.test(str);
+    const test = (tag) => tag.default && tag.tag !== "tag:yaml.org,2002:str" && tag.test?.test(str2);
     const { compat, tags } = ctx.doc.schema;
     if (tags.some(test) || compat?.some(test))
       return quotedString(value, ctx);
   }
-  return implicitKey ? str : foldFlowLines(str, indent, FOLD_FLOW, getFoldOptions(ctx, false));
+  return implicitKey ? str2 : foldFlowLines(str2, indent, FOLD_FLOW, getFoldOptions(ctx, false));
 }
 function stringifyString(item2, ctx, onComment, onChompKeep) {
   const { implicitKey, inFlow } = ctx;
@@ -4235,7 +6229,7 @@ var init_stringifyString = __esm({
       lineWidth: ctx.options.lineWidth,
       minContentWidth: ctx.options.minContentWidth
     });
-    containsDocumentMarker = (str) => /^(%|---|\.\.\.)/m.test(str);
+    containsDocumentMarker = (str2) => /^(%|---|\.\.\.)/m.test(str2);
     try {
       blockEndNewlines = new RegExp("(^|(?<!\n))\n+(?!\n|$)", "g");
     } catch {
@@ -4350,11 +6344,11 @@ function stringify(item2, ctx, onComment, onChompKeep) {
   const props = stringifyProps(node, tagObj, ctx);
   if (props.length > 0)
     ctx.indentAtStart = (ctx.indentAtStart ?? 0) + props.length + 1;
-  const str = typeof tagObj.stringify === "function" ? tagObj.stringify(node, ctx, onComment, onChompKeep) : isScalar(node) ? stringifyString(node, ctx, onComment, onChompKeep) : node.toString(ctx, onComment, onChompKeep);
+  const str2 = typeof tagObj.stringify === "function" ? tagObj.stringify(node, ctx, onComment, onChompKeep) : isScalar(node) ? stringifyString(node, ctx, onComment, onChompKeep) : node.toString(ctx, onComment, onChompKeep);
   if (!props)
-    return str;
-  return isScalar(node) || str[0] === "{" || str[0] === "[" ? `${props} ${str}` : `${props}
-${ctx.indent}${str}`;
+    return str2;
+  return isScalar(node) || str2[0] === "{" || str2[0] === "[" ? `${props} ${str2}` : `${props}
+${ctx.indent}${str2}`;
 }
 var init_stringify = __esm({
   "node_modules/yaml/browser/dist/stringify/stringify.js"() {
@@ -4386,8 +6380,8 @@ function stringifyPair({ key: key2, value }, ctx, onComment, onChompKeep) {
   });
   let keyCommentDone = false;
   let chompKeep = false;
-  let str = stringify(key2, ctx, () => keyCommentDone = true, () => chompKeep = true);
-  if (!explicitKey && !ctx.inFlow && str.length > 1024) {
+  let str2 = stringify(key2, ctx, () => keyCommentDone = true, () => chompKeep = true);
+  if (!explicitKey && !ctx.inFlow && str2.length > 1024) {
     if (simpleKeys)
       throw new Error("With simple keys, single line scalar must not span more than 1024 characters");
     explicitKey = true;
@@ -4396,27 +6390,27 @@ function stringifyPair({ key: key2, value }, ctx, onComment, onChompKeep) {
     if (allNullValues || value == null) {
       if (keyCommentDone && onComment)
         onComment();
-      return str === "" ? "?" : explicitKey ? `? ${str}` : str;
+      return str2 === "" ? "?" : explicitKey ? `? ${str2}` : str2;
     }
   } else if (allNullValues && !simpleKeys || value == null && explicitKey) {
-    str = `? ${str}`;
+    str2 = `? ${str2}`;
     if (keyComment && !keyCommentDone) {
-      str += lineComment(str, ctx.indent, commentString(keyComment));
+      str2 += lineComment(str2, ctx.indent, commentString(keyComment));
     } else if (chompKeep && onChompKeep)
       onChompKeep();
-    return str;
+    return str2;
   }
   if (keyCommentDone)
     keyComment = null;
   if (explicitKey) {
     if (keyComment)
-      str += lineComment(str, ctx.indent, commentString(keyComment));
-    str = `? ${str}
+      str2 += lineComment(str2, ctx.indent, commentString(keyComment));
+    str2 = `? ${str2}
 ${indent}:`;
   } else {
-    str = `${str}:`;
+    str2 = `${str2}:`;
     if (keyComment)
-      str += lineComment(str, ctx.indent, commentString(keyComment));
+      str2 += lineComment(str2, ctx.indent, commentString(keyComment));
   }
   let vsb, vcb, valueComment;
   if (isNode(value)) {
@@ -4432,7 +6426,7 @@ ${indent}:`;
   }
   ctx.implicitKey = false;
   if (!explicitKey && !keyComment && isScalar(value))
-    ctx.indentAtStart = str.length + 1;
+    ctx.indentAtStart = str2.length + 1;
   chompKeep = false;
   if (!indentSeq && indentStep.length >= 2 && !ctx.inFlow && !explicitKey && isSeq(value) && !value.flow && !value.tag && !value.anchor) {
     ctx.indent = ctx.indent.substring(2);
@@ -4476,16 +6470,16 @@ ${ctx.indent}`;
   } else if (valueStr === "" || valueStr[0] === "\n") {
     ws = "";
   }
-  str += ws + valueStr;
+  str2 += ws + valueStr;
   if (ctx.inFlow) {
     if (valueCommentDone && onComment)
       onComment();
   } else if (valueComment && !valueCommentDone) {
-    str += lineComment(str, ctx.indent, commentString(valueComment));
+    str2 += lineComment(str2, ctx.indent, commentString(valueComment));
   } else if (chompKeep && onChompKeep) {
     onChompKeep();
   }
-  return str;
+  return str2;
 }
 var init_stringifyPair = __esm({
   "node_modules/yaml/browser/dist/stringify/stringifyPair.js"() {
@@ -4693,31 +6687,31 @@ function stringifyBlockCollection({ comment, items }, ctx, { blockItemPrefix, fl
       }
     }
     chompKeep = false;
-    let str2 = stringify(item2, itemCtx, () => comment2 = null, () => chompKeep = true);
+    let str3 = stringify(item2, itemCtx, () => comment2 = null, () => chompKeep = true);
     if (comment2)
-      str2 += lineComment(str2, itemIndent, commentString(comment2));
+      str3 += lineComment(str3, itemIndent, commentString(comment2));
     if (chompKeep && comment2)
       chompKeep = false;
-    lines.push(blockItemPrefix + str2);
+    lines.push(blockItemPrefix + str3);
   }
-  let str;
+  let str2;
   if (lines.length === 0) {
-    str = flowChars.start + flowChars.end;
+    str2 = flowChars.start + flowChars.end;
   } else {
-    str = lines[0];
+    str2 = lines[0];
     for (let i = 1; i < lines.length; ++i) {
       const line = lines[i];
-      str += line ? `
+      str2 += line ? `
 ${indent}${line}` : "\n";
     }
   }
   if (comment) {
-    str += "\n" + indentComment(commentString(comment), indent);
+    str2 += "\n" + indentComment(commentString(comment), indent);
     if (onComment)
       onComment();
   } else if (chompKeep && onChompKeep)
     onChompKeep();
-  return str;
+  return str2;
 }
 function stringifyFlowCollection({ items }, ctx, { flowChars, itemIndent }) {
   const { indent, indentStep, flowCollectionPadding: fcPadding, options: { commentString } } = ctx;
@@ -4760,21 +6754,21 @@ function stringifyFlowCollection({ items }, ctx, { flowChars, itemIndent }) {
     }
     if (comment)
       reqNewline = true;
-    let str = stringify(item2, itemCtx, () => comment = null);
-    reqNewline || (reqNewline = lines.length > linesAtValue || str.includes("\n"));
+    let str2 = stringify(item2, itemCtx, () => comment = null);
+    reqNewline || (reqNewline = lines.length > linesAtValue || str2.includes("\n"));
     if (i < items.length - 1) {
-      str += ",";
+      str2 += ",";
     } else if (ctx.options.trailingComma) {
       if (ctx.options.lineWidth > 0) {
-        reqNewline || (reqNewline = lines.reduce((sum, line) => sum + line.length + 2, 2) + (str.length + 2) > ctx.options.lineWidth);
+        reqNewline || (reqNewline = lines.reduce((sum, line) => sum + line.length + 2, 2) + (str2.length + 2) > ctx.options.lineWidth);
       }
       if (reqNewline) {
-        str += ",";
+        str2 += ",";
       }
     }
     if (comment)
-      str += lineComment(str, itemIndent, commentString(comment));
-    lines.push(str);
+      str2 += lineComment(str2, itemIndent, commentString(comment));
+    lines.push(str2);
     linesAtValue = lines.length;
   }
   const { start, end } = flowChars;
@@ -4786,11 +6780,11 @@ function stringifyFlowCollection({ items }, ctx, { flowChars, itemIndent }) {
       reqNewline = ctx.options.lineWidth > 0 && len > ctx.options.lineWidth;
     }
     if (reqNewline) {
-      let str = start;
+      let str2 = start;
       for (const line of lines)
-        str += line ? `
+        str2 += line ? `
 ${indentStep}${indent}${line}` : "\n";
-      return `${str}
+      return `${str2}
 ${indent}${end}`;
     } else {
       return `${start}${fcPadding}${lines.join(" ")}${fcPadding}${end}`;
@@ -5121,7 +7115,7 @@ var init_string = __esm({
       identify: (value) => typeof value === "string",
       default: true,
       tag: "tag:yaml.org,2002:str",
-      resolve: (str) => str,
+      resolve: (str2) => str2,
       stringify(item2, ctx, onComment, onChompKeep) {
         ctx = Object.assign({ actualString: true }, ctx);
         return stringifyString(item2, ctx, onComment, onChompKeep);
@@ -5157,7 +7151,7 @@ var init_bool = __esm({
       default: true,
       tag: "tag:yaml.org,2002:bool",
       test: /^(?:[Tt]rue|TRUE|[Ff]alse|FALSE)$/,
-      resolve: (str) => new Scalar(str[0] === "t" || str[0] === "T"),
+      resolve: (str2) => new Scalar(str2[0] === "t" || str2[0] === "T"),
       stringify({ source, value }, ctx) {
         if (source && boolTag.test.test(source)) {
           const sv = source[0] === "t" || source[0] === "T";
@@ -5206,7 +7200,7 @@ var init_float = __esm({
       default: true,
       tag: "tag:yaml.org,2002:float",
       test: /^(?:[-+]?\.(?:inf|Inf|INF)|\.nan|\.NaN|\.NAN)$/,
-      resolve: (str) => str.slice(-3).toLowerCase() === "nan" ? NaN : str[0] === "-" ? Number.NEGATIVE_INFINITY : Number.POSITIVE_INFINITY,
+      resolve: (str2) => str2.slice(-3).toLowerCase() === "nan" ? NaN : str2[0] === "-" ? Number.NEGATIVE_INFINITY : Number.POSITIVE_INFINITY,
       stringify: stringifyNumber
     };
     floatExp = {
@@ -5215,7 +7209,7 @@ var init_float = __esm({
       tag: "tag:yaml.org,2002:float",
       format: "EXP",
       test: /^[-+]?(?:\.[0-9]+|[0-9]+(?:\.[0-9]*)?)[eE][-+]?[0-9]+$/,
-      resolve: (str) => parseFloat(str),
+      resolve: (str2) => parseFloat(str2),
       stringify(node) {
         const num = Number(node.value);
         return isFinite(num) ? num.toExponential() : stringifyNumber(node);
@@ -5226,11 +7220,11 @@ var init_float = __esm({
       default: true,
       tag: "tag:yaml.org,2002:float",
       test: /^[-+]?(?:\.[0-9]+|[0-9]+\.[0-9]*)$/,
-      resolve(str) {
-        const node = new Scalar(parseFloat(str));
-        const dot = str.indexOf(".");
-        if (dot !== -1 && str[str.length - 1] === "0")
-          node.minFractionDigits = str.length - dot - 1;
+      resolve(str2) {
+        const node = new Scalar(parseFloat(str2));
+        const dot = str2.indexOf(".");
+        if (dot !== -1 && str2[str2.length - 1] === "0")
+          node.minFractionDigits = str2.length - dot - 1;
         return node;
       },
       stringify: stringifyNumber
@@ -5250,14 +7244,14 @@ var init_int = __esm({
   "node_modules/yaml/browser/dist/schema/core/int.js"() {
     init_stringifyNumber();
     intIdentify = (value) => typeof value === "bigint" || Number.isInteger(value);
-    intResolve = (str, offset, radix, { intAsBigInt }) => intAsBigInt ? BigInt(str) : parseInt(str.substring(offset), radix);
+    intResolve = (str2, offset, radix, { intAsBigInt }) => intAsBigInt ? BigInt(str2) : parseInt(str2.substring(offset), radix);
     intOct = {
       identify: (value) => intIdentify(value) && value >= 0,
       default: true,
       tag: "tag:yaml.org,2002:int",
       format: "OCT",
       test: /^0o[0-7]+$/,
-      resolve: (str, _onError, opt) => intResolve(str, 2, 8, opt),
+      resolve: (str2, _onError, opt) => intResolve(str2, 2, 8, opt),
       stringify: (node) => intStringify(node, 8, "0o")
     };
     int = {
@@ -5265,7 +7259,7 @@ var init_int = __esm({
       default: true,
       tag: "tag:yaml.org,2002:int",
       test: /^[-+]?[0-9]+$/,
-      resolve: (str, _onError, opt) => intResolve(str, 0, 10, opt),
+      resolve: (str2, _onError, opt) => intResolve(str2, 0, 10, opt),
       stringify: stringifyNumber
     };
     intHex = {
@@ -5274,7 +7268,7 @@ var init_int = __esm({
       tag: "tag:yaml.org,2002:int",
       format: "HEX",
       test: /^0x[0-9a-fA-F]+$/,
-      resolve: (str, _onError, opt) => intResolve(str, 2, 16, opt),
+      resolve: (str2, _onError, opt) => intResolve(str2, 2, 16, opt),
       stringify: (node) => intStringify(node, 16, "0x")
     };
   }
@@ -5323,7 +7317,7 @@ var init_schema2 = __esm({
         identify: (value) => typeof value === "string",
         default: true,
         tag: "tag:yaml.org,2002:str",
-        resolve: (str) => str,
+        resolve: (str2) => str2,
         stringify: stringifyJSON
       },
       {
@@ -5340,7 +7334,7 @@ var init_schema2 = __esm({
         default: true,
         tag: "tag:yaml.org,2002:bool",
         test: /^true$|^false$/,
-        resolve: (str) => str === "true",
+        resolve: (str2) => str2 === "true",
         stringify: stringifyJSON
       },
       {
@@ -5348,7 +7342,7 @@ var init_schema2 = __esm({
         default: true,
         tag: "tag:yaml.org,2002:int",
         test: /^-?(?:0|[1-9][0-9]*)$/,
-        resolve: (str, _onError, { intAsBigInt }) => intAsBigInt ? BigInt(str) : parseInt(str, 10),
+        resolve: (str2, _onError, { intAsBigInt }) => intAsBigInt ? BigInt(str2) : parseInt(str2, 10),
         stringify: ({ value }) => intIdentify2(value) ? value.toString() : JSON.stringify(value)
       },
       {
@@ -5356,7 +7350,7 @@ var init_schema2 = __esm({
         default: true,
         tag: "tag:yaml.org,2002:float",
         test: /^-?(?:0|[1-9][0-9]*)(?:\.[0-9]*)?(?:[eE][-+]?[0-9]+)?$/,
-        resolve: (str) => parseFloat(str),
+        resolve: (str2) => parseFloat(str2),
         stringify: stringifyJSON
       }
     ];
@@ -5364,9 +7358,9 @@ var init_schema2 = __esm({
       default: true,
       tag: "",
       test: /^/,
-      resolve(str, onError) {
-        onError(`Unresolved plain scalar ${JSON.stringify(str)}`);
-        return str;
+      resolve(str2, onError) {
+        onError(`Unresolved plain scalar ${JSON.stringify(str2)}`);
+        return str2;
       }
     };
     schema2 = [map, seq].concat(jsonScalars, jsonError);
@@ -5394,10 +7388,10 @@ var init_binary = __esm({
        */
       resolve(src, onError) {
         if (typeof atob === "function") {
-          const str = atob(src.replace(/[\n\r]/g, ""));
-          const buffer = new Uint8Array(str.length);
-          for (let i = 0; i < str.length; ++i)
-            buffer[i] = str.charCodeAt(i);
+          const str2 = atob(src.replace(/[\n\r]/g, ""));
+          const buffer = new Uint8Array(str2.length);
+          for (let i = 0; i < str2.length; ++i)
+            buffer[i] = str2.charCodeAt(i);
           return buffer;
         } else {
           onError("This environment does not support reading binary tags; either Buffer or atob is required");
@@ -5408,26 +7402,26 @@ var init_binary = __esm({
         if (!value)
           return "";
         const buf = value;
-        let str;
+        let str2;
         if (typeof btoa === "function") {
           let s = "";
           for (let i = 0; i < buf.length; ++i)
             s += String.fromCharCode(buf[i]);
-          str = btoa(s);
+          str2 = btoa(s);
         } else {
           throw new Error("This environment does not support writing binary tags; either Buffer or btoa is required");
         }
         type ?? (type = Scalar.BLOCK_LITERAL);
         if (type !== Scalar.QUOTE_DOUBLE) {
           const lineWidth = Math.max(ctx.options.lineWidth - ctx.indent.length, ctx.options.minContentWidth);
-          const n = Math.ceil(str.length / lineWidth);
+          const n = Math.ceil(str2.length / lineWidth);
           const lines = new Array(n);
           for (let i = 0, o = 0; i < n; ++i, o += lineWidth) {
-            lines[i] = str.substr(o, lineWidth);
+            lines[i] = str2.substr(o, lineWidth);
           }
-          str = lines.join(type === Scalar.BLOCK_LITERAL ? "\n" : " ");
+          str2 = lines.join(type === Scalar.BLOCK_LITERAL ? "\n" : " ");
         }
-        return stringifyString({ comment, type, value: str }, ctx, onComment, onChompKeep);
+        return stringifyString({ comment, type, value: str2 }, ctx, onComment, onChompKeep);
       }
     };
   }
@@ -5625,7 +7619,7 @@ var init_float2 = __esm({
       default: true,
       tag: "tag:yaml.org,2002:float",
       test: /^(?:[-+]?\.(?:inf|Inf|INF)|\.nan|\.NaN|\.NAN)$/,
-      resolve: (str) => str.slice(-3).toLowerCase() === "nan" ? NaN : str[0] === "-" ? Number.NEGATIVE_INFINITY : Number.POSITIVE_INFINITY,
+      resolve: (str2) => str2.slice(-3).toLowerCase() === "nan" ? NaN : str2[0] === "-" ? Number.NEGATIVE_INFINITY : Number.POSITIVE_INFINITY,
       stringify: stringifyNumber
     };
     floatExp2 = {
@@ -5634,7 +7628,7 @@ var init_float2 = __esm({
       tag: "tag:yaml.org,2002:float",
       format: "EXP",
       test: /^[-+]?(?:[0-9][0-9_]*)?(?:\.[0-9_]*)?[eE][-+]?[0-9]+$/,
-      resolve: (str) => parseFloat(str.replace(/_/g, "")),
+      resolve: (str2) => parseFloat(str2.replace(/_/g, "")),
       stringify(node) {
         const num = Number(node.value);
         return isFinite(num) ? num.toExponential() : stringifyNumber(node);
@@ -5645,11 +7639,11 @@ var init_float2 = __esm({
       default: true,
       tag: "tag:yaml.org,2002:float",
       test: /^[-+]?(?:[0-9][0-9_]*)?\.[0-9_]*$/,
-      resolve(str) {
-        const node = new Scalar(parseFloat(str.replace(/_/g, "")));
-        const dot = str.indexOf(".");
+      resolve(str2) {
+        const node = new Scalar(parseFloat(str2.replace(/_/g, "")));
+        const dot = str2.indexOf(".");
         if (dot !== -1) {
-          const f = str.substring(dot + 1).replace(/_/g, "");
+          const f = str2.substring(dot + 1).replace(/_/g, "");
           if (f[f.length - 1] === "0")
             node.minFractionDigits = f.length;
         }
@@ -5661,34 +7655,34 @@ var init_float2 = __esm({
 });
 
 // node_modules/yaml/browser/dist/schema/yaml-1.1/int.js
-function intResolve2(str, offset, radix, { intAsBigInt }) {
-  const sign = str[0];
+function intResolve2(str2, offset, radix, { intAsBigInt }) {
+  const sign = str2[0];
   if (sign === "-" || sign === "+")
     offset += 1;
-  str = str.substring(offset).replace(/_/g, "");
+  str2 = str2.substring(offset).replace(/_/g, "");
   if (intAsBigInt) {
     switch (radix) {
       case 2:
-        str = `0b${str}`;
+        str2 = `0b${str2}`;
         break;
       case 8:
-        str = `0o${str}`;
+        str2 = `0o${str2}`;
         break;
       case 16:
-        str = `0x${str}`;
+        str2 = `0x${str2}`;
         break;
     }
-    const n2 = BigInt(str);
+    const n2 = BigInt(str2);
     return sign === "-" ? BigInt(-1) * n2 : n2;
   }
-  const n = parseInt(str, radix);
+  const n = parseInt(str2, radix);
   return sign === "-" ? -1 * n : n;
 }
 function intStringify2(node, radix, prefix) {
   const { value } = node;
   if (intIdentify3(value)) {
-    const str = value.toString(radix);
-    return value < 0 ? "-" + prefix + str.substr(1) : prefix + str;
+    const str2 = value.toString(radix);
+    return value < 0 ? "-" + prefix + str2.substr(1) : prefix + str2;
   }
   return stringifyNumber(node);
 }
@@ -5703,7 +7697,7 @@ var init_int2 = __esm({
       tag: "tag:yaml.org,2002:int",
       format: "BIN",
       test: /^[-+]?0b[0-1_]+$/,
-      resolve: (str, _onError, opt) => intResolve2(str, 2, 2, opt),
+      resolve: (str2, _onError, opt) => intResolve2(str2, 2, 2, opt),
       stringify: (node) => intStringify2(node, 2, "0b")
     };
     intOct2 = {
@@ -5712,7 +7706,7 @@ var init_int2 = __esm({
       tag: "tag:yaml.org,2002:int",
       format: "OCT",
       test: /^[-+]?0[0-7_]+$/,
-      resolve: (str, _onError, opt) => intResolve2(str, 1, 8, opt),
+      resolve: (str2, _onError, opt) => intResolve2(str2, 1, 8, opt),
       stringify: (node) => intStringify2(node, 8, "0")
     };
     int2 = {
@@ -5720,7 +7714,7 @@ var init_int2 = __esm({
       default: true,
       tag: "tag:yaml.org,2002:int",
       test: /^[-+]?[0-9][0-9_]*$/,
-      resolve: (str, _onError, opt) => intResolve2(str, 0, 10, opt),
+      resolve: (str2, _onError, opt) => intResolve2(str2, 0, 10, opt),
       stringify: stringifyNumber
     };
     intHex2 = {
@@ -5729,7 +7723,7 @@ var init_int2 = __esm({
       tag: "tag:yaml.org,2002:int",
       format: "HEX",
       test: /^[-+]?0x[0-9a-fA-F_]+$/,
-      resolve: (str, _onError, opt) => intResolve2(str, 2, 16, opt),
+      resolve: (str2, _onError, opt) => intResolve2(str2, 2, 16, opt),
       stringify: (node) => intStringify2(node, 16, "0x")
     };
   }
@@ -5823,9 +7817,9 @@ var init_set = __esm({
 });
 
 // node_modules/yaml/browser/dist/schema/yaml-1.1/timestamp.js
-function parseSexagesimal(str, asBigInt) {
-  const sign = str[0];
-  const parts = sign === "-" || sign === "+" ? str.substring(1) : str;
+function parseSexagesimal(str2, asBigInt) {
+  const sign = str2[0];
+  const parts = sign === "-" || sign === "+" ? str2.substring(1) : str2;
   const num = (n) => asBigInt ? BigInt(n) : Number(n);
   const res = parts.replace(/_/g, "").split(":").reduce((res2, p) => res2 * num(60) + num(p), num(0));
   return sign === "-" ? num(-1) * res : res;
@@ -5866,7 +7860,7 @@ var init_timestamp = __esm({
       tag: "tag:yaml.org,2002:int",
       format: "TIME",
       test: /^[-+]?[0-9][0-9_]*(?::[0-5]?[0-9])+$/,
-      resolve: (str, _onError, { intAsBigInt }) => parseSexagesimal(str, intAsBigInt),
+      resolve: (str2, _onError, { intAsBigInt }) => parseSexagesimal(str2, intAsBigInt),
       stringify: stringifySexagesimal
     };
     floatTime = {
@@ -5875,7 +7869,7 @@ var init_timestamp = __esm({
       tag: "tag:yaml.org,2002:float",
       format: "TIME",
       test: /^[-+]?[0-9][0-9_]*(?::[0-5]?[0-9])+\.[0-9_]*$/,
-      resolve: (str) => parseSexagesimal(str, false),
+      resolve: (str2) => parseSexagesimal(str2, false),
       stringify: stringifySexagesimal
     };
     timestamp = {
@@ -5886,8 +7880,8 @@ var init_timestamp = __esm({
       // may be omitted altogether, resulting in a date format. In such a case, the time part is
       // assumed to be 00:00:00Z (start of day, UTC).
       test: RegExp("^([0-9]{4})-([0-9]{1,2})-([0-9]{1,2})(?:(?:t|T|[ \\t]+)([0-9]{1,2}):([0-9]{1,2}):([0-9]{1,2}(\\.[0-9]+)?)(?:[ \\t]*(Z|[-+][012]?[0-9](?::[0-9]{2})?))?)?$"),
-      resolve(str) {
-        const match = str.match(timestamp.test);
+      resolve(str2) {
+        const match = str2.match(timestamp.test);
         if (!match)
           throw new Error("!!timestamp expects a date, starting with yyyy-mm-dd");
         const [, year, month, day, hour, minute, second] = match.map(Number);
@@ -9784,12 +11778,12 @@ function readRecord(recordDir) {
   } catch (e) {
     throw new Error(`cannot parse frontmatter in ${indexPath}: ${e.message}`);
   }
-  const str = (v) => typeof v === "string" && v.trim() ? v.trim() : null;
+  const str2 = (v) => typeof v === "string" && v.trim() ? v.trim() : null;
   return {
     ...recordLocation(abs),
     branch: (0, import_node_path.basename)(abs),
-    upstreamBaseBranch: str(fm.upstream_base_branch),
-    parentBranch: str(fm.parent_branch)
+    upstreamBaseBranch: str2(fm.upstream_base_branch),
+    parentBranch: str2(fm.parent_branch)
   };
 }
 var import_node_fs, import_node_path;
@@ -9826,7 +11820,7 @@ function parseFindings(text2) {
   return decodeFindings(doc.toJS());
 }
 var HEXISH;
-var init_parse = __esm({
+var init_parse2 = __esm({
   "../review-factory/src/parse.ts"() {
     "use strict";
     init_browser();
@@ -9876,7 +11870,7 @@ var init_record2 = __esm({
     import_node_path2 = require("node:path");
     init_record();
     init_gates();
-    init_parse();
+    init_parse2();
     FINDINGS_FILE = /^review_(\d+)_findings\.yml$/;
     findingsName = (round2) => `review_${round2}_findings.yml`;
     readIf = (path) => (0, import_node_fs2.existsSync)(path) ? (0, import_node_fs2.readFileSync)(path, "utf8") : null;
@@ -9946,6 +11940,715 @@ var init_panel = __esm({
   }
 });
 
+// ../differential-review-lib/src/cli/git.ts
+function git(cwd, args, input) {
+  try {
+    return (0, import_node_child_process.execFileSync)("git", [...GLOBAL_ARGS, ...args], {
+      cwd,
+      input,
+      encoding: "utf8",
+      maxBuffer: 1024 * 1024 * 1024,
+      stdio: ["pipe", "pipe", "pipe"]
+    });
+  } catch (e) {
+    const err = e;
+    const detail = err.stderr?.trim().split("\n")[0] || err.message;
+    throw new GitError(`git ${args[0]} failed in ${cwd}: ${detail}`);
+  }
+}
+function worktreeRoot(dir) {
+  try {
+    return git(dir, ["rev-parse", "--show-toplevel"]).trim();
+  } catch {
+    throw new GitError(`${dir} is not inside a git worktree; pass --worktree <dir> or run from the branch's worktree`);
+  }
+}
+function tryGit(cwd, args) {
+  try {
+    return git(cwd, args);
+  } catch {
+    return null;
+  }
+}
+function revParse(cwd, rev) {
+  return tryGit(cwd, ["rev-parse", "--verify", "--quiet", `${rev}^{commit}`])?.trim() || null;
+}
+function commitExists(cwd, sha) {
+  return tryGit(cwd, ["cat-file", "-e", `${sha}^{commit}`]) !== null;
+}
+function remotes(cwd) {
+  return git(cwd, ["remote"]).split("\n").filter(Boolean);
+}
+function currentBranch(cwd) {
+  return tryGit(cwd, ["symbolic-ref", "--quiet", "--short", "HEAD"])?.trim() || null;
+}
+function remoteHead(cwd, remote) {
+  return tryGit(cwd, ["symbolic-ref", "--quiet", "--short", `refs/remotes/${remote}/HEAD`])?.trim() || null;
+}
+function gitCommonDir(cwd) {
+  return git(cwd, ["rev-parse", "--path-format=absolute", "--git-common-dir"]).trim();
+}
+function isDirty(cwd) {
+  return git(cwd, ["status", "--porcelain", "--untracked-files=no"]).trim() !== "";
+}
+function mergeBase(cwd, a, b) {
+  const sha = tryGit(cwd, ["merge-base", a, b])?.trim();
+  if (!sha) throw new GitError(`no common ancestor of ${a} and ${b} in ${cwd}; is --base the right branch?`);
+  return sha;
+}
+function diff(cwd, from, to) {
+  return git(cwd, ["diff", ...DIFF_FLAGS, from, to]);
+}
+function patchId(cwd, diffText) {
+  if (!diffText.trim()) return null;
+  return git(cwd, ["patch-id", "--verbatim"], diffText).split(/\s+/)[0] || null;
+}
+function emptyTree(cwd) {
+  return git(cwd, ["hash-object", "-t", "tree", "/dev/null"]).trim();
+}
+function branchCommits(cwd, base, head) {
+  const shas = git(cwd, ["rev-list", "--reverse", "--topo-order", `${base}..${head}`]).split("\n").filter(Boolean);
+  return shas.map((sha) => {
+    const format = ["%H", "%P", "%an <%ae>", "%aI", "%s", "%B"].join(FIELD) + RECORD;
+    const [, parents, author, authorDate, subject, body] = git(cwd, ["show", "-s", `--format=${format}`, sha]).split(RECORD)[0].split(FIELD);
+    const parentList = parents.split(" ").filter(Boolean);
+    const commitDiff2 = diff(cwd, parentList[0] ?? emptyTree(cwd), sha);
+    return {
+      sha,
+      parents: parentList,
+      patchId: parentList.length > 1 ? null : patchId(cwd, commitDiff2),
+      subject,
+      message: body.replace(/\n+$/, ""),
+      author,
+      authorDate,
+      diff: commitDiff2
+    };
+  });
+}
+function parseRangeDiff(output) {
+  const pairs2 = [];
+  for (const line of output.split("\n")) {
+    const m = RANGE_DIFF_LINE.exec(line);
+    if (m && (m[2] === "=" || m[2] === "!")) pairs2.push({ previousSha: m[1], sha: m[3] });
+  }
+  return pairs2;
+}
+function rangeDiff(cwd, oldRange, newRange) {
+  return parseRangeDiff(git(cwd, ["range-diff", "--no-color", "--abbrev=40", "--no-patch", oldRange, newRange]));
+}
+var import_node_child_process, DIFF_FLAGS, GLOBAL_ARGS, FIELD, RECORD, GitError, RANGE_DIFF_LINE;
+var init_git = __esm({
+  "../differential-review-lib/src/cli/git.ts"() {
+    "use strict";
+    import_node_child_process = require("node:child_process");
+    DIFF_FLAGS = [
+      "--no-ext-diff",
+      "--no-color",
+      "--no-textconv",
+      "--no-relative",
+      "--src-prefix=a/",
+      "--dst-prefix=b/",
+      "-M",
+      "-l1000",
+      "-O/dev/null",
+      "--full-index",
+      "-U3",
+      "--inter-hunk-context=0",
+      "--diff-algorithm=myers",
+      "--indent-heuristic",
+      "--ignore-submodules=none",
+      "--submodule=short"
+    ];
+    GLOBAL_ARGS = [
+      "--no-optional-locks",
+      "-c",
+      "core.quotePath=false",
+      "-c",
+      "color.ui=never",
+      "-c",
+      "diff.suppressBlankEmpty=false",
+      "-c",
+      "log.showSignature=false"
+    ];
+    FIELD = "";
+    RECORD = "";
+    GitError = class extends Error {
+    };
+    RANGE_DIFF_LINE = /^\s*(?:\d+|-):\s+([0-9a-f]{40}|-+)\s+([=!<>])\s+(?:\d+|-):\s+([0-9a-f]{40}|-+)\s/;
+  }
+});
+
+// ../differential-review-lib/src/cli/base.ts
+function baseCandidates(choice, remoteNames, preferredRemote) {
+  const ordered = [...new Set([preferredRemote, "origin", "upstream", ...remoteNames].filter((r) => !!r && remoteNames.includes(r)))];
+  const remote = ordered.map((r) => `${r}/${choice.name}`);
+  const local = `refs/heads/${choice.name}`;
+  return [...new Set(choice.localFirst ? [local, ...remote] : [...remote, local, choice.name])];
+}
+function resolveBaseRef(worktree, choice, preferredRemote) {
+  const candidates = baseCandidates(choice, remotes(worktree), preferredRemote);
+  for (const ref of candidates) {
+    const sha = revParse(worktree, ref);
+    if (sha) return { ref: ref.replace(/^refs\/heads\//, ""), sha };
+  }
+  throw new Error(
+    `could not resolve base ${choice.name} (${choice.source}); tried ${candidates.join(", ")}. Fetch it (the CLI never fetches) or pass --base <ref>`
+  );
+}
+function chooseBase(worktree, option, remote = "origin") {
+  if (option) return { name: option, source: "option" };
+  const head = remoteHead(worktree, remote);
+  if (!head) throw new Error(`no --base and ${remote}/HEAD is not set; pass --base <ref> or run \`git remote set-head ${remote} --auto\``);
+  return { name: head.slice(remote.length + 1), source: "remote-head" };
+}
+var init_base2 = __esm({
+  "../differential-review-lib/src/cli/base.ts"() {
+    "use strict";
+    init_git();
+  }
+});
+
+// ../differential-review-lib/src/cli/node-storage.ts
+function writeSnapshot(reviewDir, snapshot) {
+  const path = snapshotPath(reviewDir, snapshot.id);
+  const tmp = (0, import_node_path3.join)((0, import_node_path3.dirname)(path), `.${(0, import_node_path3.basename)(path)}.${process.pid}.tmp`);
+  (0, import_node_fs3.mkdirSync)((0, import_node_path3.dirname)(path), { recursive: true });
+  (0, import_node_fs3.writeFileSync)(tmp, JSON.stringify(snapshot, null, 2) + "\n");
+  try {
+    (0, import_node_fs3.linkSync)(tmp, path);
+  } finally {
+    (0, import_node_fs3.unlinkSync)(tmp);
+  }
+  return path;
+}
+function writeAgentReply(reviewDir, reply) {
+  parseReviewReply(reply);
+  if (reply.source !== "agent") throw new Error("the CLI can only write agent replies");
+  const path = annotationPath(reviewDir, "replies", reply.id);
+  const tmp = (0, import_node_path3.join)((0, import_node_path3.dirname)(path), `.${(0, import_node_path3.basename)(path)}.${process.pid}.tmp`);
+  (0, import_node_fs3.mkdirSync)((0, import_node_path3.dirname)(path), { recursive: true });
+  (0, import_node_fs3.writeFileSync)(tmp, JSON.stringify(reply, null, 2) + "\n", { flag: "wx" });
+  try {
+    (0, import_node_fs3.linkSync)(tmp, path);
+  } finally {
+    (0, import_node_fs3.unlinkSync)(tmp);
+  }
+  return path;
+}
+var import_node_fs3, import_node_path3, nodeReadAdapter;
+var init_node_storage = __esm({
+  "../differential-review-lib/src/cli/node-storage.ts"() {
+    "use strict";
+    import_node_fs3 = require("node:fs");
+    import_node_path3 = require("node:path");
+    init_core();
+    nodeReadAdapter = {
+      async exists(path) {
+        return (0, import_node_fs3.existsSync)(path);
+      },
+      async read(path) {
+        return (0, import_node_fs3.readFileSync)(path, "utf8");
+      },
+      async listFiles(dir) {
+        if (!(0, import_node_fs3.existsSync)(dir)) return [];
+        return (0, import_node_fs3.readdirSync)(dir, { withFileTypes: true }).filter((d) => d.isFile()).map((d) => d.name);
+      }
+    };
+  }
+});
+
+// ../differential-review-lib/src/cli/format.ts
+function plural(n, word) {
+  return `${n} ${word}${n === 1 ? "" : "s"}`;
+}
+function hunkCount(snapshot) {
+  return snapshot.files.reduce((n, f) => n + f.hunks.length, 0);
+}
+function formatSnapshotResult(result, summary) {
+  const s = result.snapshot;
+  const lines = [
+    `${result.status} ${result.path}`,
+    `  ${s.phase} @ ${short(s.head)} vs ${baseRef(s.base.ref)} (merge-base ${short(s.base.mergeBase)})`
+  ];
+  if (!summary.previousSnapshotId) {
+    lines.push(`  first snapshot: ${plural(s.commits.length, "commit")}, ${plural(s.files.length, "file")}, ${plural(hunkCount(s), "hunk")}`);
+    return lines;
+  }
+  const c = summary.commits;
+  const h = summary.hunks;
+  lines.push(
+    `  since ${summary.previousSnapshotId}:`,
+    `    commits: ${c.same} same, ${c.rebased} rebased, ${c.changed} changed, ${c.new} new, ${c.dropped} dropped`,
+    `    hunks:   ${h.carried} carried, ${h.changed} changed, ${h.new} new, ${h.dropped} dropped`
+  );
+  for (const f of summary.flaggedCommits) {
+    const detail = f.differingHunks === null ? "" : ` (${plural(f.differingHunks, "differing hunk")})`;
+    lines.push(`    ${f.change.padEnd(7)} ${short(f.sha)} ${f.subject}${detail}`);
+  }
+  return lines;
+}
+function formatList(snapshots) {
+  if (!snapshots.length) return ["no snapshots yet"];
+  return snapshots.map(
+    (s) => `${s.id}  ${plural(s.commits.length, "commit")}, ${plural(s.files.length, "file")}, ${plural(hunkCount(s), "hunk")} vs ${baseRef(s.base.ref)}`
+  );
+}
+function formatStatus(current, review, hasState) {
+  const lines = [`${current.id} (${current.phase} @ ${short(current.head)})`];
+  if (!hasState) return [...lines, "  no review-state.json yet; everything is new"];
+  for (const level of ["hunks", "files", "commits"]) {
+    const c = review.counts[level];
+    lines.push(`  ${`${level}:`.padEnd(9)}${c.reviewed} reviewed, ${c.changed} changed, ${c.new} new`);
+  }
+  const files = review.files.filter((f) => f.state !== "reviewed");
+  const commits = review.commits.filter((c) => c.state !== "reviewed");
+  if (!files.length && !commits.length) return lines;
+  lines.push("  to review:");
+  for (const f of files) lines.push(`    ${f.state.padEnd(7)} ${f.path} (${f.counts.changed} changed, ${f.counts.new} new)`);
+  for (const c of commits) {
+    const detail = c.differingHunks ? ` (${plural(c.differingHunks.length, "differing hunk")})` : "";
+    lines.push(`    ${c.state.padEnd(7)} commit ${short(c.sha)} ${c.subject}${detail}`);
+  }
+  return lines;
+}
+var short, baseRef;
+var init_format = __esm({
+  "../differential-review-lib/src/cli/format.ts"() {
+    "use strict";
+    short = (sha) => sha.slice(0, 12);
+    baseRef = (ref) => /^[0-9a-f]{40}$/.test(ref) ? short(ref) : ref;
+  }
+});
+
+// ../differential-review-lib/src/cli/snapshot.ts
+function previousRangeDiff(worktree, previous, newRange) {
+  if (!commitExists(worktree, previous.head) || !commitExists(worktree, previous.base.mergeBase)) return null;
+  try {
+    return rangeDiff(worktree, `${previous.base.mergeBase}..${previous.head}`, newRange);
+  } catch {
+    return null;
+  }
+}
+function rerunOf(existing, head, mergeBase2, phase) {
+  for (let i = existing.length - 1; i >= 0 && existing[i].head === head; i--) {
+    if (existing[i].phase === phase && existing[i].base.mergeBase === mergeBase2) return existing[i];
+  }
+  return void 0;
+}
+function branchProblem(branchName, head, branch, label3) {
+  if (!branchName) return `HEAD is detached at ${head.slice(0, 12)}; snapshotting it for ${label3} ${branch}`;
+  return branchName === branch ? null : `worktree is on ${branchName}, ${label3} is ${branch}`;
+}
+function nextCreatedAt(previous, now) {
+  if (previous && now.toISOString() <= previous.createdAt) return new Date(Date.parse(previous.createdAt) + 1e3).toISOString();
+  return now.toISOString();
+}
+async function createSnapshot(opts) {
+  const dir = (0, import_node_path4.resolve)(opts.dir);
+  const worktree = worktreeRoot((0, import_node_path4.resolve)(opts.worktree));
+  const worktreeHead = git(worktree, ["rev-parse", "HEAD"]).trim();
+  const head = opts.head ? revParse(worktree, opts.head) : worktreeHead;
+  if (!head) throw new Error(`--head ${opts.head} is not a commit in ${worktree}; fetch it first`);
+  const check = opts.head ? "off" : opts.branchCheck ?? "warn";
+  const problem = check === "off" ? null : branchProblem(currentBranch(worktree), head, opts.branch, opts.branchLabel ?? "branch");
+  if (problem && check === "require") throw new Error(`${problem} (in ${worktree}); pass --worktree <the branch's worktree>`);
+  const choice = typeof opts.base === "function" ? opts.base(worktree) : opts.base;
+  const { ref, sha } = resolveBaseRef(worktree, choice, opts.remote);
+  const base = mergeBase(worktree, sha, head);
+  const existing = await readAllSnapshots(snapshotReader(nodeReadAdapter, dir));
+  const same = rerunOf(existing, head, base, opts.phase);
+  if (same) return { status: "exists", snapshot: same, path: snapshotPath(dir, same.id), warnings: [] };
+  const warnings = problem ? [problem] : [];
+  if (head === worktreeHead && isDirty(worktree)) warnings.push("worktree has uncommitted changes; snapshot covers committed HEAD only");
+  const commits = branchCommits(worktree, base, head);
+  if (!commits.length) warnings.push(`no commits between ${ref} and HEAD; snapshot is empty`);
+  const previous = existing.at(-1) ?? null;
+  const snapshot = buildSnapshot({
+    createdAt: nextCreatedAt(previous, opts.now ?? /* @__PURE__ */ new Date()),
+    phase: opts.phase,
+    repo: opts.repo ?? null,
+    branch: opts.branch,
+    head,
+    base: { name: choice.name, source: choice.source, ref, sha, mergeBase: base },
+    diff: diff(worktree, base, head),
+    commits,
+    previous,
+    rangeDiffPairs: previous ? previousRangeDiff(worktree, previous, `${base}..${head}`) : null
+  });
+  if (previous && !snapshot.mapping?.rangeDiff) warnings.push("range-diff unavailable (previous commits gone?); matched commits by patch-id and subject");
+  return { status: "created", snapshot, path: writeSnapshot(dir, snapshot), warnings };
+}
+var import_node_path4;
+var init_snapshot2 = __esm({
+  "../differential-review-lib/src/cli/snapshot.ts"() {
+    "use strict";
+    import_node_path4 = require("node:path");
+    init_core();
+    init_base2();
+    init_git();
+    init_node_storage();
+  }
+});
+
+// ../differential-review-lib/src/cli/run.ts
+function str(values, name) {
+  const v = values[name];
+  return typeof v === "string" ? v : void 0;
+}
+function required(values, name) {
+  const v = str(values, name);
+  if (!v) throw new UsageError(`--${name} is required`);
+  return v;
+}
+function commands(flags) {
+  const common = { ...flags.options, json: { type: "boolean" } };
+  return {
+    snapshot: {
+      summary: "snapshot the branch after a phase",
+      usage: `snapshot ${flags.usage} --phase <${PHASES.join("|")}> [--head <rev>] [--base <ref>] [--remote <name>] [--json]`,
+      help: `Writes an immutable snapshot of the worktree's committed HEAD to <dir>/snapshots/ and summarizes
+what changed since the previous snapshot. A rerun on the same head and phase is a no-op ("exists").
+Never writes review-state.json, never fetches.
+
+${flags.help}
+  --phase <phase>   ${PHASES.join(", ")}
+  --worktree <dir>  ${flags.worktreeHelp}
+  --head <rev>      commit to snapshot instead of HEAD, e.g. FETCH_HEAD after fetching a PR
+  --base <ref>      ${flags.baseHelp}
+  --remote <name>   remote to try first when resolving the base
+${JSON_FLAG}: {status, id, path, summary, warnings}`,
+      options: { worktree: { type: "string" }, ...common, phase: { type: "string" }, head: { type: "string" }, base: { type: "string" }, remote: { type: "string" } },
+      async run(values, io, target) {
+        const phase = required(values, "phase");
+        if (!isPhase(phase)) throw new UsageError(`--phase must be one of ${PHASES.join(", ")}, got ${phase}`);
+        const worktree = str(values, "worktree") ?? io.cwd ?? process.cwd();
+        const remote = str(values, "remote");
+        const result = await createSnapshot({
+          worktree,
+          dir: target.dir,
+          phase,
+          branch: target.branch,
+          repo: target.repo,
+          base: (root) => target.base(str(values, "base"), root, remote),
+          remote,
+          head: str(values, "head"),
+          branchCheck: target.branchCheck,
+          branchLabel: target.branchLabel,
+          now: io.now
+        });
+        const summary = summarizeSnapshot(result.snapshot);
+        for (const w of result.warnings) io.err(`warning: ${w}`);
+        if (values.json) {
+          const { status, path, warnings } = result;
+          io.out(JSON.stringify({ status, id: result.snapshot.id, path, summary, warnings }));
+        } else {
+          for (const line of formatSnapshotResult(result, summary)) io.out(line);
+        }
+      }
+    },
+    list: {
+      summary: "list a branch's snapshots, oldest first",
+      usage: `list ${flags.usage} [--json]`,
+      help: `${flags.help}
+${JSON_FLAG}`,
+      options: common,
+      async run(values, io, target) {
+        const snapshots = await readAllSnapshots(snapshotReader(nodeReadAdapter, target.dir));
+        if (!values.json) {
+          for (const line of formatList(snapshots)) io.out(line);
+          return;
+        }
+        const rows = snapshots.map((s) => ({
+          id: s.id,
+          phase: s.phase,
+          head: s.head,
+          base: s.base.ref,
+          commits: s.commits.length,
+          files: s.files.length,
+          hunks: hunkCount(s)
+        }));
+        io.out(JSON.stringify(rows));
+      }
+    },
+    status: {
+      summary: "reviewed / changed / new counts against review-state.json (read-only)",
+      usage: `status ${flags.usage} [--snapshot <id>] [--json]`,
+      help: `Derives each hunk, file and commit's state from review-state.json (written by a review UI) and lists
+what still needs review. Read-only.
+
+${flags.help}
+  --snapshot <id>   snapshot to report on (default: latest)
+${JSON_FLAG}: the full derived review`,
+      options: { ...common, snapshot: { type: "string" } },
+      async run(values, io, target) {
+        const snapshots = await readAllSnapshots(snapshotReader(nodeReadAdapter, target.dir));
+        const id = str(values, "snapshot");
+        const current = id ? snapshots.find((s) => s.id === id) : snapshots.at(-1);
+        if (!current) throw new Error(id ? `no snapshot ${id}; see \`list\`` : "no snapshots yet; run `snapshot` first");
+        const state = await readReviewState(nodeReadAdapter, target.dir);
+        const review = deriveReview(current, state ?? emptyReviewState(), snapshots);
+        if (values.json) io.out(JSON.stringify(review));
+        else for (const line of formatStatus(current, review, state !== null)) io.out(line);
+      }
+    },
+    threads: {
+      summary: "list persistent review threads and responses (read-only)",
+      usage: `threads ${flags.usage} [--open] [--snapshot <id>] [--json]`,
+      help: `Lists comments, original source excerpts, current placements and replies. No running UI needed.
+
+${flags.help}
+  --open            only unresolved threads
+  --snapshot <id>   revision to locate comments against (default: latest)
+${JSON_FLAG}: [{thread, replies, placement}]`,
+      options: { ...common, open: { type: "boolean" }, snapshot: { type: "string" } },
+      async run(values, io, target) {
+        const annotations = await readAnnotations(nodeReadAdapter, target.dir);
+        const snapshots = await readAllSnapshots(snapshotReader(nodeReadAdapter, target.dir));
+        const id = str(values, "snapshot");
+        const current = id ? snapshots.find((s) => s.id === id) : snapshots.at(-1);
+        if (id && !current) throw new Error(`no snapshot ${id}; see \`list\``);
+        const threads = current ? deriveThreads(annotations, current, snapshots) : annotations.threads.map((thread) => ({
+          thread,
+          replies: annotations.replies.filter((r) => r.threadId === thread.id),
+          placement: { state: "unmapped", path: null, hunkId: null, range: null }
+        }));
+        const visible = threads.filter((t) => !values.open || t.thread.status === "open");
+        if (values.json) {
+          io.out(JSON.stringify(visible));
+          return;
+        }
+        if (!visible.length) io.out("No review threads.");
+        for (const { thread: t, placement: p, replies } of visible) {
+          io.out(`${t.id} [${t.status}; ${p.state}] ${t.origin.path} (${t.origin.side} ${t.origin.range.join("\u2013")})`);
+          io.out(`  original snapshot: ${t.origin.snapshotId}`);
+          io.out(`  ${t.author}: ${t.body}`);
+          for (const line of t.origin.quote.split("\n")) io.out(`    > ${line}`);
+          if (p.range) io.out(`  current: ${p.path} (${t.origin.side} ${p.range.join("\u2013")})`);
+          for (const r of replies) io.out(`  ${r.author}${r.snapshotId ? ` @ ${r.snapshotId}` : ""}: ${r.body}`);
+        }
+      }
+    },
+    reply: {
+      summary: "append an agent reply; never changes threads or review check-offs",
+      usage: `reply ${flags.usage} --thread <id> (--body <text> | --body-file <path>) [--snapshot <id>] [--author <name>] [--json]`,
+      help: `Writes one immutable reply under annotations/replies/. Cannot resolve a thread or mark work reviewed.
+
+${flags.help}
+  --thread <id>     thread to answer (see \`threads\`)
+  --body <text>     response text
+  --body-file <path> response file, preserving literal text and newlines
+  --snapshot <id>   optional revision this response refers to (see \`list\`)
+  --author <name>   agent label (default: Agent)
+${JSON_FLAG}: the saved reply`,
+      options: { ...common, thread: { type: "string" }, body: { type: "string" }, "body-file": { type: "string" }, snapshot: { type: "string" }, author: { type: "string" } },
+      async run(values, io, target) {
+        const threadId = required(values, "thread");
+        const inline = str(values, "body"), file = str(values, "body-file");
+        if (inline === void 0 === (file === void 0)) throw new UsageError("provide exactly one of --body or --body-file");
+        const body = file !== void 0 ? (0, import_node_fs4.readFileSync)((0, import_node_path5.resolve)(io.cwd ?? process.cwd(), file), "utf8") : inline;
+        if (!body.trim()) throw new UsageError("reply body must not be empty");
+        const annotations = await readAnnotations(nodeReadAdapter, target.dir);
+        if (!annotations.threads.some((t) => t.id === threadId)) throw new Error(`no thread ${threadId}; see \`threads\``);
+        const snapshotId2 = str(values, "snapshot");
+        if (snapshotId2 && !(await snapshotReader(nodeReadAdapter, target.dir).listSnapshotIds()).includes(snapshotId2)) throw new Error(`no snapshot ${snapshotId2}; see \`list\``);
+        const reply = parseReviewReply({
+          schemaVersion: 1,
+          kind: "differential-review-reply",
+          id: (0, import_node_crypto.randomUUID)(),
+          threadId,
+          body,
+          author: str(values, "author") ?? "Agent",
+          source: "agent",
+          createdAt: (io.now ?? /* @__PURE__ */ new Date()).toISOString(),
+          ...snapshotId2 ? { snapshotId: snapshotId2 } : {}
+        });
+        writeAgentReply(target.dir, reply);
+        io.out(values.json ? JSON.stringify(reply) : `replied ${reply.id} to ${threadId}`);
+      }
+    }
+  };
+}
+function createCli(flags) {
+  const table = commands(flags);
+  const usage = `usage: differential-review <command> [options]
+
+${Object.entries(table).map(([name, c]) => `  ${name.padEnd(9)} ${c.summary}`).join("\n")}
+
+Run \`differential-review <command> --help\` for options.
+Exit codes: 0 ok, 1 error, 2 usage error.`;
+  const commandHelp = (command) => `usage: differential-review ${command.usage}
+
+${command.help}`;
+  return async (argv, io) => {
+    const [name, ...rest] = argv;
+    if (!name || name === "-h" || name === "--help" || name === "help") {
+      io.out(usage);
+      return name ? 0 : 2;
+    }
+    const command = table[name];
+    if (!command) {
+      io.err(`usage error: unknown command ${name}
+${usage}`);
+      return 2;
+    }
+    try {
+      let values;
+      try {
+        const options = { ...command.options, help: { type: "boolean", short: "h" } };
+        ({ values } = (0, import_node_util.parseArgs)({ args: rest, options, strict: true, allowPositionals: false }));
+      } catch (e) {
+        throw new UsageError(e.message);
+      }
+      if (values.help) {
+        io.out(commandHelp(command));
+        return 0;
+      }
+      const worktree = str(values, "worktree");
+      const target = flags.resolve(values, worktree ?? io.cwd ?? process.cwd(), worktree === void 0, name);
+      await command.run(values, io, target);
+      return 0;
+    } catch (e) {
+      if (e instanceof UsageError) {
+        io.err(`usage error: ${e.message}
+${commandHelp(command)}`);
+        return 2;
+      }
+      io.err(`error: ${e.message}`);
+      return 1;
+    }
+  };
+}
+var import_node_fs4, import_node_crypto, import_node_path5, import_node_util, UsageError, DIR_TARGET, JSON_FLAG, run;
+var init_run = __esm({
+  "../differential-review-lib/src/cli/run.ts"() {
+    "use strict";
+    import_node_fs4 = require("node:fs");
+    import_node_crypto = require("node:crypto");
+    import_node_path5 = require("node:path");
+    import_node_util = require("node:util");
+    init_core();
+    init_base2();
+    init_format();
+    init_git();
+    init_node_storage();
+    init_snapshot2();
+    UsageError = class extends Error {
+    };
+    DIR_TARGET = {
+      options: { dir: { type: "string" }, branch: { type: "string" }, worktree: { type: "string" } },
+      usage: "[--dir <dir>] [--branch <name>] [--worktree <dir>]",
+      help: `  --dir <dir>       review dir (default: <git common dir>/differential-review/<branch>)
+  --branch <name>   branch the review is for (default: the worktree's current branch)`,
+      worktreeHelp: "the branch's worktree (default: current dir)",
+      baseHelp: "diff base (default: the branch origin/HEAD points at, or --remote's)",
+      resolve(values, worktree, _worktreeDefaulted, command = "snapshot") {
+        let branch = str(values, "branch");
+        const dir = str(values, "dir");
+        if (!branch && !(dir && command !== "snapshot")) {
+          branch = currentBranch(worktreeRoot(worktree)) ?? void 0;
+          if (!branch) throw new UsageError(`HEAD is detached in ${worktree}; pass --branch <name>`);
+        }
+        return {
+          dir: dir ? (0, import_node_path5.resolve)(dir) : (0, import_node_path5.join)(gitCommonDir(worktreeRoot(worktree)), "differential-review", branch),
+          branch: branch ?? "",
+          // Stored-review reads and replies do not use a branch.
+          base: (option, wt, remote) => chooseBase(wt, option, remote),
+          branchCheck: "warn"
+        };
+      }
+    };
+    JSON_FLAG = "  --json            machine-readable output";
+    run = createCli(DIR_TARGET);
+  }
+});
+
+// ../differential-review-lib/src/cli/index.ts
+var init_cli = __esm({
+  "../differential-review-lib/src/cli/index.ts"() {
+    "use strict";
+    init_base2();
+    init_node_storage();
+    init_run();
+    init_snapshot2();
+  }
+});
+
+// ../differential-review/src/capture.ts
+function checkout(record, body, home) {
+  const clone = (0, import_node_path6.join)(home, "projects/repositories", record.repo);
+  const candidates = [...worktreeCandidates({ repo: record.repo, kind: record.kind, name: record.branch }, body, home), clone];
+  const found = candidates.find((path) => (0, import_node_fs5.existsSync)(path) && tryGit(path, ["rev-parse", "--git-dir"]) !== null);
+  if (!found) throw new Error(`no clone of ${record.repo} at ${clone}`);
+  return found;
+}
+var import_node_child_process2, import_node_fs5, import_node_os, import_node_path6, import_node_util2;
+var init_capture = __esm({
+  "../differential-review/src/capture.ts"() {
+    "use strict";
+    import_node_child_process2 = require("node:child_process");
+    import_node_fs5 = require("node:fs");
+    import_node_os = require("node:os");
+    import_node_path6 = require("node:path");
+    import_node_util2 = require("node:util");
+    init_cli();
+    init_git();
+    init_core();
+    init_record_links();
+    init_records();
+    init_repository_tabs();
+    init_record();
+  }
+});
+
+// ../review-factory/src/branch-gates.ts
+function recordCheckout(dir) {
+  const record = readRecord(dir);
+  const body = (0, import_node_fs6.readFileSync)((0, import_node_path7.join)(dir, "index.md"), "utf8");
+  return checkout({ ...record, repo: record.repo, kind: "reviews" }, body, (0, import_node_os2.homedir)());
+}
+var import_node_fs6, import_node_os2, import_node_path7;
+var init_branch_gates = __esm({
+  "../review-factory/src/branch-gates.ts"() {
+    "use strict";
+    import_node_fs6 = require("node:fs");
+    import_node_os2 = require("node:os");
+    import_node_path7 = require("node:path");
+    init_git();
+    init_capture();
+    init_record();
+    init_model();
+  }
+});
+
+// ../review-factory/src/commit-diff.ts
+var commit_diff_exports = {};
+__export(commit_diff_exports, {
+  commitDiff: () => commitDiff,
+  recordCommitDiff: () => recordCommitDiff
+});
+function commitDiff(worktree, sha) {
+  const full = revParse(worktree, `${sha}^{commit}`);
+  if (!full) return { missing: `${sha} isn't in ${worktree}; fetch the review branch there` };
+  return {
+    files: parseDiff(diff(worktree, `${full}^`, full)).map((file) => ({
+      path: file.path,
+      patch: file.text,
+      added: file.hunks.reduce((n, h) => n + h.added, 0),
+      removed: file.hunks.reduce((n, h) => n + h.removed, 0)
+    }))
+  };
+}
+var recordCommitDiff;
+var init_commit_diff = __esm({
+  "../review-factory/src/commit-diff.ts"() {
+    "use strict";
+    init_git();
+    init_diff();
+    init_branch_gates();
+    recordCommitDiff = (dir, sha) => commitDiff(recordCheckout(dir), sha);
+  }
+});
+
 // src/main.ts
 var main_exports = {};
 __export(main_exports, {
@@ -9956,41 +12659,7 @@ var import_obsidian11 = require("obsidian");
 
 // src/ci-status.ts
 init_repository_tabs();
-
-// src/record-frontmatter.ts
-var STRING_FIELDS = ["upstream_base_branch", "parent_branch"];
-var LIST_FIELDS = ["blockers", "blocking", "related_records", "child_branches"];
-var unquote = (value) => value.trim().replace(/^(["'])(.*)\1$/, "$2");
-function recordFrontmatter(body) {
-  const block = /^---\n([\s\S]*?)^---$/m.exec(body);
-  if (!block || block.index !== 0) return {};
-  const raw = {};
-  let listKey;
-  for (const line of block[1].split("\n")) {
-    const item2 = /^\s*-\s+(.+)$/.exec(line);
-    if (item2 && listKey) {
-      raw[listKey].push(unquote(item2[1]));
-      continue;
-    }
-    listKey = void 0;
-    const m = /^(\w+):\s*(.*?)\s*$/.exec(line);
-    if (!m) continue;
-    const key2 = m[1];
-    const value = m[2];
-    const flow = /^\[(.*)\]$/.exec(value);
-    if (flow) raw[key2] = flow[1].split(",").map(unquote).filter(Boolean);
-    else if (value) raw[key2] = [unquote(value)];
-    else raw[listKey = key2] = [];
-  }
-  const fields = {};
-  for (const key2 of STRING_FIELDS) if (raw[key2]?.[0]) fields[key2] = raw[key2][0];
-  for (const key2 of LIST_FIELDS) if (raw[key2]?.length) fields[key2] = raw[key2];
-  const pr = raw.pr?.[0];
-  if (pr && /^\d+$/.test(pr)) fields.pr = Number(pr);
-  return fields;
-}
-
-// src/ci-status.ts
+init_record_frontmatter();
 var PR_FIELDS = "name,state,bucket,link,workflow";
 var isPrSource = (source) => source.args[0] === "pr";
 function ciSources(record, body) {
@@ -10378,6 +13047,7 @@ var tasksPath = (agentDir) => `agents/${agentDir}/TASKS.md`;
 
 // src/blockers.ts
 init_records();
+init_record_frontmatter();
 var blockersPath = (agentDir) => `agents/${agentDir}/blockers`;
 var isAgentBlocker = (blocker) => "agentDir" in blocker;
 var recordIdLabel = ({ repo, kind, name }) => `${repo}/${kind}/${name}`;
@@ -10931,1676 +13601,11 @@ init_records();
 
 // src/diff-review-view.ts
 var import_obsidian6 = require("obsidian");
-
-// ../differential-review-lib/src/core/types.ts
-var SNAPSHOT_SCHEMA_VERSION = 1;
-var REVIEW_STATE_SCHEMA_VERSION = 1;
-var FINGERPRINT_VERSION = "h1";
-
-// ../differential-review-lib/node_modules/diff/libesm/diff/base.js
-var Diff = class {
-  diff(oldStr, newStr, options = {}) {
-    let callback;
-    if (typeof options === "function") {
-      callback = options;
-      options = {};
-    } else if ("callback" in options) {
-      callback = options.callback;
-    }
-    const oldString = this.castInput(oldStr, options);
-    const newString = this.castInput(newStr, options);
-    const oldTokens = this.removeEmpty(this.tokenize(oldString, options));
-    const newTokens = this.removeEmpty(this.tokenize(newString, options));
-    return this.diffWithOptionsObj(oldTokens, newTokens, options, callback);
-  }
-  diffWithOptionsObj(oldTokens, newTokens, options, callback) {
-    var _a;
-    const done = (value) => {
-      value = this.postProcess(value, options);
-      if (callback) {
-        setTimeout(function() {
-          callback(value);
-        }, 0);
-        return void 0;
-      } else {
-        return value;
-      }
-    };
-    const newLen = newTokens.length, oldLen = oldTokens.length;
-    let editLength = 1;
-    let maxEditLength = newLen + oldLen;
-    if (options.maxEditLength != null) {
-      maxEditLength = Math.min(maxEditLength, options.maxEditLength);
-    }
-    const maxExecutionTime = (_a = options.timeout) !== null && _a !== void 0 ? _a : Infinity;
-    const abortAfterTimestamp = Date.now() + maxExecutionTime;
-    const bestPath = [{ oldPos: -1, lastComponent: void 0 }];
-    let newPos = this.extractCommon(bestPath[0], newTokens, oldTokens, 0, options);
-    if (bestPath[0].oldPos + 1 >= oldLen && newPos + 1 >= newLen) {
-      return done(this.buildValues(bestPath[0].lastComponent, newTokens, oldTokens));
-    }
-    let minDiagonalToConsider = -Infinity, maxDiagonalToConsider = Infinity;
-    const execEditLength = () => {
-      for (let diagonalPath = Math.max(minDiagonalToConsider, -editLength); diagonalPath <= Math.min(maxDiagonalToConsider, editLength); diagonalPath += 2) {
-        let basePath;
-        const removePath = bestPath[diagonalPath - 1], addPath = bestPath[diagonalPath + 1];
-        if (removePath) {
-          bestPath[diagonalPath - 1] = void 0;
-        }
-        let canAdd = false;
-        if (addPath) {
-          const addPathNewPos = addPath.oldPos - diagonalPath;
-          canAdd = addPath && 0 <= addPathNewPos && addPathNewPos < newLen;
-        }
-        const canRemove = removePath && removePath.oldPos + 1 < oldLen;
-        if (!canAdd && !canRemove) {
-          bestPath[diagonalPath] = void 0;
-          continue;
-        }
-        if (!canRemove || canAdd && removePath.oldPos < addPath.oldPos) {
-          basePath = this.addToPath(addPath, true, false, 0, options);
-        } else {
-          basePath = this.addToPath(removePath, false, true, 1, options);
-        }
-        newPos = this.extractCommon(basePath, newTokens, oldTokens, diagonalPath, options);
-        if (basePath.oldPos + 1 >= oldLen && newPos + 1 >= newLen) {
-          return done(this.buildValues(basePath.lastComponent, newTokens, oldTokens)) || true;
-        } else {
-          bestPath[diagonalPath] = basePath;
-          if (basePath.oldPos + 1 >= oldLen) {
-            maxDiagonalToConsider = Math.min(maxDiagonalToConsider, diagonalPath - 1);
-          }
-          if (newPos + 1 >= newLen) {
-            minDiagonalToConsider = Math.max(minDiagonalToConsider, diagonalPath + 1);
-          }
-        }
-      }
-      editLength++;
-    };
-    if (callback) {
-      (function exec() {
-        setTimeout(function() {
-          if (editLength > maxEditLength || Date.now() > abortAfterTimestamp) {
-            return callback(void 0);
-          }
-          if (!execEditLength()) {
-            exec();
-          }
-        }, 0);
-      })();
-    } else {
-      while (editLength <= maxEditLength && Date.now() <= abortAfterTimestamp) {
-        const ret = execEditLength();
-        if (ret) {
-          return ret;
-        }
-      }
-    }
-  }
-  addToPath(path, added, removed, oldPosInc, options) {
-    const last = path.lastComponent;
-    if (last && !options.oneChangePerToken && last.added === added && last.removed === removed) {
-      return {
-        oldPos: path.oldPos + oldPosInc,
-        lastComponent: { count: last.count + 1, added, removed, previousComponent: last.previousComponent }
-      };
-    } else {
-      return {
-        oldPos: path.oldPos + oldPosInc,
-        lastComponent: { count: 1, added, removed, previousComponent: last }
-      };
-    }
-  }
-  extractCommon(basePath, newTokens, oldTokens, diagonalPath, options) {
-    const newLen = newTokens.length, oldLen = oldTokens.length;
-    let oldPos = basePath.oldPos, newPos = oldPos - diagonalPath, commonCount = 0;
-    while (newPos + 1 < newLen && oldPos + 1 < oldLen && this.equals(oldTokens[oldPos + 1], newTokens[newPos + 1], options)) {
-      newPos++;
-      oldPos++;
-      commonCount++;
-      if (options.oneChangePerToken) {
-        basePath.lastComponent = { count: 1, previousComponent: basePath.lastComponent, added: false, removed: false };
-      }
-    }
-    if (commonCount && !options.oneChangePerToken) {
-      basePath.lastComponent = { count: commonCount, previousComponent: basePath.lastComponent, added: false, removed: false };
-    }
-    basePath.oldPos = oldPos;
-    return newPos;
-  }
-  equals(left, right, options) {
-    if (options.comparator) {
-      return options.comparator(left, right);
-    } else {
-      return left === right || !!options.ignoreCase && left.toLowerCase() === right.toLowerCase();
-    }
-  }
-  removeEmpty(array) {
-    const ret = [];
-    for (let i = 0; i < array.length; i++) {
-      if (array[i]) {
-        ret.push(array[i]);
-      }
-    }
-    return ret;
-  }
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  castInput(value, options) {
-    return value;
-  }
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  tokenize(value, options) {
-    return Array.from(value);
-  }
-  join(chars) {
-    return chars.join("");
-  }
-  postProcess(changeObjects, options) {
-    return changeObjects;
-  }
-  get useLongestToken() {
-    return false;
-  }
-  buildValues(lastComponent, newTokens, oldTokens) {
-    const components = [];
-    let nextComponent;
-    while (lastComponent) {
-      components.push(lastComponent);
-      nextComponent = lastComponent.previousComponent;
-      delete lastComponent.previousComponent;
-      lastComponent = nextComponent;
-    }
-    components.reverse();
-    const componentLen = components.length;
-    let componentPos = 0, newPos = 0, oldPos = 0;
-    for (; componentPos < componentLen; componentPos++) {
-      const component = components[componentPos];
-      if (!component.removed) {
-        if (!component.added && this.useLongestToken) {
-          let value = newTokens.slice(newPos, newPos + component.count);
-          value = value.map(function(value2, i) {
-            const oldValue = oldTokens[oldPos + i];
-            return oldValue.length > value2.length ? oldValue : value2;
-          });
-          component.value = this.join(value);
-        } else {
-          component.value = this.join(newTokens.slice(newPos, newPos + component.count));
-        }
-        newPos += component.count;
-        if (!component.added) {
-          oldPos += component.count;
-        }
-      } else {
-        component.value = this.join(oldTokens.slice(oldPos, oldPos + component.count));
-        oldPos += component.count;
-      }
-    }
-    return components;
-  }
-};
-
-// ../differential-review-lib/node_modules/diff/libesm/diff/character.js
-var CharacterDiff = class extends Diff {
-};
-var characterDiff = new CharacterDiff();
-function diffChars(oldStr, newStr, options) {
-  return characterDiff.diff(oldStr, newStr, options);
-}
-
-// ../differential-review-lib/node_modules/diff/libesm/diff/line.js
-var LineDiff = class extends Diff {
-  constructor() {
-    super(...arguments);
-    this.tokenize = tokenize;
-  }
-  equals(left, right, options) {
-    if (options.ignoreWhitespace) {
-      if (!options.newlineIsToken || !left.includes("\n")) {
-        left = left.trim();
-      }
-      if (!options.newlineIsToken || !right.includes("\n")) {
-        right = right.trim();
-      }
-    } else if (options.ignoreNewlineAtEof && !options.newlineIsToken) {
-      if (left.endsWith("\n")) {
-        left = left.slice(0, -1);
-      }
-      if (right.endsWith("\n")) {
-        right = right.slice(0, -1);
-      }
-    }
-    return super.equals(left, right, options);
-  }
-};
-var lineDiff = new LineDiff();
-function diffLines(oldStr, newStr, options) {
-  return lineDiff.diff(oldStr, newStr, options);
-}
-function tokenize(value, options) {
-  if (options.stripTrailingCr) {
-    value = value.replace(/\r\n/g, "\n");
-  }
-  const retLines = [], linesAndNewlines = value.split(/(\n|\r\n)/);
-  if (!linesAndNewlines[linesAndNewlines.length - 1]) {
-    linesAndNewlines.pop();
-  }
-  for (let i = 0; i < linesAndNewlines.length; i++) {
-    const line = linesAndNewlines[i];
-    if (i % 2 && !options.newlineIsToken) {
-      retLines[retLines.length - 1] += line;
-    } else {
-      retLines.push(line);
-    }
-  }
-  return retLines;
-}
-
-// ../differential-review-lib/node_modules/diff/libesm/diff/array.js
-var ArrayDiff = class extends Diff {
-  tokenize(value) {
-    return value.slice();
-  }
-  join(value) {
-    return value;
-  }
-  removeEmpty(value) {
-    return value;
-  }
-};
-var arrayDiff = new ArrayDiff();
-function diffArrays(oldArr, newArr, options) {
-  return arrayDiff.diff(oldArr, newArr, options);
-}
-
-// ../differential-review-lib/node_modules/diff/libesm/patch/parse.js
-function parsePatch(uniDiff) {
-  const diffstr = uniDiff.split(/\n/), list3 = [];
-  let i = 0;
-  function isGitDiffHeader(line) {
-    return /^diff --git /.test(line);
-  }
-  function isDiffHeader(line) {
-    return isGitDiffHeader(line) || /^Index:\s/.test(line) || /^diff(?: -r \w+)+\s/.test(line);
-  }
-  function isFileHeader(line) {
-    return /^(---|\+\+\+)\s/.test(line);
-  }
-  function isHunkHeader(line) {
-    return /^@@\s/.test(line);
-  }
-  function parseIndex() {
-    var _a;
-    const index = {};
-    index.hunks = [];
-    list3.push(index);
-    let seenDiffHeader = false;
-    while (i < diffstr.length) {
-      const line = diffstr[i];
-      if (isFileHeader(line) || isHunkHeader(line)) {
-        break;
-      }
-      if (isGitDiffHeader(line)) {
-        if (seenDiffHeader) {
-          return;
-        }
-        seenDiffHeader = true;
-        index.isGit = true;
-        const paths = parseGitDiffHeader(line);
-        if (paths) {
-          index.oldFileName = paths.oldFileName;
-          index.newFileName = paths.newFileName;
-        }
-        i++;
-        while (i < diffstr.length) {
-          const extLine = diffstr[i];
-          if (isFileHeader(extLine) || isHunkHeader(extLine) || isDiffHeader(extLine)) {
-            break;
-          }
-          const renameFromMatch = /^rename from (.*)/.exec(extLine);
-          if (renameFromMatch) {
-            index.oldFileName = "a/" + unquoteIfQuoted(renameFromMatch[1]);
-            index.isRename = true;
-          }
-          const renameToMatch = /^rename to (.*)/.exec(extLine);
-          if (renameToMatch) {
-            index.newFileName = "b/" + unquoteIfQuoted(renameToMatch[1]);
-            index.isRename = true;
-          }
-          const copyFromMatch = /^copy from (.*)/.exec(extLine);
-          if (copyFromMatch) {
-            index.oldFileName = "a/" + unquoteIfQuoted(copyFromMatch[1]);
-            index.isCopy = true;
-          }
-          const copyToMatch = /^copy to (.*)/.exec(extLine);
-          if (copyToMatch) {
-            index.newFileName = "b/" + unquoteIfQuoted(copyToMatch[1]);
-            index.isCopy = true;
-          }
-          const newFileModeMatch = /^new file mode (\d+)/.exec(extLine);
-          if (newFileModeMatch) {
-            index.isCreate = true;
-            index.newMode = newFileModeMatch[1];
-          }
-          const deletedFileModeMatch = /^deleted file mode (\d+)/.exec(extLine);
-          if (deletedFileModeMatch) {
-            index.isDelete = true;
-            index.oldMode = deletedFileModeMatch[1];
-          }
-          const oldModeMatch = /^old mode (\d+)/.exec(extLine);
-          if (oldModeMatch) {
-            index.oldMode = oldModeMatch[1];
-          }
-          const newModeMatch = /^new mode (\d+)/.exec(extLine);
-          if (newModeMatch) {
-            index.newMode = newModeMatch[1];
-          }
-          if (/^Binary files /.test(extLine)) {
-            index.isBinary = true;
-          }
-          i++;
-        }
-        continue;
-      } else if (isDiffHeader(line)) {
-        if (seenDiffHeader) {
-          return;
-        }
-        seenDiffHeader = true;
-        const headerMatch = /^(?:Index:|diff(?: -r \w+)+)\s+/.exec(line);
-        if (headerMatch) {
-          index.index = line.substring(headerMatch[0].length).trim();
-        }
-      }
-      i++;
-    }
-    parseFileHeader(index);
-    parseFileHeader(index);
-    if (index.oldFileName === void 0 !== (index.newFileName === void 0)) {
-      throw new Error("Missing " + (index.oldFileName !== void 0 ? '"+++ ..."' : '"--- ..."') + " file header for " + ((_a = index.oldFileName) !== null && _a !== void 0 ? _a : index.newFileName));
-    }
-    while (i < diffstr.length) {
-      const line = diffstr[i];
-      if (isDiffHeader(line) || isFileHeader(line) || /^===================================================================/.test(line)) {
-        break;
-      } else if (isHunkHeader(line)) {
-        index.hunks.push(parseHunk());
-      } else {
-        i++;
-      }
-    }
-  }
-  function parseGitDiffHeader(line) {
-    const rest = line.substring("diff --git ".length);
-    if (rest.startsWith('"')) {
-      const oldPath = parseQuotedFileName(rest);
-      if (oldPath === null) {
-        return null;
-      }
-      const afterOld = rest.substring(oldPath.rawLength + 1);
-      let newFileName;
-      if (afterOld.startsWith('"')) {
-        const newPath = parseQuotedFileName(afterOld);
-        if (newPath === null) {
-          return null;
-        }
-        newFileName = newPath.fileName;
-      } else {
-        newFileName = afterOld;
-      }
-      return {
-        oldFileName: oldPath.fileName,
-        newFileName
-      };
-    }
-    const quoteIdx = rest.indexOf('"');
-    if (quoteIdx > 0) {
-      const oldFileName = rest.substring(0, quoteIdx - 1);
-      const newPath = parseQuotedFileName(rest.substring(quoteIdx));
-      if (newPath === null) {
-        return null;
-      }
-      return {
-        oldFileName,
-        newFileName: newPath.fileName
-      };
-    }
-    if (rest.startsWith("a/")) {
-      const splits = [];
-      let idx = 0;
-      while (true) {
-        idx = rest.indexOf(" b/", idx + 1);
-        if (idx === -1) {
-          break;
-        }
-        splits.push(idx);
-      }
-      if (splits.length > 0) {
-        const mid = splits[Math.floor(splits.length / 2)];
-        return {
-          oldFileName: rest.substring(0, mid),
-          newFileName: rest.substring(mid + 1)
-        };
-      }
-    }
-    return null;
-  }
-  function unquoteIfQuoted(s) {
-    if (s.startsWith('"')) {
-      const parsed = parseQuotedFileName(s);
-      if (parsed) {
-        return parsed.fileName;
-      }
-    }
-    return s;
-  }
-  function parseQuotedFileName(s) {
-    if (!s.startsWith('"')) {
-      return null;
-    }
-    let result = "";
-    let j = 1;
-    while (j < s.length) {
-      if (s[j] === '"') {
-        return { fileName: result, rawLength: j + 1 };
-      }
-      if (s[j] === "\\" && j + 1 < s.length) {
-        j++;
-        switch (s[j]) {
-          case "a":
-            result += "\x07";
-            break;
-          case "b":
-            result += "\b";
-            break;
-          case "f":
-            result += "\f";
-            break;
-          case "n":
-            result += "\n";
-            break;
-          case "r":
-            result += "\r";
-            break;
-          case "t":
-            result += "	";
-            break;
-          case "v":
-            result += "\v";
-            break;
-          case "\\":
-            result += "\\";
-            break;
-          case '"':
-            result += '"';
-            break;
-          case "0":
-          case "1":
-          case "2":
-          case "3":
-          case "4":
-          case "5":
-          case "6":
-          case "7": {
-            if (j + 2 >= s.length || s[j + 1] < "0" || s[j + 1] > "7" || s[j + 2] < "0" || s[j + 2] > "7") {
-              return null;
-            }
-            const bytes = [parseInt(s.substring(j, j + 3), 8)];
-            j += 3;
-            while (s[j] === "\\" && s[j + 1] >= "0" && s[j + 1] <= "7") {
-              if (j + 3 >= s.length || s[j + 2] < "0" || s[j + 2] > "7" || s[j + 3] < "0" || s[j + 3] > "7") {
-                return null;
-              }
-              bytes.push(parseInt(s.substring(j + 1, j + 4), 8));
-              j += 4;
-            }
-            result += new TextDecoder("utf-8").decode(new Uint8Array(bytes));
-            continue;
-          }
-          // Note that in C, there are also three kinds of hex escape sequences:
-          // - \xhh
-          // - \uhhhh
-          // - \Uhhhhhhhh
-          // We do not bother to parse them here because, so far as we know,
-          // they are never emitted by any tools that generate unified diff
-          // format diffs, and so for now jsdiff does not consider them legal.
-          default:
-            return null;
-        }
-      } else {
-        result += s[j];
-      }
-      j++;
-    }
-    return null;
-  }
-  function parseFileHeader(index) {
-    const fileHeaderMatch = /^(---|\+\+\+)\s+/.exec(diffstr[i]);
-    if (fileHeaderMatch) {
-      const prefix = fileHeaderMatch[1], data = diffstr[i].substring(3).trim().split("	", 2), header = (data[1] || "").trim();
-      let fileName = data[0];
-      if (fileName.startsWith('"')) {
-        fileName = unquoteIfQuoted(fileName);
-      } else {
-        fileName = fileName.replace(/\\\\/g, "\\");
-      }
-      if (prefix === "---") {
-        index.oldFileName = fileName;
-        index.oldHeader = header;
-      } else {
-        index.newFileName = fileName;
-        index.newHeader = header;
-      }
-      i++;
-    }
-  }
-  function parseHunk() {
-    var _a;
-    const chunkHeaderIndex = i, chunkHeaderLine = diffstr[i++], chunkHeader = chunkHeaderLine.split(/@@ -(\d+)(?:,(\d+))? \+(\d+)(?:,(\d+))? @@/);
-    const hunk = {
-      oldStart: +chunkHeader[1],
-      oldLines: typeof chunkHeader[2] === "undefined" ? 1 : +chunkHeader[2],
-      newStart: +chunkHeader[3],
-      newLines: typeof chunkHeader[4] === "undefined" ? 1 : +chunkHeader[4],
-      lines: []
-    };
-    if (hunk.oldLines === 0) {
-      hunk.oldStart += 1;
-    }
-    if (hunk.newLines === 0) {
-      hunk.newStart += 1;
-    }
-    let addCount = 0, removeCount = 0;
-    for (; i < diffstr.length && (removeCount < hunk.oldLines || addCount < hunk.newLines || ((_a = diffstr[i]) === null || _a === void 0 ? void 0 : _a.startsWith("\\"))); i++) {
-      const operation = diffstr[i].length == 0 && i != diffstr.length - 1 ? " " : diffstr[i][0];
-      if (operation === "+" || operation === "-" || operation === " " || operation === "\\") {
-        hunk.lines.push(diffstr[i]);
-        if (operation === "+") {
-          addCount++;
-        } else if (operation === "-") {
-          removeCount++;
-        } else if (operation === " ") {
-          addCount++;
-          removeCount++;
-        }
-      } else {
-        throw new Error(`Hunk at line ${chunkHeaderIndex + 1} contained invalid line ${diffstr[i]}`);
-      }
-    }
-    if (!addCount && hunk.newLines === 1) {
-      hunk.newLines = 0;
-    }
-    if (!removeCount && hunk.oldLines === 1) {
-      hunk.oldLines = 0;
-    }
-    if (addCount !== hunk.newLines) {
-      throw new Error("Added line count did not match for hunk at line " + (chunkHeaderIndex + 1));
-    }
-    if (removeCount !== hunk.oldLines) {
-      throw new Error("Removed line count did not match for hunk at line " + (chunkHeaderIndex + 1));
-    }
-    if (i < diffstr.length && diffstr[i] && /^[+ -]/.test(diffstr[i]) && !isFileHeader(diffstr[i])) {
-      throw new Error("Hunk at line " + (chunkHeaderIndex + 1) + " has more lines than expected (expected " + hunk.oldLines + " old lines and " + hunk.newLines + " new lines)");
-    }
-    return hunk;
-  }
-  while (i < diffstr.length) {
-    parseIndex();
-  }
-  return list3;
-}
-
-// ../differential-review-lib/node_modules/diff/libesm/patch/create.js
-function structuredPatch(oldFileName, newFileName, oldStr, newStr, oldHeader, newHeader, options) {
-  let optionsObj;
-  if (!options) {
-    optionsObj = {};
-  } else if (typeof options === "function") {
-    optionsObj = { callback: options };
-  } else {
-    optionsObj = options;
-  }
-  if (typeof optionsObj.context === "undefined") {
-    optionsObj.context = 4;
-  }
-  const context = optionsObj.context;
-  if (optionsObj.newlineIsToken) {
-    throw new Error("newlineIsToken may not be used with patch-generation functions, only with diffing functions");
-  }
-  if (!optionsObj.callback) {
-    return diffLinesResultToPatch(diffLines(oldStr, newStr, optionsObj));
-  } else {
-    const { callback } = optionsObj;
-    diffLines(oldStr, newStr, Object.assign(Object.assign({}, optionsObj), { callback: (diff) => {
-      const patch = diffLinesResultToPatch(diff);
-      callback(patch);
-    } }));
-  }
-  function diffLinesResultToPatch(diff) {
-    if (!diff) {
-      return;
-    }
-    diff.push({ value: "", lines: [] });
-    function contextLines(lines) {
-      return lines.map(function(entry) {
-        return " " + entry;
-      });
-    }
-    const hunks = [];
-    let oldRangeStart = 0, newRangeStart = 0, curRange = [], oldLine = 1, newLine = 1;
-    for (let i = 0; i < diff.length; i++) {
-      const current = diff[i], lines = current.lines || splitLines(current.value);
-      current.lines = lines;
-      if (current.added || current.removed) {
-        if (!oldRangeStart) {
-          const prev = diff[i - 1];
-          oldRangeStart = oldLine;
-          newRangeStart = newLine;
-          if (prev) {
-            curRange = context > 0 ? contextLines(prev.lines.slice(-context)) : [];
-            oldRangeStart -= curRange.length;
-            newRangeStart -= curRange.length;
-          }
-        }
-        for (const line of lines) {
-          curRange.push((current.added ? "+" : "-") + line);
-        }
-        if (current.added) {
-          newLine += lines.length;
-        } else {
-          oldLine += lines.length;
-        }
-      } else {
-        if (oldRangeStart) {
-          if (lines.length <= context * 2 && i < diff.length - 2) {
-            for (const line of contextLines(lines)) {
-              curRange.push(line);
-            }
-          } else {
-            const contextSize = Math.min(lines.length, context);
-            for (const line of contextLines(lines.slice(0, contextSize))) {
-              curRange.push(line);
-            }
-            const hunk = {
-              oldStart: oldRangeStart,
-              oldLines: oldLine - oldRangeStart + contextSize,
-              newStart: newRangeStart,
-              newLines: newLine - newRangeStart + contextSize,
-              lines: curRange
-            };
-            hunks.push(hunk);
-            oldRangeStart = 0;
-            newRangeStart = 0;
-            curRange = [];
-          }
-        }
-        oldLine += lines.length;
-        newLine += lines.length;
-      }
-    }
-    for (const hunk of hunks) {
-      for (let i = 0; i < hunk.lines.length; i++) {
-        if (hunk.lines[i].endsWith("\n")) {
-          hunk.lines[i] = hunk.lines[i].slice(0, -1);
-        } else {
-          hunk.lines.splice(i + 1, 0, "\\ No newline at end of file");
-          i++;
-        }
-      }
-    }
-    return {
-      oldFileName,
-      newFileName,
-      oldHeader,
-      newHeader,
-      hunks
-    };
-  }
-}
-function splitLines(text2) {
-  const hasTrailingNl = text2.endsWith("\n");
-  const result = text2.split("\n").map((line) => line + "\n");
-  if (hasTrailingNl) {
-    result.pop();
-  } else {
-    result.push(result.pop().slice(0, -1));
-  }
-  return result;
-}
-
-// ../differential-review-lib/src/core/sha256.ts
-var K = new Uint32Array([
-  1116352408,
-  1899447441,
-  3049323471,
-  3921009573,
-  961987163,
-  1508970993,
-  2453635748,
-  2870763221,
-  3624381080,
-  310598401,
-  607225278,
-  1426881987,
-  1925078388,
-  2162078206,
-  2614888103,
-  3248222580,
-  3835390401,
-  4022224774,
-  264347078,
-  604807628,
-  770255983,
-  1249150122,
-  1555081692,
-  1996064986,
-  2554220882,
-  2821834349,
-  2952996808,
-  3210313671,
-  3336571891,
-  3584528711,
-  113926993,
-  338241895,
-  666307205,
-  773529912,
-  1294757372,
-  1396182291,
-  1695183700,
-  1986661051,
-  2177026350,
-  2456956037,
-  2730485921,
-  2820302411,
-  3259730800,
-  3345764771,
-  3516065817,
-  3600352804,
-  4094571909,
-  275423344,
-  430227734,
-  506948616,
-  659060556,
-  883997877,
-  958139571,
-  1322822218,
-  1537002063,
-  1747873779,
-  1955562222,
-  2024104815,
-  2227730452,
-  2361852424,
-  2428436474,
-  2756734187,
-  3204031479,
-  3329325298
-]);
-function utf8(text2) {
-  const out = [];
-  for (const ch of text2) {
-    let cp = ch.codePointAt(0);
-    if (cp >= 55296 && cp <= 57343) cp = 65533;
-    if (cp < 128) out.push(cp);
-    else if (cp < 2048) out.push(192 | cp >> 6, 128 | cp & 63);
-    else if (cp < 65536) out.push(224 | cp >> 12, 128 | cp >> 6 & 63, 128 | cp & 63);
-    else out.push(240 | cp >> 18, 128 | cp >> 12 & 63, 128 | cp >> 6 & 63, 128 | cp & 63);
-  }
-  return out;
-}
-function sha256Hex(text2) {
-  const bytes = utf8(text2);
-  const bitLength = bytes.length * 8;
-  bytes.push(128);
-  while (bytes.length % 64 !== 56) bytes.push(0);
-  const hi = Math.floor(bitLength / 4294967296);
-  const lo = bitLength >>> 0;
-  bytes.push(hi >>> 24 & 255, hi >>> 16 & 255, hi >>> 8 & 255, hi & 255);
-  bytes.push(lo >>> 24 & 255, lo >>> 16 & 255, lo >>> 8 & 255, lo & 255);
-  const h = new Uint32Array([
-    1779033703,
-    3144134277,
-    1013904242,
-    2773480762,
-    1359893119,
-    2600822924,
-    528734635,
-    1541459225
-  ]);
-  const w = new Uint32Array(64);
-  const rotr = (x, n) => x >>> n | x << 32 - n;
-  for (let offset = 0; offset < bytes.length; offset += 64) {
-    for (let i = 0; i < 16; i++) {
-      const j = offset + i * 4;
-      w[i] = bytes[j] << 24 | bytes[j + 1] << 16 | bytes[j + 2] << 8 | bytes[j + 3];
-    }
-    for (let i = 16; i < 64; i++) {
-      const s0 = rotr(w[i - 15], 7) ^ rotr(w[i - 15], 18) ^ w[i - 15] >>> 3;
-      const s1 = rotr(w[i - 2], 17) ^ rotr(w[i - 2], 19) ^ w[i - 2] >>> 10;
-      w[i] = w[i - 16] + s0 + w[i - 7] + s1;
-    }
-    let [a, b, c, d, e, f, g, hh] = h;
-    for (let i = 0; i < 64; i++) {
-      const s1 = rotr(e, 6) ^ rotr(e, 11) ^ rotr(e, 25);
-      const ch = e & f ^ ~e & g;
-      const t1 = hh + s1 + ch + K[i] + w[i] >>> 0;
-      const s0 = rotr(a, 2) ^ rotr(a, 13) ^ rotr(a, 22);
-      const maj = a & b ^ a & c ^ b & c;
-      const t2 = s0 + maj >>> 0;
-      hh = g;
-      g = f;
-      f = e;
-      e = d + t1 >>> 0;
-      d = c;
-      c = b;
-      b = a;
-      a = t1 + t2 >>> 0;
-    }
-    h[0] += a;
-    h[1] += b;
-    h[2] += c;
-    h[3] += d;
-    h[4] += e;
-    h[5] += f;
-    h[6] += g;
-    h[7] += hh;
-  }
-  return Array.from(h, (x) => x.toString(16).padStart(8, "0")).join("");
-}
-
-// ../differential-review-lib/src/core/diff.ts
-var HUNK_HEADER = /^@@ -(\d+)(?:,(\d+))? \+(\d+)(?:,(\d+))? @@/;
-var INDEX_LINE = /^index ([0-9a-f]+)\.\.([0-9a-f]+)/m;
-function hash(text2) {
-  return `${FINGERPRINT_VERSION}:${sha256Hex(text2).slice(0, 16)}`;
-}
-function splitDiffSections(diffText) {
-  if (!diffText.trim()) return [];
-  const lines = diffText.split("\n");
-  const sections = [];
-  for (const line of lines) {
-    if (line.startsWith("diff --git ") || sections.length === 0) sections.push([]);
-    sections[sections.length - 1].push(line);
-  }
-  return sections.map((s) => s.join("\n").replace(/\n+$/, "") + "\n");
-}
-function stripPrefix(name, prefix) {
-  if (!name || name === "/dev/null") return null;
-  return name.startsWith(prefix) ? name.slice(prefix.length) : name;
-}
-function normalizeChangedLines(lines) {
-  const out = [];
-  let afterChange = false;
-  for (const line of lines) {
-    const marker = line[0];
-    if (marker === "+" || marker === "-") {
-      out.push(marker + line.slice(1).replace(/\s+$/, ""));
-      afterChange = true;
-    } else if (marker === "\\") {
-      if (afterChange) out.push("\\ No newline at end of file");
-    } else {
-      afterChange = false;
-    }
-  }
-  return out;
-}
-function contentHashOf(changed) {
-  return hash(changed.join("\n"));
-}
-function hunkId(path, contentHash, occurrence) {
-  return hash(`${path}\0${contentHash}\0${occurrence}`);
-}
-function isWhitespaceOnly(changed) {
-  const squash = (marker) => changed.filter((l) => l[0] === marker).map((l) => l.slice(1).replace(/\s+/g, "")).join("");
-  return squash("-") === squash("+");
-}
-function fileStatus(p) {
-  if (p.isCreate) return "added";
-  if (p.isDelete) return "deleted";
-  if (p.isRename) return "renamed";
-  if (p.isCopy) return "copied";
-  return "modified";
-}
-function metaUnit(file, hasText) {
-  const modeChanged = !!file.oldMode && !!file.newMode && file.oldMode !== file.newMode;
-  const moved = file.status === "renamed" || file.status === "copied";
-  if (!file.binary && !moved && !modeChanged && hasText) return null;
-  const lines = [
-    `# status ${file.status}`,
-    `# old ${file.oldPath ?? "-"} ${file.oldMode ?? "-"}`,
-    `# new ${file.newPath ?? "-"} ${file.newMode ?? "-"}`
-  ];
-  const parts = [];
-  if (moved) parts.push(`${file.status} ${file.oldPath} \u2192 ${file.newPath}`);
-  if (modeChanged) parts.push(`mode ${file.oldMode} \u2192 ${file.newMode}`);
-  if (file.binary) {
-    lines.push(`# binary ${file.oldBlob ?? "-"}..${file.newBlob ?? "-"}`);
-    parts.push("binary file changed");
-  }
-  if (!parts.length) parts.push(file.status === "deleted" ? "deleted empty file" : `${file.status} empty file`);
-  return { header: parts.join(", "), oldStart: 0, oldLines: 0, newStart: 0, newLines: 0, lines, kind: "meta" };
-}
-function parseSection(text2) {
-  const patches = parsePatch(text2);
-  if (patches.length !== 1) throw new Error(`expected one file per diff section, got ${patches.length}`);
-  const p = patches[0];
-  const oldPath = stripPrefix(p.oldFileName, "a/");
-  const newPath = stripPrefix(p.newFileName, "b/");
-  const blobs = INDEX_LINE.exec(text2);
-  const status = fileStatus(p);
-  const base = {
-    path: newPath ?? oldPath,
-    oldPath: status === "added" ? null : oldPath,
-    newPath: status === "deleted" ? null : newPath,
-    status,
-    binary: !!p.isBinary,
-    oldMode: p.oldMode ?? null,
-    newMode: p.newMode ?? null,
-    oldBlob: blobs?.[1] ?? null,
-    newBlob: blobs?.[2] ?? null
-  };
-  const headers = text2.split("\n").filter((l) => l.startsWith("@@"));
-  if (headers.length !== p.hunks.length) throw new Error(`hunk header mismatch in ${base.path}`);
-  const raw = p.hunks.map((h, i) => {
-    const m = HUNK_HEADER.exec(headers[i]);
-    if (!m) throw new Error(`bad hunk header: ${headers[i]}`);
-    return {
-      header: headers[i],
-      oldStart: Number(m[1]),
-      oldLines: m[2] === void 0 ? 1 : Number(m[2]),
-      newStart: Number(m[3]),
-      newLines: m[4] === void 0 ? 1 : Number(m[4]),
-      lines: h.lines,
-      kind: "text"
-    };
-  });
-  const meta = metaUnit(base, raw.length > 0);
-  if (meta) raw.unshift(meta);
-  const seen = /* @__PURE__ */ new Map();
-  const hunks = raw.map((h) => {
-    const changed = h.kind === "meta" ? h.lines : normalizeChangedLines(h.lines);
-    const contentHash = contentHashOf(changed);
-    const occurrence = seen.get(contentHash) ?? 0;
-    seen.set(contentHash, occurrence + 1);
-    return {
-      id: hunkId(base.path, contentHash, occurrence),
-      contentHash,
-      occurrence,
-      kind: h.kind,
-      header: h.header,
-      oldStart: h.oldStart,
-      oldLines: h.oldLines,
-      newStart: h.newStart,
-      newLines: h.newLines,
-      added: changed.filter((l) => l[0] === "+").length,
-      removed: changed.filter((l) => l[0] === "-").length,
-      whitespaceOnly: h.kind === "text" && isWhitespaceOnly(changed),
-      lines: h.lines,
-      changed
-    };
-  });
-  return { ...base, basePath: base.oldPath, text: text2, hunks };
-}
-function parseDiff(diffText) {
-  return splitDiffSections(diffText).map(parseSection);
-}
-
-// ../differential-review-lib/src/core/match.ts
-var FUZZY_THRESHOLD = 0.6;
-var CHAR_DIFF_LIMIT = 2e4;
-var MAX_EDIT_LENGTH = 2e3;
-function hunkRefs(files) {
-  return files.flatMap(
-    (f) => f.hunks.map((h) => ({
-      id: h.id,
-      contentHash: h.contentHash,
-      kind: h.kind,
-      path: f.path,
-      basePath: f.basePath,
-      changed: h.changed
-    }))
-  );
-}
-function sameFile(a, b) {
-  return a.path === b.path || a.basePath !== null && a.basePath === b.basePath;
-}
-function dice(common, a, b) {
-  return a + b === 0 ? 1 : 2 * common / (a + b);
-}
-function lineSimilarity(a, b) {
-  const parts = diffArrays(a, b, { maxEditLength: MAX_EDIT_LENGTH });
-  if (!parts) return 0;
-  const common = parts.filter((p) => !p.added && !p.removed).reduce((n, p) => n + p.count, 0);
-  return dice(common, a.length, b.length);
-}
-function similarity(a, b) {
-  const ta = a.join("\n");
-  const tb = b.join("\n");
-  if (ta === tb) return 1;
-  if (ta.length + tb.length > CHAR_DIFF_LIMIT) return lineSimilarity(a, b);
-  const parts = diffChars(ta, tb, { maxEditLength: MAX_EDIT_LENGTH });
-  if (!parts) return lineSimilarity(a, b);
-  const common = parts.filter((p) => !p.added && !p.removed).reduce((n, p) => n + p.value.length, 0);
-  return dice(common, ta.length, tb.length);
-}
-var similarityCache = /* @__PURE__ */ new Map();
-var SIMILARITY_CACHE_LIMIT = 1e5;
-function cachedSimilarity(a, b) {
-  if (!a.contentHash || !b.contentHash) return similarity(a.changed, b.changed);
-  const key2 = `${a.contentHash}\0${b.contentHash}`;
-  let sim = similarityCache.get(key2);
-  if (sim === void 0) {
-    if (similarityCache.size >= SIMILARITY_CACHE_LIMIT) similarityCache.clear();
-    sim = similarity(a.changed, b.changed);
-    similarityCache.set(key2, sim);
-  }
-  return sim;
-}
-function matchHunks(oldRefs, newRefs, threshold = FUZZY_THRESHOLD) {
-  const pairs2 = [];
-  const usedOld = /* @__PURE__ */ new Set();
-  const usedNew = /* @__PURE__ */ new Set();
-  const take = (i, j, match, sim) => {
-    usedOld.add(i);
-    usedNew.add(j);
-    pairs2.push({ oldId: oldRefs[i].id, newId: newRefs[j].id, match, similarity: sim });
-  };
-  const oldById = /* @__PURE__ */ new Map();
-  oldRefs.forEach((r, i) => oldById.set(r.id, i));
-  newRefs.forEach((r, j) => {
-    const i = oldById.get(r.id);
-    if (i !== void 0 && !usedOld.has(i)) take(i, j, "exact", 1);
-  });
-  newRefs.forEach((r, j) => {
-    if (usedNew.has(j)) return;
-    const i = oldRefs.findIndex((o, k) => !usedOld.has(k) && o.contentHash === r.contentHash && sameFile(o, r));
-    if (i >= 0) take(i, j, "moved", 1);
-  });
-  const candidates = [];
-  newRefs.forEach((r, j) => {
-    if (usedNew.has(j)) return;
-    oldRefs.forEach((o, i) => {
-      if (usedOld.has(i) || o.kind !== r.kind || !sameFile(o, r) || !o.changed || !r.changed) return;
-      const sim = cachedSimilarity(o, r);
-      if (sim >= threshold || r.kind === "meta") candidates.push({ i, j, sim });
-    });
-  });
-  candidates.sort((a, b) => b.sim - a.sim || a.j - b.j || a.i - b.i);
-  for (const c of candidates) {
-    if (!usedOld.has(c.i) && !usedNew.has(c.j)) take(c.i, c.j, "fuzzy", c.sim);
-  }
-  return {
-    pairs: pairs2,
-    added: newRefs.filter((_, j) => !usedNew.has(j)).map((r) => r.id),
-    removed: oldRefs.filter((_, i) => !usedOld.has(i)).map((r) => r.id)
-  };
-}
-function toHunkMatches(newRefs, result) {
-  const byNew = new Map(result.pairs.map((p) => [p.newId, p]));
-  return newRefs.map((r) => {
-    const p = byNew.get(r.id);
-    return p ? { id: r.id, previousId: p.oldId, match: p.match, similarity: round(p.similarity) } : { id: r.id, previousId: null, match: "new", similarity: 0 };
-  });
-}
-function round(n) {
-  return Math.round(n * 1e3) / 1e3;
-}
-
-// ../differential-review-lib/src/core/snapshot.ts
-var parsedCache = /* @__PURE__ */ new WeakMap();
-function verifyFingerprints(stored, parsed) {
-  const ids = (files) => files.flatMap((f) => f.hunks.map((h) => h.id)).join(",");
-  if (ids(stored) !== ids(parsed)) {
-    throw new Error(`stored fingerprints don't match this parser (${FINGERPRINT_VERSION}); rebuild or bump the fingerprint version`);
-  }
-}
-function cachedParse(owner) {
-  let files = parsedCache.get(owner);
-  if (!files) {
-    files = parseDiff(owner.diff);
-    if (owner.files) verifyFingerprints(owner.files, files);
-    parsedCache.set(owner, files);
-  }
-  return files;
-}
-function snapshotFiles(snapshot) {
-  return cachedParse(snapshot);
-}
-function commitFiles(commit) {
-  return cachedParse(commit);
-}
-function commitKey(commit) {
-  return commit.patchId ?? `sha:${commit.sha}`;
-}
-function sortSnapshots(snapshots) {
-  return [...snapshots].sort((a, b) => a.createdAt.localeCompare(b.createdAt) || a.id.localeCompare(b.id));
-}
-
-// ../differential-review-lib/src/core/queries.ts
-function commitLineage(snapshots, from, sha) {
-  const byId2 = new Map(snapshots.map((s) => [s.id, s]));
-  const steps = [];
-  let snapshot = from;
-  let current = sha;
-  while (snapshot.mapping) {
-    const entry = snapshot.mapping.commits.find((c) => c.sha === current);
-    const prev = byId2.get(snapshot.mapping.previousSnapshotId);
-    if (!entry?.previousSha || !prev) break;
-    const commit = prev.commits.find((c) => c.sha === entry.previousSha);
-    if (!commit) break;
-    steps.push({ snapshot: prev, commit });
-    snapshot = prev;
-    current = commit.sha;
-  }
-  return steps;
-}
-function changesBetween(snapshots, from, to) {
-  const oldRefs = hunkRefs(snapshotFiles(from));
-  const newRefs = hunkRefs(snapshotFiles(to));
-  const result = matchHunks(oldRefs, newRefs);
-  const used = /* @__PURE__ */ new Set();
-  const commits = to.commits.map((c) => {
-    const same = from.commits.find((p) => !used.has(p.sha) && p.sha === c.sha) ?? (c.patchId !== null && from.commits.find((p) => !used.has(p.sha) && p.patchId === c.patchId));
-    if (same) {
-      used.add(same.sha);
-      return { sha: c.sha, change: "unchanged", previousSha: same.sha };
-    }
-    const ancestor = commitLineage(snapshots, to, c.sha).find((step) => step.snapshot.id === from.id);
-    if (ancestor && !used.has(ancestor.commit.sha)) {
-      used.add(ancestor.commit.sha);
-      return { sha: c.sha, change: "modified", previousSha: ancestor.commit.sha };
-    }
-    return { sha: c.sha, change: "added", previousSha: null };
-  });
-  return {
-    from: from.id,
-    to: to.id,
-    hunks: toHunkMatches(newRefs, result),
-    droppedHunks: result.removed,
-    commits,
-    droppedCommits: from.commits.filter((c) => !used.has(c.sha)).map((c) => c.sha)
-  };
-}
-var HUNK_DELTA = { exact: "carried", moved: "carried", fuzzy: "changed", new: "new" };
-function commitDelta(entry) {
-  if (!entry?.method) return "new";
-  if (entry.patchIdChanged) return "changed";
-  return entry.method === "sha" ? "same" : "rebased";
-}
-function summarizeSnapshot(snapshot) {
-  const mapping = snapshot.mapping;
-  const commits = { same: 0, rebased: 0, changed: 0, new: 0, dropped: mapping?.droppedCommits.length ?? 0 };
-  const flaggedCommits = [];
-  for (const commit of snapshot.commits) {
-    const entry = mapping?.commits.find((c) => c.sha === commit.sha);
-    const delta = commitDelta(entry);
-    commits[delta]++;
-    if (delta === "changed" || delta === "new") {
-      const differing = entry?.hunks?.filter((h) => HUNK_DELTA[h.match] !== "carried").length ?? null;
-      flaggedCommits.push({ sha: commit.sha, subject: commit.subject, change: delta, differingHunks: differing });
-    }
-  }
-  const hunks = { carried: 0, changed: 0, new: 0, dropped: mapping?.droppedHunks.length ?? 0 };
-  if (mapping) {
-    for (const h of mapping.hunks) hunks[HUNK_DELTA[h.match]]++;
-  } else {
-    hunks.new = snapshot.files.reduce((n, f) => n + f.hunks.length, 0);
-  }
-  return { previousSnapshotId: mapping?.previousSnapshotId ?? null, commits, hunks, flaggedCommits };
-}
-
-// ../differential-review-lib/src/core/review-state.ts
-function emptyReviewState() {
-  return { schemaVersion: REVIEW_STATE_SCHEMA_VERSION, kind: "differential-review-state", updatedAt: null, hunks: {}, commits: {} };
-}
-function parseReviewState(json2) {
-  const s = json2;
-  if (!s || s.kind !== "differential-review-state") throw new Error("not a differential-review state file");
-  if (s.schemaVersion !== REVIEW_STATE_SCHEMA_VERSION) {
-    throw new Error(`unsupported review-state schemaVersion ${s.schemaVersion}`);
-  }
-  return { ...emptyReviewState(), ...s, hunks: { ...s.hunks }, commits: { ...s.commits } };
-}
-function findHunkPath(snapshot, id) {
-  for (const f of snapshot.files) if (f.hunks.some((h) => h.id === id)) return f.path;
-  throw new Error(`hunk ${id} not in snapshot ${snapshot.id}`);
-}
-function markHunksReviewed(state, snapshot, ids, now) {
-  const hunks = { ...state.hunks };
-  for (const id of ids) hunks[id] = { snapshotId: snapshot.id, path: findHunkPath(snapshot, id), reviewedAt: now };
-  return { ...state, updatedAt: now, hunks };
-}
-function unmarkHunks(state, ids, now) {
-  const hunks = { ...state.hunks };
-  for (const id of ids) delete hunks[id];
-  return { ...state, updatedAt: now, hunks };
-}
-function markFileReviewed(state, snapshot, path, now) {
-  const file = snapshot.files.find((f) => f.path === path);
-  if (!file) throw new Error(`file ${path} not in snapshot ${snapshot.id}`);
-  return markHunksReviewed(state, snapshot, file.hunks.map((h) => h.id), now);
-}
-function signOffCommit(state, snapshot, sha, now, note) {
-  const commit = snapshot.commits.find((c) => c.sha === sha);
-  if (!commit) throw new Error(`commit ${sha} not in snapshot ${snapshot.id}`);
-  const record = { sha, subject: commit.subject, snapshotId: snapshot.id, signedOffAt: now, ...note ? { note } : {} };
-  return { ...state, updatedAt: now, commits: { ...state.commits, [commitKey(commit)]: record } };
-}
-function revokeCommitSignoff(state, key2, now) {
-  const commits = { ...state.commits };
-  delete commits[key2];
-  return { ...state, updatedAt: now, commits };
-}
-
-// ../differential-review-lib/src/core/derive.ts
-function zero() {
-  return { reviewed: 0, new: 0, changed: 0 };
-}
-function reviewedRefs(state, byId2) {
-  return Object.entries(state.hunks).map(([id, rec]) => {
-    const snap = byId2.get(rec.snapshotId);
-    for (const file of snap ? snapshotFiles(snap) : []) {
-      const hunk = file.hunks.find((h) => h.id === id);
-      if (hunk) {
-        return { id, contentHash: hunk.contentHash, kind: hunk.kind, path: file.path, basePath: file.basePath, changed: hunk.changed };
-      }
-    }
-    return { id, contentHash: "", kind: "text", path: rec.path, basePath: null, changed: null };
-  });
-}
-function fileState(counts, total) {
-  if (counts.reviewed === total) return "reviewed";
-  if (counts.new === total) return "new";
-  return "changed";
-}
-function deriveReview(current, state, snapshots) {
-  const byId2 = new Map(snapshots.map((s) => [s.id, s]));
-  byId2.set(current.id, current);
-  const all = [...byId2.values()];
-  const counts = { hunks: zero(), files: zero(), commits: zero() };
-  const parsed = snapshotFiles(current);
-  const refs = hunkRefs(parsed);
-  const old = reviewedRefs(state, byId2);
-  const result = matchHunks(old, refs);
-  const pairByNew = new Map(result.pairs.map((p) => [p.newId, p]));
-  const files = parsed.map((file) => {
-    const fileCounts = zero();
-    const hunks = file.hunks.map((h) => {
-      const pair = pairByNew.get(h.id);
-      const hunkState = !pair ? "new" : pair.match === "fuzzy" ? "changed" : "reviewed";
-      fileCounts[hunkState]++;
-      counts.hunks[hunkState]++;
-      const reviewedAs = pair ? { hunkId: pair.oldId, snapshotId: state.hunks[pair.oldId].snapshotId, similarity: pair.similarity } : null;
-      return { id: h.id, path: file.path, kind: h.kind, state: hunkState, reviewedAs };
-    });
-    const fs = fileState(fileCounts, hunks.length);
-    counts.files[fs]++;
-    return { path: file.path, state: fs, hunks, counts: fileCounts };
-  });
-  const commits = current.commits.map((commit) => {
-    const key2 = commitKey(commit);
-    let review = { sha: commit.sha, subject: commit.subject, key: key2, state: "new", signoff: null, differingHunks: null };
-    if (state.commits[key2]) {
-      review = { ...review, state: "reviewed", signoff: { ...state.commits[key2], key: key2 } };
-    } else {
-      const signed = commitLineage(all, current, commit.sha).find((step) => state.commits[commitKey(step.commit)]);
-      if (signed) {
-        const signedKey = commitKey(signed.commit);
-        const n = hunkRefs(commitFiles(commit));
-        const m = matchHunks(hunkRefs(commitFiles(signed.commit)), n);
-        const same = new Set(m.pairs.filter((p) => p.match !== "fuzzy").map((p) => p.newId));
-        review = {
-          ...review,
-          state: "changed",
-          signoff: { ...state.commits[signedKey], key: signedKey },
-          differingHunks: n.map((r) => r.id).filter((id) => !same.has(id))
-        };
-      }
-    }
-    counts.commits[review.state]++;
-    return review;
-  });
-  return { snapshotId: current.id, files, commits, counts };
-}
-
-// ../differential-review-lib/src/core/storage.ts
-var SNAPSHOTS_DIR = "snapshots";
-var REVIEW_STATE_FILE = "review-state.json";
-function join(...parts) {
-  return parts.filter(Boolean).join("/").replace(/\/+/g, "/");
-}
-function snapshotsDir(reviewDir) {
-  return join(reviewDir, SNAPSHOTS_DIR);
-}
-function snapshotPath(reviewDir, id) {
-  return join(snapshotsDir(reviewDir), `${id}.json`);
-}
-function reviewStatePath(reviewDir) {
-  return join(reviewDir, REVIEW_STATE_FILE);
-}
-function parseSnapshot(json2) {
-  const s = json2;
-  if (!s || s.kind !== "differential-review-snapshot") throw new Error("not a differential-review snapshot");
-  if (s.schemaVersion !== SNAPSHOT_SCHEMA_VERSION) throw new Error(`unsupported snapshot schemaVersion ${s.schemaVersion}`);
-  if (s.fingerprintVersion !== FINGERPRINT_VERSION) throw new Error(`unsupported fingerprintVersion ${s.fingerprintVersion}`);
-  return s;
-}
-function snapshotReader(adapter, reviewDir) {
-  return {
-    async listSnapshotIds() {
-      const names = await adapter.listFiles(snapshotsDir(reviewDir));
-      return names.filter((n) => n.endsWith(".json")).map((n) => n.slice(0, -5)).sort();
-    },
-    async readSnapshot(id) {
-      const path = snapshotPath(reviewDir, id);
-      try {
-        return parseSnapshot(JSON.parse(await adapter.read(path)));
-      } catch (e) {
-        throw new Error(`unreadable snapshot ${path}: ${e.message}`);
-      }
-    }
-  };
-}
-async function readReviewState(adapter, reviewDir) {
-  const path = reviewStatePath(reviewDir);
-  if (!await adapter.exists(path)) return null;
-  return parseReviewState(JSON.parse(await adapter.read(path)));
-}
-function reviewStateStore(adapter, reviewDir) {
-  return {
-    readReviewState: () => readReviewState(adapter, reviewDir),
-    async writeReviewState(state) {
-      await adapter.write(reviewStatePath(reviewDir), JSON.stringify(state, null, 2) + "\n");
-    }
-  };
-}
-async function updateReviewState(store, mutate) {
-  const next = mutate(await store.readReviewState() ?? emptyReviewState());
-  await store.writeReviewState(next);
-  return next;
-}
-
-// ../differential-review-lib/src/core/annotations.ts
-function sourceLines(hunk, side) {
-  let line = side === "old" ? hunk.oldStart : hunk.newStart;
-  const out = [];
-  for (const text2 of hunk.lines) {
-    if (text2[0] === " " || text2[0] === (side === "old" ? "-" : "+")) out.push({ line: line++, text: text2.slice(1) });
-  }
-  return out;
-}
-function validRange(range) {
-  return Array.isArray(range) && range.length === 2 && range.every((n) => Number.isSafeInteger(n) && n > 0) && range[0] <= range[1];
-}
-function annotationId(id) {
-  if (!/^[a-zA-Z0-9][a-zA-Z0-9_-]{0,127}$/.test(id)) throw new Error("invalid annotation id");
-  return id;
-}
-function nonempty(value, field) {
-  if (typeof value !== "string" || !value.trim()) throw new Error(`annotation ${field} must be non-empty text`);
-}
-function object(value) {
-  if (!value || typeof value !== "object" || Array.isArray(value)) throw new Error("invalid annotation object");
-  return value;
-}
-function parseOrigin(value) {
-  const o = object(value);
-  for (const key2 of ["snapshotId", "path", "hunkId"]) nonempty(o[key2], key2);
-  if (o.basePath !== null && typeof o.basePath !== "string") throw new Error("invalid annotation basePath");
-  if (o.side !== "old" && o.side !== "new") throw new Error("invalid annotation side");
-  if (!validRange(o.range)) throw new Error("invalid annotation range");
-  if (typeof o.quote !== "string" || o.quote.split("\n").length !== o.range[1] - o.range[0] + 1) throw new Error("invalid annotation quote");
-  for (const key2 of ["contextBefore", "contextAfter"]) {
-    if (!Array.isArray(o[key2]) || !o[key2].every((v) => typeof v === "string")) throw new Error(`invalid annotation ${key2}`);
-  }
-  return o;
-}
-function parseReviewThread(value) {
-  const t = object(value);
-  if (t.kind !== "differential-review-thread") throw new Error("not a differential-review thread");
-  if (t.schemaVersion !== 1) throw new Error(`unsupported thread schemaVersion ${t.schemaVersion}`);
-  nonempty(t.id, "id");
-  annotationId(t.id);
-  for (const key2 of ["body", "author", "createdAt"]) nonempty(t[key2], key2);
-  parseOrigin(t.origin);
-  if (t.status !== "open" && t.status !== "resolved") throw new Error("invalid thread status");
-  if (t.resolvedAt !== null && typeof t.resolvedAt !== "string") throw new Error("invalid resolvedAt");
-  return t;
-}
-function parseReviewReply(value) {
-  const r = object(value);
-  if (r.kind !== "differential-review-reply") throw new Error("not a differential-review reply");
-  if (r.schemaVersion !== 1) throw new Error(`unsupported reply schemaVersion ${r.schemaVersion}`);
-  for (const key2 of ["id", "threadId", "body", "author", "createdAt"]) nonempty(r[key2], key2);
-  annotationId(r.id);
-  annotationId(r.threadId);
-  if (r.source !== "human" && r.source !== "agent") throw new Error("invalid reply source");
-  if (r.snapshotId !== void 0) nonempty(r.snapshotId, "snapshotId");
-  return r;
-}
-function captureReviewOrigin(snapshot, target) {
-  if (!validRange(target.range)) throw new Error("invalid annotation range");
-  const file = snapshotFiles(snapshot).find((f) => f.path === target.path);
-  const hunk = file?.hunks.find((h) => h.id === target.hunkId && h.kind === "text");
-  if (!file || !hunk) throw new Error("annotation target is not a text hunk in this snapshot");
-  const lines = sourceLines(hunk, target.side);
-  const start = lines.findIndex((l) => l.line === target.range[0]);
-  const end = lines.findIndex((l) => l.line === target.range[1]);
-  if (start < 0 || end < start) throw new Error("annotation range must be within one diff hunk");
-  return {
-    snapshotId: snapshot.id,
-    path: file.path,
-    basePath: file.basePath,
-    hunkId: hunk.id,
-    side: target.side,
-    range: [...target.range],
-    quote: lines.slice(start, end + 1).map((l) => l.text).join("\n"),
-    contextBefore: lines.slice(Math.max(0, start - 3), start).map((l) => l.text),
-    contextAfter: lines.slice(end + 1, end + 4).map((l) => l.text)
-  };
-}
-function createReviewThread(input) {
-  return parseReviewThread({ ...input, schemaVersion: 1, kind: "differential-review-thread", status: "open", resolvedAt: null });
-}
-function setThreadResolved(thread, resolved, now) {
-  return { ...thread, status: resolved ? "resolved" : "open", resolvedAt: resolved ? now : null };
-}
-function locateThread(thread, current, snapshots) {
-  const o = thread.origin;
-  const file = snapshotFiles(current).find((f) => f.path === o.path || o.basePath !== null && f.basePath === o.basePath);
-  if (!file) return { state: "unmapped", path: null, hunkId: null, range: null };
-  const quoted = o.quote.split("\n");
-  const previous = snapshots.find((s) => s.id === o.snapshotId);
-  if (current.id === o.snapshotId || previous && previous.diff === current.diff) {
-    const hunk = file.hunks.find((h) => h.id === o.hunkId);
-    const selected = hunk && sourceLines(hunk, o.side).filter((l) => l.line >= o.range[0] && l.line <= o.range[1]);
-    if (selected && selected.length === quoted.length && selected.every((l, i) => l.text === quoted[i])) {
-      return { state: current.id === o.snapshotId ? "active" : "moved", path: file.path, hunkId: o.hunkId, range: [...o.range] };
-    }
-  }
-  const matches = [];
-  for (const h of file.hunks.filter((h2) => h2.kind === "text")) {
-    const lines = sourceLines(h, o.side);
-    for (let i = 0; i + quoted.length <= lines.length; i++) {
-      if (!quoted.every((text2, j) => lines[i + j].text === text2)) continue;
-      const before = lines.slice(Math.max(0, i - o.contextBefore.length), i).map((l) => l.text);
-      const after = lines.slice(i + quoted.length, i + quoted.length + o.contextAfter.length).map((l) => l.text);
-      matches.push({ hunkId: h.id, range: [lines[i].line, lines[i + quoted.length - 1].line], context: JSON.stringify(before) === JSON.stringify(o.contextBefore) && JSON.stringify(after) === JSON.stringify(o.contextAfter) });
-    }
-  }
-  const contextual = matches.filter((m) => m.context);
-  const certain = matches.length === 1 ? matches[0] : contextual.length === 1 ? contextual[0] : null;
-  if (certain) return {
-    state: current.id === o.snapshotId ? "active" : "moved",
-    path: file.path,
-    hunkId: certain.hunkId,
-    range: certain.range
-  };
-  const oldFile = previous && snapshotFiles(previous).find((f) => f.path === o.path);
-  const pair = oldFile && matchHunks(hunkRefs([oldFile]), hunkRefs([file])).pairs.find((p) => p.oldId === o.hunkId);
-  return { state: "outdated", path: file.path, hunkId: pair?.newId ?? null, range: null };
-}
-function deriveThreads(annotations, current, snapshots) {
-  return annotations.threads.map((thread) => ({
-    thread,
-    replies: annotations.replies.filter((r) => r.threadId === thread.id).sort((a, b) => a.createdAt.localeCompare(b.createdAt) || a.id.localeCompare(b.id)),
-    placement: locateThread(thread, current, snapshots)
-  })).sort((a, b) => a.thread.createdAt.localeCompare(b.thread.createdAt) || a.thread.id.localeCompare(b.thread.id));
-}
-
-// ../differential-review-lib/src/core/view.ts
-function snapshotLabel(s) {
-  return `${s.phase} @ ${s.head.slice(0, 8)} (${s.createdAt.slice(0, 16).replace("T", " ")}Z)`;
-}
-var HUNK_DELTA2 = { exact: "carried", moved: "carried", fuzzy: "changed", new: "new" };
-function buildReviewView(snapshots, state, options = {}) {
-  const ordered = sortSnapshots(snapshots);
-  const current = ordered[ordered.length - 1];
-  if (!current) return null;
-  const hideReviewed = options.hideReviewed ?? false;
-  const requested = options.baseline?.kind === "snapshot" ? options.baseline.snapshotId : null;
-  const baselineSnapshot = requested && ordered.find((s) => s.id === requested && s !== current) || null;
-  const baseline = baselineSnapshot ? { kind: "snapshot", snapshotId: baselineSnapshot.id } : { kind: "review" };
-  const review = deriveReview(current, state ?? emptyReviewState(), ordered);
-  const changes = baselineSnapshot ? changesBetween(ordered, baselineSnapshot, current) : null;
-  const hunkChange = new Map(changes?.hunks.map((h) => [h.id, h]));
-  const commitChange = new Map(changes?.commits.map((c) => [c.sha, c.change]));
-  const threads = deriveThreads(options.annotations ?? { threads: [], replies: [] }, current, ordered);
-  const openHunks = new Set(threads.filter((t) => t.thread.status === "open").map((t) => t.placement.hunkId));
-  const hidden = { files: 0, hunks: 0, commits: 0 };
-  const parsed = new Map(snapshotFiles(current).map((f) => [f.path, f]));
-  const files = review.files.map((file) => {
-    const source = parsed.get(file.path);
-    const hunks = file.hunks.map((h, i) => {
-      const index = source.hunks[i];
-      const match = hunkChange.get(h.id);
-      const sinceBaseline = match ? HUNK_DELTA2[match.match] : null;
-      const visible2 = openHunks.has(h.id) || !(hideReviewed && h.state === "reviewed") && sinceBaseline !== "carried";
-      if (!visible2) hidden.hunks++;
-      return {
-        ...h,
-        header: index.header,
-        added: index.added,
-        removed: index.removed,
-        whitespaceOnly: index.whitespaceOnly,
-        sinceBaseline,
-        baselineHunkId: match?.match === "fuzzy" ? match.previousId : null,
-        visible: visible2
-      };
-    });
-    const visible = hunks.some((h) => h.visible);
-    if (!visible) hidden.files++;
-    const { path, oldPath, status, binary: binary2 } = source;
-    return { path, oldPath, status, binary: binary2, state: file.state, counts: file.counts, hunks, visible };
-  });
-  const bySha = new Map(current.commits.map((c) => [c.sha, c]));
-  const commits = review.commits.map((c) => {
-    const commit = bySha.get(c.sha);
-    const sinceBaseline = commitChange.get(c.sha) ?? null;
-    const visible = !(hideReviewed && c.state === "reviewed") && sinceBaseline !== "unchanged";
-    if (!visible) hidden.commits++;
-    return {
-      ...c,
-      message: commit.message,
-      author: commit.author,
-      authorDate: commit.authorDate,
-      sinceBaseline,
-      contextOnly: c.state === "changed" && c.differingHunks?.length === 0,
-      visible
-    };
-  });
-  return {
-    threads,
-    snapshot: current,
-    snapshots: ordered,
-    summary: summarizeSnapshot(current),
-    baseline,
-    baselineSnapshot,
-    baselineOptions: ordered.filter((s) => s !== current).reverse().map((s) => ({ id: s.id, label: snapshotLabel(s) })),
-    files,
-    commits,
-    counts: review.counts,
-    needsRelook: commits.some((c) => c.state === "changed"),
-    hidden
-  };
-}
-function findHunk(files, id) {
-  for (const file of files) {
-    const hunk = file.hunks.find((h) => h.id === id);
-    if (hunk) return { file, hunk };
-  }
-  return null;
-}
-function fileHeader(file) {
-  const lines = file.text.split("\n");
-  const end = lines.findIndex((l) => l.startsWith("@@"));
-  return lines.slice(0, end < 0 ? lines.length : end).join("\n").replace(/\n+$/, "");
-}
-function hunkPatch({ file, hunk }) {
-  if (hunk.kind === "meta") return null;
-  return `${fileHeader(file)}
-${hunk.header}
-${hunk.lines.join("\n")}
-`;
-}
-function previousHunk(view, hunk, against) {
-  const ref = against === "reviewed" ? hunk.state === "changed" && hunk.reviewedAs && { snapshotId: hunk.reviewedAs.snapshotId, id: hunk.reviewedAs.hunkId } : view.baselineSnapshot && hunk.baselineHunkId && { snapshotId: view.baselineSnapshot.id, id: hunk.baselineHunkId };
-  const snapshot = ref && view.snapshots.find((s) => s.id === ref.snapshotId);
-  return snapshot && ref ? findHunk(snapshotFiles(snapshot), ref.id) : null;
-}
-function interdiffPatch(path, before, after) {
-  const text2 = (h) => h.lines.filter((l) => l[0] === "+" || l[0] === "-").join("\n") + "\n";
-  const patch = structuredPatch(path, path, text2(before), text2(after), "", "", { context: 3 });
-  const out = [`diff --git a/${path} b/${path}`, `--- a/${path}`, `+++ b/${path}`];
-  for (const h of patch.hunks) {
-    out.push(`@@ -${h.oldStart},${h.oldLines} +${h.newStart},${h.newLines} @@`, ...h.lines);
-  }
-  return out.join("\n") + "\n";
-}
-function commitHunks(commit, ids) {
-  const files = commitFiles(commit);
-  if (!ids) return files;
-  const keep = new Set(ids);
-  return files.map((f) => ({ ...f, hunks: f.hunks.filter((h) => keep.has(h.id)) })).filter((f) => f.hunks.length > 0);
-}
-
-// ../differential-review-lib/src/core/annotation-storage.ts
-function annotationDir(reviewDir, kind) {
-  return `${reviewDir.replace(/\/$/, "")}/annotations/${kind}`;
-}
-function annotationPath(reviewDir, kind, id) {
-  return `${annotationDir(reviewDir, kind)}/${annotationId(id)}.json`;
-}
-async function readAnnotations(adapter, reviewDir) {
-  async function read(kind, parse3) {
-    const names = (await adapter.listFiles(annotationDir(reviewDir, kind))).filter((name) => name.endsWith(".json")).sort();
-    return Promise.all(names.map(async (name) => {
-      const path = annotationPath(reviewDir, kind, name.slice(0, -5));
-      try {
-        const value = parse3(JSON.parse(await adapter.read(path)));
-        if (value.id !== name.slice(0, -5)) throw new Error("id does not match filename");
-        return value;
-      } catch (e) {
-        throw new Error(`unreadable annotation ${path}: ${e.message}`);
-      }
-    }));
-  }
-  const [threads, replies] = await Promise.all([read("threads", parseReviewThread), read("replies", parseReviewReply)]);
-  return { threads, replies };
-}
-function annotationStore(adapter, reviewDir) {
-  return {
-    read: () => readAnnotations(adapter, reviewDir),
-    writeThread: (thread) => adapter.write(annotationPath(reviewDir, "threads", thread.id), JSON.stringify(parseReviewThread(thread), null, 2) + "\n"),
-    async writeReply(reply) {
-      const path = annotationPath(reviewDir, "replies", reply.id);
-      if (await adapter.exists(path)) throw new Error(`reply already exists: ${reply.id}`);
-      await adapter.write(path, JSON.stringify(parseReviewReply(reply), null, 2) + "\n");
-    }
-  };
-}
-
-// src/diff-review-view.ts
+init_core();
 init_records();
 
 // src/diff-review-model.ts
+init_core();
 var AUTO_EXPAND_LINES = 400;
 function visibleLineCount(view) {
   const files = snapshotFiles(view.snapshot);
@@ -12646,10 +13651,10 @@ async function refreshSnapshots(reader, known) {
 async function saveNewThread(store, origin, body) {
   await store.writeThread(createReviewThread({ id: crypto.randomUUID(), origin, body, author: "John", createdAt: (/* @__PURE__ */ new Date()).toISOString() }));
 }
-async function saveReply(store, threadId, body, snapshotId) {
+async function saveReply(store, threadId, body, snapshotId2) {
   const annotations = await store.read();
   if (!annotations.threads.some((t) => t.id === threadId)) throw new Error("This thread no longer exists; reload the review.");
-  await store.writeReply(parseReviewReply({ schemaVersion: 1, kind: "differential-review-reply", id: crypto.randomUUID(), threadId, body, author: "John", source: "human", createdAt: (/* @__PURE__ */ new Date()).toISOString(), ...snapshotId ? { snapshotId } : {} }));
+  await store.writeReply(parseReviewReply({ schemaVersion: 1, kind: "differential-review-reply", id: crypto.randomUUID(), threadId, body, author: "John", source: "human", createdAt: (/* @__PURE__ */ new Date()).toISOString(), ...snapshotId2 ? { snapshotId: snapshotId2 } : {} }));
 }
 async function saveResolved(store, threadId, resolved) {
   const annotations = await store.read();
@@ -12705,8 +13710,8 @@ var specials = [
   "|"
 ];
 var regex = RegExp("[" + specials.join("\\") + "]", "g");
-function escapeForRegExp(str) {
-  return str.replace(regex, "\\$&");
+function escapeForRegExp(str2) {
+  return str2.replace(regex, "\\$&");
 }
 function unifyPath(path) {
   return path ? path.replace(/\\/g, "/") : path;
@@ -12735,8 +13740,8 @@ function getExtension(filename, language) {
   const filenameParts = filename.split(".");
   return filenameParts.length > 1 ? filenameParts[filenameParts.length - 1] : language;
 }
-function startsWithAny(str, prefixes) {
-  return prefixes.reduce((startsWith, prefix) => startsWith || str.startsWith(prefix), false);
+function startsWithAny(str2, prefixes) {
+  return prefixes.reduce((startsWith, prefix) => startsWith || str2.startsWith(prefix), false);
 }
 var baseDiffFilenamePrefixes = ["a/", "b/", "i/", "w/", "c/", "o/"];
 function getFilename(line, linePrefix, extraPrefix) {
@@ -13525,10 +14530,10 @@ function levenshtein(a, b) {
   }
   return matrix[b.length][a.length];
 }
-function newDistanceFn(str) {
+function newDistanceFn(str2) {
   return (x, y) => {
-    const xValue = str(x).trim();
-    const yValue = str(y).trim();
+    const xValue = str2(x).trim();
+    const yValue = str2(y).trim();
     const lev = levenshtein(xValue, yValue);
     return lev / (xValue.length + yValue.length);
   };
@@ -13633,8 +14638,8 @@ function colorSchemeToCss(colorScheme) {
 function prefixLength(isCombined) {
   return isCombined ? 2 : 1;
 }
-function escapeForHtml(str) {
-  return str.slice(0).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#x27;").replace(/\//g, "&#x2F;");
+function escapeForHtml(str2) {
+  return str2.slice(0).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&#x27;").replace(/\//g, "&#x2F;");
 }
 function deconstructLine(line, isCombined, escape = true) {
   const indexToSplit = prefixLength(isCombined);
@@ -13725,11 +14730,11 @@ function diffHighlight(diffLine1, diffLine2, isCombined, config = {}) {
       }
     };
   }
-  const diff = diffStyle === "char" ? diffChars2(line1.content, line2.content) : diffWordsWithSpace(line1.content, line2.content);
+  const diff2 = diffStyle === "char" ? diffChars2(line1.content, line2.content) : diffWordsWithSpace(line1.content, line2.content);
   const changedWords = [];
   if (diffStyle === "word" && matching === "words") {
-    const removed = diff.filter((element) => element.removed);
-    const added = diff.filter((element) => element.added);
+    const removed = diff2.filter((element) => element.removed);
+    const added = diff2.filter((element) => element.added);
     const chunks = matcher(added, removed);
     chunks.forEach((chunk) => {
       if (chunk[0].length === 1 && chunk[1].length === 1) {
@@ -13741,7 +14746,7 @@ function diffHighlight(diffLine1, diffLine2, isCombined, config = {}) {
       }
     });
   }
-  const highlightedLine = diff.reduce((highlightedLine2, part) => {
+  const highlightedLine = diff2.reduce((highlightedLine2, part) => {
     const elemType = part.added ? "ins" : part.removed ? "del" : null;
     const addClass = changedWords.indexOf(part) > -1 ? ' class="d2h-change"' : "";
     const escapedValue = escapeForHtml(part.value);
@@ -13921,15 +14926,15 @@ var LineByLineRenderer = class {
     for (let i = 0; i < maxLinesNumber; i++) {
       const oldLine = oldLines[i];
       const newLine = newLines[i];
-      const diff = oldLine !== void 0 && newLine !== void 0 ? diffHighlight(oldLine.content, newLine.content, isCombined, this.config) : void 0;
-      const preparedOldLine = oldLine !== void 0 && oldLine.oldNumber !== void 0 ? Object.assign(Object.assign({}, diff !== void 0 ? {
-        prefix: diff.oldLine.prefix,
-        content: diff.oldLine.content,
+      const diff2 = oldLine !== void 0 && newLine !== void 0 ? diffHighlight(oldLine.content, newLine.content, isCombined, this.config) : void 0;
+      const preparedOldLine = oldLine !== void 0 && oldLine.oldNumber !== void 0 ? Object.assign(Object.assign({}, diff2 !== void 0 ? {
+        prefix: diff2.oldLine.prefix,
+        content: diff2.oldLine.content,
         type: CSSLineClass.DELETE_CHANGES
       } : Object.assign(Object.assign({}, deconstructLine(oldLine.content, isCombined)), { type: toCSSClass(oldLine.type) })), { oldNumber: oldLine.oldNumber, newNumber: oldLine.newNumber }) : void 0;
-      const preparedNewLine = newLine !== void 0 && newLine.newNumber !== void 0 ? Object.assign(Object.assign({}, diff !== void 0 ? {
-        prefix: diff.newLine.prefix,
-        content: diff.newLine.content,
+      const preparedNewLine = newLine !== void 0 && newLine.newNumber !== void 0 ? Object.assign(Object.assign({}, diff2 !== void 0 ? {
+        prefix: diff2.newLine.prefix,
+        content: diff2.newLine.content,
         type: CSSLineClass.INSERT_CHANGES
       } : Object.assign(Object.assign({}, deconstructLine(newLine.content, isCombined)), { type: toCSSClass(newLine.type) })), { oldNumber: newLine.oldNumber, newNumber: newLine.newNumber }) : void 0;
       const { left, right } = this.generateLineHtml(file, preparedOldLine, preparedNewLine);
@@ -14113,15 +15118,15 @@ var SideBySideRenderer = class {
     for (let i = 0; i < maxLinesNumber; i++) {
       const oldLine = oldLines[i];
       const newLine = newLines[i];
-      const diff = oldLine !== void 0 && newLine !== void 0 ? diffHighlight(oldLine.content, newLine.content, isCombined, this.config) : void 0;
-      const preparedOldLine = oldLine !== void 0 && oldLine.oldNumber !== void 0 ? Object.assign(Object.assign({}, diff !== void 0 ? {
-        prefix: diff.oldLine.prefix,
-        content: diff.oldLine.content,
+      const diff2 = oldLine !== void 0 && newLine !== void 0 ? diffHighlight(oldLine.content, newLine.content, isCombined, this.config) : void 0;
+      const preparedOldLine = oldLine !== void 0 && oldLine.oldNumber !== void 0 ? Object.assign(Object.assign({}, diff2 !== void 0 ? {
+        prefix: diff2.oldLine.prefix,
+        content: diff2.oldLine.content,
         type: CSSLineClass.DELETE_CHANGES
       } : Object.assign(Object.assign({}, deconstructLine(oldLine.content, isCombined)), { type: toCSSClass(oldLine.type) })), { number: oldLine.oldNumber }) : void 0;
-      const preparedNewLine = newLine !== void 0 && newLine.newNumber !== void 0 ? Object.assign(Object.assign({}, diff !== void 0 ? {
-        prefix: diff.newLine.prefix,
-        content: diff.newLine.content,
+      const preparedNewLine = newLine !== void 0 && newLine.newNumber !== void 0 ? Object.assign(Object.assign({}, diff2 !== void 0 ? {
+        prefix: diff2.newLine.prefix,
+        content: diff2.newLine.content,
         type: CSSLineClass.INSERT_CHANGES
       } : Object.assign(Object.assign({}, deconstructLine(newLine.content, isCombined)), { type: toCSSClass(newLine.type) })), { number: newLine.newNumber }) : void 0;
       const { left, right } = this.generateLineHtml(preparedOldLine, preparedNewLine);
@@ -14602,6 +15607,9 @@ function html(diffInput, configuration = {}) {
   const diffOutput = config.outputFormat === "side-by-side" ? new SideBySideRenderer(hoganUtils, config).render(diffJson) : new LineByLineRenderer(hoganUtils, config).render(diffJson);
   return fileList + diffOutput;
 }
+
+// src/diff-review-render.ts
+init_core();
 
 // node_modules/highlight.js/es/core.js
 var import_core2 = __toESM(require_core(), 1);
@@ -19706,6 +20714,7 @@ function splitHunkHeader(header) {
 }
 
 // src/diff-review-threads.ts
+init_core();
 function newThreadUi() {
   return { draft: null, replyDrafts: /* @__PURE__ */ new Map(), openThreadsOnly: false, showResolved: false, activeThreadId: null };
 }
@@ -19796,11 +20805,11 @@ function renderThread(parent, item2, view, ui, actions, redraw) {
     if (!ui.replyDrafts.has(t.id)) ui.replyDrafts.set(t.id, { body: "", saving: false });
     redraw();
   });
-  const resolve3 = button(controls, t.status === "open" ? "Resolve" : "Reopen", () => {
-    resolve3.disabled = true;
+  const resolve6 = button(controls, t.status === "open" ? "Resolve" : "Reopen", () => {
+    resolve6.disabled = true;
     void actions.resolve(t.id, t.status === "open").then(() => actions.refresh()).catch((e) => {
       el(card, "p", "gbdr-comment-error", errorText(e));
-      resolve3.disabled = false;
+      resolve6.disabled = false;
     });
   });
   const draft = ui.replyDrafts.get(t.id);
@@ -19922,20 +20931,20 @@ function highlightPatch(root, path) {
   }
   highlightDiff(path, rows)?.forEach((tokens, i) => paintTokens(rows[i].line, tokens));
 }
-function renderPatch(parent, patch, path, ui) {
+function renderPatch(parent, patch, path, htmlCache) {
   const box = el2(parent, "div", "gbdr-diff");
-  const cached = ui.htmlCache.get(patch);
+  const cached = htmlCache.get(patch);
   if (cached !== void 0) {
     box.innerHTML = cached;
     return;
   }
   box.innerHTML = html(patch, { drawFileList: false, outputFormat: "line-by-line", matching: "lines", diffStyle: "word" });
   highlightPatch(box, path);
-  ui.htmlCache.set(patch, box.innerHTML);
+  htmlCache.set(patch, box.innerHTML);
 }
 function renderHunkBody(parent, source, ui) {
   const patch = hunkPatch(source);
-  if (patch) renderPatch(parent, patch, source.file.path, ui);
+  if (patch) renderPatch(parent, patch, source.file.path, ui.htmlCache);
   else el2(parent, "pre", "gbdr-meta-lines", source.hunk.lines.join("\n"));
 }
 function progress(parent, label3, counts) {
@@ -20027,7 +21036,7 @@ function interdiffToggle(parent, body, view, file, hunk, against, ui) {
   const show = () => {
     panel.replaceChildren();
     el2(panel, "div", "gbdr-caption", `How this hunk's changed lines differ from the version ${against === "reviewed" ? "you reviewed" : "in the baseline"}:`);
-    renderPatch(panel, interdiffPatch(file.path, before.hunk, after.hunk), file.path, ui);
+    renderPatch(panel, interdiffPatch(file.path, before.hunk, after.hunk), file.path, ui.htmlCache);
     body.prepend(panel);
   };
   button2.onclick = (event) => {
@@ -20483,8 +21492,8 @@ var DiffReviewView = class extends import_obsidian6.ItemView {
     return {
       createThread: (origin, body) => this.writeAnnotation((store) => saveNewThread(store, origin, body)),
       reply: (threadId, body) => {
-        const snapshotId = this.view?.snapshot.id;
-        return this.writeAnnotation((store) => saveReply(store, threadId, body, snapshotId));
+        const snapshotId2 = this.view?.snapshot.id;
+        return this.writeAnnotation((store) => saveReply(store, threadId, body, snapshotId2));
       },
       resolve: (threadId, resolved) => this.writeAnnotation((store) => saveResolved(store, threadId, resolved)),
       refresh: () => {
@@ -20538,34 +21547,8 @@ var DiffReviewView = class extends import_obsidian6.ItemView {
   }
 };
 
-// src/record-links.ts
-init_repository_tabs();
-function githubUrl(record, body) {
-  const all = githubLinks(body);
-  const id = escapeRegExp(record.name);
-  const find = (pattern, label3) => all.find((link) => pattern.test(link.url) && (!label3 || label3.test(link.label)))?.url;
-  const upstream = `https://github.com/${upstreamOwner(record.repo, [body])}/${record.repo}`;
-  if (record.kind === "reviews") return find(new RegExp(`/pull/${id}$`)) ?? `${upstream}/pull/${record.name}`;
-  if (record.kind === "issues") return find(new RegExp(`/issues/${id}$`)) ?? `${upstream}/issues/${record.name}`;
-  if (record.kind === "issues_incubator") return void 0;
-  const statusPr = /^Status:.*?\bPR #(\d+)/m.exec(body)?.[1];
-  const pr = recordFrontmatter(body).pr;
-  return (pr ? `${upstream}/pull/${pr}` : void 0) ?? find(/\/pull\/\d+$/, /^(View )?PR #\d+$/) ?? (statusPr ? `${upstream}/pull/${statusPr}` : void 0) ?? find(new RegExp(`/tree/${id}$`)) ?? `https://github.com/${FORK_OWNER}/${record.repo}/tree/${record.name}`;
-}
-function compareUrl(record, body) {
-  if (record.kind !== "branches") return void 0;
-  const base = recordFrontmatter(body).upstream_base_branch;
-  if (!base) return void 0;
-  const upstream = upstreamOwner(record.repo, [body]);
-  return `https://github.com/${upstream}/${record.repo}/compare/${base}...${FORK_OWNER}:${record.repo}:${record.name}`;
-}
-function worktreeCandidates(record, body, home) {
-  const root = `${home}/projects/worktrees/${record.repo}`;
-  if (record.kind === "reviews") return [`${root}/pr/${record.name}`];
-  if (record.kind !== "branches") return [];
-  const listed = /Worktree:\**\s*`([^`]+)`/.exec(body)?.[1]?.replace(/^~(?=\/)/, home);
-  return [...listed ? [listed] : [], `${root}/branch/${record.name}`];
-}
+// src/main.ts
+init_record_links();
 
 // src/record-agents.ts
 init_records();
@@ -20646,6 +21629,7 @@ init_records();
 init_repository_tabs();
 
 // src/github-feed.ts
+init_record_links();
 var FIELDS3 = "number title url createdAt author { login } labels(first: 20) { nodes { name } }";
 var feedQuery = (searches) => {
   const ids = Array.from({ length: searches }, (_, i) => `s${i}`);
@@ -20760,6 +21744,9 @@ var BlockerModal = class extends import_obsidian7.Modal {
     this.contentEl.empty();
   }
 };
+
+// src/repository-view.ts
+init_record_links();
 
 // src/record-groups.ts
 init_records();
@@ -21282,6 +22269,7 @@ async function renderRecordStrip(app, el3, record, launchers) {
 var import_obsidian10 = require("obsidian");
 init_landing();
 var panelModel = () => (init_panel(), __toCommonJS(panel_exports));
+var commitModel = () => (init_commit_diff(), __toCommonJS(commit_diff_exports));
 var FILTERED = "filtered";
 async function edit(app, record, dir, panel, change) {
   try {
@@ -21313,6 +22301,24 @@ function details2(el3, key2, label3, hooks, fill) {
     sync();
   });
   return box;
+}
+function renderCommit2(el3, dir, sha, state) {
+  let diff2 = state.commits.get(sha);
+  try {
+    diff2 ?? (diff2 = commitModel().recordCommitDiff(dir, sha));
+  } catch (error) {
+    diff2 = { missing: error instanceof Error ? error.message : String(error) };
+  }
+  if ("missing" in diff2) return void el3.createDiv({ text: `\u26A0\uFE0F ${diff2.missing}`, cls: "gb-findings-warning" });
+  state.commits.set(sha, diff2);
+  const htmlCache = state.diffHtml;
+  const box = el3.createDiv({ cls: "gbdr gb-findings-diff" });
+  for (const file of diff2.files) {
+    const head = box.createDiv({ cls: "gb-findings-diff-file" });
+    head.createSpan({ text: file.path });
+    head.createSpan({ text: ` +${file.added} \u2212${file.removed}`, cls: "gb-findings-diff-stat" });
+    renderPatch(box, file.patch, file.path, htmlCache);
+  }
 }
 function checkbox2(el3, checked, tooltip, onChange) {
   const input = el3.createEl("input", { type: "checkbox", attr: { "aria-label": tooltip, title: tooltip } });
@@ -21356,16 +22362,22 @@ function renderFindings(app, el3, record, hooks) {
   }
   const checkRow = root.createDiv({ cls: "gb-record-row" });
   const { check, checking } = hooks.state;
-  const run = checkRow.createEl("button", { text: checking ? "\u{1F50D} Checking\u2026" : "\u{1F50D} Check before posting", cls: "gb-record-chip gb-record-chip-launch", attr: { title: "Every refusal Respond would give, with git: fetches the PR and the review branch" } });
-  run.disabled = checking;
-  run.onclick = () => hooks.runCheck();
+  const run2 = checkRow.createEl("button", { text: checking ? "\u{1F50D} Checking\u2026" : "\u{1F50D} Check before posting", cls: "gb-record-chip gb-record-chip-launch", attr: { title: "Every refusal Respond would give, with git: fetches the PR and the review branch" } });
+  run2.disabled = checking;
+  run2.onclick = () => hooks.runCheck();
   for (const line of check?.message.split("\n").filter(Boolean) ?? []) toneLine(root, line, "gb-findings-check");
+  const commit = (body, { sha, subject }) => details2(body, `commit:${sha}`, `\u{1F33F} ${sha} ${subject}`, hooks, (box) => renderCommit2(box, dir, sha, hooks.state)).addClass("gb-findings-commit");
   const row = (list4, f) => {
     const item2 = list4.createDiv({ cls: "gb-findings-item" });
     checkbox2(item2, f.include, f.include ? `Leave ${f.id} out` : `Include ${f.id}`, (include) => change({ id: f.id, include }));
     const main = item2.createDiv({ cls: "gb-findings-main" });
-    const label3 = `${f.id} ${f.title}${f.fixedIn.length ? ` \u{1F33F} ${f.fixedIn.join(", ")}` : ""}`;
-    const head = f.text ? details2(main, f.id, label3, hooks, (body) => markdown2(body, f.text)) : main.createDiv({ text: label3 });
+    const label3 = `${f.id} ${f.title}${f.fixedIn.length ? ` \u{1F33F} ${f.fixedIn.map((c) => c.sha).join(", ")}` : ""}`;
+    const expandable = Boolean(f.text) || f.fixedIn.length > 0;
+    const fill = (body) => {
+      if (f.text) markdown2(body, f.text);
+      for (const c of f.fixedIn) commit(body, c);
+    };
+    const head = expandable ? details2(main, f.id, label3, hooks, fill) : main.createDiv({ text: label3 });
     head.toggleClass("gb-findings-out", !f.include);
     main.createDiv({ text: f.filtered ? `${f.filtered.category}: ${f.filtered.reason}` : f.summary, cls: "gb-findings-summary" });
   };
@@ -21533,15 +22545,15 @@ var GalaxyBrainPlugin = class extends import_obsidian11.Plugin {
   }
   findingsState(record) {
     let state = this.findingsStates.get(record.dir);
-    if (!state) this.findingsStates.set(record.dir, state = { opened: /* @__PURE__ */ new Set(), check: null, checking: false });
+    if (!state) this.findingsStates.set(record.dir, state = { opened: /* @__PURE__ */ new Set(), check: null, checking: false, commits: /* @__PURE__ */ new Map(), diffHtml: /* @__PURE__ */ new Map() });
     return state;
   }
   /** Runs review-factory check, which fetches; git can't prompt, since no one would answer. */
   runFindingsCheck(vaultRoot, record, state) {
     if (state.checking) return;
     const { execFile } = require("child_process");
-    const { homedir } = require("os");
-    const PATH = [`${homedir()}/.local/bin`, ...CLI_BIN_DIRS, process.env.PATH].join(":");
+    const { homedir: homedir3 } = require("os");
+    const PATH = [`${homedir3()}/.local/bin`, ...CLI_BIN_DIRS, process.env.PATH].join(":");
     const env = { ...process.env, PATH, GIT_TERMINAL_PROMPT: "0", GIT_SSH_COMMAND: "ssh -o BatchMode=yes" };
     const redraw = () => this.refreshRecordStrips(true);
     state.checking = true;
@@ -21626,9 +22638,9 @@ var GalaxyBrainPlugin = class extends import_obsidian11.Plugin {
   }
   /** The record's worktree, if one exists on disk. */
   worktreeFor(record, body) {
-    const { existsSync: existsSync3 } = require("fs");
-    const { homedir } = require("os");
-    return worktreeCandidates(record, body, homedir()).find((path) => existsSync3(path)) ?? null;
+    const { existsSync: existsSync5 } = require("fs");
+    const { homedir: homedir3 } = require("os");
+    return worktreeCandidates(record, body, homedir3()).find((path) => existsSync5(path)) ?? null;
   }
   openInCode(path) {
     const { execFile } = require("child_process");
@@ -21641,10 +22653,10 @@ var GalaxyBrainPlugin = class extends import_obsidian11.Plugin {
   runGh(args, okWithOutput = false) {
     const { execFile } = require("child_process");
     const PATH = [...CLI_BIN_DIRS, process.env.PATH].join(":");
-    return new Promise((resolve3, reject) => {
+    return new Promise((resolve6, reject) => {
       execFile("gh", args, { env: { ...process.env, PATH }, timeout: 6e4, maxBuffer: 16 * 1024 * 1024 }, (error, stdout, stderr) => {
         if (error && !(okWithOutput && stdout.trim())) reject(new Error((stderr || error.message).trim()));
-        else resolve3(stdout);
+        else resolve6(stdout);
       });
     });
   }
@@ -21866,8 +22878,8 @@ var GalaxyBrainPlugin = class extends import_obsidian11.Plugin {
   }
   runCommand(label3, [executable, ...args]) {
     const { execFile } = require("child_process");
-    const { homedir } = require("os");
-    const PATH = [`${homedir()}/.local/bin`, ...CLI_BIN_DIRS, process.env.PATH].join(":");
+    const { homedir: homedir3 } = require("os");
+    const PATH = [`${homedir3()}/.local/bin`, ...CLI_BIN_DIRS, process.env.PATH].join(":");
     const started = new import_obsidian11.Notice(`Running ${label3}\u2026`, 0);
     execFile(executable, args, { env: { ...process.env, PATH }, timeout: 18e4 }, (error, stdout, stderr) => {
       started.hide();
@@ -21899,11 +22911,11 @@ var GalaxyBrainPlugin = class extends import_obsidian11.Plugin {
   }
 };
 var CommandModal = class extends import_obsidian11.Modal {
-  constructor(app, label3, args, run) {
+  constructor(app, label3, args, run2) {
     super(app);
     this.label = label3;
     this.args = args;
-    this.run = run;
+    this.run = run2;
   }
   onOpen() {
     this.setTitle(this.label);

@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 import type { ReviewCommit, ReviewFile, ReviewHunk } from "../../herdr-plugin/src/review-types";
-import { commitRows, fileRows, fileShown, patchRows, pickItem, type ReviewItem, reviewItems, type Row, type RowOptions, rowsWidth } from "./review-rows";
+import { commitLines, commitRows, fileRows, fileShown, patchRows, pickItem, type ReviewItem, reviewItems, type Row, type RowOptions, rowsWidth } from "./review-rows";
 
 const options = (interdiffs: string[] = [], tokens = new Map()): RowOptions => ({ openThreadsOnly: false, interdiffs: new Set(interdiffs), tokens });
 const code = (rows: Row[]) => rows.filter((row): row is Extract<Row, { type: "code" }> => row.type === "code");
@@ -82,6 +82,30 @@ describe("commitRows", () => {
 		const context = commitRows(commit({ state: "changed", contextOnly: true, files: [] }), options()).rows;
 		expect(context[context.length - 1]).toMatchObject({ tone: "warn" });
 		expect(commitRows(commit({ state: "changed" }), options()).rows.some((row) => (row as { text?: string }).text === "Only the hunks that differ from the signed-off version:")).toBe(true);
+	});
+});
+
+describe("commitLines", () => {
+	const files = [
+		{ path: "a.py", patch: "diff --git a/a.py b/a.py\n--- a/a.py\n+++ b/a.py\n@@ -1 +1 @@\n-x\n+y\n", added: 1, removed: 1 },
+		{ path: "b.py", patch: "--- a/b.py\n+++ b/b.py\n@@ -3 +3,2 @@\n z\n+w\n", added: 1, removed: 0 },
+	];
+
+	it("numbers each file's lines", () => {
+		expect(commitLines(files, 10)).toEqual({
+			files: [
+				{ path: "a.py", added: 1, removed: 1, rows: [{ kind: "del", text: "x", oldLine: 1 }, { kind: "add", text: "y", newLine: 1 }] },
+				{ path: "b.py", added: 1, removed: 0, rows: [{ kind: "context", text: "z", oldLine: 3, newLine: 3 }, { kind: "add", text: "w", newLine: 4 }] },
+			],
+			hidden: 0,
+		});
+	});
+
+	it("stops at maxRows and counts the lines left out", () => {
+		const { files: shown, hidden } = commitLines(files, 3);
+		expect(shown.map((f) => [f.path, f.rows.length])).toEqual([["a.py", 2], ["b.py", 1]]);
+		expect(hidden).toBe(1);
+		expect(commitLines(files, 2).files.map((f) => f.path)).toEqual(["a.py"]);
 	});
 });
 

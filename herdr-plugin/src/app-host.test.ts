@@ -5,7 +5,7 @@ import { describe, expect, it } from "vitest";
 import { type AppHostDeps, appRequest, editNote } from "./app-host";
 import { jobFile } from "./detached";
 import { newErrors } from "./error-log";
-import { findingsCheck } from "./findings-host";
+import { findingsCheck, findingsCommit } from "./findings-host";
 
 const TASKS = "agents/alpha/TASKS.md";
 const CRACKS = "agents/alpha/the_cracks/2026-11-04.md";
@@ -172,6 +172,15 @@ describe("findings panel", () => {
 		expect(findingsCheck(d.vaultRoot, { ref, check: "start" }, (args) => started.push(args))).toBeNull();
 		expect(started).toEqual([["run", file, JSON.stringify([join(d.vaultRoot, "../review-factory/bin/review-factory"), "check", "--record", join(d.vaultRoot, REVIEW)])]]);
 		expect(() => findingsCheck(d.vaultRoot, { ref: "galaxy/branches/24706", check: "start" }, () => undefined)).toThrow("no review record");
+	});
+
+	it("gives a fixing commit's diff from the record's checkout", () => {
+		const d = review();
+		const asked: string[][] = [];
+		const diff = { files: [{ path: "a.py", patch: "@@ -1 +1 @@\n-a\n+b\n", added: 1, removed: 1 }] };
+		expect(findingsCommit(d.vaultRoot, { ref, sha: "1d55b74c188" }, (dir, sha) => (asked.push([dir, sha]), diff))).toBe(diff);
+		expect(asked).toEqual([[join(d.vaultRoot, REVIEW), "1d55b74c188"]]);
+		expect(() => findingsCommit(d.vaultRoot, { ref: "galaxy/branches/24706", sha: "1d55b74c188" })).toThrow("no review record");
 	});
 });
 

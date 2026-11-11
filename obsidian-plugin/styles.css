@@ -416,3 +416,7 @@
 .gb-findings-summary { padding-left: var(--size-4-4); font-size: var(--font-ui-smaller); color: var(--text-faint); }
 .gb-findings-details > summary { cursor: pointer; }
 .gb-findings-body { padding-left: var(--size-4-3); border-left: 2px solid var(--background-modifier-border); }
+.gb-findings-commit > summary { font-size: var(--font-ui-small); color: var(--text-muted); }
+.gb-findings-diff.gbdr { padding: 0; margin: var(--size-4-1) 0; overflow-x: auto; border: 1px solid var(--background-modifier-border); border-radius: 4px; }
+.gb-findings-diff-file { padding: 2px var(--size-4-2); font-family: var(--font-monospace); font-size: var(--font-ui-smaller); background: var(--background-secondary); }
+.gb-findings-diff-stat { color: var(--text-faint); }

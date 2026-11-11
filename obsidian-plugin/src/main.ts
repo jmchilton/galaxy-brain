@@ -203,7 +203,7 @@ export default class GalaxyBrainPlugin extends Plugin {
 
 	private findingsState(record: RecordRef): FindingsStripState {
 		let state = this.findingsStates.get(record.dir);
-		if (!state) this.findingsStates.set(record.dir, (state = { opened: new Set(), check: null, checking: false }));
+		if (!state) this.findingsStates.set(record.dir, (state = { opened: new Set(), check: null, checking: false, commits: new Map(), diffHtml: new Map() }));
 		return state;
 	}
 

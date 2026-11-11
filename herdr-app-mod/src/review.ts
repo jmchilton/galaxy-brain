@@ -7,19 +7,17 @@ import { h_flex, Scrollbar, Textarea, TextareaState, v_flex, v_virtual_list, Vir
 import { notify, props, settings, theme, watchFolder } from "herdr";
 import type { CaptureResult, ReviewAct, ReviewCommit, ReviewFile, ReviewModel } from "../../herdr-plugin/src/review-types";
 import type { ReviewLineTarget, ReviewStatus, ReviewThreadView } from "../../differential-review-lib/src/core";
-import { type CodeToken, highlightDiff, splitHunkHeader, syntaxGroup } from "../../obsidian-plugin/src/diff-highlight";
+import { type CodeToken, highlightDiff, splitHunkHeader } from "../../obsidian-plugin/src/diff-highlight";
 import { chip } from "./chip";
+import { codeLine, MAX_HIGHLIGHT_CHARS, ROW } from "./diff-lines";
 import { delay, logRenderFailures, reviewHost } from "./host";
 import { openRecordTab } from "./record-tab";
 import { type CodeRow, commitRows, fileRows, fileShown, type HighlightJob, pickItem, type ReviewItem, reviewItems, type Row, rowsWidth } from "./review-rows";
 
 const VAULT = `${__GB_ROOT__}/vault`;
-const ROW = 20;
 const POLL_MS = 30_000;
 const CAPTURE_POLL_MS = 1_000;
 const CAPTURE_LIMIT_MS = 300_000;
-/** About 200 ms of highlighting: this run of lines shows plain rather than risk the runtime's time limit. */
-const MAX_HIGHLIGHT_CHARS = 40_000;
 
 type Cx = any;
 type El = any;
@@ -29,29 +27,6 @@ const errorText = (error: unknown) => (error instanceof Error ? error.message : 
 
 function stateColor(t: any, state: ReviewStatus): string {
 	return state === "reviewed" ? t.ansi2 : state === "changed" ? t.ansi3 : t.ansi4;
-}
-
-function tokenColor(t: any, token: CodeToken): string {
-	switch (syntaxGroup(token.scope)) {
-		case "keyword":
-			return t.ansi5;
-		case "string":
-			return t.ansi2;
-		case "comment":
-		case "meta":
-			return t.dim;
-		case "function":
-			return t.ansi4;
-		case "type":
-			return t.ansi3;
-		case "number":
-		case "attribute":
-			return t.ansi6;
-		case "tag":
-			return t.ansi1;
-		default:
-			return t.foreground;
-	}
 }
 
 export default class GbReview extends View {
@@ -782,23 +757,7 @@ export default class GbReview extends View {
 		const target = this.compose?.kind === "new" ? this.compose.target : null;
 		const line = target?.side === "old" ? row.oldLine : row.newLine;
 		const picked = target !== null && code.hunkId === target.hunkId && line !== undefined && line >= target.range[0] && line <= target.range[1];
-		const number = (value: number | undefined) => div().w(38).flex_none().text_right().text_color(t.dim).child(value === undefined ? "" : String(value));
-		return h_flex()
-			.w_full()
-			.h(ROW)
-			.flex_none()
-			.items_center()
-			.when(row.kind === "add", (el: El) => el.bg(`${t.ansi2}18`))
-			.when(row.kind === "del", (el: El) => el.bg(`${t.ansi1}18`))
-			.when(picked, (el: El) => el.bg(t.selection))
-			.child(number(row.oldLine))
-			.child(number(row.newLine))
-			.child(div().w(22).flex_none().text_center().text_color(t.dim).child(code.thread ? "💬" : row.kind === "add" ? "+" : row.kind === "del" ? "−" : ""))
-			.child(
-				h_flex()
-					.flex_none()
-					.children(tokens.map((token) => div().flex_none().whitespace_nowrap().text_color(tokenColor(t, token)).child(token.text))),
-			);
+		return codeLine(t, row, tokens, { picked, thread: code.thread });
 	}
 }
 

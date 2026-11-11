@@ -8,7 +8,7 @@ import { tasksPath } from "../../obsidian-plugin/src/agent-routines";
 import { isCrackFile, setMissedPrReviewed } from "../../obsidian-plugin/src/missed-prs";
 import { removeTask, snoozeTask } from "../../obsidian-plugin/src/task-list";
 import { type ErrorLogDeps, logRenderFailure, logStatusErrors } from "./error-log";
-import { findingsCheck, findingsEdit, findingsPanel } from "./findings-host";
+import { findingsCheck, findingsCommit, findingsEdit, findingsPanel } from "./findings-host";
 import type { FindingsEdit } from "./findings-types";
 import { agentDirs } from "./native-host";
 import { recordIndex, repositoryPage } from "./repository-host";
@@ -36,6 +36,7 @@ export type AppRequest =
 	| ({ type: "setFindingAction" } & FindingsEdit)
 	/** Started, then polled for its result. */
 	| { type: "findingsCheck"; ref: string; check: "start" | "result" }
+	| { type: "findingsCommit"; ref: string; sha: string }
 	| { type: "logRenderFailure"; mod: string; message: string }
 	| { type: "logStatusErrors" };
 
@@ -88,6 +89,8 @@ export function appRequest(request: AppRequest, deps: AppHostDeps): unknown {
 		}
 		case "findingsCheck":
 			return findingsCheck(vaultRoot, request);
+		case "findingsCommit":
+			return findingsCommit(vaultRoot, request);
 		case "logRenderFailure":
 			return logRenderFailure(deps, request.mod, request.message);
 		case "logStatusErrors":

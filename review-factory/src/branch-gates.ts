@@ -37,9 +37,12 @@ export function branchGates(ctx: ComposeContext, worktree: string): GateResult {
   return { errors, warnings };
 }
 
-/** branchGates in the record's PR checkout. */
-export function recordBranchGates(dir: string, ctx: ComposeContext): GateResult {
+/** The review record's PR checkout. */
+export function recordCheckout(dir: string): string {
   const record = readRecord(dir);
   const body = readFileSync(join(dir, "index.md"), "utf8");
-  return branchGates(ctx, checkout({ ...record, repo: record.repo!, kind: "reviews" }, body, homedir()));
+  return checkout({ ...record, repo: record.repo!, kind: "reviews" }, body, homedir());
 }
+
+/** branchGates in the record's PR checkout. */
+export const recordBranchGates = (dir: string, ctx: ComposeContext): GateResult => branchGates(ctx, recordCheckout(dir));

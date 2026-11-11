@@ -2,11 +2,13 @@
 // Desktop only: the model reads the record with Node.
 
 import { type App, type Component, MarkdownRenderer, Notice } from "obsidian";
-import { type FindingsChange, type FindingsPanel, type LandingFinding, noteLabel, statusTone } from "../../review-factory/src/landing";
+import { type CommitDiff, type FindingsChange, type FindingsPanel, type LandingFinding, noteLabel, statusTone } from "../../review-factory/src/landing";
+import { renderPatch } from "./diff-review-render";
 import type { RecordRef } from "./launchers";
 
-// Required lazily: it reads the record with Node, which doesn't exist on mobile.
+// Required lazily: they read the record and git with Node, which doesn't exist on mobile.
 const panelModel = () => require("../../review-factory/src/panel") as typeof import("../../review-factory/src/panel");
+const commitModel = () => require("../../review-factory/src/commit-diff") as typeof import("../../review-factory/src/commit-diff");
 
 export interface FindingsCheck {
 	ok: boolean;
@@ -15,10 +17,13 @@ export interface FindingsCheck {
 
 /** Kept per record across redraws. */
 export interface FindingsStripState {
-	/** Finding ids, FILTERED and previews, opened by hand. */
+	/** Finding ids, FILTERED, previews and commit keys, opened by hand. */
 	opened: Set<string>;
 	check: FindingsCheck | null;
 	checking: boolean;
+	/** Fixing commits' diffs by sha, and their rendered patches by patch text. */
+	commits: Map<string, CommitDiff>;
+	diffHtml: Map<string, string>;
 }
 
 export interface FindingsHooks {
@@ -63,6 +68,26 @@ function details(el: HTMLElement, key: string, label: string, hooks: FindingsHoo
 		sync();
 	});
 	return box;
+}
+
+/** A fixing commit's diff, file by file, from the record's PR checkout; git runs once per sha that's there. */
+function renderCommit(el: HTMLElement, dir: string, sha: string, state: FindingsStripState) {
+	let diff = state.commits.get(sha);
+	try {
+		diff ??= commitModel().recordCommitDiff(dir, sha);
+	} catch (error) {
+		diff = { missing: error instanceof Error ? error.message : String(error) };
+	}
+	if ("missing" in diff) return void el.createDiv({ text: `⚠️ ${diff.missing}`, cls: "gb-findings-warning" });
+	state.commits.set(sha, diff);
+	const htmlCache = state.diffHtml;
+	const box = el.createDiv({ cls: "gbdr gb-findings-diff" });
+	for (const file of diff.files) {
+		const head = box.createDiv({ cls: "gb-findings-diff-file" });
+		head.createSpan({ text: file.path });
+		head.createSpan({ text: ` +${file.added} −${file.removed}`, cls: "gb-findings-diff-stat" });
+		renderPatch(box, file.patch, file.path, htmlCache);
+	}
 }
 
 function checkbox(el: HTMLElement, checked: boolean, tooltip: string, onChange: (checked: boolean) => void): HTMLInputElement {
@@ -118,12 +143,19 @@ export function renderFindings(app: App, el: HTMLElement, record: RecordRef, hoo
 	run.onclick = () => hooks.runCheck();
 	for (const line of check?.message.split("\n").filter(Boolean) ?? []) toneLine(root, line, "gb-findings-check");
 
+	const commit = (body: HTMLElement, { sha, subject }: LandingFinding["fixedIn"][number]) =>
+		details(body, `commit:${sha}`, `🌿 ${sha} ${subject}`, hooks, (box) => renderCommit(box, dir, sha, hooks.state)).addClass("gb-findings-commit");
 	const row = (list: HTMLElement, f: LandingFinding) => {
 		const item = list.createDiv({ cls: "gb-findings-item" });
 		checkbox(item, f.include, f.include ? `Leave ${f.id} out` : `Include ${f.id}`, (include) => change({ id: f.id, include }));
 		const main = item.createDiv({ cls: "gb-findings-main" });
-		const label = `${f.id} ${f.title}${f.fixedIn.length ? ` 🌿 ${f.fixedIn.join(", ")}` : ""}`;
-		const head = f.text ? details(main, f.id, label, hooks, (body) => markdown(body, f.text!)) : main.createDiv({ text: label });
+		const label = `${f.id} ${f.title}${f.fixedIn.length ? ` 🌿 ${f.fixedIn.map((c) => c.sha).join(", ")}` : ""}`;
+		const expandable = Boolean(f.text) || f.fixedIn.length > 0;
+		const fill = (body: HTMLElement) => {
+			if (f.text) markdown(body, f.text);
+			for (const c of f.fixedIn) commit(body, c);
+		};
+		const head = expandable ? details(main, f.id, label, hooks, fill) : main.createDiv({ text: label });
 		head.toggleClass("gb-findings-out", !f.include);
 		main.createDiv({ text: f.filtered ? `${f.filtered.category}: ${f.filtered.reason}` : f.summary, cls: "gb-findings-summary" });
 	};

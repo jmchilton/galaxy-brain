@@ -1,9 +1,10 @@
 // The Herdr app's findings panel, in Node, which holds the YAML parser: review-factory's panel, for a record ref.
 
 import { join } from "node:path";
+import { recordCommitDiff } from "../../review-factory/src/commit-diff";
 import { findingsEdit as recordEdit, findingsPanel as recordPanel } from "../../review-factory/src/panel";
 import { detachedRequest, jobFile, startDetached } from "./detached";
-import type { FindingsCheck, FindingsEdit, FindingsPanel } from "./findings-types";
+import type { CommitDiff, FindingsCheck, FindingsEdit, FindingsPanel } from "./findings-types";
 import { reviewRecordDir } from "./review-host";
 
 /** The record's vault-relative directory. */
@@ -21,6 +22,11 @@ export function findingsEdit(vaultRoot: string, edit: FindingsEdit): { path: str
 	const dir = reviewDir(vaultRoot, edit.ref);
 	const found = recordEdit(join(vaultRoot, dir), edit);
 	return found && { path: join(dir, found.file), change: found.change };
+}
+
+/** A review-branch commit's diff, from the record's PR checkout. */
+export function findingsCommit(vaultRoot: string, { ref, sha }: { ref: string; sha: string }, diffOf: (dir: string, sha: string) => CommitDiff = recordCommitDiff): CommitDiff {
+	return diffOf(join(vaultRoot, reviewDir(vaultRoot, ref)), sha);
 }
 
 /** Starts `review-factory check`, which fetches, or gives its finished output once. */

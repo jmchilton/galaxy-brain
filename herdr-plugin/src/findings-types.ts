@@ -2,7 +2,7 @@
 import type { FindingsChange } from "../../review-factory/src/landing";
 import type { CaptureResult } from "./review-types";
 
-export type { FindingsChange, FindingsPanel } from "../../review-factory/src/landing";
+export type { CommitDiff, CommitFile, FindingsChange, FindingsPanel } from "../../review-factory/src/landing";
 
 export type FindingsEdit = { ref: string; round: number } & FindingsChange;
 

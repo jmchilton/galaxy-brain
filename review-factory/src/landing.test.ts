@@ -20,7 +20,7 @@ describe("landing", () => {
   it("expands a finding to its posted text, without the heading", () => {
     const ctx = context24706();
     const p32 = landing(ctx).findings.find((f) => f.id === "P3 2")!;
-    expect(p32).toMatchObject({ title: finding(ctx.file, "P3 2").title, summary: finding(ctx.file, "P3 2").summary, fixedIn: ["bef11669426"] });
+    expect(p32).toMatchObject({ title: finding(ctx.file, "P3 2").title, summary: finding(ctx.file, "P3 2").summary, fixedIn: [{ sha: "bef11669426", subject: "Let apply_sort_column select computed sort columns" }] });
     expect(p32.text!.startsWith(finding(ctx.file, "P3 2").issue!.trim())).toBe(true);
     expect(p32.text).toContain("Fixed on the review branch in [`bef11669426`]");
     expect(composeComment(ctx)).toContain(p32.text);

@@ -1,4 +1,5 @@
 // The review tab's diff pane as flat rows, for a virtual list: no handlers per row, so a row's click is its key.
+import type { CommitFile } from "../../herdr-plugin/src/findings-types";
 import type { ReviewCommit, ReviewFile, ReviewHunk, ReviewModel } from "../../herdr-plugin/src/review-types";
 import type { CodeToken } from "../../obsidian-plugin/src/diff-highlight";
 import { type DiffRow, hunkRows } from "../../obsidian-plugin/src/diff-review-rows";
@@ -64,6 +65,25 @@ export function patchRows(patch: string): DiffRow[] {
 	}
 	flush();
 	return rows;
+}
+
+export interface CommitLines {
+	files: Array<Omit<CommitFile, "patch"> & { rows: DiffRow[] }>;
+	/** Lines left out past maxRows. */
+	hidden: number;
+}
+
+/** A commit's files as numbered lines, up to maxRows in all: the findings panel isn't a virtual list. */
+export function commitLines(files: readonly CommitFile[], maxRows: number): CommitLines {
+	const out: CommitLines = { files: [], hidden: 0 };
+	let room = maxRows;
+	for (const { patch, ...file } of files) {
+		const rows = patchRows(patch);
+		if (room > 0) out.files.push({ ...file, rows: rows.slice(0, room) });
+		out.hidden += Math.max(0, rows.length - room);
+		room = Math.max(0, room - rows.length);
+	}
+	return out;
 }
 
 function interdiff(built: BuiltRows, file: ReviewFile, hunk: ReviewHunk, against: "reviewed" | "baseline", options: RowOptions) {
@@ -142,7 +162,11 @@ export function pickItem(items: readonly ReviewItem[], current: ReviewItem | nul
 
 /** Widest code row in pixels at the mono size, so the diff scrolls sideways rather than clipping. */
 export function rowsWidth(rows: readonly Row[], charWidth = 7.3, gutter = 120): number {
+	return linesWidth(rows.flatMap((row) => (row.type === "code" ? [row.row] : [])), charWidth, gutter);
+}
+
+export function linesWidth(lines: readonly DiffRow[], charWidth = 7.3, gutter = 120): number {
 	let widest = 0;
-	for (const row of rows) if (row.type === "code" && row.row.text.length > widest) widest = row.row.text.length;
+	for (const line of lines) if (line.text.length > widest) widest = line.text.length;
 	return Math.max(300, widest * charWidth + gutter);
 }

@@ -122,21 +122,22 @@ function highlightPatch(root: HTMLElement, path: string) {
 	highlightDiff(path, rows)?.forEach((tokens, i) => paintTokens(rows[i]!.line, tokens));
 }
 
-function renderPatch(parent: HTMLElement, patch: string, path: string, ui: ReviewUi) {
+/** A patch as a highlighted diff2html table; needs a `.gbdr` ancestor for its styles. */
+export function renderPatch(parent: HTMLElement, patch: string, path: string, htmlCache: Map<string, string>) {
 	const box = el(parent, "div", "gbdr-diff");
-	const cached = ui.htmlCache.get(patch);
+	const cached = htmlCache.get(patch);
 	if (cached !== undefined) {
 		box.innerHTML = cached;
 		return;
 	}
 	box.innerHTML = diffHtml(patch, { drawFileList: false, outputFormat: "line-by-line", matching: "lines", diffStyle: "word" });
 	highlightPatch(box, path);
-	ui.htmlCache.set(patch, box.innerHTML);
+	htmlCache.set(patch, box.innerHTML);
 }
 
 function renderHunkBody(parent: HTMLElement, source: HunkSource, ui: ReviewUi) {
 	const patch = hunkPatch(source);
-	if (patch) renderPatch(parent, patch, source.file.path, ui);
+	if (patch) renderPatch(parent, patch, source.file.path, ui.htmlCache);
 	else el(parent, "pre", "gbdr-meta-lines", source.hunk.lines.join("\n"));
 }
 
@@ -242,7 +243,7 @@ function interdiffToggle(parent: HTMLElement, body: HTMLElement, view: ReviewVie
 	const show = () => {
 		panel.replaceChildren();
 		el(panel, "div", "gbdr-caption", `How this hunk's changed lines differ from the version ${against === "reviewed" ? "you reviewed" : "in the baseline"}:`);
-		renderPatch(panel, interdiffPatch(file.path, before.hunk, after.hunk), file.path, ui);
+		renderPatch(panel, interdiffPatch(file.path, before.hunk, after.hunk), file.path, ui.htmlCache);
 		body.prepend(panel);
 	};
 	button.onclick = (event) => {

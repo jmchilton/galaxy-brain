@@ -6,15 +6,18 @@ import { h_flex, v_flex } from "gpui-base";
 import { exec, openOverlay, props, readTextFile, theme, watchFolder } from "herdr";
 import { withoutFrontmatter } from "../../obsidian-plugin/src/record-frontmatter";
 import { type RecordFileLink, recordFileLabel, type RecordFileLinks } from "../../site/src/lib/file-docs";
-import type { FindingsChange, FindingsCheck, FindingsPanel } from "../../herdr-plugin/src/findings-types";
+import type { CommitDiff, CommitFile, FindingsChange, FindingsCheck, FindingsPanel } from "../../herdr-plugin/src/findings-types";
+import { highlightDiff } from "../../obsidian-plugin/src/diff-highlight";
 import { chip } from "./chip";
-import { type FindingsUi, renderFindingsPanel } from "./findings-panel";
+import { MAX_HIGHLIGHT_CHARS } from "./diff-lines";
+import { commitKey, type FindingsUi, renderFindingsPanel, type ShownCommit } from "./findings-panel";
 import { appHost, delay, host, logRenderFailures, obsidianUrl, openUrl } from "./host";
 import { type MarkdownBlock, markdownBlocks } from "./markdown-blocks";
 import { type MarkdownHost, renderMarkdown } from "./markdown-view";
 import { editFindings } from "./note-edits";
 import { isImagePath, linkTarget, withoutTitle } from "./record-page";
 import { openRecordTab, openRepositoryTab, openReviewTab } from "./record-tab";
+import { commitLines } from "./review-rows";
 
 const VAULT = `${__GB_ROOT__}/vault`;
 const INDEX = "index.md";
@@ -22,6 +25,8 @@ const OTHER = "other";
 const POLL_MS = 30_000;
 /** Seconds to wait for a check, which fetches from GitHub. */
 const CHECK_POLLS = 180;
+/** Diff lines per commit; the page isn't a virtual list. */
+const MAX_COMMIT_ROWS = 200;
 
 type Cx = any;
 type El = any;
@@ -48,6 +53,11 @@ interface Page {
 	environments: Array<{ name: string; icon?: string }>;
 }
 
+function shownCommit(files: CommitFile[]): ShownCommit {
+	const { files: shown, hidden } = commitLines(files, MAX_COMMIT_ROWS);
+	return { files: shown.map((file) => ({ ...file, tokens: highlightDiff(file.path, file.rows, MAX_HIGHLIGHT_CHARS) ?? [] })), hidden };
+}
+
 const allFiles = ({ documented, other }: RecordFileLinks): string[] => [INDEX, ...[...documented, ...other].flatMap((link) => link.files ?? [link.path])];
 
 export default class GbRecord extends View {
@@ -68,6 +78,8 @@ export default class GbRecord extends View {
 	declare findingsBlocks: Map<string, MarkdownBlock[]>;
 	declare check: FindingsCheck | null;
 	declare checking: boolean;
+	/** Fixing commits' diffs by sha, kept across reloads; a sha's diff never changes. */
+	declare commits: Map<string, ShownCommit | "loading">;
 
 	init(_props: unknown, cx: Cx) {
 		this.page = null;
@@ -81,6 +93,7 @@ export default class GbRecord extends View {
 		this.findingsBlocks = new Map();
 		this.check = null;
 		this.checking = false;
+		this.commits = new Map();
 		cx.spawn(async (cx: Cx) => {
 			await this.load(cx);
 			await this.watch(cx);
@@ -110,6 +123,26 @@ export default class GbRecord extends View {
 	setFindings(panel: FindingsPanel | null) {
 		this.findings = panel;
 		this.findingsBlocks = new Map();
+	}
+
+	/** Opens or closes a fixing commit's diff, fetching it from the PR checkout on first open, or again if it was missing. */
+	toggleCommit(sha: string, cx: Cx) {
+		const key = commitKey(sha);
+		const opening = !this.findingsOpened.delete(key);
+		if (opening) this.findingsOpened.add(key);
+		cx.notify();
+		const cached = this.commits.get(sha);
+		if (!opening || cached === "loading" || (cached && !("missing" in cached))) return;
+		this.commits.set(sha, "loading");
+		cx.spawn(async (cx: Cx) => {
+			try {
+				const diff: CommitDiff = await appHost({ type: "findingsCommit", ref: props()?.ref as string, sha });
+				this.commits.set(sha, "missing" in diff ? diff : shownCommit(diff.files));
+			} catch (error) {
+				this.commits.set(sha, { missing: String(error) });
+			}
+			cx.notify();
+		});
 	}
 
 	/** Sets one value in the findings YAML; the reply is the panel after it. */
@@ -163,6 +196,8 @@ export default class GbRecord extends View {
 			check: this.check,
 			checking: this.checking,
 			runCheck: (cx) => this.runCheck(cx),
+			commit: (sha) => this.commits.get(sha),
+			toggleCommit: (sha, cx) => this.toggleCommit(sha, cx),
 		};
 	}
 

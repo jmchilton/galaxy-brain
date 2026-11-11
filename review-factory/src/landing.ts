@@ -38,7 +38,7 @@ export interface LandingFinding {
   include: boolean;
   filtered?: Filtered;
   /** Commits on the latest revision that fix it. */
-  fixedIn: string[];
+  fixedIn: Array<{ sha: string; subject: string }>;
   /** Its posted text below the heading; F items have none. */
   text?: string;
 }
@@ -65,6 +65,16 @@ export interface FindingsPanel {
   landing: Landing | null;
   errors: string[];
 }
+
+/** A fixing commit's diff, one patch per file; `missing` when the checkout doesn't have it. */
+export interface CommitFile {
+  path: string;
+  patch: string;
+  added: number;
+  removed: number;
+}
+
+export type CommitDiff = { files: CommitFile[] } | { missing: string };
 
 /** Sets a value, never flips one, so a click on a stale panel can't undo a newer edit. */
 export type FindingsChange = { id: string; include: boolean } | { action: Action; checked: boolean };
@@ -95,7 +105,7 @@ export function landing(ctx: ComposeContext): Landing {
     summary: f.summary,
     include: f.include,
     ...(f.filtered ? { filtered: f.filtered } : {}),
-    fixedIn: (branch?.commits ?? []).filter((c) => c.findings.includes(f.id)).map((c) => c.sha),
+    fixedIn: (branch?.commits ?? []).filter((c) => c.findings.includes(f.id)).map(({ sha, subject }) => ({ sha, subject })),
     ...(f.issue ? { text: findingBody(ctx, f, branch) } : {}),
   }));
   const mode = gateMode(ctx);
