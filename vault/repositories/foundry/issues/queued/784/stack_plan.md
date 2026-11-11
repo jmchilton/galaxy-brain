@@ -1,0 +1,29 @@
+# Source-parity stack plan (2026-11-11)
+
+John asked for serial Opus/high subagents that produce draft PRs for #781, #796, #798, #784, plus parallel workflow-diff PRs in gxformat2 and galaxy-tool-util-ts (workflow_libs `WORK_HORSE.md`). The coordinator (wf_foundry session) runs every step as its own subagent, because subagents can't launch their own, and handles galaxy-brain git.
+
+## Order
+
+1. **gxformat2 `diff`** (workflow_libs): Python diff of two Format2 workflows (draft or final); declarative expectations `gxformat2/examples/expectations/diff.yml`.
+2. **galaxy-tool-util-ts `gxwf diff`** (workflow_libs): TS port, synced fixtures, `--json`. Draft PRs on both repos, cross-linked.
+3. **foundry #781**: template copies `resolved_args` verbatim into `_plan_state`.
+4. **foundry #796** (parent #781): draft snapshot + `run-workflow-test` green check uses `gxwf diff --json`; a removed step without a `kind: dropped` entry naming its `step` fails. Bundle the ledger note; `validation_failed` hint. Parts 1–2 only.
+5. **foundry #798** (parent #796): interface Mold records scope `decisions` plus `kind: dropped` entries for excluded branches.
+6. **foundry #784** (parent #798): new report-only Nextflow parity Mold.
+
+Foundry PRs target `main` from the `jmchilton` fork and say "depends on #X". Each diff includes its parents' commits.
+
+## Per-branch steps (each its own subagent, Opus, high effort)
+
+Implement → normal review → `/codex-review` → thermo-nuclear (if >50 lines of code) → Foundry only: domain review (`wf_foundry/reviewers/DOMAIN_REVIEW.md`) and documentation review (`.agents/skills/foundry-documentation/SKILL.md`) → polish (description, titles, tags) → strengthen → draft PR.
+
+## Diff contract (both libraries)
+
+Compare two Format2 workflows, BEFORE and AFTER. Either may be a `GalaxyWorkflowDraft`. Steps are matched by label; `_plan_*` fields are ignored for comparison but reported per step.
+
+Report:
+- inputs, outputs and steps that were added or removed
+- per-step changes to `tool_id`/`tool_version`, `state` keys and values, `when`, and connections
+- AFTER inputs that feed no step
+
+JSON output with a declared shape, plus human-readable text.
