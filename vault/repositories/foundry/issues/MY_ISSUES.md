@@ -54,6 +54,7 @@ None yet.
 
 ## In motion (`wip`)
 
+- (mvp) [#789](https://github.com/galaxyproject/foundry/issues/789) — maturation Mold's README carries development archeology (failed runs, old invocations); branch `issue-789-readme-no-archeology`. [notes](wip/789/index.md)
 - [#775](https://github.com/galaxyproject/foundry/issues/775) — verification CI used `planemo lint` (tool XML), hiding bad shed pins and strict-schema errors; PR [#779](https://github.com/galaxyproject/foundry/pull/779). [notes](wip/775/index.md)
 - (mvp) [#678](https://github.com/galaxyproject/foundry/issues/678) — discovery `status` has no `unsuitable`; capability miss routes to authoring an existing wrapper; draft PR [#778](https://github.com/galaxyproject/foundry/pull/778); contributor draft PR [#773](https://github.com/galaxyproject/foundry/pull/773). [notes](wip/678/index.md)
 - (mvp) [#723](https://github.com/galaxyproject/foundry/issues/723) — weak-hit and capability-gap fallbacks let runs author UDTs for tools that already exist; contributor draft PR [#773](https://github.com/galaxyproject/foundry/pull/773); branch `issue-723-authoring-gate` trims it. [notes](wip/723/index.md)
