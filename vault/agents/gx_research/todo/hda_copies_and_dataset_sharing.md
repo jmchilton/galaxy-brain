@@ -9,3 +9,4 @@ Document how HDAs share `Dataset` rows: `HistoryDatasetAssociation.copy`, `copy_
 ## Requested by
 
 - vault/repositories/galaxy/reviews/active/24673: `copy` / `copy_from` semantics, dataset sharing and purge behaviour needed to understand the late job cache race.
+- vault/repositories/galaxy/branches/active/job_cache_own_metadata_files_25_1: needed what `copy_from(include_metadata=True)` shares with its source (the `_metadata` rows) versus the `Dataset`, and its callers (job cache, `DatasetCollection.copy_from`, tool `copy_object`).
