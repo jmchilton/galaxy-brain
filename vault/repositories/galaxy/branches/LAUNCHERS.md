@@ -68,6 +68,12 @@ name: brposter-{name}
 
 Yo agent - let's talk about branch {name}. The branch record is {record}. I'd like to build a poster according to `../_shared/PROCESS_POSTER.md`. Don't edit `{record}/pr_description.md` - it should stand alone. If the poster's render or any of its figures would strengthen the PR description, offer that to John instead. If building the poster results in ideas for strengthening the branch's implementation, its evidence or its PR description - please offer to John to expand the scope and implement these.
 
+## 🔬 Build Application Note
+agent_dir: gx_branches
+name: brappnote-{name}
+
+Yo agent - let's talk about branch {name}. The branch record is {record}. I'd like to write an application note according to `../_shared/GX_PROCESS_APPLICATION_NOTE.md`.
+
 ## 📝 Address diff comments
 status: active
 agent_dir: gx_branches

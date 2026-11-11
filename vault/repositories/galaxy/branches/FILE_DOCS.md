@@ -57,6 +57,18 @@ Debrief of the second frontier model review from hardening ([GX_PROCESS_HARDEN_B
 
 Report on refactoring the base branch ahead of the change ([GX_PROCESS_REFACTOR_BASELINE](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/GX_PROCESS_REFACTOR_BASELINE.md)). Cited as an Agentic Check in the PR description.
 
+## applications.md
+
+Ranked candidate applications of the branch, researched against IWC and the GTN ([GX_PROCESS_APPLICATION_NOTE](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/GX_PROCESS_APPLICATION_NOTE.md)).
+
+## application_*_preparation.md
+
+The chosen application and the Galaxy prepared to run it: tools and workflows installed, what was verified through the API ([GX_PROCESS_APPLICATION_NOTE](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/GX_PROCESS_APPLICATION_NOTE.md)).
+
+## application_*_note.md
+
+Application note: a short scientific story the branch enabled, run on the branch ([GX_PROCESS_APPLICATION_NOTE](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/GX_PROCESS_APPLICATION_NOTE.md)).
+
 ## screenshot_debrief.md
 
 Index of the captures in `screenshots/`, plus any problems recording them ([GX_PROCESS_SCREENSHOTS](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/GX_PROCESS_SCREENSHOTS.md)).
