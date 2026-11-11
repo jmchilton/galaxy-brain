@@ -1,0 +1,330 @@
+round: 0
+reviewed_commit: 2ffe63c3c57f39bf649ec4ac29b3ec1c334c20c7
+agents:
+  - {profile: default, path: _shared/reviewers/default.md, model: Claude Opus 5.5, effort: medium}
+  - {profile: thermo_review, path: _shared/reviewers/thermo_review.md, model: Claude Opus 5.5, effort: medium}
+  - {profile: generic_test_challenger, path: _shared/reviewers/generic_test_challenger.md, model: Claude Opus 5.5, effort: medium}
+  - {profile: generic_risk_assessment, path: _shared/reviewers/generic_risk_assessment.md, model: Claude Opus 5.5, effort: low}
+verification: {model: Claude Opus 5.5, effort: medium}
+branches:
+  - name: pr_1782_round_0_rev_0
+    revision: 0
+    head: 49775ee05fd
+    pr_title: Correct the security linter's model of Galaxy sanitization and reuse Galaxy and Cheetah helpers
+    description: |
+      `pr_1782_round_0_rev_0` builds on `2ffe63c3c57`. It drops the `SecurityDataColumn` and `SecurityGroupTag` checks, because Galaxy sanitizes those select values, and adds `SecurityRawParamValue` for the accessors that really do bypass sanitization (`.value` and loops over a select). A restrictive `<sanitizer>` now suppresses `SecurityUnquotedParam`. The sanitizer presets, booleans, Cheetah directive names, parameter indexing and validators now come from `galaxy.util`, `Cheetah.Parser` and the tool source input API instead of local copies. Escaped `\$` placeholders are skipped, and findings are routed by `Linter` class instead of string kinds. On the test side, the branch adds a macro fixture and table rows for the advertised but untested behaviors, broadens the clean fixture, moves skip coverage to the CLI with a `shed_lint --security` run, and drops a private-helper test. It does not restructure the lexer, the reference resolution or the test layout.
+    commits:
+      - sha: 986f7a1a861
+        subject: Stop flagging data_column and group_tag values as unsanitized
+        detail: removes the two checks and their `Linter` classes, and turns the column and tag fixture test into a stays-quiet test.
+        findings: [P1 1]
+      - sha: a2153b06137
+        subject: Flag .value and select loops that bypass parameter sanitization
+        detail: adds `SecurityRawParamValue` for `$param.value` on text, hidden and dynamic select params and for loop variables bound to a select, `data_column` or `group_tag`, with a parametrized test.
+        findings: [P2 1]
+      - sha: b7928b7915c
+        subject: Let a restrictive sanitizer suppress SecurityUnquotedParam
+        detail: skips the unquoted finding when the param's own sanitizer can only output safe filename characters, unless the tool sets `<options sanitize="false"/>`.
+        findings: [P2 2]
+      - sha: 90c9e9b9969
+        subject: Mirror Galaxy's sanitizer preset and boolean parsing
+        detail: takes the default preset from `galaxy.util.valid_chars`, splits comma-separated valid and mapping presets as Galaxy does, and parses booleans with `string_as_bool`.
+        findings: [P2 3]
+      - sha: 37ec5c3e0d8
+        subject: Build the Cheetah directive pattern from Cheetah's parser
+        detail: replaces the hand-copied directive list with `Cheetah.Parser.directiveNamesAndParsers`, with a test for a `#elif` line inside a quoted span.
+        findings: [P3 1]
+      - sha: 84306dbab78
+        subject: Skip backslash-escaped placeholders
+        detail: adds a `(?<!\\)` lookbehind to every reference pattern through a shared `_PLACEHOLDER` prefix.
+        findings: [P3 3]
+      - sha: 28eb24edcca
+        subject: Route security findings by Linter class instead of string kinds
+        detail: makes `emit` take the reporting `Linter` class and each `lint` keep the findings whose class is itself, leaving the eight `lint` bodies in place.
+        findings: [P3 5]
+      - sha: 7cc8d674061
+        subject: Index params and validators through the tool source input API
+        detail: walks `parse_input_pages()` input sources, reads regex validators as `RegexParameterValidatorModel` objects and tool-wide sanitization from `parse_sanitize()`, and adds tests for conditional, section and argument-named params.
+        findings: [P3 4, P2 8]
+      - sha: acdc3449356
+        subject: Drop the security test of private loop-binding helpers
+        detail: removes `test_security_loop_bindings_persist_after_their_loop`.
+        findings: [P3 6]
+      - sha: 4de08ca1fcd
+        subject: Cover security skips and shed_lint --security through the CLI
+        detail: replaces the module-skip unit test with a per-class skip assertion in `test_lint_security` and adds `test_shed_lint_security`.
+        findings: [P3 7]
+      - sha: c6c5cef5087
+        subject: Exercise every advertised mitigation in the clean security fixture
+        detail: adds unquoted params guarded by a restrictive sanitizer and by a safe validator, and an unquoted `shlex.quote` call.
+        findings: [P3 8]
+      - sha: 91fa49f4914
+        subject: Test the security behaviors the PR advertises but did not pin
+        detail: adds a macro fixture and table rows for the other condition directives, sanitizer add/remove actions, validator ranges and negation, and `re.sub` edge cases.
+        findings: [P2 8]
+      - sha: 49775ee05fd
+        subject: Fix stale comments in security tests
+        detail: drops a leftover `P1:` marker and corrects an "above" that should say "below".
+        findings: [P3 9]
+actions: {approve: false, approve_and_merge: false, comment: false, review_comment: false, request_changes: false, pull_request: false, push: false, issue_refactor: false, issue_galaxy_brain: false}
+findings:
+  - id: P1 1
+    include: true
+    title: SecurityDataColumn and SecurityGroupTag assume values Galaxy sanitizes are never sanitized
+    summary: data_column and group_tag are SelectToolParameter subclasses, so their rendered values are sanitized; every column picker got a false INFO.
+    implementation_verified: true
+    issue: |
+      The module treats `data_column` and `group_tag` values as "never sanitized by Galaxy" (`_RAW_VALUE_PARAM_TYPES`). Any reference that reaches the shell, quoted or not, was reported as "Value of … param '…' is not sanitized and reaches the command".
+
+      In Galaxy, `ColumnListParameter` and `SelectTagParameter` both subclass `SelectToolParameter` and don't override `to_param_dict_string`. That method runs the param's `sanitizer.sanitize_param(value)`, or the default `sanitize_param(value)`, unless the tool turns sanitization off. Both are wrapped in `SelectToolParameterWrapper`, whose `__str__` calls `to_param_dict_string`. So `$col` and `'$col'` render sanitized, like any other select.
+
+      Almost every tool with a column picker (`cut -f '$c'`, `sort -k '$column'`) therefore got a finding with a false message. The fixture `security_data_column_group_tag.xml` and its test pinned that false positive.
+    evidence: |
+      Galaxy `lib/galaxy/tools/parameters/basic.py`: `SelectToolParameter.to_param_dict_string` sanitizes when `self.tool.options.sanitize` is on. `SelectTagParameter(SelectToolParameter)` and `ColumnListParameter(SelectToolParameter)` don't override it. `lib/galaxy/tools/evaluation.py` wraps every `SelectToolParameter` in `SelectToolParameterWrapper`. On the reviewed commit, `cut -f '$c' '$d'` with a `data_column` `c` is reported by `SecurityDataColumn`.
+    fix: |
+      Removed the `SecurityDataColumn` and `SecurityGroupTag` checks and classes. The column and tag fixture is now pinned as producing no findings. The raw accessors of these params are covered by P2 1.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+  - id: P2 1
+    include: true
+    title: The accessors that bypass sanitization (.value, loops over a select) aren't detected
+    summary: $text.value, $select.value and `#for $v in $multi_select` yield raw values and went unreported.
+    implementation_verified: true
+    issue: |
+      Some template accessors skip `to_param_dict_string` altogether, so they bypass sanitization:
+
+      - `$param.value` is the raw value on both `InputValueWrapper` and `SelectToolParameterWrapper`.
+      - `SelectToolParameterWrapper.__iter__` returns `self.value.__iter__()`, so `#for $v in $multi_select` binds `$v` to raw values. This also holds for multiple `data_column` and `group_tag` params.
+
+      These are the common deliberate escape hatches in real wrappers, and a single quote in a raw value escapes the surrounding quoting. The module flagged them only when they happened to be unquoted text references.
+    evidence: |
+      On the reviewed commit, `echo '$t.value'` (text), `echo '$s.value'` (dynamic select) and `#for $v in $s:` / `echo '$v'` (multiple select) each produce no finding.
+    fix: |
+      Added `SecurityRawParamValue`. It flags `$param.value` for text, hidden, dynamic select, `data_column` and `group_tag` params, and loop variables bound to a select-family param, wherever the position reaches the shell (the `raw_flow` classification `SecurityRawIdentifier` uses), outside cleaning calls and condition directives. Static selects aren't flagged, because their values come from the tool XML. A parametrized test covers each case, plus quiet rows for the param itself, a static select, a cleaned value and an `#if` condition.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+  - id: P2 2
+    include: true
+    title: A restrictive sanitizer doesn't suppress SecurityUnquotedParam, though the message recommends one
+    summary: only a safe regex validator suppressed the unquoted finding; a param's own restrictive <sanitizer> was ignored.
+    implementation_verified: true
+    issue: |
+      `SecurityUnquotedParam` was suppressed only by an anchored safe-class regex validator (`_has_safe_validator`). It ignored the param's own `<sanitizer>`. A text param with `<sanitizer><valid initial="string.ascii_letters"/></sanitizer>` used as `echo $t` was still reported with "default sanitization still allows spaces, quote it or restrict the valid characters". Default sanitization doesn't apply to it, and restricting the valid characters is exactly what the author did.
+    fix: |
+      Added `_has_safe_sanitizer`, which collects everything the param's sanitizer can output (valid characters, targets of mappings whose source isn't valid, and `invalid_char`) and skips the unquoted finding when all of it is within `SAFE_FILENAME_CHARS`. A tool-wide `<options sanitize="false"/>` disables the suppression, because Galaxy then skips every param sanitizer. Tests cover a safe sanitizer, one that admits a space through `<valid>`, `invalid_char` or a mapping target, and the tool-wide override.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+  - id: P2 3
+    include: true
+    title: The sanitizer model copies ToolParameterSanitizer and its helpers instead of reusing them, and has drifted
+    summary: local copies of valid_chars, preset resolution and boolean parsing diverged from Galaxy; branch reuses galaxy.util and mirrors the parsing, upstreaming remains.
+    implementation_verified: true
+    issue: |
+      `DEFAULT_VALID_CHARS`, `STRING_PRESET_ALIASES`, `MAPPING_PRESET`, `_preset_chars`, `_allowed_chars`, `_mapped_chars` and `_bool_value` reimplement `ToolParameterSanitizer.from_element`, `get_valid_by_name` and `get_mapping_by_name` from Galaxy's `lib/galaxy/tools/parameters/sanitize.py`, plus `galaxy.util.string_as_bool`. `DEFAULT_VALID_CHARS` re-types `galaxy.util.valid_chars`, though the module already imports `mapped_chars` from there. The copy had drifted:
+
+      - `_preset_chars` resolved `default` and `none` only as the whole name. Galaxy resolves them inside comma-separated lists too, so `initial="string.digits,default"` lost the default characters, including space.
+      - `MAPPING_PRESET.get(name)` didn't split comma-joined mapping presets.
+      - `_bool_value` fell back to the default for unrecognised values and accepted `t`/`y`/`f`/`n`. `string_as_bool` treats anything other than `true`/`yes`/`on`/`1` as false, so `sanitize="disabled"` turns sanitization off in Galaxy but was read as on.
+
+      The PR's claim of "semantics aligned with Galaxy's `ToolParameterSanitizer`" is best kept by not having a second copy.
+    evidence: |
+      On the reviewed commit, `<sanitizer sanitize="disabled"/>` produces no `SecuritySanitizerDisabled` finding.
+    fix: |
+      Took the default preset from `galaxy.util.valid_chars`, rewrote `_preset_chars` and added `_mapping_preset` to resolve comma-separated lists the way `get_valid_by_name` and `get_mapping_by_name` do, and replaced `_bool_value` with `galaxy.util.string_as_bool`. Tests pin `string.digits,default` and `sanitize="disabled"`.
+    fix_details: |
+      Not done on the branch, and optional: `ToolParameterSanitizer` lives in galaxy-app, which planemo doesn't depend on, but it only imports `string` and `galaxy.util`. Moving it into `galaxy.tool_util` (or `galaxy.util`) upstream would let planemo run the real sanitizer, e.g. `ToolParameterSanitizer.from_element(el).sanitize_text(SHELL_DANGEROUS_CHARS)`, and delete about 80 lines of mirror code. The same goes for the knowledge of which wrapper accessors are raw, which would be easier to keep correct in `galaxy.tool_util.linters`, beside the code it mirrors. `galaxy.util.sanitize_text` isn't a drop-in replacement: it drops its `invalid_character` argument.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+      - {profile: thermo_review, model: Claude Opus 5.5, effort: medium}
+      - {profile: generic_test_challenger, model: Claude Opus 5.5, effort: medium}
+  - id: P2 4
+    include: true
+    title: Three lexer passes over the command re-derive the same Cheetah and shell rules
+    summary: _cheetah_comment_spans, _quoted_positions and _scan_command each re-implement comment, directive and word-boundary handling; collapse into one region tokenizer.
+    issue: |
+      `_cheetah_comment_spans`, `_quoted_positions` and `_scan_command` each walk the command character by character. Each handles `##` line comments and `#* … *#` block comments again, with slightly different side effects. The word-boundary set `" \t\n;|&("` is written out three times, and `_DIRECTIVE.match` runs in `_quoted_positions`, `_scan_command` and again in `_apply_hash` on a position the caller already matched. The output is three parallel per-character structures (`quoted`, `raw_flow`, `unquoted`) plus cleaning spans, and `_mark` exists only to keep two of them in sync. The passes depend on call order in `_command_checks` (quoted, then cleaning, then scan), and the loop-binding code uses yet another comment model.
+
+      The many regression tests about comment and quote interactions (`…_cheetah_comments_inside_quotes_do_not_flip_quote_state`, `…_comment_apostrophe_keeps_shlex_quote_untrusted`, `…_directive_line_inside_quotes_does_not_flip_quote_state`, `…_midword_cheetah_comment_silences_its_line`) each pin a case where the passes disagreed about what a `#` or a quote means.
+    fix: |
+      Use one tokenizer pass that yields `Region(start, end, kind)`, with kinds such as `CHEETAH_COMMENT`, `CONDITION_DIRECTIVE`, `OTHER_DIRECTIVE`, `BASH_COMMENT`, `QUOTED`, `UNQUOTED` and `CLEANED`. `raw_flow(pos)` and `unquoted(pos)` then become predicates on the region kind at `pos`. That deletes `_cheetah_comment_spans`, `_apply_hash`, `_mark`, the three boolean arrays and the duplicated comment and boundary logic, so the rules can no longer disagree. Not done on the branch: it rewrites most of the lexer (well over 200 lines).
+    discovered_by:
+      - {profile: thermo_review, model: Claude Opus 5.5, effort: medium}
+  - id: P2 5
+    include: true
+    title: Template references are resolved two different ways; extract placeholders once and make each check a filter
+    summary: raw-flow checks go placeholder-first with three near-identical regexes, param checks go param-first with per-scope re-scans.
+    issue: |
+      `_raw_flow_checks` works placeholder-first. It uses three near-identical regexes (`_RAW_IDENTIFIER`, `_COLLECTION_NAME`, `_COLLECTION_KEYS`, all on the same prefix) and three copy-pasted loops, each doing "type check, `raw_flow`/cleaning guard, emit", and resolves loop variables with `_loops_at` and `_resolve_loop_expr`.
+
+      `_param_usage_checks` works parameter-first. For every parameter, `_reference_patterns` builds two to four regexes per loop binding, and `_find_reference` runs each over the whole text once per loop scope, filtering matches with `_scope_at(...) is scope`, a linear scan per match. It answers the same question ("what does `$x.y` at this position refer to?") a second way. The `_in_spans(match.start(), cleaning)` guard is also redundant, because `_scan_command` already clears `raw_flow` and `unquoted` inside cleaning spans.
+    fix: |
+      Extract every Cheetah placeholder once as `Reference(pos, resolved_expr, attribute, region_kind)`, resolving loop variables with the bindings in effect at `pos`, and make each check a short filter over that list. That deletes `_reference_patterns`, `_find_reference`, the three attribute regexes and the per-scope re-scan. Not done on the branch: it rewrites every check (well over 200 lines), and is best done together with P2 4.
+    discovered_by:
+      - {profile: thermo_review, model: Claude Opus 5.5, effort: medium}
+  - id: P2 6
+    include: true
+    title: The 1023-line module mixes five concerns; split it into a package
+    summary: lexer, loop tracker, sanitizer model, regex-class analysis and checks in one file.
+    issue: |
+      `planemo/linters/security.py` is a new file just over 1000 lines that holds five layers: the Cheetah/shell lexer, the loop-binding tracker, the sanitizer model, regex character-class safety analysis, and the checks with their `Linter` classes. The lexer, loop tracker and regex analysis are generic static-Cheetah machinery that a later `<configfile>` check (the PR's deferred item 1) would want to reuse, and the lexer is tested only through end-to-end lint messages.
+    fix: |
+      Make it a package, `planemo/linters/security/`, with `cheetah_scan.py` (lexer and loop bindings), `charsets.py` (regex-class safety), the sanitizer model (or nothing, after P2 3's upstream move), and `__init__.py` holding the checks and linters. Give the lexer its own focused tests. If P2 3 to P2 5 are adopted the module shrinks a lot and a single file may become acceptable. Not done on the branch: moving the code alone is over 200 changed lines.
+    discovered_by:
+      - {profile: thermo_review, model: Claude Opus 5.5, effort: medium}
+  - id: P2 7
+    include: true
+    title: About 35 inline-template tests repeat the same shape and full message strings
+    summary: collapse them into one parametrized table with message builders.
+    issue: |
+      `tests/test_planemo_linters.py` adds about 850 lines, most of them one pattern repeated: a command, an inputs string and a fully spelled-out expected message. The `SecurityUnquotedParam` message is written out about 15 times and the `SecurityRawIdentifier` message about 7 times, so rewording a message means editing a dozen tests, and the repetition hides what each case varies. `_lint_loop_tool` duplicates `_lint_template_tool` with fixed inputs, and two tests each hold two independent cases.
+    fix: |
+      Add message builders (`_unquoted(name)`, `_raw_identifier(name)`, …) and shared input constants, and turn the cases into rows of one `@pytest.mark.parametrize("command,inputs,expected", ...)` test, keeping each case's comment above its `pytest.param`. Merge `_lint_loop_tool` into `_lint_template_tool` and split the two-part tests into separate rows. The review branch's new tests already use this shape (`_unquoted`, `_raw_identifier`, `_permissive`, `COLL`, `TXT`). Converting the existing tests isn't done on the branch: it rewrites about 600 lines.
+    discovered_by:
+      - {profile: generic_test_challenger, model: Claude Opus 5.5, effort: medium}
+  - id: P2 8
+    include: true
+    title: Behaviors the PR advertises have no test
+    summary: macros, #elif/#while/#unless, nested params, sanitizer add/remove and validator/re.sub edge cases were untested.
+    implementation_verified: true
+    issue: |
+      The PR description lists these, but no test exercised them:
+
+      - **Macros.** The linter is described as macro-aware, but no test used `<macros>`, `<token>` or `<expand>`.
+      - **Condition directives.** Only `#if` was tested, not `#elif`, `#while` or `#unless`.
+      - **Nested params.** No param inside `conditional`/`when` or `section`, though that is the most common real-world shape.
+      - **Sanitizer modelling.** `<valid>` `<remove>`, mapping preset add/remove and unknown `string.` names were untested.
+      - **Validator and `re.sub` edge cases.** Ranges that admit metacharacters, `negate="true"` validators, positive `[\W]` classes, metacharacter replacements and escaped quotes in `re.sub` literals were untested.
+
+      All of these behave correctly today, so these are regression pins.
+    fix: |
+      Added `security_macros.xml` with an imported macros file supplying the command as a token and the inputs as an `<xml>` macro, a nested-params table (conditional, section, argument-named param in a section), and a table of rows for the other condition directives, sanitizer `<valid>` and `<mapping>` add/remove actions, an unknown string constant, a `^[!-~]+$` validator, a negated validator, and `re.sub` positive classes, a metacharacter replacement and an escaped quote. The `letters`/`lowercase`/`uppercase` aliases aren't pinned, because they only add safe characters and so can't change any finding.
+    discovered_by:
+      - {profile: generic_test_challenger, model: Claude Opus 5.5, effort: medium}
+  - id: P3 1
+    include: true
+    title: "The Cheetah directive list is a stale hand copy, so a `#elif` inside a quoted span flips the quote state"
+    summary: _CHEETAH_DIRECTIVE_NAMES lacked elif, continue, except and others and listed call twice; build it from Cheetah.Parser.
+    implementation_verified: true
+    issue: |
+      `_CHEETAH_DIRECTIVE_NAMES` is described as Cheetah's `Parser.directiveNamesAndParsers` but was transcribed by hand. It lacked `elif`, `continue`, `except`, `finally`, `encoding`, `compiler`, `super`, `transform`, `shBang` and `@`, and listed `call` twice. Because `elif` was missing, the `"elif"` entry in `_CONDITION_DIRECTIVES` was dead code.
+
+      Outside quotes an unrecognised `#elif` line still ended up inert, as a bash comment. Inside a quoted span, `_quoted_positions` treated the `#elif` line as literal text, so quotes in its condition toggled the quote state.
+    evidence: |
+      On the reviewed commit, this template reports `'$t'` as unquoted; the same template with `#if` in place of `#elif` reports nothing.
+
+      ```
+      echo "a
+      #if $u == 'q'
+      c
+      #elif $u == 'x"'
+      b
+      #end if
+      " '$t'
+      ```
+    fix: |
+      Built `_DIRECTIVE` from `Cheetah.Parser.directiveNamesAndParsers` (Cheetah is installed through `galaxy-util[template]`), and added a test with the template above.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+      - {profile: thermo_review, model: Claude Opus 5.5, effort: medium}
+  - id: P3 2
+    include: true
+    title: The recommended clean-later idiom is flagged at assignment, not at the sink
+    summary: "#for $k in $coll.keys() and #set $x = $coll.element_identifier are flagged even when the value is cleaned before use."
+    implementation_verified: true
+    issue: |
+      Raw-identifier and keys checks fire on `#set` and `#for` header lines, because non-condition directives keep `raw_flow` true. Two common idioms are therefore reported although the value is cleaned before it reaches the shell:
+
+      - `#for $k in $coll.keys():` followed by `'$re.sub(r"[^\w.-]", "_", $k)'`
+      - `#set $x = $coll.element_identifier` followed by a cleaning `#set`
+
+      The module docstring recommends exactly this mitigation, so authors who follow it still get the finding.
+    fix: |
+      Track the bound variable to its uses, as the loop-binding code already does for parameters, and report at the sink. Alternatively, say in the message that the finding fires where the value is read. Not done on the branch: taint tracking through `#set` and loop bindings is a new layer, best built on P2 5's reference model.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+  - id: P3 3
+    include: true
+    title: An escaped \$t is treated as an interpolation
+    summary: Cheetah renders \$t literally (a shell variable), but SecurityUnquotedParam reported it.
+    implementation_verified: true
+    issue: |
+      In Cheetah, `\$t` renders a literal `$t`, which is a shell variable, not the parameter. `echo \$t` was reported by `SecurityUnquotedParam`, and the same applied to the raw identifier, name and keys patterns.
+    fix: |
+      Added a shared `_PLACEHOLDER` prefix with a `(?<!\\)` lookbehind to every reference pattern, and a test covering an escaped text param and an escaped `element_identifier`.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+  - id: P3 4
+    include: true
+    title: Parameter indexing and validators walk raw XML instead of the tool source input API
+    summary: _index_params, _parse_name_from_argument, _has_safe_validator and _tool_sanitize_off re-derive what galaxy-tool-util already parses.
+    implementation_verified: true
+    issue: |
+      `_index_params` walked `inputs/param|repeat|conditional|section|when` by hand, `_parse_name_from_argument` copied `galaxy.tool_util.parser.util._parse_name`, and `_has_safe_validator` read `type`, `negate` and the expression off raw validator XML. The tool source already exposes all of this through `parse_input_pages()` input sources (`parse_name()`, `parse_input_type()`, `parse_nested_inputs_source()`, `parse_when_input_sources()`) and typed `parse_validators()` models. `_tool_sanitize_off` flagged every `<options sanitize="false">`, while Galaxy's `parse_sanitize()` honours only the first `<options>` that carries the attribute.
+    fix: |
+      `_index_params` now walks the input sources, so names (including argument-derived ones) and nesting follow Galaxy by construction, and `_parse_name_from_argument` is gone. `_has_safe_validator` reads `RegexParameterValidatorModel` objects from `parse_validators()`, and tool-wide sanitization comes from `parse_sanitize()`. The XML element is still kept for the sanitizer and `<options>` lookups.
+    discovered_by:
+      - {profile: thermo_review, model: Claude Opus 5.5, effort: medium}
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+  - id: P3 5
+    include: true
+    title: Findings are routed to Linter classes by untyped string kinds
+    summary: nine kind strings and eight class names are linked only by literals; a typo silently drops findings.
+    implementation_verified: true
+    issue: |
+      `emit("raw_collection_keys", …)` stored a `str` in `SecurityCheck.linter`, and each `Linter.lint` compared it against hand-written literals. The nine kind strings and the eight class names were two parallel vocabularies, and `Emit = Callable[[str, str, str, Any], None]` hid which argument was the kind and which the dedup key. A typo in any kind silently dropped that class's findings, and only an exact-message test that happened to hit the kind would notice. This is separate from the PR's "Known, not fixed" item 4, which is about the repeated `lint` body; the suggestion here concerns the key.
+    fix: |
+      `emit` now takes the reporting `Linter` class, `SecurityCheck.linter` is a `Type[Linter]`, and each `lint` keeps the findings whose class is itself. Kinds that shared a class keep distinct dedup keys. The eight `lint` bodies stay as they are, per Known item 4.
+    discovered_by:
+      - {profile: thermo_review, model: Claude Opus 5.5, effort: medium}
+      - {profile: generic_test_challenger, model: Claude Opus 5.5, effort: medium}
+  - id: P3 6
+    include: true
+    title: A test asserts on private loop-binding helpers
+    summary: test_security_loop_bindings_persist_after_their_loop calls _loop_bindings and _loops_at directly.
+    issue: |
+      `test_security_loop_bindings_persist_after_their_loop` called `security._loop_bindings` and `security._loops_at` and asserted binding dicts at hand-picked offsets. The same semantics are already pinned through the linter by `…_keeps_loop_variable_bound_after_its_loop` and `…_resolves_loop_variables_only_where_bound`, so the test only couples the suite to the scope representation.
+    fix: |
+      Removed the test.
+    discovered_by:
+      - {profile: generic_test_challenger, model: Claude Opus 5.5, effort: medium}
+  - id: P3 7
+    include: true
+    title: Skip coverage is duplicated in a unit test, while per-class skip and shed_lint --security are untested
+    summary: the module skip is tested twice; the advertised per-class skip and shed_lint flag aren't.
+    implementation_verified: true
+    issue: |
+      `test_security_linter_can_be_skipped_by_module_name` duplicated the module skip already checked by `test_lint.py::test_lint_security`, which goes through the real `--skip` handling. The per-class skip (`--skip SecurityRawIdentifier`) and `planemo shed_lint --security` are both advertised, but neither was tested.
+    fix: |
+      Dropped the unit test. `test_lint_security` now also runs with `-s SecurityRawIdentifier` and asserts that `SecurityRawIdentifier` is absent and `SecurityRawCollectionName` is still present. A new `test_shed_lint_security` copies a security fixture into the `single_tool` repository and checks `shed_lint --tools --security` reports it and plain `shed_lint` doesn't.
+    discovered_by:
+      - {profile: generic_test_challenger, model: Claude Opus 5.5, effort: medium}
+  - id: P3 8
+    include: true
+    title: The clean fixture doesn't cover the mitigations the PR says it does
+    summary: security_clean_tool.xml had no <sanitizer>, no regex validator and no shlex.quote.
+    implementation_verified: true
+    issue: |
+      The PR description says `security_clean_tool.xml` "uses cleaned identifiers, quoted interpolation, and restricted sanitizers", but it had no `<sanitizer>`, no regex validator and no `shlex.quote`, so the stays-quiet test didn't pin those mitigations.
+    fix: |
+      Added an unquoted text param with a `string.ascii_letters` sanitizer, an unquoted text param with a `^[\w.-]+$` validator, and an unquoted `$( shlex.quote(...) )` call to the fixture.
+    discovered_by:
+      - {profile: generic_test_challenger, model: Claude Opus 5.5, effort: medium}
+  - id: P3 9
+    include: true
+    title: Incorrect and leftover comments in the security tests
+    summary: a "P1:" review-log marker and an "above" that points at a test below.
+    issue: |
+      `test_security_linter_cheetah_comments_inside_quotes_do_not_flip_quote_state` carried a `# P1:` prefix left over from the AI review log. `test_security_linter_accepts_word_class_validator_with_dots` pointed to "the backslash-s case above", but that test comes after it.
+    fix: |
+      Dropped the `P1:` prefix and changed "above" to "below".
+    discovered_by:
+      - {profile: generic_test_challenger, model: Claude Opus 5.5, effort: medium}
+  - id: F1
+    include: false
+    title: Give the security linters a shared base class with one lint implementation
+    summary: optional variant of P3 5 that collapses the eight lint bodies into one.
+    filtered:
+      category: relitigates_pr
+      reason: the PR's "Known, not fixed" item 4 keeps the eight identical lint bodies deliberately; P3 5 fixes the string keys without changing that.
+    discovered_by:
+      - {profile: generic_test_challenger, model: Claude Opus 5.5, effort: medium}
