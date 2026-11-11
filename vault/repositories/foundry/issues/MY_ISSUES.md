@@ -18,6 +18,7 @@ Review `issue_tags.md` in the record, then use 👀 Diff / 🔖 Apply staged lab
 ## Waiting on John (`needs_decision`)
 
 - (mvp) [#670](https://github.com/galaxyproject/foundry/issues/670) — topology repair forbade interface edits; #753 merged; decide: close it, or keep it open for what's left. [notes](needs_decision/670/index.md)
+- (mvp) [#723](https://github.com/galaxyproject/foundry/issues/723) — runs authored UDTs for tools that exist; #773 and #778 merged the gate and routing; decide: close, or keep open for the rest. [notes](needs_decision/723/index.md)
 - (mvp) (large) [#59](https://github.com/galaxyproject/foundry/issues/59) — Research Nextflow process to Galaxy tool wrapper mapping; decide: work state (work/ready-implement, work/ready-research or work/human). [notes](needs_decision/59/index.md)
 - (mvp) (large) [#66](https://github.com/galaxyproject/foundry/issues/66) — Research Nextflow test fixtures to Galaxy job inputs; decide: work state (work/ready-implement, work/ready-research or work/human). [notes](needs_decision/66/index.md)
 - (mvp) (large) [#90](https://github.com/galaxyproject/foundry/issues/90) — Survey: Galaxy reporting and publishing patterns; decide: work state (work/ready-implement, work/ready-research or work/human). [notes](needs_decision/90/index.md)
@@ -55,8 +56,6 @@ None yet.
 ## In motion (`wip`)
 
 - [#775](https://github.com/galaxyproject/foundry/issues/775) — verification CI used `planemo lint` (tool XML), hiding bad shed pins and strict-schema errors; PR [#779](https://github.com/galaxyproject/foundry/pull/779). [notes](wip/775/index.md)
-- (mvp) [#678](https://github.com/galaxyproject/foundry/issues/678) — discovery `status` has no `unsuitable`; capability miss routes to authoring an existing wrapper; draft PR [#778](https://github.com/galaxyproject/foundry/pull/778); contributor draft PR [#773](https://github.com/galaxyproject/foundry/pull/773). [notes](wip/678/index.md)
-- (mvp) [#723](https://github.com/galaxyproject/foundry/issues/723) — weak-hit and capability-gap fallbacks let runs author UDTs for tools that already exist; contributor draft PR [#773](https://github.com/galaxyproject/foundry/pull/773); branch `issue-723-authoring-gate` trims it. [notes](wip/723/index.md)
 - (mvp) [#674](https://github.com/galaxyproject/foundry/issues/674) — interface notes lack a shape-changing param rule; PR [#759](https://github.com/galaxyproject/foundry/pull/759), part of the issue. [notes](wip/674/index.md)
 - [#534](https://github.com/galaxyproject/foundry/issues/534) — Replace abstract summarize-nextflow scenarios with concrete pinned fixtures; branch `issue-534-concrete-nextflow-scenarios`. [notes](wip/534/index.md)
 - [#548](https://github.com/galaxyproject/foundry/issues/548) — `gxwf draft-validate --concrete`: the other half of #166 — a ParsedTool decode failure's `Error.message` is…; draft PR [#554](https://github.com/galaxyproject/foundry/pull/554). [notes](wip/548/index.md)

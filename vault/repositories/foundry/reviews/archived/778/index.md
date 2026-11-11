@@ -7,6 +7,8 @@ related_records: foundry/branches/issue-678-capability-gap-route
 
 ## Status
 
+Archived 2026-11-11: #778 merged 2026-11-10 at `4e4df029`, without the review branch. Its fixes need a new PR.
+
 Round 0 review of `4e4df029` done, not delivered: 10 findings (4 P2, 6 P3) all fixed on `pr_778_round_0_rev_0` at `e4e83886`, 4 filtered.
 
 PR open, not draft; CI red only on `validate:roadmap` (#768, same as `main`).

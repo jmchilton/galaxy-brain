@@ -28,7 +28,6 @@ Snapshot: 2026-10-28 (originally recovered from live GitHub state, local worktre
 ## Draft Foundry PRs — waiting for CI (`ci_wait`)
 
 - [`issue-757-meta-driven-parameters`](active/issue-757-meta-driven-parameters/index.md) — Channel-shape note routes per-element parameters via mapped `param_value_from_file`, plus verification workflows (#757). [#799](https://github.com/galaxyproject/foundry/pull/799).
-- [`issue-678-capability-gap-route`](active/issue-678-capability-gap-route/index.md) — A found wrapper that can't serve its step goes to repair, which folds it; only a miss authors (#678). [#778](https://github.com/galaxyproject/foundry/pull/778).
 - [`issue-674-single-workflow-posture`](active/issue-674-single-workflow-posture/index.md) — Say a tool choice doesn't need a second workflow (part of #674). [#759](https://github.com/galaxyproject/foundry/pull/759).
 - [`issue-568-review-agent-benchmark-paper`](active/issue-568-review-agent-benchmark-paper/index.md) — Comparisons page: contrast with one detailed prompt, from the Munn and Grenier study (#568). [#750](https://github.com/galaxyproject/foundry/pull/750).
 
@@ -42,7 +41,6 @@ None yet.
 
 ## Foundry branches — implemented, work left, green (`branches_implemented`)
 
-- [`issue-723-authoring-gate`](active/issue-723-authoring-gate/index.md) — PR into #773's branch: keeps the authoring gate, reverts `unsuitable`, concrete rnaseq scenarios (#723). [Open PR](https://github.com/AnastasiaSee/foundry/compare/fix/723-authoring-gate...jmchilton:foundry:issue-723-authoring-gate).
 - [`fix/advance-draft-needs-tool`](active/fix-advance-draft-needs-tool/index.md) — Draft loop records a step that needs a tool instead of improvising one; close-enough rule. Stacked on #686. [Open PR](https://github.com/galaxyproject/foundry/compare/feat/test-pipeline-draft-loop...fix/advance-draft-needs-tool).
 - [`docs/issue-labels`](active/docs-issue-labels/index.md) — Documents GitHub issue labels and triage rules (`content/meta/issue-labels.md`). [Open PR](https://github.com/galaxyproject/foundry/compare/main...docs/issue-labels).
 - [`issue-534-concrete-nextflow-scenarios`](active/issue-534-concrete-nextflow-scenarios/index.md) — Replaces abstract summarize-nextflow scenarios with concrete pinned fixtures (#534). [Open PR](https://github.com/galaxyproject/foundry/compare/main...issue-534-concrete-nextflow-scenarios).

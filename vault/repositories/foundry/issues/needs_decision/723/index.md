@@ -55,7 +55,9 @@ No upstream issue drafts: the work is all Foundry-owned. RSEM missing from usega
 
 ## Next
 
-After labels: research comment mapping the six requirements and acceptance cases to files, with a proposed split and an order relative to #678 and #655.
+2026-11-11: [#773](https://github.com/galaxyproject/foundry/pull/773) merged the gate (author only on `miss` or a rejected `weak`), on top of [#778](https://github.com/galaxyproject/foundry/pull/778)'s routing. Decide: close #723 as done, or keep it open for requirements 1, 5 and 6.
+
+Before #773 and #778, after labels: research comment mapping the six requirements and acceptance cases to files, with a proposed split and an order relative to #678 and #655.
 
 Questions for John:
 

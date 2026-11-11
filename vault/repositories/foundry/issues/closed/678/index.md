@@ -12,7 +12,7 @@ related_records:
 
 ## Derived status
 
-`wip`, rule 2: AnastasiaSee's draft PR [#773](https://github.com/galaxyproject/foundry/pull/773) (opened 2026-11-10) says it closes this. John chose the research comment's ledger route on 2026-11-10, and branch `issue-678-capability-gap-route` implements it, draft PR [#778](https://github.com/galaxyproject/foundry/pull/778). #773 keeps the authoring gate. The comment asking it to drop `unsuitable` is drafted in the branch record, not posted.
+`closed`, 2026-11-11: closed when [#773](https://github.com/galaxyproject/foundry/pull/773) merged, by the "Closes #678" in its reverted commit `043f6d73`. The ledger route landed in [#778](https://github.com/galaxyproject/foundry/pull/778) (merged 2026-11-10 at `4e4df029`, without its round-0 review fixes) and the authoring gate in #773. Still open from the issue: what to do with a step repair can't close (re-pick after the escalation cap).
 
 ## #773, checked 2026-11-10 against `origin/main` `94ce4ea2`
 
