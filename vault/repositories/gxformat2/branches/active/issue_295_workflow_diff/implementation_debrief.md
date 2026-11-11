@@ -33,7 +33,7 @@ Head `2ae336e`, base `origin/main` `83b59e7`. Three commits: the harness gets `f
   - Native `.ga` input is rejected: `normalized_format2` raises `ValueError`.
   - `$graph` documents are rejected with `ValueError`.
   - A non-mapping input raises `TypeError`.
-Current as of `cbe75dc` (after the normal and Codex reviews).
+Current as of `e5439cf`. The contract hasn't changed since `cbe75dc` (after the normal and Codex reviews); the thermo-nuclear refactor kept output byte-identical.
 
 - **Step identity:** the step key from `draft.iterate_steps`. That is the dict key, or for list form the label, else the id, else the index id (index plus the number of inputs).
   - This is the key that source refs use. It is also what `detect_draft` paths use, and what the Foundry ledger's `step:` field names (for example `classify_context`).
