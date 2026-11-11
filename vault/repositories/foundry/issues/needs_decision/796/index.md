@@ -13,7 +13,7 @@ related_records:
 
 Staged in [issue_tags.md](issue_tags.md).
 
-- `roadmap/off`: no backbone fits. Closest is #318 (more deterministic draft coordination), but this is the test phase, not the draft. See the umbrella question in #784.
+- `roadmap/off`: John's call, 2026-11-11 (closest backbone was #318).
 - `priority/mvp`: the run ends green while its workflow lost 12 of 16 tool steps, so its results are wrong.
 - `work/ready-research`: this partly revisits the #480 decision (see below), and the restoration pass is a harness design question. Parts 1–2 are implementable on their own.
 
@@ -37,6 +37,8 @@ Not verified: the run evidence in iwc-lab#8 (attempt logs, the misread `validati
 ## History: #480 vs #479
 
 On 2026-08-30 John closed #480 (a `coverage` header with `carried + subsumed + surrendered == source_units`) in favour of #479 (`kind: dropped` labels): "I think 479 was the better approach." The issue says #796 differs because it diffs the workflow artifacts and doesn't count ledger entries, so it catches cuts nobody recorded. That fits #479: each removed step must have a labelled entry, and nothing gets totalled. Part 3 (re-add the removed steps and re-test) goes further than either.
+
+John, 2026-11-11: OK with diff-and-label (no totals). No umbrella; keep it `roadmap/off`. He leans strongly against a new pipeline step.
 
 ## Next
 

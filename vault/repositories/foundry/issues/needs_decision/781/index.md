@@ -12,7 +12,7 @@ related_records:
 
 Staged in [issue_tags.md](issue_tags.md). Keep `BioHackEU26`.
 
-- `roadmap/off`: no backbone fits. See the umbrella question in #784.
+- `roadmap/off`: John's call, 2026-11-11.
 - `priority/v2`: the reference run found no flag mismatch. #647's unstranded featureCounts is a near miss, not an observed failure. Raise to mvp if you count silent flag loss as a correctness issue.
 - `work/ready-implement`: #777 has landed, the report's shape is specified, and it doesn't depend on the other three.
 
@@ -34,5 +34,5 @@ This is the parameter slice of #784's section 3. Use the same dispositions the o
 
 ## Next
 
-- Once labels are applied: implement. First decide the host: `validate-galaxy-workflow` (deterministic listing) or a pass in the nextflow-to-galaxy pipeline after the test. The process→step mapping comes from the `_plan_*` provenance or the data-flow brief.
+- Once labels are applied: implement. First decide where the check lives. John leans strongly against a new step (2026-11-11), so the options are `validate-galaxy-workflow`, the template's `_plan_*` plus advance, or `run-workflow-test`. The process→step mapping comes from the `_plan_*` provenance or the data-flow brief.
 - Related: #791 (`ext.when` in `withName:` selectors is not captured), which could add a gate column to the same table.

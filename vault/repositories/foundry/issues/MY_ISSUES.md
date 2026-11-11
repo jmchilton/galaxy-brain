@@ -13,9 +13,9 @@ Review `issue_tags.md` in the record, then use 👀 Diff / 🔖 Apply staged lab
 - (mvp) [#580](https://github.com/galaxyproject/foundry/issues/580) — frame comments without position/size rejected by real Galaxy import; decide: apply staged labels, then require geometry in 4 template Molds + evals. [notes](needs_decision/580/index.md)
 - (mvp) [#673](https://github.com/galaxyproject/foundry/issues/673) — Runtime Note reads as a blanket source-read ban; phases disagree on reading pinned source; decide: apply staged labels, then generator line + per-Mold fixes. [notes](needs_decision/673/index.md)
 - (mvp) [#798](https://github.com/galaxyproject/foundry/issues/798) — multi-path pipelines (sarek) narrow scope silently; no Mold owns the scope decision; decide: apply staged labels, then joint research with #784/#796. [notes](needs_decision/798/index.md)
-- [#784](https://github.com/galaxyproject/foundry/issues/784) — end-of-run Nextflow-vs-Galaxy divergence report; overlaps #796 diff; decide: apply staged labels (parent #332 or umbrella?), then joint research. [notes](needs_decision/784/index.md)
-- (mvp) [#796](https://github.com/galaxyproject/foundry/issues/796) — test phase removes steps to go green, unchecked and unrestored; decide: apply staged labels; diff gate revisits #480? [notes](needs_decision/796/index.md)
-- [#781](https://github.com/galaxyproject/foundry/issues/781) — nothing checks Galaxy step state against captured nf-core `ext.args`; decide: apply staged labels, then implement (host Mold?). [notes](needs_decision/781/index.md)
+- [#784](https://github.com/galaxyproject/foundry/issues/784) — end-of-run Nextflow-vs-Galaxy divergence report; overlaps #796 diff; decide: apply staged labels, then joint research. [notes](needs_decision/784/index.md)
+- (mvp) [#796](https://github.com/galaxyproject/foundry/issues/796) — test phase removes steps to go green, unchecked and unrestored; decide: apply staged labels, then joint research (diff-and-label OK'd). [notes](needs_decision/796/index.md)
+- [#781](https://github.com/galaxyproject/foundry/issues/781) — nothing checks Galaxy step state against captured nf-core `ext.args`; decide: apply staged labels, pick host (no new step), then implement. [notes](needs_decision/781/index.md)
 - (mvp) [#786](https://github.com/galaxyproject/foundry/issues/786) — UDT authoring prefers source Docker Hub images; Galaxy #24635 default refuses non-biocontainers; decide: apply staged labels (parent #501), probe placement. [notes](needs_decision/786/index.md)
 
 ## Waiting on John (`needs_decision`)

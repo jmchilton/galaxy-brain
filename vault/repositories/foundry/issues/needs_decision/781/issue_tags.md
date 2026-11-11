@@ -1,4 +1,4 @@
-Staged from index.md "Proposed labels". Roadmap placement is open (umbrella question in #784).
+Staged from index.md "Proposed labels". `roadmap/off` confirmed by John 2026-11-11.
 
 - `roadmap/off` — no backbone fits
 - `priority/v2` — no observed flag mismatch yet; #647 a near miss

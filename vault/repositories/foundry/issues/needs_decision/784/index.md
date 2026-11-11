@@ -13,7 +13,7 @@ related_records:
 
 Staged in [issue_tags.md](issue_tags.md). Keep `BioHackEU26`.
 
-- `roadmap/substep`, parent #332 (finalize-workflow step), tentative: the report is something produced at the end of the run.
+- `roadmap/off`: John, 2026-11-11, keeps all four issues off the roadmap (#332 had been proposed as parent).
 - `priority/v2`: it presents differences; it does not fix them. The correctness half is #796. Raise it to mvp if you want it for the paper.
 - `work/ready-research`: arash's comment changes the design, and the diff overlaps #796.
 
@@ -43,4 +43,4 @@ Not verified: tool-version parity (section 2). I didn't check whether the summar
 
 - Once labels are applied: one research pass shared with #798. It defines the source units and their dispositions, says where the inventory lives (a ledger collection, or a file of its own), and splits the work between the #796 check and this report.
 - Build order: #781 now; joint research on #796, #798 and #784; then #796's diff and #798's scope decisions in parallel; this report last. Its inputs are the #796 diff, the #798 decisions and the #781 report.
-- Umbrella question for John: a new `roadmap/main` ("every source-vs-Galaxy difference is visible and cited") over all four, instead of `off` and #332?
+- John, 2026-11-11: no umbrella; all four stay `roadmap/off`. He leans strongly against adding new pipeline steps, which affects where this report and #796's gate go.
