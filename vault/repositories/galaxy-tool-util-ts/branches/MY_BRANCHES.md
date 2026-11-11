@@ -27,6 +27,7 @@ None yet.
 ## Branches — implemented (`branches_implemented`)
 
 - [`pr_224_kind_checks`](active/pr_224_kind_checks/index.md) — #224 plus our #210 work: map-over warnings, datatypes snapshot, per-output resolution. PR targets #224's branch. [Open PR](https://github.com/denzasikora-lab/galaxy-tool-util-ts/compare/fix/validate-workflow-test-metadata...jmchilton:galaxy-tool-util-ts:pr_224_kind_checks).
+- [`issue_232_workflow_diff`](active/issue_232_workflow_diff/index.md) — `diffWorkflows` + `gxwf diff BEFORE AFTER`: structural Format2/draft diff (gxformat2#295 port, #232). [Open PR](https://github.com/jmchilton/galaxy-tool-util-ts/compare/main...issue_232_workflow_diff).
 
 ## Branches — needs polish (`branches_need_polish`)
 

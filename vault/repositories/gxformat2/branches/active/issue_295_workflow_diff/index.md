@@ -1,7 +1,10 @@
 ---
 upstream_base_branch: main
 pr: 296
-related_records: foundry/issues/796
+blocking: galaxy-tool-util-ts/branches/issue_232_workflow_diff
+related_records:
+  - foundry/issues/796
+  - galaxy-tool-util-ts/branches/issue_232_workflow_diff
 ---
 
 # Structural diff of two Format2 workflows: `diff_workflows` / `gxwf-diff` (#295)

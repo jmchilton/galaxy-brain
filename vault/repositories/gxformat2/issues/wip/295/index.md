@@ -1,5 +1,7 @@
 ---
-related_records: foundry/issues/796
+related_records:
+  - foundry/issues/796
+  - galaxy-tool-util-ts/issues/232
 ---
 
 # gxformat2#295 — structural diff of two Format2 workflows (`gxwf-diff`)
