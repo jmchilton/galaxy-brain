@@ -8,9 +8,9 @@ related_records:
 
 [Issue](https://github.com/galaxyproject/foundry/issues/798). Labels: `needs-triage`. No PR or branch. Triaged 2026-11-11 against `origin/main` `8cbb5f22`, together with #784 ([record](../784/index.md)).
 
-## Proposed labels
+## Labels
 
-Staged in [issue_tags.md](issue_tags.md).
+Applied 2026-11-11.
 
 - `roadmap/off`: no backbone fits. Closest is #500 (interviews), and only for proposal 2.
 - `priority/mvp`: a silent scope cut fails the pipeline's own eval (`content/pipelines/nextflow-to-galaxy/eval.md`, "none is silently dropped").
@@ -18,7 +18,7 @@ Staged in [issue_tags.md](issue_tags.md).
 
 ## Derived status
 
-`needs_decision` (`needs_decision_labels`), rule 3.
+`queued` (`queued_research`), rule 7.
 
 ## Findings
 
@@ -43,8 +43,10 @@ All four concern one thing: an inventory of source units, each given a dispositi
 - #796 enforces the same inventory in the test phase.
 - #781 is the parameter (`ext.args`) slice.
 
-Recommendation: keep the issues separate, but settle the model once, in one research pass that comments on #798 and #784 (and #796/#781 once triaged). Then implement them in parallel.
+Decided (John, 2026-11-11): keep the issues separate, all `roadmap/off`, hybrid placement. The scope decisions recorded here become rows in #784's Nextflow parity Mold, which only reports.
 
 ## Next
 
-- Once labels are applied: research comment. Questions it should answer: which Mold owns the scope decision (interface, probably); which source units count (subworkflows? the enum values of a branch control?); whether summarize should emit a `branch_controls[]` list; and whether interactive selection should route to the brief journey or to #500.
+- Research comment. Questions it should answer: which Mold owns the scope decision (interface, probably); which source units count (subworkflows? the enum values of a branch control?); whether summarize should emit a `branch_controls[]` list; and whether interactive selection should route to the brief journey or to #500.
+
+Staged labels applied 2026-11-11: +roadmap/off, +priority/mvp, +work/ready-research.

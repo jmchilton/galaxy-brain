@@ -3,23 +3,24 @@ related_records:
   - foundry/issues/784
   - foundry/issues/798
   - foundry/issues/781
+  - foundry/issues/800
 ---
 
 # #796 Test phase: steps removed to make planemo test pass are never checked against the extracted workflow or restored
 
 [Issue](https://github.com/galaxyproject/foundry/issues/796), opened by arash77's AI assistant (BioHackathon Europe 2026). Labels: `needs-triage`. No comments, PR or branch. Triaged 2026-11-11 against `origin/main` `3060503e`, together with #798, #784 and #781.
 
-## Proposed labels
+## Labels
 
-Staged in [issue_tags.md](issue_tags.md).
+Applied 2026-11-11.
 
 - `roadmap/off`: John's call, 2026-11-11 (closest backbone was #318).
 - `priority/mvp`: the run ends green while its workflow lost 12 of 16 tool steps, so its results are wrong.
-- `work/ready-research`: this partly revisits the #480 decision (see below), and the restoration pass is a harness design question. Parts 1–2 are implementable on their own.
+- `work/ready-implement`: placement is decided (see below), parts 1–2 are specified, and part 3 has been split out to #800.
 
 ## Derived status
 
-`needs_decision` (`needs_decision_labels`), rule 3.
+`queued` (`queued_implement`), rule 6.
 
 ## Findings
 
@@ -38,9 +39,17 @@ Not verified: the run evidence in iwc-lab#8 (attempt logs, the misread `validati
 
 On 2026-08-30 John closed #480 (a `coverage` header with `carried + subsumed + surrendered == source_units`) in favour of #479 (`kind: dropped` labels): "I think 479 was the better approach." The issue says #796 differs because it diffs the workflow artifacts and doesn't count ledger entries, so it catches cuts nobody recorded. That fits #479: each removed step must have a labelled entry, and nothing gets totalled. Part 3 (re-add the removed steps and re-test) goes further than either.
 
-John, 2026-11-11: OK with diff-and-label (no totals). No umbrella; keep it `roadmap/off`. He leans strongly against a new pipeline step.
+John, 2026-11-11: OK with diff-and-label (no totals). No umbrella; keep it `roadmap/off`.
+
+## Decided placement (John, 2026-11-11: hybrid, report only)
+
+- **Generic layer (this issue):** a `gxwf` command that diffs a snapshot of the draft (with `_plan_*` intact, so the step mapping survives) against the final workflow. `run-workflow-test`'s green result fails when a removed step has no `kind: dropped` entry naming its `step`. This covers all 10 pipelines that run `run-workflow-test`, with no new step. Also bundle `open-requirements-ledger.md` into the `run-workflow-test` and `debug-galaxy-workflow-output` casts, and add the `validation_failed` hint to debug.
+- **Nextflow layer (#784):** a new Nextflow parity Mold after the test consumes this diff. It only reports; no routing back into the test loop.
+- **Part 3 (restoration):** split out to [#800](https://github.com/galaxyproject/foundry/issues/800) ([record](../800/index.md)), `priority/v2`. The [comment on #796](https://github.com/galaxyproject/foundry/issues/796#issuecomment-6802790401) (2026-11-11) tells agents to implement only parts 1 and 2.
 
 ## Next
 
-- Research pass shared with #798, #784 and #781. Questions: snapshot the `draft-extract` output (where, and under what name); a `gxwf` diff command or a script; whether `step` becomes required on test-phase drops; whether the restoration pass is a harness loop or a Mold; how the diff's output feeds #784.
+- Implement the generic layer: the `gxwf` diff in galaxy-tool-util-ts, then the Foundry check and the cast bundling.
 - Related, not triaged: #791 (`ext.when` gates not captured), jmchilton/galaxy-tool-util-ts#231 (stale `when:` passes validation).
+
+Staged labels applied 2026-11-11: +roadmap/off, +priority/mvp, +work/ready-implement.
