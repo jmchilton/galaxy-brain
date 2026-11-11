@@ -14,7 +14,7 @@ Review `issue_tags.md` in the record, then use 👀 Diff / 🔖 Apply staged lab
 - (mvp) [#673](https://github.com/galaxyproject/foundry/issues/673) — Runtime Note reads as a blanket source-read ban; phases disagree on reading pinned source; decide: apply staged labels, then generator line + per-Mold fixes. [notes](needs_decision/673/index.md)
 - (mvp) [#798](https://github.com/galaxyproject/foundry/issues/798) — multi-path pipelines (sarek) narrow scope silently; no Mold owns the scope decision; decide: apply staged labels, then research scope-decision owner. [notes](needs_decision/798/index.md)
 - (mvp) [#784](https://github.com/galaxyproject/foundry/issues/784) — end-of-run Nextflow-vs-Galaxy divergence report; new report-only parity Mold; decide: apply staged labels, then research. [notes](needs_decision/784/index.md)
-- (mvp) [#796](https://github.com/galaxyproject/foundry/issues/796) — test phase removes steps to go green, unchecked and unrestored; decide: file part 3 split, apply staged labels. [notes](needs_decision/796/index.md)
+- (mvp) [#796](https://github.com/galaxyproject/foundry/issues/796) — test phase removes steps to go green, unchecked and unrestored; part 3 split to #800; decide: apply staged labels. [notes](needs_decision/796/index.md)
 - (mvp) [#781](https://github.com/galaxyproject/foundry/issues/781) — nothing checks Galaxy step state against captured nf-core `ext.args`; decide: apply staged labels, then implement `_plan_state` copy. [notes](needs_decision/781/index.md)
 - (mvp) [#786](https://github.com/galaxyproject/foundry/issues/786) — UDT authoring prefers source Docker Hub images; Galaxy #24635 default refuses non-biocontainers; decide: apply staged labels (parent #501), probe placement. [notes](needs_decision/786/index.md)
 
@@ -93,6 +93,7 @@ None yet.
 
 ## Queued to research (`queued_research`)
 
+- [#800](https://github.com/galaxyproject/foundry/issues/800) — test phase never restores steps removed on a later-disproved reason (split from #796); next: research after #796/#784 land. [notes](queued/800/index.md)
 - [#48](https://github.com/galaxyproject/foundry/issues/48) — Write target test plan schema; next: research and add a first comment. [notes](queued/48/index.md)
 - [#49](https://github.com/galaxyproject/foundry/issues/49) — Write workflow test run report schema; next: research and add a first comment. [notes](queued/49/index.md)
 - [#50](https://github.com/galaxyproject/foundry/issues/50) — Write workflow debug recommendation schema; next: research and add a first comment. [notes](queued/50/index.md)
