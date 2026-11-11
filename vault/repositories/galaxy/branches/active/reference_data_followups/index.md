@@ -10,11 +10,11 @@ related_records:
 
 ## Status
 
-Implementing: porting the still-applicable round 0 findings from the [#24798 review](../../../reviews/active/24798/index.md) (`pr_24798_round_0_rev_0`) onto merged `dev`.
+Hardened READY (re-scoped once), head `05f155c5e78`; alt `reference_data_followups_alt_original_scope` keeps the pre-rescope scope.
 
 No PR yet.
 
-No CI yet.
+No CI yet; local unit and API tests pass.
 
 ## Standing instructions
 
