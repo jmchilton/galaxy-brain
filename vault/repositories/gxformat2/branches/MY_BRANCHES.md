@@ -17,6 +17,7 @@ None yet.
 ## Draft gxformat2 PRs — waiting for CI (`ci_wait`)
 
 - [`issue_292_frame_labels`](active/issue_292_frame_labels/index.md) — Lint and conversion reject unknown frame `contains_steps`/`contains_comments` labels; empty-frame warning (#292). Draft until John reviews. [#293](https://github.com/galaxyproject/gxformat2/pull/293).
+- [`issue_295_workflow_diff`](active/issue_295_workflow_diff/index.md) — `diff_workflows` / `gxwf-diff`: structural diff of two Format2 workflows, draft or final (#295). [#296](https://github.com/galaxyproject/gxformat2/pull/296).
 
 ## Draft gxformat2 PRs — needs author work (`author_work`)
 
@@ -32,7 +33,7 @@ None yet.
 
 ## gxformat2 branches — needs polish (`branches_need_polish`)
 
-- [`issue_295_workflow_diff`](active/issue_295_workflow_diff/index.md) — `diff_workflows` / `gxwf-diff`: structural diff of two Format2 workflows, draft or final (#295). [Open PR](https://github.com/galaxyproject/gxformat2/compare/main...jmchilton:gxformat2:issue_295_workflow_diff?expand=1).
+None yet.
 
 ## gxformat2 branches — ready for final review (`branches_ready_for_final_review`)
 

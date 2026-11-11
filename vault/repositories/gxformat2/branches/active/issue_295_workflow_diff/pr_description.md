@@ -25,6 +25,10 @@ AFTER inputs feeding no step: chr
 
 ***Unwired inputs flag removals without a pre-test snapshot.*** They are read from AFTER alone. On bamtofastq's shipped final workflow (run folder in galaxyproject/iwc-lab#8), `gxwf-diff` lists `no_read_QC, no_stats, samtools_collate_fast, reads_in_memory, multiqc_config` as AFTER inputs that feed no step. Four of them are toggles for steps the run removed: pre-conversion FastQC, samtools stats/flagstat/idxstats, and collate. That run kept no pre-test snapshot (its draft file already has the final 4 steps), so the removed steps themselves can't be shown from it.
 
+***On a real snapshot pair, it reports the parameter changes the run's change-set recorded, and nothing else.*** The same run did keep a snapshot before its revision phase. Diffing `galaxy-workflow.before-revision.gxwf.yml` against the final workflow gives six state leaves on `post_fastqc`, `multiqc` and `fastx_single`. Those are the change-set's parameter rows 1-4, 8 and 9 (`revision/galaxy-workflow-changeset.md`; rows 5-7 and 10 leave keys absent, rows 11-12 remove frames, which aren't compared), and the diff shows no step, edge or output change, which matches the change-set's "step set, wiring, tool versions, outputs: unchanged". That is agreement on a revision, not a caught removal. No pre-test snapshot exists yet to show one.
+
+***State is compared as written, with no tool metadata.*** An absent parameter and one set to `null`, `""` or `[]` differ, because Galaxy substitutes the tool default for the absent one. The six leaves above are that kind of change: the revision spelled out, on purpose, parameters the workflow had left implicit. The diff can't tell a filled-in default from a new value.
+
 ***This is the library half; Foundry still has to take the snapshot and call it.*** galaxyproject/foundry#796 and galaxyproject/foundry#784 will build on it; nothing in Foundry calls it yet.
 
 ***`_plan_*` fields never count as changes.*** They are shown on added, removed and changed steps so a step can be traced back to its source. A draft whose only edits are plan text has no changes.
@@ -39,8 +43,9 @@ AFTER inputs feeding no step: chr
 - **Inputs:** `type`, `collection_type`, `optional`, `format`, `default`, `min`, `max`, `restrictions`, `suggestions`, `restrictOnConnections`, `validators`, `fields`, `column_definitions`. A missing `optional` or `restrictOnConnections` equals `false`, and a string `format` equals a one-item list.
 - **Outputs:** `outputSource`.
 - **Not compared:** workflow metadata (label, doc, tags, creator, license, comments, report), step `doc`, position and `tool_shed_repository`, bare `out` declarations with no actions, input `label`/`doc`/`position`, and subworkflow contents. A repeat in state shows as a change to the whole list.
-- Explicit `false` or empty output actions equal absent ones, so `hide: false` against no `hide` is not a change.
+- Explicit `false` or empty output actions equal absent ones, so `hide: false` against no `hide` is not a change. State is the exception: an absent leaf against `null`, `""` or `[]` is `kind: added`.
 - Sources resolve with the existing `resolve_source_reference` (longest label first) over step keys, ids, labels and input ids. `<input>/output` collapses to `<input>`, because the converter treats them as one connection.
+- A dict-form step is matched by its key, not its inner `id`, so changing the inner `id` is not a change.
 - Unlabeled list-form steps are matched by position, with a warning naming them.
 
 </details>
@@ -48,7 +53,7 @@ AFTER inputs feeding no step: chr
 <details><summary>What else changed</summary>
 
 - `gxformat2.testing.TestCase` gains an optional `fixture_after`. When it is set, the operation gets `(load(fixture), load(fixture_after))`. Existing cases are unaffected.
-- `gxformat2/examples/expectations/diff.yml` adds 16 declarative cases over 13 new `format2/diff/` fixtures, all in the catalog. `tests/test_diff.py` covers the CLI: text output, `--json` matching the model dump, `--exit-code`, and native input being rejected.
+- `gxformat2/examples/expectations/diff.yml` adds 20 declarative cases over 18 new `format2/diff/` fixtures, all in the catalog. They include a step whose only change is an `in` default, and one whose only change is an output action. `tests/test_diff.py` covers the CLI: text output, `--json` matching the model dump, `--exit-code`, and native input being rejected.
 - `draft._iterate_steps` and `draft._present_plan_fields` become public (`iterate_steps`, `present_plan_fields`) so the diff can reuse draft step iteration.
 - `docs/cli_diff.rst` documents the script, and `gxformat2.diff` is in the API docs.
 
@@ -63,7 +68,7 @@ Mostly a two-way door: the module, script and harness field are additive and tou
 - `WorkflowDiff`'s field names, edge-string format (`"<step>/<port> -> <step>/<port>"`) and ordering become a shared contract once the TypeScript port syncs `diff.yml`. Changing them later means changing both.
 - `gxwf-diff` is a new public console script name, and `iterate_steps`/`present_plan_fields` are new public `draft` names.
 - Edge strings are ambiguous for step keys that contain `/`. They're meant to be compared, not parsed.
-- Things left out (bare `out` declarations, `tool_shed_repository`, subworkflow contents, repeat items) show no difference when they change. A consumer that relies on `has_changes` alone won't see them.
+- Things left out (bare `out` declarations, `tool_shed_repository`, comments, subworkflow contents, repeat items) show no difference when they change. A consumer that relies on `has_changes` alone won't see them. In the bamtofastq revision, change-set rows 11-12 removed two frame comments, and the diff doesn't show them.
 
 </details>
 

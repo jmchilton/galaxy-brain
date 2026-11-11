@@ -1,5 +1,6 @@
 ---
 upstream_base_branch: main
+pr: 296
 related_records: foundry/issues/796
 ---
 
@@ -7,15 +8,15 @@ related_records: foundry/issues/796
 
 - [Open PR](https://github.com/galaxyproject/gxformat2/compare/main...jmchilton:gxformat2:issue_295_workflow_diff?expand=1)
 - [View on GitHub](https://github.com/jmchilton/gxformat2/tree/issue_295_workflow_diff)
-- [PR description](pr_description.md) · [titles](pr_titles.md) · [tags](pr_tags.md)
+- [PR description](pr_description.md) · [titles](pr_titles.md) · [tags](pr_tags.md) · [polish debrief](polish_debrief.md)
 
 ## Status
 
-Polishing at `e5439cf` on the `jmchilton` fork (base `origin/main` `83b59e7`), after normal, Codex and thermo-nuclear reviews; strengthening round pending.
+Polished at `4440404` on the `jmchilton` fork (base `origin/main` `83b59e7`), after normal, Codex and thermo-nuclear reviews and the [strengthening round](subagents/strengthen.md).
 
-No PR yet.
+Draft PR [#296](https://github.com/galaxyproject/gxformat2/pull/296), opened 2026-11-11 at John's request (stacked parity work; TS port PR to follow).
 
-Fork CI at `e5439cf`: Java, TypeScript and docs green; Python CI red only on the 3.13 job (pytest collects the cloned IWC's `scripts/tests`, needing `planemo`, plus a `schema_rules.yml` FileNotFoundError), likely from IWC `1b00b8bc` landing after main's last green but unconfirmed; 3.11/3.12 passed on `cbe75dc`, others cancelled.
+Fork CI at `4440404`: Java, TypeScript, docs and Python 3.10/3.11/3.12/3.14 green; 3.13 red is unrelated, from IWC merge #1541 adding a `scripts/tests` that pytest collects from the `iwc/` clone ([verdict](subagents/strengthen.md#ci-verdict)); 3.15 cancelled by it.
 
 ## Notes
 

@@ -33,12 +33,13 @@ Head `2ae336e`, base `origin/main` `83b59e7`. Three commits: the harness gets `f
   - Native `.ga` input is rejected: `normalized_format2` raises `ValueError`.
   - `$graph` documents are rejected with `ValueError`.
   - A non-mapping input raises `TypeError`.
-Current as of `e5439cf`. The contract hasn't changed since `cbe75dc` (after the normal and Codex reviews); the thermo-nuclear refactor kept output byte-identical.
+Current as of the strengthening head (see `subagents/strengthen.md`). The JSON contract hasn't changed since `cbe75dc` (after the normal and Codex reviews); the thermo-nuclear refactor kept output byte-identical, and the strengthening round (`1c698f2`, `e4d1b9a`) only pinned existing behavior and changed how text renders `null` and `""` state leaves.
 
 - **Step identity:** the step key from `draft.iterate_steps`. That is the dict key, or for list form the label, else the id, else the index id (index plus the number of inputs).
   - This is the key that source refs use. It is also what `detect_draft` paths use, and what the Foundry ledger's `step:` field names (for example `classify_context`).
   - Prose labels can differ from keys (draft fixtures have `fastp` with the label "trim and QC paired reads"), so matching on labels would turn a relabel into one removed step plus one added step.
   - A label change on a matched step is reported as `fields.label`.
+  - A dict-form step's inner `id` is never its identity. Changing it while consumers keep sourcing the key is not a change (`test_diff_dict_step_inner_id_is_not_its_identity`). Sourcing through the inner id isn't valid Format2: the converter fails on `cat_b/out_file1`.
 - **Unlabeled fallback:** list-form steps with no `label` and no `id` are matched by position (index id). Each side that has any gets a warning: `"BEFORE has unlabeled steps matched by position: 1, 2"`.
 - **Source resolution:**
   - An exact workflow-input id resolves to that input, with no port.
@@ -65,6 +66,7 @@ Current as of `e5439cf`. The contract hasn't changed since `cbe75dc` (after the 
   - Lists, empty dicts and dicts with a `__class__` marker are leaves.
   - Values are compared as `json.dumps(sort_keys=True)`.
   - Each changed leaf is reported as `{kind: added|removed|changed, before, after}`. `before`/`after` are `null` on the side where the leaf is missing.
+  - An absent leaf differs from one set to `null`, `""` or `[]`: that is `kind: added` (or `removed`). This is the opposite of input flags and `out_actions`, on purpose. Galaxy treats an absent parameter as "substitute the tool default" and an explicit one as set, and Foundry revisions make that change deliberately (the bamtofastq revision change-set rows 1-4, 8 and 9 do exactly this). Pinned by `test_diff_unset_state_leaves_differ_from_absent`; don't "fix" it in the port.
 - **`_plan_*`:** read from the raw step, never compared.
   - Added and removed steps show them as `plan_fields`.
   - Changed steps show `plan_fields_before` and `plan_fields_after`.
@@ -78,7 +80,7 @@ Current as of `e5439cf`. The contract hasn't changed since `cbe75dc` (after the 
   - `StepSummary` (added or removed steps): `label`, `type`, `tool_id`, `tool_version`, `plan_fields`, `upstream`, `downstream`, `workflow_outputs`, `connections`. It has no `state`, `run`, `in_defaults` or `out_actions`.
   - The header comment in `diff.yml` holds the same shape.
 - **Membership:**
-  - A matched step appears under changed only if a field, a state leaf, an `in_defaults` or `out_actions` entry, or a port-level edge differs.
+  - A matched step appears under changed only if a field, a state leaf, an `in_defaults` or `out_actions` entry, or a port-level edge differs. `in_defaults` alone and `out_actions` alone each suffice (`test_diff_step_input_default_alone_is_a_change`, `test_diff_output_action_alone_is_a_change`).
   - Gaining a new consumer counts, as a `connections_out` change.
 - **`has_changes`** is a computed field. It is true when any added, removed or changed entry exists. `unwired_inputs` and `warnings` don't count.
 - **`unwired_inputs`:** AFTER input ids, in order, that are not the source of any step `in` edge. An input used only as a workflow output still counts as unwired.
@@ -88,10 +90,11 @@ Current as of `e5439cf`. The contract hasn't changed since `cbe75dc` (after the 
   - input `label`, `doc` and `position`
   - subworkflow contents, since only the top level is compared
 - **CLI:** exit status 0 by default. `--exit-code` gives 1 on differences, like `git diff`. JSON is `model_dump_json(indent=2)`.
+- **Text:** not part of the contract, but state lines print a present `null` leaf as `null` and `""` as `""` (other lines print a missing value as `(none)`).
 
 ## Checks
 
-- `pytest tests/`: 982 passed, 8 skipped.
+- `pytest tests/`: 982 passed, 8 skipped (991 after the strengthening round; IWC subset 910).
 - Lint and type checks green: ruff, flake8, black, `mypy gxformat2 tests`, pyrefly, `flake8-docstrings`.
 - `make lint-docs` exits 0. The new pages add no Sphinx warnings.
 - Red first: before the operation existed, the first nine `diff.yml` cases failed. The three added later pin existing behavior.
@@ -104,5 +107,4 @@ Current as of `e5439cf`. The contract hasn't changed since `cbe75dc` (after the 
 - `$graph` documents.
 - Comparing `tool_shed_repository`, bare `out` declarations with no actions, and doc.
 - Recursing into repeat lists in state. A repeat change currently shows the whole list.
-- A dict-form step with an explicit inner `id:` that differs from its dict key: matching uses the dict key, but edges resolve through the alias map. This is untested.
 - No HISTORY entry. Those are added at release time.
