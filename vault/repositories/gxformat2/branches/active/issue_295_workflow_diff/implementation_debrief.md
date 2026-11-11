@@ -58,7 +58,7 @@ Current as of the strengthening head (see `subagents/strengthen.md`). The JSON c
   - Outputs: `outputSource` only.
   - Field values are compared as `json.dumps(sort_keys=True)`.
 - **Step input defaults (`in_defaults`):** `{port: {before, after}}` over the `default` of every step `in` entry, sourced or not. The side with no default is `null`.
-- **Step output actions (`out_actions`):** `{port: {before, after}}`. Each side is the declared `out` entry dumped by alias, without `id` and keeping only truthy values (so `null`, `false`, `""`, `[]` and `{}` mean no action, the same as absent): `rename`, `hide`, `change_datatype`, `add_tags`, `remove_tags`, `delete_intermediate_datasets`, `set_columns`. Ports with no actions are skipped, so a bare `out: [a]` → `[b]` is not a change. The side without actions is `null`.
+- **Step output actions (`out_actions`):** `{port: {before, after}}`. Each side is the declared `out` entry dumped by alias, without `id` and keeping only truthy values (so `null`, `false`, `""`, `[]` and `{}` mean no action, the same as absent): `rename`, `hide`, `change_datatype`, `add_tags`, `remove_tags`, `delete_intermediate_datasets`, `set_columns`. Only these declared fields count; undeclared keys on an `out` entry (e.g. `_plan_note`) are ignored (`test_diff_undeclared_out_key_is_not_an_action`). Ports with no actions are skipped, so a bare `out: [a]` → `[b]` is not a change. The side without actions is `null`.
 - `in_defaults` and `out_actions` share one per-port rule: BEFORE ports first, then ports only in AFTER, keeping only ports whose values differ.
 - **State:**
   - The compared state is `state`, falling back to `tool_state`.
@@ -74,7 +74,7 @@ Current as of the strengthening head (see `subagents/strengthen.md`). The JSON c
 - **Ordering:**
   - Added and removed inputs and outputs follow workflow order.
   - `steps.removed` follows BEFORE order; `steps.added` and `steps.changed` follow AFTER order.
-  - JS iterates integer-like object keys numerically, so index-id keys (`"1"`, `"2"`) for unlabeled list-form steps lose this order in TS. No assertion depends on dict order.
+  - JS objects put integer-like keys first, in numeric order, ahead of all string keys. So in TS, index-id keys (`"1"`, `"2"`) for unlabeled list-form steps move ahead of labeled step keys (mixed list form: Python `a, 2, c`, TS `2, a, c`), not only out of order among themselves. Only mixed labeled/unlabeled list-form steps are affected, and those already warn. No assertion depends on dict order.
 - **Result shape:**
   - `StepChange`: `label` (AFTER), `fields`, `state`, `in_defaults`, `out_actions`, `connections_in`, `connections_out`, `upstream`, `downstream` (each `{added, removed}`), `plan_fields_before`, `plan_fields_after`.
   - `StepSummary` (added or removed steps): `label`, `type`, `tool_id`, `tool_version`, `plan_fields`, `upstream`, `downstream`, `workflow_outputs`, `connections`. It has no `state`, `run`, `in_defaults` or `out_actions`.

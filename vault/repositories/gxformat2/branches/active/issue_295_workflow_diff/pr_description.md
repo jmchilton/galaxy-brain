@@ -53,7 +53,7 @@ AFTER inputs feeding no step: chr
 <details><summary>What else changed</summary>
 
 - `gxformat2.testing.TestCase` gains an optional `fixture_after`. When it is set, the operation gets `(load(fixture), load(fixture_after))`. Existing cases are unaffected.
-- `gxformat2/examples/expectations/diff.yml` adds 20 declarative cases over 18 new `format2/diff/` fixtures, all in the catalog. They include a step whose only change is an `in` default, and one whose only change is an output action. `tests/test_diff.py` covers the CLI: text output, `--json` matching the model dump, `--exit-code`, and native input being rejected.
+- `gxformat2/examples/expectations/diff.yml` adds 23 declarative cases over 21 new `format2/diff/` fixtures, all in the catalog. They include a step whose only change is an `in` default, one whose only change is an output action, and an undeclared `out` key that isn't one. `normalized_format2.yml` now pins the list-form input `File` → `data` alias. `tests/test_diff.py` covers the CLI: text output, `--json` matching the model dump, `--exit-code`, and native input being rejected.
 - `draft._iterate_steps` and `draft._present_plan_fields` become public (`iterate_steps`, `present_plan_fields`) so the diff can reuse draft step iteration.
 - `docs/cli_diff.rst` documents the script, and `gxformat2.diff` is in the API docs.
 
