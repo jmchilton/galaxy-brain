@@ -1,5 +1,6 @@
 ---
 upstream_base_branch: main
+pr: 233
 blockers: gxformat2/branches/issue_295_workflow_diff
 related_records: gxformat2/branches/issue_295_workflow_diff
 ---
@@ -11,11 +12,11 @@ related_records: gxformat2/branches/issue_295_workflow_diff
 
 ## Status
 
-Polishing at `a8c6ea89` (pushed to `origin`, base `origin/main` `7370df1b`): description, titles and tags drafted; strengthening round pending.
+Polished at `433db8de` (pushed to `origin`, base `origin/main` `7370df1b`) after normal, Codex, thermo-nuclear reviews and the [strengthening round](subagents/strengthen.md).
 
-No PR yet.
+Draft PR [#233](https://github.com/jmchilton/galaxy-tool-util-ts/pull/233), opened 2026-11-11 at John's request; sibling of galaxyproject/gxformat2#296.
 
-No CI (runs only on PRs); local gate green at `a8c6ea89`: `make check`, `pnpm lint:unused:ci`, `pnpm build`, `pnpm test`.
+CI starts with the PR; local gate green at `433db8de`: `make check`, `pnpm lint:unused:ci`, `pnpm build`, `pnpm test`.
 
 ## Notes
 

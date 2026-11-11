@@ -82,7 +82,7 @@ The decisions worth a human check are step-key matching (rather than labels), th
 
 Motivated by galaxyproject/foundry#796, which needs to diff a pre-test draft snapshot against the final workflow to catch test-phase step removals, and galaxyproject/foundry#784, which asks for an end-of-run divergence report. A parallel TypeScript `gxwf diff` in jmchilton/galaxy-tool-util-ts will mirror this contract and sync `expectations/diff.yml` and the `format2/diff/` fixtures, so this merges first.
 
-<!-- TS PR link -->
+TypeScript port: jmchilton/galaxy-tool-util-ts#233 (draft).
 
 ## Agentic Checks
 
