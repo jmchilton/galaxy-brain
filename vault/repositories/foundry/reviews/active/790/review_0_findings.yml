@@ -1,0 +1,145 @@
+round: 0
+reviewed_commit: a84e0df5ce5c8893c6569ed1ed1bfd1d11da2925
+agents:
+  - {profile: default, path: _shared/reviewers/default.md, model: Claude Opus 5.5, effort: medium}
+  - {profile: foundry_domain_review, path: wf_foundry/reviewers/foundry_domain_review.md, model: Claude Opus 5.5, effort: medium}
+  - {profile: generic_test_challenger, path: _shared/reviewers/generic_test_challenger.md, model: Claude Opus 5.5, effort: medium}
+  - {profile: generic_risk_assessment, path: _shared/reviewers/generic_risk_assessment.md, model: Claude Opus 5.5, effort: low}
+verification: {model: Claude Opus 5.5, effort: medium}
+branches:
+  - name: pr_790_round_0_rev_0
+    revision: 0
+    head: fd73689e
+    pr_title: "summarize-nextflow: mask nf-test comments, tighten the main.nf genome scan, and sharpen #666 tests"
+    description: |
+      `pr_790_round_0_rev_0` builds on `a84e0df5`. It masks comments in the nf-test `params {}` block with the existing `maskNextflowComments` and drops `stripTrailingLineComment`, so profile strings such as `'A // B'` are no longer cut, and adds profile-side and unspaced-comment tests. It scans the entrypoint chosen by `selectEntrypoint` for `getGenomeAttribute` assignments, masks comments first, and requires the `params.` prefix in `.nf` sources. Smaller commits drop the unreachable boolean guard, drop an assertion on the test's own literal, and name the eight sarek reference params the brace fix surfaces. Dependencies and workflow fixtures were not available on this machine, so none of the tests on this branch were run.
+    commits:
+      - sha: f812e62e
+        subject: "summarize-nextflow: mask nf-test comments instead of stripping profile values"
+        detail: masks the nf-test params block before extracting it, deletes `stripTrailingLineComment`, restores `parseNfTestParamValue` to a pure literal parser, and adds an unspaced nf-test comment test and a profile test with a trailing comment and a `//` inside a string.
+        findings: [P2 1]
+      - sha: bc8800bd
+        subject: "summarize-nextflow: drop the unreachable boolean guard"
+        detail: removes the `true|false` check from `isCandidateInputParam`, which `isPathOrUrlValue` already covers.
+        findings: [P3 1]
+      - sha: 096607a3
+        subject: "summarize-nextflow: scan only params. getGenomeAttribute assignments in the entrypoint"
+        detail: replaces the hard-coded `main.nf` with `selectEntrypoint`, masks comments in every scanned file, requires `params.` in `.nf` sources, and extends the main.nf test with a commented-out assignment and a local `def`.
+        findings: [P3 2]
+      - sha: 7461899d
+        subject: "summarize-nextflow: drop an assertion on the test's own literal"
+        detail: removes `expect(Object.keys(expected)).toHaveLength(14)` from the rnaseq provenance test.
+        findings: [P3 5]
+      - sha: fd73689e
+        subject: "summarize-nextflow: name the sarek reference params the brace fix surfaces"
+        detail: adds the eight params the PR description lists to the sarek reference-asset assertions, beside the count.
+        findings: [P3 6]
+actions: {approve: false, approve_and_merge: false, comment: false, review_comment: false, request_changes: false, pull_request: false, push: false, issue_refactor: false, issue_galaxy_brain: false}
+findings:
+  - id: P2 1
+    include: true
+    title: "`stripTrailingLineComment` truncates profile string values"
+    summary: Comment stripper also runs on already-masked, unquoted profile values, so 'A // B' becomes "A"; replaced by masking the nf-test block.
+    implementation_verified: true
+    issue: |
+      `candidateParamData` passes profile values through `parseNfTestParamValue`, which now calls `stripTrailingLineComment`. Those values come from `resolveParamExpression` with their quotes already removed, and the profile config was already passed through `maskNextflowComments` in `expandedProfileConfig`. So no real comment can reach this point, and any profile string containing a space followed by `//` is cut instead: `multiqc_title = 'A // B'` yields `params_delta.multiqc_title === "A"`. The new scanner also re-implements the quote-aware `//` detection that `maskNextflowComments` already provides, and the new tests only cover the nf-test side, so the profile path had no test.
+    evidence: |
+      Running a copy of `stripTrailingLineComment` on `A // B` returns `A`, and on `nf-core/rnaseq // test` returns `nf-core/rnaseq`.
+    fix: |
+      `parseParamsOverrides` now masks the nf-test block with `maskNextflowComments` before extracting `params {}`. The masked comment becomes trailing whitespace, which the existing `(.+?)\s*$` pattern already trims. `stripTrailingLineComment` is deleted and `parseNfTestParamValue` is a pure literal parser again. Added a test for an unspaced `'a.csv'// note` nf-test comment and a profile test with a trailing comment and `multiqc_title = 'A // B'`. These tests were not run: the worktree has no installed dependencies.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+      - {profile: generic_test_challenger, model: Claude Opus 5.5, effort: medium}
+  - id: P2 2
+    include: true
+    title: The extension-only test-input rule admits dotted non-path values and drops directory paths
+    summary: isPathOrUrlValue accepts WBcel235.105, GRCh38.p14, 3.24.0, github.com and rejects s3://…/star_index and trailing-/ URLs; schema format unused. Not fixed.
+    implementation_verified: true
+    issue: |
+      `isCandidateInputParam` no longer checks the param name. It now accepts any value whose last path segment ends in a 1-8 character alphanumeric suffix that isn't a size or time unit, so every param apart from the anchored outdir/email/help denylist is considered. The rule is wrong in both directions:
+
+      - It admits dotted values that aren't paths: `WBcel235.105` (snpEff database style), `GRCh38.p14`, `3.24.0`, `110.1`, `user@example.com`, `github.com` and `https://nf-co.re` all pass, and `normalizeCandidatePath` keeps them because they contain a `.`.
+      - It drops extensionless and directory values that the old name rule kept through `input`, `genome`, `reference`, `db` and `database`, such as `s3://…/star_index` or `https://…/kraken2_db/`.
+
+      nf-core pipelines already declare which params are paths in `nextflow_schema.json` (`format: file-path | directory-path | path`), and the resolver has `isPathTypedParam` for exactly that. The new unit test covers only `.tar.gz` URLs, `false` and `star`, so none of these cases are pinned.
+    evidence: |
+      Running a copy of `isPathOrUrlValue`: `WBcel235.105`, `GRCh38.p14`, `3.24.0`, `110.1`, `user@example.com`, `github.com` and `https://nf-co.re` return true. `https://x/kraken2_db/` and `s3://b/star_index` return false. `6.GB`, `2.h` and `true` return false, and `samplesheet.csv?raw=true` returns true.
+    fix: |
+      When `nextflow_schema.json` declares the param, decide from its format with the existing `isPathTypedParam`, still excluding base-directory params such as `igenomes_base` (`isNonReferenceParam`). Fall back to the value heuristic only for params the schema doesn't declare, and in that fallback reject bare dotted tokens with no `/` and no known data extension. Add one table-style `buildSummary` test with a version-like value, a genome build, a size unit, a directory URL and a query-string path. The rnaseq count of 11 and the bacass local-input list may move, so check them against the fixtures.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+      - {profile: foundry_domain_review, model: Claude Opus 5.5, effort: medium}
+      - {profile: generic_test_challenger, model: Claude Opus 5.5, effort: medium}
+  - id: P2 3
+    include: true
+    title: The reference-data research note still names only the config files as `getGenomeAttribute` sources
+    summary: Note lines 39 and 72 (cast into four Molds) say detection looks only in nextflow.config / igenomes.config; rnaseq's 14 params now carry source_path main.nf. Not fixed (needs recasting).
+    issue: |
+      `content/research/nextflow-reference-data-classification/index.md` is copied into the `nextflow-summary-to-galaxy-reference-data`, `-interface`, `-template` and `-data-flow` casts. Its "None" section detects the class by "no `getGenomeAttribute` call in `nextflow.config`", and its key-expanded bundle section says `source_path` points "at `conf/igenomes.config` or `conf/genomes.config`. The resolver scans these files explicitly (galaxyproject/foundry#229)". After this PR, all 14 rnaseq `getGenomeAttribute` params carry `source_path: main.nf`. An agent following line 72 could miss rnaseq's bundle, and one following line 39 could call it "None".
+    fix: |
+      State detection by `params[].source_kind == "getGenomeAttribute"` alone, without a list of files, and drop the `(galaxyproject/foundry#229)` history clause. Then regenerate the four casts with `npm run cast`.
+    discovered_by:
+      - {profile: foundry_domain_review, model: Claude Opus 5.5, effort: medium}
+  - id: P3 1
+    include: true
+    title: The boolean guard in `isCandidateInputParam` is unreachable
+    summary: true/false have no suffix, so isPathOrUrlValue already rejects them; removed.
+    implementation_verified: true
+    issue: |
+      `if (/^(?:true|false)$/u.test(value)) return false;` can never change the result: `true` and `false` have no `.` suffix, so `isPathOrUrlValue` already returns false. Unquoted profile booleans don't even reach this point, because `resolveParamExpression` only returns quoted literals.
+    fix: |
+      Removed the guard.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+      - {profile: foundry_domain_review, model: Claude Opus 5.5, effort: medium}
+  - id: P3 2
+    include: true
+    title: The `main.nf` genome-attribute scan accepts non-`params.` assignments and commented-out lines
+    summary: Optional params. prefix plus no comment masking let `def x = getGenomeAttribute(...)` or a commented line invent a file-path param; entrypoint hard-coded.
+    implementation_verified: true
+    issue: |
+      `GENOME_ATTRIBUTE_CONFIG_CANDIDATES` gained `main.nf`, but the pattern keeps the `params.` prefix optional, which only makes sense inside config `params {}` blocks. In a script, a local `def fasta = getGenomeAttribute('fasta')` or `ch_gtf = getGenomeAttribute('gtf')` is recorded too, and the `else` branch in `parseParams` invents a `file-path` param for it. The files are not comment-masked, so a commented-out assignment counts as well. The scan also hard-codes `main.nf`, while `pipelineDefaultParams` reads `selectEntrypoint(pipelineRoot)`.
+    fix: |
+      The scan now reads the entrypoint from `selectEntrypoint`, masks comments in every scanned file, and requires the `params.` prefix in `.nf` sources. The main.nf test now includes a commented-out assignment and a local `def` and asserts neither becomes a param. The test was not run: the worktree has no installed dependencies.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+  - id: P3 3
+    include: true
+    title: An nf-test `null` clears a value, but a profile `null` still doesn't
+    summary: parseAllParamAssignments skips `x = null` (resolveParamExpression returns null), so profile nulls keep the pipeline default; optional follow-up.
+    issue: |
+      `candidateParamData` now deletes a value when an nf-test override is `null`. A profile assignment `x = null` is still ignored: `resolveParamExpression` returns `null`, `parseAllParamAssignments` skips it, and the pipeline default survives. nf-core test configs commonly null out cache params (e.g. `vep_cache = null`), so the two override sources now disagree. The skipping code predates this PR, but the PR's "null clears a value" rule is only half applied. This is optional and can be a follow-up.
+    fix: |
+      Treat a literal `null` expression in `parseAllParamAssignments` as clearing the param, guard the `params.X + '…'` concatenation against a cleared prefix, and add a profile test. This adds `null` entries to profile `params_delta`, so check the fixture outputs.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+  - id: P3 4
+    include: true
+    title: "`extractBlockAt` now duplicates the quote and comment state machine in `maskNextflowComments`"
+    summary: Two near-identical lexers (quotes, triple quotes, escapes, // and /* */) that can drift again; optional refactor, not fixed.
+    issue: |
+      The brace-matching fix is correct, but `extractBlockAt` and `maskNextflowComments` now share nearly identical quote, triple-quote, escape, `//` and `/* */` handling. The bug arose from exactly this split: `extractWorkflowBlocks` keeps inline comments with `maskNextflowComments(text, true)`, and `extractBlockAt` didn't know about them. This is optional.
+    fix: |
+      Extract a small shared lexer helper that both functions use.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+  - id: P3 5
+    include: true
+    title: The rnaseq provenance test asserts its own literal
+    summary: expect(Object.keys(expected)).toHaveLength(14) checks the test's object, not the output; removed.
+    issue: |
+      In the rnaseq `getGenomeAttribute` provenance test, `expect(Object.keys(expected)).toHaveLength(14)` asserts the length of the test's own `expected` literal, so it can never fail for a reason in the resolver.
+    fix: |
+      Removed the assertion. The loop over `expected` still checks each of the 14 params.
+    discovered_by:
+      - {profile: generic_test_challenger, model: Claude Opus 5.5, effort: medium}
+  - id: P3 6
+    include: true
+    title: The sarek reference-asset count is the only check on the params the brace fix recovered
+    summary: toHaveLength(56) alone doesn't say which params came back; added the eight named in the PR description. Optional.
+    issue: |
+      The sarek test checks `toHaveLength(56)` but none of the eight params the PR description says the brace fix surfaced (`ascat_genome`, `dbsnp_vqsr`, `known_indels_vqsr`, `known_snps_vqsr`, `snpeff_db`, `vep_cache_version`, `vep_genome`, `vep_species`). A bare count breaks on any unrelated extraction change without saying what was lost. This is optional.
+    fix: |
+      Added the eight params to the sarek reference-asset assertions and kept the count. The test was not run: the sarek fixture isn't on this machine, so the names come from the PR description.
+    discovered_by:
+      - {profile: generic_test_challenger, model: Claude Opus 5.5, effort: medium}
