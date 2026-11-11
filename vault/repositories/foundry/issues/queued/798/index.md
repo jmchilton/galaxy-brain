@@ -14,11 +14,11 @@ Applied 2026-11-11.
 
 - `roadmap/off`: no backbone fits. Closest is #500 (interviews), and only for proposal 2.
 - `priority/mvp`: a silent scope cut fails the pipeline's own eval (`content/pipelines/nextflow-to-galaxy/eval.md`, "none is silently dropped").
-- `work/ready-research`: the outcome is specified, but no Mold owns the scope decision. Pick an owner first.
+- `work/ready-implement`: flipped 2026-11-11 after John agreed the plan was settled.
 
 ## Derived status
 
-`queued` (`queued_research`), rule 7.
+`queued` (`queued_implement`), rule 6: flipped to `work/ready-implement` 2026-11-11 (John OK).
 
 ## Findings
 

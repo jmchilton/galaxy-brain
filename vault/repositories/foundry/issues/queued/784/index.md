@@ -16,7 +16,7 @@ Applied 2026-11-11. Keep `BioHackEU26`.
 
 - `roadmap/off`: John, 2026-11-11, keeps all four issues off the roadmap (#332 had been proposed as parent).
 - `priority/mvp`: John, 2026-11-11.
-- `work/ready-research`: a new Mold needs a design, and it consumes #796's diff.
+- `work/ready-implement`: flipped 2026-11-11 after John agreed the plan was settled.
 
 ## Decided placement (John, 2026-11-11: hybrid, report only)
 
@@ -24,7 +24,7 @@ A new Nextflow parity Mold runs after the test, in the `nextflow-summary-to-gala
 
 ## Derived status
 
-`queued` (`queued_research`), rule 7.
+`queued` (`queued_implement`), rule 6: flipped to `work/ready-implement` 2026-11-11 (John OK).
 
 ## Findings
 
