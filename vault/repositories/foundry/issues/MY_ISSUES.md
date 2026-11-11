@@ -14,6 +14,7 @@ Review `issue_tags.md` in the record, then use 👀 Diff / 🔖 Apply staged lab
 - (mvp) [#673](https://github.com/galaxyproject/foundry/issues/673) — Runtime Note reads as a blanket source-read ban; phases disagree on reading pinned source; decide: apply staged labels, then generator line + per-Mold fixes. [notes](needs_decision/673/index.md)
 - (mvp) [#798](https://github.com/galaxyproject/foundry/issues/798) — multi-path pipelines (sarek) narrow scope silently; no Mold owns the scope decision; decide: apply staged labels, then joint research with #784. [notes](needs_decision/798/index.md)
 - [#784](https://github.com/galaxyproject/foundry/issues/784) — end-of-run Nextflow-vs-Galaxy divergence report; overlaps #796 diff; decide: apply staged labels (parent #332?), then joint research with #798. [notes](needs_decision/784/index.md)
+- (mvp) [#786](https://github.com/galaxyproject/foundry/issues/786) — UDT authoring prefers source Docker Hub images; Galaxy #24635 default refuses non-biocontainers; decide: apply staged labels (parent #501), probe placement. [notes](needs_decision/786/index.md)
 
 ## Waiting on John (`needs_decision`)
 
