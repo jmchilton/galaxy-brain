@@ -43,7 +43,7 @@ All four concern one thing: an inventory of source units, each given a dispositi
 - #796 enforces the same inventory in the test phase.
 - #781 is the parameter (`ext.args`) slice.
 
-Recommendation: keep the issues separate, but settle the model once, in one research pass that comments on #798 and #784 (and #796/#781 once triaged). Then implement them in parallel.
+Decided (John, 2026-11-11): keep the issues separate, all `roadmap/off`, hybrid placement. The scope decisions recorded here become rows in #784's Nextflow parity Mold, which only reports.
 
 ## Next
 

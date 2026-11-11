@@ -14,8 +14,12 @@ related_records:
 Staged in [issue_tags.md](issue_tags.md). Keep `BioHackEU26`.
 
 - `roadmap/off`: John, 2026-11-11, keeps all four issues off the roadmap (#332 had been proposed as parent).
-- `priority/v2`: it presents differences; it does not fix them. The correctness half is #796. Raise it to mvp if you want it for the paper.
-- `work/ready-research`: arash's comment changes the design, and the diff overlaps #796.
+- `priority/mvp`: John, 2026-11-11.
+- `work/ready-research`: a new Mold needs a design, and it consumes #796's diff.
+
+## Decided placement (John, 2026-11-11: hybrid, report only)
+
+A new Nextflow parity Mold runs after the test, in the `nextflow-summary-to-galaxy-*` family. Its inputs are `summary-nextflow.json`, the ledger, the draft snapshot, #796's `gxwf` diff and the final workflow. It renders #781's flag parity, #798's scope rows and this report. It only reports: an unlabelled removal it finds does not send the run back into the test loop.
 
 ## Derived status
 
@@ -42,5 +46,5 @@ Not verified: tool-version parity (section 2). I didn't check whether the summar
 ## Next
 
 - Once labels are applied: one research pass shared with #798. It defines the source units and their dispositions, says where the inventory lives (a ledger collection, or a file of its own), and splits the work between the #796 check and this report.
-- Build order: #781 now; joint research on #796, #798 and #784; then #796's diff and #798's scope decisions in parallel; this report last. Its inputs are the #796 diff, the #798 decisions and the #781 report.
+- Build order: #781 and #796's generic layer now, in parallel; research on #798's scope owner; this Mold last.
 - John, 2026-11-11: no umbrella; all four stay `roadmap/off`. He leans strongly against adding new pipeline steps, which affects where this report and #796's gate go.
