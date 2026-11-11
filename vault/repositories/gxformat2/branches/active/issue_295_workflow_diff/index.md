@@ -7,14 +7,15 @@ related_records: foundry/issues/796
 
 - [Open PR](https://github.com/galaxyproject/gxformat2/compare/main...jmchilton:gxformat2:issue_295_workflow_diff?expand=1)
 - [View on GitHub](https://github.com/jmchilton/gxformat2/tree/issue_295_workflow_diff)
+- [PR description](pr_description.md) · [titles](pr_titles.md) · [tags](pr_tags.md)
 
 ## Status
 
-Implemented at `2ae336e` on the `jmchilton` fork, branched from `origin/main` `83b59e7`; review, harden and polish are run separately by the coordinator.
+Polishing at `e5439cf` on the `jmchilton` fork (base `origin/main` `83b59e7`), after normal, Codex and thermo-nuclear reviews; strengthening round pending.
 
 No PR yet.
 
-Fork CI triggered by the push at `2ae336e`; local gate green.
+Fork CI at `e5439cf`: Java, TypeScript and docs green; Python CI red only on the 3.13 job (pytest collects the cloned IWC's `scripts/tests`, needing `planemo`, plus a `schema_rules.yml` FileNotFoundError), likely from IWC `1b00b8bc` landing after main's last green but unconfirmed; 3.11/3.12 passed on `cbe75dc`, others cancelled.
 
 ## Notes
 
