@@ -54,7 +54,7 @@ Current as of the strengthening head (see `subagents/strengthen.md`). The JSON c
 - **Fields compared:**
   - Steps (`fields`): `label`, `type` (the enum value), `tool_id`, `tool_version`, `when`, `run`.
     - `run` as a string (URL or path) compares as that string, an `@import` as `{"@import": path}`, and an inline run as `null`, so inline contents are not compared.
-  - Inputs, under these document (alias) names: `type`, `collection_type`, `optional` (a missing value counts as `false`), `format` (a string becomes a one-item list), `default`, `min`, `max`, `restrictions`, `suggestions`, `restrictOnConnections` (a missing value counts as `false`, like `optional`), `validators`, `fields`, `column_definitions`. Fields an input type lacks compare as `null`. `restrictOnConnections` is camelCase, so the TS `toSnakeCaseKeys` wrapper would rename it; `diff.yml` doesn't assert on it.
+  - Inputs, under these document (alias) names: `type`, `collection_type`, `optional` (a missing value counts as `false`), `format` (a string becomes a one-item list), `default`, `min`, `max`, `restrictions`, `suggestions`, `restrictOnConnections` (a missing value counts as `false`, like `optional`), `validators`, `fields`, `column_definitions`. Fields an input type lacks compare as `null`. Nested model lists dump with pydantic defaults, so an omitted validator `type` is `regex`, record field `File`, sample-sheet column `string` (`test_diff_omitted_nested_type_equals_its_default`). `restrictOnConnections` is camelCase, so the TS `toSnakeCaseKeys` wrapper would rename it; `diff.yml` doesn't assert on it.
   - Outputs: `outputSource` only.
   - Field values are compared as `json.dumps(sort_keys=True)`.
 - **Step input defaults (`in_defaults`):** `{port: {before, after}}` over the `default` of every step `in` entry, sourced or not. The side with no default is `null`.
@@ -79,6 +79,7 @@ Current as of the strengthening head (see `subagents/strengthen.md`). The JSON c
   - `StepChange`: `label` (AFTER), `fields`, `state`, `in_defaults`, `out_actions`, `connections_in`, `connections_out`, `upstream`, `downstream` (each `{added, removed}`), `plan_fields_before`, `plan_fields_after`.
   - `StepSummary` (added or removed steps): `label`, `type`, `tool_id`, `tool_version`, `plan_fields`, `upstream`, `downstream`, `workflow_outputs`, `connections`. It has no `state`, `run`, `in_defaults` or `out_actions`.
   - The header comment in `diff.yml` holds the same shape.
+  - Object key order is not part of the contract (stated in `diff.yml` and `docs/cli_diff.rst`). The harness can't assert it, and value comparisons sort keys. Python happens to dump `StateChange` as `before, after, kind`; TS matches that by its own unit test, not by contract.
 - **Membership:**
   - A matched step appears under changed only if a field, a state leaf, an `in_defaults` or `out_actions` entry, or a port-level edge differs. `in_defaults` alone and `out_actions` alone each suffice (`test_diff_step_input_default_alone_is_a_change`, `test_diff_output_action_alone_is_a_change`).
   - Gaining a new consumer counts, as a `connections_out` change.

@@ -54,7 +54,7 @@ Head `54c68efb`, base `origin/main` `7370df1b`. Five commits:
 
 ## Left undone / follow-ups
 
-- Re-sync `diff.yml` and the fixtures from gxformat2 main after galaxyproject/gxformat2#296 merges (last re-synced from the branch at `729027d` in `62d073cc`).
+- Re-sync `diff.yml` and the fixtures from gxformat2 main after galaxyproject/gxformat2#296 merges (last re-synced from the branch at `570de0f` in `3fd23149`: adds `test_diff_omitted_nested_type_equals_its_default`, which goes red if any `INPUT_MODEL_DEFAULTS` type entry is dropped, and the header line that key order isn't part of the contract).
 - Pre-existing drift from gxformat2 main was left unsynced: `synthetic-extra-field-output.gxwf.yml` and the `validate_format2.yml` strict cases. TS doesn't reject an extra output field under strict validation (`test_extra_field_output_rejected_format2_strict` fails), so it needs its own issue.
 - Nothing else beyond Python's own "left undone" list (subworkflow recursion, native, `$graph`).
 - Reviewed and hardened afterwards: [normal review](subagents/normal_review.md), [Codex](codex_review.md) (`e6000747`, `709e1b7c`), [thermo-nuclear](thermo_nuclear_review.md) (`e796e9d7`, `a8c6ea89`).
