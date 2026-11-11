@@ -1,7 +1,3 @@
----
-related_records: foundry/issues/772
----
-
 # #786 UDT authoring: prefer quay.io/biocontainers images, and check which containers the target Galaxy runs for UDTs
 
 [Issue](https://github.com/galaxyproject/foundry/issues/786) — opened by AnnaSyme's AI assistant (BioHackathon 2026, OceanOmics-amplicon-nf run). Labels: `needs-triage`, `BioHackEU26`. No comments, PR or branch. Triaged 2026-11-11 against `origin/main` `3060503e`.
