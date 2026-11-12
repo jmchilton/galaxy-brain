@@ -1,0 +1,78 @@
+round: 0
+reviewed_commit: 15b1e13ac15c5624cab3593a5eecf73850a8f54a
+agents:
+  - {profile: default, path: _shared/reviewers/default.md, model: Claude Opus 5.5, effort: medium}
+  - {profile: gx_test_challenger, path: _shared/reviewers/gx_test_challenger.md, model: Claude Opus 5.5, effort: low}
+  - {profile: gx_risk_assessment, path: _shared/reviewers/gx_risk_assessment.md, model: Claude Opus 5.5, effort: low}
+verification: {model: Claude Opus 5.5, effort: medium}
+branches:
+  - name: pr_24861_round_0_rev_0
+    revision: 0
+    head: e8c3915dd10
+    pr_title: Framework test and single decompression for checksum with decompress
+    description: |
+      `pr_24861_round_0_rev_0` builds on `15b1e13ac15`. It adds framework tool tests that check `checksum` with `decompress="true"` end to end from tool XML, and makes `verify()` decompress the output once for both assertions and checksums, so a corrupt compressed output raises the same labeled `AssertionError` either way. It also moves the new tests' `gzip`/`hashlib` imports to the module top and folds the message-only test into the parametrized cases.
+    commits:
+      - sha: f2a1053f1b7
+        subject: Add framework tool tests for checksum with decompress
+        detail: adds two `validation_tar_gz` tests, one checking the compressed and decompressed sha1 of the same gz output and one `expect_test_failure` test with the compressed sha1 plus `decompress="true"`.
+        findings: [P2 1]
+      - sha: 3411b0b9059
+        subject: Move test imports to module top
+        detail: hoists `gzip` and `hashlib` out of each new test in `test_verify_function.py`.
+        findings: [P3 2]
+      - sha: 32f07badc36
+        subject: Decompress output once for assertions and checksum, with labeled error
+        detail: decompresses once in `verify()` inside a single labeled `try`, passes the bytes to `verify_assertions` and `_verify_checksum`, and adds a corrupt-input test for the assertions path.
+        findings: [P3 1]
+      - sha: e8c3915dd10
+        subject: Fold checksum message test into parametrized cases
+        detail: replaces `expect_pass` with an `error_match` per case and drops `test_checksum_mismatch_says_it_is_over_decompressed_content`.
+        findings: [P3 3]
+actions: {approve: false, approve_and_merge: false, comment: false, review_comment: false, request_changes: false, pull_request: false, push: false, issue_refactor: false, issue_galaxy_brain: false}
+findings:
+  - id: P2 1
+    include: true
+    title: No framework tool test for checksum with decompress
+    summary: unit tests pass decompress as a Python bool; added validation_tar_gz framework tests that parse it from tool XML.
+    implementation_verified: true
+    issue: |
+      The unit tests pass `decompress=True` as a Python bool straight into `verify()`. Nothing checks that `decompress="true"` parsed from a tool test reaches the checksum path. Workflow tests share `verify()`, so one tool test covers both.
+    evidence: |
+      `compressed_gz_fastq_no_conversion.xml`, the obvious home, isn't listed in `test/functional/tools/sample_tool_conf.xml`, so its tests never run in the framework suite. `validation_tar_gz.xml` is loaded and already covers `decompress` for assertions.
+    fix: |
+      Added two tests to `test/functional/tools/validation_tar_gz.xml`, appended so the existing test indices don't shift. One checks the compressed sha1 without `decompress` and the decompressed sha1 with `decompress="true"` on the same `1.fastqsanger.gz` output. The other is an `expect_test_failure` test that sets the compressed sha1 with `decompress="true"`. All 5 `validation_tar_gz` framework tests pass. With `verify/__init__.py` reverted to the pre-PR version, both new tests fail.
+    discovered_by:
+      - {profile: gx_test_challenger, model: Claude Opus 5.5, effort: low}
+  - id: P3 1
+    include: true
+    title: The labeled decompression error covers checksums but not assertions
+    summary: corrupt gz with assert_contents + decompress still raised a raw exception and decompressed twice; now decompress once with one labeled error.
+    implementation_verified: true
+    issue: |
+      `verify()` wraps `decompress_bytes` for the checksum and re-raises any failure as an `AssertionError` naming `item_label`. The assertions path one block above calls the same `decompress_bytes` through `verify_assertions(..., decompress)` with no wrapping, and `verify()` only catches `AssertionError` there. Assertions run first, so a corrupt or truncated gzip output on a test with `assert_contents` still fails with a bare `EOFError`/`BadGzipFile` and no output name. When a test has both, the output is also decompressed twice. This is optional; the current code is correct for the reported bug.
+    fix: |
+      `verify()` now decompresses once, when `decompress` is set and there are assertions or a checksum, inside one `try` that raises `<label> could not be decompressed: ...`. It passes those bytes to `verify_assertions` (without `decompress`) and `_verify_checksum`. `verify_assertions` keeps its `decompress` parameter for `test_asserts.py`. Added `test_corrupt_compressed_output_with_assertions_is_an_assertion_error`, which fails before this change.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+  - id: P3 2
+    include: true
+    title: New tests import gzip and hashlib inside each function
+    summary: stdlib imports inside each new test; moved to module top.
+    issue: |
+      The new tests in `test/unit/tool_util/test_verify_function.py` each run `import gzip`/`import hashlib` in the body. These are stdlib modules with no reason to defer, and the sibling `test/unit/tool_util/verify/test_asserts.py` imports `gzip` at the top.
+    fix: |
+      Moved them to the module's top-level imports.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+      - {profile: gx_test_challenger, model: Claude Opus 5.5, effort: low}
+  - id: P3 3
+    include: true
+    title: Message-only test could fold into the parametrized cases
+    summary: optional; folded the decompressed-content message check into the parametrize as error_match.
+    issue: |
+      `test_checksum_mismatch_says_it_is_over_decompressed_content` only checks message text for a case `test_checksum_honors_decompress` already covers with `("compressed", True, False)`. Optional.
+    fix: |
+      Replaced `expect_pass` with an `error_match` per case. The compressed-checksum-with-decompress case now matches `checksum of the decompressed content`, and the separate test is gone.
+    discovered_by:
+      - {profile: gx_test_challenger, model: Claude Opus 5.5, effort: low}
