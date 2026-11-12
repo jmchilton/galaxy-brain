@@ -1,11 +1,14 @@
 ---
 upstream_base_branch: main
-blocking: gxformat2/branches/issue_295_workflow_diff
+pr: 299
+blocking:
+  - gxformat2/branches/issue_295_workflow_diff
+  - gxformat2/branches/frame_index_range
 ---
 
 # Restrict pytest to `tests/`; ship lint/schema-rule YAMLs
 
-- [Open PR](https://github.com/galaxyproject/gxformat2/compare/main...jmchilton:gxformat2:ci_restrict_pytest_testpaths?expand=1)
+- [PR #299](https://github.com/galaxyproject/gxformat2/pull/299)
 - [View on GitHub](https://github.com/jmchilton/gxformat2/tree/ci_restrict_pytest_testpaths)
 - [PR description](pr_description.md)
 
@@ -13,7 +16,7 @@ blocking: gxformat2/branches/issue_295_workflow_diff
 
 Implemented at `4af8ccf` on the `jmchilton` fork (base `origin/main` `83b59e7`); two commits, `pyproject.toml` only.
 
-No PR yet; waiting on John's OK to open.
+PR [#299](https://github.com/galaxyproject/gxformat2/pull/299) opened 2026-11-12 at John's request (ready for review); unblocks 3.13 on #296 and #298.
 
 Fork CI pending at `4af8ccf`. Locally, `py313-unit`, `py313-mypy` and `py313-iwc` with a fresh IWC clone at `iwc/` reproduced the red on main and pass with the fix.
 
