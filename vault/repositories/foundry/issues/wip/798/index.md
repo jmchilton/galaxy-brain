@@ -2,11 +2,12 @@
 related_records:
   - foundry/issues/784
   - foundry/issues/796
+  - foundry/branches/issue-798-nextflow-scope-decisions
 ---
 
 # #798 nextflow-to-galaxy: multi-path pipelines (Sarek) collapse to one path without surfacing the alternatives
 
-[Issue](https://github.com/galaxyproject/foundry/issues/798). Labels: `needs-triage`. No PR or branch. Triaged 2026-11-11 against `origin/main` `8cbb5f22`, together with #784 ([record](../784/index.md)).
+[Issue](https://github.com/galaxyproject/foundry/issues/798). Labels: `roadmap/off`, `priority/mvp`, `work/in-progress`. Branch [`issue-798-nextflow-scope-decisions`](../../../branches/active/issue-798-nextflow-scope-decisions/index.md), stacked on #818; no PR yet. Triaged 2026-11-11 against `origin/main` `8cbb5f22`, together with #784 ([record](../../queued/784/index.md)).
 
 ## Labels
 
@@ -15,10 +16,11 @@ Applied 2026-11-11.
 - `roadmap/off`: no backbone fits. Closest is #500 (interviews), and only for proposal 2.
 - `priority/mvp`: a silent scope cut fails the pipeline's own eval (`content/pipelines/nextflow-to-galaxy/eval.md`, "none is silently dropped").
 - `work/ready-implement`: flipped 2026-11-11 after John agreed the plan was settled.
+- `work/in-progress`: swapped in 2026-11-12 when the implementation agent claimed it.
 
 ## Derived status
 
-`queued` (`queued_implement`), rule 6: flipped to `work/ready-implement` 2026-11-11 (John OK).
+`wip`, rule 2: `work/in-progress` and branch `issue-798-nextflow-scope-decisions` (2026-11-12).
 
 ## Findings
 
@@ -45,8 +47,6 @@ All four concern one thing: an inventory of source units, each given a dispositi
 
 Decided (John, 2026-11-11): keep the issues separate, all `roadmap/off`, hybrid placement. The scope decisions recorded here become rows in #784's Nextflow parity Mold, which only reports.
 
-## Next
+## Implementation
 
-- Research comment. Questions it should answer: which Mold owns the scope decision (interface, probably); which source units count (subworkflows? the enum values of a branch control?); whether summarize should emit a `branch_controls[]` list; and whether interactive selection should route to the brief journey or to #500.
-
-Staged labels applied 2026-11-11: +roadmap/off, +priority/mvp, +work/ready-research.
+2026-11-12, branch `issue-798-nextflow-scope-decisions` (see its [debrief](../../../branches/active/issue-798-nextflow-scope-decisions/implementation_debrief.md)). The interface Mold owns the scope: a ledger decision with `scope` plus a `kind: dropped` entry with `scope_branch` per excluded branch family, no top-level `step`, no `source_arg`. Data-flow designs inside it. Research-comment questions answered there: interface owns it; units are branch families named by summary subworkflows/processes; no `branch_controls[]`; interactive selection stays with the brief journey / #500.

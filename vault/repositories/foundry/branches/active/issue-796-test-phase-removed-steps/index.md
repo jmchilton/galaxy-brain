@@ -2,6 +2,7 @@
 upstream_base_branch: main
 parent_branch: issue-781-plan-state-resolved-args
 related_records: foundry/issues/796
+child_branches: issue-798-nextflow-scope-decisions
 pr: 818
 ---
 # Fail a green test run that lost steps without a drop label
