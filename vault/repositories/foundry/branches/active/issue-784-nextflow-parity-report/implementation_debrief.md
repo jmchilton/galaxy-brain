@@ -26,7 +26,7 @@ Deterministic (in `nextflow-parity`):
 Left to the Mold, and why:
 
 - Per-flag coverage inside an entry: closures can't be tokenised safely; the join stops at the entry.
-- Wrapper software requirement: not in any input (`ParsedTool` carries no requirements); only an embedded UDT's requirement is in the workflow. The Mold marks Tool Shed comparisons unverified.
+- Wrapper software requirement: not in any input. Galaxy's `ParsedTool` and the Tool Shed API carry `requirements`, but gtu-ts's `ParsedTool` schema strips them, so the tool cache lacks them (upstream issue B drafted in [domain_review.md](domain_review.md)). Only an embedded UDT's requirement is in the workflow. The Mold marks Tool Shed comparisons unverified.
 - Removed/added inputs: no ledger key joins them; listed, reason found in ledger prose.
 - Behavioural changes: the diff's `steps.changed` mixes TODO resolution with real changes; telling them apart and linking prose decisions is judgement.
 - Outputs the design never declared: only in drop prose.
@@ -35,7 +35,7 @@ Left to the Mold, and why:
 
 `test/nextflow-parity.test.ts` and `test/scope-records.test.ts` failed on base (modules missing), then passed. Fixture `packages/gxwf-foundry/test/fixtures/nextflow-parity/bamtofastq/`: a bamtofastq-shaped `pipeline/` (summary built from it by `foundry summarize-nextflow`, and a test pins `processes`/`tools` to a live build), a snapshot generated with real `_plan_state` (one-line JSON entries, `draft-validate` clean), a final workflow, a ledger shaped like iwc-lab#8/#7 (chr filter removed with no drop, stale chr-extract decision, collate args unrecorded, stray `-h` record on an overridden id, tie gaps, a design drop), and `parity-diff.json` from gtu-ts #233 `a5c6cd57`. Variants in the test: drop recorded, call covered by a drop, call unmapped. CLI exit codes for both commands.
 
-iwc-lab#7/#8 artifacts predate #781/#796 (no `effective_args`, no snapshot; #8's committed draft already lacks the chr step), so they're narrative only; a scenario asks for a rerun.
+iwc-lab#7/#8 artifacts predate #781/#796 (no `effective_args`, no snapshot; #8's committed draft already lacks the chr step), so they're narrative only; scenario 4 binds a rerun of #8's source and model.
 
 ## Release dependency (keep draft)
 
@@ -57,6 +57,11 @@ Three reviews, each acted on red-to-green; debriefs in [subagents/](subagents/).
 
 Gate at `c111bb97`: same two machine-only reds as before; 503 root and 149 package tests pass.
 
+- [Domain review](domain_review.md) → `a9311739` (content only): pin-dependent text out of the `[[gxwf]]` purpose; Mold body trimmed to runtime instructions with one "must not"; Findings as a table and deterministic evals name `nextflow-galaxy-parity.json` as oracle; scenario fixtures made concrete (case 3 binds a pinned sarek run, case 4 the iwc-lab#8 rerun); pipeline "Lifted from" cut. Two upstream issues drafted, not filed: (A) gtu-ts export step keying / `resolveSourceReference` or list kept steps in `WorkflowDiff`; (B) gtu-ts `ParsedTool` drops `requirements`/`containers`/`stdio`.
+- [Documentation review](documentation_review.md) → `9b100aa5`: `nextflow-parity.md` Output restructured (exit first, field sub-bullets, `steps_from: null`); scenario semicolons; changeset split.
+
+Gate at `9b100aa5`: same two machine-only reds; 503 root and 149 package tests pass; typecheck and packages-typecheck clean.
+
 ## Questions for John
 
 1. `check-scope-records` folded into this branch (#798 issue F). Keep it here, or split it onto #821?
@@ -64,3 +69,5 @@ Gate at `c111bb97`: same two machine-only reds as before; 503 root and 149 packa
 3. Releases needed before undraft: gtu-ts `a5c6cd57` + Foundry `@galaxy-tool-util/cli` pin bump, and a gxwf-foundry publish.
 4. `StepRemovalInputError` renamed to `InputShapeError` (shared by the ledger readers). It was only on #818's unreleased branch; no alias kept, and the changeset no longer mentions it. OK?
 5. Follow-up issue for a shared ledger record taxonomy (`classifyLedger`) across step-removals, scope-records and nextflow-parity (thermo S2)?
+6. File the two drafted gtu-ts issues in [domain_review.md](domain_review.md)? Issue A could ride on gtu-ts #233 (still open).
+7. Scenarios 3 (sarek) and 4 (bamtofastq rerun) need real nextflow-to-galaxy runs to check. Queue them as `/test-pipeline` runs? Their expects are predictions: a fresh run may not remove the chr filter again or reproduce the example scope ledger exactly. Case 4 uses bamtofastq 2.2.1 (as iwc-lab#8), while `fixtures.yaml` pins 2.2.0. Bump the pin, add a 2.2.1 entry, or rebind to 2.2.0?
