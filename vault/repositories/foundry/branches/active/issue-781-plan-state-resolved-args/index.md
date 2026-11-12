@@ -9,11 +9,11 @@ related_records: foundry/issues/781
 
 ## Status
 
-Polishing (description, titles, tags written; strengthening round next) at head `52762228` on `~/projects/worktrees/foundry/branch/issue-781-plan-state-resolved-args`, branched from `origin/main` `df991d0d`.
+Polishing (strengthening round done, see [subagents/strengthen.md](subagents/strengthen.md); hand-off next) at head `ef1607a8` on `~/projects/worktrees/foundry/branch/issue-781-plan-state-resolved-args`, branched from `origin/main` `df991d0d`.
 
 No PR yet.
 
-No CI until a PR opens; local `make -k check` at `52762228` (2026-11-12) passes 496 tests, red only on `validate-roadmap` (live roadmap drift: #803, #805, #783) and `check-vendored` (machine-only).
+No CI until a PR opens; local `make -k check` at `ef1607a8` (2026-11-12) passes 501 tests, red only on `validate-roadmap` (live roadmap drift: #803, #805, #783) and `check-vendored` (machine-only).
 
 ## Stack
 
@@ -34,3 +34,4 @@ Parent of the #796 branch (stack #781 → #796 → #798 → #784, see [stack_pla
 - [thermo_nuclear_review_resolver.md](thermo_nuclear_review_resolver.md)
 - [domain_review.md](domain_review.md)
 - [documentation_review.md](documentation_review.md)
+- [subagents/strengthen.md](subagents/strengthen.md)
