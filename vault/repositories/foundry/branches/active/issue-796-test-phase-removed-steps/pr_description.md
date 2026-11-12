@@ -4,7 +4,7 @@ Fix 🎯 #796 - a green test run fails when a step removed since extraction has 
 
 Closes #796.
 
-***Depends on #809. Until #809 merges, this diff includes its commits too. This PR's own commits are [`ef1607a8..e5ba105e`](https://github.com/jmchilton/foundry/compare/issue-781-plan-state-resolved-args...issue-796-test-phase-removed-steps).***
+***Depends on #809. Until #809 merges, this diff includes its commits too. This PR's own commits are [`7d001a3d..b74c6bdd`](https://github.com/jmchilton/foundry/compare/issue-781-plan-state-resolved-args...issue-796-test-phase-removed-steps).***
 
 In #796's bamtofastq run, the test loop cut the workflow from 16 tool steps to 4 across 18 `planemo test` attempts. It then ended green, because the remaining test only asserts element counts and datatypes. One of those removals, the chr filter, never reached the ledger at all. Nothing on `main` compares the final workflow with what the per-step loop built. The test loop edits `galaxy-workflow.gxwf.yml` in place, so once the loop is done no copy of the larger workflow survives to compare against.
 

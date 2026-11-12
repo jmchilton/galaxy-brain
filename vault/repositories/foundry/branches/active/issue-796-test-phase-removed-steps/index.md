@@ -2,6 +2,7 @@
 upstream_base_branch: main
 parent_branch: issue-781-plan-state-resolved-args
 related_records: foundry/issues/796
+pr: 818
 ---
 # Fail a green test run that lost steps without a drop label
 
@@ -10,11 +11,11 @@ related_records: foundry/issues/796
 
 ## Status
 
-Implemented, reviewed and strengthened at head `e5ba105e` on `~/projects/worktrees/foundry/branch/issue-796-test-phase-removed-steps`, branched from parent `issue-781-plan-state-resolved-args` at `ef1607a8` (draft PR #809); polishing: strengthening round done (drops now need a non-empty `because`), hand-off pending.
+Implemented, reviewed and strengthened at head `b74c6bdd` on `~/projects/worktrees/foundry/branch/issue-796-test-phase-removed-steps`, restacked onto parent `issue-781-plan-state-resolved-args` at `7d001a3d` (draft PR #809); polished (see [polish_debrief.md](polish_debrief.md)).
 
-No PR yet; it must stay draft until a `@galaxy-tool-util/cli` release carries `gxwf diff` with the nested + relabel fix (gtu-ts #233 at `a5c6cd57`) and Foundry's pin is bumped to it; publishing `@galaxy-foundry/gxwf-foundry` with `check-step-removals` follows merge.
+Draft PR [#818](https://github.com/galaxyproject/foundry/pull/818), opened 2026-11-12 at John's request (depends on #809); it stays draft until a `@galaxy-tool-util/cli` release carries `gxwf diff` with the nested + relabel fix (gtu-ts #233 at `a5c6cd57`) and Foundry's pin is bumped to it; publishing `@galaxy-foundry/gxwf-foundry` with `check-step-removals` follows merge.
 
-CI runs only on PRs; local `make -k check` at `e5ba105e` (2026-11-12) is red only on `validate-roadmap` (GitHub rate limit) and `check-vendored` (machine-only), 501 + 122 package tests pass.
+CI runs only on PRs; local `make -k check` at `e5ba105e` (2026-11-12) is red only on `validate-roadmap` (GitHub rate limit) and `check-vendored` (machine-only), 501 + 122 package tests pass; at `b74c6bdd` root `npm run typecheck` and `packages-typecheck` are clean.
 
 ## Polish
 
