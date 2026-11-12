@@ -1,6 +1,6 @@
 # Implementation debrief — issue-781-plan-state-resolved-args
 
-Prevention half of galaxyproject/foundry#781. Branched from `origin/main` `df991d0d`; head `76194bcf` (content `4711c4c4`, casts + dashboard `6224dac5`, JSON-entry fixups `806b65c2`, review fixes `5b3f2b78`, Codex fix `39522711`, thermo fixes `dbca2bc5`, resolver ranking `202f959c`, Mold simplification `0c34c0fa`, casts `eb1850e2`, schema-validated tests `1087f204`, resolver review fixes `36e85683` + `fada24fd`, call context + profile win `099a9a6f`, casts `dbfdae87`, comment-parser fix `9727baa6`, call-context review fix `4c76da2e`, Codex alias-scope fix `5c71a900`, resolver thermo refactor `76194bcf`).
+Prevention half of galaxyproject/foundry#781. Branched from `origin/main` `df991d0d`; head `32673995` (content `4711c4c4`, casts + dashboard `6224dac5`, JSON-entry fixups `806b65c2`, review fixes `5b3f2b78`, Codex fix `39522711`, thermo fixes `dbca2bc5`, resolver ranking `202f959c`, Mold simplification `0c34c0fa`, casts `eb1850e2`, schema-validated tests `1087f204`, resolver review fixes `36e85683` + `fada24fd`, call context + profile win `099a9a6f`, casts `dbfdae87`, comment-parser fix `9727baa6`, call-context review fix `4c76da2e`, Codex alias-scope fix `5c71a900`, resolver thermo refactor `76194bcf`, domain review fixes `32673995`).
 
 ## What changed
 
@@ -104,3 +104,12 @@ Commits `099a9a6f` (source), `dbfdae87` (casts), `9727baa6` (comment-parser fix)
 Evidence: the 10 full fixture summaries (5 pipelines, with and without `--profile test`) are identical. 135 summarize-nextflow tests and 496 root tests pass.
 
 Decision for John: the global `aliasToCanonical` fallback in `processCallPaths` is reached only when a local workflow's name equals another file's alias, and then it is wrong. It was left in place to preserve behaviour.
+
+## Domain review (2026-11-12)
+
+[domain_review.md](domain_review.md), `32673995`:
+- **Branch tie.** A selector block that assigns one `ext` key in different `if`/`else` branches keeps those assignments level, so differing ones tie. Separate declarations keep later-wins. Found on sarek `markduplicates.config` `CRAM_TO_BAM` prefix (`.dedup`/`.md` silently resolved to `.md`). Red first. Fixture rerun vs `76194bcf`: only that row changes (with and without `--profile test`). `RankedArg` gains `ordinal` + `conditional`.
+- **Scenarios.** Template SUB_A/SUB_B synthetic case replaced by rnaseq `SALMON_QUANT`. summarize-nextflow gains rnaseq, bamtofastq, sarek cases for the `effective_args` property.
+- **Prose.** Self-justifying clauses and semicolons cut. Mold rank bullet trimmed, parser-order and control-flow notes moved to Caveats.
+- Gate: 496 root, 136 summarize-nextflow tests pass. Only `validate-roadmap` + `check-vendored` red.
+- Questions for John: `_plan_state` string carrier vs upstream schema change, CLI check for flag dispositions, abstract-cases follow-up issue (texts in the review).

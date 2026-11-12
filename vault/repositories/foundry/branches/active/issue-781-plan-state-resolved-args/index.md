@@ -9,7 +9,7 @@ related_records: foundry/issues/781
 
 ## Status
 
-Implemented and hardened (normal, Codex, thermo reviews), selector ranking moved into `summarize-nextflow`, then per John (2026-11-12) `effective_args` keyed by Nextflow call path (`call`) with qualified selectors matched along real call chains, and a selected profile beating root at equal rank (unless root declares the same selector); call-context normal + Codex reviews acted on, resolver thermo refactor (behaviour-identical); head `76194bcf` on `~/projects/worktrees/foundry/branch/issue-781-plan-state-resolved-args`, branched from `origin/main` at `df991d0d`.
+Implemented and hardened (normal, Codex, thermo reviews), selector ranking moved into `summarize-nextflow`, then per John (2026-11-12) `effective_args` keyed by Nextflow call path (`call`) with qualified selectors matched along real call chains, and a selected profile beating root at equal rank (unless root declares the same selector); call-context normal + Codex reviews acted on, resolver thermo refactor (behaviour-identical), domain review acted on (if/else branch tie); head `32673995` on `~/projects/worktrees/foundry/branch/issue-781-plan-state-resolved-args`, branched from `origin/main` at `df991d0d`.
 
 No PR yet.
 
@@ -29,3 +29,4 @@ Parent of the #796 branch (stack #781 → #796 → #798 → #784, see [stack_pla
 - [subagents/normal_review_callctx.md](subagents/normal_review_callctx.md)
 - [codex_review_callctx.md](codex_review_callctx.md)
 - [thermo_nuclear_review_resolver.md](thermo_nuclear_review_resolver.md)
+- [domain_review.md](domain_review.md)
