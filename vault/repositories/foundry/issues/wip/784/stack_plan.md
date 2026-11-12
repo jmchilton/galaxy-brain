@@ -59,3 +59,24 @@ JSON output with a declared shape, plus human-readable text.
   - **#784 reuse:** ledger readers now exist in three places: `tests/scope-decisions.test.ts` (`scopeRecords`, `checkCitation` for the `from` grammar), `packages/gxwf-foundry/src/step-removals.ts` (`ledgerEntries`) and build-cli's `parseOpenRequirements`. Put the scope reader and `from` resolver in `gxwf-foundry` next to `step-removals.ts` and point the test at it, rather than adding a fourth.
   - The interface brief names the scope's candidate `id`. `nextflow-to-test-data` (rev 5) and `nextflow-test-to-galaxy-test-plan` (rev 9, which now takes `nextflow-galaxy-interface` as an input) use it on `needs-scope-choice`, so the test follows the built branch. The fallback picks from all candidates when none is primary. A candidate-`id` citation rests on the name alone, because sarek's generated candidates' `params_delta` contradicts it.
   - Where the rules live: the ledger note owns the record shape, the `from` grammar and "later Molds design nothing for a drop". The interface Mold owns the selection policy and "fixed controls aren't inputs".
+
+## Result (2026-11-12)
+
+All six branches are draft PRs:
+
+| Repo | PR | Branch |
+|---|---|---|
+| gxformat2 | [#296](https://github.com/galaxyproject/gxformat2/pull/296) | `issue_295_workflow_diff` |
+| galaxy-tool-util-ts | [#233](https://github.com/jmchilton/galaxy-tool-util-ts/pull/233) | `issue_232_workflow_diff` |
+| foundry #781 | [#809](https://github.com/galaxyproject/foundry/pull/809) | `issue-781-plan-state-resolved-args` |
+| foundry #796 | [#818](https://github.com/galaxyproject/foundry/pull/818) | `issue-796-test-phase-removed-steps` |
+| foundry #798 | [#821](https://github.com/galaxyproject/foundry/pull/821) | `issue-798-nextflow-scope-decisions` |
+| foundry #784 | [#827](https://github.com/galaxyproject/foundry/pull/827) | `issue-784-nextflow-parity-report` |
+
+Undraft order:
+1. Merge #296 and #233.
+2. Release `@galaxy-tool-util/cli` with `gxwf diff`, and bump Foundry's pin.
+3. Merge #809 → #818 → #821 → #827.
+4. Publish gxwf-foundry.
+
+Foundry CI is red repo-wide at `validate-roadmap` (live roadmap drift on #803, #805 and #783), which hides the later test steps.

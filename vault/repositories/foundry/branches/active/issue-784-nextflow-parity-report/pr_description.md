@@ -4,7 +4,7 @@ Toward 🎯 #784 - a nextflow-to-galaxy run now ends with a report of how the Ga
 
 Part of #784. ***It doesn't close the issue. Three parts stay open. The wrapper's underlying software requirement (item 2) can't be read yet, so tool-version rows compare against the wrapper version string and are marked unverified. Source outputs (item 1) that the design never declared and never dropped don't appear. And no end-to-end nextflow-to-galaxy run has produced a report yet.***
 
-It also covers most of the report half of #781, of which #809 is the prevention half. Every effective `ext.args`/`ext.prefix` entry is joined to the Galaxy step that translates it and to the ledger record that disposes of it, and an entry on a kept step with no record becomes a finding. ***It doesn't complete it: #781 asks for each flag next to the step's `state`, and this table doesn't print `state`. Whether a wrapper parameter carries a flag stays a reading task, as #781 itself says it must.***
+It also completes the report half of #781, of which #809 is the prevention half. Every effective `ext.args`/`ext.prefix` entry is joined to the Galaxy step that translates it, to that step's final `state`, and to the ledger record that disposes of it, and an entry on a kept step with no record becomes a finding. ***The report puts each flag beside the step's `state` but doesn't map one to the other. Whether a wrapper parameter carries a flag stays a reading task, as #781 itself says it must.***
 
 On `main` a run ends after the test phase with a workflow, its tests and a ledger, and nothing compares the workflow with its source. arash77's comment on #784 shows why the ledger alone can't do it. Two BioHackathon bamtofastq runs changed the workflow without a ledger entry. In galaxyproject/iwc-lab#8 the test loop removed the chr filter step, its `chr` input and its `chr_alignment` output, while a ledger decision still said the chain runs the chr extract unconditionally. In galaxyproject/iwc-lab#7, `samtools_collate_fast` and `reads_in_memory` stayed as workflow inputs that fed nothing. A report built from `kind: dropped` entries shows all of that as carried.
 
@@ -31,7 +31,15 @@ The same JSON joins the source side of each step:
 | `collate` | kept | `_plan_state` | `samtools_collate` `1.15.1+galaxy0` | `biocontainers/samtools:1.17--h00cdaf9_0` |
 | `to_fastq` | kept | flag records | `samtools_fastx` `1.15.1+galaxy2` | `biocontainers/samtools:1.17--h00cdaf9_0` |
 
-The Mold renders these into `nextflow-galaxy-parity-report.md`, so a reader sees samtools 1.17 in the source beside wrappers at `1.15.1+galaxy*`, flagged as differing and unverified.
+And each flag beside its step's final `state`, as #781 asks:
+
+| Step | Entry | `expression` | Record | Step `state` |
+|---|---|---|---|---|
+| `view_map_map` | `withName:SAMTOOLS_VIEW_MAP_MAP/args` | `'-b -f1 -F12'` | `arg-view-map-map-args`, carried, `-b -f1 -F12` | `output_fmt: bam`, `require_flags: "1"`, `exclude_flags: "12"` |
+| `to_fastq` | `withName:SAMTOOLS_FASTQ/args` | `'-N'` | `arg-to-fastq-args`, carried, `-N` | `output_fmt: fastqsanger`, `read_numbering: true` |
+| `collate` | `withName:SAMTOOLS_COLLATE/args` | `{ params.samtools_collate_fast ? "-f -r ${params.reads_in_memory}" : '' }` | none: a finding | none |
+
+The Mold renders these into `nextflow-galaxy-parity-report.md`, so a reader sees samtools 1.17 in the source beside wrappers at `1.15.1+galaxy*`, flagged as differing and unverified, and sees that `collate` sets no `state` for the fast-mode flags no record covers.
 
 ***The report never edits the workflow, the ledger or the test result, and never sends the run back into the test loop.*** An unrecorded removal is a finding, not a failure. #818's gate in the test phase is what fails a run. ***The report also doesn't judge whether a difference is acceptable.*** That is #784's own rule: make every difference visible and traceable, and list the ones with no reason.
 
@@ -41,7 +49,7 @@ The Mold renders these into `nextflow-galaxy-parity-report.md`, so a reader sees
 
 1. runs `gxwf diff --json` from the snapshot to the final workflow, not from the extracted copy, because only the snapshot still has `_plan_state` and shows what the per-step loop removed;
 2. runs `foundry nextflow-parity` on the five files and renders from its JSON;
-3. writes these sections: Outputs, Tool versions, Parameters and inputs (#781's per-flag table is here), Behavioural changes, Source scope (#798's records), Unverified, and Findings as a `kind | subject | detail | section` table.
+3. writes these sections: Outputs, Tool versions, Parameters and inputs (#781's per-flag table, with each step's `state`, is here), Behavioural changes, Source scope (#798's records), Unverified, and Findings as a `kind | subject | detail | section` table.
 
 When `workflow-test-result` is missing or not `pass`, Unverified opens by saying that no claim was checked by a passing run.
 
@@ -55,6 +63,7 @@ The command joins everything that has a key. The Mold judges only what has none.
 - **Step status.** Taken from the diff alone. A snapshot-only step must be in `steps.removed` and a workflow-only step in `steps.added`, otherwise the command exits 3.
 - **Removed steps and outputs → drops.** Removed steps reuse #818's `checkStepRemovals`. A removed output joins the drops that name its snapshot source step, and drops whose backticked `units` name the output.
 - **Unwired inputs.** Final inputs that feed no step are listed as not carried, never as exposed.
+- **Step `state`.** Each step carries the final workflow's `state` (or an object `tool_state`) as written, `null` for a removed step, so the flag table prints it beside each entry.
 - **Source tool versions.** Call → process → the tool's declared versions and the process's `container` and `conda` text.
 - **#781 flag join.** Each `effective_args` row → steps → entry ids → records joined on `source_arg.step` + `source_arg.arg`, across `decisions` and `entries`. It also lists overridden entries (resolved minus effective) and stray records (`unknown-step`, `unknown-arg`, `not-effective`, `other-step`). A record with no disposition or `because` is `source-arg-malformed` and records nothing.
 - **Unmapped calls.** A call with no step is `covered_by` a non-flag drop whose units name a segment of its call path, otherwise it is a `call-unmapped` finding.
@@ -64,7 +73,7 @@ The command joins everything that has a key. The Mold judges only what has none.
 
 <details><summary>Left to the Mold, and why</summary>
 
-- **Which flags of an entry a record covers.** Closures can't be split into flags safely, so the join stops at the entry. The Mold compares a closure's flags with the records' `flags` by reading.
+- **Which flags of an entry a record covers, and which `state` parameter carries a flag.** Closures can't be split into flags safely, so the join stops at the entry, and wrappers name parameters their own way. The Mold compares a closure's flags with the records' `flags`, and flags with `state`, by reading.
 - **A Tool Shed wrapper's software requirement.** It isn't in any input. Galaxy's `ParsedTool` and the Tool Shed API carry `requirements`, but galaxy-tool-util-ts's `ParsedTool` schema drops them, so the tool cache doesn't have them. The Mold compares with the version a wrapper version starts with and marks it unverified. An embedded user-defined tool's requirement is in the workflow and is compared directly.
 - **Reasons for removed or added inputs.** No ledger key joins an input. The Mold finds the reason in ledger prose or lists the input as a finding.
 - **Behavioural changes.** `steps.changed` mixes TODO resolution with real changes. Telling them apart, and linking a change to a prose decision, is judgement.
@@ -86,11 +95,11 @@ Like #818, the Mold needs `gxwf diff`, which exists only on jmchilton/galaxy-too
 
 ## Evidence
 
-- `test/nextflow-parity.test.ts` (19 tests) runs on the bamtofastq fixture. A test keeps the committed summary equal to one built live from `pipeline/`. Variants cover a recorded step drop, a call covered by a drop, an unmapped call, an output fed by an input, inline-subworkflow keying, a shared `withLabel` id, output-only drops, reasonless and malformed flag records, a diff/file mismatch (exit 3), and the CLI exit codes. Each join bug the reviews found was fixed red to green here.
+- `test/nextflow-parity.test.ts` (21 tests) runs on the bamtofastq fixture. A test keeps the committed summary equal to one built live from `pipeline/`. Variants cover a recorded step drop, a call covered by a drop, an unmapped call, an output fed by an input, a step with `tool_state` instead of `state`, inline-subworkflow keying, a shared `withLabel` id, output-only drops, reasonless and malformed flag records, a diff/file mismatch (exit 3), and the CLI exit codes. Each join bug the reviews found was fixed red to green here.
 - `test/scope-records.test.ts` covers each shape problem, each citation form and rejection, and exit codes 0/4/3/1. `tests/scope-decisions.test.ts` passes through the library, and #798's mutation checks were rerun: a fake unit name and `bowtie2` under `params[aligner].enum` both fail the citation test. ***That citation test needs sarek locally and skips in CI.***
-- Live runs at `9b100aa5`: `foundry nextflow-parity` on the fixture gives the tables above. `foundry check-scope-records` on #821's sarek example ledger reports `scope-germline-strelka: 9 scope drop(s), 0 problem(s)` and exits 0. That run had no summary, so it checked shape only. The citation check against a live sarek summary is the root test above.
-- Parity Mold scenario case 1 was checked against that live command output: seven findings, `view_map_map` joined to `arg-view-map-map-args` (`carried`), `to_fastq` with `calls_from: records`, and samtools 1.17 with its container.
-- `make -k check` at `9b100aa5` is red only on `validate-roadmap`, which hits the GitHub rate limit here, and `check-vendored`, which fails only on the dev machine. 503 root tests and 149 gxwf-foundry tests pass. `npm run typecheck` and `npm run packages-typecheck` are clean. `npm run validate` gives the same 71 warnings on base and head.
+- Live runs at `7d3e3cfa`: `foundry nextflow-parity` on the fixture gives the tables above. `foundry check-scope-records` on #821's sarek example ledger reports `scope-germline-strelka: 9 scope drop(s), 0 problem(s)` and exits 0. That run had no summary, so it checked shape only. The citation check against a live sarek summary is the root test above.
+- Parity Mold scenario case 1 was checked against that live command output: seven findings, `view_map_map` joined to `arg-view-map-map-args` (`carried`), `to_fastq` with `calls_from: records`, `collate` with no `state`, and samtools 1.17 with its container.
+- `make -k check` at `7d3e3cfa` is red only on `validate-roadmap`, which hits the GitHub rate limit here, and `check-vendored`, which fails only on the dev machine. 503 root tests and 151 gxwf-foundry tests pass. Format, lint, `npm run typecheck` and `npm run packages-typecheck` are clean. `npm run validate` gives the same 71 warnings on base and head.
 
 ***The Mold itself has been checked only by its eval properties and scenarios. Scenarios 3 (sarek scope) and 4 (rerunning galaxyproject/iwc-lab#8 with a snapshot) are predictions until `/test-pipeline` runs produce them. A fresh run may not remove the chr filter again.***
 
@@ -128,7 +137,7 @@ The main one-way risk is interface Mold rev 8: it tells every nextflow-to-galaxy
 
 <details><summary>Risk Review Advice</summary>
 
-Run `foundry nextflow-parity` on the fixture and read its JSON beside the Mold's Report sections. Check that the deterministic/judged split above is where you want it, in particular that the flag join stops at the entry and the step's `state` isn't printed beside each row.
+Run `foundry nextflow-parity` on the fixture and read its JSON beside the Mold's Report sections. Check that the deterministic/judged split above is where you want it, in particular that the flag join stops at the entry and `state` is printed as written rather than mapped to flags.
 
 Then decide on the release gate. Interface Mold rev 8's `check-scope-records` line, like #818's `check-step-removals`, needs a gxwf-foundry publish. Check whether keeping the whole stack in draft until then is enough, or whether that line should wait.
 
@@ -136,7 +145,7 @@ Then decide on the release gate. Interface Mold rev 8's `check-scope-records` li
 
 ## Context
 
-Depends on 🔀 #821, whose scope records the Source scope section renders, on 🔀 #818, which writes the snapshot this report diffs and whose `checkStepRemovals` it reuses, and on 🔀 #809, whose `effective_args` and `source_arg` records feed the flag table. Uses `gxwf diff` from 🔀 jmchilton/galaxy-tool-util-ts#233, the TypeScript port of 🔀 galaxyproject/gxformat2#296. Covers the report half of 🎯 #781, except the step `state` beside each flag. Folds in #821's drafted `check-scope-records` follow-up.
+Depends on 🔀 #821, whose scope records the Source scope section renders, on 🔀 #818, which writes the snapshot this report diffs and whose `checkStepRemovals` it reuses, and on 🔀 #809, whose `effective_args` and `source_arg` records feed the flag table. Uses `gxwf diff` from 🔀 jmchilton/galaxy-tool-util-ts#233, the TypeScript port of 🔀 galaxyproject/gxformat2#296. Completes the report half of 🎯 #781. Folds in #821's drafted `check-scope-records` follow-up.
 
 ## Agentic Checks
 

@@ -2,6 +2,7 @@
 upstream_base_branch: main
 parent_branch: issue-798-nextflow-scope-decisions
 related_records: foundry/issues/784
+pr: 827
 ---
 # Report Nextflow-vs-Galaxy parity at the end of a nextflow-to-galaxy run
 
@@ -10,21 +11,21 @@ related_records: foundry/issues/784
 
 ## Status
 
-Implemented and through normal, Codex, thermo, domain and documentation reviews (fixes in `9530080f`, `d63d5b66`, `c111bb97`, `a9311739`, `9b100aa5`) at head `9b100aa5` on `~/projects/worktrees/foundry/branch/issue-784-nextflow-parity-report`, branched from parent `jmchilton/issue-798-nextflow-scope-decisions` at `4ff48eda`; pushed to `jmchilton`. Polishing (`branches_need_polish`): description, titles and tags written 2026-11-12; strengthening round pending.
+Implemented and through normal, Codex, thermo, domain and documentation reviews (fixes in `9530080f`, `d63d5b66`, `c111bb97`, `a9311739`, `9b100aa5`), plus the strengthening round's step `state` column (`7d3e3cfa`), at head `7d3e3cfa` on `~/projects/worktrees/foundry/branch/issue-784-nextflow-parity-report`, branched from parent `jmchilton/issue-798-nextflow-scope-decisions` at `4ff48eda`; pushed to `jmchilton`. Polished ([polish_debrief.md](polish_debrief.md)).
 
-No PR yet.
+Draft PR [#827](https://github.com/galaxyproject/foundry/pull/827), opened 2026-11-12 at John's request (depends on #821 → #818 → #809); Part of #784, completes the report half of #781.
 
-CI runs only on PRs. Local `make -k check` at `9b100aa5` (2026-11-12) is red only on `validate-roadmap` (rate limit) and `check-vendored` (fails on this machine only), with 503 root tests and 149 gxwf-foundry tests passing; format, lint, typecheck and packages-typecheck clean.
+CI runs only on PRs. Local `make -k check` at `7d3e3cfa` (2026-11-12) is red only on `validate-roadmap` (rate limit) and `check-vendored` (fails on this machine only), with 503 root tests and 151 gxwf-foundry tests passing; format, lint, typecheck and packages-typecheck clean.
 
 ## Decisions
 
 - Report only: `foundry nextflow-parity` exits 0 whenever the files join; findings live in its JSON, never in the exit code.
-- #798's issue F (lift `check-scope-records` into `gxwf-foundry`) folded in here pending John's answer (open on #798's record); interface Mold rev 8 runs it.
+- #798's issue F (lift `check-scope-records` into `gxwf-foundry`) folded in here pending John's answer (open on #798's record); interface Mold rev 8 runs it. #821's description now says it lands here.
 - The report diffs the pre-loop snapshot, not the extracted copy.
 
 ## Files
 
-- [pr_description.md](pr_description.md) — Part of #784; covers most of #781's report half (no step `state` column)
+- [pr_description.md](pr_description.md) — Part of #784; completes #781's report half
 - [pr_titles.md](pr_titles.md)
 - [pr_tags.md](pr_tags.md)
 - [implementation_debrief.md](implementation_debrief.md)
@@ -33,3 +34,4 @@ CI runs only on PRs. Local `make -k check` at `9b100aa5` (2026-11-12) is red onl
 - [subagents/thermo_review.md](subagents/thermo_review.md)
 - [domain_review.md](domain_review.md) — includes two drafted, unfiled gtu-ts issues
 - [documentation_review.md](documentation_review.md)
+- [subagents/strengthen.md](subagents/strengthen.md)
