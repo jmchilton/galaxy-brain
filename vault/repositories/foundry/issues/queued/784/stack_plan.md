@@ -37,3 +37,7 @@ JSON output with a declared shape, plus human-readable text.
   - **#796:** match dropped *steps* on top-level `step` only, and ignore entries that carry `source_arg`.
   - **#784:** join flag records on `source_arg`. Read the flags from `summary-nextflow.json`, since `_plan_state` is stripped at extract.
   - **#798:** keep scope decisions and drops distinguishable from flag records.
+  - After #781's review:
+    - Only one `ext.*` assignment per key wins, by Nextflow selector precedence.
+    - An overridden entry gets one `not_applicable` record with no `flags`, so #784 must join across `decisions` and `entries`.
+    - A same-rank tie is an open plain gap with a top-level `step` and no `source_arg`. It isn't `kind: dropped`, so #796 ignores it.

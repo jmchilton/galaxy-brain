@@ -9,7 +9,7 @@ related_records: foundry/issues/781
 
 ## Status
 
-Implemented at `806b65c2` on `~/projects/worktrees/foundry/branch/issue-781-plan-state-resolved-args`, branched from `origin/main` at `df991d0d`.
+Implemented and reviewed at `5b3f2b78` on `~/projects/worktrees/foundry/branch/issue-781-plan-state-resolved-args`, branched from `origin/main` at `df991d0d`.
 
 No PR yet.
 
