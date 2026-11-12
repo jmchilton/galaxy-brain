@@ -15,11 +15,11 @@ related_records:
 
 ## Status
 
-Polished at `4440404` on the `jmchilton` fork (base `origin/main` `83b59e7`), after normal, Codex and thermo-nuclear reviews and the [strengthening round](subagents/strengthen.md); head now `397819a` after the [Foundry #796 findings fix](subagents/foundry_findings_fix.md) (inline subworkflow recursion, list-form id pairing).
+Polished at `4440404` on the `jmchilton` fork (base `origin/main` `83b59e7`), after normal, Codex and thermo-nuclear reviews and the [strengthening round](subagents/strengthen.md); `397819a` after the [Foundry #796 findings fix](subagents/foundry_findings_fix.md) (inline subworkflow recursion, list-form id pairing); rebased 2026-11-12 onto `origin/main` `3547f99` (post-#299), head `66625f7`.
 
 Draft PR [#296](https://github.com/galaxyproject/gxformat2/pull/296), opened 2026-11-11 at John's request (stacked parity work; TS port PR to follow).
 
-PR CI not yet seen at `397819a`. PR CI at `570de0f`: Java, TypeScript, docs and Python 3.11/3.12 green; 3.13 red is unrelated (on base), from IWC #1541's `scripts/tests` collected from the `iwc/` clone; 3.10/3.14/3.15 cancelled by it. Fixed by #299 (merged `3547f99`); rebase onto it, since reruns won't help.
+PR CI rerunning on `66625f7` after rebase onto #299 (3.13 fix); local `pytest tests/` 1016 passed.
 
 ## Notes
 
