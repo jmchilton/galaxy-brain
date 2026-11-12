@@ -27,6 +27,7 @@ Snapshot: 2026-10-28 (originally recovered from live GitHub state, local worktre
 
 ## Draft Foundry PRs — waiting for CI (`ci_wait`)
 
+- [`issue-781-plan-state-resolved-args`](active/issue-781-plan-state-resolved-args/index.md) — summarize-nextflow ranks `ext.args` per call; template copies them to `_plan_state`, one disposition per flag (#781). Base of parity stack. [#809](https://github.com/galaxyproject/foundry/pull/809).
 - [`issue-789-readme-no-archeology`](active/issue-789-readme-no-archeology/index.md) — Maturation Mold keeps invocation ids, failed attempts and benchmarks out of the README (#789). [#801](https://github.com/galaxyproject/foundry/pull/801).
 - [`issue-757-meta-driven-parameters`](active/issue-757-meta-driven-parameters/index.md) — Channel-shape note routes per-element parameters via mapped `param_value_from_file`, plus verification workflows (#757). [#799](https://github.com/galaxyproject/foundry/pull/799).
 - [`issue-674-single-workflow-posture`](active/issue-674-single-workflow-posture/index.md) — Say a tool choice doesn't need a second workflow (part of #674). [#759](https://github.com/galaxyproject/foundry/pull/759).
@@ -48,7 +49,7 @@ None yet.
 
 ## Foundry branches — needs polish (`branches_need_polish`)
 
-- [`issue-781-plan-state-resolved-args`](active/issue-781-plan-state-resolved-args/index.md) — summarize-nextflow ranks `ext.args` per call; template copies them to `_plan_state`, one disposition per flag (#781). [Open PR](https://github.com/galaxyproject/foundry/compare/main...jmchilton:foundry:issue-781-plan-state-resolved-args).
+None yet.
 
 ## Foundry branches — ready for final review (`branches_ready_for_final_review`)
 

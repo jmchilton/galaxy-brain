@@ -1,8 +1,8 @@
-Run via Claude Opus 5.5 at high effort.
+Run via Claude Opus 5.5.
 
 # Strengthen round (polish steps 2–3)
 
-Reviewed `pr_description.md` against the branch at `52762228`. One strengthening round.
+Reviewed `pr_description.md` against the branch at `52762228` and applied the tasks in the same session. One strengthening round.
 
 ## Tasks
 

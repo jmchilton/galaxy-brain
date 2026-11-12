@@ -1,6 +1,7 @@
 ---
 upstream_base_branch: main
 related_records: foundry/issues/781
+pr: 809
 ---
 # Carry nf-core `ext.args` into the Galaxy draft as structured `_plan_state`
 
@@ -9,11 +10,11 @@ related_records: foundry/issues/781
 
 ## Status
 
-Polishing (strengthening round done, see [subagents/strengthen.md](subagents/strengthen.md); hand-off next) at head `ef1607a8` on `~/projects/worktrees/foundry/branch/issue-781-plan-state-resolved-args`, branched from `origin/main` `df991d0d`.
+Polished (see [polish_debrief.md](polish_debrief.md)) at head `ef1607a8` on `~/projects/worktrees/foundry/branch/issue-781-plan-state-resolved-args`, branched from `origin/main` `df991d0d`.
 
-No PR yet.
+Draft PR [#809](https://github.com/galaxyproject/foundry/pull/809), opened 2026-11-12 at John's request; base of the parity stack (#781 → #796 → #798 → #784).
 
-No CI until a PR opens; local `make -k check` at `ef1607a8` (2026-11-12) passes 501 tests, red only on `validate-roadmap` (live roadmap drift: #803, #805, #783) and `check-vendored` (machine-only).
+CI starts with the PR; local `make -k check` at `ef1607a8` (2026-11-12) passes 501 tests, red only on `validate-roadmap` (live roadmap drift: #803, #805, #783) and `check-vendored` (machine-only).
 
 ## Stack
 
