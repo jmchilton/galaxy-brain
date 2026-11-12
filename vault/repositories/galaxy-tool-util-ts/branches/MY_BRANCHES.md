@@ -1,6 +1,6 @@
 # Open PR and branch queue
 
-Snapshot: 2026-11-07.
+Snapshot: 2026-11-12.
 
 ## Open galaxy-tool-util-ts PRs — ready from our side (`ready`)
 
@@ -13,13 +13,12 @@ None yet.
 
 ## Draft PRs — ready to undraft (`draft_ready`)
 
-None yet.
+- [`issue_232_workflow_diff`](active/issue_232_workflow_diff/index.md) — `diffWorkflows` + `gxwf diff BEFORE AFTER`: structural Format2/draft diff (gxformat2#295 port, #232). [#233](https://github.com/jmchilton/galaxy-tool-util-ts/pull/233).
 
 ## Draft PRs — waiting for CI (`ci_wait`)
 
 - [`frame_index_range`](active/frame_index_range/index.md) — Range-check frame contains_steps/contains_comments indices (port of gxformat2 branch). [#237](https://github.com/jmchilton/galaxy-tool-util-ts/pull/237). Draft until John reviews.
 - [`issue_216_concrete_errors`](active/issue_216_concrete_errors/index.md) — `draft-validate --concrete --json`: top-level `concrete_errors`, step `label` on results (#216). Draft until John reviews. [#226](https://github.com/jmchilton/galaxy-tool-util-ts/pull/226).
-- [`issue_232_workflow_diff`](active/issue_232_workflow_diff/index.md) — `diffWorkflows` + `gxwf diff BEFORE AFTER`: structural Format2/draft diff (gxformat2#295 port, #232). [#233](https://github.com/jmchilton/galaxy-tool-util-ts/pull/233).
 
 ## Draft PRs — author work (`author_work`)
 

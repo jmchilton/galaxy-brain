@@ -48,16 +48,16 @@ AFTER inputs feeding no step: chr
 - Explicit `false` or empty output actions equal absent ones, so `hide: false` against no `hide` is not a change. State is the exception: an absent leaf against `null`, `""` or `[]` is `kind: added`.
 - Sources resolve with the existing `resolve_source_reference` (longest label first) over step keys, ids, labels and input ids. `<input>/output` collapses to `<input>`, because the converter treats them as one connection.
 - A dict-form step is matched by its key, not its inner `id`, so changing the inner `id` is not a change.
-- List-form steps with the same `id` on both sides (unique on each side) match first and report under the AFTER key; added and removed steps carry their raw `id`.
+- List-form steps with the same `id` on both sides (unique on each side) match first and report under the AFTER key; a pair whose AFTER key is another unpaired BEFORE step's key falls back to key matching. Added and removed steps carry their raw `id`. Nested keys under a paired step use its AFTER key.
 - Unlabeled list-form steps with no `id` are matched by position, with a warning naming them.
-- `unwired_inputs` lists top-level inputs only. A nested key colliding with a slash-keyed step raises `ValueError`.
+- `unwired_inputs` lists top-level inputs only. A prefixed step key, input or output id that another level also uses raises `ValueError`, changed or not.
 
 </details>
 
 <details><summary>What else changed</summary>
 
 - `gxformat2.testing.TestCase` gains an optional `fixture_after`. When it is set, the operation gets `(load(fixture), load(fixture_after))`. Existing cases are unaffected.
-- `gxformat2/examples/expectations/diff.yml` adds 29 declarative cases over 28 new `format2/diff/` fixtures, all in the catalog. They include a step whose only change is an `in` default, one whose only change is an output action, an undeclared `out` key that isn't one, omitted nested input types (validator, record field, sample-sheet column) that equal their defaults, a step removed inside an inline subworkflow, inner interface changes, and a list-form relabel. Key order in the JSON isn't part of the contract. `normalized_format2.yml` now pins the list-form input `File` → `data` alias. `tests/test_diff.py` covers the CLI: text output, `--json` matching the model dump, `--exit-code`, native input being rejected, and a nested key colliding with a slash-keyed step being rejected.
+- `gxformat2/examples/expectations/diff.yml` adds 32 declarative cases over 32 new `format2/diff/` fixtures, all in the catalog. They include a step whose only change is an `in` default, one whose only change is an output action, an undeclared `out` key that isn't one, omitted nested input types (validator, record field, sample-sheet column) that equal their defaults, a step removed inside an inline subworkflow, inner interface changes, a list-form relabel, its two key-matching fallbacks (an `id` not unique on one side, a pair onto an unpaired BEFORE key), and a relabeled parent prefixing two inline levels. Key order in the JSON isn't part of the contract. `normalized_format2.yml` now pins the list-form input `File` → `data` alias. `tests/test_diff.py` covers the CLI: text output, `--json` matching the model dump, `--exit-code`, native input being rejected, and nested keys or input ids colliding with slash-keyed ones being rejected, changed or not.
 - `draft._iterate_steps` and `draft._present_plan_fields` become public (`iterate_steps`, `present_plan_fields`) so the diff can reuse draft step iteration.
 - `docs/cli_diff.rst` documents the script, and `gxformat2.diff` is in the API docs.
 

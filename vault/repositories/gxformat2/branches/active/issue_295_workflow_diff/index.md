@@ -15,11 +15,11 @@ related_records:
 
 ## Status
 
-Polished at `4440404` on the `jmchilton` fork (base `origin/main` `83b59e7`), after normal, Codex and thermo-nuclear reviews and the [strengthening round](subagents/strengthen.md); `397819a` after the [Foundry #796 findings fix](subagents/foundry_findings_fix.md) (inline subworkflow recursion, list-form id pairing); rebased 2026-11-12 onto `origin/main` `3547f99` (post-#299), head `66625f7`.
+Polished at `4440404` on the `jmchilton` fork (base `origin/main` `83b59e7`), after normal, Codex and thermo-nuclear reviews and the [strengthening round](subagents/strengthen.md); `397819a` after the [Foundry #796 findings fix](subagents/foundry_findings_fix.md) (inline subworkflow recursion, list-form id pairing); rebased 2026-11-12 onto `origin/main` `3547f99` (post-#299); head `efb2e5b` after the D401 fix and the [delta review](subagents/delta_review.md) (cross-level key collisions rejected, id-pairing fallback cases).
 
 Draft PR [#296](https://github.com/galaxyproject/gxformat2/pull/296), opened 2026-11-11 at John's request (stacked parity work; TS port PR to follow).
 
-PR CI rerunning on `66625f7` after rebase onto #299 (3.13 fix); local `pytest tests/` 1016 passed.
+PR CI green on `efb2e5b`, 3.13 included, which confirms the #299 diagnosis (`397819a` red: branch D401 on 3.10, fixed; 3.13 was the #299 red; 3.14/3.15 were fail-fast cancels); local gate green incl. tox `py310-lintdocstrings`, `py313-unit`, pytest 1021 passed.
 
 ## Notes
 
