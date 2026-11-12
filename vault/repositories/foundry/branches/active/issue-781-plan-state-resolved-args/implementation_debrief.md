@@ -1,6 +1,6 @@
 # Implementation debrief — issue-781-plan-state-resolved-args
 
-Prevention half of galaxyproject/foundry#781. Branched from `origin/main` `df991d0d`; head `dbca2bc5` (content `4711c4c4`, casts + dashboard `6224dac5`, JSON-entry fixups `806b65c2`, review fixes `5b3f2b78`, Codex fix `39522711`, thermo fixes `dbca2bc5`).
+Prevention half of galaxyproject/foundry#781. Branched from `origin/main` `df991d0d`; head `1087f204` (content `4711c4c4`, casts + dashboard `6224dac5`, JSON-entry fixups `806b65c2`, review fixes `5b3f2b78`, Codex fix `39522711`, thermo fixes `dbca2bc5`, resolver ranking `202f959c`, Mold simplification `0c34c0fa`, casts `eb1850e2`, schema-validated tests `1087f204`).
 
 ## What changed
 
@@ -19,6 +19,29 @@ Prevention half of galaxyproject/foundry#781. Branched from `origin/main` `df991
 - Template `refinement.md`.
 - Evals and scenarios on all three Molds; the concrete fixture is nf-core/bamtofastq `8698321`.
 - Casts and `Dashboard.md` regenerated.
+
+## Selector ranking moved into `summarize-nextflow` (2026-11-12)
+
+John decided to do the thermo lead finding on this branch, before the stack builds on it. This supersedes the precedence, override, tie and 7-field `source_arg` bullets above.
+
+- **Summary shape.** `resolved_args` keeps every matched assignment, each with a required `id`. New optional `processes[].effective_args: [{invoked_as, key, ids, tie?}]` has one row per call and `key`. Effectiveness is per call, not per entry: `withName:SAMTOOLS_VIEW` can win for one call and lose to an alias selector for another. So `tie` lives on the row, not the entry. Emitting only effective entries would duplicate expressions per call and drop what a winner overrode, which #784 parity may want to report.
+- **`id`** names the assignment, not the process: `<config>[<profile>]#<selector>/<key>`. `~n` after the selector marks its nth declaration in that config, and `~n` after the key its nth assignment in one block. Example: `conf/modules.config#withName:SAMTOOLS_VIEW_MAP_MAP/args`. A `withLabel` entry has the same id in every process it matches.
+- **Ranking.** The order is withLabel < withName(process) < withName(alias) < fully qualified (`SUB:X`, `.*:X`, `workflow:X`, last-segment fallback). An alias selector never reaches another alias's call. At the same rank, a selected profile beats root. Also at the same rank, the later declaration of the *same selector* in one config wins, which Groovy order makes certain. Level entries with identical expressions give one id and no tie. Different expressions give `tie: true` with all ids.
+- **Accepted tie cases** (tested):
+  - two root configs: BFS walk order isn't Nextflow's include order;
+  - two selected profiles: Nextflow applies profiles in definition order, not CLI order, and that isn't modeled;
+  - fully qualified selectors for one call name from two subworkflows (`SUB_A:FOO` vs `SUB_B:FOO`): the call is keyed on `invoked_as` only.
+- **Calls.** Calls are the process name and aliases that appear in some workflow's `calls`, falling back to every name when none do. An uncalled canonical name gets no row.
+- **Molds.**
+  - The template copies only the entries a call's rows name, adding `"tie": true` from tie rows. `process` and `invoked_as` are no longer added to the entries.
+  - Implement binds every listed entry and stops ranking.
+  - The ledger drops the precedence and override prose, and the override records with it. `source_arg` is now `{step, arg, flags?}`, where `arg` is the entry `id`.
+  - Ties stay open gaps carrying `source_arg`, whose `missing` names the other tied ids.
+- **Where removed checks went.**
+  - The implement alias-override scenario moved to the template ("an overridden entry stays out of `_plan_state`").
+  - Resolver unit tests cover the ladder, profile vs root, ties, the FQ subworkflow tie, ids, and a bamtofastq-like fixture, red first.
+- **Real fixture.** I ran the CLI, with self-validation, on nf-core/bamtofastq at `869832186b25`. It found 25 `resolved_args` entries and 0 tie rows. Each view, collate and FastQC alias names only its own entries, and `SAMTOOLS_PE` gets no row. The two resolver tests also validate their summaries against the schema.
+- Schema note rev 14, `summarize-nextflow` Mold rev 21 (index, eval property, changes), minor changeset. Casts and Dashboard regenerated.
 
 ## Carrier choice
 
@@ -42,5 +65,5 @@ New template eval property "source arguments reach `_plan_state` unchanged" and 
 ## For the stack (#796 → #798 → #784)
 
 - **#796**: flag records never set a top-level `step`; their step is `source_arg.step`. The removed-step check should match `kind: dropped` entries on top-level `step` only, or ignore entries carrying `source_arg`. A selector-tie gap is a flag record too: open, no `kind`, with `source_arg` and no top-level `step`.
-- **#784**: join on `source_arg` (`step`, `process`, `invoked_as`, `key`, `selector`, `config`, `profile`), not on `id`, across both `decisions` and `entries`. An overridden entry has one `not_applicable` record without `flags`. `_plan_state` is stripped at extract, so read flags from `summary-nextflow.json` and dispositions from the ledger. A step that repair removes takes its flags with it, with no per-flag records. Tie gaps join like any flag record. If `summarize-nextflow` later ranks per call and gives each entry an id (thermo follow-up, unfiled), the key would collapse to that id.
+- **#784**: the summary's `effective_args` decides which entries applied to each call (`invoked_as`), so parity doesn't rank. Join ledger records on `source_arg.step` + `source_arg.arg` (the entry `id`) across both `decisions` and `entries`. Every flag of every effective entry has one record. Overridden entries get no record, so read them from `resolved_args` minus `effective_args` if parity reports them. `_plan_state` is stripped at extract, so read flags from `summary-nextflow.json` and dispositions from the ledger. The ledger doesn't map a step to its call, and `_plan_state` entries no longer carry `process` or `invoked_as`. To find a step with missing records, read the pre-extract draft snapshot (#796): its `_plan_state` ids match one call's `effective_args` rows. A step that repair removes takes its flags with it, with no per-flag records. Tie gaps join like any flag record.
 - **#798**: scope `decisions` / `kind: dropped` for excluded branches should stay distinguishable from flag records, which carry `source_arg`.

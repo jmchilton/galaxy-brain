@@ -9,7 +9,7 @@ related_records: foundry/issues/781
 
 ## Status
 
-Implemented and hardened (normal, Codex, thermo reviews) at `dbca2bc5` on `~/projects/worktrees/foundry/branch/issue-781-plan-state-resolved-args`, branched from `origin/main` at `df991d0d`.
+Implemented and hardened (normal, Codex, thermo reviews), then selector ranking moved into `summarize-nextflow` (`effective_args`, entry ids, `source_arg {step, arg, flags?}`) at `1087f204` on `~/projects/worktrees/foundry/branch/issue-781-plan-state-resolved-args`, branched from `origin/main` at `df991d0d`.
 
 No PR yet.
 
