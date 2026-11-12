@@ -23,6 +23,10 @@ galaxyproject/foundry#796 parts 1 and 2 (part 3 is #800). Stacked on `issue-781-
 - [codex_review.md](codex_review.md), commit `c48a8ee2`. One of four findings held: the CLI page said any non-list `entries` exits 3, but an empty `entries:` reads as no drops. The page was fixed and a test pins the behaviour. The rest were refuted: the `gxwf diff` release dependency, the placeholder fixture URL (house convention) and the parse-error exit code (documented as exit 1).
 - [thermo_nuclear_review.md](thermo_nuclear_review.md), commits `9fa4bfc2` and `5e1f57a2`. Shared `lib/read-input.ts` replaces four read-or-exit copies, with behaviour preserved. run-workflow-test step 6 and debug step 8 now use a lead sentence plus route bullets, with the same content. The shared ledger reader is still deferred, because its semantics diverge (see the debrief).
 
+## Domain review
+
+[domain_review.md](domain_review.md), commits `0eb5be21` and `23ed8132`. Removed legacy "gxwf without `diff`" text and self-defending clauses, kept the subworkflow limit once, replaced the scenario variant with a committed dropped-ledger fixture. Two `gxwf diff` bugs drafted as upstream issues.
+
 ## Decision for John: why two snapshots
 
 The brief asked for one snapshot "before the test phase, with `_plan_*` intact". Those can't both hold: implementation strips a step's `_plan_*`, and `draft-validate` rejects `_plan_*` on a fully resolved step, so at loop endstate no step has any. Only the draft before the loop's first call keeps them. Diffing that against the final workflow would also flag repair's fold path (`remove-step` + `rewire`, no `kind: dropped`, `repair-galaxy-draft-topology`), failing green runs that dropped nothing. So the gate diffs the extracted copy (the issue's literal proposal, test-phase removals only), and the pre-loop draft is kept separately for #784. The advance Mold writes both, so every pipeline with the per-step loop gets them with no new phase. The parent debrief's "pre-extract draft snapshot" for `_plan_state.calls` means this pre-loop file.
@@ -39,7 +43,7 @@ End to end needs two releases:
 
 ## Local gate
 
-`npm run packages-build` first, then `make -k check`: see the branch index for the result. gxwf-foundry package: 117 tests pass after harden; `make -k check` at `5e1f57a2` (2026-11-12) red only on `validate-roadmap` (live GitHub roadmap state) and `check-vendored` (machine-only), 501 tests pass. Format, lint, typecheck clean.
+`npm run packages-build` first, then `make -k check`: see the branch index for the result. gxwf-foundry package: 117 tests pass after harden; `make -k check` at `0eb5be21` (2026-11-12) red only on `validate-roadmap` (live GitHub roadmap state) and `check-vendored` (machine-only), 501 tests pass. Format, lint, typecheck clean.
 
 ## For the stack
 
