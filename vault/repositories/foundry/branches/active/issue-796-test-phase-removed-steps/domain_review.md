@@ -21,9 +21,10 @@ Per `wf_foundry/reviewers/DOMAIN_REVIEW.md`, at `5e1f57a2`; fixes in `0eb5be21` 
 - Debug scenarios keeps four pre-existing abstract cases; [foundry_issue_debug_scenario_fixtures.md](foundry_issue_debug_scenario_fixtures.md) is draft `work/ready-implement` issue text.
 - Checked and fine: brew3r draft has exactly one drafty step, so "that call leaves no drafty step, so it extracts" holds. No banned words. Two new semicolons removed in `23ed8132`; the rest predate the branch.
 
-## Question for John
+## Question for John (resolved)
 
 - Debug step 8's relabel branch ("a removed step that reappears under `steps.added` with the same tool and connections was relabelled, recommend restoring its old label") works around the list-form relabel bug. §1 says remove it. It came from the normal review and is harmless until upstream fixes the diff. Keep it until then, or drop it now and file the upstream issue?
+- Resolved: upstream fixed the diff (gtu-ts `a5c6cd57`), and the relabel branch was dropped in [subagents/upstream_fix_followup.md](subagents/upstream_fix_followup.md).
 
 ## Gate
 

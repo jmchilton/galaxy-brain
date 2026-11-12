@@ -10,11 +10,11 @@ related_records: foundry/issues/796
 
 ## Status
 
-Implemented, hardened and domain-reviewed at head `23ed8132` on `~/projects/worktrees/foundry/branch/issue-796-test-phase-removed-steps`, branched from parent `issue-781-plan-state-resolved-args` at `ef1607a8` (draft PR #809); normal, Codex, thermo-nuclear and domain reviews done; polish not yet run.
+Implemented, hardened, domain- and documentation-reviewed at head `4ae46ef3` on `~/projects/worktrees/foundry/branch/issue-796-test-phase-removed-steps`, branched from parent `issue-781-plan-state-resolved-args` at `ef1607a8` (draft PR #809); normal, Codex, thermo-nuclear, domain and documentation reviews done, nested-step matching updated for upstream `a5c6cd57`; polish not yet run.
 
-No PR yet; it must stay draft until `gxwf diff` ships in a `@galaxy-tool-util/cli` release (gtu-ts #233) with a Foundry pin bump, and `@galaxy-foundry/gxwf-foundry` publishes `check-step-removals`.
+No PR yet; it must stay draft until a `@galaxy-tool-util/cli` release carries `gxwf diff` with the nested + relabel fix (gtu-ts #233 at `a5c6cd57`) with a Foundry pin bump, and `@galaxy-foundry/gxwf-foundry` publishes `check-step-removals`.
 
-CI runs only on PRs; local `make -k check` at `0eb5be21` (2026-11-12) is red only on `validate-roadmap` (live roadmap state) and `check-vendored` (machine-only).
+CI runs only on PRs; local `make -k check` before `4ae46ef3` (2026-11-12) is red only on `validate-roadmap` (live roadmap state) and `check-vendored` (machine-only).
 
 ## Decisions
 
@@ -27,6 +27,8 @@ CI runs only on PRs; local `make -k check` at `0eb5be21` (2026-11-12) is red onl
 - [codex_review.md](codex_review.md)
 - [thermo_nuclear_review.md](thermo_nuclear_review.md)
 - [domain_review.md](domain_review.md)
-- [upstream_issue_diff_inline_subworkflows.md](upstream_issue_diff_inline_subworkflows.md) (draft)
-- [upstream_issue_diff_list_form_relabel.md](upstream_issue_diff_list_form_relabel.md) (draft)
+- [documentation_review.md](documentation_review.md)
+- [subagents/upstream_fix_followup.md](subagents/upstream_fix_followup.md)
+- [upstream_issue_diff_inline_subworkflows.md](upstream_issue_diff_inline_subworkflows.md) (superseded, fixed upstream)
+- [upstream_issue_diff_list_form_relabel.md](upstream_issue_diff_list_form_relabel.md) (superseded, fixed upstream)
 - [foundry_issue_debug_scenario_fixtures.md](foundry_issue_debug_scenario_fixtures.md) (draft)

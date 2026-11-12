@@ -47,3 +47,5 @@ JSON output with a declared shape, plus human-readable text.
   - `galaxy-workflow.extracted.gxwf.yml`: the first extract. The gate diffs this.
 
   The gate itself is `foundry check-step-removals <diff.json> <ledger.yml>`, which exits 4 on unlabelled removals. `_plan_state.calls` shows up in `steps.removed[].plan_fields` and `plan_fields_before`.
+
+  Since gxformat2 `397819a` / gtu-ts `a5c6cd57`, `gxwf diff` recurses into inline subworkflows: nested steps sit in the same `steps.removed` / `steps.changed` maps under `<parent>/<key>` (`nested/first`), with their `plan_fields`; `unwired_inputs` stays top level. A list-form relabel is a `fields.label` change, not remove + add. A ledger names a nested step by that full key (`step: nested/first`); the bare inner label matches nothing nested. The gtu-ts release Foundry pins must include `a5c6cd57`.

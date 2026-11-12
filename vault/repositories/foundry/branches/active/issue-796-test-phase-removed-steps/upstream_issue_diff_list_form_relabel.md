@@ -1,3 +1,5 @@
+Superseded: fixed in gxformat2#296 (`397819a`) and galaxy-tool-util-ts#233 (`a5c6cd57`) instead of filed. See [subagents/upstream_fix_followup.md](subagents/upstream_fix_followup.md).
+
 Draft, not filed. Target: galaxyproject/gxformat2, before #296 merges; mirror in jmchilton/galaxy-tool-util-ts #233.
 
 ---
