@@ -57,6 +57,7 @@ None yet.
 - (mvp) [#781](https://github.com/galaxyproject/foundry/issues/781) — nothing checks Galaxy step state against captured nf-core `ext.args`; branch `issue-781-plan-state-resolved-args`. [notes](wip/781/index.md)
 - (mvp) [#796](https://github.com/galaxyproject/foundry/issues/796) — test phase removes steps to go green, unchecked; branch `issue-796-test-phase-removed-steps` (stacked on #809). [notes](wip/796/index.md)
 - (mvp) [#798](https://github.com/galaxyproject/foundry/issues/798) — multi-path pipelines (sarek) narrow scope silently; branch `issue-798-nextflow-scope-decisions` (stacked on #818). [notes](wip/798/index.md)
+- (mvp) [#784](https://github.com/galaxyproject/foundry/issues/784) — end-of-run Nextflow-vs-Galaxy divergence report; branch `issue-784-nextflow-parity-report` (stacked on #821). [notes](wip/784/index.md)
 - (mvp) [#789](https://github.com/galaxyproject/foundry/issues/789) — maturation Mold's README carries development archeology (failed runs, old invocations); draft PR [#801](https://github.com/galaxyproject/foundry/pull/801). [notes](wip/789/index.md)
 - [#775](https://github.com/galaxyproject/foundry/issues/775) — verification CI used `planemo lint` (tool XML), hiding bad shed pins and strict-schema errors; PR [#779](https://github.com/galaxyproject/foundry/pull/779). [notes](wip/775/index.md)
 - (mvp) [#674](https://github.com/galaxyproject/foundry/issues/674) — interface notes lack a shape-changing param rule; PR [#759](https://github.com/galaxyproject/foundry/pull/759), part of the issue. [notes](wip/674/index.md)
@@ -74,7 +75,6 @@ None yet.
 
 ## Queued to implement (`queued_implement`)
 
-- (mvp) [#784](https://github.com/galaxyproject/foundry/issues/784) — end-of-run Nextflow-vs-Galaxy divergence report; next: report-only Nextflow parity Mold, top of stack. [notes](queued/784/index.md)
 - (mvp) [#758](https://github.com/galaxyproject/foundry/issues/758) — pages say `when` can't act per element; next: implement after #755 and open a PR. [notes](queued/758/index.md)
 - [#3](https://github.com/galaxyproject/foundry/issues/3) — Hero pipeline-fan widget (replace pipeline matrix / new /pipelines/ landing); next: implement and open a PR. [notes](queued/3/index.md)
 - (large) [#40](https://github.com/galaxyproject/foundry/issues/40) — Write IWC exemplar match schema; next: implement and open a PR. [notes](queued/40/index.md)

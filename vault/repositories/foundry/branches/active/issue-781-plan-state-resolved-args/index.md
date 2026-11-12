@@ -19,7 +19,7 @@ CI at `7d001a3d` pending; `ef1607a8` was red at `validate-roadmap` (live roadmap
 
 ## Stack
 
-Parent of the #796 branch (stack #781 → #796 → #798 → #784, see [stack_plan.md](../../../issues/queued/784/stack_plan.md)). Design notes for the children are in [implementation_debrief.md](implementation_debrief.md).
+Parent of the #796 branch (stack #781 → #796 → #798 → #784, see [stack_plan.md](../../../issues/wip/784/stack_plan.md)). Design notes for the children are in [implementation_debrief.md](implementation_debrief.md).
 
 ## Files
 

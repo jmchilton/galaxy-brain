@@ -1,6 +1,7 @@
 ---
 upstream_base_branch: main
 parent_branch: issue-796-test-phase-removed-steps
+child_branches: issue-784-nextflow-parity-report
 related_records: foundry/issues/798
 pr: 821
 ---

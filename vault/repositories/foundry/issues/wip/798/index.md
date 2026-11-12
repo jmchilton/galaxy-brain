@@ -7,7 +7,7 @@ related_records:
 
 # #798 nextflow-to-galaxy: multi-path pipelines (Sarek) collapse to one path without surfacing the alternatives
 
-[Issue](https://github.com/galaxyproject/foundry/issues/798). Labels: `roadmap/off`, `priority/mvp`, `work/in-progress`. Branch [`issue-798-nextflow-scope-decisions`](../../../branches/active/issue-798-nextflow-scope-decisions/index.md), stacked on #818; no PR yet. Triaged 2026-11-11 against `origin/main` `8cbb5f22`, together with #784 ([record](../../queued/784/index.md)).
+[Issue](https://github.com/galaxyproject/foundry/issues/798). Labels: `roadmap/off`, `priority/mvp`, `work/in-progress`. Branch [`issue-798-nextflow-scope-decisions`](../../../branches/active/issue-798-nextflow-scope-decisions/index.md), stacked on #818; no PR yet. Triaged 2026-11-11 against `origin/main` `8cbb5f22`, together with #784 ([record](../../wip/784/index.md)).
 
 ## Labels
 

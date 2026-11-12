@@ -4,11 +4,12 @@ related_records:
   - foundry/issues/796
   - foundry/issues/781
   - foundry/issues/800
+  - foundry/branches/issue-784-nextflow-parity-report
 ---
 
 # #784 nextflow-to-galaxy: emit a Nextflow-vs-Galaxy divergence report at the end of the run
 
-[Issue](https://github.com/galaxyproject/foundry/issues/784). Labels: `needs-triage`, `BioHackEU26`. No PR or branch. John commented "This is such a good idea!" (2026-11-10). arash77's comment (2026-11-11) says the report must diff the final workflow against the source and not trust only the ledger's `kind: dropped` entries. Triaged 2026-11-11 against `origin/main` `8cbb5f22`, together with #798 ([record](../798/index.md)).
+[Issue](https://github.com/galaxyproject/foundry/issues/784). Labels: `priority/mvp`, `roadmap/off`, `work/in-progress`, `BioHackEU26`. Branch [`issue-784-nextflow-parity-report`](../../../branches/active/issue-784-nextflow-parity-report/index.md), stacked on #821; claimed 2026-11-12 (`work/in-progress`). Stack plan: [stack_plan.md](stack_plan.md). John commented "This is such a good idea!" (2026-11-10). arash77's comment (2026-11-11) says the report must diff the final workflow against the source and not trust only the ledger's `kind: dropped` entries. Triaged 2026-11-11 against `origin/main` `8cbb5f22`, together with #798 ([record](../798/index.md)).
 
 ## Labels
 
@@ -24,7 +25,7 @@ A new Nextflow parity Mold runs after the test, in the `nextflow-summary-to-gala
 
 ## Derived status
 
-`queued` (`queued_implement`), rule 6: flipped to `work/ready-implement` 2026-11-11 (John OK).
+`wip`, rule 2: `work/in-progress` and branch `issue-784-nextflow-parity-report` (2026-11-12).
 
 ## Findings
 
@@ -39,13 +40,11 @@ Not verified: tool-version parity (section 2). I didn't check whether the summar
 
 ## Overlap
 
-- [#796](../796/index.md), diff gate in the test phase: it should produce the diff that this report renders. Don't build the diff twice.
+- [#796](../../wip/796/index.md), diff gate in the test phase: it should produce the diff that this report renders. Don't build the diff twice.
 - [#781](../781/index.md), `ext.args` parity: section 3 links to it or includes it, as the issue already says.
 - #798: scope exclusions decided at design time feed the "dropped / out of scope" rows here.
 - #731, #656: shape checks within Galaxy. Not source parity.
 
 ## Next
 
-- Research: design the Nextflow parity Mold (inputs, output format, how it shows #781 and #798 rows). Build order: #781 and #796's generic layer now, in parallel; research on #798's scope owner; this Mold last.
-
-Staged labels applied 2026-11-11: +roadmap/off, +priority/mvp, +work/ready-research.
+- Implemented on `issue-784-nextflow-parity-report` (2026-11-12): Mold `nextflow-summary-to-galaxy-parity`, `foundry nextflow-parity`, and `foundry check-scope-records` (#798 issue F, folded in pending John's answer). Remaining: reviews, harden, polish, draft PR. Open questions in the branch's [implementation_debrief.md](../../../branches/active/issue-784-nextflow-parity-report/implementation_debrief.md).

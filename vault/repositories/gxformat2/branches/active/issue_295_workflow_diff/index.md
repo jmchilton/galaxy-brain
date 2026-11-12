@@ -24,7 +24,7 @@ PR CI not yet seen at `397819a`. PR CI at `570de0f`: Java, TypeScript, docs and 
 
 ## Notes
 
-- Issue: [gxformat2#295](https://github.com/galaxyproject/gxformat2/issues/295), record [issues/wip/295](../../../issues/wip/295/index.md). Consumer: foundry#796 / #784 ([stack plan](../../../../foundry/issues/queued/784/stack_plan.md)).
+- Issue: [gxformat2#295](https://github.com/galaxyproject/gxformat2/issues/295), record [issues/wip/295](../../../issues/wip/295/index.md). Consumer: foundry#796 / #784 ([stack plan](../../../../foundry/issues/wip/784/stack_plan.md)).
 - Worktree: `~/projects/worktrees/gxformat2/branch/issue_295_workflow_diff`.
 - Owns the shared fixtures (`format2/diff/`) and `expectations/diff.yml`; the galaxy-tool-util-ts `gxwf diff` port syncs them, so this lands first.
 - [Implementation debrief](implementation_debrief.md) holds the contract decisions the TS port must mirror.
