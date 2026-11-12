@@ -1,6 +1,6 @@
 # Implementation debrief — issue-781-plan-state-resolved-args
 
-Prevention half of galaxyproject/foundry#781. Branched from `origin/main` `df991d0d`; head `5c71a900` (content `4711c4c4`, casts + dashboard `6224dac5`, JSON-entry fixups `806b65c2`, review fixes `5b3f2b78`, Codex fix `39522711`, thermo fixes `dbca2bc5`, resolver ranking `202f959c`, Mold simplification `0c34c0fa`, casts `eb1850e2`, schema-validated tests `1087f204`, resolver review fixes `36e85683` + `fada24fd`, call context + profile win `099a9a6f`, casts `dbfdae87`, comment-parser fix `9727baa6`, call-context review fix `4c76da2e`, Codex alias-scope fix `5c71a900`).
+Prevention half of galaxyproject/foundry#781. Branched from `origin/main` `df991d0d`; head `76194bcf` (content `4711c4c4`, casts + dashboard `6224dac5`, JSON-entry fixups `806b65c2`, review fixes `5b3f2b78`, Codex fix `39522711`, thermo fixes `dbca2bc5`, resolver ranking `202f959c`, Mold simplification `0c34c0fa`, casts `eb1850e2`, schema-validated tests `1087f204`, resolver review fixes `36e85683` + `fada24fd`, call context + profile win `099a9a6f`, casts `dbfdae87`, comment-parser fix `9727baa6`, call-context review fix `4c76da2e`, Codex alias-scope fix `5c71a900`, resolver thermo refactor `76194bcf`).
 
 ## What changed
 
@@ -91,3 +91,16 @@ Commits `099a9a6f` (source), `dbfdae87` (casts), `9727baa6` (comment-parser fix)
 - **Call-context review** ([subagents/normal_review_callctx.md](subagents/normal_review_callctx.md), `4c76da2e`): the legacy parser merges a profile selector the root also declares into the root's key *at the root's position*, so another root selector at that rank can still apply later. A profile entry now wins outright only when the root chain never declares its selector (a `publishDir`-only declaration counts); otherwise it replaces only that selector's root entries and the rest ties. Red first. Also pinned the bare-name fallback for a process only an uncalled named workflow calls, strengthened the two-subworkflow test, and shared `callableNames`. The `//` fix applies to all `extractBlockAt` callers; the fixture diff covers them. Test audit: every changed expectation follows from John's decisions; none weakens a check.
 - **Codex review** ([codex_review_callctx.md](codex_review_callctx.md), `5c71a900`): call names now resolve through the calling file's own includes (aliases are file-scoped; the global alias map let one process take another's calls). Red first; real fixtures unchanged. String-literal call matches are pre-existing; the untraced bare-name fallback stays (decision for John). Gate: `make -k check` 496 tests, only `validate-roadmap` + `check-vendored` red; summarize-nextflow 135 tests.
 - **Known limits.** Fallback is per process, not per alias: an alias reached only through a parser miss loses its alias-selector entries while another alias is traced. A call the parser misses (e.g. pipe-operator `ch | FOO`, or a workflow the entry doesn't reach) gets bare names only, so qualified selectors don't reach it. The strict-parser profile caveat.
+
+## Resolver thermo harden (2026-11-12)
+
+[thermo_nuclear_review_resolver.md](thermo_nuclear_review_resolver.md), `76194bcf`, refactor only:
+- Ranking moved to `src/selector-precedence.ts` (`selectorRanks`, `effectiveArgs`, the arg contract).
+- `appended` is now flagged on `ScopedSelector`. Root entries a profile shadows are filtered once, so the `rootSelectors` parameter is gone.
+- Each selector is ranked once per call.
+- `configDirectives` is split out of `attachConfigDirectives`.
+- `workflowsByCallName` replaces three copies of the same map.
+
+Evidence: the 10 full fixture summaries (5 pipelines, with and without `--profile test`) are identical. 135 summarize-nextflow tests and 496 root tests pass.
+
+Decision for John: the global `aliasToCanonical` fallback in `processCallPaths` is reached only when a local workflow's name equals another file's alias, and then it is wrong. It was left in place to preserve behaviour.
