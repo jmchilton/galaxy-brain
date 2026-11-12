@@ -1,0 +1,112 @@
+round: 0
+reviewed_commit: 431a1bf542a221ef58d5750d4802de3e97511d19
+agents:
+  - {profile: default, path: _shared/reviewers/default.md, model: Claude Opus 5.5, effort: medium}
+  - {profile: generic_test_challenger, path: _shared/reviewers/generic_test_challenger.md, model: Claude Opus 5.5, effort: medium}
+  - {profile: generic_risk_assessment, path: _shared/reviewers/generic_risk_assessment.md, model: Claude Opus 5.5, effort: low}
+verification: {model: Claude Opus 5.5, effort: medium}
+branches:
+  - name: pr_1783_round_0_rev_0
+    revision: 0
+    head: 642f7163
+    pr_title: Rewrite test data mirror URLs in tools/fetch payloads
+    description: |
+      `pr_1783_round_0_rev_0` builds on `431a1bf5`. It first replaces the mock-patched `stage_in` tests with tests that stage jobs through the real `PlanemoStagingInterface` and assert the fetch payloads posted to Galaxy. It then moves the mirror lookup from a copy of galaxy-tool-util's job traversal into `PlanemoStagingInterface._post`, rewriting only `tools/fetch` elements with `src: url`, an http(s) `url` and declared `hashes`; `stage_in` passes `job_path` again and the contract tests pass unchanged. Two smaller commits stop a single read timeout from disabling a mirror for the rest of the run and key the hash table on galaxy-util's `HashFunctionNameEnum`. `tests/test_test_data_mirrors.py` and `tests/test_galaxy_activity.py` pass (21 tests), and flake8, black, isort and ruff are clean on the changed files.
+    commits:
+      - sha: c5fd2498
+        subject: Test mirror staging through real StagingInterface
+        detail: replaces the three mock-patched `stage_in` tests with tests that stage jobs through the real `PlanemoStagingInterface` against a recording `make_post_request` and assert the fetch payloads for top-level, list, nested collection, record and composite inputs, the legacy upload API and no mirror.
+        findings: [P2 2, P3 2]
+      - sha: 40bbb537
+        subject: Rewrite mirror URLs in tools/fetch payloads
+        detail: replaces `rewrite_job` with `rewrite_fetch_payload`, called from `PlanemoStagingInterface._post`, drops the `yaml` re-load and `job`/`job_dir` swap from `stage_in`, and adds tests for a nested element without `class` and a `galaxy_id` input.
+        findings: [P2 1]
+      - sha: b8ff03f7
+        subject: Only drop test data mirror on connection errors
+        detail: marks a mirror unreachable only on `requests.ConnectionError` (connect timeouts included); other request errors skip that file only.
+        findings: [P3 1]
+      - sha: 642f7163
+        subject: Key mirror hash table on galaxy-util's HashFunctionNameEnum
+        detail: keys `HASH_FUNCTIONS` on `galaxy.util.hash_util.HashFunctionNameEnum` instead of string literals.
+        findings: [P3 3]
+actions: {approve: false, approve_and_merge: false, comment: false, review_comment: false, request_changes: false, pull_request: false, push: false, issue_refactor: false, issue_galaxy_brain: false}
+findings:
+  - id: P2 1
+    include: true
+    title: Rewrite the fetch payload in `PlanemoStagingInterface._post` instead of re-walking the job file
+    summary: rewrite_job copies galaxy-tool-util's job traversal and already diverges (nested elements without class skipped, galaxy_id inputs looked up); moved into _post.
+    implementation_verified: true
+    issue: |
+      `HashMirrors.rewrite_job` / `_rewrite_item` / `_rewrite_file` copy the traversal rules of galaxy-tool-util's `galactic_job_json`: `location` vs `path`, name defaulting, records uploaded without hashes, composite Files whose items carry no hashes. The comments say so ("same choice as galaxy-tool-util's staging"). The copies already diverge. `to_elements` nests by `collection_type`, not by `class`, so a nested collection element without `class: Collection` is staged but not rewritten. A File with `galaxy_id` is staged as `src: hda` but still gets a HEAD request and a rewrite. If galaxy-tool-util changes any of these rules, the two copies drift apart silently. `stage_in` also has to re-read the job YAML and swap `job_path=` for `job=`/`job_dir=`, which repeats what `StagingInterface.stage()` does.
+
+      planemo already overrides `_post`, and every upload Galaxy will hash-check reaches it as a `tools/fetch` element with `src: url`, the `url`, the declared `hashes` and the `name` galaxy-tool-util already derived from the original URL. Rewriting there applies only to elements Galaxy verifies, by construction. Records (no hashes), composite data (`src: composite`), `galaxy_id` (never posted), local files (`src: files` or `file://`) and the legacy upload API (posts to `tools`) all drop out without special cases.
+    evidence: |
+      Against `431a1bf5`, a `list:list` collection whose inner element has no `class: Collection` was fetched from the origin URL, and a `galaxy_id` input with hashes caused one HEAD request to the mirror. Both tests pass after the change.
+    fix: |
+      `PlanemoStagingInterface` now takes an optional `HashMirrors`, and `_post` calls `HashMirrors.rewrite_fetch_payload` for `tools/fetch` payloads. It rewrites only elements with `src: url`, an `http(s)` URL and declared `hashes`. `rewrite_job` and its helpers, the `yaml` re-load and the `job`/`job_dir` swap are gone, so `stage_in` passes `job_path` as before. `test_rewrite_job` became a payload-level test, and two `stage_in` tests cover the nested-element and `galaxy_id` cases. The real-staging tests from P2 2 pass unchanged across the refactor.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+  - id: P2 2
+    include: true
+    title: "Untested: rewritten inputs reach Galaxy's fetch payload with their hashes"
+    summary: The safety argument (mirror URL goes to Galaxy with declared hashes) was untested because stage_in tests mocked the staging interface; added real-staging tests.
+    implementation_verified: true
+    issue: |
+      The PR's "the mirror does not need to be trusted" argument depends on galaxy-tool-util putting the declared `hashes` into the fetch element of every File whose URL points at a mirror. The three `stage_in` tests patch `PlanemoStagingInterface` wholesale and only check the kwargs passed to the mock. A galaxy-tool-util change that dropped `hashes` from URL fetch elements, or changed which keys it reads, would pass every test while Galaxy accepted unverified mirror bytes.
+    fix: |
+      Added `stage_in` tests that stage jobs through the real `PlanemoStagingInterface`, with a `make_post_request` that records every payload. They assert that top-level, list and both nested `list:paired` elements are fetched from the mirror with the declared `hashes` and the original-URL name. Records and composite data keep the origin URL, the legacy upload API (`version_major` 20.05) posts the origin URL without any HEAD request, and staging without a mirror does no lookups. No Galaxy is needed.
+    discovered_by:
+      - {profile: generic_test_challenger, model: Claude Opus 5.5, effort: medium}
+  - id: P3 1
+    include: true
+    title: One transient HEAD failure turns the mirror off for the rest of the process
+    summary: Any RequestException (incl. a single read timeout) marked the mirror unreachable for the process-wide singleton; now only ConnectionError does.
+    implementation_verified: true
+    issue: |
+      `_is_available` added the mirror to `_unreachable` on any `requests.RequestException`, including a single 10s read timeout. `hash_mirrors()` is an `lru_cache`d process-wide singleton, so in a long `planemo test` run over many workflows (the IWC CI case the PR targets), one blip sent every remaining input back to Zenodo and brought back the 429s the feature exists to avoid. Optional.
+    evidence: |
+      Against the reviewed code, a `ReadTimeout` on one HEAD made a later lookup of a different hash return `None` without asking the mirror.
+    fix: |
+      Only `requests.ConnectionError` (which includes `ConnectTimeout`) now marks a mirror unreachable. Other request errors, such as a read timeout, skip that file only. Added a test where a read timeout on one hash is followed by a mirror hit on another.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+  - id: P3 2
+    include: true
+    title: "`stage_in` tests mock around an inline decision; `use_fetch_api` true by accident"
+    summary: test_stage_in_uses_mirror relied on an auto-created MagicMock attribute being truthy; the mocked tests were replaced by real-staging ones.
+    implementation_verified: true
+    issue: |
+      `test_stage_in_uses_mirror` left `psi.use_fetch_api` as an auto-created `MagicMock` attribute, so the gate under test was true by accident (the sibling test set it to `False` explicitly). All three `stage_in` tests repeated the same job-file, runnable and patch setup and called `hash_mirrors.cache_clear()` ad hoc.
+    fix: |
+      The mock-patched tests are replaced by the real-staging tests from P2 2, which pick the fetch or legacy path through `version_major` rather than a mock attribute. `hash_mirrors.cache_clear()` moved into an autouse fixture.
+    discovered_by:
+      - {profile: generic_test_challenger, model: Claude Opus 5.5, effort: medium}
+  - id: P3 3
+    include: true
+    title: Reuse galaxy-util's hash function names
+    summary: HASH_FUNCTIONS repeated Galaxy's hash names as literals; now keyed on galaxy.util.hash_util.HashFunctionNameEnum.
+    issue: |
+      The `HASH_FUNCTIONS` keys repeat Galaxy's hash function names as string literals. `galaxy.util.hash_util.HashFunctionNameEnum` (galaxy-util is already a planemo requirement, `>=26.0`) defines `MD5`, `SHA-1`, `SHA-256` and `SHA-512`. Keying the table on the enum ties planemo's list to Galaxy's and adds typing. Nit.
+    fix: |
+      `HASH_FUNCTIONS` is now a `Dict[HashFunctionNameEnum, Tuple[str, int]]`. The enum is a `str` subclass, so lookups by the declared string names are unchanged.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+  - id: P3 4
+    include: true
+    title: "Optional: Galaxy-backed end-to-end test of the mirror path"
+    summary: Optional E2E test with a local mirror server; not written because planemo has no way to allowlist loopback URLs for Galaxy's fetch.
+    issue: |
+      The PR describes a manual end-to-end check: an unresolvable origin, two mirrors where the first returns 404 and the second 200, and tampered bytes failing with `Failed to validate upload`. Encoding the positive case in `tests/test_cmd_test.py`, under `@skip_if_environ("PLANEMO_SKIP_GALAXY_TESTS")`, with a local `HTTPServer` like the one in `tests/test_gravity_multiprocessing.py`, would guard the full CLI → staging → Galaxy fetch path. Optional: P2 2 covers planemo's side, and the hash check itself is Galaxy's job.
+    fix: |
+      Not fixed on the review branch. planemo sets no `fetch_url_allowlist` for the Galaxy it starts, and Galaxy refuses to fetch from loopback or private addresses unless they are allowlisted. The test needs that config hook (or a mirror bound to a public interface) plus about 80 lines, and a multi-minute Galaxy run to check it.
+    discovered_by:
+      - {profile: generic_test_challenger, model: Claude Opus 5.5, effort: medium}
+  - id: F1
+    include: false
+    title: Expected-output `location:` downloads still go to the origin
+    summary: "_check_output._get_location doesn't use the mirror; the PR lists this under Possible follow-ups."
+    filtered:
+      category: relitigates_pr
+      reason: The PR description lists mirroring expected outputs given as location URLs as a follow-up.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}

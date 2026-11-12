@@ -19,5 +19,6 @@
 - [#1747](https://github.com/galaxyproject/planemo/pull/1747) — Approved with response; review-fix PR mvdbeek/planemo#2 merged (head `04c44d6c`); awaiting merge. [notes](active/1747/index.md)
 - [#1756](https://github.com/galaxyproject/planemo/pull/1756) — Approved with response; review branch pushed to PR head; awaiting merge. [notes](active/1756/index.md)
 - [#1782](https://github.com/galaxyproject/planemo/pull/1782) — Initial review drafted; review branch pushed; not delivered. [notes](active/1782/index.md)
+- [#1783](https://github.com/galaxyproject/planemo/pull/1783) — Initial review drafted; review branch pushed; not delivered. [notes](active/1783/index.md)
 
 GitHub state last refreshed: 2026-10-27.
