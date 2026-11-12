@@ -10,11 +10,11 @@ related_records: foundry/issues/796
 
 ## Status
 
-Implemented, normal review fixes at head `ccf4a817` on `~/projects/worktrees/foundry/branch/issue-796-test-phase-removed-steps`, branched from parent `issue-781-plan-state-resolved-args` at `ef1607a8` (draft PR #809); normal review done ([subagents/normal_review.md](subagents/normal_review.md)); harden and polish not yet run.
+Implemented and hardened at head `5e1f57a2` on `~/projects/worktrees/foundry/branch/issue-796-test-phase-removed-steps`, branched from parent `issue-781-plan-state-resolved-args` at `ef1607a8` (draft PR #809); normal review, Codex and thermo-nuclear reviews done; polish not yet run.
 
 No PR yet; it must stay draft until `gxwf diff` ships in a `@galaxy-tool-util/cli` release (gtu-ts #233) with a Foundry pin bump, and `@galaxy-foundry/gxwf-foundry` publishes `check-step-removals`.
 
-CI runs only on PRs; local `make -k check` at `ccf4a817` (2026-11-12) is red only on `validate-roadmap` (live roadmap state) and `check-vendored` (machine-only).
+CI runs only on PRs; local `make -k check` at `5e1f57a2` (2026-11-12) is red only on `validate-roadmap` (live roadmap state) and `check-vendored` (machine-only).
 
 ## Decisions
 
@@ -23,3 +23,6 @@ CI runs only on PRs; local `make -k check` at `ccf4a817` (2026-11-12) is red onl
 ## Files
 
 - [implementation_debrief.md](implementation_debrief.md)
+- [subagents/normal_review.md](subagents/normal_review.md)
+- [codex_review.md](codex_review.md)
+- [thermo_nuclear_review.md](thermo_nuclear_review.md)

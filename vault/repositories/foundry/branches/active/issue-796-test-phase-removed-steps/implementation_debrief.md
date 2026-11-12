@@ -4,7 +4,7 @@ galaxyproject/foundry#796 parts 1 and 2 (part 3 is #800). Stacked on `issue-781-
 
 ## What changed
 
-- **`foundry check-step-removals <diff.json> <ledger.yml> [--json]`** (`packages/gxwf-foundry/src/step-removals.ts`, `commands/check-step-removals.ts`). Reads `gxwf diff --json` output (or `-` for stdin) and the ledger. A removed step is labelled by an `entries[]` item (or an item of a bare-list ledger) with `kind: dropped`, a top-level `step` equal to the step key or label, and no `source_arg`. Any status counts. Gaps, flag records and `decisions` don't. Exit 0 all labelled, 4 unlabelled, 3 malformed input, 1 read error. `--json` gives `{ok, removed_steps[{step,label,dropped_entries}], unlabelled, unwired_inputs}`; unwired inputs are reported only. Meta, README, library export, CLI page `content/cli/foundry/check-step-removals.md`, minor changeset.
+- **`foundry check-step-removals <diff.json> <ledger.yml> [--json]`** (`packages/gxwf-foundry/src/step-removals.ts`, `commands/check-step-removals.ts`). Reads `gxwf diff --json` output (or `-` for stdin) and the ledger. A removed step is labelled by an `entries[]` item (or an item of a bare-list ledger) with `kind: dropped`, a top-level `step` equal to the step key or label, and no `source_arg`. Any status counts. Gaps, flag records and `decisions` don't. Exit 0 all labelled, 4 unlabelled, 3 wrong shape after parsing, 1 read or parse error. `--json` gives `{ok, removed_steps[{step,label,dropped_entries}], unlabelled, unwired_inputs}`; unwired inputs are reported only. Meta, README, library export, CLI page `content/cli/foundry/check-step-removals.md`, minor changeset.
 - **Snapshots (advance-galaxy-draft-step rev 14).** Two write-once outputs:
   - `galaxy-workflow-draft-snapshot` → `galaxy-workflow-draft.snapshot.gxwf.yml`: the draft as the loop first received it, `_plan_*` intact. For #784.
   - `galaxy-workflow-extracted` → `galaxy-workflow.extracted.gxwf.yml`: the first extract output, frozen before the test phase. The gate diffs against this one.
@@ -17,6 +17,11 @@ galaxyproject/foundry#796 parts 1 and 2 (part 3 is #800). Stacked on `issue-781-
 ## Normal review
 
 [subagents/normal_review.md](subagents/normal_review.md), commit `ccf4a817`. Fixed: subworkflow coverage overclaimed (inline `run` isn't diffed; docs and Mold now say top-level only); list-form relabel reads as removed + added (CLI gotcha, debug step 8 restores the label); bare-list ledger now accepted like `build-cli`'s reader. For John: upstream #233 contract says a label change is `fields.label`, true only for dict form.
+
+## Harden
+
+- [codex_review.md](codex_review.md), commit `c48a8ee2`. One of four findings held: the CLI page said any non-list `entries` exits 3, but an empty `entries:` reads as no drops. The page was fixed and a test pins the behaviour. The rest were refuted: the `gxwf diff` release dependency, the placeholder fixture URL (house convention) and the parse-error exit code (documented as exit 1).
+- [thermo_nuclear_review.md](thermo_nuclear_review.md), commits `9fa4bfc2` and `5e1f57a2`. Shared `lib/read-input.ts` replaces four read-or-exit copies, with behaviour preserved. run-workflow-test step 6 and debug step 8 now use a lead sentence plus route bullets, with the same content. The shared ledger reader is still deferred, because its semantics diverge (see the debrief).
 
 ## Decision for John: why two snapshots
 
@@ -34,7 +39,7 @@ End to end needs two releases:
 
 ## Local gate
 
-`npm run packages-build` first, then `make -k check`: see the branch index for the result. gxwf-foundry package: 116 tests pass after the normal review; `make -k check` at `ccf4a817` (2026-11-12) red only on `validate-roadmap` (live GitHub roadmap state) and `check-vendored` (machine-only), 501 tests pass. Format, lint, typecheck clean.
+`npm run packages-build` first, then `make -k check`: see the branch index for the result. gxwf-foundry package: 117 tests pass after harden; `make -k check` at `5e1f57a2` (2026-11-12) red only on `validate-roadmap` (live GitHub roadmap state) and `check-vendored` (machine-only), 501 tests pass. Format, lint, typecheck clean.
 
 ## For the stack
 
