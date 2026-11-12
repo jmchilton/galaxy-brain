@@ -42,3 +42,8 @@ JSON output with a declared shape, plus human-readable text.
   - **#784:** join flag records on `source_arg.step` + `source_arg.arg` across `decisions` and `entries`. Read flags and the effective set from `summary-nextflow.json` (`effective_args`), since `_plan_state` is stripped at extract. Overridden entries are `resolved_args` minus `effective_args`. Map a step to its calls with `_plan_state.calls` from the pre-extract draft snapshot, joined to `effective_args[].call`; ids alone don't identify a call.
   - **#798:** keep scope decisions and drops distinguishable from flag records, which carry `source_arg`.
 - **Local gate:** run `npm run packages-build` before `make casts` / `make check`. A stale `packages/*/dist` let stale casts pass the gate. Children rebase onto #781 and regenerate casts rather than resolving cast conflicts by hand.
+- **#796** (`issue-796-test-phase-removed-steps`, parent #781). There are two snapshots, both written by advance rev 14:
+  - `galaxy-workflow-draft.snapshot.gxwf.yml`: the pre-loop draft, `_plan_*` intact. **#784 diffs this against the final workflow.**
+  - `galaxy-workflow.extracted.gxwf.yml`: the first extract. The gate diffs this.
+
+  The gate itself is `foundry check-step-removals <diff.json> <ledger.yml>`, which exits 4 on unlabelled removals. `_plan_state.calls` shows up in `steps.removed[].plan_fields` and `plan_fields_before`.

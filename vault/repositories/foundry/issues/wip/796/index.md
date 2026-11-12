@@ -6,6 +6,7 @@ related_records:
   - foundry/issues/800
   - gxformat2/issues/295
   - gxformat2/branches/issue_295_workflow_diff
+  - foundry/branches/issue-796-test-phase-removed-steps
 ---
 
 # #796 Test phase: steps removed to make planemo test pass are never checked against the extracted workflow or restored
@@ -22,7 +23,7 @@ Applied 2026-11-11.
 
 ## Derived status
 
-`queued` (`queued_implement`), rule 6.
+`wip`, rule 2: claimed 2026-11-12 (`work/in-progress`), branch `issue-796-test-phase-removed-steps` ([record](../../../branches/active/issue-796-test-phase-removed-steps/index.md)), stacked on #809.
 
 ## Findings
 
@@ -47,7 +48,7 @@ John, 2026-11-11: OK with diff-and-label (no totals). No umbrella; keep it `road
 
 - **Generic layer (this issue):** a `gxwf` command that diffs a snapshot of the draft (with `_plan_*` intact, so the step mapping survives) against the final workflow. `run-workflow-test`'s green result fails when a removed step has no `kind: dropped` entry naming its `step`. This covers all 10 pipelines that run `run-workflow-test`, with no new step. Also bundle `open-requirements-ledger.md` into the `run-workflow-test` and `debug-galaxy-workflow-output` casts, and add the `validation_failed` hint to debug.
 - **Nextflow layer (#784):** a new Nextflow parity Mold after the test consumes this diff. It only reports; no routing back into the test loop.
-- **Part 3 (restoration):** split out to [#800](https://github.com/galaxyproject/foundry/issues/800) ([record](../800/index.md)), `priority/v2`. The [comment on #796](https://github.com/galaxyproject/foundry/issues/796#issuecomment-6802790401) (2026-11-11) tells agents to implement only parts 1 and 2.
+- **Part 3 (restoration):** split out to [#800](https://github.com/galaxyproject/foundry/issues/800) ([record](../../queued/800/index.md)), `priority/v2`. The [comment on #796](https://github.com/galaxyproject/foundry/issues/796#issuecomment-6802790401) (2026-11-11) tells agents to implement only parts 1 and 2.
 
 ## Next
 

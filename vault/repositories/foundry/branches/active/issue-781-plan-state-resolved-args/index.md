@@ -1,6 +1,7 @@
 ---
 upstream_base_branch: main
 related_records: foundry/issues/781
+child_branches: issue-796-test-phase-removed-steps
 pr: 809
 ---
 # Carry nf-core `ext.args` into the Galaxy draft as structured `_plan_state`
