@@ -41,3 +41,4 @@ JSON output with a declared shape, plus human-readable text.
     - Only one `ext.*` assignment per key wins, by Nextflow selector precedence.
     - An overridden entry gets one `not_applicable` record with no `flags`, so #784 must join across `decisions` and `entries`.
     - A same-rank tie is an open plain gap with a top-level `step` and no `source_arg`. It isn't `kind: dropped`, so #796 ignores it.
+  - After codex review: `source_arg` also carries `config` and, when set, `profile`. The #784 join key includes both.
