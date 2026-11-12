@@ -2,6 +2,7 @@
 upstream_base_branch: main
 parent_branch: issue-796-test-phase-removed-steps
 related_records: foundry/issues/798
+pr: 821
 ---
 # Record Nextflow scope decisions and excluded branches in the ledger
 
@@ -10,11 +11,11 @@ related_records: foundry/issues/798
 
 ## Status
 
-Polishing at head `5feb4633` on `~/projects/worktrees/foundry/branch/issue-798-nextflow-scope-decisions` (parent `issue-796-test-phase-removed-steps` at `b74c6bdd`, draft PR #818): description, titles and tags written, strengthening round next.
+Polished (see [polish_debrief.md](polish_debrief.md)) at head `4ff48eda` on `~/projects/worktrees/foundry/branch/issue-798-nextflow-scope-decisions` (parent `issue-796-test-phase-removed-steps` at `b74c6bdd`, draft PR #818): strengthening round done ([subagents/strengthen.md](subagents/strengthen.md)), description now `Toward`/`Part of #798`.
 
-No PR yet.
+Draft PR [#821](https://github.com/galaxyproject/foundry/pull/821), opened 2026-11-12 at John's request (depends on #818 → #809); Part of #798.
 
-CI runs only on PRs. Local `make -k check` at `5feb4633` (2026-11-12) is red only on `validate-roadmap` (rate limit) and `check-vendored` (fails on this machine only), with 503 tests passing. Typecheck and packages-typecheck are clean.
+CI runs only on PRs. Local `make -k check` at `4ff48eda` (2026-11-12) is red only on `validate-roadmap` (rate limit) and `check-vendored` (fails on this machine only), with 503 tests passing. Typecheck and packages-typecheck are clean.
 
 ## Open questions for John
 
@@ -24,6 +25,12 @@ From [domain_review.md](domain_review.md):
 - Stay draft until the summarizer fixes (issues A and B) land, or accept name-only candidate citations meanwhile?
 - Move the fallback ranking into summarize-nextflow, or keep it in the Mold?
 - File drafted issues A–F?
+
+From [subagents/strengthen.md](subagents/strengthen.md):
+
+- Confirm `Part of #798` rather than `Closes`: proposal 1 (summary path report) isn't met, there's no scope parameter, and no end-to-end run.
+- Commit a trimmed sarek summary so the citation test runs in CI?
+- An end-to-end sarek run before undrafting?
 
 ## Decisions
 
@@ -39,6 +46,7 @@ From [domain_review.md](domain_review.md):
 - [pr_tags.md](pr_tags.md)
 - [implementation_debrief.md](implementation_debrief.md)
 - [subagents/normal_review.md](subagents/normal_review.md)
+- [subagents/strengthen.md](subagents/strengthen.md)
 - [codex_review.md](codex_review.md)
 - [thermo_nuclear_review.md](thermo_nuclear_review.md)
 - [domain_review.md](domain_review.md)
