@@ -23,7 +23,7 @@ Applied 2026-11-11. Keep `BioHackEU26`.
 
 ## Derived status
 
-`queued` (`queued_implement`), rule 6.
+`wip`, rule 2: `work/in-progress` (claimed 2026-11-12), branch [`issue-781-plan-state-resolved-args`](../../../branches/active/issue-781-plan-state-resolved-args/index.md) (prevention half).
 
 ## Findings
 

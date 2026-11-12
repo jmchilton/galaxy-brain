@@ -27,3 +27,13 @@ Report:
 - AFTER inputs that feed no step
 
 JSON output with a declared shape, plus human-readable text.
+
+## Notes from earlier branches (for the later ones)
+
+- **gxformat2 #296 / gxwf #233:** both diffs are draft PRs. Foundry pins published `@galaxy-tool-util/cli` `^1.15`, so `gxwf diff` isn't usable in Foundry CI until a release. Contract: "Contract decisions" in `gxformat2/branches/active/issue_295_workflow_diff/implementation_debrief.md`.
+- **#781** (`issue-781-plan-state-resolved-args`):
+  - `_plan_state` stays a string. It holds a YAML doc `{resolved_args: [one-line JSON objects], intent}`.
+  - Per-flag ledger records carry `source_arg {step, process, invoked_as?, key, selector, flags?}`. They never set a top-level `step`.
+  - **#796:** match dropped *steps* on top-level `step` only, and ignore entries that carry `source_arg`.
+  - **#784:** join flag records on `source_arg`. Read the flags from `summary-nextflow.json`, since `_plan_state` is stripped at extract.
+  - **#798:** keep scope decisions and drops distinguishable from flag records.
