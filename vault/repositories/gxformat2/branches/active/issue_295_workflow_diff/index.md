@@ -1,6 +1,7 @@
 ---
 upstream_base_branch: main
 pr: 296
+blockers: gxformat2/branches/ci_restrict_pytest_testpaths
 blocking: galaxy-tool-util-ts/branches/issue_232_workflow_diff
 related_records:
   - foundry/issues/796
@@ -19,7 +20,7 @@ Polished at `4440404` on the `jmchilton` fork (base `origin/main` `83b59e7`), af
 
 Draft PR [#296](https://github.com/galaxyproject/gxformat2/pull/296), opened 2026-11-11 at John's request (stacked parity work; TS port PR to follow).
 
-Fork CI at `4440404`: Java, TypeScript, docs and Python 3.10/3.11/3.12/3.14 green; 3.13 red is unrelated, from IWC merge #1541 adding a `scripts/tests` that pytest collects from the `iwc/` clone ([verdict](subagents/strengthen.md#ci-verdict)); 3.15 cancelled by it.
+PR CI at `570de0f`: Java, TypeScript, docs and Python 3.11/3.12 green; 3.13 red is unrelated (on base), from IWC #1541's `scripts/tests` collected from the `iwc/` clone; 3.10/3.14/3.15 cancelled by it. Fixed on [`ci_restrict_pytest_testpaths`](../ci_restrict_pytest_testpaths/index.md); rebase once that lands, since reruns won't help.
 
 ## Notes
 
