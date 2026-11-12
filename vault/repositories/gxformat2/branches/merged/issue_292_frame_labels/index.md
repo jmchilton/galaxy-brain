@@ -11,11 +11,9 @@ pr: 293
 
 ## Status
 
-Polished; head `2601790` on `galaxyproject/main` `4e245c2`.
+Merged 2026-11-12.
 
-Draft PR [#293](https://github.com/galaxyproject/gxformat2/pull/293), opened 2026-11-10 at John's request; draft until John's read-through.
-
-CI running on `2601790`; local pytest (incl. IWC) and lint gate green; fork CI green on `c0e5f73`.
+PR #293 merged as `d00e1f7`; follow-ups (out-of-range frame indices) tracked separately.
 
 ## Links
 
@@ -23,6 +21,6 @@ CI running on `2601790`; local pytest (incl. IWC) and lint gate green; fork CI g
 
 ## Notes
 
-- Issue: [gxformat2#292](https://github.com/galaxyproject/gxformat2/issues/292), record [issues/wip/292](../../../issues/wip/292/index.md).
-- Paired TS PR [#227](https://github.com/jmchilton/galaxy-tool-util-ts/pull/227), branch: [`issue_225_frame_labels`](../../../../galaxy-tool-util-ts/branches/active/issue_225_frame_labels/index.md).
+- Issue: [gxformat2#292](https://github.com/galaxyproject/gxformat2/issues/292), record [issues/closed/292](../../../issues/closed/292/index.md).
+- Paired TS PR [#227](https://github.com/jmchilton/galaxy-tool-util-ts/pull/227), branch: [`issue_225_frame_labels`](../../../../galaxy-tool-util-ts/branches/merged/issue_225_frame_labels/index.md).
 - Worktree: `~/projects/worktrees/gxformat2/branch/issue_292_frame_labels`.

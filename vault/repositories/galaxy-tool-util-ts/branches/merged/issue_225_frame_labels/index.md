@@ -11,11 +11,9 @@ pr: 227
 
 ## Status
 
-Polished; head `35bc3740` on `origin/main` `68451c8e`.
+Merged 2026-11-12.
 
-Draft PR [#227](https://github.com/jmchilton/galaxy-tool-util-ts/pull/227), opened 2026-11-10 at John's request; draft until John's read-through.
-
-CI running on `35bc3740`; local gate (`make check`, `lint:unused:ci`, build, `make test`) green.
+PR #227 merged; follow-ups (out-of-range frame indices) tracked separately.
 
 ## Links
 
@@ -23,6 +21,6 @@ CI running on `35bc3740`; local gate (`make check`, `lint:unused:ci`, build, `ma
 
 ## Notes
 
-- Issue: [galaxy-tool-util-ts#225](https://github.com/jmchilton/galaxy-tool-util-ts/issues/225), record [issues/wip/225](../../../issues/wip/225/index.md).
-- Paired gxformat2 PR [#293](https://github.com/galaxyproject/gxformat2/pull/293), branch: [`issue_292_frame_labels`](../../../../gxformat2/branches/active/issue_292_frame_labels/index.md) supplies the synced fixtures and expectations.
+- Issue: [galaxy-tool-util-ts#225](https://github.com/jmchilton/galaxy-tool-util-ts/issues/225), record [issues/closed/225](../../../issues/closed/225/index.md).
+- Paired gxformat2 PR [#293](https://github.com/galaxyproject/gxformat2/pull/293), branch: [`issue_292_frame_labels`](../../../../gxformat2/branches/merged/issue_292_frame_labels/index.md) supplies the synced fixtures and expectations.
 - Worktree: `~/projects/worktrees/galaxy-tool-util-ts/branch/issue_225_frame_labels`.

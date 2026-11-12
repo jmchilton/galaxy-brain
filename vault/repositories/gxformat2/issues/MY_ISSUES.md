@@ -8,7 +8,6 @@ None yet.
 
 - [#288](https://github.com/galaxyproject/gxformat2/issues/288) — `validate_draft` accepts cyclic step graphs; PR [#294](https://github.com/galaxyproject/gxformat2/pull/294), TS port jmchilton/galaxy-tool-util-ts#228. [notes](wip/288/index.md)
 - [#295](https://github.com/galaxyproject/gxformat2/issues/295) — no structural diff of two Format2 workflows (draft or final) for foundry#796; branch `issue_295_workflow_diff`. [notes](wip/295/index.md)
-- [#292](https://github.com/galaxyproject/gxformat2/issues/292) — unknown frame `contains_steps` label crashes conversion; lint misses it and empty frames; PR [#293](https://github.com/galaxyproject/gxformat2/pull/293). [notes](wip/292/index.md)
 
 ## Queued (`queued`)
 

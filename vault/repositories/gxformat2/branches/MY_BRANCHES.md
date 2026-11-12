@@ -16,7 +16,6 @@ None yet.
 
 ## Draft gxformat2 PRs — waiting for CI (`ci_wait`)
 
-- [`issue_292_frame_labels`](active/issue_292_frame_labels/index.md) — Lint and conversion reject unknown frame `contains_steps`/`contains_comments` labels; empty-frame warning (#292). Draft until John reviews. [#293](https://github.com/galaxyproject/gxformat2/pull/293).
 
 ## Draft gxformat2 PRs — needs author work (`author_work`)
 

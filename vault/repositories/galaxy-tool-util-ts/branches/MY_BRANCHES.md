@@ -17,7 +17,6 @@ None yet.
 
 ## Draft PRs — waiting for CI (`ci_wait`)
 
-- [`issue_225_frame_labels`](active/issue_225_frame_labels/index.md) — `gxwf lint`/`convert` reject unknown frame `contains_steps`/`contains_comments` labels; empty-frame warning (#225). Draft until John reviews. [#227](https://github.com/jmchilton/galaxy-tool-util-ts/pull/227).
 - [`issue_216_concrete_errors`](active/issue_216_concrete_errors/index.md) — `draft-validate --concrete --json`: top-level `concrete_errors`, step `label` on results (#216). Draft until John reviews. [#226](https://github.com/jmchilton/galaxy-tool-util-ts/pull/226).
 - [`issue_232_workflow_diff`](active/issue_232_workflow_diff/index.md) — `diffWorkflows` + `gxwf diff BEFORE AFTER`: structural Format2/draft diff (gxformat2#295 port, #232). [#233](https://github.com/jmchilton/galaxy-tool-util-ts/pull/233).
 
