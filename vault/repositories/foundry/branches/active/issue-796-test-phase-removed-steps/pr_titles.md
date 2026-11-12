@@ -1,0 +1,5 @@
+- Fail a green test run that lost steps without a drop label
+- run-workflow-test: check steps removed since extraction against the ledger
+- Diff the test-phase workflow against its extracted snapshot; unlabelled removals fail the run
+- Add `foundry check-step-removals` and gate green Planemo runs on it
+- Test phase can't silently remove steps: every removal needs a `kind: dropped` entry

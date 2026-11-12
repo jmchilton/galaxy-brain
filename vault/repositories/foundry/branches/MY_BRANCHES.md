@@ -39,7 +39,7 @@ None yet.
 
 ## Foundry branches — implemented, work left (`branches_implemented_needs_ci`)
 
-- [`issue-796-test-phase-removed-steps`](active/issue-796-test-phase-removed-steps/index.md) — run-workflow-test fails a green run when a step removed since extraction has no drop entry (#796). Stacked on #809. [Open PR](https://github.com/jmchilton/foundry/compare/issue-781-plan-state-resolved-args...issue-796-test-phase-removed-steps).
+None yet.
 
 ## Foundry branches — implemented, work left, green (`branches_implemented`)
 
@@ -49,7 +49,7 @@ None yet.
 
 ## Foundry branches — needs polish (`branches_need_polish`)
 
-None yet.
+- [`issue-796-test-phase-removed-steps`](active/issue-796-test-phase-removed-steps/index.md) — run-workflow-test fails a green run when a step removed since extraction has no drop entry (#796). Stacked on #809. [Open PR](https://github.com/jmchilton/foundry/compare/issue-781-plan-state-resolved-args...issue-796-test-phase-removed-steps).
 
 ## Foundry branches — ready for final review (`branches_ready_for_final_review`)
 
