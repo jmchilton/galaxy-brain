@@ -1,0 +1,5 @@
+- Carry nf-core `ext.args` into the Galaxy draft and record a disposition for every flag
+- Rank nf-core `ext.args` per call and carry them into `_plan_state`
+- summarize-nextflow: rank `resolved_args` per call; Galaxy draft carries the effective flags
+- Source flags reach Galaxy step state as data, one ledger record per flag
+- Galaxy draft Molds bind nf-core config flags from `effective_args`, not prose

@@ -9,11 +9,11 @@ related_records: foundry/issues/781
 
 ## Status
 
-Implemented and hardened (normal, Codex, thermo reviews), selector ranking moved into `summarize-nextflow`, then per John (2026-11-12) `effective_args` keyed by Nextflow call path (`call`) with qualified selectors matched along real call chains, and a selected profile beating root at equal rank (unless root declares the same selector); call-context normal + Codex reviews acted on, resolver thermo refactor (behaviour-identical), domain review acted on (if/else branch tie), documentation review acted on; head `52762228` on `~/projects/worktrees/foundry/branch/issue-781-plan-state-resolved-args`, branched from `origin/main` at `df991d0d`.
+Polishing (description, titles, tags written; strengthening round next) at head `52762228` on `~/projects/worktrees/foundry/branch/issue-781-plan-state-resolved-args`, branched from `origin/main` `df991d0d`.
 
 No PR yet.
 
-No CI (runs only on PRs). Local `make check` green apart from `validate-roadmap` (pre-existing live-state roadmap drift: #803, #805, #783) and `check-vendored` (machine-only).
+No CI until a PR opens; local `make -k check` at `52762228` (2026-11-12) passes 496 tests, red only on `validate-roadmap` (live roadmap drift: #803, #805, #783) and `check-vendored` (machine-only).
 
 ## Stack
 
@@ -21,6 +21,9 @@ Parent of the #796 branch (stack #781 → #796 → #798 → #784, see [stack_pla
 
 ## Files
 
+- [pr_description.md](pr_description.md)
+- [pr_titles.md](pr_titles.md)
+- [pr_tags.md](pr_tags.md)
 - [implementation_debrief.md](implementation_debrief.md)
 - [codex_review.md](codex_review.md)
 - [thermo_nuclear_review.md](thermo_nuclear_review.md)

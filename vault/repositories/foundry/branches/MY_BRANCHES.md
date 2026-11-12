@@ -45,11 +45,10 @@ None yet.
 - [`fix/advance-draft-needs-tool`](active/fix-advance-draft-needs-tool/index.md) — Draft loop records a step that needs a tool instead of improvising one; close-enough rule. Stacked on #686. [Open PR](https://github.com/galaxyproject/foundry/compare/feat/test-pipeline-draft-loop...fix/advance-draft-needs-tool).
 - [`docs/issue-labels`](active/docs-issue-labels/index.md) — Documents GitHub issue labels and triage rules (`content/meta/issue-labels.md`). [Open PR](https://github.com/galaxyproject/foundry/compare/main...docs/issue-labels).
 - [`issue-534-concrete-nextflow-scenarios`](active/issue-534-concrete-nextflow-scenarios/index.md) — Replaces abstract summarize-nextflow scenarios with concrete pinned fixtures (#534). [Open PR](https://github.com/galaxyproject/foundry/compare/main...issue-534-concrete-nextflow-scenarios).
-- [`issue-781-plan-state-resolved-args`](active/issue-781-plan-state-resolved-args/index.md) — Template copies nf-core `resolved_args` into `_plan_state`; implement records per-flag dispositions (#781). [Open PR](https://github.com/galaxyproject/foundry/compare/main...jmchilton:foundry:issue-781-plan-state-resolved-args).
 
 ## Foundry branches — needs polish (`branches_need_polish`)
 
-None yet.
+- [`issue-781-plan-state-resolved-args`](active/issue-781-plan-state-resolved-args/index.md) — summarize-nextflow ranks `ext.args` per call; template copies them to `_plan_state`, one disposition per flag (#781). [Open PR](https://github.com/galaxyproject/foundry/compare/main...jmchilton:foundry:issue-781-plan-state-resolved-args).
 
 ## Foundry branches — ready for final review (`branches_ready_for_final_review`)
 
