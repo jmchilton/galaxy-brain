@@ -42,3 +42,4 @@ JSON output with a declared shape, plus human-readable text.
     - An overridden entry gets one `not_applicable` record with no `flags`, so #784 must join across `decisions` and `entries`.
     - A same-rank tie is an open plain gap with a top-level `step` and no `source_arg`. It isn't `kind: dropped`, so #796 ignores it.
   - After codex review: `source_arg` also carries `config` and, when set, `profile`. The #784 join key includes both.
+  - After thermo review, the tie case changed. A same-rank tie no longer gets the plain top-level-`step` gap described above. Tied entries are all effective. A flag they set differently becomes an open gap (no `kind`) that carries `source_arg` and no top-level `step`. #796 ignores it because it carries `source_arg`, and #784 joins it like any flag record. Follow-up (unfiled): ranking per call in `summarize-nextflow` with entry ids would collapse `source_arg` to an id.

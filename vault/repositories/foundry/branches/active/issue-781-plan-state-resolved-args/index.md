@@ -9,7 +9,7 @@ related_records: foundry/issues/781
 
 ## Status
 
-Implemented, reviewed and Codex-reviewed at `39522711` on `~/projects/worktrees/foundry/branch/issue-781-plan-state-resolved-args`, branched from `origin/main` at `df991d0d`.
+Implemented and hardened (normal, Codex, thermo reviews) at `dbca2bc5` on `~/projects/worktrees/foundry/branch/issue-781-plan-state-resolved-args`, branched from `origin/main` at `df991d0d`.
 
 No PR yet.
 
@@ -23,3 +23,4 @@ Parent of the #796 branch (stack #781 → #796 → #798 → #784, see [stack_pla
 
 - [implementation_debrief.md](implementation_debrief.md)
 - [codex_review.md](codex_review.md)
+- [thermo_nuclear_review.md](thermo_nuclear_review.md)

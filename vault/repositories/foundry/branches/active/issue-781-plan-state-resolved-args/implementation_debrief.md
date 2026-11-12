@@ -1,6 +1,6 @@
 # Implementation debrief — issue-781-plan-state-resolved-args
 
-Prevention half of galaxyproject/foundry#781. Branched from `origin/main` `df991d0d`; head `39522711` (content `4711c4c4`, casts + dashboard `6224dac5`, JSON-entry fixups `806b65c2`, review fixes `5b3f2b78`, Codex fix `39522711`).
+Prevention half of galaxyproject/foundry#781. Branched from `origin/main` `df991d0d`; head `dbca2bc5` (content `4711c4c4`, casts + dashboard `6224dac5`, JSON-entry fixups `806b65c2`, review fixes `5b3f2b78`, Codex fix `39522711`, thermo fixes `dbca2bc5`).
 
 ## What changed
 
@@ -8,7 +8,12 @@ Prevention half of galaxyproject/foundry#781. Branched from `origin/main` `df991
 - `implement-galaxy-tool-step` rev 16: reads the block (flags outrank `intent`), binds the flags, and records exactly one disposition per flag in the ledger.
 - `advance-galaxy-draft-step` rev 13: carries the step's `resolved_args` past implementation, which strips `_plan_*`, and checks every flag has a record before validating. When a flag is dropped for want of a parameter, it gets a `kind: dropped` record.
 - `open-requirements-ledger` rev 8: new **Source arguments** section defining `source_arg` `{step, process, invoked_as?, key, selector, flags?}`. Carried and not-applicable flags are `decisions` with `disposition: carried | not_applicable`. Dropped flags are open `kind: dropped` entries with `units` and a cited `because`.
-- After review, the ledger defines a flag as an option token plus any attached value. Only one entry per `key` takes effect: withLabel < withName(process) < withName(alias) < fully-qualified. Each overridden entry gets one `not_applicable` record naming the winner. A same-rank tie gets an open plain entry with `step`. The template still copies all applicable entries. See [subagents/normal_review.md](subagents/normal_review.md).
+- After review, the ledger defines a flag as an option token plus any attached value. Only one entry per `key` takes effect: withLabel < withName(process) < withName(alias) < fully-qualified. Each overridden entry gets one `not_applicable` record naming the winner. The template still copies all applicable entries. See [subagents/normal_review.md](subagents/normal_review.md).
+- After the thermo review ([thermo_nuclear_review.md](thermo_nuclear_review.md)):
+  - A same-rank tie makes every tied entry effective. A flag the tied entries set differently becomes an open gap carrying `source_arg`, stays out of `state`, and no longer produces a plain top-level-`step` entry.
+  - implement's **Source arguments** paragraph now defers to the ledger and drops its defensive different-alias line.
+  - Prefix and overridden-entry records omit `flags`.
+  - A tie scenario was added.
 - After Codex review, `source_arg` also copies the entry's `config` and any `profile`, since a root config and a profile (or two configs) can share `key` + `selector`. See [codex_review.md](codex_review.md).
 - `galaxy-workflow-draft-format` rev 7: `_plan_state` bullet and open-work bullet.
 - Template `refinement.md`.
@@ -36,6 +41,6 @@ New template eval property "source arguments reach `_plan_state` unchanged" and 
 
 ## For the stack (#796 → #798 → #784)
 
-- **#796**: flag records never set a top-level `step`; their step is `source_arg.step`. The removed-step check should match `kind: dropped` entries on top-level `step` only, or ignore entries carrying `source_arg`. A selector-tie gap is a plain entry with top-level `step` and no `source_arg`.
-- **#784**: join on `source_arg` (`step`, `process`, `invoked_as`, `key`, `selector`, `config`, `profile`), not on `id`, across both `decisions` and `entries`. An overridden entry has one `not_applicable` record without `flags`. `_plan_state` is stripped at extract, so read flags from `summary-nextflow.json` and dispositions from the ledger. A step that repair removes takes its flags with it, with no per-flag records.
+- **#796**: flag records never set a top-level `step`; their step is `source_arg.step`. The removed-step check should match `kind: dropped` entries on top-level `step` only, or ignore entries carrying `source_arg`. A selector-tie gap is a flag record too: open, no `kind`, with `source_arg` and no top-level `step`.
+- **#784**: join on `source_arg` (`step`, `process`, `invoked_as`, `key`, `selector`, `config`, `profile`), not on `id`, across both `decisions` and `entries`. An overridden entry has one `not_applicable` record without `flags`. `_plan_state` is stripped at extract, so read flags from `summary-nextflow.json` and dispositions from the ledger. A step that repair removes takes its flags with it, with no per-flag records. Tie gaps join like any flag record. If `summarize-nextflow` later ranks per call and gives each entry an id (thermo follow-up, unfiled), the key would collapse to that id.
 - **#798**: scope `decisions` / `kind: dropped` for excluded branches should stay distinguishable from flag records, which carry `source_arg`.
