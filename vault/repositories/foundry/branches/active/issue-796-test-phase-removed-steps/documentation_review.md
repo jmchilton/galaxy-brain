@@ -21,4 +21,4 @@ Per the worktree's `.agents/skills/foundry-documentation/SKILL.md`, over the bra
 
 ## Followed as the reader
 
-A ledger writer facing exit 4 on `nested/first` now finds, on the CLI page and in debug step 8, the exact `step` value to write. Ran the built CLI on the example's two ledgers after regenerating `step-diff.json`: exit 4 and exit 0, as the scenarios state.
+A ledger writer facing exit 4 on `nested/first` now finds, on the CLI page and in debug step 8, the exact `step` value to write. Ran the CLI from source (`tsx`) on the example's two ledgers after regenerating `step-diff.json`: exit 4 and exit 0, as the scenarios state.

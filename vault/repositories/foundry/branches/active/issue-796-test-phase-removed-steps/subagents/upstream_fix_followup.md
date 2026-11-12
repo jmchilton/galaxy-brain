@@ -12,7 +12,7 @@ The two drafted upstream issues were fixed in the diff PRs instead of filed: gxf
 
 ## Docs
 
-- CLI page: full key names a step, nested key form, label only for top-level. "Top-level steps only" gotcha replaced by "`step: first` never names `nested/first`, copy the key from `unlabelled`".
+- CLI page: full key names a step, nested key form, label only for keys without `/` (`60e722a7`; a top-level slash key no longer matches by label). "Top-level steps only" gotcha replaced by "`step: first` never names `nested/first`, copy the key from `unlabelled`".
 - debug step 8: relabel workaround removed; drop entry copies the key from `step_removals.unlabelled` verbatim. Eval property matches.
 - run-workflow-test opening: "every top-level step" → "every step". Ledger note: one sentence on the `/`-joined path.
 - Casts, pipeline assemblies, generated notes regenerated.

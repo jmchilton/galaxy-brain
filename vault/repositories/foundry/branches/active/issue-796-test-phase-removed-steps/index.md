@@ -10,11 +10,11 @@ related_records: foundry/issues/796
 
 ## Status
 
-Implemented, hardened, domain- and documentation-reviewed at head `4ae46ef3` on `~/projects/worktrees/foundry/branch/issue-796-test-phase-removed-steps`, branched from parent `issue-781-plan-state-resolved-args` at `ef1607a8` (draft PR #809); normal, Codex, thermo-nuclear, domain and documentation reviews done, nested-step matching updated for upstream `a5c6cd57`; polish not yet run.
+Implemented, hardened, domain- and documentation-reviewed at head `60e722a7` on `~/projects/worktrees/foundry/branch/issue-796-test-phase-removed-steps`, branched from parent `issue-781-plan-state-resolved-args` at `ef1607a8` (draft PR #809); normal, Codex, thermo-nuclear, domain and documentation reviews done, nested-step matching updated for upstream `a5c6cd57`; polish not yet run.
 
 No PR yet; it must stay draft until a `@galaxy-tool-util/cli` release carries `gxwf diff` with the nested + relabel fix (gtu-ts #233 at `a5c6cd57`) with a Foundry pin bump, and `@galaxy-foundry/gxwf-foundry` publishes `check-step-removals`.
 
-CI runs only on PRs; local `make -k check` before `4ae46ef3` (2026-11-12) is red only on `validate-roadmap` (live roadmap state) and `check-vendored` (machine-only).
+CI runs only on PRs; local `make -k check` at `4ae46ef3` (2026-11-12) is red only on `validate-roadmap` (live roadmap state) and `check-vendored` (machine-only).
 
 ## Decisions
 
