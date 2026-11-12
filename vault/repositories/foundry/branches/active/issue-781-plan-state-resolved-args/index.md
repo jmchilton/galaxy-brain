@@ -15,7 +15,7 @@ Polished (see [polish_debrief.md](polish_debrief.md)) at head `ef1607a8` on `~/p
 
 Draft PR [#809](https://github.com/galaxyproject/foundry/pull/809), opened 2026-11-12 at John's request; base of the parity stack (#781 → #796 → #798 → #784).
 
-CI starts with the PR; local `make -k check` at `ef1607a8` (2026-11-12) passes 501 tests, red only on `validate-roadmap` (live roadmap drift: #803, #805, #783) and `check-vendored` (machine-only).
+CI at `ef1607a8` (2026-11-12): `test` red only at `validate-roadmap` (live roadmap drift on #803/#805/#783, same red on main's Packages run); the job stops there, so CI's later test steps did not run. Local `make -k check` at `ef1607a8` (2026-11-12) passes 501 tests, red only on `validate-roadmap` (live roadmap drift: #803, #805, #783) and `check-vendored` (machine-only).
 
 ## Stack
 
