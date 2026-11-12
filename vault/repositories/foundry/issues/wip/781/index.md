@@ -2,6 +2,7 @@
 related_records:
   - foundry/issues/784
   - foundry/issues/796
+  - foundry/branches/issue-781-plan-state-resolved-args
 ---
 
 # #781 Check Galaxy step state against the nf-core `ext.args` that summarize-nextflow captures
