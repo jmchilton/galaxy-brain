@@ -15,7 +15,7 @@ Polished at `3530ea0`, ready for final review; follows up merged #293 ([record](
 
 Draft PR [#298](https://github.com/galaxyproject/gxformat2/pull/298), opened 2026-11-12 at John's request; draft until John's read-through. Paired TS PR [#237](https://github.com/jmchilton/galaxy-tool-util-ts/pull/237).
 
-Fork CI on `3530ea0` green except Python CI 3.13 (pre-existing IWC/packaging red, also on `main`; fixed by `ci_restrict_pytest_testpaths`).
+PR CI on `3530ea0`: only Python CI 3.13 red (3.10/3.14/3.15 canceled by fail-fast) — unrelated: IWC #1541's `iwc/scripts/tests` collected (no planemo) + missing `schema_rules.yml`; same on `main`, fixed by `ci_restrict_pytest_testpaths`.
 
 ## Files
 

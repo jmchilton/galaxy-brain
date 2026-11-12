@@ -14,7 +14,7 @@ Polished at `5cf1f5d6`; ready for final review.
 
 Draft PR [#237](https://github.com/jmchilton/galaxy-tool-util-ts/pull/237), opened 2026-11-12 at John's request; draft until John's read-through. Paired gxformat2 PR [#298](https://github.com/galaxyproject/gxformat2/pull/298).
 
-Local gate green; PR CI running on `5cf1f5d6`.
+PR CI on `5cf1f5d6` green except `changeset-check` (no changeset); added `.changeset/frame-index-range.md` in `67a88fce`, CI rerunning.
 
 ## Links
 
