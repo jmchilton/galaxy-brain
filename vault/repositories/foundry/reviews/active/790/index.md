@@ -4,6 +4,6 @@
 
 ## Status
 
-Round 0 review of `a84e0df5` done, not delivered: 9 findings (3 P2, 6 P3), 5 fixed on `pr_790_round_0_rev_0` at `fd73689e` (tests unrun: dependency install was denied), none filtered.
+Round 0 review of `a84e0df5` delivered as an approval: 9 findings (3 P2, 6 P3), 5 fixed on `pr_790_round_0_rev_0` and pushed (fast-forward) to the PR branch at `fd73689e` (tests unrun: dependency install was denied), none filtered.
 
 PR open, not draft, by PavelAbramau.
