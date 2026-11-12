@@ -22,7 +22,7 @@ Base `dev`, head `d0798eda166` (28 commits, pushed to `jmchilton`). Tool help im
 ## Decision needed ([scope_evaluation.md](scope_evaluation.md))
 
 - **X1 (matters for the ask):** strip `$PATH_TO_IMAGES/` from `.. image::`/`.. figure::` targets in RST help of non-shed tools too. That's ~5 server lines plus a fixture line and a red-first `/build` API test. tools-iuc has 97 such uses in 71 files; they display when installed from the Shed but not from a checkout (`planemo serve`, git-loaded servers). `${static_path}` and a leading `/` stay untouched for non-shed tools (Galaxy's `/static`).
-- **X2 (can be a follow-up):** `get_tool_icon_path` should pass `user=trans.user` to `_get_tool`. Logged-in users currently get 401 for icons of `require_login`/data manager tools (latent: no shipped tool combines an icon and a login requirement).
+- **X2 (can be a follow-up):** `get_tool_icon_path` should pass `user=trans.user` to `_get_tool`. Logged-in users currently get 401 for icons of `require_login`/data manager tools (latent: no shipped tool combines an icon and a login requirement). Pair it with an icon `Cache-Control` change (discussed with John).
 - Alternatives: ship as-is, or ship the alt `tool_help_relative_images_alt_original_scope` (`572770e4706`, refuses SVG, shed RST unchanged).
 
 ## Choices made along the way
