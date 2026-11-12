@@ -1,0 +1,4 @@
+- Record the Nextflow scope a run builds and each branch it leaves out
+- nextflow-to-galaxy: decide the source scope and log excluded branches as open drops
+- Multi-path pipelines like sarek: record scope decisions and excluded branches in the ledger
+- Interface Mold picks the Nextflow branch to build and records the rest as scope drops

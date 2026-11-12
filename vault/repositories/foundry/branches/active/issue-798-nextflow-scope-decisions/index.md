@@ -10,7 +10,7 @@ related_records: foundry/issues/798
 
 ## Status
 
-Normal, Codex, thermo-nuclear, domain and documentation reviews are done at head `5feb4633` on `~/projects/worktrees/foundry/branch/issue-798-nextflow-scope-decisions`, branched from parent `issue-796-test-phase-removed-steps` at `b74c6bdd` (draft PR #818). Polish hasn't run yet.
+Polishing at head `5feb4633` on `~/projects/worktrees/foundry/branch/issue-798-nextflow-scope-decisions` (parent `issue-796-test-phase-removed-steps` at `b74c6bdd`, draft PR #818): description, titles and tags written, strengthening round next.
 
 No PR yet.
 
@@ -34,6 +34,9 @@ From [domain_review.md](domain_review.md):
 
 ## Files
 
+- [pr_description.md](pr_description.md)
+- [pr_titles.md](pr_titles.md)
+- [pr_tags.md](pr_tags.md)
 - [implementation_debrief.md](implementation_debrief.md)
 - [subagents/normal_review.md](subagents/normal_review.md)
 - [codex_review.md](codex_review.md)
