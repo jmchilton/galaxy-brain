@@ -1,0 +1,179 @@
+round: 0
+reviewed_commit: 28e93b564fc6fd132ee5fb6bcae621c09db568df
+agents:
+  - {profile: default, path: _shared/reviewers/default.md, model: Claude Opus 5.5, effort: medium}
+  - {profile: generic_test_challenger, path: _shared/reviewers/generic_test_challenger.md, model: Claude Opus 5.5, effort: medium}
+  - {profile: generic_risk_assessment, path: _shared/reviewers/generic_risk_assessment.md, model: Claude Opus 5.5, effort: low}
+verification: {model: Claude Opus 5.5, effort: medium}
+branches:
+  - name: pr_241_round_0_rev_0
+    revision: 0
+    head: db8154a4d88
+    pr_title: Tolerant edge annotations, runtime_value label fix and shared step-reference resolution
+    description: |
+      `pr_241_round_0_rev_0` builds on `28e93b56`. It adds a `workflowEdgeAnnotations` helper in connection-validation that returns no annotations when a Format2 source resolves to no step, and uses it from the CLI annotate helpers, so `gxwf mermaid|cytoscapejs --annotate-connections` and gxwf-web edge annotations no longer crash on the shared `synthetic-labeled-step-id-ref` fixture. It stops the `runtime_value` shortcut from shadowing a real input or step with that label, and adds one `format2StepReferenceIndex` helper that conversion, lint and the frame check all use. The rest are tests: lint through a `/`-containing label on the shared fixture, a lint case for a step-`in` typo, and an exact `toEqual` in place of `toContain`.
+    commits:
+      - sha: 218a069cb5b
+        subject: Resolve a real runtime_value label before the placeholder shortcut
+        detail: "guards the `RUNTIME_VALUE_SOURCE` shortcut in `ConversionContext.stepOutput` with `!this.labels.has(value)` and adds a test that an input labelled `runtime_value` converts to `id: 0`."
+        findings: [P3 1]
+      - sha: a5dafc8d17e
+        subject: Return no edge annotations when a Format2 source resolves to no step
+        detail: adds `workflowEdgeAnnotations` to connection-validation, uses it in both CLI annotate helpers, and tests both helpers on the shared `synthetic-labeled-step-id-ref.gxwf.yml` fixture.
+        findings: [P2 1]
+      - sha: b09cb40fbd7
+        subject: "Test lint accepts an outputSource through a label containing '/'"
+        detail: lints the shared `synthetic-slash-in-step-label.gxwf.yml` fixture and expects no errors.
+        findings: [P2 3]
+      - sha: c6a8a7e454b
+        subject: Test lint reports a step source naming no step or input
+        detail: adds an exact `toEqual` lint case for `missing/out_file1` in a step `in:` source.
+        findings: [P3 5]
+      - sha: 7b626b16b10
+        subject: Assert the exact lint errors for a step source named by id
+        detail: replaces `toContain` with `toEqual([...])` in the step-source lint test.
+        findings: [P3 6]
+      - sha: db8154a4d88
+        subject: Share Format2 step-reference resolution across conversion, lint and frames
+        detail: adds `format2StepReferenceIndex` to `labels.ts` and uses it in `ConversionContext.stepId`, lint's `validateSources` and `unresolvedFrameReferences`.
+        findings: [P3 2]
+actions: {approve: false, approve_and_merge: false, comment: false, review_comment: false, request_changes: false, pull_request: false, push: false, issue_refactor: false, issue_galaxy_brain: false}
+findings:
+  - id: P2 1
+    include: true
+    title: Edge-annotation paths crash on an unresolved source
+    summary: "--annotate-connections and gxwf-web edge annotations threw UnresolvedSourceError on the shared labeled-step-id fixture; now return no annotations."
+    implementation_verified: true
+    issue: |
+      `validateConnectionsReport` catches `UnresolvedSourceError`, but the other `buildWorkflowGraph` callers don't. The CLI's `resolveEdgeAnnotationsWithCache` and `resolveEdgeAnnotationsAndSpecsWithCache` back `gxwf mermaid|cytoscapejs --annotate-connections` and gxwf-web's `operateEdgeAnnotations`, which turns the throw into a 500. Before this PR these paths got one `skip` edge. Now they throw on the shared fixture `synthetic-labeled-step-id-ref.gxwf.yml`, which gxformat2's `mermaid.yml` / `cytoscape.yml` expectations render with the edge. Plain `gxwf mermaid` on the same file renders fine.
+    evidence: |
+      ```console
+      $ gxwf mermaid synthetic-labeled-step-id-ref.gxwf.yml --annotate-connections
+      UnresolvedSourceError: Cannot resolve 'meme/out': step 'meme' has the label 'MEME', ...
+      ```
+      This was an uncaught Node stack trace, with exit 1.
+    fix: |
+      Added `workflowEdgeAnnotations(workflow, getToolInfo)` to connection-validation. It builds the graph, validates it and returns the annotations, or an empty map on `UnresolvedSourceError`. Both CLI helpers use it, which also covers gxwf-web. A parity test runs both helpers on the shared fixture and fails before the change. `gxwf mermaid --annotate-connections` on the fixture now renders.
+    fix_details: |
+      This doesn't fully restore base behaviour. On base such a workflow kept every annotation except the one skipped edge; now it gets none. gxwf-web's endpoint should go from 500 to an empty-annotation 200 through the same helper, but that path wasn't tested. `useClientEdgeAnnotations` in gxwf-ui is unchanged. It already catches the throw and shows the message, which seems right for an interactive view. The programmatic `validateConnections` still throws, like `toNative`.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+  - id: P2 2
+    include: true
+    title: The new error steers map-form authors into a reference draft-validate rejects
+    summary: in map form draft-validate resolves the dict key and rejects the label, which is exactly what the new message tells authors to use; needs gxformat2 first.
+    implementation_verified: true
+    issue: |
+      `draft-checks.ts` keys map-form steps by dict key (`iterateSteps` → `Object.entries(steps)`) and list-form steps by `label ?? id`. After this PR, conversion and lint key every step by `label ?? id`. In map form no reference passes both, which is the table in foundry#754. The divergence predates the PR, but the PR's new message ("Reference it as 'First concatenation/out_file1'") now tells the author to write the one reference that `draft-validate` rejects. That is the Foundry draft → convert loop. The PR body doesn't mention draft-validate.
+    evidence: |
+      Map-form #229 repro, as `GalaxyWorkflowDraft`:
+
+      | source | `draft-validate` | `lint` / `convert` (this PR) |
+      |---|---|---|
+      | `first/out_file1` (key) | resolves the step | error |
+      | `First concatenation/out_file1` (label) | `references unknown step "First concatenation"` | resolves |
+
+      Python `gxformat2/draft.py` on `origin/main` also iterates map-form steps by key (`steps.items()`), so the TS draft checks match Python today.
+    fix: |
+      Not fixed on the review branch. Changing TS draft-checks alone would break parity with Python draft validation. Instead, key map-form draft steps by `rawStepRenderIdentity(step, key)` (already in `labels.ts` and used by `resolveDraftOverlay`) in gxformat2 and here together, with a shared draft expectation. A key-only reference could then reuse the "has the label" hint from `format2ShadowedStepIds`. At minimum, note the gap in the PR body and open a follow-up issue.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+  - id: P2 3
+    include: true
+    title: "The `/`-in-label outputSource fix had no test"
+    summary: changeset claims the IWC 'Merge summits +/-500kb' false positive is fixed but nothing covered it; added a lint test on the shared slash-label fixture.
+    implementation_verified: true
+    issue: |
+      The changeset says a step label containing `/` (IWC's `Merge summits +/-500kb`) is no longer reported as missing. No test covered it. With base `lint.ts`, the full schema suite fails only the PR's own two lint tests. The lint fixture `synthetic-slash-in-label-chained.gxwf.yml` routes its outputSource through an unslashed step, so it never reaches this path.
+    fix: |
+      Added a lint test that loads the shared fixture `synthetic-slash-in-step-label.gxwf.yml` (outputSource `Host/Contaminant Filter/out_file1`) and expects no errors. With base `lint.ts` it fails with "references step 'Host'". A `lint_format2` `error_count: 0` expectation for the same fixture in gxformat2 would pin it on both sides; Python already lints it clean.
+    discovered_by:
+      - {profile: generic_test_challenger, model: Claude Opus 5.5, effort: medium}
+  - id: P3 1
+    include: true
+    title: "The `runtime_value` shortcut shadows a real label"
+    summary: an input or step actually labelled runtime_value converted to id null; guarded the shortcut.
+    implementation_verified: true
+    issue: |
+      `stepOutput` returns `NaN` for `RUNTIME_VALUE_SOURCE` before the label lookup. A workflow input or step that is actually labelled `runtime_value` now converts to `{"id": null}`; on base it resolved to its index. It's unlikely, but it's a silent regression in the exact bug class this PR closes.
+    evidence: |
+      `inputs: {runtime_value: data}; steps: {s: {in: {input1: runtime_value}}}` converted to `input_connections {"input1":[{"id":null,"output_name":"output"}]}`.
+    fix: |
+      Guarded the shortcut with `&& !this.labels.has(value)` and added a test that such an input converts to `id: 0`. The test fails before the change; `roundtrip.test.ts`, which covers the real placeholder, still passes. Lint's matching skip needs no guard, since a real label resolves either way.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+  - id: P3 2
+    include: true
+    title: One step-reference rule, implemented three times
+    summary: toNative, lint and the frame check each hand-rolled 'known label or all digits'; now share format2StepReferenceIndex.
+    implementation_verified: true
+    issue: |
+      Conversion, lint and frames now share `format2StepLabelIndices` and `resolveSourceReference`, and agree on every edge case probed (labels with `/`, numeric refs, `1abc`, subworkflow-local labels, `$link`, multi-source lists, slashless refs, outputSource). But each hand-rolls the "known label or all digits" predicate: `ConversionContext.stepId` in `toNative.ts`, `unresolvedRef` in `lint.ts` and `unresolvedFrameReferences` in `comments.ts`.
+    fix: |
+      Added `format2StepReferenceIndex(ref, labels)` to `labels.ts`. It returns the order index of a known label, else of an all-digit ref, else `undefined`. All three call sites use it. `format2ShadowedStepIds` is still built separately in lint and toNative; folding both maps into one `Format2LabelIndex` would be the next step if more callers appear.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+  - id: P3 3
+    include: true
+    title: Put the shadowed-id cases in the shared declarative fixtures, with Python lint parity
+    summary: TS-only unit tests duplicate behaviour gxformat2 already shares; needs a gxformat2 PR (fixtures, expectations, step-in lint) then a sync.
+    issue: |
+      The new cases are TS-only `.test.ts` workflows, but most of the behaviour is shared. Python `ensure_native` raises on both shadowed-id cases (step `in` and `outputSource`), and Python lint already rejects an id-named `outputSource`, since `known_labels` is `s.label or s.id`. Python lint doesn't check step `in:` sources at all, so TS lint is now stricter than Python. The precedent is `synthetic-frame-step-id-shadowed-by-label.gxwf.yml`, which already has a `to_native` `expect_error: true` case for the frame version of this bug.
+    fix: |
+      A gxformat2 counterpart PR first, then a sync. It would add `synthetic-source-step-id-shadowed-by-label.gxwf.yml` (`to_native` `expect_error: true`) and `synthetic-output-source-step-id-shadowed-by-label.gxwf.yml` (`to_native` `expect_error: true`, `lint_format2` `error_count: 1`, `value_contains: "first"`). It would also add the step `in:` source check to Python lint, plus a descriptive error in `_ConversionContext.step_id` in place of the bare `int()` failure. The TS unit tests can then keep only TS-specific detail: exact message, error type, numeric ids, `runtime_value`, subworkflow scope. The connection-validation test could load the shared fixture instead of its inline copy. The PR body offers the gxformat2 change; this argues for doing it.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+      - {profile: generic_test_challenger, model: Claude Opus 5.5, effort: medium}
+  - id: P3 4
+    include: true
+    title: The synthetic connection-report entry bends the shared report model
+    summary: unresolvedSourceReport puts a source string in step and invents step_type unresolved_source; frame errors still escape uncaught.
+    implementation_verified: true
+    issue: |
+      `unresolvedSourceReport` returns a `ConnectionStepResult` whose `step` is a source string (`"first/out_file1"`), where everywhere else `step` is a step index. It also invents `step_type: "unresolved_source"` and counts `summary.invalid: 1` with zero connections. The CLI prints `step first/out_file1`. Only the first unresolved source is reported, because toNative throws on the first, while lint reports all of them. `ConnectionValidationReport` mirrors the Python and gxwf-web report model, so this is a shared contract. The catch is also class-specific: a frame-reference failure (#227, a plain `Error` from `_buildNativeComments`) still escapes `validateConnectionsReport` uncaught.
+    fix: |
+      Route conversion failures to a top-level report error field (#220's proposal) instead of a fake step result, mirrored in the Python models and gxwf-web OpenAPI. If the shim stays, document it in `report-models.ts` and give frame errors the same treatment.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+  - id: P3 5
+    include: true
+    title: "The lint branch for a step-`in` source naming no step was untested"
+    summary: the 'no step or input has the label' lint path was only checked through toNative; added an exact lint case.
+    implementation_verified: true
+    issue: |
+      Lint for a step-`in` source with a plain typo (`missing/out_file1`) had no test. The "no step or input has the label" message was checked only through `toNative`.
+    fix: |
+      Added a `lintErrors(labelShadowsId("missing/out_file1"))` case with an exact `toEqual`.
+    discovered_by:
+      - {profile: generic_test_challenger, model: Claude Opus 5.5, effort: medium}
+  - id: P3 6
+    include: true
+    title: Assert the exact lint result instead of toContain
+    summary: the step-source lint test used toContain though lint returns exactly one error; now toEqual.
+    implementation_verified: true
+    issue: |
+      "reports a step source that names a labelled step by its id" used `toContain`, but the lint returns exactly that one error. A duplicate or extra error would still pass.
+    fix: |
+      Replaced it with `toEqual([...])`, matching the outputSource case next to it.
+    discovered_by:
+      - {profile: generic_test_challenger, model: Claude Opus 5.5, effort: medium}
+  - id: P3 7
+    include: true
+    title: Two messages for the same unresolved-reference condition
+    summary: optional nit; unshadowed bad outputSource keeps the old text, everything else uses unresolvedSourceMessage.
+    issue: |
+      This is optional. An unshadowed bad `outputSource` keeps the old "references step '…' via outputSource '…', but no step or input with that label exists" text. A bad `in:` source and a shadowed `outputSource` use `unresolvedSourceMessage` ("Cannot resolve '…': no step or input has the label '…'"). No synced `lint_format2.yml` expectation pins either form.
+    fix: |
+      Use `unresolvedSourceMessage` for both, or keep the old text deliberately because it matches Python lint's message, and say so.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+  - id: P3 8
+    include: true
+    title: No CLI exit-code test for validate --connections
+    summary: optional; the changeset calls out the old exit 0 but only the report-level logic is tested.
+    issue: |
+      This is optional. The changeset says `gxwf validate --connections` used to exit 0 on this workflow. The report-level test covers the logic, but nothing pins the non-zero exit.
+    fix: |
+      Add one CLI test asserting a non-zero exit for the label-shadows-id workflow.
+    discovered_by:
+      - {profile: generic_test_challenger, model: Claude Opus 5.5, effort: medium}
