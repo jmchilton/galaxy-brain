@@ -17,6 +17,7 @@ None yet.
 
 ## Draft PRs — waiting for CI (`ci_wait`)
 
+- [`frame_index_range`](active/frame_index_range/index.md) — Range-check frame contains_steps/contains_comments indices (port of gxformat2 branch). [#237](https://github.com/jmchilton/galaxy-tool-util-ts/pull/237). Draft until John reviews.
 - [`issue_216_concrete_errors`](active/issue_216_concrete_errors/index.md) — `draft-validate --concrete --json`: top-level `concrete_errors`, step `label` on results (#216). Draft until John reviews. [#226](https://github.com/jmchilton/galaxy-tool-util-ts/pull/226).
 - [`issue_232_workflow_diff`](active/issue_232_workflow_diff/index.md) — `diffWorkflows` + `gxwf diff BEFORE AFTER`: structural Format2/draft diff (gxformat2#295 port, #232). [#233](https://github.com/jmchilton/galaxy-tool-util-ts/pull/233).
 

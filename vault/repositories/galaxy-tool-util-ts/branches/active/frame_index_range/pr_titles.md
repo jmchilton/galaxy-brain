@@ -1,0 +1,4 @@
+- Range-check frame `contains_steps`/`contains_comments` indices in lint and convert
+- `gxwf lint`/`convert`: reject out-of-range frame indices instead of dangling `child_steps`
+- Lint out-of-range frame step and comment indices (gxformat2 port)
+- Follow-up to #227: flag frame indices past the end of the step or comment list

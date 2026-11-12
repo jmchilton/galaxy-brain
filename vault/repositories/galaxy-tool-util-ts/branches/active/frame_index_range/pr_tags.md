@@ -1,0 +1,1 @@
+- `bug` — `convert` emitted `child_steps` pointing at nonexistent steps; lint missed it.
