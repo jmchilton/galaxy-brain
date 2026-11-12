@@ -35,6 +35,7 @@ None yet.
 ## Draft Galaxy PRs — waiting for CI (`ci_wait`)
 
 - [`wf_tool_state`](active/wf_tool_state/index.md) — Adds gxwf CLI tooling for validating and converting stateful workflows. [#22996](https://github.com/galaxyproject/galaxy/pull/22996). Rebased 2026-11-09 at `6c670761a20`.
+- [`reference_data_followups`](active/reference_data_followups/index.md) — #24798 review follow-ups: reference_data guard, authoring-model loading, tests; fixes YAML text defaults. [#24855](https://github.com/galaxyproject/galaxy/pull/24855).
 
 ## Draft Galaxy PRs — needs author work (`author_work`)
 
@@ -90,7 +91,6 @@ None yet.
 
 ## Galaxy branches — ready for final review (`branches_ready_for_final_review`)
 
-- [`reference_data_followups`](active/reference_data_followups/index.md) — #24798 review follow-ups: reference_data guard, authoring-model loading, tests; fixes YAML text defaults. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:reference_data_followups?expand=1).
 - [`issue_24532_user_deletion_refusal_25.1`](active/issue_24532_user_deletion_refusal_25.1/index.md) — Delete Account modal explains a config-refused self-deletion and stays open on failure (#24532). [Open PR](https://github.com/galaxyproject/galaxy/compare/release_25.1...jmchilton:galaxy:issue_24532_user_deletion_refusal_25.1?expand=1).
 
 - [`invocation_graph_embedded_outputs`](active/invocation_graph_embedded_outputs/index.md) — Stage 3: steps can star a preferred output; with Embed Outputs on, a step is drawn as it and the layout grows. [Open PR](https://github.com/jmchilton/galaxy/compare/invocation_graph_embedded_workflow_outputs...invocation_graph_embedded_outputs?expand=1).

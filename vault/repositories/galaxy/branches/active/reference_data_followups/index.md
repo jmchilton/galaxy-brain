@@ -12,9 +12,9 @@ related_records:
 
 Polished, ready for final review, head `ce427b0feea`; alt `reference_data_followups_alt_original_scope` keeps the pre-rescope scope.
 
-No PR yet.
+Draft PR #24855 opened 2026-11-12 on approved SHA `ce427b0feea`.
 
-Fork CI on `a4637890126`: mypy red in `test_reference_data.py` (fixed in `ce427b0feea`); singularity-install reds unrelated (also on dev).
+Fork CI on `ce427b0feea`: reds (Integration, Mulled, macOS startup) were setup `Connection timed out` infra errors, unrelated; failed jobs rerun 2026-11-12, waiting.
 
 ## Polish
 
