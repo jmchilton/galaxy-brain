@@ -10,11 +10,11 @@ related_records: foundry/issues/784
 
 ## Status
 
-Implemented (see [implementation_debrief.md](implementation_debrief.md)) at head `d53ebfcc` on `~/projects/worktrees/foundry/branch/issue-784-nextflow-parity-report`, branched from parent `jmchilton/issue-798-nextflow-scope-decisions` at `4ff48eda`; pushed to `jmchilton`. Reviews, harden and polish not yet run.
+Implemented and through normal, Codex and thermo reviews (fixes in `9530080f`, `d63d5b66`, `c111bb97`) at head `c111bb97` on `~/projects/worktrees/foundry/branch/issue-784-nextflow-parity-report`, branched from parent `jmchilton/issue-798-nextflow-scope-decisions` at `4ff48eda`; pushed to `jmchilton`. Polish not yet run.
 
 No PR yet.
 
-CI runs only on PRs. Local `make -k check` at `da95a929` (2026-11-12; `d53ebfcc` reran casts, generated, fixtures and package tests clean) is red only on `validate-roadmap` (rate limit) and `check-vendored` (fails on this machine only), with 503 root tests passing; gxwf-foundry tests, format, lint, typecheck and packages-typecheck clean.
+CI runs only on PRs. Local `make -k check` at `c111bb97` (2026-11-12) is red only on `validate-roadmap` (rate limit) and `check-vendored` (fails on this machine only), with 503 root tests and 149 gxwf-foundry tests passing; format, lint, typecheck and packages-typecheck clean.
 
 ## Decisions
 
@@ -25,3 +25,6 @@ CI runs only on PRs. Local `make -k check` at `da95a929` (2026-11-12; `d53ebfcc`
 ## Files
 
 - [implementation_debrief.md](implementation_debrief.md)
+- [subagents/normal_review.md](subagents/normal_review.md)
+- [subagents/codex_review.md](subagents/codex_review.md)
+- [subagents/thermo_review.md](subagents/thermo_review.md)

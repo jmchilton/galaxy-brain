@@ -47,9 +47,20 @@ The dependency now reaches an earlier phase too: interface Mold rev 8 tells ever
 
 `npm run packages-build`, then `make -k check` at `da95a929`: red only on `validate-roadmap` (rate limit) and `check-vendored` (machine-only); 503 root tests pass. gxwf-foundry package tests, format, lint, typecheck, packages-typecheck clean. Commits `c17186c6` (package + CLI pages), `da95a929` (Mold, pipeline, interface rev 8, casts), `d53ebfcc` (output-from-input fix with a red test; `[[gxwf]]` cli-tool ref). `npm run validate` warnings: 71 on base `4ff48eda` and on head, identical lists.
 
+## Reviews (2026-11-12)
+
+Three reviews, each acted on red-to-green; debriefs in [subagents/](subagents/).
+
+- [Normal](subagents/normal_review.md) → `9530080f`: record fallback per call, not per row; exit 3 when a one-sided step disagrees with the diff; `source-arg-malformed`; list-form index after inputs. The covered-by test variant now deletes `collate` from both sides (a real diff input).
+- [Codex](subagents/codex_review.md) → `d63d5b66`: shared `withLabel` ids no longer map a call; removed outputs join drops naming them in `units`; flag records with no disposition or `because` record nothing.
+- [Thermo](subagents/thermo_review.md) → `c111bb97`: step keys recurse only where `gxwf diff` does (inline on both sides); unmatched step drops land in `other_drops`; steps are built once, with no mutation pass; `exitOnInputShape()`. Follow-ups not taken: a shared ledger record taxonomy, typed diff and summary inputs.
+
+Gate at `c111bb97`: same two machine-only reds as before; 503 root and 149 package tests pass.
+
 ## Questions for John
 
 1. `check-scope-records` folded into this branch (#798 issue F). Keep it here, or split it onto #821?
 2. Interface Mold rev 8 invokes an unpublished command. OK while the stack stays draft, or gate that line on the gxwf-foundry publish?
 3. Releases needed before undraft: gtu-ts `a5c6cd57` + Foundry `@galaxy-tool-util/cli` pin bump, and a gxwf-foundry publish.
-4. `StepRemovalInputError` renamed to `InputShapeError` (shared by the ledger readers). It was only on #818's unreleased branch; OK, or keep an alias?
+4. `StepRemovalInputError` renamed to `InputShapeError` (shared by the ledger readers). It was only on #818's unreleased branch; no alias kept, and the changeset no longer mentions it. OK?
+5. Follow-up issue for a shared ledger record taxonomy (`classifyLedger`) across step-removals, scope-records and nextflow-parity (thermo S2)?
