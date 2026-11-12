@@ -1,10 +1,10 @@
-Fix 🎯 #796 - a green test run fails when a step removed since extraction has no `kind: dropped` ledger entry naming it.
+Fix 🎯 #796 - a green test run fails when a step removed since extraction has no `kind: dropped` ledger entry naming it and giving a reason.
 
 ***This PR covers parts 1 and 2 of #796's proposal: the diff against the extracted workflow and the required ledger entry. Part 3, the restoration pass, is tracked separately as #800, so #796 can close when this merges.***
 
 Closes #796.
 
-***Depends on #809. Until #809 merges, this diff includes its commits too. This PR's own commits are [`ef1607a8..60e722a7`](https://github.com/jmchilton/foundry/compare/issue-781-plan-state-resolved-args...issue-796-test-phase-removed-steps).***
+***Depends on #809. Until #809 merges, this diff includes its commits too. This PR's own commits are [`ef1607a8..e5ba105e`](https://github.com/jmchilton/foundry/compare/issue-781-plan-state-resolved-args...issue-796-test-phase-removed-steps).***
 
 In #796's bamtofastq run, the test loop cut the workflow from 16 tool steps to 4 across 18 `planemo test` attempts. It then ended green, because the remaining test only asserts element counts and datatypes. One of those removals, the chr filter, never reached the ledger at all. Nothing on `main` compares the final workflow with what the per-step loop built. The test loop edits `galaxy-workflow.gxwf.yml` in place, so once the loop is done no copy of the larger workflow survives to compare against.
 
@@ -15,7 +15,7 @@ The new example fixture (`content/molds/run-workflow-test/examples/unlabelled-st
 ```console
 $ gxwf diff --json galaxy-workflow.extracted.gxwf.yml galaxy-workflow.gxwf.yml > step-diff.json
 $ foundry check-step-removals step-diff.json open-requirements.ledger.yml
-  removed step subsample_reads has no kind: dropped ledger entry naming it
+  removed step subsample_reads has no kind: dropped ledger entry naming it with a because
 1 of 1 removed step(s) unlabelled                         # exit 4
 $ foundry check-step-removals step-diff.json open-requirements.dropped.ledger.yml
 1 removed step(s), all labelled                           # exit 0
@@ -45,15 +45,17 @@ The result then goes to `debug-galaxy-workflow-output`, which now has a route fo
 
 ## How it works
 
+***Repair's own removals don't trip the gate.*** `repair-galaxy-draft-topology` folds steps (`remove-step` + `rewire`) without writing a `kind: dropped` entry, but it does so inside the per-step loop, before the first extraction. The gate diffs that extracted copy, so it sees only test-phase removals.
+
 - **Two snapshots, written by `advance-galaxy-draft-step` (rev 14).** Each is written once and never edited:
   - `galaxy-workflow.extracted.gxwf.yml`: the first `draft-extract` output. The gate diffs the final workflow against this copy, as #796 proposes.
   - `galaxy-workflow-draft.snapshot.gxwf.yml`: the draft as the loop first received it, with every `_plan_*` field intact, for #784's parity report.
-- **`foundry check-step-removals <diff.json> <ledger.yml> [--json]`**, new in `@galaxy-foundry/gxwf-foundry`. A removed step counts as labelled when an `entries[]` item has `kind: dropped`, a top-level `step` equal to the step's full diff key, and no `source_arg`. A step inside an inline subworkflow is keyed `nested/first`, and only that full key names it. A top-level step also matches its label. The entry's status doesn't matter. Gaps, #809's per-flag `source_arg` records and `decisions` label nothing. Exit codes: 0 when every removed step is labelled, 4 when one isn't, 3 for input of the wrong shape, 1 when a file can't be read or parsed. Unwired inputs are reported but never change the exit code.
+- **`foundry check-step-removals <diff.json> <ledger.yml> [--json]`**, new in `@galaxy-foundry/gxwf-foundry`. A removed step counts as labelled when an `entries[]` item has `kind: dropped`, a top-level `step` equal to the step's full diff key, a non-empty `because`, and no `source_arg`. A step inside an inline subworkflow is keyed `nested/first`, and only that full key names it. A top-level step also matches its label. A list-form step whose `id` and `label` differ is keyed by its label, and its `id` doesn't name it. The entry's status doesn't matter. Gaps, #809's per-flag `source_arg` records and `decisions` label nothing. Exit codes: 0 when every removed step is labelled, 4 when one isn't, 3 for input of the wrong shape, 1 when a file can't be read or parsed. Unwired inputs are reported but never change the exit code.
 - **`run-workflow-test` (rev 9), step 6.** The check runs only after a green Planemo run, and only when the extracted snapshot exists. An unlabelled removal gives `fail` with modality `unlabelled-step-removal`. If `gxwf diff` or the check can't run, the result is `fail` with modality `step-removal-check-error`. Maturation, review and CWL pipelines write no snapshot, so they record `step_removals: null` and their status follows Planemo as before.
 - **`debug-galaxy-workflow-output` (rev 7), step 8.** If the removal traced back to a symptom of another defect, or its only evidence is a `validation_failed` log line, debug recommends restoring the step from the extracted workflow. If the step truly can't run, it recommends a `kind: dropped` entry. That entry copies the key from `step_removals.unlabelled` verbatim and quotes the job error in its `because`. Debug also reopens an earlier drop whose `because` the diagnosis refutes. Step 4 now says Galaxy's `workflow tool request state: ... validation_failed` scheduler line isn't a failure verdict (galaxyproject/galaxy#24837): read the job state and the job directory, which survives only with `--no_cleanup`.
 - **The ledger note is now bundled** with both test-phase Molds, as #796 suggested, so the "a refuted justification reopens its decision" rule reaches the model that edits the workflow. `open-requirements-ledger` (rev 9) now says a drop that removes a step must name it in its top-level `step`, during the test phase too, and must name a nested step by its `/`-joined path.
 
-***The check only tests that a drop is recorded, not that it is justified.*** The fixture's `open-requirements.dropped.ledger.yml` cites only the misread log line, yet it still exits 0, so `run-workflow-test` reports `pass` and debug never runs. `check-step-removals` doesn't read `because`. #796's part 2 asks for an entry "naming it and giving a reason", and this PR enforces only the naming: a `kind: dropped` entry with no `because` at all still labels the step. Reopening a drop whose reason later proves wrong is #800.
+***The check requires a reason but doesn't judge it.*** #796's part 2 asks for an entry "naming it and giving a reason". A `kind: dropped` entry with an empty or missing `because` labels nothing. A string or a list counts, as `build-cli`'s ledger reader accepts both. Whether that reason is cited or true goes unchecked: the fixture's `open-requirements.dropped.ledger.yml` cites only the misread log line, yet it still exits 0, so `run-workflow-test` reports `pass` and debug never runs. Reopening a drop whose reason later proves wrong is #800.
 
 <details><summary>Why two snapshots, not one</summary>
 
@@ -70,29 +72,32 @@ This needs to stay draft until two things land:
 1. A `@galaxy-tool-util/cli` release with `gxwf diff`, including the nested-subworkflow and list-form relabel fix from jmchilton/galaxy-tool-util-ts#233 at `a5c6cd57` (the Python sibling is galaxyproject/gxformat2#296).
 2. A Foundry pin bump from `^1.15` to that release. The bump should also add `content/cli/gxwf/diff.md` and a `[[diff]]` reference on `run-workflow-test`. Until then the Mold names `gxwf diff` in prose, because the validator rejects a gxwf page that the installed CLI doesn't list.
 
+***If this merges before step 2, every green run of a per-step-loop pipeline goes red with `step-removal-check-error`.***
 
-After merge, `@galaxy-foundry/gxwf-foundry` must publish with `check-step-removals` (this PR's changeset). Casts call `npx` with no version, so until that release they get the old package.
+## After merge
 
-***If this merges before step 2, or runs before the gxwf-foundry release, every green run of a per-step-loop pipeline goes red with `step-removal-check-error`.***
+Publish `@galaxy-foundry/gxwf-foundry` with `check-step-removals` (this PR's changeset). It can only publish after merge, so it isn't an undraft condition. Casts call `npx` with no version, so until that release runs they get the old package, and every green per-step-loop run goes red with `step-removal-check-error`.
 
 ## Evidence
 
-- `packages/gxwf-foundry/test/step-removals.test.ts` has 14 tests, all passing at this head. They run against five real `gxwf diff --json` outputs from an unreleased galaxy-tool-util-ts build at `a5c6cd57`, not the pinned 1.15:
+- `packages/gxwf-foundry/test/step-removals.test.ts` has 17 tests, all passing at this head. They run against six real `gxwf diff --json` outputs from an unreleased galaxy-tool-util-ts build at `a5c6cd57`, not the pinned 1.15:
   - a bamtofastq-shaped draft where `chr_filter` was removed and `chr` left unwired
   - a removed leaf step
   - a changed step with nothing removed
   - top-level `first` and `nested/first` both removed
   - a list-form relabel
-- Two of those tests started red against the code they fix:
+  - a list-form removal of a step whose `id` (`second`) differs from its label (`second cat`)
+- Three of those tests started red against the code they fix:
   - Before the full-key fix, `step: first` also labelled `nested/first`.
   - Before ledgers written as a bare list were accepted (`build-cli`'s ledger reader already takes them), the CLI exited 3, and debug read that as a tooling error.
-- The relabel test pins upstream's fix and was green when added. The rest cover the matching rules, malformed input, exit codes and stdin.
+  - Before `because` was required, a `kind: dropped` entry with no reason, or a blank one, labelled the step.
+- The relabel test pins upstream's fix, and the list-form removal test pins that the label, not the `id`, names the step. Both were green when added. The rest cover the matching rules, malformed input, exit codes and stdin.
 - The example fixture's diff is real output from that same build. The built CLI exits 4 on its gap-only ledger and 0 on the dropped ledger, as shown above.
 - Both fixture workflows pass `gxwf validate` with tool state.
 
 ***The Mold behaviour (snapshots, step 6, debug's routing) is checked only by LLM-judged eval properties and scenarios. No end-to-end pipeline run has exercised it yet, and the fixture's Planemo result is canned, as in the other eval fixtures.***
 
-`make -k check` was last run at `4ae46ef3`. Its only reds were `validate-roadmap`, which depends on live roadmap state, and `check-vendored`, which fails only on the dev machine. 501 tests passed. Since then the CLI page wording has changed and its casts have been regenerated, with 3 files changed.
+`make -k check` at this head is red only on `validate-roadmap`, which reads live roadmap state from GitHub (rate-limited here), and `check-vendored`, which fails only on the dev machine. 501 tests passed, and the `gxwf-foundry` package's 122.
 
 <details><summary>Files</summary>
 
@@ -127,7 +132,7 @@ The parts that are hard to change later are the contract #798 and #784 build on 
 
 <details><summary>Risk Review Advice</summary>
 
-Read `src/step-removals.ts` next to the CLI page's matching rule. They define what counts as a recorded removal: full key, `kind: dropped`, no `source_arg`, and any status. Check that "any status" fits how you want a reopened, refuted drop to read.
+Read `src/step-removals.ts` next to the CLI page's matching rule. They define what counts as a recorded removal: full key, `kind: dropped`, a non-empty `because`, no `source_arg`, and any status. Check that "any status" fits how you want a reopened, refuted drop to read: one whose `because` is struck through still labels the step, one whose `because` is emptied doesn't.
 
 Then check the ordering in `run-workflow-test` step 6: green Planemo first, then the diff, and only where the snapshot exists. Also check that debug step 8's restore-or-drop split matches what you want the test loop to do before #800 adds restoration.
 
