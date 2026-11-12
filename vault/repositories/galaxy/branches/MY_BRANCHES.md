@@ -52,7 +52,6 @@ None yet.
 
 ## Galaxy branches — implemented, work left (`branches_implemented_needs_ci`)
 
-- [`job_cache_own_metadata_files_25_1`](active/job_cache_own_metadata_files_25_1/index.md) — Job cache outputs, outputs copying an input, and in-place deferred materialization copy metadata files instead of referencing the source HDA's rows, so pgcleanup purging the source keeps them (approach agreed with mvdbeek); purged HDAs aren't reused as replacements; metadata file writes skip the cache sync. Hardened, revised READY. Base `release_25.1`, head `e59d8849361`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_25.1...jmchilton:galaxy:job_cache_own_metadata_files_25_1?expand=1).
 - [`bool_expr_instance_evaluator_25.1`](active/bool_expr_instance_evaluator_25.1/index.md) — `BooleanExpressionEvaluator` binds its `TokenEvaluator` per instance, not on shared `BoolOperand` class state. Base `release_25.1`, head `93ef0d45a71`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_25.1...jmchilton:galaxy:bool_expr_instance_evaluator_25.1?expand=1).
 - [`harden_url_abstractions_26.0`](active/harden_url_abstractions_26.0/index.md) — 26.0 port of `harden_url_abstractions_25.1`, DRS lookups included. Base `release_26.0`, head `2ceafdbaf31`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.0...jmchilton:galaxy:harden_url_abstractions_26.0?expand=1).
 - [`issue_24545_oom_kill_detection`](active/issue_24545_oom_kill_detection/index.md) — Fails exit-0 jobs whose job stderr reports an OOM kill; resubmits Pulsar jobs; opt-in cgroup check (#24545). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_24545_oom_kill_detection?expand=1).
@@ -91,6 +90,8 @@ None yet.
 - [`converted_dataset_lookup_via_manager_26.0`](active/converted_dataset_lookup_via_manager_26.0/index.md) — Existing implicit conversions looked up via `DatasetAssociationManager.get_accessible_converted`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.0...jmchilton:galaxy:converted_dataset_lookup_via_manager_26.0?expand=1).
 
 ## Galaxy branches — ready for final review (`branches_ready_for_final_review`)
+
+- [`job_cache_own_metadata_files_25_1`](active/job_cache_own_metadata_files_25_1/index.md) — Job cache and copied outputs own their metadata files, so pgcleanup purging the source keeps them. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_25.1...jmchilton:galaxy:job_cache_own_metadata_files_25_1?expand=1).
 
 - [`issue_24532_user_deletion_refusal_25.1`](active/issue_24532_user_deletion_refusal_25.1/index.md) — Delete Account modal explains a config-refused self-deletion and stays open on failure (#24532). [Open PR](https://github.com/galaxyproject/galaxy/compare/release_25.1...jmchilton:galaxy:issue_24532_user_deletion_refusal_25.1?expand=1).
 

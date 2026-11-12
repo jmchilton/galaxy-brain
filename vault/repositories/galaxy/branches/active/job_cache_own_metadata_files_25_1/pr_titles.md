@@ -1,0 +1,4 @@
+- [25.1] Give job cache outputs their own metadata files
+- [25.1] Copy metadata files into job cache outputs instead of sharing the source's rows
+- [25.1] Keep cached outputs' metadata files when pgcleanup purges the source dataset
+- [25.1] Fix pgcleanup deleting BAM indexes that job cache outputs still read

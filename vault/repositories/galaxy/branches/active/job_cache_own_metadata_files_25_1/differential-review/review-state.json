@@ -1,0 +1,166 @@
+{
+  "schemaVersion": 1,
+  "kind": "differential-review-state",
+  "updatedAt": "2026-11-12T18:06:23.821Z",
+  "hunks": {
+    "h1:7a298f60376d1c33": {
+      "snapshotId": "20261112T180530Z-revision-e59d88493611",
+      "path": "lib/galaxy/model/__init__.py",
+      "reviewedAt": "2026-11-12T18:05:45.957Z"
+    },
+    "h1:04352a7e7748d6e4": {
+      "snapshotId": "20261112T180530Z-revision-e59d88493611",
+      "path": "lib/galaxy/model/__init__.py",
+      "reviewedAt": "2026-11-12T18:05:45.957Z"
+    },
+    "h1:3bad8215c5c7f32f": {
+      "snapshotId": "20261112T180530Z-revision-e59d88493611",
+      "path": "lib/galaxy/model/__init__.py",
+      "reviewedAt": "2026-11-12T18:05:45.957Z"
+    },
+    "h1:705b57ec5f5c2e38": {
+      "snapshotId": "20261112T180530Z-revision-e59d88493611",
+      "path": "lib/galaxy/model/deferred.py",
+      "reviewedAt": "2026-11-12T18:05:55.123Z"
+    },
+    "h1:7c16cd9ee05f4616": {
+      "snapshotId": "20261112T180530Z-revision-e59d88493611",
+      "path": "lib/galaxy/model/dereference.py",
+      "reviewedAt": "2026-11-12T18:06:01.518Z"
+    },
+    "h1:cf1ad2056c8b2692": {
+      "snapshotId": "20261112T180530Z-revision-e59d88493611",
+      "path": "lib/galaxy/model/metadata.py",
+      "reviewedAt": "2026-11-12T18:06:07.785Z"
+    },
+    "h1:7e6b1fbd5417e182": {
+      "snapshotId": "20261112T180530Z-revision-e59d88493611",
+      "path": "lib/galaxy/objectstore/_caching_base.py",
+      "reviewedAt": "2026-11-12T18:06:09.182Z"
+    },
+    "h1:48e01e9475f4fa51": {
+      "snapshotId": "20261112T180530Z-revision-e59d88493611",
+      "path": "lib/galaxy/tools/actions/__init__.py",
+      "reviewedAt": "2026-11-12T18:06:09.979Z"
+    },
+    "h1:c97bbfb50562e638": {
+      "snapshotId": "20261112T180530Z-revision-e59d88493611",
+      "path": "test/integration/test_job_cache_metadata_files.py",
+      "reviewedAt": "2026-11-12T18:06:11.322Z"
+    },
+    "h1:a92e18831da4e894": {
+      "snapshotId": "20261112T180530Z-revision-e59d88493611",
+      "path": "test/integration/test_scripts_pgcleanup.py",
+      "reviewedAt": "2026-11-12T18:06:11.974Z"
+    },
+    "h1:2d74c906fe1844dc": {
+      "snapshotId": "20261112T180530Z-revision-e59d88493611",
+      "path": "test/integration/test_scripts_pgcleanup.py",
+      "reviewedAt": "2026-11-12T18:06:11.974Z"
+    },
+    "h1:2d51a28b888aa2c1": {
+      "snapshotId": "20261112T180530Z-revision-e59d88493611",
+      "path": "test/unit/data/test_dataset_materialization.py",
+      "reviewedAt": "2026-11-12T18:06:12.642Z"
+    },
+    "h1:3b339ed79efbd7f5": {
+      "snapshotId": "20261112T180530Z-revision-e59d88493611",
+      "path": "test/unit/data/test_dataset_materialization.py",
+      "reviewedAt": "2026-11-12T18:06:12.642Z"
+    },
+    "h1:5030670f8bd3fa47": {
+      "snapshotId": "20261112T180530Z-revision-e59d88493611",
+      "path": "test/unit/data/test_dataset_materialization.py",
+      "reviewedAt": "2026-11-12T18:06:12.642Z"
+    },
+    "h1:9392f9849988e48a": {
+      "snapshotId": "20261112T180530Z-revision-e59d88493611",
+      "path": "test/unit/data/test_model_copy.py",
+      "reviewedAt": "2026-11-12T18:06:13.538Z"
+    },
+    "h1:543d9c83b221a827": {
+      "snapshotId": "20261112T180530Z-revision-e59d88493611",
+      "path": "test/unit/data/test_model_copy.py",
+      "reviewedAt": "2026-11-12T18:06:13.538Z"
+    },
+    "h1:68544f56029ec02e": {
+      "snapshotId": "20261112T180530Z-revision-e59d88493611",
+      "path": "test/unit/data/test_model_copy.py",
+      "reviewedAt": "2026-11-12T18:06:13.538Z"
+    }
+  },
+  "commits": {
+    "3e02a752cd350ecada04e112b6673a4beff03867": {
+      "sha": "a23a1b969916bb6aa53008be63ee1dc00983b17f",
+      "subject": "Baseline tests for job cache outputs' metadata files",
+      "snapshotId": "20261112T180530Z-revision-e59d88493611",
+      "signedOffAt": "2026-11-12T18:06:18.797Z"
+    },
+    "7d0df1985d48659870c5ef09f4e22e0b89209847": {
+      "sha": "91b79fe86030d1362a23037f9c0af5c568faab9c",
+      "subject": "Flush copied MetadataFiles instead of committing under store_by id",
+      "snapshotId": "20261112T180530Z-revision-e59d88493611",
+      "signedOffAt": "2026-11-12T18:06:19.123Z"
+    },
+    "0edb935eca3230b8b2d5b0373661bccd39bd441b": {
+      "sha": "520ac7a8db07e8c700545d73b3b0cb9703039a0b",
+      "subject": "Give job cache outputs their own metadata files",
+      "snapshotId": "20261112T180530Z-revision-e59d88493611",
+      "signedOffAt": "2026-11-12T18:06:19.520Z"
+    },
+    "cf33dcbc0acf6623709bc6509dadeb526d74ceea": {
+      "sha": "f15416b6b39a8f076935da5b2941d6df9113bd99",
+      "subject": "Challenge job cache metadata file tests",
+      "snapshotId": "20261112T180530Z-revision-e59d88493611",
+      "signedOffAt": "2026-11-12T18:06:20.177Z"
+    },
+    "85556cfe9c3e184f3c88f8bb2fd0e17c3332c519": {
+      "sha": "86f92874413c0b0c4db128c61e75d7e29da8c536",
+      "subject": "Test that copying a metadata file inserts its row once",
+      "snapshotId": "20261112T180530Z-revision-e59d88493611",
+      "signedOffAt": "2026-11-12T18:06:20.471Z"
+    },
+    "34301de254a8e318040a54b03b594b3b7de99a07": {
+      "sha": "9f6a2aa9c0ea0c8c05aeaf8a60bfb056994d2a33",
+      "subject": "Test that a linked BAM passed through an expression tool keeps its index",
+      "snapshotId": "20261112T180530Z-revision-e59d88493611",
+      "signedOffAt": "2026-11-12T18:06:20.759Z"
+    },
+    "1ea2b239d7f0ad8f282c29eb6659b8a0f4a4ef38": {
+      "sha": "6123341aca786fba7371a37fa4cd283bbd776cc7",
+      "subject": "Read metadata file bytes directly in job cache metadata file tests",
+      "snapshotId": "20261112T180530Z-revision-e59d88493611",
+      "signedOffAt": "2026-11-12T18:06:21.072Z"
+    },
+    "38c03a798ff49915983618177a992a8a09f633e1": {
+      "sha": "603233d9839d8c70d19aec7dd74cf254f0051f42",
+      "subject": "Give in-place deferred materialization its own metadata files",
+      "snapshotId": "20261112T180530Z-revision-e59d88493611",
+      "signedOffAt": "2026-11-12T18:06:21.697Z"
+    },
+    "9b8f094b5bfb081bbb4bb4f4d0d5f6615f886642": {
+      "sha": "ce3c20a081de74bc45bb6b08db4efde4c0839592",
+      "subject": "Check in-place materialization keeps its index after the replacement's file is removed",
+      "snapshotId": "20261112T180530Z-revision-e59d88493611",
+      "signedOffAt": "2026-11-12T18:06:22.284Z"
+    },
+    "1785b1e29877d5b4d13aa999cd05b7310a6fb16c": {
+      "sha": "ce0cb6ba9bc315335c03572a38550e95b9798375",
+      "subject": "Rechallenge metadata file tests after the re-scope",
+      "snapshotId": "20261112T180530Z-revision-e59d88493611",
+      "signedOffAt": "2026-11-12T18:06:22.618Z"
+    },
+    "15312eac51e8e198fc41b36327bc66438d837edb": {
+      "sha": "be6039aa69519325785eca92a46c672f631efea6",
+      "subject": "Don't reuse a purged HDA as a deferred dataset's replacement",
+      "snapshotId": "20261112T180530Z-revision-e59d88493611",
+      "signedOffAt": "2026-11-12T18:06:23.218Z"
+    },
+    "51eb6dedb8bb75f71f944dad77508cf21b7219e1": {
+      "sha": "e59d884936112ac035155dccc248037be7fe1529",
+      "subject": "Write metadata files without syncing the object store cache first",
+      "snapshotId": "20261112T180530Z-revision-e59d88493611",
+      "signedOffAt": "2026-11-12T18:06:23.821Z"
+    }
+  }
+}
