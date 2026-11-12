@@ -1,1 +1,1 @@
-<!-- John's words for the comment; must not be empty to post -->
+Looks great to me - thanks! I'm pushing some small nits into the branch.

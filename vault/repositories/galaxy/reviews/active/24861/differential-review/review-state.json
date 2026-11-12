@@ -1,0 +1,96 @@
+{
+  "schemaVersion": 1,
+  "kind": "differential-review-state",
+  "updatedAt": "2026-11-12T18:17:37.069Z",
+  "hunks": {
+    "h1:033ffccc2b90af58": {
+      "snapshotId": "20261112T175607Z-review-15b1e13ac15c",
+      "path": "client/packages/api-client/src/schema/schema.ts",
+      "reviewedAt": "2026-11-12T18:17:23.965Z"
+    },
+    "h1:f1fe496e72d4089e": {
+      "snapshotId": "20261112T175607Z-review-15b1e13ac15c",
+      "path": "client/packages/api-client/src/schema/schema.ts",
+      "reviewedAt": "2026-11-12T18:17:23.965Z"
+    },
+    "h1:e70f282a6404a388": {
+      "snapshotId": "20261112T175607Z-review-15b1e13ac15c",
+      "path": "client/packages/api-client/src/schema/schema.ts",
+      "reviewedAt": "2026-11-12T18:17:23.965Z"
+    },
+    "h1:8a9a64e02a3a65ce": {
+      "snapshotId": "20261112T175607Z-review-15b1e13ac15c",
+      "path": "client/packages/api-client/src/schema/schema.ts",
+      "reviewedAt": "2026-11-12T18:17:23.965Z"
+    },
+    "h1:660a4e407d78af2c": {
+      "snapshotId": "20261112T175607Z-review-15b1e13ac15c",
+      "path": "client/src/components/Tool/ToolSourceSchema.json",
+      "reviewedAt": "2026-11-12T18:17:25.378Z"
+    },
+    "h1:0120f23ef0be42fc": {
+      "snapshotId": "20261112T175607Z-review-15b1e13ac15c",
+      "path": "lib/galaxy/tool_util/verify/__init__.py",
+      "reviewedAt": "2026-11-12T18:17:25.674Z"
+    },
+    "h1:cf724d271ba2187e": {
+      "snapshotId": "20261112T175607Z-review-15b1e13ac15c",
+      "path": "lib/galaxy/tool_util/verify/__init__.py",
+      "reviewedAt": "2026-11-12T18:17:25.674Z"
+    },
+    "h1:bf3b3c42d7e62dfa": {
+      "snapshotId": "20261112T175607Z-review-15b1e13ac15c",
+      "path": "lib/galaxy/tool_util/verify/asserts/__init__.py",
+      "reviewedAt": "2026-11-12T18:17:26.054Z"
+    },
+    "h1:a90f3ad16a60fea5": {
+      "snapshotId": "20261112T175607Z-review-15b1e13ac15c",
+      "path": "lib/galaxy/tool_util/verify/asserts/__init__.py",
+      "reviewedAt": "2026-11-12T18:17:26.054Z"
+    },
+    "h1:eaebc19867678ffa": {
+      "snapshotId": "20261112T175607Z-review-15b1e13ac15c",
+      "path": "lib/galaxy/tool_util/verify/asserts/__init__.py",
+      "reviewedAt": "2026-11-12T18:17:26.054Z"
+    },
+    "h1:7899effb82e50e49": {
+      "snapshotId": "20261112T175607Z-review-15b1e13ac15c",
+      "path": "lib/galaxy/tool_util/xsd/galaxy.xsd",
+      "reviewedAt": "2026-11-12T18:17:26.426Z"
+    },
+    "h1:8c5ef0387096afa8": {
+      "snapshotId": "20261112T175607Z-review-15b1e13ac15c",
+      "path": "lib/galaxy/tool_util_models/__init__.py",
+      "reviewedAt": "2026-11-12T18:17:26.826Z"
+    },
+    "h1:dcad8d8f68c393b1": {
+      "snapshotId": "20261112T175607Z-review-15b1e13ac15c",
+      "path": "lib/galaxy/util/compression_utils.py",
+      "reviewedAt": "2026-11-12T18:17:27.554Z"
+    },
+    "h1:bb19872f60063117": {
+      "snapshotId": "20261112T175607Z-review-15b1e13ac15c",
+      "path": "test/unit/tool_util/test_verify_function.py",
+      "reviewedAt": "2026-11-12T18:17:28.102Z"
+    },
+    "h1:f1bed4af448adc98": {
+      "snapshotId": "20261112T175607Z-review-15b1e13ac15c",
+      "path": "test/unit/tool_util/test_verify_function.py",
+      "reviewedAt": "2026-11-12T18:17:28.102Z"
+    }
+  },
+  "commits": {
+    "d8c9d76876b572d2900c640195aab476c8773814": {
+      "sha": "701d0100273be4801a2f903dc05dce43fa2babca",
+      "subject": "Honor decompress: true for checksum assertions in tool and workflow tests",
+      "snapshotId": "20261112T175607Z-review-15b1e13ac15c",
+      "signedOffAt": "2026-11-12T18:17:29.339Z"
+    },
+    "aa9ef8bbffa227388b4c86ddf8b74ff5c23064e1": {
+      "sha": "15b1e13ac15c5624cab3593a5eecf73850a8f54a",
+      "subject": "Address review: helper in compression_utils, clear errors, docs, more tests",
+      "snapshotId": "20261112T175607Z-review-15b1e13ac15c",
+      "signedOffAt": "2026-11-12T18:17:37.069Z"
+    }
+  }
+}
