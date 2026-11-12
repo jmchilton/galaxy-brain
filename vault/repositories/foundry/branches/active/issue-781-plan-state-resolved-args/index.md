@@ -9,7 +9,7 @@ related_records: foundry/issues/781
 
 ## Status
 
-Implemented and hardened (normal, Codex, thermo reviews), then selector ranking moved into `summarize-nextflow` (`effective_args`, entry ids, `source_arg {step, arg, flags?}`) at `1087f204` on `~/projects/worktrees/foundry/branch/issue-781-plan-state-resolved-args`, branched from `origin/main` at `df991d0d`.
+Implemented and hardened (normal, Codex, thermo reviews), then selector ranking moved into `summarize-nextflow` (`effective_args`, entry ids, `source_arg {step, arg, flags?}`), then resolver-reviewed (qualified-name fix; profile vs root now a tie) at `fada24fd` on `~/projects/worktrees/foundry/branch/issue-781-plan-state-resolved-args`, branched from `origin/main` at `df991d0d`.
 
 No PR yet.
 
@@ -24,3 +24,5 @@ Parent of the #796 branch (stack #781 → #796 → #798 → #784, see [stack_pla
 - [implementation_debrief.md](implementation_debrief.md)
 - [codex_review.md](codex_review.md)
 - [thermo_nuclear_review.md](thermo_nuclear_review.md)
+- [subagents/normal_review_resolver.md](subagents/normal_review_resolver.md)
+- [codex_review_resolver.md](codex_review_resolver.md)

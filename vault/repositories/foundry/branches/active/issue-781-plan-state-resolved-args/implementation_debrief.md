@@ -1,6 +1,6 @@
 # Implementation debrief — issue-781-plan-state-resolved-args
 
-Prevention half of galaxyproject/foundry#781. Branched from `origin/main` `df991d0d`; head `1087f204` (content `4711c4c4`, casts + dashboard `6224dac5`, JSON-entry fixups `806b65c2`, review fixes `5b3f2b78`, Codex fix `39522711`, thermo fixes `dbca2bc5`, resolver ranking `202f959c`, Mold simplification `0c34c0fa`, casts `eb1850e2`, schema-validated tests `1087f204`).
+Prevention half of galaxyproject/foundry#781. Branched from `origin/main` `df991d0d`; head `fada24fd` (content `4711c4c4`, casts + dashboard `6224dac5`, JSON-entry fixups `806b65c2`, review fixes `5b3f2b78`, Codex fix `39522711`, thermo fixes `dbca2bc5`, resolver ranking `202f959c`, Mold simplification `0c34c0fa`, casts `eb1850e2`, schema-validated tests `1087f204`, resolver review fixes `36e85683` + `fada24fd`).
 
 ## What changed
 
@@ -26,10 +26,12 @@ John decided to do the thermo lead finding on this branch, before the stack buil
 
 - **Summary shape.** `resolved_args` keeps every matched assignment, each with a required `id`. New optional `processes[].effective_args: [{invoked_as, key, ids, tie?}]` has one row per call and `key`. Effectiveness is per call, not per entry: `withName:SAMTOOLS_VIEW` can win for one call and lose to an alias selector for another. So `tie` lives on the row, not the entry. Emitting only effective entries would duplicate expressions per call and drop what a winner overrode, which #784 parity may want to report.
 - **`id`** names the assignment, not the process: `<config>[<profile>]#<selector>/<key>`. `~n` after the selector marks its nth declaration in that config, and `~n` after the key its nth assignment in one block. Example: `conf/modules.config#withName:SAMTOOLS_VIEW_MAP_MAP/args`. A `withLabel` entry has the same id in every process it matches.
-- **Ranking.** The order is withLabel < withName(process) < withName(alias) < fully qualified (`SUB:X`, `.*:X`, `workflow:X`, last-segment fallback). An alias selector never reaches another alias's call. At the same rank, a selected profile beats root. Also at the same rank, the later declaration of the *same selector* in one config wins, which Groovy order makes certain. Level entries with identical expressions give one id and no tie. Different expressions give `tie: true` with all ids.
+- **Ranking.** The order is withLabel < withName(process) < withName(alias) < fully qualified (`SUB:X`, `.*:X`, `workflow:X`, last-segment fallback), qualified on the called name, so `.*:FOO` doesn't reach an aliased call and a colon-free regex can match at rank 3. An alias selector never reaches another alias's call. At the same rank, the later declaration of the *same selector* in one config wins, which Groovy order makes certain. Level entries with identical expressions give one id and no tie. Different expressions give `tie: true` with all ids.
 - **Accepted tie cases** (tested):
   - two root configs: BFS walk order isn't Nextflow's include order;
-  - two selected profiles: Nextflow applies profiles in definition order, not CLI order, and that isn't modeled;
+  - selected profile vs root chain: the legacy parser merges profiles last, the strict parser (default since 26.04) applies them where `profiles { }` sits, before nf-core's trailing `includeConfig 'conf/modules.config'`;
+  - two selected profiles: v1 applies them in definition order, v2 in CLI order; neither is modeled;
+  - two *different* selectors at one rank in one config (e.g. two matching `withLabel`s): Nextflow settles these by declaration order, but the summary conservatively ties them;
   - fully qualified selectors for one call name from two subworkflows (`SUB_A:FOO` vs `SUB_B:FOO`): the call is keyed on `invoked_as` only.
 - **Calls.** Calls are the process name and aliases that appear in some workflow's `calls`, falling back to every name when none do. An uncalled canonical name gets no row.
 - **Molds.**
@@ -67,3 +69,7 @@ New template eval property "source arguments reach `_plan_state` unchanged" and 
 - **#796**: flag records never set a top-level `step`; their step is `source_arg.step`. The removed-step check should match `kind: dropped` entries on top-level `step` only, or ignore entries carrying `source_arg`. A selector-tie gap is a flag record too: open, no `kind`, with `source_arg` and no top-level `step`.
 - **#784**: the summary's `effective_args` decides which entries applied to each call (`invoked_as`), so parity doesn't rank. Join ledger records on `source_arg.step` + `source_arg.arg` (the entry `id`) across both `decisions` and `entries`. Every flag of every effective entry has one record. Overridden entries get no record, so read them from `resolved_args` minus `effective_args` if parity reports them. `_plan_state` is stripped at extract, so read flags from `summary-nextflow.json` and dispositions from the ledger. The ledger doesn't map a step to its call, and `_plan_state` entries no longer carry `process` or `invoked_as`. To find a step with missing records, read the pre-extract draft snapshot (#796): its `_plan_state` ids match one call's `effective_args` rows. A step that repair removes takes its flags with it, with no per-flag records. Tie gaps join like any flag record.
 - **#798**: scope `decisions` / `kind: dropped` for excluded branches should stay distinguishable from flag records, which carry `source_arg`.
+
+## Resolver review (2026-11-12)
+
+Normal review of `dbca2bc5..1087f204` against Nextflow source: [subagents/normal_review_resolver.md](subagents/normal_review_resolver.md). Two fixes, red first: qualified names use the called name (`36e85683`), and profile vs root is a tie, not a profile win (`fada24fd`, contract change; schema, Mold rev 21 and schema note rev 14 prose amended in place, casts regenerated). Known limit: last-segment fallback still accepts an unrelated subworkflow prefix. Codex review: [codex_review_resolver.md](codex_review_resolver.md). Gate after fixes: `make -k check` green apart from `validate-roadmap` and `check-vendored`; summarize-nextflow 129 tests pass.

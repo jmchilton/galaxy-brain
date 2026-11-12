@@ -35,7 +35,7 @@ JSON output with a declared shape, plus human-readable text.
   - `_plan_state` stays a string. It holds a YAML doc `{resolved_args: [one-line JSON objects], intent}`.
   - `summarize-nextflow` ranks per call (2026-11-12, John's call):
     - Every `resolved_args` entry has an `id`, e.g. `conf/modules.config#withName:SAMTOOLS_VIEW_MAP_MAP/args`.
-    - `processes[].effective_args: [{invoked_as, key, ids, tie?}]` names the entries that take effect: withLabel < withName(process) < withName(alias) < fully qualified. A selected profile beats root at the same rank.
+    - `processes[].effective_args: [{invoked_as, key, ids, tie?}]` names the entries that take effect: withLabel < withName(process) < withName(alias) < fully qualified (qualified on the called name). A selected profile vs root at the same rank is a tie (parser-dependent).
     - The template copies only effective entries (with `id`, plus `tie: true` from tie rows) into `_plan_state`.
   - Per-flag ledger records carry `source_arg {step, arg, flags?}`, where `arg` is the entry `id`. They never set a top-level `step`. Records are either `decisions` (`carried` / `not_applicable`) or `entries` (`kind: dropped`, or a tie gap with no `kind`). Overridden entries get no record.
   - **#796:** match dropped *steps* on top-level `step` only, and ignore entries that carry `source_arg`. Tie gaps carry `source_arg`, so they're ignored too.
