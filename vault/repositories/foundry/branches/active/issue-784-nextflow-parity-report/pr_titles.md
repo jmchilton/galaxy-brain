@@ -1,0 +1,5 @@
+- Report how a nextflow-to-galaxy workflow differs from its Nextflow source
+- End every nextflow-to-galaxy run with a Nextflow-vs-Galaxy parity report
+- Add a Nextflow parity report: every source difference, and the ones with no recorded reason
+- nextflow-to-galaxy: parity Mold plus `foundry nextflow-parity` and `check-scope-records`
+- List unrecorded removals, unwired inputs and unrecorded flags at the end of a Nextflow translation

@@ -10,7 +10,7 @@ related_records: foundry/issues/784
 
 ## Status
 
-Implemented and through normal, Codex, thermo, domain and documentation reviews (fixes in `9530080f`, `d63d5b66`, `c111bb97`, `a9311739`, `9b100aa5`) at head `9b100aa5` on `~/projects/worktrees/foundry/branch/issue-784-nextflow-parity-report`, branched from parent `jmchilton/issue-798-nextflow-scope-decisions` at `4ff48eda`; pushed to `jmchilton`. Polish not yet run.
+Implemented and through normal, Codex, thermo, domain and documentation reviews (fixes in `9530080f`, `d63d5b66`, `c111bb97`, `a9311739`, `9b100aa5`) at head `9b100aa5` on `~/projects/worktrees/foundry/branch/issue-784-nextflow-parity-report`, branched from parent `jmchilton/issue-798-nextflow-scope-decisions` at `4ff48eda`; pushed to `jmchilton`. Polishing (`branches_need_polish`): description, titles and tags written 2026-11-12; strengthening round pending.
 
 No PR yet.
 
@@ -24,6 +24,9 @@ CI runs only on PRs. Local `make -k check` at `9b100aa5` (2026-11-12) is red onl
 
 ## Files
 
+- [pr_description.md](pr_description.md) — Part of #784; covers most of #781's report half (no step `state` column)
+- [pr_titles.md](pr_titles.md)
+- [pr_tags.md](pr_tags.md)
 - [implementation_debrief.md](implementation_debrief.md)
 - [subagents/normal_review.md](subagents/normal_review.md)
 - [subagents/codex_review.md](subagents/codex_review.md)
