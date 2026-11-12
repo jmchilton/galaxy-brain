@@ -31,7 +31,7 @@ Fork CI on `e59d8849361` had 6 related failures:
 
 **Red to green.**
 - Unit: the new `test_copying_metadata_files_onto_an_output_not_yet_in_a_history` installs the real strict before-flush handler. Without the fix it fails at `metadata.py` `session.flush()` with the CI exception.
-- Integration, under strict mode: the three CI failures from `test_dataset_copy_metadata_files.py` and `test_job_cache_metadata_files.py` fail with only the old `metadata.py`, and all 6 tests pass with the fix. The grooming tests (10) and the API `__BUILD_LIST__` test also pass.
+- Integration, under strict mode: the three CI failures from `test_dataset_copy_metadata_files.py` and `test_job_cache_metadata_files.py` fail with only the old `metadata.py`, and all 6 tests in those two files pass with the fix. The grooming tests (10) and the API `__BUILD_LIST__` test also pass. That covers 5 of the 6 CI failures; the Postgres pgcleanup `hit_at_submission` case wasn't re-run (no local Postgres) and waits on fork CI for `cf71d5eb437`.
 - Unrelated: the published-histories Selenium failures and the macOS startup failures (not investigated, far from the change).
 
 **Test helper changes** needed for a uuid store:
@@ -59,7 +59,7 @@ Applied:
 - Bolded sentences now cover release-branch risk and the 25.1 Postgres evidence.
 - Added the purged-vs-deleted reasoning to the review advice.
 
-Tried and dropped: a detached-materialization test with a metadata file. On base and on the branch alike, detached materialization of a deferred BAM that has a `bam_index` row crashes in `set_meta`. `FileParameter.wrap` is called with no session (`'NoneType' object has no attribute 'execute'`). This is a pre-existing bug and out of scope.
+Tried and dropped: a detached-materialization test with a metadata file. On base and on the branch alike, detached materialization of a deferred BAM that has a `bam_index` row crashes in `set_meta`. `FileParameter.wrap` is called with no session (`'NoneType' object has no attribute 'execute'`). Reproduced only with a fixture (`_create_hda` gives the deferred HDA a `bam_index` row); whether real data reaches it is unverified, since deferred uploads never run set_meta and model store exports strip metadata files by default. Out of scope.
 
 ## 7. Galaxy checks
 
@@ -72,6 +72,7 @@ The worktree was gone, so I recreated it with `ghwt create` from the fork branch
 ## Leftovers
 
 - Fork CI on `cf71d5eb437` is still pending.
-- Detached BAM materialization crashes when the deferred HDA has a metadata file (above). It's a candidate issue, not filed.
+- Detached BAM materialization crashes when the deferred HDA has a metadata file (above; fixture only, reachability unverified). Not filed.
+- The worktree's `.venv` symlink breaks if `harden_url_abstractions_25.1` is cleaned up; don't `uv run` here (it would resync that venv).
 - The `store_by: id` submission flush isn't exercised by CI's strict check, which runs only under uuid.
 - Remote and caching stores have only been checked with the in-memory fake.

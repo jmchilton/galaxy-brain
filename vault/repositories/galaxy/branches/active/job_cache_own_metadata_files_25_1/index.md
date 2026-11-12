@@ -13,7 +13,7 @@ Polished, ready for final review; polishing fixed a related CI red and replaced 
 
 No PR yet; the fork branch is at `cf71d5eb437`.
 
-Fork CI on `e59d8849361` had 6 related reds, fixed in `bb9eebf798c` and green locally under strict mode; CI on `cf71d5eb437` is pending.
+Fork CI on `e59d8849361` had 6 related reds, fixed in `bb9eebf798c` (5 re-run green locally under strict mode; Postgres pgcleanup waits on fork CI); CI on `cf71d5eb437` is pending.
 
 ## Decisions
 
