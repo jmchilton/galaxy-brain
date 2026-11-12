@@ -9,7 +9,7 @@ related_records: foundry/issues/781
 
 ## Status
 
-Implemented and hardened (normal, Codex, thermo reviews), then selector ranking moved into `summarize-nextflow` (`effective_args`, entry ids, `source_arg {step, arg, flags?}`), then resolver-reviewed (qualified-name fix; profile vs root now a tie) at `fada24fd` on `~/projects/worktrees/foundry/branch/issue-781-plan-state-resolved-args`, branched from `origin/main` at `df991d0d`.
+Implemented and hardened (normal, Codex, thermo reviews), selector ranking moved into `summarize-nextflow`, then per John (2026-11-12) `effective_args` keyed by Nextflow call path (`call`) with qualified selectors matched along real call chains, and a selected profile beating root at equal rank; head `9727baa6` on `~/projects/worktrees/foundry/branch/issue-781-plan-state-resolved-args`, branched from `origin/main` at `df991d0d`.
 
 No PR yet.
 
