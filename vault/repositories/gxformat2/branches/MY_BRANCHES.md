@@ -24,6 +24,7 @@ None yet.
 ## gxformat2 branches — implemented, work left (`branches_implemented_needs_ci`)
 
 - [`ci_restrict_pytest_testpaths`](active/ci_restrict_pytest_testpaths/index.md) — Restrict pytest to `tests/` (3.13 IWC red); ship `lint_profiles.yml`/`schema_rules.yml`. [Open PR](https://github.com/galaxyproject/gxformat2/compare/main...jmchilton:gxformat2:ci_restrict_pytest_testpaths?expand=1).
+- [`frame_index_range`](active/frame_index_range/index.md) — Range-check int/digit-string frame `contains_steps`/`contains_comments` indices (#293 follow-up). [Open PR](https://github.com/galaxyproject/gxformat2/compare/main...jmchilton:gxformat2:frame_index_range).
 
 ## gxformat2 branches — implemented, work left, green (`branches_implemented`)
 
