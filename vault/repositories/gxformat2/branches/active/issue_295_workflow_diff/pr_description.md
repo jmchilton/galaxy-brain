@@ -21,7 +21,7 @@ AFTER inputs feeding no step: chr
 
 ***Foundry runs remove steps during the test loop, and nothing notices.*** In galaxyproject/foundry#796, an nf-core/bamtofastq run went from a full-scope design to 4 tool steps across 18 `planemo test` attempts. One removal (the chr filter) had no ledger entry, and the test still passed. Today, comparing the workflow before and after a phase means reading two YAML files by hand. The fixture pair above is modeled on that chr filter removal: the removed step, what fed it, what it fed, and the rewire all come out in one report.
 
-***It is a structural diff, not a text diff.*** Steps are matched by step key, the same key that source refs, `detect_draft` and Foundry's ledger `step:` field use. A draft step keyed `multiqc` and labelled "aggregate QC with MultiQC" that is relabelled `multiqc` in the final workflow shows as a `label` change, not as one step removed and one added. That happens on the real bamtofastq draft and final. `TODO_*` port renames don't hide a removed step either: `upstream` and `downstream` list neighbouring steps and inputs, while `connections_in` and `connections_out` keep the port-level edges.
+***It is a structural diff, not a text diff.*** Steps are reported under their step key, the same key that source refs, `detect_draft` and Foundry's ledger `step:` field use. A draft step keyed `multiqc` and labelled "aggregate QC with MultiQC" that is relabelled `multiqc` in the final workflow shows as a `label` change, not as one step removed and one added. That happens on the real bamtofastq draft and final. List-form steps, whose key is their label, pair by `id` first, so adding or changing their label is a `label` change too. `TODO_*` port renames don't hide a removed step either: `upstream` and `downstream` list neighbouring steps and inputs, while `connections_in` and `connections_out` keep the port-level edges.
 
 ***Unwired inputs flag removals without a pre-test snapshot.*** They are read from AFTER alone. On bamtofastq's shipped final workflow (run folder in galaxyproject/iwc-lab#8), `gxwf-diff` lists `no_read_QC, no_stats, samtools_collate_fast, reads_in_memory, multiqc_config` as AFTER inputs that feed no step. Four of them are toggles for steps the run removed: pre-conversion FastQC, samtools stats/flagstat/idxstats, and collate. That run kept no pre-test snapshot (its draft file already has the final 4 steps), so the removed steps themselves can't be shown from it.
 
@@ -33,27 +33,31 @@ AFTER inputs feeding no step: chr
 
 ***`_plan_*` fields never count as changes.*** They are shown on added, removed and changed steps so a step can be traced back to its source. A draft whose only edits are plan text has no changes.
 
-***Only the top level is compared, and only Format2.*** Subworkflow contents aren't diffed, though a changed linked `run` reference is. Native `.ga` and `$graph` documents are rejected with `ValueError`.
+***Inline subworkflows are diffed into the same maps, with path keys.*** A step removed inside inline subworkflow step `nested` is `steps.removed["nested/first"]`; inner input and output ids and edge nodes get the same `nested/` prefix. A consumer reading `steps.removed` sees nested removals without walking a tree. An added or removed subworkflow step lists only itself. Linked runs (URL, path, `@import`) compare by reference.
+
+***Only Format2.*** Native `.ga` and `$graph` documents are rejected with `ValueError`.
 
 ***The exit status is 0 unless `--exit-code` is given***, in which case differences exit 1, like `git diff --exit-code`. `--json` prints the `WorkflowDiff` pydantic model; `has_changes` is part of it.
 
 <details><summary>What is compared</summary>
 
-- **Steps:** `label`, `type`, `tool_id`, `tool_version`, `when` and a linked `run` (a URL or path string, or `{"@import": path}`; inline runs compare as `null`). Also `state` (falling back to `tool_state`) as `|`-joined leaf paths, the `default` of each step `in` entry (`in_defaults`), output actions on declared `out` ports (`out_actions`: `rename`, `hide`, `change_datatype`, tags, `delete_intermediate_datasets`, `set_columns`), and edges.
+- **Steps:** `label`, `type`, `tool_id`, `tool_version`, `when` and a linked `run` (a URL or path string, or `{"@import": path}`; inline runs compare as `null` and are diffed recursively instead). Also `state` (falling back to `tool_state`) as `|`-joined leaf paths, the `default` of each step `in` entry (`in_defaults`), output actions on declared `out` ports (`out_actions`: `rename`, `hide`, `change_datatype`, tags, `delete_intermediate_datasets`, `set_columns`), and edges.
 - **Inputs:** `type`, `collection_type`, `optional`, `format`, `default`, `min`, `max`, `restrictions`, `suggestions`, `restrictOnConnections`, `validators`, `fields`, `column_definitions`. A missing `optional` or `restrictOnConnections` equals `false`, and a string `format` equals a one-item list.
 - **Outputs:** `outputSource`.
-- **Not compared:** workflow metadata (label, doc, tags, creator, license, comments, report), step `doc`, position and `tool_shed_repository`, bare `out` declarations with no actions, input `label`/`doc`/`position`, and subworkflow contents. A repeat in state shows as a change to the whole list.
+- **Not compared:** workflow metadata (label, doc, tags, creator, license, comments, report), step `doc`, position and `tool_shed_repository`, bare `out` declarations with no actions, input `label`/`doc`/`position`, and linked subworkflow contents. A repeat in state shows as a change to the whole list.
 - Explicit `false` or empty output actions equal absent ones, so `hide: false` against no `hide` is not a change. State is the exception: an absent leaf against `null`, `""` or `[]` is `kind: added`.
 - Sources resolve with the existing `resolve_source_reference` (longest label first) over step keys, ids, labels and input ids. `<input>/output` collapses to `<input>`, because the converter treats them as one connection.
 - A dict-form step is matched by its key, not its inner `id`, so changing the inner `id` is not a change.
-- Unlabeled list-form steps are matched by position, with a warning naming them.
+- List-form steps with the same `id` on both sides (unique on each side) match first and report under the AFTER key; added and removed steps carry their raw `id`.
+- Unlabeled list-form steps with no `id` are matched by position, with a warning naming them.
+- `unwired_inputs` lists top-level inputs only. A nested key colliding with a slash-keyed step raises `ValueError`.
 
 </details>
 
 <details><summary>What else changed</summary>
 
 - `gxformat2.testing.TestCase` gains an optional `fixture_after`. When it is set, the operation gets `(load(fixture), load(fixture_after))`. Existing cases are unaffected.
-- `gxformat2/examples/expectations/diff.yml` adds 24 declarative cases over 23 new `format2/diff/` fixtures, all in the catalog. They include a step whose only change is an `in` default, one whose only change is an output action, an undeclared `out` key that isn't one, and omitted nested input types (validator, record field, sample-sheet column) that equal their defaults. Key order in the JSON isn't part of the contract. `normalized_format2.yml` now pins the list-form input `File` → `data` alias. `tests/test_diff.py` covers the CLI: text output, `--json` matching the model dump, `--exit-code`, and native input being rejected.
+- `gxformat2/examples/expectations/diff.yml` adds 29 declarative cases over 28 new `format2/diff/` fixtures, all in the catalog. They include a step whose only change is an `in` default, one whose only change is an output action, an undeclared `out` key that isn't one, omitted nested input types (validator, record field, sample-sheet column) that equal their defaults, a step removed inside an inline subworkflow, inner interface changes, and a list-form relabel. Key order in the JSON isn't part of the contract. `normalized_format2.yml` now pins the list-form input `File` → `data` alias. `tests/test_diff.py` covers the CLI: text output, `--json` matching the model dump, `--exit-code`, native input being rejected, and a nested key colliding with a slash-keyed step being rejected.
 - `draft._iterate_steps` and `draft._present_plan_fields` become public (`iterate_steps`, `present_plan_fields`) so the diff can reuse draft step iteration.
 - `docs/cli_diff.rst` documents the script, and `gxformat2.diff` is in the API docs.
 
@@ -67,8 +71,8 @@ Mostly a two-way door: the module, script and harness field are additive and tou
 
 - `WorkflowDiff`'s field names, edge-string format (`"<step>/<port> -> <step>/<port>"`) and ordering become a shared contract once the TypeScript port syncs `diff.yml`. Changing them later means changing both.
 - `gxwf-diff` is a new public console script name, and `iterate_steps`/`present_plan_fields` are new public `draft` names.
-- Edge strings are ambiguous for step keys that contain `/`. They're meant to be compared, not parsed.
-- Things left out (bare `out` declarations, `tool_shed_repository`, comments, subworkflow contents, repeat items) show no difference when they change. A consumer that relies on `has_changes` alone won't see them. In the bamtofastq revision, change-set rows 11-12 removed two frame comments, and the diff doesn't show them.
+- Edge strings, and the `parent/child` keys of inline subworkflow steps, are ambiguous for step keys that contain `/`. They're meant to be compared, not parsed; an actual key collision raises `ValueError`.
+- Things left out (bare `out` declarations, `tool_shed_repository`, comments, linked subworkflow contents, repeat items) show no difference when they change. A consumer that relies on `has_changes` alone won't see them. In the bamtofastq revision, change-set rows 11-12 removed two frame comments, and the diff doesn't show them.
 
 </details>
 

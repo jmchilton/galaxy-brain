@@ -35,9 +35,10 @@ Head `2ae336e`, base `origin/main` `83b59e7`. Three commits: the harness gets `f
   - A non-mapping input raises `TypeError`.
 Current as of the strengthening head (see `subagents/strengthen.md`). The JSON contract hasn't changed since `cbe75dc` (after the normal and Codex reviews); the thermo-nuclear refactor kept output byte-identical, and the strengthening round (`1c698f2`, `e4d1b9a`) only pinned existing behavior and changed how text renders `null` and `""` state leaves.
 
-- **Step identity:** the step key from `draft.iterate_steps`. That is the dict key, or for list form the label, else the id, else the index id (index plus the number of inputs).
+- **Step identity:** steps are reported under the step key from `draft.iterate_steps`. That is the dict key, or for list form the label, else the id, else the index id (index plus the number of inputs).
   - This is the key that source refs use. It is also what `detect_draft` paths use, and what the Foundry ledger's `step:` field names (for example `classify_context`).
   - Prose labels can differ from keys (draft fixtures have `fastp` with the label "trim and QC paired reads"), so matching on labels would turn a relabel into one removed step plus one added step.
+  - **List-form id pairing (Foundry #796 domain review):** when both sides are list form, steps whose raw `id` is a non-empty string unique on its side pair by `id` first. Each paired BEFORE key is renamed to its AFTER key throughout the BEFORE view (step map, edges, output refs; input ids untouched), then everything matches on key as before. So adding or changing a list-form step's label is `fields.label` under the AFTER key, with no edge, neighbour or `outputs.changed` churn (`test_diff_list_step_relabel_is_a_label_change`). Collision rule: a pair whose AFTER key is still the key of a BEFORE step not itself renamed away is dropped, repeated until stable, leaving those steps to key matching. Only list form; position stays the fallback for steps with neither label nor id.
   - A label change on a matched step is reported as `fields.label`.
   - A dict-form step's inner `id` is never its identity. Changing it while consumers keep sourcing the key is not a change (`test_diff_dict_step_inner_id_is_not_its_identity`). Sourcing through the inner id isn't valid Format2: the converter fails on `cat_b/out_file1`.
 - **Unlabeled fallback:** list-form steps with no `label` and no `id` are matched by position (index id). Each side that has any gets a warning: `"BEFORE has unlabeled steps matched by position: 1, 2"`.
@@ -51,6 +52,14 @@ Current as of the strengthening head (see `subagents/strengthen.md`). The JSON c
   - `connections_in`/`connections_out` hold port-level edges.
   - `upstream`/`downstream` hold node-level ones: step keys or input ids, so that renaming `TODO_*` ports doesn't hide which step was removed.
   - All of these lists are sorted.
+- **Inline subworkflows (Foundry #796 domain review):** a matched step whose `run` is inline on both sides (normalized `run` is a `NormalizedFormat2`, raw `run` a dict) is diffed recursively, pairing the raw inner run with the already-normalized one (no re-normalization; inner `_plan_*` survive).
+  - Results go into the same top-level maps. Every inner step key, input id, output id and edge node is prefixed with `<parent key>/`, recursively (`a/b/c`): a removed inner step is `steps.removed["nested/first"]`, with `upstream: ["nested/inner_reads"]` and edges like `"nested/first/out_file1 -> nested/second/input1"`. Inner interface changes land in `inputs.changed["nested/inner_reads"]` and `outputs.changed["nested/out"]` (`test_diff_inline_subworkflow_interface_changes_are_prefixed`). Foundry's `check-step-removals` needs no change: a ledger drop names `step: nested/first`.
+  - The parent step itself appears under changed only for its own differences; inline `run` still compares as `null`.
+  - An added or removed subworkflow step lists only itself, not its contents (`test_diff_untyped_step_with_run_is_a_subworkflow`). Inline on one side and linked on the other is a `fields.run` change with no recursion.
+  - `unwired_inputs` stays top-level. Warnings for unlabeled inner steps name the prefixed keys.
+  - Order: each level's entries, then each inline subworkflow's, in AFTER step order (depth-first).
+  - A prefixed key that collides with an existing key in the same map (a slash-keyed top-level step `nested/first`) raises `ValueError` rather than overwrite (Python unit test `test_nested_key_colliding_with_slash_keyed_step_rejected`).
+  - Text output names a nested step by its path, omitting a label equal to its last segment.
 - **Fields compared:**
   - Steps (`fields`): `label`, `type` (the enum value), `tool_id`, `tool_version`, `when`, `run`.
     - `run` as a string (URL or path) compares as that string, an `@import` as `{"@import": path}`, and an inline run as `null`, so inline contents are not compared.
@@ -77,7 +86,7 @@ Current as of the strengthening head (see `subagents/strengthen.md`). The JSON c
   - JS objects put integer-like keys first, in numeric order, ahead of all string keys. So in TS, index-id keys (`"1"`, `"2"`) for unlabeled list-form steps move ahead of labeled step keys (mixed list form: Python `a, 2, c`, TS `2, a, c`), not only out of order among themselves. Only mixed labeled/unlabeled list-form steps are affected, and those already warn. No assertion depends on dict order.
 - **Result shape:**
   - `StepChange`: `label` (AFTER), `fields`, `state`, `in_defaults`, `out_actions`, `connections_in`, `connections_out`, `upstream`, `downstream` (each `{added, removed}`), `plan_fields_before`, `plan_fields_after`.
-  - `StepSummary` (added or removed steps): `label`, `type`, `tool_id`, `tool_version`, `plan_fields`, `upstream`, `downstream`, `workflow_outputs`, `connections`. It has no `state`, `run`, `in_defaults` or `out_actions`.
+  - `StepSummary` (added or removed steps): `label`, `id` (the raw `id` as written, else `null`; added for Foundry #796), `type`, `tool_id`, `tool_version`, `plan_fields`, `upstream`, `downstream`, `workflow_outputs`, `connections`. It has no `state`, `run`, `in_defaults` or `out_actions`.
   - The header comment in `diff.yml` holds the same shape.
   - Object key order is not part of the contract (stated in `diff.yml` and `docs/cli_diff.rst`). The harness can't assert it, and value comparisons sort keys. Python happens to dump `StateChange` as `before, after, kind`; TS matches that by its own unit test, not by contract.
 - **Membership:**
@@ -89,7 +98,7 @@ Current as of the strengthening head (see `subagents/strengthen.md`). The JSON c
   - workflow metadata (label, doc, tags, creator, license, comments, report)
   - step `doc`, position, `tool_shed_repository`, and bare `out` declarations without actions
   - input `label`, `doc` and `position`
-  - subworkflow contents, since only the top level is compared
+  - linked subworkflow contents (compared by reference only)
 - **CLI:** exit status 0 by default. `--exit-code` gives 1 on differences, like `git diff`. JSON is `model_dump_json(indent=2)`.
 - **Text:** not part of the contract, but state lines print a present `null` leaf as `null` and `""` as `""` (other lines print a missing value as `(none)`).
 
@@ -103,7 +112,7 @@ Current as of the strengthening head (see `subagents/strengthen.md`). The JSON c
 
 ## Left undone
 
-- Subworkflow recursion, which could be a nested `WorkflowDiff` per subworkflow step.
+- Linked subworkflow contents (URL, path, `@import`) aren't fetched or diffed.
 - Native `.ga` input.
 - `$graph` documents.
 - Comparing `tool_shed_repository`, bare `out` declarations with no actions, and doc.

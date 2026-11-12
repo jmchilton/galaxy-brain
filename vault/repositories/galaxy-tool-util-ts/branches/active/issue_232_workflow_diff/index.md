@@ -12,11 +12,11 @@ related_records: gxformat2/branches/issue_295_workflow_diff
 
 ## Status
 
-Polished at `433db8de` (pushed to `origin`, base `origin/main` `7370df1b`) after normal, Codex, thermo-nuclear reviews and the [strengthening round](subagents/strengthen.md).
+Polished at `433db8de` (pushed to `origin`, base `origin/main` `7370df1b`) after normal, Codex, thermo-nuclear reviews and the [strengthening round](subagents/strengthen.md); head now `a5c6cd57` after the [Foundry #796 findings fix](subagents/foundry_findings_fix.md), mirroring gxformat2 `397819a`.
 
 Draft PR [#233](https://github.com/jmchilton/galaxy-tool-util-ts/pull/233), opened 2026-11-11 at John's request; sibling of galaxyproject/gxformat2#296.
 
-CI starts with the PR; local gate green at `433db8de`: `make check`, `pnpm lint:unused:ci`, `pnpm build`, `pnpm test`.
+CI starts with the PR; local gate green at `a5c6cd57`: `make check`, `pnpm lint:unused:ci`, `pnpm build`, `pnpm test`.
 
 ## Notes
 
