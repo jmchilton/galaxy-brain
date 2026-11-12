@@ -1,0 +1,178 @@
+round: 0
+reviewed_commit: f207f12dd5e528573a50cabca345d31fac34f76e
+agents:
+  - {profile: default, path: _shared/reviewers/default.md, model: Claude Opus 5.5, effort: medium}
+  - {profile: thermo_review, path: _shared/reviewers/thermo_review.md, model: Claude Opus 5.5, effort: low}
+  - {profile: gx_test_challenger, path: _shared/reviewers/gx_test_challenger.md, model: Claude Opus 5.5, effort: low}
+  - {profile: gx_risk_assessment, path: _shared/reviewers/gx_risk_assessment.md, model: Claude Opus 5.5, effort: low}
+  - {profile: gx_performance_challenger, path: _shared/reviewers/gx_performance_challenger.md, model: Claude Opus 5.5, effort: medium}
+  - {profile: learning_galaxy, path: gx_reviews/reviewers/learning_galaxy.md, model: Claude Opus 5.5, effort: medium}
+verification: {model: Claude Opus 5.5, effort: medium}
+branches:
+  - name: pr_24835_round_0_rev_0
+    revision: 0
+    head: d0a2f5558aa
+    pr_title: Cover cached, failed and workflow map-over summary emails
+    description: |
+      `pr_24835_round_0_rev_0` builds on `f207f12dd5e`. It adds integration tests for a cached map-over, a workflow map-over's invocation report link, and a map-over whose failed element pauses its dependents. It checks the output collection name in the existing summary test. It also annotates the new helpers, skips loading post job actions for map-overs already reported in a batch, and notes that `Job.is_terminal` checks `settled_states`.
+    commits:
+      - sha: 1e62b18031e
+        subject: Annotate types on EmailAction and ActionBox after-commit helpers
+        detail: "annotates `job: Job`, `implicit_collection_jobs: ImplicitCollectionJobs`, `jobs: Iterable[Job]` and `completed: str`, and asserts `job.history` in `_send` so mypy accepts `job.history.name`."
+        findings: [P3 7]
+      - sha: 23f46204571
+        subject: Skip loading post job actions of already reported map-over jobs
+        detail: moves the per-map-over dedupe in `ActionBox.execute_after_commit` ahead of the `post_job_actions` load.
+        findings: [P3 5]
+      - sha: 7f3f421e160
+        subject: Assert output collection name in map-over summary email test
+        detail: asserts the body starts with the summary line followed by the name from the run response's `implicit_collections`.
+        findings: [P3 2]
+      - sha: 0ac0f03005e
+        subject: Test cached map-over sends one summary email
+        detail: reruns a 3-element map-over with `use_cached_job`, checks every job was copied and asserts exactly one `(3 ok)` summary.
+        findings: [P2 1]
+      - sha: d846022dd50
+        subject: Test workflow map-over summary links the invocation report
+        detail: runs a mapped-over `cat1` workflow step with an `EmailAction` PJA and asserts one summary containing `/workflows/invocations/report?id=<invocation id>`.
+        findings: [P2 2]
+      - sha: 5417581dc40
+        subject: Test failed map-over element sends error and paused summaries
+        detail: runs `fail_identifier` then `cat1` over a 3-element list with one failing element and asserts summaries `(1 error, 2 ok)` and `(2 ok, 1 paused)`.
+        findings: [P2 1]
+      - sha: d0a2f5558aa
+        subject: Note that Job.is_terminal checks settled_states
+        detail: adds a one-line comment on `Job.settled_states`.
+        findings: [P3 8]
+actions: {approve: false, approve_and_merge: false, comment: false, review_comment: false, request_changes: false, pull_request: false, push: false, issue_refactor: false, issue_galaxy_brain: false}
+followup_target: dev
+findings:
+  - id: P2 1
+    include: true
+    title: Cached-copy and pause settle paths have no test
+    summary: new after-commit wiring in the handler copy path and pause paths was untested; added cached and failed-element integration tests.
+    implementation_verified: true
+    issue: |
+      Several new after-commit call sites have no coverage: the handler's copied-job path, `MinimalJobWrapper.prepare`'s job-cache copy, the walltime and invalid-input pauses in `JobHandlerQueue`, and the over-quota pause in `enqueue()`/`setup_fetch_data`. Each needs its own `has_after_commit_actions`/run pairing, so these are the paths most likely to regress silently. The unit tests call `ActionBox.execute_after_commit` directly, and the wrapper test covers only `finish()` and `fail()`. No integration test covers a map-over with mixed outcomes or paused jobs.
+    fix: |
+      Added `test_cached_map_over_sends_one_summary_email`, which reruns a map-over with `use_cached_job` and asserts exactly one summary. With the handler's copied-job queuing disabled it fails, so it covers that path. Added `test_failed_element_sends_error_and_paused_summaries`, a two-step workflow where one element fails and its dependent pauses; it asserts one `(1 error, 2 ok)` and one `(2 ok, 1 paused)` summary. That checks `fail()` and paused jobs in the summary end to end, but an OK sibling settles last and sends it, so the test still passes with either pause path's queuing disabled. `prepare`'s job-cache copy and the invalid-input, walltime and over-quota pause paths are still untested; a test would need the paused job to settle last.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+      - {profile: gx_test_challenger, model: Claude Opus 5.5, effort: low}
+  - id: P2 2
+    include: true
+    title: Invocation report link for mapped-over jobs is untested
+    summary: the PR adds the invocation link for map-over emails but no test runs a workflow; added one.
+    implementation_verified: true
+    issue: |
+      `EmailAction._send` now uses `job.effective_workflow_invocation_step` so mapped-over jobs get the "Workflow Invocation Report" link, a behavior the PR calls out. No test runs a workflow, so neither the link nor `EmailAction` PJAs attached by a workflow step are covered.
+    fix: |
+      Added `test_workflow_map_over_summary_links_invocation`, which runs a mapped-over `cat1` step with an `EmailAction` PJA and asserts one summary containing `/workflows/invocations/report?id=<invocation id>`.
+    discovered_by:
+      - {profile: gx_test_challenger, model: Claude Opus 5.5, effort: low}
+  - id: P3 1
+    include: true
+    title: After-commit protocol is hand-threaded through each settle path
+    summary: two parallel queues and a queue/run pair at every settle site; fine for 26.0, unify on dev via the follow-up issue.
+    issue: |
+      Every commit that settles a job must queue before and run after: `prepare` (job cache), `finish`, `fail`, `pause`, `enqueue`, `setup_fetch_data` and `JobHandlerQueue.__handle_waiting_jobs`. The handler keeps its own `settled_jobs` list, repeats `ActionBox.has_after_commit_actions(job)` at three sites and threads a `paused_jobs` out-param through `__filter_jobs_with_invalid_input_states`. `pause()` both queues on the wrapper and returns a bool, so the handler queues the job again and the wrapper's queue is dropped with it. That's harmless today, but any new settle path that forgets one half silently loses the email. The "run every PJA not in `deferred_actions`" loop is also copied in `prepare`, `finish` and the handler.
+    fix: |
+      Fine for 26.0 as is. On `dev`, collapse this into one mechanism: a small collector shared by `MinimalJobWrapper` and `JobHandlerQueue`, or a session `after_commit` hook, plus one helper for the copied PJA loop. See the follow-up refactor issue.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+      - {profile: thermo_review, model: Claude Opus 5.5, effort: low}
+  - id: P3 2
+    include: true
+    title: Map-over integration test doesn't check collection names
+    summary: summary test passed even if no output collection names were listed; now asserts the name.
+    implementation_verified: true
+    issue: |
+      `test_map_over_sends_one_summary_email` checked only the prefix and `(3 ok)`. If `job.output_dataset_collection_instances` came back empty for real map-over jobs, the summary would list no collections and the test would still pass. The unit tests set that association by hand.
+    fix: |
+      The test now asserts the body starts with the summary line followed by the output collection name from the run response's `implicit_collections`.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+  - id: P3 3
+    include: true
+    title: "`job_state_counts` duplicates existing per-ICJ state counts"
+    summary: fourth copy of the ICJ state count; consolidate on dev (follow-up issue). Optional on 26.0.
+    issue: |
+      `ImplicitCollectionJobs.job_state_counts` runs the same join and `GROUP BY job.state` as `HistoryDatasetCollectionAssociation.job_state_summary` and the ICJ branches of `managers/jobs.py::fetch_job_states` and `summarize_jobs_to_dict`. That leaves several statements to tune for the same count. Optional for a release branch.
+    fix: |
+      On `dev`, move the grouped count into one model-level helper taking ICJ ids and call it from the managers and `EmailAction`. Keep the cheap `has_job_not_in_states` `EXISTS` check for the early exit.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+      - {profile: thermo_review, model: Claude Opus 5.5, effort: low}
+      - {profile: gx_performance_challenger, model: Claude Opus 5.5, effort: medium}
+  - id: P3 4
+    include: true
+    title: Settled check's plan can flip to a scan of the job table
+    summary: synthetic 2.1M-job DB saw a seq scan on job for a 100k map-over; PR's 20M-job benchmark saw nested loop. Unverified on production.
+    issue: |
+      `ImplicitCollectionJobs.has_job_not_in_states` runs after every mapped-over job with an email PJA settles. On a synthetic Postgres 16 database with 2.1M jobs, a 10k-job map-over used the icjja index into the job primary key (about 11 ms). A 100k-job map-over switched to a sequential scan of `job` filtered by state, at 200–470 ms per check. That cost grows with the server's job table, not the map-over. The PR's own benchmark on 20M jobs always got the nested loop, so the flip seems to depend on the map-over's share of the job table. A small server with a very large map-over is the likely case.
+    evidence: |
+      `job.id = ANY(ARRAY(SELECT job_id FROM icjja WHERE icj_id = …))` kept the ICJ-side plan on the same data: about 105 ms at 100k and 1.4 ms at 10k.
+    fix: |
+      Optionally pin the plan to the ICJ side with an `any_(array(...scalar_subquery()))` form of the same filter, after confirming with `EXPLAIN (ANALYZE, BUFFERS)` on a production-sized database. Not changed on the review branch because it couldn't be checked against a real planner here.
+    discovered_by:
+      - {profile: gx_performance_challenger, model: Claude Opus 5.5, effort: medium}
+  - id: P3 5
+    include: true
+    title: After-commit run reloads every job's PJAs before deduping by map-over
+    summary: handler batch lazy-loaded PJAs for every job before skipping duplicates; dedupe now runs first.
+    issue: |
+      `ActionBox.execute_after_commit` runs after a commit has expired the session. It loaded each job's `post_job_actions` and each `post_job_action` before skipping jobs whose map-over was already reported. When a whole map-over pauses in one handler pass, that's several lazy loads per job inside the handler loop for a single email.
+    fix: |
+      `execute_after_commit` now checks the map-over id before loading post job actions, and records the id only once the job has after-commit actions. The ICJ association is still loaded once per job; recording `(job_id, icj_id)` before the commit would avoid that too. `test_email_action.py` and `test_job_wrapper_finish.py` pass unchanged.
+    discovered_by:
+      - {profile: gx_performance_challenger, model: Claude Opus 5.5, effort: medium}
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+  - id: P3 6
+    include: true
+    title: Paused map-overs now send SMTP inline in the handler loop
+    summary: walltime and invalid-input pauses now send mail synchronously from the handler monitor loop, with no SMTP timeout. Optional.
+    issue: |
+      `JobHandlerQueue.__handle_waiting_jobs` calls `ActionBox.execute_after_commit`, which sends mail inline. `send_mail` builds `smtplib.SMTP(config.smtp_server)` with no timeout. Before this PR pausing never sent mail; now walltime and invalid-input pauses can, and they block dispatch for all users while SMTP responds. The copied-job case already did this before the PR. The impact is bounded: one email per map-over per pass, and only with email on. Optional on a release branch.
+    fix: |
+      Note it, or send asynchronously (Celery) on `dev`; see the follow-up refactor issue. A global SMTP timeout in `send_mail` would change every mail path, so it wasn't added on the review branch.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+  - id: P3 7
+    include: true
+    title: New helpers are untyped
+    summary: annotated the new EmailAction/ActionBox helpers; left their names alone to match the PR's merge-forward notes.
+    implementation_verified: true
+    issue: |
+      `EmailAction._job_completed`, `_map_over_completed`, `_send` and `ActionBox.has_after_commit_actions`/`execute_after_commit` take untyped arguments, though `Job` is already imported into `post.py`. `_job_completed`/`_map_over_completed` also return a message, not a flag, so a name like `_completion_message` would read better at the `if completed:` call site. Cheap nit.
+    fix: |
+      Annotated `job: Job`, `implicit_collection_jobs: ImplicitCollectionJobs`, `jobs: Iterable[Job]` and `completed: str`. With `job` typed, mypy flags `job.history.name` as possibly `None`, so `_send` now asserts `job.history`; `execute()` logs the failure as before. The methods keep their names because the PR's "Merging forward" notes refer to them.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+  - id: P3 8
+    include: true
+    title: "`settled_states` adds a third name next to `terminal_states` and `is_terminal`"
+    summary: is_terminal checks settled_states, not terminal_states; added a comment. Rename is a dev follow-up.
+    issue: |
+      `Job.terminal_states` is OK/ERROR/DELETED, but `Job.is_terminal` now returns `state in settled_states`, which adds SKIPPED/PAUSED/STOPPED. A third name makes the existing mismatch more visible without resolving it.
+    fix: |
+      Added a comment on `settled_states` saying `is_terminal` checks it rather than `terminal_states`. Renaming `is_terminal` to `is_settled` (with an alias) is in the follow-up refactor issue.
+    discovered_by:
+      - {profile: thermo_review, model: Claude Opus 5.5, effort: low}
+  - id: F1
+    include: false
+    title: Test-only per-file mode added to production `send_mail`
+    summary: the directory mode lives behind the existing `mock_emails_to_path://` scheme; reviewer called it acceptable.
+    filtered:
+      category: not_actionable
+      reason: the mock scheme already lives in `send_mail`, the new branch only applies to it, and the reviewer found it acceptable.
+    discovered_by:
+      - {profile: thermo_review, model: Claude Opus 5.5, effort: low}
+  - id: F2
+    include: false
+    title: Settled checks add up quadratically over a map-over
+    summary: total O(N²) check cost is measured and accepted in the PR description, with a counter follow-up for dev.
+    filtered:
+      category: relitigates_pr
+      reason: the PR's Performance section measures the quadratic total and defers a constant-cost counter to `dev`.
+    discovered_by:
+      - {profile: gx_performance_challenger, model: Claude Opus 5.5, effort: medium}
