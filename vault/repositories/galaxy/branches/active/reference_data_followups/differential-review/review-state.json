@@ -1,0 +1,243 @@
+{
+  "schemaVersion": 1,
+  "kind": "differential-review-state",
+  "updatedAt": "2026-11-12T09:46:24.737Z",
+  "hunks": {
+    "h1:036904f25a7e9e7f": {
+      "snapshotId": "20261111T172206Z-polishing-ce427b0feea0",
+      "path": "lib/galaxy/tool_util/data/__init__.py",
+      "reviewedAt": "2026-11-12T09:44:49.233Z"
+    },
+    "h1:a1c3eee5a85813cd": {
+      "snapshotId": "20261111T172206Z-polishing-ce427b0feea0",
+      "path": "lib/galaxy/tool_util/parameters/convert.py",
+      "reviewedAt": "2026-11-12T09:45:02.227Z"
+    },
+    "h1:26899c6c14043228": {
+      "snapshotId": "20261111T172206Z-polishing-ce427b0feea0",
+      "path": "lib/galaxy/tool_util/parameters/convert.py",
+      "reviewedAt": "2026-11-12T09:45:02.227Z"
+    },
+    "h1:47694d1e5ad6b02e": {
+      "snapshotId": "20261111T172206Z-polishing-ce427b0feea0",
+      "path": "lib/galaxy/tool_util/parameters/factory.py",
+      "reviewedAt": "2026-11-12T09:45:06.742Z"
+    },
+    "h1:4b076c45bad90c3e": {
+      "snapshotId": "20261111T172206Z-polishing-ce427b0feea0",
+      "path": "lib/galaxy/tool_util/parameters/factory.py",
+      "reviewedAt": "2026-11-12T09:45:06.742Z"
+    },
+    "h1:ddcd20df2f03e231": {
+      "snapshotId": "20261111T172206Z-polishing-ce427b0feea0",
+      "path": "lib/galaxy/tool_util/parser/interface.py",
+      "reviewedAt": "2026-11-12T09:45:10.284Z"
+    },
+    "h1:c4e6662c318dd4b2": {
+      "snapshotId": "20261111T172206Z-polishing-ce427b0feea0",
+      "path": "lib/galaxy/tool_util/parser/interface.py",
+      "reviewedAt": "2026-11-12T09:45:10.284Z"
+    },
+    "h1:bf7aa0ccda18dd98": {
+      "snapshotId": "20261111T172206Z-polishing-ce427b0feea0",
+      "path": "lib/galaxy/tool_util/parser/yaml.py",
+      "reviewedAt": "2026-11-12T09:45:16.122Z"
+    },
+    "h1:7f947be94b3a411d": {
+      "snapshotId": "20261111T172206Z-polishing-ce427b0feea0",
+      "path": "lib/galaxy/tool_util/parser/yaml.py",
+      "reviewedAt": "2026-11-12T09:45:16.122Z"
+    },
+    "h1:0c2af147c99a791f": {
+      "snapshotId": "20261111T172206Z-polishing-ce427b0feea0",
+      "path": "lib/galaxy/tool_util/parser/yaml.py",
+      "reviewedAt": "2026-11-12T09:45:16.122Z"
+    },
+    "h1:2f903b666b1b04ac": {
+      "snapshotId": "20261111T172206Z-polishing-ce427b0feea0",
+      "path": "lib/galaxy/tool_util/parser/yaml.py",
+      "reviewedAt": "2026-11-12T09:45:16.122Z"
+    },
+    "h1:89142be8c3477a09": {
+      "snapshotId": "20261111T172206Z-polishing-ce427b0feea0",
+      "path": "lib/galaxy/tool_util_models/yaml_parameters.py",
+      "reviewedAt": "2026-11-12T09:45:19.767Z"
+    },
+    "h1:624f61b903edc06a": {
+      "snapshotId": "20261111T172206Z-polishing-ce427b0feea0",
+      "path": "lib/galaxy/tool_util_models/yaml_parameters.py",
+      "reviewedAt": "2026-11-12T09:45:19.767Z"
+    },
+    "h1:49b44f820e958baa": {
+      "snapshotId": "20261111T172206Z-polishing-ce427b0feea0",
+      "path": "lib/galaxy/tools/evaluation.py",
+      "reviewedAt": "2026-11-12T09:45:24.435Z"
+    },
+    "h1:21cdc3358cbf76aa": {
+      "snapshotId": "20261111T172206Z-polishing-ce427b0feea0",
+      "path": "lib/galaxy/tools/evaluation.py",
+      "reviewedAt": "2026-11-12T09:45:24.435Z"
+    },
+    "h1:3746185cb6b2e219": {
+      "snapshotId": "20261111T172206Z-polishing-ce427b0feea0",
+      "path": "lib/galaxy/tools/evaluation.py",
+      "reviewedAt": "2026-11-12T09:45:24.435Z"
+    },
+    "h1:7b987a820c020f79": {
+      "snapshotId": "20261111T172206Z-polishing-ce427b0feea0",
+      "path": "lib/galaxy/tools/evaluation.py",
+      "reviewedAt": "2026-11-12T09:45:24.435Z"
+    },
+    "h1:ba9a9ea4e35f6278": {
+      "snapshotId": "20261111T172206Z-polishing-ce427b0feea0",
+      "path": "lib/galaxy/tools/parameters/basic.py",
+      "reviewedAt": "2026-11-12T09:45:29.261Z"
+    },
+    "h1:f55760879ee7c30b": {
+      "snapshotId": "20261111T172206Z-polishing-ce427b0feea0",
+      "path": "lib/galaxy/tools/runtime.py",
+      "reviewedAt": "2026-11-12T09:45:32.075Z"
+    },
+    "h1:088df55cf4a6325c": {
+      "snapshotId": "20261111T172206Z-polishing-ce427b0feea0",
+      "path": "lib/galaxy_test/api/test_unprivileged_tools.py",
+      "reviewedAt": "2026-11-12T09:45:37.613Z"
+    },
+    "h1:364371ca344590bf": {
+      "snapshotId": "20261111T172206Z-polishing-ce427b0feea0",
+      "path": "lib/galaxy_test/api/test_unprivileged_tools.py",
+      "reviewedAt": "2026-11-12T09:45:37.613Z"
+    },
+    "h1:8455a9d45d435644": {
+      "snapshotId": "20261111T172206Z-polishing-ce427b0feea0",
+      "path": "lib/galaxy_test/api/test_user_tool_contract.py",
+      "reviewedAt": "2026-11-12T09:45:40.931Z"
+    },
+    "h1:18ee746ecc4ba313": {
+      "snapshotId": "20261111T172206Z-polishing-ce427b0feea0",
+      "path": "lib/galaxy_test/base/data/user_tools/gx_reference_data_multiple_user.json",
+      "reviewedAt": "2026-11-12T09:45:57.119Z"
+    },
+    "h1:8caa65a16c4cb79f": {
+      "snapshotId": "20261111T172206Z-polishing-ce427b0feea0",
+      "path": "lib/galaxy_test/base/data/user_tools/gx_reference_data_user.json",
+      "reviewedAt": "2026-11-12T09:45:59.486Z"
+    },
+    "h1:58037e5fc9f0e369": {
+      "snapshotId": "20261111T172206Z-polishing-ce427b0feea0",
+      "path": "test/unit/app/tools/test_reference_data.py",
+      "reviewedAt": "2026-11-12T09:46:13.450Z"
+    },
+    "h1:7b12e8319386aed6": {
+      "snapshotId": "20261111T172206Z-polishing-ce427b0feea0",
+      "path": "test/unit/app/tools/test_reference_data.py",
+      "reviewedAt": "2026-11-12T09:46:13.450Z"
+    },
+    "h1:08309117ba470216": {
+      "snapshotId": "20261111T172206Z-polishing-ce427b0feea0",
+      "path": "test/unit/app/tools/test_reference_data.py",
+      "reviewedAt": "2026-11-12T09:46:13.450Z"
+    },
+    "h1:e2c002fde71d0758": {
+      "snapshotId": "20261111T172206Z-polishing-ce427b0feea0",
+      "path": "test/unit/app/tools/test_reference_data.py",
+      "reviewedAt": "2026-11-12T09:46:13.450Z"
+    },
+    "h1:36ec7ab18202bf51": {
+      "snapshotId": "20261111T172206Z-polishing-ce427b0feea0",
+      "path": "test/unit/app/tools/test_reference_data.py",
+      "reviewedAt": "2026-11-12T09:46:13.450Z"
+    },
+    "h1:a39196e8bb8a5c78": {
+      "snapshotId": "20261111T172206Z-polishing-ce427b0feea0",
+      "path": "test/unit/app/tools/test_reference_data.py",
+      "reviewedAt": "2026-11-12T09:46:13.450Z"
+    },
+    "h1:8ade34fbed8e15c4": {
+      "snapshotId": "20261111T172206Z-polishing-ce427b0feea0",
+      "path": "test/unit/tool_util/test_yaml_parameters.py",
+      "reviewedAt": "2026-11-12T09:46:18.022Z"
+    },
+    "h1:69d077e6a238e3bf": {
+      "snapshotId": "20261111T172206Z-polishing-ce427b0feea0",
+      "path": "test/unit/tool_util/test_yaml_parameters.py",
+      "reviewedAt": "2026-11-12T09:46:18.022Z"
+    },
+    "h1:5583515acb0c8f73": {
+      "snapshotId": "20261111T172206Z-polishing-ce427b0feea0",
+      "path": "test/unit/tool_util/test_user_tool_source_fixtures.py",
+      "reviewedAt": "2026-11-12T09:46:20.861Z"
+    },
+    "h1:9c07f6d8cc0b494c": {
+      "snapshotId": "20261111T172206Z-polishing-ce427b0feea0",
+      "path": "test/unit/tool_util/test_user_tool_source_fixtures.py",
+      "reviewedAt": "2026-11-12T09:46:20.861Z"
+    },
+    "h1:5557b627f80f465b": {
+      "snapshotId": "20261111T172206Z-polishing-ce427b0feea0",
+      "path": "test/unit/tool_util/test_user_tool_source_fixtures.py",
+      "reviewedAt": "2026-11-12T09:46:20.861Z"
+    },
+    "h1:defa1a3f58cd47d4": {
+      "snapshotId": "20261111T172206Z-polishing-ce427b0feea0",
+      "path": "test/unit/tool_util/test_user_tool_source_fixtures.py",
+      "reviewedAt": "2026-11-12T09:46:20.861Z"
+    }
+  },
+  "commits": {
+    "a2bac61cf9f70dbf14f3db4387c18476196c35af": {
+      "sha": "f65ce85596af8f554710dad28859b292d8d46bcc",
+      "subject": "Baseline tests: Run reference_data fixtures through the user tool contract harness",
+      "snapshotId": "20261111T172206Z-polishing-ce427b0feea0",
+      "signedOffAt": "2026-11-12T09:46:23.273Z"
+    },
+    "964c9734cee7d93995431a7c43e2247dedeb7fdd": {
+      "sha": "11fd2719823f8c2a58fa6ff57e7dfbb6602d1f4e",
+      "subject": "Baseline tests: Strengthen closed reference_data table tests",
+      "snapshotId": "20261111T172206Z-polishing-ce427b0feea0",
+      "signedOffAt": "2026-11-12T09:46:23.427Z"
+    },
+    "382c4d965b3f0cf14e7a58a4fb6f770a84ccd557": {
+      "sha": "35b5cbf55d4fbfb713f620481767f2fb5e9abaa7",
+      "subject": "Baseline tests: Test an admin GalaxyTool reads a table closed to user tools via the API",
+      "snapshotId": "20261111T172206Z-polishing-ce427b0feea0",
+      "signedOffAt": "2026-11-12T09:46:23.711Z"
+    },
+    "e5b0a1350af04b208f88560af14d38d74f4dbdab": {
+      "sha": "b02887560b1bbab63b2b4f2c2997e616a9c2c3fc",
+      "subject": "Baseline tests: Pin reference_data loading to its authoring model",
+      "snapshotId": "20261111T172206Z-polishing-ce427b0feea0",
+      "signedOffAt": "2026-11-12T09:46:23.854Z"
+    },
+    "88aa8b49ed5aed8cfa60e1fc6f3ed2912e7e11a2": {
+      "sha": "a610accbfa8c2bee1ced1322ca8289da7f95e55d",
+      "subject": "Baseline tests: Load reference_data nested in sections and conditional whens",
+      "snapshotId": "20261111T172206Z-polishing-ce427b0feea0",
+      "signedOffAt": "2026-11-12T09:46:24.027Z"
+    },
+    "b94da797c9cec31ee800a891d88fc18ce21f8242": {
+      "sha": "eb161062b99edad8e655e8827d6760b546d2b650",
+      "subject": "Share reference_data runtime dumping and table access rule",
+      "snapshotId": "20261111T172206Z-polishing-ce427b0feea0",
+      "signedOffAt": "2026-11-12T09:46:24.194Z"
+    },
+    "6b9e3c6f11c83c9ac93286de755bf27b7e889ec8": {
+      "sha": "0b481f9d687faaa8a0a897844fc00ad027da4564",
+      "subject": "Reject reference_data unless the input source is a YAML tool's",
+      "snapshotId": "20261111T172206Z-polishing-ce427b0feea0",
+      "signedOffAt": "2026-11-12T09:46:24.361Z"
+    },
+    "e35a7de44b5fbe00f92544230fa372ef756002a6": {
+      "sha": "7c269bf424776915ccbe7f8a4f4169e8f25ba789",
+      "subject": "Load reference_data inputs through their authoring model",
+      "snapshotId": "20261111T172206Z-polishing-ce427b0feea0",
+      "signedOffAt": "2026-11-12T09:46:24.544Z"
+    },
+    "7af5ee7156e5ee6e05103f333945ac51e41c14db": {
+      "sha": "ce427b0feea05c8739bd8a97ba7d59037caefbcf",
+      "subject": "Fix YAML text defaults dropped by to_internal()",
+      "snapshotId": "20261111T172206Z-polishing-ce427b0feea0",
+      "signedOffAt": "2026-11-12T09:46:24.737Z"
+    }
+  }
+}

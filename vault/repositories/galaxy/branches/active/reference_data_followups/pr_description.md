@@ -2,11 +2,11 @@ Follow-up to 🔀 #24798 - closes an XML loophole in the YAML-only rule for refe
 
 Three gaps from reviewing #24798, all on `dev`:
 
-| On `dev` (`a73355ea2e5`) | With this PR |
-|---|---|
+| On `dev` (`a73355ea2e5`)                                                                                                                                                                              | With this PR                                                                                                                      |
+| ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
 | An XML `<param type="reference_data" table="all_fasta">` with an `<options from_data_table="all_fasta"/>` child loads, and the parameter model factory returns a `ReferenceDataParameterModel` for it | `ParameterDefinitionError: reference_data is only supported in GalaxyTool and GalaxyUserTool YAML tools` (same text at tool load) |
-| A disk YAML tool's reference_data is built from the raw dict: `multiple: "false"` reaches the form as the string `'false'`, and keys the API rejects (a leftover `filter`, `options`) load silently | Validated by `YamlReferenceDataParameter`, like the API; the form and the parameter model see the same coerced flags |
-| `YamlTextParameter(value="hello!").to_internal().default_value` is `None` | `'hello!'` |
+| A disk YAML tool's reference_data is built from the raw dict: `multiple: "false"` reaches the form as the string `'false'`, and keys the API rejects (a leftover `filter`, `options`) load silently   | Validated by `YamlReferenceDataParameter`, like the API; the form and the parameter model see the same coerced flags              |
+| `YamlTextParameter(value="hello!").to_internal().default_value` is `None`                                                                                                                             | `'hello!'`                                                                                                                        |
 
 Each row is real output from `dev`'s lib and this branch's lib.
 

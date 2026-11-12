@@ -1,4 +1,1 @@
 - Follow up #24798: validate reference_data through its authoring model, YAML tools only
-- Close the XML `<options>` bypass of reference_data and load it through its authoring model
-- reference_data follow-ups: YAML-only guard, authoring-model loading, contract tests
-- Harden reference_data loading and fix YAML text defaults dropped by `to_internal()`
