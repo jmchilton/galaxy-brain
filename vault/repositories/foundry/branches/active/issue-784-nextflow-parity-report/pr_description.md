@@ -1,6 +1,6 @@
 Toward 🎯 #784 - a nextflow-to-galaxy run now ends with a report of how the Galaxy workflow differs from its Nextflow source, with every difference that has no recorded reason listed as a finding.
 
-**Depends on #821 (→ #818 → #809). Until those merge, this diff includes their commits too. This PR's own commits are [`4ff48eda..HEAD`](https://github.com/jmchilton/foundry/compare/issue-798-nextflow-scope-decisions...issue-784-nextflow-parity-report).**
+**Depends on #821 (→ #818 → #809). Until those merge, this diff includes their commits too. This PR's own commits are [`872b1e11..HEAD`](https://github.com/jmchilton/foundry/compare/issue-798-nextflow-scope-decisions...issue-784-nextflow-parity-report).**
 
 Part of #784. ***It doesn't close the issue. Three parts stay open. The wrapper's underlying software requirement (item 2) can't be read yet, so tool-version rows compare against the wrapper version string and are marked unverified. Source outputs (item 1) that the design never declared and never dropped don't appear. And no end-to-end nextflow-to-galaxy run has produced a report yet.***
 
@@ -10,7 +10,7 @@ On `main` a run ends after the test phase with a workflow, its tests and a ledge
 
 ## What the report finds on a bamtofastq-shaped run
 
-The fixture in `packages/gxwf-foundry/test/fixtures/nextflow-parity/bamtofastq/` reproduces both cases. Its summary is built from a small `pipeline/` by `foundry summarize-nextflow`, and `parity-diff.json` is real `gxwf diff --json` output (jmchilton/galaxy-tool-util-ts#233 at `a5c6cd57`). `foundry nextflow-parity` on it exits 0 and prints these findings:
+The fixture in `packages/gxwf-foundry/test/fixtures/nextflow-parity/bamtofastq/` reproduces both cases. Its summary is built from a small `pipeline/` by `foundry summarize-nextflow`, and `parity-diff.json` is real `gxwf diff --json` output (jmchilton/galaxy-tool-util-ts#233 at `4d086efa`). `foundry nextflow-parity` on it exits 0 and prints these findings:
 
 | `kind` | `subject` | `detail` | arash77's case |
 |---|---|---|---|
@@ -97,9 +97,9 @@ Like #818, the Mold needs `gxwf diff`, which exists only on jmchilton/galaxy-too
 
 - `test/nextflow-parity.test.ts` (21 tests) runs on the bamtofastq fixture. A test keeps the committed summary equal to one built live from `pipeline/`. Variants cover a recorded step drop, a call covered by a drop, an unmapped call, an output fed by an input, a step with `tool_state` instead of `state`, inline-subworkflow keying, a shared `withLabel` id, output-only drops, reasonless and malformed flag records, a diff/file mismatch (exit 3), and the CLI exit codes. Each join bug the reviews found was fixed red to green here.
 - `test/scope-records.test.ts` covers each shape problem, each citation form and rejection, and exit codes 0/4/3/1. `tests/scope-decisions.test.ts` passes through the library, and #798's mutation checks were rerun: a fake unit name and `bowtie2` under `params[aligner].enum` both fail the citation test. ***That citation test needs sarek locally and skips in CI.***
-- Live runs at `7d3e3cfa`: `foundry nextflow-parity` on the fixture gives the tables above. `foundry check-scope-records` on #821's sarek example ledger reports `scope-germline-strelka: 9 scope drop(s), 0 problem(s)` and exits 0. That run had no summary, so it checked shape only. The citation check against a live sarek summary is the root test above.
+- Live runs at `a702bb6e`: `foundry nextflow-parity` on the fixture gives the tables above. `foundry check-scope-records` on #821's sarek example ledger reports `scope-germline-strelka: 9 scope drop(s), 0 problem(s)` and exits 0. That run had no summary, so it checked shape only. The citation check against a live sarek summary is the root test above.
 - Parity Mold scenario case 1 was checked against that live command output: seven findings, `view_map_map` joined to `arg-view-map-map-args` (`carried`), `to_fastq` with `calls_from: records`, `collate` with no `state`, and samtools 1.17 with its container.
-- `make -k check` at `7d3e3cfa` is red only on `validate-roadmap`, which hits the GitHub rate limit here, and `check-vendored`, which fails only on the dev machine. 503 root tests and 151 gxwf-foundry tests pass. Format, lint, `npm run typecheck` and `npm run packages-typecheck` are clean. `npm run validate` gives the same 71 warnings on base and head.
+- `make -k check` at `7d3e3cfa` (before the rebase onto `main` `161947ef`) is red only on `validate-roadmap`, which reads live roadmap state from GitHub and fails the same way on `main`, and `check-vendored`, which fails only on the dev machine. 503 root tests and 151 gxwf-foundry tests pass. Format, lint, `npm run typecheck` and `npm run packages-typecheck` are clean. `npm run validate` gives the same 71 warnings on base and head.
 
 ***The Mold itself has been checked only by its eval properties and scenarios. Scenarios 3 (sarek scope) and 4 (rerunning galaxyproject/iwc-lab#8 with a snapshot) are predictions until `/test-pipeline` runs produce them. A fresh run may not remove the chr filter again.***
 

@@ -1,6 +1,6 @@
 # Open PR and branch queue
 
-Snapshot: 2026-10-28 (originally recovered from live GitHub state, local worktrees and agent notes; earlier tracking lived in `agents/foundry/PULL_REQUESTS.md`).
+Snapshot: 2026-11-12 (parity stack #809/#818/#821/#827 re-queried after rebase; other entries last re-queried 2026-10-28; originally recovered from live GitHub state, local worktrees and agent notes; earlier tracking lived in `agents/foundry/PULL_REQUESTS.md`).
 
 ## Open Foundry PRs — ready from our side (`ready`)
 
@@ -24,13 +24,12 @@ Snapshot: 2026-10-28 (originally recovered from live GitHub state, local worktre
 ## Draft Foundry PRs — ready to undraft (`draft_ready`)
 
 - [`issue-570-cast-moc-leaf-patterns`](active/issue-570-cast-moc-leaf-patterns/index.md) — Cast pattern maps of content with the leaf pattern pages they list (#570). [#738](https://github.com/galaxyproject/foundry/pull/738).
-
-## Draft Foundry PRs — waiting for CI (`ci_wait`)
-
 - [`issue-781-plan-state-resolved-args`](active/issue-781-plan-state-resolved-args/index.md) — summarize-nextflow ranks `ext.args` per call; template copies them to `_plan_state`, one disposition per flag (#781). Base of parity stack. [#809](https://github.com/galaxyproject/foundry/pull/809).
 - [`issue-796-test-phase-removed-steps`](active/issue-796-test-phase-removed-steps/index.md) — run-workflow-test fails a green run when a step removed since extraction has no drop entry (#796). Depends on #809; draft until gxwf diff release. [#818](https://github.com/galaxyproject/foundry/pull/818).
 - [`issue-798-nextflow-scope-decisions`](active/issue-798-nextflow-scope-decisions/index.md) — Interface Mold records the chosen Nextflow scope and each excluded branch in the ledger (part of #798). Depends on #818. [#821](https://github.com/galaxyproject/foundry/pull/821).
-- [`issue-784-nextflow-parity-report`](active/issue-784-nextflow-parity-report/index.md) — Report-only Nextflow parity Mold + `foundry nextflow-parity`/`check-scope-records` (part of #784). Top of parity stack, depends on #821. [#827](https://github.com/galaxyproject/foundry/pull/827).
+
+## Draft Foundry PRs — waiting for CI (`ci_wait`)
+
 - [`issue-789-readme-no-archeology`](active/issue-789-readme-no-archeology/index.md) — Maturation Mold keeps invocation ids, failed attempts and benchmarks out of the README (#789). [#801](https://github.com/galaxyproject/foundry/pull/801).
 - [`issue-757-meta-driven-parameters`](active/issue-757-meta-driven-parameters/index.md) — Channel-shape note routes per-element parameters via mapped `param_value_from_file`, plus verification workflows (#757). [#799](https://github.com/galaxyproject/foundry/pull/799).
 - [`issue-674-single-workflow-posture`](active/issue-674-single-workflow-posture/index.md) — Say a tool choice doesn't need a second workflow (part of #674). [#759](https://github.com/galaxyproject/foundry/pull/759).
@@ -38,7 +37,7 @@ Snapshot: 2026-10-28 (originally recovered from live GitHub state, local worktre
 
 ## Draft Foundry PRs — needs author work (`author_work`)
 
-None yet.
+- [`issue-784-nextflow-parity-report`](active/issue-784-nextflow-parity-report/index.md) — Report-only Nextflow parity Mold + `foundry nextflow-parity`/`check-scope-records` (part of #784). Top of parity stack, depends on #821. [#827](https://github.com/galaxyproject/foundry/pull/827).
 
 ## Foundry branches — implemented, work left (`branches_implemented_needs_ci`)
 

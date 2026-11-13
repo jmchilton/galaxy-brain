@@ -48,7 +48,7 @@ JSON output with a declared shape, plus human-readable text.
 
   The gate itself is `foundry check-step-removals <diff.json> <ledger.yml>`, which exits 4 on unlabelled removals. `_plan_state.calls` shows up in `steps.removed[].plan_fields` and `plan_fields_before`.
 
-  Since gxformat2 `397819a` / gtu-ts `a5c6cd57`, `gxwf diff` recurses into inline subworkflows: nested steps sit in the same `steps.removed` / `steps.changed` maps under `<parent>/<key>` (`nested/first`), with their `plan_fields`; `unwired_inputs` stays top level. A list-form relabel is a `fields.label` change, not remove + add. A ledger names a nested step by that full key (`step: nested/first`); the bare inner label matches nothing nested. The gtu-ts release Foundry pins must include `a5c6cd57`.
+  Since gxformat2 `397819a` / gtu-ts `a5c6cd57`, `gxwf diff` recurses into inline subworkflows: nested steps sit in the same `steps.removed` / `steps.changed` maps under `<parent>/<key>` (`nested/first`), with their `plan_fields`; `unwired_inputs` stays top level. A list-form relabel is a `fields.label` change, not remove + add. A ledger names a nested step by that full key (`step: nested/first`); the bare inner label matches nothing nested. The gtu-ts release Foundry pins must include `4d086efa` (which supersedes `a5c6cd57`; its `--json` output reproduces every Foundry diff fixture byte for byte).
 - **Local gate:** `make check` doesn't typecheck. Also run `npm run typecheck` and `npm run packages-typecheck`; CI runs them after `validate-roadmap`.
 - **#798** (`issue-798-nextflow-scope-decisions`, parent #796). Ledger note "Source scope" section:
   - The scope is the one `decisions[]` item with `scope: {candidate?, controls: [{control, value, from}]}`, `decided_by: nextflow-summary-to-galaxy-interface`. `control` is `params.<name>` or `profile`.
@@ -64,14 +64,16 @@ JSON output with a declared shape, plus human-readable text.
 
 All six branches are draft PRs:
 
-| Repo | PR | Branch |
-|---|---|---|
-| gxformat2 | [#296](https://github.com/galaxyproject/gxformat2/pull/296) | `issue_295_workflow_diff` |
-| galaxy-tool-util-ts | [#233](https://github.com/jmchilton/galaxy-tool-util-ts/pull/233) | `issue_232_workflow_diff` |
-| foundry #781 | [#809](https://github.com/galaxyproject/foundry/pull/809) | `issue-781-plan-state-resolved-args` |
-| foundry #796 | [#818](https://github.com/galaxyproject/foundry/pull/818) | `issue-796-test-phase-removed-steps` |
-| foundry #798 | [#821](https://github.com/galaxyproject/foundry/pull/821) | `issue-798-nextflow-scope-decisions` |
-| foundry #784 | [#827](https://github.com/galaxyproject/foundry/pull/827) | `issue-784-nextflow-parity-report` |
+| Repo | PR | Branch | Head |
+|---|---|---|---|
+| gxformat2 | [#296](https://github.com/galaxyproject/gxformat2/pull/296) | `issue_295_workflow_diff` | `efb2e5b` |
+| galaxy-tool-util-ts | [#233](https://github.com/jmchilton/galaxy-tool-util-ts/pull/233) | `issue_232_workflow_diff` | `4d086efa` |
+| foundry #781 | [#809](https://github.com/galaxyproject/foundry/pull/809) | `issue-781-plan-state-resolved-args` | `197e5afd` |
+| foundry #796 | [#818](https://github.com/galaxyproject/foundry/pull/818) | `issue-796-test-phase-removed-steps` | `a40ff6ae` |
+| foundry #798 | [#821](https://github.com/galaxyproject/foundry/pull/821) | `issue-798-nextflow-scope-decisions` | `872b1e11` |
+| foundry #784 | [#827](https://github.com/galaxyproject/foundry/pull/827) | `issue-784-nextflow-parity-report` | `a702bb6e` |
+
+The Foundry stack was rebased 2026-11-12 onto `main` `161947ef` (#790's summarizer fixes). Each branch's `rebase_debrief.md` has the details.
 
 Undraft order:
 1. Merge #296 and #233.

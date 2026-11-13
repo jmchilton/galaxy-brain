@@ -2,7 +2,7 @@ Toward 🎯 #798 - the nextflow-to-galaxy Molds now tell a run on a multi-path p
 
 Part of #798. ***It doesn't close the issue. Three parts stay open: listing the available paths in `summary-nextflow.json` (proposal 1, blocked on summarizer gaps A–C below), a dedicated scope input or interview (#500), and an end-to-end run that shows a sarek build actually states its scope.***
 
-***Depends on #818 (which depends on #809). Until both merge, this diff includes their commits too. This PR's own commits are [`b74c6bdd..4ff48eda`](https://github.com/jmchilton/foundry/compare/issue-796-test-phase-removed-steps...issue-798-nextflow-scope-decisions).***
+***Depends on #818 (which depends on #809). Until both merge, this diff includes their commits too. This PR's own commits are [`a40ff6ae..872b1e11`](https://github.com/jmchilton/foundry/compare/issue-796-test-phase-removed-steps...issue-798-nextflow-scope-decisions).***
 
 sarek 3.8.1 offers germline and somatic calling, five aligners, six start steps, annotation and VCF post-processing. A nextflow-to-galaxy run builds one of those paths, which is right, but nothing on `main` tells it to say so. No design Mold reads `test_selection`. The ledger has `decisions` and `kind: dropped` entries that could hold the choice, but no Mold writes one. The pipeline's own sarek scenario already expects `step`, `tools` and `aligner` to "survive into the interface and data-flow briefs as scope decisions". Today that expectation has nothing behind it.
 
@@ -120,8 +120,8 @@ The summarizer doesn't yet hold everything a scope record wants to cite. The fix
 - `tests/scope-decisions.test.ts` has two tests:
   - The shape test always runs. It checks one scope decision, the six drop families the sarek scenario names, `open` status, at least one backticked unit name per drop, no drop re-selecting a control the scope fixes, `because` naming the scope, and no `step` or `source_arg`.
   - The citation test builds a live summary of sarek 3.8.1 and checks that every `from` resolves to a summary value backing its control value, and every unit name is a subworkflow or process in the summary. A no-field candidate citation must name the value as its file stem, or as a `_`-separated tail of the stem, e.g. `variant_calling_mutect2.nf.test` for `mutect2`.
-- Both pass at `4ff48eda` with sarek present locally. ***The tests check the committed example ledger, not a run's output, and the citation test skips in CI.*** CI doesn't fetch sarek (`tier: large`) and runs root tests before materializing fixtures, the same as the existing `itIfSarekFixture` test in `summarize-nextflow`.
-- At `4ff48eda`, 18 mutations of the sarek fixture each failed the tests, and the fixture was restored after each. The fixture hasn't changed since `5feb4633`.
+- Both pass at `872b1e11` with sarek present locally. ***The tests check the committed example ledger, not a run's output, and the citation test skips in CI.*** CI doesn't fetch sarek (`tier: large`) and runs root tests before materializing fixtures, the same as the existing `itIfSarekFixture` test in `summarize-nextflow`.
+- At `4ff48eda` (before the rebase onto `main` `161947ef`), 18 mutations of the sarek fixture each failed the tests, and the fixture was restored after each. The fixture hasn't changed since `5feb4633` (pre-rebase SHA).
   - Caught by the shape test, which runs in CI (9): a drop set to `resolved`, a drop with a top-level `step`, a drop with a `source_arg`, a drop joined to another decision, a `because` that omits the scope `id`, a renamed `scope-annotation`, the unitless `scope-later-start-steps` drop, `tools: strelka` in the somatic drop, and a scope `aligner` changed to `bwa-mem2`, which an aligner drop then re-selects.
   - Caught only by the citation test, which runs locally (9): a fake unit name, an aligner outside `params[aligner].enum`, a `profile` control citing a conditional, a missing scope candidate, a toggle set to `false`, and four candidate citations whose value the candidate's file doesn't name (`muse`, `mutect`, `calling`, `post`).
   - The last three of those passed at `5feb4633`, because the check only looked for the value as a substring of the candidate `id`. This PR's last commit anchors it to the file stem.
@@ -129,11 +129,11 @@ The summarizer doesn't yet hold everything a scope record wants to cite. The fix
   - interface: sarek scope is decided and recorded, rnaseq scope falls back without stopping, and the demo pipeline gets no scope decision. In the rnaseq case, both `default.nf.test` candidates set only `outdir`, so they change no branch control. The canonical-file tiebreak keeps them over any other zero-change candidate, and "first listed" picks `Params: default` over its `- stub` twin, which exists only because of D. The case shows the run doesn't stop. It doesn't show the fewest-controls ranking separating real alternatives.
   - data-flow: sarek stays inside the germline scope
   - the pipeline's sarek case now names the scope decision and the open drops in the final ledger
-- The scenario fixtures were re-checked against live summaries on 2026-11-12. sarek returns `selected` on `tests/default.nf.test::dynamically-generated`. rnaseq returns `needs-scope-choice`, and its `aligner` default is `star_salmon` with four enum values.
+- The scenario fixtures were re-checked against live summaries on 2026-11-12, again after the rebase onto #790's summarizer fixes. sarek returns `selected` on `tests/default.nf.test::dynamically-generated`. rnaseq returns `needs-scope-choice`, and its `aligner` default is `star_salmon` with four enum values.
 
 ***The Mold behaviour is checked only by LLM-judged eval properties and scenarios. No end-to-end pipeline run has exercised it yet.***
 
-`make -k check` at this head is red only on `validate-roadmap`, which reads live roadmap state from GitHub (rate-limited here), and `check-vendored`, which fails only on the dev machine. 503 tests passed. `npm run typecheck` and `npm run packages-typecheck` are clean.
+`make -k check` at this head is red only on `validate-roadmap`, which reads live roadmap state from GitHub and fails the same way on `main` (drift on #803, #805 and #783), and `check-vendored`, which fails only on the dev machine. 503 tests passed. `npm run typecheck` and `npm run packages-typecheck` are clean.
 
 <details><summary>Files</summary>
 

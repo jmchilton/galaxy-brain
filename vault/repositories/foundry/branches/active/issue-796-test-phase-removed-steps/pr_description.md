@@ -4,7 +4,7 @@ Fix 🎯 #796 - a green test run fails when a step removed since extraction has 
 
 Closes #796.
 
-***Depends on #809. Until #809 merges, this diff includes its commits too. This PR's own commits are [`7d001a3d..b74c6bdd`](https://github.com/jmchilton/foundry/compare/issue-781-plan-state-resolved-args...issue-796-test-phase-removed-steps).***
+***Depends on #809. Until #809 merges, this diff includes its commits too. This PR's own commits are [`197e5afd..a40ff6ae`](https://github.com/jmchilton/foundry/compare/issue-781-plan-state-resolved-args...issue-796-test-phase-removed-steps).***
 
 In #796's bamtofastq run, the test loop cut the workflow from 16 tool steps to 4 across 18 `planemo test` attempts. It then ended green, because the remaining test only asserts element counts and datatypes. One of those removals, the chr filter, never reached the ledger at all. Nothing on `main` compares the final workflow with what the per-step loop built. The test loop edits `galaxy-workflow.gxwf.yml` in place, so once the loop is done no copy of the larger workflow survives to compare against.
 
@@ -69,7 +69,7 @@ Diffing that pre-loop draft against the final workflow would also flag repair's 
 
 This needs to stay draft until two things land:
 
-1. A `@galaxy-tool-util/cli` release with `gxwf diff`, including the nested-subworkflow and list-form relabel fix from jmchilton/galaxy-tool-util-ts#233 at `a5c6cd57` (the Python sibling is galaxyproject/gxformat2#296).
+1. A `@galaxy-tool-util/cli` release with `gxwf diff`, including the nested-subworkflow and list-form relabel fix from jmchilton/galaxy-tool-util-ts#233 at `4d086efa` (the Python sibling is galaxyproject/gxformat2#296).
 2. A Foundry pin bump from `^1.15` to that release. The bump should also add `content/cli/gxwf/diff.md` and a `[[diff]]` reference on `run-workflow-test`. Until then the Mold names `gxwf diff` in prose, because the validator rejects a gxwf page that the installed CLI doesn't list.
 
 ***If this merges before step 2, every green run of a per-step-loop pipeline goes red with `step-removal-check-error`.***
@@ -80,7 +80,7 @@ Publish `@galaxy-foundry/gxwf-foundry` with `check-step-removals` (this PR's cha
 
 ## Evidence
 
-- `packages/gxwf-foundry/test/step-removals.test.ts` has 17 tests, all passing at this head. They run against six real `gxwf diff --json` outputs from an unreleased galaxy-tool-util-ts build at `a5c6cd57`, not the pinned 1.15:
+- `packages/gxwf-foundry/test/step-removals.test.ts` has 17 tests, all passing at this head. They run against six real `gxwf diff --json` outputs from an unreleased galaxy-tool-util-ts build at `4d086efa` (byte-identical to the `a5c6cd57` outputs they were first generated from), not the pinned 1.15:
   - a bamtofastq-shaped draft where `chr_filter` was removed and `chr` left unwired
   - a removed leaf step
   - a changed step with nothing removed
@@ -97,7 +97,7 @@ Publish `@galaxy-foundry/gxwf-foundry` with `check-step-removals` (this PR's cha
 
 ***The Mold behaviour (snapshots, step 6, debug's routing) is checked only by LLM-judged eval properties and scenarios. No end-to-end pipeline run has exercised it yet, and the fixture's Planemo result is canned, as in the other eval fixtures.***
 
-`make -k check` at this head is red only on `validate-roadmap`, which reads live roadmap state from GitHub (rate-limited here), and `check-vendored`, which fails only on the dev machine. 501 tests passed, and the `gxwf-foundry` package's 122.
+`make -k check` at this head is red only on `validate-roadmap`, which reads live roadmap state from GitHub and fails the same way on `main` (drift on #803, #805 and #783), and `check-vendored`, which fails only on the dev machine. 501 tests passed, and the `gxwf-foundry` package's 122.
 
 <details><summary>Files</summary>
 

@@ -84,7 +84,7 @@ flowchart LR
 - rnaseq: `SALMON_QUANT` has three `args` rows. Only `…:FASTQ_SUBSAMPLE_FQ_SALMON:SALMON_QUANT` names the `--skipQuant` entry. All 10 ties are `ext.prefix`, between two whole-path patterns at one rank, in one config (e.g. `SAMTOOLS_SORT` under `BAM_DEDUP_UMI`) or across two (the tximport `SE_*_UNIFIED` calls).
 - sarek: the `CRAM_TO_BAM` `prefix` row ties `…/prefix` and `…/prefix~2` (the `.dedup` / `.md` branches). The other tie is `MERGE_DEEPVARIANT_GVCF`'s `prefix`, set by both `withName:MERGE_DEEPVARIANT_.*` and `withName:MERGE_DEEPVARIANT_GVCF` in one config.
 
-The resolver changes are covered by `packages/summarize-nextflow/test/resolver.test.ts` (rank ladder, profile vs root and merge position, ties, if/else branches, call chains, aliased subworkflows, per-file includes, ids, and a bamtofastq-shaped fixture), and two of those tests validate their summaries against the schema. The parser also stopped losing workflow blocks to an apostrophe in a `//` comment: nf-core/rnaseq's `RNASEQ` workflow was missing before, so 26 calls fell back to bare names.
+The resolver changes are covered by `packages/summarize-nextflow/test/resolver.test.ts` (rank ladder, profile vs root and merge position, ties, if/else branches, call chains, aliased subworkflows, per-file includes, ids, and a bamtofastq-shaped fixture), and two of those tests validate their summaries against the schema. One pins call tracing through a workflow whose `//` comment holds an apostrophe; #790 made such blocks parse, which is what lets nf-core/rnaseq's `RNASEQ` calls trace.
 
 The template's copy format has a deterministic test, `tests/plan-state-transport.test.ts`. It runs the resolver on a bamtofastq-shaped pipeline (entry workflow → `BAMTOFASTQ` → `ALIGNMENT_TO_FASTQ` → two `SAMTOOLS_VIEW` aliases), copies each call's effective entries the way the template says, and embeds them in a one-step draft. The draft passes `validateDraft` and the entries parse back unchanged, `tie` marks included. The same data as a mapping fails `validateDraft`, and every expression is lost when written as plain YAML. The template Mold's `_plan_state` example must equal resolver output for its call, so the example can't drift from the summary.
 
@@ -92,7 +92,7 @@ The template's copy format has a deterministic test, `tests/plan-state-transport
 
 <details><summary>Files</summary>
 
-- `packages/summarize-nextflow`: `resolver.ts` (call paths, membership along real call chains, ids, `//` comment fix), new `selector-precedence.ts` (ranking and the `ResolvedArg` / `EffectiveArg` contract), schema JSON and generated TS, tests. Changeset: `@galaxy-foundry/summarize-nextflow` minor.
+- `packages/summarize-nextflow`: `resolver.ts` (call paths, membership along real call chains, ids), new `selector-precedence.ts` (ranking and the `ResolvedArg` / `EffectiveArg` contract), schema JSON and generated TS, tests. Changeset: `@galaxy-foundry/summarize-nextflow` minor.
 - Molds: `summarize-nextflow` rev 21, `nextflow-summary-to-galaxy-template` rev 11 (+ `refinement.md`), `implement-galaxy-tool-step` rev 16, `advance-galaxy-draft-step` rev 13, each with eval properties and scenarios.
 - Research and schema notes: `open-requirements-ledger` rev 8 (**Source arguments**), `galaxy-workflow-draft-format` rev 7, `summary-nextflow` schema note rev 14, `galaxy-workflow-draft` wording.
 - `tests/plan-state-transport.test.ts`: the `_plan_state` copy format, draft validation and the template example.

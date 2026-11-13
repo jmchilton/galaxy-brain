@@ -11,11 +11,11 @@ pr: 809
 
 ## Status
 
-Polished (see [polish_debrief.md](polish_debrief.md)), head `7d001a3d` (root typecheck fix in `tests/plan-state-transport.test.ts`) on `~/projects/worktrees/foundry/branch/issue-781-plan-state-resolved-args`, branched from `origin/main` `df991d0d`.
+Polished; rebased 2026-11-12 onto `origin/main` `161947ef` (see [rebase_debrief.md](rebase_debrief.md)), head `197e5afd` on `~/projects/worktrees/foundry/branch/issue-781-plan-state-resolved-args`.
 
-Draft PR [#809](https://github.com/galaxyproject/foundry/pull/809), opened 2026-11-12 at John's request; base of the parity stack (#781 → #796 → #798 → #784).
+Draft PR [#809](https://github.com/galaxyproject/foundry/pull/809), mergeable, base of the parity stack (#781 → #796 → #798 → #784).
 
-CI at `7d001a3d` pending; `ef1607a8` was red at `validate-roadmap` (live roadmap drift on #803/#805/#783, same red on main) and would have hit a root `npm run typecheck` red next, now fixed. Local at `7d001a3d` (2026-11-12): `npm run typecheck` and `packages-typecheck` clean; `make -k check` passes 501 tests, red only on `validate-roadmap` (same drift) and `check-vendored` (machine-only).
+CI at `197e5afd` is red only at `validate-roadmap` (live roadmap drift on #803/#805/#783, on base; it hides the later steps), and the local gate is otherwise clean apart from machine-only `check-vendored` and an rnaseq integration-test timeout flake.
 
 ## Stack
 

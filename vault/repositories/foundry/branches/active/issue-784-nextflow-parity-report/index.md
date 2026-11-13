@@ -11,11 +11,11 @@ pr: 827
 
 ## Status
 
-Implemented and through normal, Codex, thermo, domain and documentation reviews (fixes in `9530080f`, `d63d5b66`, `c111bb97`, `a9311739`, `9b100aa5`), plus the strengthening round's step `state` column (`7d3e3cfa`), at head `7d3e3cfa` on `~/projects/worktrees/foundry/branch/issue-784-nextflow-parity-report`, branched from parent `jmchilton/issue-798-nextflow-scope-decisions` at `4ff48eda`; pushed to `jmchilton`. Polished ([polish_debrief.md](polish_debrief.md)).
+Reviewed and polished ([polish_debrief.md](polish_debrief.md)); rebased 2026-11-12 onto parent `issue-798-nextflow-scope-decisions` at `872b1e11` (see [rebase_debrief.md](rebase_debrief.md)), head `a702bb6e` on `~/projects/worktrees/foundry/branch/issue-784-nextflow-parity-report`, pushed to `jmchilton`.
 
-Draft PR [#827](https://github.com/galaxyproject/foundry/pull/827), opened 2026-11-12 at John's request (depends on #821 → #818 → #809); Part of #784, completes the report half of #781.
+Draft PR [#827](https://github.com/galaxyproject/foundry/pull/827), mergeable (depends on #821 → #818 → #809); Part of #784, completes the report half of #781.
 
-CI runs only on PRs. Local `make -k check` at `7d3e3cfa` (2026-11-12) is red only on `validate-roadmap` (rate limit) and `check-vendored` (fails on this machine only), with 503 root tests and 151 gxwf-foundry tests passing; format, lint, typecheck and packages-typecheck clean.
+CI at `a702bb6e` is red only at `validate-roadmap` (live roadmap drift, on base), which hides a relevant local red: build-cli's `run-dashboard-model.test.ts` fails because the recorded `tiny-nextflow-run` fixture lacks the new parity phase (decision needed, see [rebase_debrief.md](rebase_debrief.md)).
 
 ## Decisions
 

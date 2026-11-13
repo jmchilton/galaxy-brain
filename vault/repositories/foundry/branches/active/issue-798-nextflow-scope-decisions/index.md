@@ -12,11 +12,11 @@ pr: 821
 
 ## Status
 
-Polished (see [polish_debrief.md](polish_debrief.md)) at head `4ff48eda` on `~/projects/worktrees/foundry/branch/issue-798-nextflow-scope-decisions` (parent `issue-796-test-phase-removed-steps` at `b74c6bdd`, draft PR #818): strengthening round done ([subagents/strengthen.md](subagents/strengthen.md)), description now `Toward`/`Part of #798`.
+Polished (see [polish_debrief.md](polish_debrief.md)); rebased 2026-11-12 onto parent `issue-796-test-phase-removed-steps` at `a40ff6ae` (see [rebase_debrief.md](rebase_debrief.md)), head `872b1e11` on `~/projects/worktrees/foundry/branch/issue-798-nextflow-scope-decisions`.
 
-Draft PR [#821](https://github.com/galaxyproject/foundry/pull/821), opened 2026-11-12 at John's request (depends on #818 → #809); Part of #798.
+Draft PR [#821](https://github.com/galaxyproject/foundry/pull/821), mergeable (depends on #818 → #809); Part of #798.
 
-CI runs only on PRs. Local `make -k check` at `4ff48eda` (2026-11-12) is red only on `validate-roadmap` (rate limit) and `check-vendored` (fails on this machine only), with 503 tests passing. Typecheck and packages-typecheck are clean.
+CI at `872b1e11` is red only at `validate-roadmap` (live roadmap drift, on base), and the local gate is otherwise clean apart from machine-only `check-vendored` and an rnaseq integration-test timeout flake.
 
 ## Open questions for John
 
