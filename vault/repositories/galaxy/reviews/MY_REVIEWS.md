@@ -1,5 +1,7 @@
 ## PRs to review (`to_review`)
 
+- [#24873](https://github.com/galaxyproject/galaxy/pull/24873) — initial review on `16758fc6136` ready, unposted (three P3s; two fixed on `pr_24873_round_0_rev_0`, not pushed into PR). [notes](active/24873/index.md)
+
 - [#24861](https://github.com/galaxyproject/galaxy/pull/24861) — approved (round 0, `15b1e13ac15`); review branch `pr_24861_round_0_rev_0` pushed into PR (head `e8c3915dd10`); awaiting merge. [notes](active/24861/index.md)
 - [#24835](https://github.com/galaxyproject/galaxy/pull/24835) — initial review on `f207f12dd5e` ready, unposted (two P2s + eight P3s; six fixed on `pr_24835_round_0_rev_0`, not pushed into PR). [notes](active/24835/index.md)
 - [#24826](https://github.com/galaxyproject/galaxy/pull/24826) — initial review on `4c330c4ed47` ready, unposted (two P2s + two P3s; three fixed on `pr_24826_round_0_rev_0`, not pushed into PR). [notes](active/24826/index.md)

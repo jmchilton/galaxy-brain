@@ -1,0 +1,66 @@
+round: 0
+reviewed_commit: 16758fc6136190c2655101b78859f5215195c117
+agents:
+  - {profile: default, path: _shared/reviewers/default.md, model: Claude Opus 5.5, effort: medium}
+  - {profile: gx_test_challenger, path: _shared/reviewers/gx_test_challenger.md, model: Claude Opus 5.5, effort: low}
+  - {profile: gx_risk_assessment, path: _shared/reviewers/gx_risk_assessment.md, model: Claude Opus 5.5, effort: low}
+verification: {model: Claude Opus 5.5, effort: medium}
+branches:
+  - name: pr_24873_round_0_rev_0
+    revision: 0
+    head: e1b5062570f
+    pr_title: Fix stale capture docstring and test the no-reason log line
+    description: |
+      `pr_24873_round_0_rev_0` builds on `16758fc6136`. It updates the `_capture_workflow_tool_request_state` docstring, which still called the rejection case "quiet", and replaces the direct `_single_line_reason` test with a log-path test of the empty-reason line, which now reads "no reason given" instead of the `validation_failed` enum value.
+    commits:
+      - sha: a266512f227
+        subject: "Update capture docstring: rejection no longer quiet"
+        detail: rewords the converter-guard/meta-model rejection bullet to say the INFO line reports it as not validated, with the reason.
+        findings: [P3 1]
+      - sha: e1b5062570f
+        subject: Replace private-helper test with log-path test of empty reason
+        detail: drops `test_single_line_reason`, adds `test_capture_log_without_reason` through `_log_workflow_tool_request_state`, and changes the empty-reason fallback to "no reason given".
+        findings: [P3 3]
+actions: {approve: false, approve_and_merge: false, comment: false, review_comment: false, request_changes: false, pull_request: false, push: false, issue_refactor: false, issue_galaxy_brain: false}
+findings:
+  - id: P3 1
+    include: true
+    title: Docstring still calls the rejection case "quiet"
+    summary: capture docstring says converter/meta-model rejection is quiet; it now logs at INFO. Fixed.
+    issue: |
+      The `_capture_workflow_tool_request_state` docstring says converter-guard and meta-model rejections are minted with `validation_failed` "and the structural payload, quiet". After this PR that case logs its reason at INFO, so "quiet" is now wrong.
+    fix: |
+      Reworded the bullet to say the INFO line reports the request as not validated, with the reason, and that execution is unaffected.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+  - id: P3 2
+    include: true
+    title: "`_single_line_reason` duplicates existing pydantic-error cleanup"
+    summary: optional; linter's _cleanup_pydantic_error already strips the same pydantic URL lines. Not fixed on the release branch.
+    issue: |
+      `galaxy.tool_util.linters.tests._cleanup_pydantic_error` already drops the `For further information visit https://errors.pydantic...` lines from the same `RequestParameterInvalidException(str(e))` text that `tool_util/parameters/model_validation.py` raises. The new private `_single_line_reason` in `workflow/modules.py` is a second copy of that logic, differing only in joining with `"; "` instead of newlines.
+    fix: |
+      Optional, and fine to defer given the `release_26.2` target: move one helper somewhere shared (e.g. `galaxy.tool_util.parameters` or `galaxy.util`) with a separator argument and call it from both sites.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+  - id: P3 3
+    include: true
+    title: "`test_single_line_reason` re-tests what the caplog test pins"
+    summary: helper unit test duplicated the caplog test; replaced with a log-path test of the empty-reason case, which now says "no reason given".
+    implementation_verified: true
+    issue: |
+      `test_capture_validation_failed_info_log_is_not_a_step_verdict` already asserts, through the real capture path, that the reason is present, has no newline and drops the pydantic URL. The direct test of the private helper adds only the `None`/`""` cases, and those never reach the log line in a test. When they do, the `or request_state.value` fallback emits `validation_failed`, the wording the caplog test forbids in the line.
+    fix: |
+      Replaced `test_single_line_reason` with `test_capture_log_without_reason`, which calls `_log_workflow_tool_request_state` with an empty reason and asserts the full INFO line. Changed the fallback to "no reason given". The new test fails against the PR's fallback and passes on the branch.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+      - {profile: gx_test_challenger, model: Claude Opus 5.5, effort: low}
+  - id: F1
+    include: false
+    title: "`NOT_VALIDATED` fallback suffix untested"
+    summary: NOT_VALIDATED can't reach the log line; the reachable empty-reason fallback is covered under P3 3.
+    filtered:
+      category: disproved
+      reason: the try block either sets VALIDATED or raises, and every except except the validation one returns early, so NOT_VALIDATED never reaches _log_workflow_tool_request_state.
+    discovered_by:
+      - {profile: gx_test_challenger, model: Claude Opus 5.5, effort: low}
