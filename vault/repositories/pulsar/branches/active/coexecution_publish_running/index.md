@@ -1,7 +1,11 @@
 ---
 upstream_base_branch: master
 parent_branch: coexecutor_image_modern_base
-related_records: pulsar/branches/coexecutor_image_modern_base
+child_branches: coexecution_stage_failures
+related_records:
+  - pulsar/branches/coexecutor_image_modern_base
+  - pulsar/branches/coexecution_stage_failures
+  - galaxy/branches/tes_task_state_polling
 ---
 # Publish running from pulsar-submit --no-wait
 
@@ -25,3 +29,4 @@ Fork CI for `07051ab`: pulsar and Deploy green; Framework tests still running at
 ## Review materials
 
 - [Implementation](implementation_debrief.md)
+- [Review](review.md)

@@ -88,3 +88,42 @@ Doesn't work or wasn't tested:
 Services: stopped at the end of the stage (`make down`; `scripts/status.sh` shows all stopped). `make up && make run` brings everything back and reruns the demo in about 7 minutes (1 for `make up`, about 6 for `make run`, of which 4 are DRS Retry-After waits); images and the Galaxy venv are kept.
 
 Security: private notes exist outside the repositories, as the brief requires. Nothing sensitive is in the demo repository or the vault.
+
+## Stage 3: review, second TES backend, gap tests, fixes (2026-11-14)
+
+Outputs: the demo repository `~/projects/repositories/galaxy-wes-tes` (local git, `main` at `7a2d41f`), and [`PULSAR_TES_IMPROVEMENTS.md`](PULSAR_TES_IMPROVEMENTS.md), a prioritised list of 32 bugs and missing features with evidence, fix sketches and status. Nested subagents (Opus, effort high) did the cold docs review, the fresh-clone bring-up, the Pulsar branch review, TESK, the gap tests and each fix; the coordinator checked their results, fixed two CI-only test failures and wrote the improvements list.
+
+What was done:
+
+- **Fresh eyes.** An independent agent read the docs cold (findings P1–P3). Another cloned the repository to a second path and followed only the README. It fixed what broke: absolute paths (`DEMO_ROOT` derived, settings in `local.env`, `galaxy.yml` rendered from a template, Galaxy checkout defaulting to `vendor/galaxy`), unpinned build inputs (staging image base and busybox by digest), secrets in process arguments and world-readable runtime files (`var/` 0700), and teardown (`make clean`, preflight and container-reachability checks). Two runs from the fresh clone passed, before and after `make down && make up`.
+- **Security.** The cold review found a broker password in a committed "redacted" evidence file. It was redacted (demo commit `80d7ea9`) and the password rotated; the repository has no remote. Details are in private notes outside the repositories.
+- **Second TES backend: TESK** (chart 0.3.0, tesk-api 1.2.0, taskmaster 0.11.0) on a single-node kind v0.33.0 cluster (node v1.37.0, kubectl v1.37.2, Helm v3.22.1, all pinned by sha256 in `config/tesk/tesk.env`). `make up TES=funnel|tesk` selects the backend; `docs/tesk.md` covers configuration, networking, storage, auth and quirks. Both IWC workflows pass on TESK with no Galaxy or Pulsar code change, only job conf.
+- **Gap tests** (`docs/gap-tests.md`, evidence under `runs/gaps/`): discovered outputs, concurrency, tasks that die before Pulsar reports, stage-in and stage-out failures, WES cancel mid-run, and a second, bigger IWC workflow (`hyphy-preprocessing`: 39-element URL list input, 12 TES jobs, a discovered collection, map-over).
+- **Fixes**, each with a test that fails without it, pushed to the `jmchilton` forks (no PRs):
+  - Galaxy `tes_task_state_polling` (base `dev`, `e3c0cc44649`): the TES runner polls TES and fails jobs whose task ended without a Pulsar status; cancelling a task that already ended is a no-op. Demo port `tes_task_polling_v26.1.2` (`6baaaec7486`).
+  - Galaxy `wes_api_fixes_26_0` (base `release_26.0`, `85f9b2b42be`): five WES bugs. Demo port `wes_api_fixes_v26.1.2` (`2aad3a3e80c`). Galaxy `wes_run_state_executor_error_26_0` (`d83962aa811`, needs decision): EXECUTOR_ERROR for completed runs with failed or paused jobs. Combined demo branch `wes_tes_demo_fixes_v26.1.2` (`9f5084721b6`).
+  - Pulsar, stacked on stage 2's two branches: `coexecution_stage_failures` (`a3f8c72`), `coexecution_dependency_dir_default` (`e90a555`), `coexecution_client_fixes` (`75185ac`), `coexecutor_image_pycurl` (`4ccfb64`, the branch review's P1), `coexecution_stage_out_failures` (`3b2cde8`). Stage 2's `coexecutor_image_modern_base` (`1138cd0`) and `coexecution_publish_running` (`07051ab`) got `review.md` files.
+  - Records under `vault/repositories/{galaxy,pulsar}/branches/active/`, lines in both `MY_BRANCHES.md`.
+
+What works, with evidence (all in the demo repository):
+
+- IWC short-read QC through WES on Funnel and on TESK with the current staging image `wes-tes/pulsar-pod-staging:0.16.1.dev0-53f91f1` (id `sha256:9314ab4d…`): `runs/2026-11-14-9da1c5702ebec70c/` (Funnel) and `runs/2026-11-14-46d0cd030901e24d/` (TESK), both PASS against the IWC assertions, every tool job on TES. Earlier TESK runs `runs/2026-11-14-a9c9898b43e9b34b/` and `runs/2026-11-14-b49705f64be28a1e/` (the latter after deleting and recreating the cluster). fastp outputs are byte-identical across all runs and both backends.
+- IWC hyphy-preprocessing: PASS on Funnel (`runs/gaps/iwc-hyphy/`) and TESK (`runs/gaps/iwc-hyphy-tesk/`).
+- Discovered outputs: Galaxy's default image `galaxy/pulsar-pod-staging:0.15.0.2` drops them silently (job `ok`, empty collection, missing dataset); the new image keeps them (`runs/gaps/discovered-outputs/`).
+- Concurrency: 4 TES tasks at once and three simultaneous WES runs, no mixed-up statuses (`runs/gaps/concurrency/`).
+- Dead tasks: stock Galaxy leaves the job `queued` forever; the polling branch fails it 36–46 s after the task ends, on Funnel and TESK (`runs/gaps/tes-dies-early*/`).
+- Stage-in failure fails the job in 6–8 s with the error in its stderr; stage-out failures and outputs written as directories now fail the job with a reason (`runs/gaps/stage-in-failure/`, `runs/gaps/stage-out-failure-53f91f1/`).
+- WES cancel mid-run: CANCELED within 2 s, TES task cancelled, no containers left (`runs/gaps/wes-cancel*/`). On TESK a cancel of an already-ended task looped Galaxy's stop queue forever on stock v26.1.2; fixed on the polling branch (`runs/gaps/cancel-finished-task-tesk-fixed/`).
+- The WES fixes: the stage 2 probes no longer reproduce bugs 1–4 and 6 on `wes_tes_demo_fixes_v26.1.2` (`runs/gaps/wes-fixes/`).
+- Timing: TESK adds about 17 s per job (one pod per executor): fastp 41 s against 23 s on Funnel; hyphy 3 min 46 s against 1 min 41 s. Memory during TESK runs: host at most 8.1 GB used, kind node 1.2–1.9 GiB.
+
+Doesn't work or wasn't tested:
+
+- The `1138cd0` commit message is still wrong. John's authorization to amend and force-push arrived mid-stage, but the session's permission settings blocked the amend; the real behavior was re-verified and the proposed message is in the branch record. The Pulsar stack needs one rebase before PRs (fold `coexecutor_image_pycurl` into the base, carry the CI test fix `a3f8c72` into the children, whose fork CI is red on that one test until then).
+- Fork CI: Pulsar `pulsar` workflow red on the stack's middle branches for the test fixed in `a3f8c72`; `Framework tests` red on every branch including upstream (unrelated). Galaxy `tes_task_state_polling` had one flaky new test, fixed in `e3c0cc44649` (CI pending at stage end). WES branches green so far.
+- Open bugs that matter most (see the improvements list): no published current staging image (Galaxy's default drops discovered outputs), credentials in TES executor arguments, no TES auth Pulsar and TESK share, collection outputs without DRS URIs, DRS 60 s waits, WES COMPLETE with failed jobs (branch awaits a decision), task JSON size against TESK's 256 KiB annotation limit.
+- Untested: containerless (Conda) jobs, Funnel's `--read-only` with biocontainers, large files, more than 4 concurrent tasks, RabbitMQ or Galaxy restarts mid-job, a multi-node cluster (pods would need routable addresses for Galaxy and the broker), TESK with OIDC.
+
+Services: everything stopped. `make status` shows RabbitMQ, Funnel, Galaxy and Celery stopped and no TESK cluster; `docker ps -a | grep wes-tes` is empty; `var/tes-backend` is `funnel`. Restart with `make up && make run` (Funnel, about 1 min plus 5–6 min) or `make up TES=tesk && make run` (recreates the kind cluster, about 3 min plus a run). Images, the Galaxy worktrees and venvs are kept; the fresh clone was removed after merging.
+
+Security: private notes exist outside the repositories, as the brief requires. Nothing sensitive is in the demo repository or the vault.
