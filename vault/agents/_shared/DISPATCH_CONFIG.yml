@@ -6,3 +6,19 @@
 #   herdr: tui  the herdr terminal multiplexer; remote hosts run their own launch_agent.sh over ssh.
 
 herdr: app
+
+# Launchers agents start on their own with scripts/auto_action.sh <action> <record>; the Herdr app's
+# 🤖 panel edits these.
+#
+#   enabled:     true to start it; anything else leaves the record for John
+#   launcher:    the launcher's label in the record's LAUNCHERS.md, emoji optional
+#   environment: an ENVIRONMENTS.yml name; unset means the first. A machine other than the agent's own
+#                needs the record pushed, since it pulls before starting the agent.
+#   profile:     an AGENT_PROFILES.yml name; unset means the launcher's own
+
+auto_actions:
+  # GX_QUEUING_ISSUE_CREATION.md, once the incubator record is written.
+  prepare_to_file:
+    enabled: true
+    launcher: Prepare to file
+    environment: chickenstraws

@@ -52,6 +52,7 @@ Install from `jmchilton/ghwt` main, not npm, because the npm release lags main. 
 
 1. Clone `git@github.com:jmchilton/galaxy-brain.git` to `~/projects/repositories/galaxy-brain`. If the clone already exists, pull main; if it has local changes, ask John first.
 2. Check that MACHINE's entry in [ENVIRONMENTS.yml](ENVIRONMENTS.yml) points at its `vault/`.
+3. So agents there can start auto actions ([`scripts/auto_action.sh`](scripts/auto_action.sh)), install the herdr-plugin's build dependencies. In the clone, run `git submodule update --init differential-review-lib`, then `npm ci` in `differential-review-lib/` and in `herdr-plugin/`. The script rebuilds the bundle itself. Check with `vault/agents/_shared/scripts/auto_action.sh nope x`, which should answer `unknown auto action: nope`.
 
 ## Claude Code
 

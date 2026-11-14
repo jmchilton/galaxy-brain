@@ -6,16 +6,19 @@ import subprocess
 from pathlib import Path
 
 SCRIPT = Path(__file__).with_name("launch_agent.sh")
+VAULT = SCRIPT.parents[3]
 
 
-def launch(tmp_path, prompt):
-    """The arguments of the stub's `hc run` for a launch with this prompt."""
+def run_launch(tmp_path, prompt, *flags):
+    """The finished run and the stub's `hc run` arguments (None if it didn't run); `hc exec` runs here, git skipped."""
     log = tmp_path / "run.log"
     bin_dir = tmp_path / ".local" / "bin"
     bin_dir.mkdir(parents=True)
     hc = bin_dir / "hc"
     hc.write_text(
-        '#!/bin/sh\n[ "$1" = run ] || { echo "{}"; exit 0; }\n'
+        "#!/bin/sh\n"
+        'if [ "$1" = exec ]; then shift 3; [ "$1" = git ] && exit 0; exec "$@"; fi\n'
+        '[ "$1" = run ] || { echo "{}"; exit 0; }\n'
         f'printf \'%s\\n\' "$@" > {log}\n'
         "echo '{\"address\":\"t9\"}'\n"
     )
@@ -23,8 +26,15 @@ def launch(tmp_path, prompt):
     hc.chmod(0o755)
     (bin_dir / "herdr-app").chmod(0o755)
     env = {**os.environ, "HOME": str(tmp_path), "GB_HERDR": "app"}
-    subprocess.run([SCRIPT, "factory", "claude", "probe", prompt], env=env, check=True, capture_output=True)
-    return log.read_text().splitlines()
+    result = subprocess.run([SCRIPT, *flags, "factory", "claude", "probe", prompt], env=env, capture_output=True, text=True)
+    return result, (log.read_text().splitlines() if log.exists() else None)
+
+
+def launch(tmp_path, prompt):
+    """The arguments of the stub's `hc run` for a launch with this prompt."""
+    result, args = run_launch(tmp_path, prompt)
+    assert result.returncode == 0, result.stderr
+    return args
 
 
 def record_labels(args):
@@ -46,3 +56,26 @@ def test_no_record_labels_without_a_record(tmp_path):
     args = launch(tmp_path, "Run ./TICK.md on galaxyproject/foundry#12")
     assert record_labels(args) == []
     assert args[-1] == "Run ./TICK.md on galaxyproject/foundry#12"
+
+
+def test_require_starts_nothing_without_the_path(tmp_path):
+    result, args = run_launch(tmp_path, "x", "--require", "repositories/nope/missing")
+    assert result.returncode == 2
+    assert "repositories/nope/missing isn't in" in result.stderr
+    assert args is None
+
+
+def test_require_launches_when_the_path_is_there(tmp_path):
+    result, args = run_launch(tmp_path, "x", "--require", "agents/_shared")
+    assert result.returncode == 0, result.stderr
+    assert args[-1] == "x"
+
+
+def test_require_checks_the_hosts_vault_after_its_pull(tmp_path):
+    result, args = run_launch(tmp_path, "x", "--host", "box", "--vault", str(VAULT), "--require", "repositories/nope/missing")
+    assert result.returncode == 2
+    assert "isn't in" in result.stderr and "on box" in result.stderr
+    assert args is None
+    result, args = run_launch(tmp_path / "again", "x", "--host", "box", "--vault", str(VAULT), "--require", "agents/_shared")
+    assert result.returncode == 0, result.stderr
+    assert args[args.index("--on") + 1] == "box"

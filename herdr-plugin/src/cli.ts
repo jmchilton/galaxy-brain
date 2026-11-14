@@ -3,19 +3,21 @@
 // `host <request JSON>` answers one Chrome native host request (JSON), for the Herdr app mods;
 // `review <request JSON>` loads or changes a differential review, or starts a snapshot, for the Herdr app's review tab;
 // `capture <record dir> <result file>` is that snapshot's own process, and `run <result file> <argv JSON>` any other command's;
-// `app <request JSON>` answers what only the Herdr app's mods ask for.
+// `app <request JSON>` answers what only the Herdr app's mods ask for;
+// `auto <action> <record>` starts DISPATCH_CONFIG.yml's auto action on the record if it's on, for agents.
 
 import { spawnSync } from "node:child_process";
 import { mkdtempSync, readFileSync, rmSync, writeFileSync } from "node:fs";
-import { homedir, tmpdir } from "node:os";
+import { homedir, hostname, tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { fillTemplate, type Launcher, launchersFor, type RecordRef } from "../../obsidian-plugin/src/launchers";
 import { defaultEnvironment, type Environment, launchArgv } from "../../obsidian-plugin/src/environments";
 import { defaultProfile, type Profile, profileArgs } from "../../obsidian-plugin/src/profiles";
 import { agentActions } from "./agent-actions";
 import { appRequest } from "./app-host";
+import { startAutoAction } from "./auto-actions";
 import { runCommand } from "./detached";
-import { hostRun } from "./host-run";
+import { hostRun, spawnRun } from "./host-run";
 import { fzfKey, fzfLine } from "./fzf-lines";
 import { parseGithubRef, recordsForRef } from "./github-ref";
 import { type OpenLinks, openLinks } from "./open-links";
@@ -186,7 +188,14 @@ else if (command === "run" && process.argv[3] && process.argv[4]) void runComman
 else if (command === "app" && process.argv[3]) {
 	const appHome = process.env.HERDR_APP_HOME ?? join(homedir(), ".config/herdr-app");
 	answer(Promise.resolve(process.argv[3]).then((request) => appRequest(JSON.parse(request), { vaultRoot, appHome, run: hostRun, now: () => new Date() })));
+} else if (command === "auto" && process.argv[3] && process.argv[4]) {
+	try {
+		console.log(startAutoAction({ vaultRoot, run: hostRun, query: spawnRun, hostname: hostname() }, process.argv[3], process.argv[4]).message);
+	} catch (error) {
+		console.error(error instanceof Error ? error.message : String(error));
+		process.exitCode = 1;
+	}
 } else {
-	console.error("usage: galaxy-brain.cjs pick|open|actions <agent_dir>|host <request JSON>|review <request JSON>|app <request JSON>");
+	console.error("usage: galaxy-brain.cjs pick|open|actions <agent_dir>|host <request JSON>|review <request JSON>|app <request JSON>|auto <action> <record>");
 	process.exit(2);
 }

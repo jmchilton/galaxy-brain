@@ -238,6 +238,29 @@ describe("error log", () => {
 	});
 });
 
+describe("auto actions", () => {
+	const dispatch = "# Comment kept.\nherdr: app\n\nauto_actions:\n  prep:\n    enabled: true\n    launcher: Prep\n";
+	const files = {
+		"agents/_shared/DISPATCH_CONFIG.yml": dispatch,
+		"agents/_shared/ENVIRONMENTS.yml": "environments:\n  - name: Local\n  - name: box\n    host: box\n    vault: /v\n",
+		"repositories/.keep": "",
+	};
+
+	it("answers the panel, and the new panel after a change written to the config", () => {
+		const d = deps(files);
+		expect(appRequest({ type: "autoActions" }, d)).toMatchObject({ actions: [{ name: "prep", enabled: true, environment: "Local" }] });
+		expect(appRequest({ type: "setAutoAction", name: "prep", enabled: false, environment: "box" }, d)).toMatchObject({ actions: [{ name: "prep", enabled: false, environment: "box" }] });
+		const config = readFileSync(join(d.vaultRoot, "agents/_shared/DISPATCH_CONFIG.yml"), "utf8");
+		expect(config).toContain("# Comment kept.");
+		expect(config).toContain("enabled: false");
+		expect(config).toContain("environment: box");
+	});
+
+	it("says false when the action is gone", () => {
+		expect(appRequest({ type: "setAutoAction", name: "nope", enabled: true }, deps(files))).toBe(false);
+	});
+});
+
 describe("appRequest", () => {
 	it("refuses anything else", () => {
 		expect(() => appRequest({ type: "launch" } as never, deps())).toThrow("unknown app request");

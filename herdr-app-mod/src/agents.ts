@@ -1,13 +1,15 @@
 // galaxy-brain sidebar for the Herdr app: every terminal grouped by agent dir, each row
 // harness icon, machine icon, launch name · title, and status. Modeled on the shipped `agents` mod.
 // + and each agent dir's routines start a new agent (the Chrome native host's newAgent, through the
-// herdr-plugin CLI); the same mod draws the sidebar header and the New agent popup, chosen by props().view.
+// herdr-plugin CLI); the same mod draws the sidebar header, the New agent popup and the 🤖 Auto actions popup
+// (DISPATCH_CONFIG.yml's auto_actions), chosen by props().view.
 
 import { div, image, svg, View } from "gpui-kit";
 import { h_flex, v_flex } from "gpui-base";
 import { closeOverlay, focused, layout, notify, openOverlay, panes, props, run, setAgentOrder, setShared, shared, spaces, terminals, theme, window } from "herdr";
 import type { Routine } from "../../obsidian-plugin/src/agent-routines";
 import type { Environment } from "../../obsidian-plugin/src/environments";
+import type { AutoActionChange, AutoActionsPanel } from "../../herdr-plugin/src/auto-actions-types";
 import { machineOf } from "./context";
 import { appHost, host, knownEnvironments, logRenderFailures, refreshEnvironments } from "./host";
 import { openRepositoryTab } from "./record-tab";
@@ -64,6 +66,25 @@ function smallButton(t: any, id: string, label: El, tooltip: string, action: (cx
 type Cx = any;
 type El = any;
 
+/** One of a row of choices; the chosen one is outlined. */
+function choiceChip(t: any, id: string, label: El, on: boolean, tooltip: string, choose: (cx: Cx) => void): El {
+	return h_flex()
+		.id(id)
+		.h(24)
+		.px(8)
+		.gap(4)
+		.flex_none()
+		.items_center()
+		.rounded(6)
+		.border_1()
+		.border_color(on ? t.accent : t.border)
+		.bg(on ? t.selected : t.popover)
+		.cursor_pointer()
+		.tooltip(tooltip)
+		.on_click((_e: unknown, cx: Cx) => choose(cx))
+		.child(label);
+}
+
 function find(node: any, id: string): any {
 	if (node?.id === id) return node;
 	for (const child of node?.children ?? []) {
@@ -106,9 +127,20 @@ export default class GbAgents extends View {
 	/** New agent popup: the chosen environment, and the dir whose profiles are shown. */
 	declare environment: string | null;
 	declare profilesFor: string | null;
+	/** Auto actions popup: the panel, the last error, and the action whose profiles are shown. */
+	declare auto: AutoActionsPanel | null;
+	declare autoError: string | null;
+	declare autoProfiles: string | null;
 
 	init(_props: unknown, cx: Cx) {
 		if (props()?.view === "header") return;
+		if (props()?.view === "auto") {
+			this.auto = null;
+			this.autoError = null;
+			this.autoProfiles = null;
+			cx.spawn(async (cx: Cx) => this.loadAuto(cx, { type: "autoActions" }));
+			return;
+		}
 		this.folded = new Set();
 		this.environments = knownEnvironments();
 		this.options = null;
@@ -132,6 +164,7 @@ export default class GbAgents extends View {
 	render(_cx: Cx): El {
 		const t = theme();
 		if (props()?.view === "new") return this.renderNew(t);
+		if (props()?.view === "auto") return this.renderAuto(t);
 		if (props()?.view === "header") return this.renderHeader(t);
 		const compact = narrow();
 		const names = new Map<string, string | null>(terminals().map((one: any) => [one.address, one.name ?? null]));
@@ -216,7 +249,8 @@ export default class GbAgents extends View {
 							.gap(2)
 							.child(page("gb-ag-board", "Agent board", "🧠", openBoard))
 							.child(page("gb-ag-repos", "Repositories' records", "📚", () => openRepositoryTab()))
-							.child(page("gb-ag-go", "Go to a record or repository", "🧭", () => run("mod.open", { name: "gb-go" }))),
+							.child(page("gb-ag-go", "Go to a record or repository", "🧭", () => run("mod.open", { name: "gb-go" })))
+						.child(page("gb-ag-auto", "Auto actions", "🤖", () => openOverlay({ mod: MOD, kind: "popup", width: 440, props: { view: "auto" } }))),
 					)
 					.child(button("gb-ag-new", "New agent", "plus", () => openOverlay({ mod: MOD, kind: "popup", width: 340, props: { view: "new" } })))
 					.child(button("gb-ag-search", "Search", "search", () => run("mod.open", { name: "picker" }))),
@@ -358,23 +392,10 @@ export default class GbAgents extends View {
 		const machines = (options?.environments ?? []).map((name) => {
 			const on = name === this.environment;
 			const icon = this.environments.find((e) => e.name === name)?.icon;
-			return h_flex()
-				.id(`gb-env-${name}`)
-				.h(24)
-				.px(8)
-				.gap(4)
-				.items_center()
-				.rounded(6)
-				.border_1()
-				.border_color(on ? t.accent : t.border)
-				.bg(on ? t.selected : t.popover)
-				.cursor_pointer()
-				.on_click((_e: unknown, cx: Cx) => {
-					this.environment = name;
-					cx.notify();
-				})
-				.when(Boolean(icon), (el: El) => el.child(icon))
-				.child(name);
+			return choiceChip(t, `gb-env-${name}`, [icon, name].filter(Boolean).join(" "), on, `Start it on ${name}`, (cx) => {
+				this.environment = name;
+				cx.notify();
+			});
 		});
 		const body = !options
 			? [div().px(8).py(6).text_color(t.dim).child("Loading…")]
@@ -413,6 +434,105 @@ export default class GbAgents extends View {
 			.child(div().px(8).pb(4).text_size(11).text_color(t.dim).child("New agent"))
 			.when(machines.length > 1, (el: El) => el.child(h_flex().px(6).pb(6).gap(6).children(machines)))
 			.children(body);
+	}
+
+	/** Answers the request into the popup; an edit answers false when its action is gone. */
+	async loadAuto(cx: Cx, request: { type: "autoActions" } | ({ type: "setAutoAction" } & AutoActionChange)) {
+		try {
+			const panel = await appHost(request);
+			if (panel === false) throw new Error("That action is no longer in DISPATCH_CONFIG.yml.");
+			this.auto = panel;
+			this.autoError = null;
+		} catch (error) {
+			this.autoError = error instanceof Error ? error.message : String(error);
+		}
+		cx.notify();
+	}
+
+	// Popup: each auto action with its switch, machine and profile, written straight to DISPATCH_CONFIG.yml.
+	renderAuto(t: any): El {
+		const panel = this.auto;
+		const set = (cx: Cx, change: AutoActionChange) => cx.spawn(async (cx: Cx) => this.loadAuto(cx, { type: "setAutoAction", ...change }));
+		const label = (text: string) => div().w(56).flex_none().text_size(11).text_color(t.dim).child(text);
+		const actions = (panel?.actions ?? []).map((a, i) => {
+			const choosing = this.autoProfiles === a.name;
+			const fallback = `${a.launcherProfile ?? "first profile"} (launcher's)`;
+			return v_flex()
+				.id(`gb-auto-${i}`)
+				.p(8)
+				.gap(6)
+				.rounded(8)
+				.border_1()
+				.border_color(t.border)
+				.child(
+					h_flex()
+						.gap(8)
+						.items_center()
+						.child(
+							div()
+								.id(`gb-auto-on-${i}`)
+								.flex_none()
+								.text_size(15)
+								.cursor_pointer()
+								.tooltip(a.enabled ? "On: agents start it. Click to turn it off" : "Off: records wait for John. Click to turn it on")
+								.on_click((_e: unknown, cx: Cx) => set(cx, { name: a.name, enabled: !a.enabled }))
+								.child(a.enabled ? "☑" : "☐"),
+						)
+						.child(div().flex_none().font_medium().text_color(a.enabled ? t.foreground : t.muted).child(a.name))
+						.child(div().flex_1().min_w(0).truncate().text_color(t.dim).child(a.launcherLabel ?? a.launcher)),
+				)
+				.when(Boolean(a.error), (el: El) => el.child(div().text_size(11.5).text_color(t.blocked).child(`⚠️ ${a.error}`)))
+				.child(
+					h_flex()
+						.gap(6)
+						.flex_wrap()
+						.items_center()
+						.child(label("Where"))
+						.children(
+							(panel?.environments ?? []).map((e) =>
+								choiceChip(t, `gb-auto-env-${i}-${e.name}`, [e.icon, e.name].filter(Boolean).join(" "), e.name === a.environment, `Start it on ${e.name}`, (cx) => set(cx, { name: a.name, environment: e.name })),
+							),
+						),
+				)
+				.child(
+					h_flex()
+						.gap(6)
+						.items_center()
+						.child(label("Profile"))
+						.child(
+							choiceChip(t, `gb-auto-pf-${i}`, `${a.profile ?? fallback} ▾`, choosing, "Pick a profile", (cx) => {
+								this.autoProfiles = choosing ? null : a.name;
+								cx.notify();
+							}),
+						),
+				)
+				.when(choosing, (el: El) =>
+					el.child(
+						h_flex()
+							.pl(62)
+							.gap(4)
+							.flex_wrap()
+							.child(choiceChip(t, `gb-auto-pf-${i}-default`, fallback, !a.profile, "Follow the launcher's profile", (cx) => set(cx, { name: a.name, profile: null })))
+							.children((panel?.profiles ?? []).map((name, n) => choiceChip(t, `gb-auto-pf-${i}-${n}`, name, a.profile === name, `Use ${name}`, (cx) => set(cx, { name: a.name, profile: name })))),
+					),
+				);
+		});
+		return v_flex()
+			.id("gb-auto")
+			.w_full()
+			.max_h(560)
+			.overflow_y_scroll()
+			.p(10)
+			.gap(8)
+			.bg(t.popover)
+			.text_size(12.5)
+			.text_color(t.foreground)
+			.child(h_flex().items_baseline().gap(6).child(div().font_semibold().child("Auto actions")).child(div().text_size(11).text_color(t.dim).child("DISPATCH_CONFIG.yml")))
+			.when(Boolean(this.autoError), (el: El) => el.child(div().text_size(11.5).text_color(t.blocked).child(`⛔ ${this.autoError}`)))
+			.when(!panel && !this.autoError, (el: El) => el.child(div().text_color(t.dim).child("Loading…")))
+			.when(Boolean(panel) && actions.length === 0, (el: El) => el.child(div().text_color(t.dim).child("No auto actions configured.")))
+			.children(actions)
+			.child(div().text_size(11).text_color(t.dim).child("Agents start these with scripts/auto_action.sh. This edits this machine's copy: commit and push it for agents on other machines."));
 	}
 }
 

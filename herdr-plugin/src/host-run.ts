@@ -3,8 +3,10 @@
 import { spawnSync } from "node:child_process";
 import type { HostDeps } from "./native-host";
 
-export const hostRun: HostDeps["run"] = (argv) => {
-	if (process.env.GB_DRY_RUN) return { status: 0, stdout: `Dry run: ${JSON.stringify(argv)}`, stderr: "" };
+/** Spawns it even in a dry run, for commands that only read. */
+export const spawnRun: HostDeps["run"] = (argv) => {
 	const result = spawnSync(argv[0]!, argv.slice(1), { encoding: "utf8", timeout: 120_000 });
 	return { status: result.status ?? 1, stdout: result.stdout ?? "", stderr: result.stderr || result.error?.message || "" };
 };
+
+export const hostRun: HostDeps["run"] = (argv) => (process.env.GB_DRY_RUN ? { status: 0, stdout: `Dry run: ${JSON.stringify(argv)}`, stderr: "" } : spawnRun(argv));

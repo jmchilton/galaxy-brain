@@ -1,19 +1,20 @@
 #!/bin/sh
 # Launch Claude or Codex under vault/agents/<agent_dir> in a new Herdr space (app) or workspace (tui) and send it a prompt.
-# Usage: launch_agent.sh [--host <host> --vault <host's vault>] <agent_dir> <claude|codex> <name> <prompt> [agent args...]
+# Usage: launch_agent.sh [--host <host> --vault <host's vault>] [--require <vault path>] <agent_dir> <claude|codex> <name> <prompt> [agent args...]
 # An empty prompt just starts the agent. Agent args go to claude/codex, e.g. --model opus --effort xhigh.
 # Flavor: GB_HERDR, else herdr: in ../DISPATCH_CONFIG.yml. app starts it with hc and names it in the window if open;
 # tui starts a headless server if needed. --host pulls that host's vault first; app runs the agent on hc machine <host>,
-# tui runs the host's own copy over ssh.
+# tui runs the host's own copy over ssh. --require starts nothing unless that vault-relative path is in the vault it runs in,
+# after the pull.
 set -eu
 
 PATH="$HOME/.local/bin:/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin:$PATH"
 
-usage() { echo "usage: $0 [--host <host> --vault <host's vault>] <agent_dir> <claude|codex> <name> <prompt> [agent args...]" >&2; exit 2; }
+usage() { echo "usage: $0 [--host <host> --vault <host's vault>] [--require <vault path>] <agent_dir> <claude|codex> <name> <prompt> [agent args...]" >&2; exit 2; }
 
-host= vault=
+host= vault= require=
 while [ $# -ge 2 ]; do
-  case $1 in --host) host=$2 ;; --vault) vault=$2 ;; *) break ;; esac
+  case $1 in --host) host=$2 ;; --vault) vault=$2 ;; --require) require=$2 ;; *) break ;; esac
   shift 2
 done
 [ -z "$host" ] || [ -n "$vault" ] || usage
@@ -40,14 +41,17 @@ if [ -n "$host" ]; then
   cwd="$vault/agents/$agent_dir"
   if [ "$herdr" = tui ]; then
     pull="git -C$(quote "$vault") pull -q --no-rebase --no-edit || echo \"warning: git pull failed in $vault on $host\""
+    [ -z "$require" ] || pull="$pull; test -e$(quote "$vault/$require") || { echo $(quote "$require isn't in $vault on $host after its pull") >&2; exit 2; }"
     exec ssh -o BatchMode=yes -o ConnectTimeout=10 "$host" \
       "$pull; GB_HERDR=tui$(quote "$vault/agents/_shared/scripts/launch_agent.sh" "$agent_dir" "$kind" "$name" "$prompt" "$@")"
   fi
   hc exec --on "$host" git -C "$vault" pull -q --no-rebase --no-edit >/dev/null || echo "warning: git pull failed in $vault on $host" >&2
   hc exec --on "$host" test -d "$cwd" >/dev/null || { echo "no agent directory on $host: $cwd" >&2; exit 2; }
+  [ -z "$require" ] || hc exec --on "$host" test -e "$vault/$require" >/dev/null || { echo "$require isn't in $vault on $host after its pull" >&2; exit 2; }
 else
   cwd="$(dirname "$shared")/$agent_dir"
   [ -d "$cwd" ] || { echo "no agent directory: $cwd" >&2; exit 2; }
+  [ -z "$require" ] || [ -e "$(dirname "$(dirname "$shared")")/$require" ] || { echo "$require isn't in $(dirname "$(dirname "$shared")")" >&2; exit 2; }
 fi
 
 # Herdr and hc names: [a-z][a-z0-9_-]{0,31}, unique among live agents/terminals.

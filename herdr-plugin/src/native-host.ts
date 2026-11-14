@@ -154,7 +154,7 @@ export function agentsOverview(vaultRoot: string, today = localDay()): AgentsOve
 	return { agents, profiles, environments: environmentChoices(vaultRoot) };
 }
 
-function vaultRecords(vaultRoot: string) {
+export function vaultRecords(vaultRoot: string) {
 	const files = vaultFiles(vaultRoot);
 	const records = loadRecords(vaultRoot, files);
 	const body = (r: RecordRef) => (r.dir ? readVault(vaultRoot, `${r.dir}/index.md`) : "");
@@ -235,7 +235,7 @@ export interface RecordPage {
 	environments: Array<{ name: string; icon?: string }>;
 }
 
-const environmentChoices = (vaultRoot: string) => loadEnvironments(vaultRoot).map(({ name, icon }) => ({ name, ...(icon ? { icon } : {}) }));
+export const environmentChoices = (vaultRoot: string) => loadEnvironments(vaultRoot).map(({ name, icon }) => ({ name, ...(icon ? { icon } : {}) }));
 
 function relatedRecords(vaultRoot: string, body: string, repo: string): RelatedRecord[] {
 	return recordLinks(body, repo).map(({ target, text, label }) => {
@@ -285,14 +285,14 @@ export function lookup(vaultRoot: string, url?: string, headBranch?: HeadBranch)
 	return result;
 }
 
-function findProfile(vaultRoot: string, name: string): Profile {
+export function findProfile(vaultRoot: string, name: string): Profile {
 	const profile = loadProfiles(vaultRoot).find((p) => p.name === name);
 	if (!profile) throw new Error(`unknown profile: ${name}`);
 	return profile;
 }
 
 /** The named environment, else the default. */
-function findEnvironment(vaultRoot: string, name: string | undefined): Environment {
+export function findEnvironment(vaultRoot: string, name: string | undefined): Environment {
 	const environments = loadEnvironments(vaultRoot);
 	if (name === undefined) return defaultEnvironment(environments);
 	const environment = environments.find((e) => e.name === name);
@@ -300,10 +300,11 @@ function findEnvironment(vaultRoot: string, name: string | undefined): Environme
 	return environment;
 }
 
-function launch(deps: HostDeps, agentDir: string, profile: Profile | undefined, environment: Environment, name: string, prompt: string) {
+/** `flags` are launch_agent.sh options, before its positional arguments. */
+export function launch(deps: HostDeps, agentDir: string, profile: Profile | undefined, environment: Environment, name: string, prompt: string, flags: string[] = []) {
 	const kind = profile?.agent ?? "claude";
 	const args = profile ? profileArgs(profile) : [];
-	const result = deps.run(launchArgv(environment, deps.vaultRoot, [agentDir, kind, name, prompt, ...args]));
+	const result = deps.run(launchArgv(environment, deps.vaultRoot, [...flags, agentDir, kind, name, prompt, ...args]));
 	if (result.status !== 0) throw new Error((result.stderr || result.stdout).trim() || `launch exited ${result.status}`);
 	return { message: result.stdout.trim() };
 }

@@ -1,5 +1,5 @@
-// `app` requests, for the Herdr app's mods only, not Chrome: note edits, the findings panel and environments, which keep the YAML parser out of
-// the app's one script heap, repository listings, and the error log.
+// `app` requests, for the Herdr app's mods only, not Chrome: note edits, the findings panel, environments and auto actions, which keep the YAML
+// parser out of the app's one script heap, repository listings, and the error log.
 
 import { readFileSync, existsSync } from "node:fs";
 import { join } from "node:path";
@@ -7,6 +7,7 @@ import { parse, stringify } from "yaml";
 import { tasksPath } from "../../obsidian-plugin/src/agent-routines";
 import { isCrackFile, setMissedPrReviewed } from "../../obsidian-plugin/src/missed-prs";
 import { removeTask, snoozeTask } from "../../obsidian-plugin/src/task-list";
+import { type AutoActionChange, autoActionsPanel, DISPATCH_CONFIG_PATH, editAutoAction } from "./auto-actions";
 import { type ErrorLogDeps, logRenderFailure, logStatusErrors } from "./error-log";
 import { findingsCheck, findingsCommit, findingsEdit, findingsPanel } from "./findings-host";
 import type { FindingsEdit } from "./findings-types";
@@ -37,6 +38,9 @@ export type AppRequest =
 	/** Started, then polled for its result. */
 	| { type: "findingsCheck"; ref: string; check: "start" | "result" }
 	| { type: "findingsCommit"; ref: string; sha: string }
+	| { type: "autoActions" }
+	/** Answers the new panel, or false when the action is gone. */
+	| ({ type: "setAutoAction" } & AutoActionChange)
 	| { type: "logRenderFailure"; mod: string; message: string }
 	| { type: "logStatusErrors" };
 
@@ -91,6 +95,13 @@ export function appRequest(request: AppRequest, deps: AppHostDeps): unknown {
 			return findingsCheck(vaultRoot, request);
 		case "findingsCommit":
 			return findingsCommit(vaultRoot, request);
+		case "autoActions":
+			return autoActionsPanel(vaultRoot);
+		case "setAutoAction": {
+			const { type: _, ...change } = request;
+			const choices = autoActionsPanel(vaultRoot);
+			return editNote(vaultRoot, DISPATCH_CONFIG_PATH, (text) => editAutoAction(text, change, choices)) && autoActionsPanel(vaultRoot);
+		}
 		case "logRenderFailure":
 			return logRenderFailure(deps, request.mod, request.message);
 		case "logStatusErrors":
