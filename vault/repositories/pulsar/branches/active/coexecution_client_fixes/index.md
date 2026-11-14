@@ -1,10 +1,11 @@
 ---
 upstream_base_branch: master
 parent_branch: coexecution_dependency_dir_default
-child_branches: coexecutor_image_pycurl
+child_branches: coexecution_stage_out_failures
 related_records:
   - pulsar/branches/coexecution_dependency_dir_default
   - pulsar/branches/coexecution_stage_failures
+  - pulsar/branches/coexecution_stage_out_failures
   - pulsar/branches/coexecutor_image_pycurl
 ---
 # Coexecution client fixes: default staging image tag and queued TES tasks
@@ -14,7 +15,7 @@ related_records:
 
 ## Status
 
-Implemented at `75185ac` during stage 3 of the [GA4GH WES and TES project](../../../../../projects/ga4gh_wes_tes/index.md).
+Implemented at `b31602a` during stage 3 of the [GA4GH WES and TES project](../../../../../projects/ga4gh_wes_tes/index.md). Restacked 2026-11-14 (was `75185ac`).
 
 No PR.
 
@@ -22,7 +23,7 @@ Fork CI not checked yet.
 
 ## Notes
 
-- Two independent commits: `a65f21c` (default image `galaxy/pulsar-pod-staging:0.15.0.0`, never published, becomes `0.15.0.2`) and `75185ac` (TES `QUEUED` maps to `queued`, swapped TES client docstrings).
+- Two independent commits: `8985269` (default image `galaxy/pulsar-pod-staging:0.15.0.0`, never published, becomes `0.15.0.2`) and `b31602a` (TES `QUEUED` maps to `queued`, swapped TES client docstrings).
 - Cherry-picks cleanly onto master on its own.
 
 ## Review materials

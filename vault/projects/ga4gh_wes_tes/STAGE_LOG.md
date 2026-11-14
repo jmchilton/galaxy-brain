@@ -127,3 +127,25 @@ Doesn't work or wasn't tested:
 Services: everything stopped. `make status` shows RabbitMQ, Funnel, Galaxy and Celery stopped and no TESK cluster; `docker ps -a | grep wes-tes` is empty; `var/tes-backend` is `funnel`. Restart with `make up && make run` (Funnel, about 1 min plus 5–6 min) or `make up TES=tesk && make run` (recreates the kind cluster, about 3 min plus a run). Images, the Galaxy worktrees and venvs are kept; the fresh clone was removed after merging.
 
 Security: private notes exist outside the repositories, as the brief requires. Nothing sensitive is in the demo repository or the vault.
+
+## Coordinator: Pulsar restack (2026-11-14)
+
+John authorized amending and force-pushing his remotes. The coordinator rebuilt the Pulsar stack by cherry-picking onto `a87897c`:
+
+- `1138cd0`'s message was reworded: `pulsar-submit` exits 1, the task ends `EXECUTOR_ERROR`, and the Galaxy job stays queued.
+- pycurl (`4ccfb64`) was folded into `coexecutor_image_modern_base`.
+- The CI test fix (`a3f8c72`) now runs through the middle branches. The duplicate `3b2cde8` dropped out.
+- The new tip `20b6460` has the same tree as the old `3b2cde8`.
+
+The branches were force-pushed with `--force-with-lease`:
+
+| Branch | Old head | New head |
+| --- | --- | --- |
+| base | `1138cd0` | `c4ae861` |
+| publish_running | `07051ab` | `5e3de24` |
+| stage_failures | `a3f8c72` | `954ab40` |
+| dependency_dir_default | `e90a555` | `ef7caea` |
+| client_fixes | `75185ac` | `b31602a` |
+| stage_out_failures | `3b2cde8` | `20b6460` |
+
+`coexecutor_image_pycurl` is left at `4ccfb64` on the fork and is in `branches_need_decision` as superseded. The demo repo's `versions.env` now pins `20b6460` and image `wes-tes/pulsar-pod-staging:0.16.1.dev0-20b6460`.

@@ -4,6 +4,8 @@ A prioritised list of bugs and missing features found while building and testing
 
 Written 2026-11-14, at the end of stage 3. Demo repository: `~/projects/repositories/galaxy-wes-tes` (below, `demo:` is a path in it). Galaxy line numbers are for tag `v26.1.2` (`391641a4e12`) unless a branch is named. Pulsar line numbers are for `master` `08dedcb`.
 
+**Pulsar SHAs changed after this was written.** On 2026-11-14 the coordinator restacked the Pulsar branches, with John's authorization to force-push: `1138cd0`'s message was reworded, `coexecutor_image_pycurl` was folded into `coexecutor_image_modern_base`, and the CI test fix now runs through the whole stack. The new tips are `coexecutor_image_modern_base` `c4ae861`, `coexecution_publish_running` `5e3de24`, `coexecution_stage_failures` `954ab40`, `coexecution_dependency_dir_default` `ef7caea`, `coexecution_client_fixes` `b31602a` and `coexecution_stage_out_failures` `20b6460`. The final tree matches the old `3b2cde8`. Older Pulsar SHAs below are the pre-restack commits; the branch records hold the current ones.
+
 ## How to read this
 
 Priority:

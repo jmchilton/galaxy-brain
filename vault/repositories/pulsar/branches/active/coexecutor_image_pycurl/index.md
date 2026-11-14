@@ -1,7 +1,5 @@
 ---
 upstream_base_branch: master
-parent_branch: coexecution_client_fixes
-child_branches: coexecution_stage_out_failures
 related_records:
   - pulsar/branches/coexecutor_image_modern_base
   - pulsar/branches/coexecution_client_fixes
@@ -10,16 +8,13 @@ related_records:
 ---
 # Install pycurl in the coexecutor staging image again
 
-- [Open PR](https://github.com/galaxyproject/pulsar/compare/coexecution_client_fixes...jmchilton:pulsar:coexecutor_image_pycurl?expand=1)
 - [View on GitHub](https://github.com/jmchilton/pulsar/tree/coexecutor_image_pycurl)
 
 ## Status
 
-Implemented at `4ccfb64` during stage 3 of the [GA4GH WES and TES project](../../../../../projects/ga4gh_wes_tes/index.md); the demo staging image is built from this tip.
+Folded into [`coexecutor_image_modern_base`](../coexecutor_image_modern_base/index.md) as `c4ae861` in the 2026-11-14 restack; this branch is superseded. Suggested action: abandon it (the fork branch still points at the pre-restack `4ccfb64`).
 
 No PR.
-
-Fork CI not checked yet.
 
 ## Notes
 
