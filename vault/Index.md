@@ -1,6 +1,6 @@
 # Galaxy Brain Index
 
-*142 notes. Auto-generated — run `make index` to refresh.*
+*143 notes. Auto-generated — run `make index` to refresh.*
 
 ## Plans
 
@@ -15,6 +15,7 @@
 - [[collection_semantics]] — Project formalizing Galaxy collection semantics and their documentation.
 - [[compare_runs]] — One table of past runs for a workflow step, a workflow's outputs, or a tool, with inputs, outputs, parameters, version and reuse side by side.
 - [[cwl]] — Project tracking CWL implementation in Galaxy: conformance tests, conditionals, packing, tool loading.
+- [[ga4gh_wes_tes]] — Running real IWC workflows through Galaxy's GA4GH WES API with Pulsar and TES backends, and what these APIs cost compared to Galaxy's own APIs.
 - [[architecture]] — Mirrored view of the galaxy-architecture repo — training topics rendered as vault-readable markdown.
 - [[history_markdown]] — Project implementing history-attached markdown pages in Galaxy's client and API.
 - [[invocation_graph_embedded_outputs]] — Outputs inside the invocation graph: hover previews, embedded workflow-output nodes, steps shown as a preferred output.

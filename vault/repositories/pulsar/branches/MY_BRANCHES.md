@@ -29,7 +29,12 @@ None yet.
 
 ## Pulsar branches — implemented, work left (`branches_implemented_needs_ci`)
 
-None yet.
+- [`coexecutor_image_modern_base`](active/coexecutor_image_modern_base/index.md) — Rebuilds the coexecutor (TES/K8s) staging image on python:3.12-slim so it can install current Pulsar. [Open PR](https://github.com/galaxyproject/pulsar/compare/master...jmchilton:pulsar:coexecutor_image_modern_base?expand=1).
+- [`coexecution_publish_running`](active/coexecution_publish_running/index.md) — `pulsar-submit --no-wait` publishes `running`, so Galaxy shows TES jobs as running. [Open PR](https://github.com/galaxyproject/pulsar/compare/coexecutor_image_modern_base...jmchilton:pulsar:coexecution_publish_running?expand=1).
+- [`coexecution_stage_failures`](active/coexecution_stage_failures/index.md) — Failed staging exits `pulsar-submit --no-wait`/`pulsar-finish` non-zero; `failed` status carries the error. [Open PR](https://github.com/galaxyproject/pulsar/compare/coexecution_publish_running...jmchilton:pulsar:coexecution_stage_failures?expand=1).
+- [`coexecution_dependency_dir_default`](active/coexecution_dependency_dir_default/index.md) — Coexecution apps default to no tool dependency dir, so they start on a read-only root. [Open PR](https://github.com/galaxyproject/pulsar/compare/coexecution_stage_failures...jmchilton:pulsar:coexecution_dependency_dir_default?expand=1).
+- [`coexecution_client_fixes`](active/coexecution_client_fixes/index.md) — Published default staging image tag; TES `QUEUED` maps to queued, not failed. [Open PR](https://github.com/galaxyproject/pulsar/compare/coexecution_dependency_dir_default...jmchilton:pulsar:coexecution_client_fixes?expand=1).
+- [`coexecution_stage_out_failures`](active/coexecution_stage_out_failures/index.md) — Stage-out error in `failed` stderr; directory outputs fail; shutdown waits for terminal status. [Open PR](https://github.com/galaxyproject/pulsar/compare/coexecution_client_fixes...jmchilton:pulsar:coexecution_stage_out_failures?expand=1).
 
 ## Pulsar branches — implemented, work left, green (`branches_implemented`)
 
@@ -49,7 +54,7 @@ None yet.
 
 ## Pulsar branches — still deciding on (`branches_need_decision`)
 
-None yet.
+- [`coexecutor_image_pycurl`](active/coexecutor_image_pycurl/index.md) — Superseded: folded into `coexecutor_image_modern_base` (`c4ae861`) on 2026-11-14; suggest abandoning.
 
 ## Pulsar branches — reference only (`branches_reference`)
 
