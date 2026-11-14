@@ -9,7 +9,7 @@ SCRIPT = Path(__file__).with_name("launch_agent.sh")
 VAULT = SCRIPT.parents[3]
 
 
-def run_launch(tmp_path, prompt, *flags):
+def run_launch(tmp_path, prompt, *flags, kind="claude"):
     """The finished run and the stub's `hc run` arguments (None if it didn't run); `hc exec` runs here, git skipped."""
     log = tmp_path / "run.log"
     bin_dir = tmp_path / ".local" / "bin"
@@ -26,7 +26,7 @@ def run_launch(tmp_path, prompt, *flags):
     hc.chmod(0o755)
     (bin_dir / "herdr-app").chmod(0o755)
     env = {**os.environ, "HOME": str(tmp_path), "GB_HERDR": "app"}
-    result = subprocess.run([SCRIPT, *flags, "factory", "claude", "probe", prompt], env=env, capture_output=True, text=True)
+    result = subprocess.run([SCRIPT, *flags, "factory", kind, "probe", prompt], env=env, capture_output=True, text=True)
     return result, (log.read_text().splitlines() if log.exists() else None)
 
 
@@ -79,3 +79,16 @@ def test_require_checks_the_hosts_vault_after_its_pull(tmp_path):
     result, args = run_launch(tmp_path / "again", "x", "--host", "box", "--vault", str(VAULT), "--require", "agents/_shared")
     assert result.returncode == 0, result.stderr
     assert args[args.index("--on") + 1] == "box"
+
+
+def test_codex_skips_the_shared_daemon(tmp_path):
+    """The daemon's env would point hooks at whichever terminal started it."""
+    result, args = run_launch(tmp_path, "x", kind="codex")
+    assert result.returncode == 0, result.stderr
+    assert args[args.index("--") + 1 :] == ["codex", "--no-daemon", "x"]
+
+
+def test_claude_gets_no_daemon_flag(tmp_path):
+    result, args = run_launch(tmp_path, "x")
+    assert result.returncode == 0, result.stderr
+    assert args[args.index("--") + 1 :] == ["claude", "x"]

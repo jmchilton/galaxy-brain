@@ -77,6 +77,8 @@ if [ "$herdr" = app ]; then
   described="$kind${*:+ $*}"
   labels=$(record_labels)
   [ -z "$prompt" ] || set -- "$@" "$prompt"
+  # Codex's shared daemon would run its hooks with another terminal's HC_TERMINAL_ID.
+  [ "$kind" = codex ] && set -- --no-daemon "$@"
   out=$(hc run --bg --json --no-parent --name "$name" --label "herdr.space=$space" --label "herdr.tab=$tab" $labels \
     --cwd "$cwd" ${host:+--on "$host"} -- "$kind" "$@") || { echo "hc run failed: $out" >&2; exit 1; }
   terminal=$(printf '%s' "$out" | jq -r '.address // empty')

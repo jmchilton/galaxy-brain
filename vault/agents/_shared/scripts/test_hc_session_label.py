@@ -8,8 +8,8 @@ from pathlib import Path
 SCRIPT = Path(__file__).with_name("hc_session_label.sh")
 
 
-def run_hook(tmp_path, harness, payload, terminal="t7"):
-    """The finished hook and the stub's `hc` arguments (None if hc wasn't called)."""
+def run_hook(tmp_path, harness, payload, terminal="t7", command=None):
+    """The finished hook and the stub's `hc` arguments (None if hc wasn't called); command replaces running the script."""
     log = tmp_path / "hc.log"
     bin_dir = tmp_path / "bin"
     bin_dir.mkdir(parents=True)
@@ -21,7 +21,7 @@ def run_hook(tmp_path, harness, payload, terminal="t7"):
     if terminal:
         env["HC_TERMINAL_ID"] = terminal
     stdin = payload if isinstance(payload, str) else json.dumps(payload)
-    result = subprocess.run(["sh", SCRIPT, harness], input=stdin, env=env, capture_output=True, text=True)
+    result = subprocess.run(command or ["sh", SCRIPT, harness], input=stdin, env=env, capture_output=True, text=True)
     return result, (log.read_text().splitlines() if log.exists() else None)
 
 
@@ -81,3 +81,24 @@ def test_unknown_harness_does_nothing(tmp_path):
     result, args = run_hook(tmp_path, "cursor", START)
     assert result.returncode == 0
     assert args is None
+
+
+def codex_parent(tmp_path):
+    """A stub `codex` that runs the hook as its child."""
+    codex = tmp_path / "codex"
+    codex.write_text(f"#!/bin/sh\nsh {SCRIPT} codex\n")
+    codex.chmod(0o755)
+    return str(codex)
+
+
+def test_codex_under_shared_daemon_does_nothing(tmp_path):
+    """The daemon's HC_TERMINAL_ID belongs to whichever terminal started it."""
+    result, args = run_hook(tmp_path / "run", "codex", START, command=[codex_parent(tmp_path), "app-server"])
+    assert result.returncode == 0, result.stderr
+    assert args is None
+
+
+def test_codex_without_daemon_labels(tmp_path):
+    result, args = run_hook(tmp_path / "run", "codex", START, command=[codex_parent(tmp_path), "--no-daemon"])
+    assert result.returncode == 0, result.stderr
+    assert args[:4] == ["label", "t7", "gb.harness=codex", f"gb.session={START['session_id']}"]
