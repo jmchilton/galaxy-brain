@@ -59,12 +59,14 @@ Install from `jmchilton/ghwt` main, not npm, because the npm release lags main. 
 - Missing: `curl -fsSL https://claude.ai/install.sh | bash`
 - Present: `claude update`
 - If `claude auth status` shows it isn't logged in, ask John to run `! ssh -t MACHINE claude` and `/login`.
+- So the Herdr app can resume and fork sessions, `~/.claude/settings.json` needs a `SessionStart` hook with no matcher running `sh '<clone>/vault/agents/_shared/scripts/hc_session_label.sh' claude` (timeout 5). Add it if it's missing.
 
 ## Codex
 
 - Install or update with `npm install -g @openai/codex@latest`.
 - If `codex login status` shows it isn't logged in, ask John to run `! ssh -t MACHINE codex login --device-auth`.
 - The first codex launch in the galaxy-brain clone stops on a trust prompt. Accept it over ssh with `herdr pane send-keys <pane> Enter`.
+- `~/.codex/hooks.json` needs a `SessionStart` group running `sh '<clone>/vault/agents/_shared/scripts/hc_session_label.sh' codex` (timeout 5). Append it as the last group, because the hook trust entries in `config.toml` are keyed by position. The next codex launch then asks you to review hooks. Choose "Trust all and continue" only if it lists exactly one new hook.
 
 ## Report
 

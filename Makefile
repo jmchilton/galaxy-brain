@@ -9,7 +9,7 @@ validate:
 	review-factory/bin/review-factory validate vault/repositories
 
 test:
-	uv run $(DEPS) --with pytest pytest test_validate_frontmatter.py test_validate_records.py test_check_references.py test_pull_screenshots.py vault/agents/_shared/scripts/test_launch_agent.py vault/agents/_shared/scripts/test_prune_tasks.py -v $(ARGS)
+	uv run $(DEPS) --with pytest pytest test_validate_frontmatter.py test_validate_records.py test_check_references.py test_pull_screenshots.py vault/agents/_shared/scripts/test_launch_agent.py vault/agents/_shared/scripts/test_prune_tasks.py vault/agents/_shared/scripts/test_hc_session_label.py -v $(ARGS)
 
 pull-screenshots:
 	uv run pull_screenshots.py $(ARGS)
