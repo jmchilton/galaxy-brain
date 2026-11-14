@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "kind": "differential-review-state",
-  "updatedAt": "2026-11-12T18:06:23.821Z",
+  "updatedAt": "2026-11-14T21:56:39.885Z",
   "hunks": {
     "h1:7a298f60376d1c33": {
       "snapshotId": "20261112T180530Z-revision-e59d88493611",
@@ -87,6 +87,36 @@
       "snapshotId": "20261112T180530Z-revision-e59d88493611",
       "path": "test/unit/data/test_model_copy.py",
       "reviewedAt": "2026-11-12T18:06:13.538Z"
+    },
+    "h1:6aed11dc112deec0": {
+      "snapshotId": "20261112T185923Z-polishing-cf71d5eb4379",
+      "path": "lib/galaxy/model/metadata.py",
+      "reviewedAt": "2026-11-14T21:56:17.739Z"
+    },
+    "h1:432214ed73232d22": {
+      "snapshotId": "20261112T185923Z-polishing-cf71d5eb4379",
+      "path": "test/unit/data/test_model_copy.py",
+      "reviewedAt": "2026-11-14T21:56:28.250Z"
+    },
+    "h1:dc99e861548563c7": {
+      "snapshotId": "20261112T185923Z-polishing-cf71d5eb4379",
+      "path": "test/unit/data/test_model_copy.py",
+      "reviewedAt": "2026-11-14T21:56:28.250Z"
+    },
+    "h1:aef3eeb01452818a": {
+      "snapshotId": "20261112T185923Z-polishing-cf71d5eb4379",
+      "path": "test/unit/data/test_model_copy.py",
+      "reviewedAt": "2026-11-14T21:56:28.250Z"
+    },
+    "h1:eed1e6ca9797a9e4": {
+      "snapshotId": "20261112T185923Z-polishing-cf71d5eb4379",
+      "path": "test/unit/data/test_model_copy.py",
+      "reviewedAt": "2026-11-14T21:56:28.250Z"
+    },
+    "h1:c397235b1fc58c4e": {
+      "snapshotId": "20261112T185923Z-polishing-cf71d5eb4379",
+      "path": "test/unit/data/test_model_copy.py",
+      "reviewedAt": "2026-11-14T21:56:28.250Z"
     }
   },
   "commits": {
@@ -161,6 +191,18 @@
       "subject": "Write metadata files without syncing the object store cache first",
       "snapshotId": "20261112T180530Z-revision-e59d88493611",
       "signedOffAt": "2026-11-12T18:06:23.821Z"
+    },
+    "da31b50fc10c06bd1a0bc234a639b60a55e7f1c9": {
+      "sha": "bb9eebf798c2307acfe1f14ba7d57395b16ab208",
+      "subject": "Only flush copied MetadataFiles when store_by id needs an id",
+      "snapshotId": "20261112T185923Z-polishing-cf71d5eb4379",
+      "signedOffAt": "2026-11-14T21:56:31.490Z"
+    },
+    "e5cdf7ab9cf9537b40fc2ef87566742e47465b67": {
+      "sha": "cf71d5eb4379ef4c42be961b7d516875780a8195",
+      "subject": "Write metadata files without syncing the object store cache first",
+      "snapshotId": "20261112T185923Z-polishing-cf71d5eb4379",
+      "signedOffAt": "2026-11-14T21:56:39.885Z"
     }
   }
 }

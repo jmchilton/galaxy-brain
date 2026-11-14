@@ -1,19 +1,20 @@
 ---
 upstream_base_branch: release_25.1
+pr: 24902
 ---
 # Job cache copies get their own metadata files
 
-- [Open PR](https://github.com/galaxyproject/galaxy/compare/release_25.1...jmchilton:galaxy:job_cache_own_metadata_files_25_1?expand=1)
+- [PR #24902](https://github.com/galaxyproject/galaxy/pull/24902)
 - [View on GitHub](https://github.com/jmchilton/galaxy/tree/job_cache_own_metadata_files_25_1)
 - [PR description](pr_description.md) · [titles](pr_titles.md) · [tags](pr_tags.md) · [checklist](pr_checklist.md) · [polish debrief](polish_debrief.md)
 
 ## Status
 
-Polished, ready for final review; polishing fixed a related CI red and replaced the cache-sync spy test ([polish_debrief.md](polish_debrief.md)).
+Polished and approved by John at `cf71d5eb437` (human review at that SHA, 2026-11-14); title "[25.1] Give job cache outputs their own metadata files".
 
-No PR yet; the fork branch is at `cf71d5eb437`.
+[#24902](https://github.com/galaxyproject/galaxy/pull/24902) opened 2026-11-14 at John's request, not draft.
 
-Fork CI on `e59d8849361` had 6 related reds, fixed in `bb9eebf798c` (5 re-run green locally under strict mode; Postgres pgcleanup waits on fork CI); CI on `cf71d5eb437` is pending.
+Fork CI on `cf71d5eb437`: Integration (incl. pgcleanup) green; two reds diagnosed unrelated: API `test_workflows::test_parameter_substitution_sanitization` (history still empty after `wait_for_history`, an invocation-scheduling race; text-only `validation` tool, no metadata files or job cache) and macOS startup (cancelled, as on `e59d884`).
 
 ## Decisions
 

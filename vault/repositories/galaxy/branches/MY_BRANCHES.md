@@ -17,6 +17,7 @@ Snapshot: 2026-11-09 (reclassified from GitHub: #24555 merged, removed; #22996 r
 - [`issue_23978_parameter_tools_xsd`](active/issue_23978_parameter_tools_xsd/index.md) — Makes framework test tools XSD-valid and validates test-tool subdirectories in CI (#23978). [#24302](https://github.com/galaxyproject/galaxy/pull/24302). Rebased 2026-11-06 at `9ff979543c6`; CI pending.
 - [`issue_24648_shed_field_border`](active/issue_24648_shed_field_border/index.md) — Tool Shed form fields get 3:1 grey-500 borders and consistent hover and focus states. [#24771](https://github.com/galaxyproject/galaxy/pull/24771).
 - [`issue_24328_data_table_mismatch_26.1`](active/issue_24328_data_table_mismatch_26.1/index.md) — Conflicting shed data table halts startup with an actionable error; installs no longer wipe Galaxy's tables (#24328). Base `release_26.1`. [#24349](https://github.com/galaxyproject/galaxy/pull/24349).
+- [`job_cache_own_metadata_files_25_1`](active/job_cache_own_metadata_files_25_1/index.md) — Job cache and copied outputs own their metadata files, so pgcleanup purging the source keeps them. Base `release_25.1`. [#24902](https://github.com/galaxyproject/galaxy/pull/24902).
 
 ## Open Galaxy PRs — needs attention (`attention`)
 
@@ -90,8 +91,6 @@ None yet.
 - [`converted_dataset_lookup_via_manager_26.0`](active/converted_dataset_lookup_via_manager_26.0/index.md) — Existing implicit conversions looked up via `DatasetAssociationManager.get_accessible_converted`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.0...jmchilton:galaxy:converted_dataset_lookup_via_manager_26.0?expand=1).
 
 ## Galaxy branches — ready for final review (`branches_ready_for_final_review`)
-
-- [`job_cache_own_metadata_files_25_1`](active/job_cache_own_metadata_files_25_1/index.md) — Job cache and copied outputs own their metadata files, so pgcleanup purging the source keeps them. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_25.1...jmchilton:galaxy:job_cache_own_metadata_files_25_1?expand=1).
 
 - [`issue_24532_user_deletion_refusal_25.1`](active/issue_24532_user_deletion_refusal_25.1/index.md) — Delete Account modal explains a config-refused self-deletion and stays open on failure (#24532). [Open PR](https://github.com/galaxyproject/galaxy/compare/release_25.1...jmchilton:galaxy:issue_24532_user_deletion_refusal_25.1?expand=1).
 
