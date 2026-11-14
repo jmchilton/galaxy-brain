@@ -149,3 +149,76 @@ The branches were force-pushed with `--force-with-lease`:
 | stage_out_failures | `3b2cde8` | `20b6460` |
 
 `coexecutor_image_pycurl` is left at `4ccfb64` on the fork and is in `branches_need_decision` as superseded. The demo repo's `versions.env` now pins `20b6460` and image `wes-tes/pulsar-pod-staging:0.16.1.dev0-20b6460`.
+
+## Stage 4: plan Galaxy WES → tesp-api (2026-11-14)
+
+Output: [`TESP_API_PLAN.md`](TESP_API_PLAN.md). Evidence is in the demo repository (`main` at `e3d3d0f`), under `runs/tesp-probes/`. Three nested subagents (Opus, effort high) did the work:
+
+- TES-level probes of upstream against the fork (`tes-level/`);
+- Galaxy's stock runner against tesp-api (`galaxy/`);
+- design B feasibility (`design-b/`).
+
+The coordinator built the tesp-api scaffolding, ran the direct-Pulsar comparison (`direct-pulsar/`), checked the subagents' key claims (passing run directories, checksums, the Pulsar `montior` bug in source, the evidence secret scan) and wrote the plan.
+
+What was built:
+
+- `make up TES=tesp`, defined in `config/tesp/` and `scripts/tesp/`. It starts tesp-api, MongoDB 7.0.25 and an outer Pulsar 0.16.0 (docker CLI 29.1.3, Apptainer 1.3.6, host Docker socket), all under unique `wes-tes-<instance>-*` names. tesp-api is published only on `127.0.0.1:18200`, with basic auth.
+  - The source comes from a worktree chosen by `TESP_REF=upstream|fork|<commit>`, or from `TESP_SRC`.
+  - Python dependencies come from the fork's lock fix `e2ce6ef`, because upstream's `poetry.lock` doesn't import.
+- `make up TES=pulsar`, a comparison backend: Galaxy's `PulsarRESTJobRunner` talks straight to the same Pulsar image, with no TES server.
+- `scripts/tesp/probes/tes_probes.py`, the TES-level probe suite.
+- Evidence scripts and job conf entries for tesp-api.
+- Spike branch `spike/stage4-cancel-containers` (`fbcac3f`, on fork `main`) in `~/projects/repositories/tesp-api`; its patch is in `runs/tesp-probes/galaxy/patches/`.
+
+What works, with evidence:
+
+- Stock Galaxy v26.1.2's `PulsarTesJobRunner` runs both IWC workflows through tesp-api with job conf changes only. This holds on upstream `3d470f76` and on the fork `c3a9f237`:
+  - QC: `runs/2026-11-14-1ac1a4b1c225b8aa/` (upstream), `runs/2026-11-14-ef6f69e2f7527004/` (fork), `runs/2026-11-14-ac2c0bdd216c6336/` (fixes branch), `runs/2026-11-14-b92ab34803983a54/` (spike).
+  - hyphy, 12 jobs: `runs/tesp-probes/galaxy/03-*`.
+  - Outputs are byte-identical to the Funnel runs, and timing is the same as Funnel.
+- The 39-input job's 100 KB job script went through Pulsar's `command_line` query parameter.
+- With the spike, cancel removes the task's container within 6 s and nothing is left behind.
+- Galaxy → Pulsar REST directly passes the QC workflow with identical outputs (`runs/tesp-probes/direct-pulsar/02-*`).
+
+What doesn't work:
+
+- **Cancel never stops the container.**
+  - Upstream only marks the task CANCELED.
+  - The fork cancels the Pulsar job, but Pulsar SIGKILLs the `docker run` client and the container keeps running.
+  - The same happens with Galaxy → Pulsar directly.
+- **Leftovers:** every executor container and `vol-<id>-*` volume is left.
+- **No logs on upstream:** it reads the wrong Pulsar status key. The fork stores the in-task Pulsar log, which contains `job_key`s.
+- **Restarts:** a tesp-api restart strands tasks.
+- **AMQP mode** fails in 1 s.
+- **Auth:** no credentials gives 500.
+- **Singularity** can't use the local staging image.
+- **Size limits:** one executor argument is limited to 131 071 bytes (`MAX_ARG_STRLEN`) and all arguments together to 2 MiB. So Galaxy jobs with roughly 100 or more inputs can't start on tesp-api, and probably not on Funnel either.
+- **Pulsar bug:** `queued_python` ignores `num_concurrent_jobs` (`montior` typo, since 0.15.0).
+- **Polling:** the Galaxy polling branch retries forever against a TES server that's gone.
+
+Design B (TES-native staging) is feasible:
+
+- Funnel and TESK upload outputs with a raw PUT. Galaxy accepts only multipart POST, which is what tesp-api sends.
+- A fastp spike on Funnel with Galaxy-shaped URLs completed.
+- Building it needs a new Galaxy route and runner (one L plus three M). It goes to John.
+
+Recommendation for stage 5: design A+C. That means a tesp-api branch `galaxy-wes-tes` on fork `main` with:
+
+- cancel that removes containers, and cleanup after every task;
+- immediate cancel;
+- the job script sent as a file;
+- restart recovery;
+- log redaction;
+- 401 instead of 500.
+
+Plus Pulsar `queued_manager_monitor_kwarg`, Galaxy `tes_task_state_polling_unreachable`, `docs/tesp-api.md` and an acceptance run. The fallback is the spike branch.
+
+Services: everything stopped (`make status` all stopped, `var/tes-backend` = `funnel`, no `wes-tes-*` containers, no `vol-*` volumes). The `wes-tes-tesp-mongo` volume is kept.
+
+To restart:
+
+- `make up TES=tesp && make run`, with `TESP_REF=fork` for the fork or `TESP_SRC=$PWD/vendor/tesp-api-spike` for the spike;
+- `make up TES=pulsar && make run` for the direct comparison;
+- the probe instances, as in `runs/tesp-probes/tes-level/README.md`.
+
+Security: private notes exist outside the repositories, as the brief requires. The evidence was scanned for `.env.local` values, broker URLs and unredacted base64; none were found.
