@@ -35,6 +35,7 @@ None yet.
 - [`coexecution_dependency_dir_default`](active/coexecution_dependency_dir_default/index.md) — Coexecution apps default to no tool dependency dir, so they start on a read-only root. [Open PR](https://github.com/galaxyproject/pulsar/compare/coexecution_stage_failures...jmchilton:pulsar:coexecution_dependency_dir_default?expand=1).
 - [`coexecution_client_fixes`](active/coexecution_client_fixes/index.md) — Published default staging image tag; TES `QUEUED` maps to queued, not failed. [Open PR](https://github.com/galaxyproject/pulsar/compare/coexecution_dependency_dir_default...jmchilton:pulsar:coexecution_client_fixes?expand=1).
 - [`coexecution_stage_out_failures`](active/coexecution_stage_out_failures/index.md) — Stage-out error in `failed` stderr; directory outputs fail; shutdown waits for terminal status. [Open PR](https://github.com/galaxyproject/pulsar/compare/coexecution_client_fixes...jmchilton:pulsar:coexecution_stage_out_failures?expand=1).
+- [`queued_manager_monitor_kwarg`](active/queued_manager_monitor_kwarg/index.md) — Fixes `queued_python` ignoring `num_concurrent_jobs` (`montior` keyword typo since 0.15.0). [Open PR](https://github.com/galaxyproject/pulsar/compare/master...jmchilton:pulsar:queued_manager_monitor_kwarg?expand=1).
 
 ## Pulsar branches — implemented, work left, green (`branches_implemented`)
 

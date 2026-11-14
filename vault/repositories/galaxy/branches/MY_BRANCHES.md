@@ -70,6 +70,7 @@ None yet.
 - [`cwl_fixes_5`](active/cwl_fixes_5/index.md) — Collects CWL validation, typing, output-path and job-document fixes. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:cwl_fixes_5?expand=1).
 - [`wes_api_fixes_26_0`](active/wes_api_fixes_26_0/index.md) — WES: boolean `use_cached_job`, 403 for anonymous run reads, idempotent cancel, no leftovers on rejection. Base `release_26.0`, head `85f9b2b42be`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.0...jmchilton:galaxy:wes_api_fixes_26_0?expand=1).
 - [`tes_task_state_polling`](active/tes_task_state_polling/index.md) — Pulsar TES runner fails jobs whose TES task dies before Pulsar reports; cancelling an ended task counts as done. Base `dev`, head `e3c0cc44649`. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:tes_task_state_polling?expand=1).
+- [`tes_task_state_polling_unreachable`](active/tes_task_state_polling_unreachable/index.md) — Pulsar TES runner fails jobs whose TES server stays unreachable; no executor blamed for a one-log task. [Open PR](https://github.com/jmchilton/galaxy/compare/tes_task_state_polling...tes_task_state_polling_unreachable?expand=1).
 
 ## Galaxy branches — implemented, work left, green (`branches_implemented`)
 
