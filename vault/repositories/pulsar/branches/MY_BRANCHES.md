@@ -29,7 +29,8 @@ None yet.
 
 ## Pulsar branches — implemented, work left (`branches_implemented_needs_ci`)
 
-None yet.
+- [`coexecutor_image_modern_base`](active/coexecutor_image_modern_base/index.md) — Rebuilds the coexecutor (TES/K8s) staging image on python:3.12-slim so it can install current Pulsar. [Open PR](https://github.com/galaxyproject/pulsar/compare/master...jmchilton:pulsar:coexecutor_image_modern_base?expand=1).
+- [`coexecution_publish_running`](active/coexecution_publish_running/index.md) — `pulsar-submit --no-wait` publishes `running`, so Galaxy shows TES jobs as running. [Open PR](https://github.com/galaxyproject/pulsar/compare/coexecutor_image_modern_base...jmchilton:pulsar:coexecution_publish_running?expand=1).
 
 ## Pulsar branches — implemented, work left, green (`branches_implemented`)
 
