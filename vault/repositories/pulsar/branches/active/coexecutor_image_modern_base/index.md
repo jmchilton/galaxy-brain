@@ -1,5 +1,6 @@
 ---
 upstream_base_branch: master
+pr: 577
 child_branches: coexecution_publish_running
 related_records:
   - pulsar/branches/coexecution_publish_running
@@ -8,22 +9,22 @@ related_records:
 ---
 # Rebuild the coexecutor staging image on a current Python base
 
-- [Open PR](https://github.com/galaxyproject/pulsar/compare/master...jmchilton:pulsar:coexecutor_image_modern_base?expand=1)
+- [PR #577](https://github.com/galaxyproject/pulsar/pull/577)
 - [View on GitHub](https://github.com/jmchilton/pulsar/tree/coexecutor_image_modern_base)
 
 ## Status
 
-Implemented at `c4ae861` during stage 2 of the [GA4GH WES and TES project](../../../../../projects/ga4gh_wes_tes/index.md); the image ran real Galaxy TES jobs in the demo. Restacked 2026-11-14 by the coordinator (John authorized force-pushes): `1138cd0`'s message reworded, the pycurl commit folded into `coexecutor_image_modern_base`, the CI test fix carried through the stack. Pre-restack SHAs in debriefs and evidence are historical.
+Hardened 2026-11-15 at `acde50a`: Codex review (no findings) and thermo-nuclear review (three build fixes); the pycurl commit was folded into the image rebuild commit, whose message no longer says pycurl is opt-in.
 
-No PR.
+Draft PR [#577](https://github.com/galaxyproject/pulsar/pull/577) opened 2026-11-15.
 
-Fork CI for `c4ae861` not checked yet (pre-restack `1138cd0`: pulsar, Deploy and zizmor green).
+CI for `acde50a` (2026-11-15): unrelated only. Everything else green; unrelated (on base): `Framework tests / Test (3.10, master, directory)` fails with `ImportError: cannot import name 'build_client_manager' from 'pulsar.client'`, as on every recent master run; not rerun.
 
 ## Notes
 
 - Built image: `wes-tes/pulsar-pod-staging:0.16.1.dev0-1138cd0` (local only). The demo now runs the child branch's image.
-- Commits: `a87897c` (image on python:3.12-slim), `92935e4` (read-only root workaround; reworded from `1138cd0` to say `pulsar-submit` exits 1, the TES task ends `EXECUTOR_ERROR` and the Galaxy job stays queued), `c4ae861` (pycurl, formerly branch `coexecutor_image_pycurl` `4ccfb64`).
-- Review P1 (pycurl dropped, stage-out reads outputs into memory) is fixed by `c4ae861`, folded in from [`coexecutor_image_pycurl`](../coexecutor_image_pycurl/index.md).
+- Commits (2026-11-15): `a3a5b68` (image on python:3.12-slim, pycurl included; formerly `a87897c` + `c4ae861`), `e059842` (read-only root workaround), `e0864e5`, `371d01f`, `acde50a` (thermo fixes: bind-mount wheel install, build-only pip settings, Makefile ordering).
+- Review P1 (pycurl dropped, stage-out reads outputs into memory) is fixed in `a3a5b68`, folded in from [`coexecutor_image_pycurl`](../coexecutor_image_pycurl/index.md).
 - Design choices for John: dropped CVMFS and Slurm/DRMAA/munge from the image; kept the Conda init behind a `CONDA_INIT` build arg. Whether the Kubernetes coexecution path needs any of the dropped pieces is the open question.
 - Demo docs: `~/projects/repositories/galaxy-wes-tes/docs/pulsar-staging-image.md`.
 
@@ -31,3 +32,6 @@ Fork CI for `c4ae861` not checked yet (pre-restack `1138cd0`: pulsar, Deploy and
 
 - [Implementation](implementation_debrief.md)
 - [Review](review.md)
+- [Codex review](codex_review.md)
+- [Thermo-nuclear review](thermo_nuclear_review.md)
+- [PR description](pr_description.md)

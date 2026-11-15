@@ -1,24 +1,27 @@
 ---
 upstream_base_branch: master
+pr: 583
 parent_branch: coexecution_stage_out_failures
 related_records:
   - pulsar/branches/coexecution_stage_out_failures
 ---
 # Compress coexecution launch messages too long for one argument; send pulsar-finish only the job id
 
-- [Open PR](https://github.com/galaxyproject/pulsar/compare/coexecution_stage_out_failures...jmchilton:pulsar:coexecution_compact_launch?expand=1)
+- [PR #583](https://github.com/galaxyproject/pulsar/pull/583)
 - [View on GitHub](https://github.com/jmchilton/pulsar/tree/coexecution_compact_launch)
 
 ## Status
 
-Implemented at `9036ff3` (two commits on `coexecution_stage_out_failures` `20b6460`) during stage 6 of the [GA4GH WES and TES project](../../../../../projects/ga4gh_wes_tes/index.md) (item H5), for the [WES on tesp-api project](../../../../../projects/wes_tesp_api/index.md); proven at the TES level on tesp-api `4bc9b5d` and Funnel 0.12.3 with the real client and staging images, and through Galaxy v26.1.2 (polling worktree `8b3166c80fb`, demo port `f826997` as client): tesp-api's stock client fails 110 inputs (exit 126) and the fixed client runs 109, 110 and 600; Funnel likewise for 109 and 110 (`runs/stage6/argv/` and `runs/stage6/argv/galaxy/` in `~/projects/repositories/galaxy-wes-tes`, demo commit `c070155`).
+Hardened 2026-11-15 at `869d63d` (restacked onto `coexecution_stage_out_failures` `24006de`): Codex review (no findings) and thermo-nuclear review (message options mutually exclusive, both messages through `job_message_arguments`, launch tests use the real script parsers).
 
-No PR.
+Draft PR [#583](https://github.com/galaxyproject/pulsar/pull/583) opened 2026-11-15, stacked on #582.
 
-Fork CI for `9036ff3` not checked yet.
+CI for `869d63d` (2026-11-15, 12:06 UTC): unrelated only so far, with 8 jobs still pending. Every finished job is green except `Framework tests / Test (3.10, master, directory)`, which is unrelated (on base): `ImportError: cannot import name 'build_client_manager'`, as on every recent master run; not rerun.
 
 ## Notes
 
+- Commits (2026-11-15): `c778e40` (compression; was `ea7bc6e`), `7c57747` (job-id-only finish; was `9036ff3`), `8209081`, `e4caffb`, `869d63d` (thermo). The SHAs below are pre-restack.
+- Release order: the default image `0.15.0.2` rejects `--base64_zlib` (exit 2), so jobs over the limit need a staging image built from this branch.
 - Problem: the launch message is one container argument, and Linux refuses arguments of 131 072 bytes or more. In the demo a `collapse_dataset`-style Galaxy job with 109 inputs can't start on tesp-api (exit 126), Funnel (`SYSTEM_ERROR`, fake exit code 0) or TESK (annotation limit, computed); stock Galaxy then leaves the job `queued`. Formula and numbers: demo `docs/pulsar-tes-runner.md#argument-size-ceiling`.
 - `ea7bc6e`: messages longer than 131 071 bytes go as `--base64_zlib`, URL-safe base64 of zlib-compressed JSON (about a tenth: hyphy's 49 264 bytes become 4 948). Messages that fit stay plain `--base64`, so older staging images keep working for every job that worked; they reject `--base64_zlib` with an argparse error (exit 2). Too large even compressed raises at launch. Limit in the demo goes from 108 to 1 244 inputs.
 - URL-safe base64 is required, not cosmetic: tesp-api stores executor arguments as `List[Path]` and collapses `//`, which standard base64 of compressed data contains (measured: decode error).
@@ -30,3 +33,6 @@ Fork CI for `9036ff3` not checked yet.
 ## Review materials
 
 - [Implementation](implementation_debrief.md)
+- [Codex review](codex_review.md)
+- [Thermo-nuclear review](thermo_nuclear_review.md)
+- [PR description](pr_description.md)
