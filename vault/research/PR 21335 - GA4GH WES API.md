@@ -13,11 +13,12 @@ related_prs:
   - 20935
 status: draft
 created: 2026-06-06
-revised: 2026-07-13
-revision: 2
+revised: 2026-11-15
+revision: 3
 ai_generated: true
 summary: "GA4GH WES API exposing Galaxy workflow runs with gxworkflow URI loading state mapping and keyset pagination"
 related_notes:
+  - "[[ga4gh_wes_tes]]"
   - "[[Component - Workflow API]]"
   - "[[Component - Workflow Import]]"
   - "[[Component - Tool Shed Search and Indexing]]"
@@ -63,7 +64,7 @@ A WES `run_id` is an encoded Galaxy invocation ID (decoded via `DecodedDatabaseI
 - **Workflow type detection** — `_determine_workflow_type`: `class == "GalaxyWorkflow"` → `gx_workflow_format2`; presence of `steps`/`workflow` key → `gx_workflow_ga`; else `MessageException`.
 - **History** — `_get_or_create_history` reuses an engine-param `history_id` or creates one (default name `"WES Run"`). Includes an explicit `sa_session.commit()` flagged "Postgres tests in CI fail without this commit."
 - **Task listing** — a UNION query over single-job steps, collection-mapping jobs (expanded via `ImplicitCollectionJobsJobAssociation`), and no-job steps, with composite `(step_order, job_index)` keyset pagination (`TaskKeysetToken`).
-- **State mapping** — `GALAXY_TO_WES_STATE` (`new`→QUEUED, `ready`→INITIALIZING, `scheduled`→RUNNING, `failed`→EXECUTOR_ERROR, `cancelled`→CANCELED, `cancelling`→CANCELING); unmapped → `UNKNOWN`. **No terminal/COMPLETE mapping** — a finished Galaxy invocation (`scheduled`) reports WES `RUNNING` (see Unresolved Questions).
+- **State mapping** — at merge, `GALAXY_TO_WES_STATE` was `new`→QUEUED, `ready`→INITIALIZING, `scheduled`→RUNNING, `failed`→EXECUTOR_ERROR, `cancelled`→CANCELED, `cancelling`→CANCELING, unmapped → `UNKNOWN`, so a finished run (`completed`) reported `UNKNOWN`. `685437ec66c` (v26.0.2) added `completed`→COMPLETE and `requires_materialization`→INITIALIZING (see Changes since PR). `completed` means every job reached a terminal state, so a run with failed or paused jobs still reports COMPLETE.
 - **RunLog** — `_invocation_to_run_log` decorates HDA outputs with DRS URIs (`drs://drs.{netloc}/hda-{drs-encoded-id}`), builds `task_logs_url`, leaves deprecated `task_logs=None`, and cannot recover the original `RunRequest` (always `None`).
 
 ### Generated Pydantic models (new)
@@ -92,18 +93,35 @@ A WES `run_id` is an encoded Galaxy invocation ID (decoded via `DecodedDatabaseI
 
 ## Changes since PR
 
-Recent PR; minimal drift (verified `ad39d779..origin/dev`):
+Verified against `origin/dev` `e7a3f2254c0` (2026-11-14). First release with WES: v26.0.0. Use v26.0.2 or later, which has the state fix.
 
-- `4afff175ea` (mvdbeek, 2026-04-01, fixes #22347) — "Require authentication for WES list_runs endpoint." Anonymous requests crashed with `AttributeError` on `trans.user.id`; adds an `AuthenticationRequired` guard at the top of `list_runs`.
 - `afdbddf0ca` (mvdbeek, 2026-01-27, merge day) — "Fix newly failing WES test." A cancel test now waits via `wait_for_invocation_and_completion(...)` and asserts invocation state `"completed"` instead of `"scheduled"`.
-- No follow-ups to `api/wes.py`, `services/ga4gh.py`, `keyset_token_pagination.py`, `schema/wes/__init__.py`, or `api/drs.py` — identical to PR-era code at HEAD.
-- `api/jobs.py` and `work/context.py` were later touched by unrelated commits; this PR's stdout/stderr endpoints and `url` property are intact.
+- `4afff175ea` (mvdbeek, PR #22351, fixes #22347; v26.0.2) — "Require authentication for WES list_runs endpoint." Anonymous requests crashed with `AttributeError` on `trans.user.id`; adds an `AuthenticationRequired` guard at the top of `list_runs`. The run-scoped endpoints kept the same bug (see Unresolved Questions).
+- `685437ec66c` (jmchilton, PR #22857, 2026-06-08; v26.0.2) — maps `completed` to `COMPLETE` and `requires_materialization` to `INITIALIZING`. Before it, a finished run reported `UNKNOWN`.
+- `1981c78e845` (2026-06-08) — developer guide `doc/source/dev/ga4gh_wes.md` with curl examples. It links two demo clients, `jmchilton/gxy-wes` and `jmchilton/gxy-wes-bioblend`.
+- `e4e29c74e18` (2026-07-21) — `gxworkflow://` accepts any workflow the caller can access (owned, shared or published), not only owned ones. `250c71cfcc4` tightens the docs wording.
+- `90e17de3fe8` (2026-07-21) — `gxworkflow://<id>?instance=true` runs the referenced version; before it ran the latest.
+- `240b124f3fc` (2026-09-24) — task names use the step's `effective_tool_id`.
+- `a8f39f2ba5a` (2026-10-14) — test helper move only.
 
-No files touched by this PR have moved or been renamed since merge.
+`api/jobs.py` and `work/context.py` were later touched by unrelated commits; this PR's stdout/stderr endpoints and `url` property are intact. No files touched by this PR have moved or been renamed since merge.
+
+## Behavior seen in use (2026-11)
+
+The [[ga4gh_wes_tes]] project drove WES on v26.1.2 with real IWC workflows through about 60 runs. Its findings, with evidence in that project's `PULSAR_TES_IMPROVEMENTS.md`, `WES_TES_VS_GALAXY_APIS.md` and the demo repository they describe:
+
+- URL and CWL-style `File`/`Collection` inputs in `workflow_params` work, though no test covers them. Galaxy materializes them before scheduling, without a job, so an IWC test file's `job:` block works almost unchanged. The dev guide's "inputs must be pre-staged" is wrong.
+- The submit body must be form data; a JSON body fails.
+- A run reports `COMPLETE` even when its jobs failed or are paused, and when a tool silently lost its discovered outputs.
+- Collection outputs have no elements and no DRS URIs. Every short-read QC run needed 5 calls to Galaxy's own API (6 for a larger workflow) to fetch its outputs.
+- DRS URIs name an unresolvable `drs.<host>`. Each object returns `202` with a 60 s `Retry-After` on first access even with Celery running (202 forever without Celery), and objects are served only for public datasets.
+- Bugs: `use_cached_job` as a JSON boolean gives 500; run-scoped endpoints give 500 instead of 401/403 without credentials; cancel turns a COMPLETE run into CANCELED; a rejected submission leaves a workflow and history behind; omitted optional parameters come back as `{"__class__": "NoReplacement"}`. Fix branches on the `jmchilton` fork, without PRs: `wes_api_fixes_26_0` (these five) and `wes_run_state_executor_error_26_0` (EXECUTOR_ERROR for completed runs with failed or paused jobs; waiting on a decision, because Galaxy's docs say a failed job doesn't fail a run).
+- No third-party WES client submits to Galaxy unmodified (tested 2026-11-15): GA4GH `wes-client` 5.0 refuses `.ga`/`.yml` files and drops its auth header on submit; the Dockstore CLI 1.18 sends `workflow_type=gxformat2` (400) and can't parse Galaxy's service-info; sapporo-web and the ELIXIR Cloud WES components can't get past CORS, which is off by default (`allowed_origin_hostnames` fixes it). With small client-side workarounds all four completed a run, including a Dockstore TRS launch of an IWC workflow. Galaxy's responses break the WES 1.1.0 schema 455 times in 38 of 67 responses, mostly optional fields sent as `null` (`request`, `run_log`, `cmd`), which crashed two of the clients.
+- On the same Galaxy and job runner, the native invocation API returned a workflow's outputs in 44–57 s with 9 HTTP calls; WES took 290–322 s and 21 calls, 240 s of it in DRS waits.
 
 ## Tests
 
-- `lib/galaxy_test/api/test_wes.py` (new, +929) — 27 test functions: service-info, run submission via URL / attachment / `gxworkflow://`, status, cancel, list, task listing + detail, pagination.
+- `lib/galaxy_test/api/test_wes.py` (new, +929) — 27 test functions at merge, 29 on `origin/dev` (32 cases): service-info, run submission via URL / attachment / `gxworkflow://`, status, cancel, list, task listing + detail, pagination. Not covered: URL or CWL-style inputs, `use_cached_job`, `preferred_object_store_id`, anonymous run reads, DRS resolution. `test_wes_get_run_outputs_drs_uris` asserts nothing in practice: it checks string outputs, but outputs are dicts.
 - `test/unit/model/test_keyset_token_pagination.py` (new, +92) — unit coverage for the pagination helper; unchanged since PR.
 - `lib/galaxy_test/base/populators.py` (+5/-2) — adds `new_dataset_from_test_data(...)` (refactors `new_bam_dataset` onto it) and widens `wait_for_invocation_and_jobs` `workflow_id` to `Optional[str]`.
 - `lib/galaxy_test/api/test_workflows.py` (+11/-5) — hoists `_show_workflow` to `BaseWorkflowsApiTestCase` and adds a `_latest_instance_id(...)` helper.
@@ -120,9 +138,9 @@ WES is Galaxy's second GA4GH surface; the first is the partial TRS implementatio
 
 ## Unresolved Questions
 
-- No WES `COMPLETE` mapping — a finished Galaxy invocation reports `RUNNING`. Is the state contract intentional, or is terminal/job-failure mapping deferred? Load-bearing for any client polling for completion.
-- `service-info` ships `auth_instructions_url` hardcoded to `"TODO"`.
+- Resolved: the missing `COMPLETE` mapping was fixed in `685437ec66c` (v26.0.2). Still open: `COMPLETE` covers runs whose jobs failed or are paused, so a client must check task exit codes or output states. Whether WES should report `EXECUTOR_ERROR` for those is the open decision on `wes_run_state_executor_error_26_0`.
+- `service-info` still ships `auth_instructions_url` hardcoded to `"TODO"` (v26.1.2, `services/wes.py:374`).
 - `_get_or_create_history` falls back to treating a decode failure as an already-decoded raw id — does this let a caller bypass id encoding?
-- Output asymmetry — HDA outputs get DRS URIs, but collection (HDCA) outputs get only id-encoded ids. Intentional?
-- Anonymous handling was inconsistent at merge (`submit_run` rejected anon, `list_runs` did not until #22347). Are `get_run` / `_get_invocation` (which read `trans.user.id`) anon-safe?
+- Output asymmetry — HDA outputs get DRS URIs, but collection (HDCA) outputs get only id-encoded ids. Still true on v26.1.2; in practice it forces clients back onto the native API for collection outputs.
+- Answered: `get_run` and the other run-scoped endpoints are not anonymous-safe. They return 500 without credentials on v26.1.2; `wes_api_fixes_26_0` makes them 401/403.
 - `gen.sh` has no post-gen patching; regenerating against the upstream WES `develop` branch could silently change the shipped models.
