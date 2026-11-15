@@ -33,17 +33,25 @@ export function parseProfiles(data: unknown): Profile[] {
 	});
 }
 
+const FLAGS: Record<AgentKind, { model: string; effort: string; also: string[] }> = {
+	claude: { model: "--model", effort: "--effort", also: [] },
+	codex: { model: "-m", effort: "-c", also: ["--model"] },
+};
+
 /** Command-line arguments for the agent. */
 export function profileArgs(profile: Profile): string[] {
+	const flags = FLAGS[profile.agent];
 	const args: string[] = [];
-	if (profile.agent === "claude") {
-		if (profile.model) args.push("--model", profile.model);
-		if (profile.effort) args.push("--effort", profile.effort);
-	} else {
-		if (profile.model) args.push("-m", profile.model);
-		if (profile.effort) args.push("-c", `model_reasoning_effort="${profile.effort}"`);
-	}
+	if (profile.model) args.push(flags.model, profile.model);
+	if (profile.effort) args.push(flags.effort, profile.agent === "claude" ? profile.effort : `model_reasoning_effort="${profile.effort}"`);
 	return [...args, ...profile.args];
+}
+
+/** The model and effort flag pairs in a running agent's argv (program first), so a fork keeps them. */
+export function profileFlags(agent: AgentKind, argv: string[]): string[] {
+	const { model, effort, also } = FLAGS[agent];
+	const known = new Set([model, effort, ...also]);
+	return argv.slice(1).flatMap((arg, i, rest) => (known.has(arg) && i + 1 < rest.length && !known.has(rest[i - 1] ?? "") ? [arg, rest[i + 1]!] : []));
 }
 
 export function defaultProfile(profiles: Profile[], launcher: Launcher): Profile {

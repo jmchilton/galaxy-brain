@@ -1,5 +1,5 @@
 // `app` requests, for the Herdr app's mods only, not Chrome: note edits, the findings panel, environments and auto actions, which keep the YAML
-// parser out of the app's one script heap, repository listings, and the error log.
+// parser out of the app's one script heap, repository listings, the error log, and forking an agent's session.
 
 import { readFileSync, existsSync } from "node:fs";
 import { join } from "node:path";
@@ -11,6 +11,8 @@ import { type AutoActionChange, autoActionsPanel, DISPATCH_CONFIG_PATH, editAuto
 import { type ErrorLogDeps, logRenderFailure, logStatusErrors } from "./error-log";
 import { findingsCheck, findingsCommit, findingsEdit, findingsPanel } from "./findings-host";
 import type { FindingsEdit } from "./findings-types";
+import { fork, newIds, sleepSync } from "./fork";
+import { spawnRun } from "./host-run";
 import { agentDirs } from "./native-host";
 import { recordIndex, repositoryPage } from "./repository-host";
 import type { RepositoryPageRequest } from "./repository-types";
@@ -42,7 +44,9 @@ export type AppRequest =
 	/** Answers the new panel, or false when the action is gone. */
 	| ({ type: "setAutoAction" } & AutoActionChange)
 	| { type: "logRenderFailure"; mod: string; message: string }
-	| { type: "logStatusErrors" };
+	| { type: "logStatusErrors" }
+	/** An hc terminal address, e.g. t7 or box/t7. */
+	| { type: "fork"; terminal: string };
 
 export interface AppHostDeps extends ErrorLogDeps {
 	vaultRoot: string;
@@ -106,6 +110,8 @@ export function appRequest(request: AppRequest, deps: AppHostDeps): unknown {
 			return logRenderFailure(deps, request.mod, request.message);
 		case "logStatusErrors":
 			return logStatusErrors(deps);
+		case "fork":
+			return fork({ run: deps.run, query: spawnRun, ids: newIds, sleep: sleepSync }, request.terminal);
 		default:
 			throw new Error(`unknown app request: ${JSON.stringify(request)}`);
 	}

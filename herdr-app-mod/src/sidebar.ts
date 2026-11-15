@@ -13,7 +13,12 @@ export interface SidebarPane {
 	/** The terminal's launch name (`hc run --name`). */
 	name: string | null;
 	machine: string | null;
+	/** Its gb.session label (hc_session_label.sh). */
+	session: string | null;
 }
+
+/** Gets a ⑂ fork button: an agent with a session that isn't mid-turn. */
+export const canFork = (p: SidebarPane): boolean => p.program.agent && Boolean(p.session) && p.status !== "working";
 
 export interface SidebarGroup {
 	id: string;

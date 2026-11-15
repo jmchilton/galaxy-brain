@@ -4,7 +4,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { describe, expect, it } from "vitest";
 import { parse } from "yaml";
-import { defaultEnvironment, LOCAL_ENVIRONMENT, launchArgv, parseEnvironments } from "./environments";
+import { CLEAN_ENV, defaultEnvironment, LOCAL_ENVIRONMENT, launchArgv, parseEnvironments } from "./environments";
 
 const SCRIPT = "agents/_shared/scripts/launch_agent.sh";
 
@@ -129,7 +129,7 @@ describe("launch_agent.sh", () => {
 		expect(space).toMatch(/^sp[0-9a-f]{32}$/);
 		expect(tab).toMatch(/^tb[0-9a-f]{32}$/);
 		expect(run).toEqual(["hc", "run", "--bg", "--json", "--no-parent", "--name", "br-note-2", "--label", `herdr.space=${space}`, "--label", `herdr.tab=${tab}`,
-			"--cwd", "<root>/agents/gx_branches", "--", "claude", "--model", "opus", prompt]);
+			"--cwd", "<root>/agents/gx_branches", "--", "sh", "-c", CLEAN_ENV, "sh", "claude", "--model", "opus", prompt]);
 		expect(calls).toContainEqual(["herdr-app", "do", "space.rename", "--id", space, "--name", "gx_branches"]);
 		expect(calls).toContainEqual(["herdr-app", "do", "tab.rename", "--id", tab, "--name", "br-note-2"]);
 		expect(stdout).toContain("terminal t7");
@@ -137,7 +137,7 @@ describe("launch_agent.sh", () => {
 
 	it("app: passes no prompt argument for an empty prompt", () => {
 		const run = hcRun(launch("app", ["gx_branches", "codex", "x", ""]).calls);
-		expect(run.slice(run.indexOf("--"))).toEqual(["--", "codex"]);
+		expect(run.slice(run.indexOf("--"))).toEqual(["--", "sh", "-c", CLEAN_ENV, "sh", "codex", "--no-daemon"]);
 	});
 
 	it("app: still launches, unnamed, without herdr-app", () => {

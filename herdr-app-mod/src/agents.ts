@@ -13,7 +13,7 @@ import type { AutoActionChange, AutoActionsPanel } from "../../herdr-plugin/src/
 import { machineOf } from "./context";
 import { appHost, host, knownEnvironments, logRenderFailures, refreshEnvironments } from "./host";
 import { openRepositoryTab } from "./record-tab";
-import { closePageCommand, groupPanes, machineIcon, OTHER, type PagePane, pagePanes, RANK, rowText, type SidebarPane } from "./sidebar";
+import { canFork, closePageCommand, groupPanes, machineIcon, OTHER, type PagePane, pagePanes, RANK, rowText, type SidebarPane } from "./sidebar";
 
 const MOD = "gb-agents";
 const ERROR_POLL_MS = 60_000;
@@ -43,6 +43,18 @@ async function newAgent(dir: string, profile?: string, environment?: string, rou
 		await host({ type: "newAgent", dir, ...(profile ? { profile } : {}), ...(environment ? { environment } : {}), ...(routine ? { name: routine.name, prompt: routine.task.prompt } : {}) });
 	} catch (error) {
 		notify({ title: `${label} not started`, body: error instanceof Error ? error.message : String(error), level: "error" });
+	}
+}
+
+/** Forks the agent's session into a new tab of its space (herdr-plugin/src/fork.ts); a toast says how it went. */
+async function forkAgent(r: SidebarPane): Promise<void> {
+	const label = rowText(r).name;
+	notify({ title: `Forking ${label}`, level: "info", timeout: 3000 });
+	try {
+		const { message } = await appHost({ type: "fork", terminal: r.terminal });
+		notify({ title: `Forked ${label}`, body: message, level: "info", timeout: 5000 });
+	} catch (error) {
+		notify({ title: `${label} not forked`, body: error instanceof Error ? error.message : String(error), level: "error" });
 	}
 }
 
@@ -167,11 +179,14 @@ export default class GbAgents extends View {
 		if (props()?.view === "auto") return this.renderAuto(t);
 		if (props()?.view === "header") return this.renderHeader(t);
 		const compact = narrow();
-		const names = new Map<string, string | null>(terminals().map((one: any) => [one.address, one.name ?? null]));
+		const byAddress = new Map<string, any>(terminals().map((one: any) => [one.address, one]));
 		const allSpaces = spaces();
 		const shown = focused()?.pane;
 		const groups = groupPanes(
-			panes().map((p: any) => ({ ...p, title: p.title ?? "", name: p.terminal ? (names.get(p.terminal) ?? null) : null, machine: machineOf(p.tab, allSpaces) })),
+			panes().map((p: any) => {
+				const core = p.terminal ? byAddress.get(p.terminal) : undefined;
+				return { ...p, title: p.title ?? "", name: core?.name ?? null, machine: machineOf(p.tab, allSpaces), session: core?.labels?.["gb.session"] ?? null };
+			}),
 		);
 		setAgentOrder(groups.flatMap((g) => g.rows.filter((r) => r.program.agent).map((r) => r.terminal)));
 		const pages = pagePanes(panes(), allSpaces.flatMap((space: any) => space.tabs));
@@ -329,6 +344,7 @@ export default class GbAgents extends View {
 					.child(div().min_w(0).max_w(detail ? 120 : 200).truncate().text_color(idle ? t.muted : t.foreground).child(name))
 					.when(Boolean(detail), (el: El) => el.child(div().flex_1().min_w(0).truncate().text_color(t.dim).child(`· ${detail}`))),
 			)
+			.when(canFork(r), (el: El) => el.child(smallButton(t, `gb-ag-fork-${r.pane}`, "⑂", "Fork this session into a new tab", () => void forkAgent(r))))
 			.child(statusMark(t, r.status));
 	}
 

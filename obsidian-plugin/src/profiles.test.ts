@@ -2,7 +2,7 @@ import { readFileSync } from "node:fs";
 import { describe, expect, it } from "vitest";
 import { parse } from "yaml";
 import { parseLaunchers } from "./launchers";
-import { defaultProfile, parseProfiles, profileArgs } from "./profiles";
+import { defaultProfile, parseProfiles, profileArgs, profileFlags } from "./profiles";
 
 describe("parseProfiles", () => {
 	it("reads profiles, skipping unnamed or unknown agents", () => {
@@ -47,6 +47,23 @@ describe("profileArgs", () => {
 			"-m", "gpt", "-c", 'model_reasoning_effort="high"',
 		]);
 		expect(profileArgs({ name: "c", agent: "claude", args: [] })).toEqual([]);
+	});
+});
+
+describe("profileFlags", () => {
+	it("picks back the model and effort flags profileArgs writes", () => {
+		for (const profile of [
+			{ name: "a", agent: "claude" as const, model: "opus", effort: "max", args: [] },
+			{ name: "b", agent: "codex" as const, model: "gpt", effort: "high", args: [] },
+		]) {
+			expect(profileFlags(profile.agent, ["/bin/x", ...profileArgs(profile), "the prompt"])).toEqual(profileArgs(profile));
+		}
+	});
+
+	it("leaves out resume ids, other flags and prompts", () => {
+		expect(profileFlags("claude", ["claude", "--resume", "d5c3", "--model", "opus", "--verbose", "go"])).toEqual(["--model", "opus"]);
+		expect(profileFlags("codex", ["codex", "--no-daemon", "--model", "gpt", "-c", "x=1", "go"])).toEqual(["--model", "gpt", "-c", "x=1"]);
+		expect(profileFlags("claude", ["claude", "--model"])).toEqual([]);
 	});
 });
 

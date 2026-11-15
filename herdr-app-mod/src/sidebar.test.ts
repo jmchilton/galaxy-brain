@@ -1,11 +1,11 @@
 import { describe, expect, it } from "vitest";
-import { closePageCommand, groupPanes, machineIcon, pagePanes, rowText, type SidebarPane } from "./sidebar";
+import { canFork, closePageCommand, groupPanes, machineIcon, pagePanes, rowText, type SidebarPane } from "./sidebar";
 
 const CLAUDE = { key: "claude", name: "Claude Code", agent: true };
 const ZSH = { key: "shell", name: "zsh", agent: false };
 
 function pane(over: Partial<SidebarPane>): SidebarPane {
-	return { pane: "p", terminal: "t1", cwd: "/v/agents/factory", status: "idle", title: "", program: CLAUDE, name: null, machine: null, ...over };
+	return { pane: "p", terminal: "t1", cwd: "/v/agents/factory", status: "idle", title: "", program: CLAUDE, name: null, machine: null, session: null, ...over };
 }
 
 describe("groupPanes", () => {
@@ -147,5 +147,15 @@ describe("machineIcon", () => {
 		expect(machineIcon("bare", environments)).toBeNull();
 		expect(machineIcon("elsewhere", environments)).toBeNull();
 		expect(machineIcon(null, [])).toBeNull();
+	});
+});
+
+describe("canFork", () => {
+	it("is an agent with a session label that isn't working", () => {
+		expect(canFork(pane({ session: "s1", status: "done" }))).toBe(true);
+		expect(canFork(pane({ session: "s1", status: "blocked" }))).toBe(true);
+		expect(canFork(pane({ session: "s1", status: "working" }))).toBe(false);
+		expect(canFork(pane({ session: null }))).toBe(false);
+		expect(canFork(pane({ session: "s1", program: ZSH }))).toBe(false);
 	});
 });

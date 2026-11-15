@@ -13,6 +13,9 @@ export interface Environment {
 export const LOCAL_ENVIRONMENT: Environment = { name: "Local" };
 
 const LAUNCH_SCRIPT = "agents/_shared/scripts/launch_agent.sh";
+
+/** `sh -c` script hc-run agents start through: drops CLAUDE_* (an hc core started from a Claude shell passes them on), then execs its args. launch_agent.sh holds the same string. */
+export const CLEAN_ENV = 'for v in $(env | sed -n "s/^\\(CLAUDE[A-Za-z0-9_]*\\)=.*/\\1/p"); do unset "$v"; done; exec "$@"';
 const SAFE_HOST = /^[A-Za-z0-9_.@][A-Za-z0-9_.@-]*$/;
 
 /** Environments from the parsed YAML; unnamed entries and hosts without a safe name or absolute vault are skipped. */

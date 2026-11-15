@@ -81,14 +81,32 @@ def test_require_checks_the_hosts_vault_after_its_pull(tmp_path):
     assert args[args.index("--on") + 1] == "box"
 
 
+def agent_command(args):
+    """The command after `--`, past the env-cleaning `sh -c` prefix."""
+    command = args[args.index("--") + 1 :]
+    assert command[:2] == ["sh", "-c"] and command[3] == "sh", command
+    return command[2], command[4:]
+
+
 def test_codex_skips_the_shared_daemon(tmp_path):
     """The daemon's env would point hooks at whichever terminal started it."""
     result, args = run_launch(tmp_path, "x", kind="codex")
     assert result.returncode == 0, result.stderr
-    assert args[args.index("--") + 1 :] == ["codex", "--no-daemon", "x"]
+    assert agent_command(args)[1] == ["codex", "--no-daemon", "x"]
 
 
 def test_claude_gets_no_daemon_flag(tmp_path):
     result, args = run_launch(tmp_path, "x")
     assert result.returncode == 0, result.stderr
-    assert args[args.index("--") + 1 :] == ["claude", "x"]
+    assert agent_command(args)[1] == ["claude", "x"]
+
+
+def test_agents_start_without_claude_session_env(tmp_path):
+    """An hc core started from a Claude shell would turn off launched Claude's transcripts."""
+    result, args = run_launch(tmp_path, "x")
+    assert result.returncode == 0, result.stderr
+    script, _ = agent_command(args)
+    env = {**os.environ, "CLAUDE_CODE_CHILD_SESSION": "1", "CLAUDECODE": "1", "CLAUDE_EFFORT": "max", "KEEP_ME": "yes"}
+    out = subprocess.run(["sh", "-c", script, "sh", "env"], env=env, capture_output=True, text=True, check=True).stdout
+    assert "KEEP_ME=yes" in out
+    assert [line for line in out.splitlines() if line.startswith("CLAUDE")] == []
