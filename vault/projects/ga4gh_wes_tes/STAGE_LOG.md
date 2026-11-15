@@ -222,3 +222,122 @@ To restart:
 - the probe instances, as in `runs/tesp-probes/tes-level/README.md`.
 
 Security: private notes exist outside the repositories, as the brief requires. The evidence was scanned for `.env.local` values, broker URLs and unredacted base64; none were found.
+
+## Stage 5: build design A+C, Galaxy WES → tesp-api (2026-11-14/15)
+
+Output: the demo repository `~/projects/repositories/galaxy-wes-tes` (`main` at `6d8c94e` for the primary goal). Start with `docs/tesp-api.md`. Nested subagents (Opus, effort high) did the tesp-api branch, the Pulsar fix, the Galaxy branch, the demo checks, the acceptance runs and the docs. The coordinator checked their results:
+
+- reran tesp-api's unit suite on the head (856 passed, 1 skipped);
+- checked that `git am` of the exported patches onto fork `c3a9f237` gives a tree identical to the head;
+- spot-checked the fail-before evidence;
+- confirmed the pushes with `git ls-remote`;
+- checked the acceptance evidence files.
+
+What was built:
+
+- **tesp-api, local branch `galaxy-wes-tes`** (`4bc9b5d927f8`, 15 commits on fork main `c3a9f237`, worktree `vendor/tesp-api-stage5`). The patches and a per-patch README are in `patches/tesp-api/`. Each change has unit tests in tesp-api's suite that fail without it (`runs/tesp-stage5/unit/`). The suite went from 694 to 856 passing tests.
+  - T1: `--rm --label=tesp-api.task=<id>` on every task container, and a cleanup Pulsar job that removes containers and `vol-<id>-*` on every final state.
+  - T2: cancel acts at once, through a `cancel_task` event.
+  - T3: the job script is uploaded as `tesp_job.sh`, and the job is submitted with `command_line=sh <path>`.
+  - T4: restart recovery, cherry-picked from fork `#52`.
+  - T5: redaction of `job_key`, URL passwords and long base64 in stored logs.
+  - T6: 401 without credentials.
+  - T7: one ExecutorLog per executor (fork #64, #66, #67).
+  - **Plan change: watchdog.** The cleanup job queued behind busy Pulsar slots, and a cancelled container ran 100 s more. A double-forked `setsid` watchdog in the job script now survives Pulsar's SIGKILL and cleans up within about 3 s. The cleanup job stays as the backstop.
+  - **Plan change: base64 rule.** Redaction applies only to base64 runs that mix upper case, lower case and digits, so sequence data and hex in task output survive.
+  - **Upstream.** The series does not apply to CESNET upstream `3d470f76`. Only the 401 patch does; the fork is about 4,600 lines ahead.
+- **Pulsar `queued_manager_monitor_kwarg`** (`b476ccd3dfa8`, on master `08dedcb`, pushed to jmchilton). It fixes `montior`, so `queued_python` honours `num_concurrent_jobs` again; `_start_monitor` now takes `monitor` as keyword-only.
+  - Test `test_num_concurrent_jobs_limits_running_jobs` fails before and passes after.
+  - The demo builds the outer Pulsar from a selectable source (`TESP_PULSAR_SOURCE`, pinned deps in `config/tesp/pulsar-constraints.txt`). The default is now this branch, image `wes-tes/tesp-pulsar-rest:git-b476ccd3dfa8-docker29.1.3`.
+  - Evidence: 4 tasks ran at once on PyPI 0.16.0, 2 at a time with the branch (`runs/tesp-stage5/pulsar-concurrency/`).
+  - Record: `vault/repositories/pulsar/branches/active/queued_manager_monitor_kwarg/`, in `branches_implemented_needs_ci`.
+- **Galaxy `tes_task_state_polling_unreachable`** (`f71ca18704d`, child of `tes_task_state_polling` `e3c0cc44649`, pushed).
+  - New runner option `tes_unreachable_timeout`, default 3600 s. Connection errors, timeouts or 5xx for that long fail the job with a clear `job.info`.
+  - tesp-api's single whole-task log is no longer pinned on "Executor 0 (pulsar-submit)". A Funnel or TESK staging failure at executor 0 now reads "The task exited with code N"; that was decided and is recorded in the debrief.
+  - Tests: 46 pass in `test_pulsar_tes_task_checks.py`; 7 failed and 7 errored before the change.
+  - Demo ports: `tes_task_polling_v26.1.2` `a1b53d59234` and `wes_tes_demo_fixes_v26.1.2` `3585089e925`.
+  - Record: `vault/repositories/galaxy/branches/active/tes_task_state_polling_unreachable/`, in `branches_implemented_needs_ci`. Fork CI was green so far with jobs pending. One Converter-tests red (biocontainer pull, unrelated; the parent is green) was rerun.
+- **Demo.** Commits from `93edb4c` through `6d8c94e`:
+  - `scripts/tesp/run_checks.py` gives per-task proof (TES COMPLETE plus outer Pulsar return code 0), checks for leftover labelled containers, `vol-*` volumes and Pulsar job dirs, scans stored logs for secrets, and checks the longest `command_line=` (200 B limit). It is wired into `make run` and `run-gap.sh`.
+  - `scripts/tesp/acceptance-checks.sh [--cancel] [--dies-early] [--restart]` and `TESP_RESTART_DURING=fastp`.
+  - The outer Pulsar now writes an access log (`pulsar-serve --log-file -`). `make clean` handles tesp instances.
+  - `TESP_REF=stage5` and `TESP_MAX_POLL_INTERVAL=10` are the defaults.
+  - Docs: `docs/tesp-api.md`, plus README, troubleshooting, networking and evidence updates.
+
+Acceptance: every item of plan section 5, plus the G1 live check, passed on 2026-11-15, 00:01–00:33 UTC. The evidence is in `runs/tesp-acceptance/2026-11-15/` (demo commit `1ba1a08`), and the results table is in `docs/tesp-api.md#results`. The pins were tesp-api `4bc9b5d`, outer Pulsar `b476ccd`, staging image `0.16.1.dev0-20b6460`, and Galaxy `3585089e925` (stock v26.1.2 for item 9).
+
+1. IWC short-read QC through WES: PASS (`run ad36e27b8881ad5b`). Both jobs map to tesp-api tasks that are COMPLETE with outer Pulsar return code 0. No leftovers, a clean secret scan, and a largest `command_line=` of 120 B.
+2. IWC hyphy-preprocessing: PASS. 12 jobs, 12 tasks with return code 0. The 39-input job's 100 KB script went as a file.
+3. Outputs: the IWC assertions pass in all four workflow runs. fastp outputs are byte-identical to Funnel (`4778fab9…`).
+4. Cancel: WES CANCELED 1.1 s after the cancel, Galaxy `deleted`, TES CANCELED, the outer Pulsar job cancelled, containers gone at 1.4 s, no volume, and `pulsar-finish` never ran.
+5. Dies early: Galaxy `error` 42.5 s after the task's EXECUTOR_ERROR, with the exit code and docker's "pull access denied" in the reason.
+6. Nothing left behind, after every run and in a final sweep: no labelled containers, no `vol-*` volumes, an empty staging dir, and all 66 tasks in a final state.
+7. `docker restart wes-tes-tesp-api` during fastp: the run passed and every task was COMPLETE.
+8. tesp-api stopped for 152 s with `tes_unreachable_timeout: 60`: the job was `error` 61.9 s after the stop, with the documented `job.info`. After the restart, tesp-api resumed the task, which ran to COMPLETE and was cleaned up.
+9. Item 1 on stock Galaxy v26.1.2: PASS.
+
+Doesn't work, or open:
+
+- **What the acceptance runs showed:**
+  - Galaxy tries the cancel of an unreachable task once and never retries it. So after G1 fails a job, the task runs on once tesp-api is back. Its `pulsar-finish` got 403 on every upload but still published `complete`; Galaxy kept the job in `error`.
+  - tesp-api erases a cancelled task twice (cancel handler and poll loop). It is harmless.
+  - Hyphy outputs differ byte-wise between runs on every backend (sequence choice), but the assertions pass.
+- **Not done, as planned:** Singularity with local images, AMQP mode, TES 1.1 fields, HTTP input redirects, wildcard outputs, P2 (launch message compression).
+- **Still in place:**
+  - the ~100-input `MAX_ARG_STRLEN` ceiling;
+  - credentials in executor arguments, in Galaxy's base64 launch message, which the secret scan reports as "not judged";
+  - the `List[Path]` argument rewriting.
+
+  These are for John (plan section 9).
+- **The `stage5` pin is a local-only commit.** On another machine use `TESP_REF=galaxy-wes-tes` after applying the patches (`docs/tesp-api.md` P1).
+- **`SUMMARY.md` not written.** The harness refused to let subagents write `runs/tesp-acceptance/2026-11-15/SUMMARY.md`, so the results table lives in `docs/tesp-api.md` and the per-item evidence directories instead.
+
+Services: everything stopped after acceptance (`make status` all stopped, no `wes-tes-*` containers, `var/tes-backend` = `funnel`; the `wes-tes-tesp-mongo` volume is kept). To restart, run `make up TES=tesp && make run` (the stage 5 tesp-api and outer Pulsar are the defaults), `scripts/tesp/acceptance-checks.sh --cancel --dies-early --restart`, or the commands in `docs/tesp-api.md`. The Galaxy fixes worktree is detached at `3585089e925`; use it with `GALAXY_ROOT_OVERRIDE=~/projects/worktrees/galaxy/branch/wes_tes_demo_fixes_v26.1.2`.
+
+Security: private notes exist outside the repositories, as the brief requires. Nothing sensitive is in the demo repository or the vault. Every saved acceptance file was scanned, and the `job_key` values in the Galaxy log excerpt are redacted.
+
+### Stage 5 stretch: design B prototype (TES-native staging)
+
+The prototype ran after the primary goal was committed. It works: IWC short-read QC passed through Galaxy WES on Funnel 0.12.3 and on tesp-api `4bc9b5d`, with no Pulsar, broker or staging image in the task. Evidence is in `runs/design-b/` and its `README.md` (demo commits `040fb43` and `3191a48`).
+
+- **Design chosen: B2, Galaxy's own absolute paths in the task** (Kubernetes-runner style), not the stage 4 sketch's Pulsar `/job` layout.
+  - `outputs_to_working_directory: true` keeps every write in the job directory, which is the task's one TES volume.
+  - The runner lists the inputs itself: datasets with their metadata and extra files, job-directory files, and the tool-directory files the job's text names.
+  - One executor runs Galaxy's unchanged job script in the biocontainer, through an inline wrapper. The wrapper precreates the outputs Galaxy precreated, records the exit code in a file, and exits 0.
+  - Galaxy polls TES (reusing `tes_task.py`), then sets metadata locally and finishes the job.
+  - No Pulsar or tesp-api change was needed. B1 would have added a Pulsar `TesNativeClient`, results collection and status synthesis, for no gain beyond path independence.
+- **Galaxy branch `tes_native_staging_v26.1.2`** (`f33e416aa22`, on `tes_task_polling_v26.1.2` `a1b53d59234`, pushed to jmchilton):
+  - `40c052c35d4` adds a raw-body `PUT /api/jobs/{id}/files?path=&job_key=`, for Funnel's uploads.
+  - `f33e416aa22` adds `galaxy.jobs.runners.tes:TesJobRunner`.
+  - Size: +912/−49, of which tests are +310 (8 unit tests, plus 2 integration tests against a real Galaxy test server).
+  - Record: `vault/repositories/galaxy/branches/active/tes_native_staging_v26.1.2/`, in `branches_need_decision` as a prototype for John.
+  - No Pulsar branch was needed.
+- **Results.** Every task was COMPLETE with one executor, and every IWC assertion passed.
+  - Funnel: `704dbb6b` (2 cores) and `bf37eedf` (1 core).
+  - tesp-api: `aec259dd` (2 cores) and `8f3d143a` (1 core).
+  - At 1 core, fastp outputs are byte-identical to the Funnel reference (`4778fab9…`). At 2 cores fastp's gzip bytes differ but the reads are identical, which also shows that design A runs every job at 1 slot.
+  - The first Funnel attempt failed silently: fastp went `ok` with empty reports, because Galaxy copies `from_work_dir` files only into outputs that already exist. Precreating the outputs fixed it, and a unit test covers it.
+- **Cost against design A:**
+  - Task JSON: 10.6 KB for fastp and 9.2 KB for MultiQC, against 17.5 KB and 16.6 KB.
+  - No argv ceiling.
+  - Queued to ok on Funnel: fastp 13 s against 22 s, MultiQC 18 s against 27 s. On tesp-api: fastp 19–20 s against 23 s, MultiQC 20 s against 28 s.
+  - Demo changes: +166/−23 in scripts and config. `make up TES=funnel|tesp TES_MODE=native` selects it.
+- **Not done or open:**
+  - TESK was not run.
+  - Cancel and recovery after a Galaxy restart are implemented but untested.
+  - The job key is in every task URL, readable in TES logs and storage. Signed per-file URLs would fix that.
+  - Discovered outputs and `extra_files` would need DIRECTORY outputs plus a path-style PUT, which tesp-api can't do today.
+  - The prototype is on v26.1.2 and would need a port to dev's `JobFilesManager`.
+  - The v26.1.2 bug (a missing input gives 200 with an empty body) remains.
+
+Services: stopped (`make status` all stopped, no task containers or `vol-*`; `var/tes-backend` = `funnel`, `var/tes-mode` = `pulsar`). Rerun with `make up TES=funnel TES_MODE=native && make run` (or `TES=tesp`). For byte-identical fastp, restart Galaxy with `TES_NATIVE_CPU_CORES=1`.
+
+**For the next stage** (documenting and hardening this line in its own vault project):
+
+1. Decide whether to propose the tesp-api patches, and to whom: the mirelaminkova fork, which they apply to, or CESNET upstream, which they don't.
+2. Move the `stage5` pin off a local-only commit.
+3. Get Galaxy to retry a failed cancel after an unreachable timeout.
+4. Fix tesp-api erasing a cancelled task twice.
+5. Choose between design A's credential and argv exposure (Pulsar compression or fetch-by-key) and design B. B needs a dev port, signed URLs, DIRECTORY outputs for discovered datasets, TESK, and cancel tests.
+6. Turn the demo's checks into CI-style regression tests.
+7. Settle the WES state question (`wes_run_state_executor_error_26_0`).

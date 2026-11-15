@@ -4,6 +4,7 @@ child_branches: tes_task_state_polling_unreachable
 related_records:
   - pulsar/branches/coexecution_publish_running
   - pulsar/branches/coexecution_stage_failures
+  - galaxy/branches/tes_native_staging_v26.1.2
 ---
 # Fail Pulsar TES jobs whose task dies before Pulsar reports
 
