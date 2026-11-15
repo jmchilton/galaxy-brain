@@ -1,6 +1,8 @@
 ---
 upstream_base_branch: dev
-related_records: galaxy/branches/tes_task_state_polling
+related_records:
+  - galaxy/branches/tes_task_state_polling
+  - galaxy/branches/tes_native_staging
 ---
 # TES-native job runner prototype (design B)
 
@@ -9,7 +11,7 @@ related_records: galaxy/branches/tes_task_state_polling
 
 ## Status
 
-Prototype at `5e889591314`, five commits on `tes_task_polling_v26.1.2` `a1b53d59234` (not rebased onto that branch's later commits), from stages 5 and 6 of the [GA4GH WES and TES project](../../../../../projects/ga4gh_wes_tes/index.md) and the [WES on tesp-api project](../../../../../projects/wes_tesp_api/index.md).
+Superseded on 2026-11-15 by its `release_26.2` port, [`tes_native_staging`](../tes_native_staging/index.md); kept unchanged for reference and for the v26.1.2 demo. Prototype at `5e889591314`, five commits on `tes_task_polling_v26.1.2` `a1b53d59234` (not rebased onto that branch's later commits), from stages 5 and 6 of the [GA4GH WES and TES project](../../../../../projects/ga4gh_wes_tes/index.md) and the [WES on tesp-api project](../../../../../projects/wes_tesp_api/index.md).
 
 No PR: a prototype for John to decide on, on v26.1.2, needing a port to `dev` (FastAPI `JobFilesManager`).
 

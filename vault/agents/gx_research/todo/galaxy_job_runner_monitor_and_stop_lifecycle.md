@@ -20,3 +20,4 @@ Leave out job preparation and submission, per-runner scheduling and cluster-spec
 ## Requested by
 
 - vault/repositories/galaxy/branches/active/tes_task_state_polling/brain_research.md: needed the watch, fail and stop contract (including the stop queue's rollback loop) and found no note for it.
+- vault/repositories/galaxy/branches/active/tes_native_staging/brain_research.md: the TES-native `TesJobRunner` is a non-Pulsar `AsynchronousJobRunner` subclass (own `check_watched_item`, `stop_job`, `recover`, `finish_job`); authoring and reviewing it needs the same contract, plus what a non-Pulsar runner must implement (`queue_job`, `build_command_line`, metadata handling at finish).
