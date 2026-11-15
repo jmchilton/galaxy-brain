@@ -1,5 +1,7 @@
 ---
 upstream_base_branch: master
+child_branches: clean_job_directory_retry
+related_records: pulsar/branches/clean_job_directory_retry
 ---
 # Make the queued_python manager honour num_concurrent_jobs
 

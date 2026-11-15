@@ -341,3 +341,63 @@ Services: stopped (`make status` all stopped, no task containers or `vol-*`; `va
 5. Choose between design A's credential and argv exposure (Pulsar compression or fetch-by-key) and design B. B needs a dev port, signed URLs, DIRECTORY outputs for discovered datasets, TESK, and cancel tests.
 6. Turn the demo's checks into CI-style regression tests.
 7. Settle the WES state question (`wes_run_state_executor_error_26_0`).
+
+## Stage 6: document and harden the tesp-api line (2026-11-15)
+
+Outputs: the new vault project [[wes_tesp_api]] (`vault/projects/wes_tesp_api/`), and the demo repository `~/projects/repositories/galaxy-wes-tes` (`main` at `7c09840`). Nested subagents (Opus, effort high) did one hardening item each, plus the docs. The coordinator ran them in two phases so that only one full stack ran at a time. It then checked their results:
+
+- confirmed every push with `git ls-remote`;
+- re-applied the tesp-api patch series in a separate clone, twice (16 and 17 patches), and got the pinned commit and tree each time;
+- read the fail-before outputs and the acceptance `result.json` files;
+- wrote `HARDENING.md` and the project `index.md`.
+
+The project's documents are `ARCHITECTURE_AND_CONFIGURATION.md`, `OPERATIONS.md`, `DESIGN_B.md`, `HARDENING.md` and `BUGS_AND_ENHANCEMENTS.md`. `index.md` is a validated `type: project` note, linked both ways with this project through `related_projects`.
+
+What was hardened. Evidence for each item is in `HARDENING.md`, and the paths below are in the demo repository.
+
+1. **Reproducible tesp-api source.** The default is now `TESP_REF=patched`. It applies `patches/tesp-api/*.patch` with `git am` onto fork `c3a9f237`, using a fixed committer and committer date = author date. The result is checked against a pinned tree. The commit is the same on every host: currently `c5ca66a2`, tree `c3cc3dad`, 17 patches. When `TESP_REPO` lacks the base, the fork is cloned from GitHub. `stage5` is gone. A fresh clone with `TESP_REPO=/nonexistent` passed TES probes (`runs/stage6/tesp-reproducible/`) and then the full acceptance matrix (item 5).
+2. **tesp-api double erase.** Patch 0016 records successful erases per process, so a cancelled task gets one cancel, one DELETE and one cleanup job. Tests went 856 → 869. The tesp acceptance run then found what the second erase had been hiding: a Pulsar race. A DELETE that comes 3–7 ms after a cancel can leave the job directory, because `clean()` runs one `rmtree` and ignores its error. This was 13 of 40 cancels. Two fixes, each sufficient alone, both took it to 0 of 40 (`runs/stage6/tesp-erase-race/`):
+   - tesp-api patch 0017 re-deletes until Pulsar reports `lost` (tests 873 passed);
+   - Pulsar `clean_job_directory_retry` `ffbe6987cd84` retries `rmtree`.
+3. **Galaxy retries a failed TES cancel.** `tes_task_state_polling_unreachable` `bd710f3b8da` adds the new runner option `tes_cancel_retry_timeout` (default 86400 s; 0 means try once). Tests went from 16 failed to 60 passed. Live on tesp-api, the orphaned task was CANCELED 37.9 s after tesp-api came back (Galaxy's 4th attempt), and no `pulsar-finish` ran. On Funnel the task was CANCELED too, but Funnel 0.12.3 left the container from before its restart running; that is a Funnel limitation.
+4. **SYSTEM_ERROR job info.** `025f1256ec3`: job info now reads "System log: <reason>" and never claims exit code 0. Tests went from 7 failed to 67 passed. On the recorded Funnel argv task it gives `fork/exec /usr/bin/docker: argument list too long`.
+5. **`make acceptance [TES=…] [TES_MODE=…] [SCENARIOS=…]`.** It runs `scripts/acceptance.sh` with the scenarios iwc-qc, iwc-hyphy, cancel, dies-early, tes-restart, unreachable and leftovers, and writes `runs/acceptance/<ts>-<backend>/result.json` plus `SUMMARY.txt`. Self-test: 38 unit tests. Results:
+   - Funnel `20261115T022857Z-funnel`: PASS (6 PASS, tes-restart SKIP).
+   - tesp-api from a fresh clone `20261115T030823Z-tesp`: 5 PASS; cancel and leftovers FAIL on the race in item 2, found by this run.
+   - tesp-api on the final pins (patch 0017, Galaxy `b317bc12545`), `20261115T045850Z-tesp`: iwc-qc, cancel, dies-early, unreachable with the cancel-retry hook, and leftovers all PASS.
+   - Design B (`TES_MODE=native`): TESK `20261115T041415Z-tesk-native` plus cancel rerun `20261115T043156Z-tesk-native`, all PASS; Funnel `20261115T043559Z-funnel-native`, all PASS; tesp-api `20261115T045338Z-tesp-native`, all PASS except iwc-hyphy (no DIRECTORY outputs there, expected).
+   - Demo bugs fixed along the way: the run watcher misread Funnel's `exitCode: 0` for running executors; `make up TES=tesp` failed on a clone where Funnel had never run; `run_checks.py` had a sampling race.
+6. **The argv ceiling.** The launch message is one argument, and Linux limits one argument to 131,071 bytes. That allows 98,301 JSON bytes. In the demo each input costs 877 bytes, so 108 inputs start and 109 don't, on tesp-api and on Funnel (TESK computed). Stock Galaxy leaves such a job `queued`. The fix is Pulsar `coexecution_compact_launch` `9036ff3`: messages over the limit go as `--base64_zlib`, and `pulsar-finish` gets only the job id. The ceiling is now 1,244 inputs. The demo port is `coexecution_compact_launch_0.15.15` `f826997`, with staging image `0.16.1.dev0-9036ff3`. In Galaxy-level runs a 110-input job failed on the stock client and passed on the fixed one; a 600-input job passed on tesp-api (`runs/stage6/argv/`).
+7. **Design B.** `tes_native_staging_v26.1.2` `f33e416aa22` → `5e889591314`:
+   - signed per-file `job_token` URLs, so the job key is no longer in the task;
+   - DIRECTORY outputs, which work on Funnel and TESK; tesp-api can't do them;
+   - cancel and recovery tests. Unit tests 54 → 83.
+   - Live: IWC QC, hyphy (a discovered collection through DIRECTORY outputs), cancel and dies-early all pass on TESK and Funnel. Stored tasks hold 0 `job_key` and 324 `job_token=`. On TESK, QC jobs take 87–89 s against 13–18 s on Funnel (filer pods).
+   - It stays in `branches_need_decision`.
+
+Branches and SHAs at the end of the stage:
+
+| Repo | Branch | Head | Note |
+| --- | --- | --- | --- |
+| galaxy | `tes_task_state_polling_unreachable` | `025f1256ec3` | on `tes_task_state_polling` `e3c0cc44649` |
+| galaxy | `tes_task_polling_v26.1.2` | `1f7cae33d5f` | demo port |
+| galaxy | `wes_tes_demo_fixes_v26.1.2` | `b317bc12545` | demo port; the demo worktree is detached here (earlier stage 6 runs used `8b3166c80fb`) |
+| galaxy | `tes_native_staging_v26.1.2` | `5e889591314` | design B prototype, needs decision |
+| pulsar | `coexecution_compact_launch` | `9036ff3` | on `coexecution_stage_out_failures` `20b6460` |
+| pulsar | `coexecution_compact_launch_0.15.15` | `f826997` | demo port for Galaxy 26.1 |
+| pulsar | `clean_job_directory_retry` | `ffbe6987cd84` | on `queued_manager_monitor_kwarg` `b476ccd` |
+| tesp-api | `galaxy-wes-tes` (local) | `d72420fd3ffe` | 17 patches; deterministic `patched` commit `c5ca66a2` |
+
+Doesn't work, or open:
+
+- Funnel 0.12.3 doesn't stop executors of a task from before a server restart, even once the task is CANCELED.
+- Pulsar treats a 403 on an output upload as allowed, so a late `pulsar-finish` publishes `complete`. That is for John.
+- pydantic-tes has no HTTP timeout, so a hung TES server blocks the thread that is cancelling.
+- tesp-api can't take DIRECTORY outputs, so design B can't carry discovered outputs there.
+- `GALAXY_SLOTS` is always 1 under the Pulsar TES runner (seen, not traced).
+- Credentials in design A's executor arguments are unchanged; design B removes them.
+- The decisions for John are in `BUGS_AND_ENHANCEMENTS.md`, "Needs John's decision".
+
+Services: everything stopped (`make status` all stopped, no `wes-tes-*` containers, no kind cluster); the `wes-tes-tesp-mongo` volume is kept. Restart with `GALAXY_ROOT_OVERRIDE=~/projects/worktrees/galaxy/branch/wes_tes_demo_fixes_v26.1.2 make acceptance TES=tesp` (it runs `make up` itself; add `ACCEPTANCE_DOWN=1` to stop afterwards), or `make up TES=funnel|tesk|tesp` then `make run`. Design B: `make up TES=tesk TES_MODE=native` (Galaxy from `GALAXY_NATIVE_ROOT` in `local.env`).
+
+Security: one private note exists outside the repositories, as the brief requires. Nothing sensitive is in the demo repository or the vault; every saved evidence directory was secret-scanned.

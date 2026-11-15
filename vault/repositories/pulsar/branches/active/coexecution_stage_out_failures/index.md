@@ -1,10 +1,12 @@
 ---
 upstream_base_branch: master
 parent_branch: coexecution_client_fixes
+child_branches: coexecution_compact_launch
 related_records:
   - pulsar/branches/coexecution_client_fixes
   - pulsar/branches/coexecutor_image_pycurl
   - pulsar/branches/coexecution_stage_failures
+  - pulsar/branches/coexecution_compact_launch
 ---
 # Report stage-out failures, fail directory outputs, publish terminal status before shutdown
 

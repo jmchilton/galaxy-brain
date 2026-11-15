@@ -1,6 +1,6 @@
 # Galaxy Brain Index
 
-*143 notes. Auto-generated — run `make index` to refresh.*
+*144 notes. Auto-generated — run `make index` to refresh.*
 
 ## Plans
 
@@ -17,6 +17,7 @@
 - [[cwl]] — Project tracking CWL implementation in Galaxy: conformance tests, conditionals, packing, tool loading.
 - [[ga4gh_wes_tes]] — Running real IWC workflows through Galaxy's GA4GH WES API with Pulsar and TES backends, and what these APIs cost compared to Galaxy's own APIs.
 - [[architecture]] — Mirrored view of the galaxy-architecture repo — training topics rendered as vault-readable markdown.
+- [[wes_tesp_api]] — How to configure, run and operate Galaxy WES jobs on tesp-api through the Pulsar TES runner, what was hardened, and what is still open.
 - [[history_markdown]] — Project implementing history-attached markdown pages in Galaxy's client and API.
 - [[invocation_graph_embedded_outputs]] — Outputs inside the invocation graph: hover previews, embedded workflow-output nodes, steps shown as a preferred output.
 - [[modules]] — Project for translating nf-core modules into maintainable Galaxy tool wrappers.
