@@ -14,7 +14,7 @@ Un-stacked onto master `08dedcb` (it shares no code with `queued_manager_monitor
 
 Draft [#576](https://github.com/galaxyproject/pulsar/pull/576) opened 2026-11-15 from [pr_description.md](pr_description.md).
 
-CI on `1c8d911`: PR checks running.
+CI on `1c8d911`: settled; only `Framework tests / Test (3.10, master, directory)` fails, an `ImportError` that also fails on master (on base, not rerun).
 
 ## Notes
 

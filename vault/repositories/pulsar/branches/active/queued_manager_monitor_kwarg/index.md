@@ -14,7 +14,7 @@ Hardened 2026-11-15 (Codex review, no findings; no thermo-nuclear review, since 
 
 Draft [#575](https://github.com/galaxyproject/pulsar/pull/575) opened 2026-11-15 from [pr_description.md](pr_description.md).
 
-CI on `b476ccd`: PR checks running; fork run `pulsar` passed and `Framework tests` failed (red everywhere).
+CI on `b476ccd`: settled; only `Framework tests / Test (3.10, master, directory)` fails, an `ImportError` that also fails on master (on base, not rerun).
 
 ## Notes
 
