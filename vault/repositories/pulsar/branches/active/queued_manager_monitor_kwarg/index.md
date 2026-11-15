@@ -1,20 +1,20 @@
 ---
 upstream_base_branch: master
-child_branches: clean_job_directory_retry
 related_records: pulsar/branches/clean_job_directory_retry
+pr: 575
 ---
 # Make the queued_python manager honour num_concurrent_jobs
 
-- [Open PR](https://github.com/galaxyproject/pulsar/compare/master...jmchilton:pulsar:queued_manager_monitor_kwarg?expand=1)
+- [Draft PR #575](https://github.com/galaxyproject/pulsar/pull/575)
 - [View on GitHub](https://github.com/jmchilton/pulsar/tree/queued_manager_monitor_kwarg)
 
 ## Status
 
-Implemented at `b476ccd` on master `08dedcb` during stage 5 of the [GA4GH WES and TES project](../../../../../projects/ga4gh_wes_tes/index.md); proven in the demo, where tesp-api's outer Pulsar now runs 2 tasks at a time instead of all 4 (`runs/tesp-stage5/pulsar-concurrency/` in `~/projects/repositories/galaxy-wes-tes`).
+Hardened 2026-11-15 (Codex review, no findings; no thermo-nuclear review, since the change is three keyword renames plus a test) at `b476ccd` on master `08dedcb`; first proven in the [GA4GH WES and TES project](../../../../../projects/ga4gh_wes_tes/index.md) demo (tesp-api's outer Pulsar runs 2 tasks at a time instead of 4).
 
-No PR.
+Draft [#575](https://github.com/galaxyproject/pulsar/pull/575) opened 2026-11-15 from [pr_description.md](pr_description.md).
 
-Fork CI for `b476ccd` (runs 43650770433 `pulsar`, 43650770354 `Framework tests`) was still queued behind the coexecution branches' runs about 25 minutes after the push.
+CI on `b476ccd`: PR checks running; fork run `pulsar` passed and `Framework tests` failed (red everywhere).
 
 ## Notes
 
@@ -26,3 +26,5 @@ Fork CI for `b476ccd` (runs 43650770433 `pulsar`, 43650770354 `Framework tests`)
 ## Review materials
 
 - [Implementation](implementation_debrief.md)
+- [Codex review](codex_review.md)
+- [PR description](pr_description.md)

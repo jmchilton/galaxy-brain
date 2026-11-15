@@ -1,6 +1,6 @@
 # Open PR and branch queue
 
-Snapshot: 2026-10-27 (#541 branch and fork CI refreshed; other entries retain their prior snapshots).
+Snapshot: 2026-11-15 (#575 and #576 opened and their CI queried; other entries retain their prior snapshots).
 
 ## Open Pulsar PRs — ready from our side (`ready`)
 
@@ -20,7 +20,8 @@ None yet.
 
 ## Draft Pulsar PRs — waiting for CI (`ci_wait`)
 
-None yet.
+- [`queued_manager_monitor_kwarg`](active/queued_manager_monitor_kwarg/index.md) — Fixes `queued_python` ignoring `num_concurrent_jobs` (`montior` keyword typo since 0.15.0). [#575](https://github.com/galaxyproject/pulsar/pull/575).
+- [`clean_job_directory_retry`](active/clean_job_directory_retry/index.md) — `clean()` retries when a just-killed job's process changes its directory mid-delete (DELETE left it, 200). [#576](https://github.com/galaxyproject/pulsar/pull/576).
 
 ## Draft Pulsar PRs — needs author work (`author_work`)
 
@@ -36,8 +37,6 @@ None yet.
 - [`coexecution_client_fixes`](active/coexecution_client_fixes/index.md) — Published default staging image tag; TES `QUEUED` maps to queued, not failed. [Open PR](https://github.com/galaxyproject/pulsar/compare/coexecution_dependency_dir_default...jmchilton:pulsar:coexecution_client_fixes?expand=1).
 - [`coexecution_stage_out_failures`](active/coexecution_stage_out_failures/index.md) — Stage-out error in `failed` stderr; directory outputs fail; shutdown waits for terminal status. [Open PR](https://github.com/galaxyproject/pulsar/compare/coexecution_client_fixes...jmchilton:pulsar:coexecution_stage_out_failures?expand=1).
 - [`coexecution_compact_launch`](active/coexecution_compact_launch/index.md) — Launch messages over one argument go zlib-compressed; `pulsar-finish` gets only the job id (108 → 1244 inputs). [Open PR](https://github.com/galaxyproject/pulsar/compare/coexecution_stage_out_failures...jmchilton:pulsar:coexecution_compact_launch?expand=1).
-- [`queued_manager_monitor_kwarg`](active/queued_manager_monitor_kwarg/index.md) — Fixes `queued_python` ignoring `num_concurrent_jobs` (`montior` keyword typo since 0.15.0). [Open PR](https://github.com/galaxyproject/pulsar/compare/master...jmchilton:pulsar:queued_manager_monitor_kwarg?expand=1).
-- [`clean_job_directory_retry`](active/clean_job_directory_retry/index.md) — `clean()` retries when a just-killed job's process changes its directory mid-delete (DELETE left it, 200). [Open PR](https://github.com/galaxyproject/pulsar/compare/queued_manager_monitor_kwarg...jmchilton:pulsar:clean_job_directory_retry?expand=1).
 
 ## Pulsar branches — implemented, work left, green (`branches_implemented`)
 
