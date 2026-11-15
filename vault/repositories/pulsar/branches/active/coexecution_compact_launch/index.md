@@ -16,7 +16,7 @@ Hardened 2026-11-15 at `869d63d` (restacked onto `coexecution_stage_out_failures
 
 Draft PR [#583](https://github.com/galaxyproject/pulsar/pull/583) opened 2026-11-15, stacked on #582.
 
-CI for `869d63d` (2026-11-15, 12:06 UTC): unrelated only so far, with 8 jobs still pending. Every finished job is green except `Framework tests / Test (3.10, master, directory)`, which is unrelated (on base): `ImportError: cannot import name 'build_client_manager'`, as on every recent master run; not rerun.
+CI for `869d63d` (2026-11-15, settled): unrelated only. Everything else green; unrelated (on base): `Framework tests / Test (3.10, master, directory)` fails with `ImportError: cannot import name 'build_client_manager' from 'pulsar.client'`, as on every recent master run; not rerun.
 
 ## Notes
 

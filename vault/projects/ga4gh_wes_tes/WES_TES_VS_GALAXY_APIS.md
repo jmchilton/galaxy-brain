@@ -373,35 +373,36 @@ None of these needs more than the "keep it honest" fixes. None of them is a reas
 
 ## Index: branches, records and decisions waiting on John
 
-Nothing from this investigation has a pull request. Every Galaxy and Pulsar branch below is pushed to the `jmchilton` fork; tesp-api changes are patch files in `demo:patches/tesp-api/`. "Rec." is this document's recommendation (see [Recommendations](#recommendations)).
+Hardened 2026-11-15 (after stage 7): the Pulsar branches are open as draft PRs on `galaxyproject/pulsar`; the Galaxy branches are hardened on the `jmchilton` fork with no PRs, and the dev-targeted ones were retargeted to `release_26.2`. tesp-api changes are patch files in `demo:patches/tesp-api/`. "Rec." is this document's recommendation (see [Recommendations](#recommendations)); branch records hold the current state.
 
 ### Galaxy (`vault/repositories/galaxy/branches/active/`)
 
-| Branch | Base | Head | Size | Queue section | What | Rec. |
-| --- | --- | --- | --- | --- | --- | --- |
-| [`tes_task_state_polling`](../../repositories/galaxy/branches/active/tes_task_state_polling/index.md) | `dev` | `e3c0cc44649` | +1110/−5, 4 files | `branches_implemented_needs_ci` | Pulsar TES runner polls TES and fails jobs whose task ended without a Pulsar status; cancelling an ended task is a no-op (PTI 1, 30) | Upstream |
-| [`tes_task_state_polling_unreachable`](../../repositories/galaxy/branches/active/tes_task_state_polling_unreachable/index.md) | `tes_task_state_polling` | `025f1256ec3` | +897/−35, 4 files | `branches_implemented_needs_ci` | `tes_unreachable_timeout`, `tes_cancel_retry_timeout`, SYSTEM_ERROR job info (B&E 12, 13, 46) | Upstream, with the parent |
-| [`wes_api_fixes_26_0`](../../repositories/galaxy/branches/active/wes_api_fixes_26_0/index.md) | `release_26.0` | `85f9b2b42be` | +256/−47, 3 files | `branches_implemented_needs_ci` | Five WES request bugs (PTI 10–13, 22) | Upstream (small, release-branch bug fixes) |
-| [`wes_run_state_executor_error_26_0`](../../repositories/galaxy/branches/active/wes_run_state_executor_error_26_0/index.md) | `wes_api_fixes_26_0` | `d83962aa811` | +78/−24, 3 files | `branches_need_decision` | EXECUTOR_ERROR for completed runs with failed or paused jobs (PTI 5) | Decide (D3) |
-| [`tes_native_staging_v26.1.2`](../../repositories/galaxy/branches/active/tes_native_staging_v26.1.2/index.md) | `tes_task_polling_v26.1.2` (target `dev`) | `5e889591314` | +1633/−116 over stages 5–6 | `branches_need_decision` | Design B prototype | Decide (D2) |
-| `tes_task_polling_v26.1.2`, `wes_api_fixes_v26.1.2`, `wes_tes_demo_fixes_v26.1.2` | tag `v26.1.2` | `1f7cae33d5f`, `2aad3a3e80c`, `b317bc12545` | ports | no record (demo only) | Ports the demo runs on | Keep for the demo; never PR |
+| Branch | Base | Head | Queue section | What | Rec. |
+| --- | --- | --- | --- | --- | --- |
+| [`tes_task_state_polling`](../../repositories/galaxy/branches/active/tes_task_state_polling/index.md) | `release_26.2` | `54d2aa613df` | `branches_implemented_needs_ci` | Pulsar TES runner polls TES and fails jobs whose task ended without a Pulsar status; ignores late statuses for finished jobs; cancelling an ended task is a no-op; watches keyed by TES server and task id (PTI 1, 30) | Upstream |
+| [`tes_task_state_polling_unreachable`](../../repositories/galaxy/branches/active/tes_task_state_polling_unreachable/index.md) | `tes_task_state_polling` | `766334a203e` | `branches_need_decision` | `tes_unreachable_timeout` and cancel retries (B&E 12, 13); the SYSTEM_ERROR job info moved to the parent | Decide: timeout policy and PR split |
+| [`wes_api_fixes_26_0`](../../repositories/galaxy/branches/active/wes_api_fixes_26_0/index.md) | `release_26.0` | `67305c6d0a1` | `branches_implemented_needs_ci` | WES request bugs (PTI 10–13, 22), plus null outputs in the native invocation API, `next_page_token: ""`, encoded ids, `auth_instructions_url`; original scope kept as `wes_api_fixes_26_0_alt_original_scope` | Upstream |
+| [`wes_run_state_executor_error_26_0`](../../repositories/galaxy/branches/active/wes_run_state_executor_error_26_0/index.md) | `wes_api_fixes_26_0` | `ec656e83ae7` | `branches_need_decision` | EXECUTOR_ERROR for completed runs with failed or paused jobs (PTI 5); scope evaluation prefers it to D3's output rule | Decide (D3) |
+| [`tes_native_staging`](../../repositories/galaxy/branches/active/tes_native_staging/index.md) | `tes_task_state_polling` | `88d6414a6dc` | `branches_need_decision` | Design B ported to `release_26.2` and hardened; scope evaluation says park, moving only the MINIMAL-view poll commit into the parent | Decide (D2) |
+| [`tes_native_staging_v26.1.2`](../../repositories/galaxy/branches/active/tes_native_staging_v26.1.2/index.md) | `tes_task_polling_v26.1.2` | `5e889591314` | `branches_reference` | Original design B prototype, superseded by `tes_native_staging` | Reference |
+| `tes_task_polling_v26.1.2`, `wes_api_fixes_v26.1.2`, `wes_tes_demo_fixes_v26.1.2` | tag `v26.1.2` | `1f7cae33d5f`, `2aad3a3e80c`, `b317bc12545` | no record (demo only) | Ports the demo runs on | Keep for the demo; never PR |
 
-### Pulsar (`vault/repositories/pulsar/branches/active/`), one stack on `master` `08dedcb` plus two side branches
+### Pulsar (`vault/repositories/pulsar/branches/active/`): one stacked set of draft PRs plus two standalone ones
 
-| Branch | Parent | Head | What | Rec. |
-| --- | --- | --- | --- | --- |
-| [`coexecutor_image_modern_base`](../../repositories/pulsar/branches/active/coexecutor_image_modern_base/index.md) | `master` | `c4ae861` | Staging image builds current Pulsar on python:3.12-slim (PTI 4) | Upstream, then publish an image (D9) |
-| [`coexecution_publish_running`](../../repositories/pulsar/branches/active/coexecution_publish_running/index.md) | previous | `5e3de24` | `pulsar-submit --no-wait` publishes `running` (PTI 7) | Upstream |
-| [`coexecution_stage_failures`](../../repositories/pulsar/branches/active/coexecution_stage_failures/index.md) | previous | `954ab40` | Staging failures exit non-zero with the error (PTI 3) | Upstream |
-| [`coexecution_dependency_dir_default`](../../repositories/pulsar/branches/active/coexecution_dependency_dir_default/index.md) | previous | `ef7caea` | No tool dependency dir under `/`, starts on a read-only root (PTI 9) | Upstream |
-| [`coexecution_client_fixes`](../../repositories/pulsar/branches/active/coexecution_client_fixes/index.md) | previous | `b31602a` | Default image tag that exists; TES `QUEUED` maps to queued (PTI 26) | Upstream |
-| [`coexecution_stage_out_failures`](../../repositories/pulsar/branches/active/coexecution_stage_out_failures/index.md) | previous | `20b6460` | Stage-out errors reach Galaxy; directory outputs fail; terminal status survives shutdown (PTI 6, 8, 31) | Upstream |
-| [`coexecution_compact_launch`](../../repositories/pulsar/branches/active/coexecution_compact_launch/index.md) | previous | `9036ff3` | zlib launch message over one argument: 108 → 1,244 inputs (B&E 9) | Upstream (D10 a) |
-| [`queued_manager_monitor_kwarg`](../../repositories/pulsar/branches/active/queued_manager_monitor_kwarg/index.md) | `master` | `b476ccd` | `queued_python` honours `num_concurrent_jobs` (`montior` typo since 0.15.0) (B&E 15) | Upstream, regardless of TES |
-| [`clean_job_directory_retry`](../../repositories/pulsar/branches/active/clean_job_directory_retry/index.md) | `queued_manager_monitor_kwarg` | `ffbe698` | `clean()` retries a directory a just-killed job is still changing (B&E 50) | Upstream, regardless of TES |
-| [`coexecutor_image_pycurl`](../../repositories/pulsar/branches/active/coexecutor_image_pycurl/index.md) | `master` | `4ccfb64` | Superseded by the restack, in `branches_need_decision` | Abandon (D4) |
+| Branch | Stacked on | Head | PR | What | Rec. |
+| --- | --- | --- | --- | --- | --- |
+| [`coexecutor_image_modern_base`](../../repositories/pulsar/branches/active/coexecutor_image_modern_base/index.md) | `master` | `acde50a` | [#577](https://github.com/galaxyproject/pulsar/pull/577) | Staging image builds current Pulsar on python:3.12-slim (PTI 4); pycurl folded in | Upstream, then publish an image (D9) |
+| [`coexecution_publish_running`](../../repositories/pulsar/branches/active/coexecution_publish_running/index.md) | #577 | `1a741aa` | [#578](https://github.com/galaxyproject/pulsar/pull/578) | `pulsar-submit --no-wait` publishes `running` (PTI 7) | Upstream |
+| [`coexecution_stage_failures`](../../repositories/pulsar/branches/active/coexecution_stage_failures/index.md) | #578 | `1302eea` | [#579](https://github.com/galaxyproject/pulsar/pull/579) | Staging failures exit non-zero with the error (PTI 3) | Upstream |
+| [`coexecution_dependency_dir_default`](../../repositories/pulsar/branches/active/coexecution_dependency_dir_default/index.md) | #579 | `e770845` | [#580](https://github.com/galaxyproject/pulsar/pull/580) | No tool dependency dir by default, starts on a read-only root (PTI 9) | Upstream |
+| [`coexecution_client_fixes`](../../repositories/pulsar/branches/active/coexecution_client_fixes/index.md) | #580 | `77651c5` | [#581](https://github.com/galaxyproject/pulsar/pull/581) | Default image tag that exists; TES `QUEUED` maps to queued (PTI 26) | Upstream |
+| [`coexecution_stage_out_failures`](../../repositories/pulsar/branches/active/coexecution_stage_out_failures/index.md) | #581 | `24006de` | [#582](https://github.com/galaxyproject/pulsar/pull/582) | Stage-out errors reach Galaxy; directory outputs fail; terminal status survives shutdown (PTI 6, 8, 31) | Upstream |
+| [`coexecution_compact_launch`](../../repositories/pulsar/branches/active/coexecution_compact_launch/index.md) | #582 | `869d63d` | [#583](https://github.com/galaxyproject/pulsar/pull/583) | zlib launch message over one argument: 108 → 1,244 inputs (B&E 9) | Upstream (D10 a) |
+| [`queued_manager_monitor_kwarg`](../../repositories/pulsar/branches/active/queued_manager_monitor_kwarg/index.md) | `master` | `b476ccd` | [#575](https://github.com/galaxyproject/pulsar/pull/575) | `queued_python` honours `num_concurrent_jobs` (`montior` typo since 0.15.0) (B&E 15) | Upstream, regardless of TES |
+| [`clean_job_directory_retry`](../../repositories/pulsar/branches/active/clean_job_directory_retry/index.md) | `master` | `1c8d911` | [#576](https://github.com/galaxyproject/pulsar/pull/576) | `clean()` retries a directory a just-killed job is still changing (B&E 50) | Upstream, regardless of TES |
+| [`coexecutor_image_pycurl`](../../repositories/pulsar/branches/active/coexecutor_image_pycurl/index.md) | `master` | `4ccfb64` | none | Superseded, in `branches_need_decision` | Abandon (D4) |
 
-The stack's sizes: the six coexecution branches together +717/−98 over 16 files; `coexecution_compact_launch` +230/−20; `queued_manager_monitor_kwarg` +33/−7; `clean_job_directory_retry` +68/−4. Fork CI: the Pulsar workflow green on the restacked stack; `Framework tests` red on every branch including upstream (unrelated).
+CI on all nine Pulsar PRs: green except `Framework tests / Test (3.10, master, directory)`, which also fails on `master` (unrelated).
 
 ### tesp-api and the demo
 

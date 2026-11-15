@@ -1,6 +1,6 @@
 # Open PR and branch queue
 
-Snapshot: 2026-11-15 (#575 and #576 opened, CI settled 12:30 UTC; coexecution stack #577–#583 opened and CI queried at 12:05 UTC; other entries retain their prior snapshots).
+Snapshot: 2026-11-15 (#575–#583 CI settled at about 15:00 UTC: unrelated base red only; other entries retain their prior snapshots).
 
 ## Open Pulsar PRs — ready from our side (`ready`)
 
@@ -20,14 +20,15 @@ Snapshot: 2026-11-15 (#575 and #576 opened, CI settled 12:30 UTC; coexecution st
 - [`coexecution_publish_running`](active/coexecution_publish_running/index.md) — `pulsar-submit --no-wait` publishes `running`, so Galaxy shows TES jobs as running. [#578](https://github.com/galaxyproject/pulsar/pull/578).
 - [`queued_manager_monitor_kwarg`](active/queued_manager_monitor_kwarg/index.md) — Fixes `queued_python` ignoring `num_concurrent_jobs` (`montior` keyword typo since 0.15.0). [#575](https://github.com/galaxyproject/pulsar/pull/575).
 - [`clean_job_directory_retry`](active/clean_job_directory_retry/index.md) — `clean()` retries when a just-killed job's process changes its directory mid-delete (DELETE left it, 200). [#576](https://github.com/galaxyproject/pulsar/pull/576).
-
-## Draft Pulsar PRs — waiting for CI (`ci_wait`)
-
 - [`coexecution_stage_failures`](active/coexecution_stage_failures/index.md) — Failed staging exits `pulsar-submit --no-wait`/`pulsar-finish` non-zero; `failed` status carries the error. [#579](https://github.com/galaxyproject/pulsar/pull/579).
 - [`coexecution_dependency_dir_default`](active/coexecution_dependency_dir_default/index.md) — Coexecution apps default to no tool dependency dir, so they start on a read-only root. [#580](https://github.com/galaxyproject/pulsar/pull/580).
 - [`coexecution_client_fixes`](active/coexecution_client_fixes/index.md) — Published default staging image tag; TES `QUEUED` maps to queued, not failed. [#581](https://github.com/galaxyproject/pulsar/pull/581).
 - [`coexecution_stage_out_failures`](active/coexecution_stage_out_failures/index.md) — Stage-out error in `failed` stderr; directory outputs fail; shutdown waits for terminal status. [#582](https://github.com/galaxyproject/pulsar/pull/582).
 - [`coexecution_compact_launch`](active/coexecution_compact_launch/index.md) — Launch messages over one argument go zlib-compressed; `pulsar-finish` gets only the job id (108 → 1244 inputs). [#583](https://github.com/galaxyproject/pulsar/pull/583).
+
+## Draft Pulsar PRs — waiting for CI (`ci_wait`)
+
+None yet.
 
 ## Draft Pulsar PRs — needs author work (`author_work`)
 
