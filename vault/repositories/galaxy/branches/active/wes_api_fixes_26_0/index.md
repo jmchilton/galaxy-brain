@@ -34,5 +34,5 @@ The second [scope evaluation](scope_evaluation.md) recommends keeping the scope 
 ## Branches
 
 - `wes_api_fixes_26_0_alt_original_scope` (`0bbc3e55ae8`) is the branch before the re-scope. See [alts/original_scope.md](alts/original_scope.md).
-- The child [`wes_run_state_executor_error_26_0`](../wes_run_state_executor_error_26_0/index.md) still sits on `85f9b2b42be` and needs rebasing onto `67305c6d0a1`.
+- The child [`wes_run_state_executor_error_26_0`](../wes_run_state_executor_error_26_0/index.md) is rebased onto `67305c6d0a1` and hardened (head `ec656e83ae7`).
 - `wes_api_fixes_v26.1.2` (`2aad3a3e80c`, pushed to jmchilton) is the original five commits cherry-picked onto tag `v26.1.2` for the demo's Galaxy. It is demo only, not for a PR, and doesn't include the hardening or re-scope changes.
