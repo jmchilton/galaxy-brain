@@ -1,0 +1,79 @@
+round: 0
+reviewed_commit: 59603c8e04222901ba5a13da34c5025e87c6be25
+agents:
+  - {profile: default, path: _shared/reviewers/default.md, model: Claude Opus 5.5, effort: medium}
+  - {profile: gx_test_challenger, path: _shared/reviewers/gx_test_challenger.md, model: Claude Opus 5.5, effort: low}
+  - {profile: gx_risk_assessment, path: _shared/reviewers/gx_risk_assessment.md, model: Claude Opus 5.5, effort: low}
+  - {profile: gx_performance_challenger, path: _shared/reviewers/gx_performance_challenger.md, model: Claude Opus 5.5, effort: medium}
+verification: {model: Claude Opus 5.5, effort: medium}
+branches:
+  - name: pr_24867_round_0_rev_0
+    revision: 0
+    head: 29553460432
+    pr_title: Test TRS search races and use watch onCleanup for stale responses
+    description: |
+      `pr_24867_round_0_rev_0` builds on `59603c8e042`. It adds a jest test for the stale-response guard, tightens the server-switch test to check that no search reaches the new server with the old query, swaps the hand-rolled search counter for the watcher's `onCleanup`, and shows a waiting message instead of "No search results found" while the TRS server list loads. It touches only `TrsSearch.vue` and `TrsSearch.test.ts`.
+    commits:
+      - sha: 24586339196
+        subject: Test that a superseded TRS search response is ignored
+        detail: holds the first `/api/trs_search` response until a second search has rendered, then checks the late response doesn't replace it and loading ends; fails with the guard removed.
+        findings: [P3 4]
+      - sha: b38726e3cca
+        subject: Assert TRS server switch sends no search with the old query
+        detail: records the `trs_server` of every search and checks that switching to workflowhub sends none and clears the previous server's results; fails when the query is cleared a tick after the server changes.
+        findings: [P3 2]
+      - sha: 12560d33430
+        subject: Use watch onCleanup to drop superseded TRS search responses
+        detail: replaces the `searchCount` counter with an `onCleanup` flag and moves the `loading` reset into `finally`.
+        findings: [P3 1]
+      - sha: 29553460432
+        subject: Show a waiting message instead of no results before TRS servers load
+        detail: adds a `!trsServer` alert branch and asserts it in the existing typed-before-load test, which failed before the template change.
+        findings: [P3 3]
+actions: {approve: false, approve_and_merge: false, comment: false, review_comment: false, request_changes: false, pull_request: false, push: false, issue_refactor: false, issue_galaxy_brain: false}
+findings:
+  - id: P3 1
+    include: true
+    title: Stale-response guard repeats the counter check three times; watch onCleanup is tidier
+    summary: optional; replaced the hand-rolled counter with Vue's watch onCleanup and a finally block.
+    implementation_verified: true
+    issue: |
+      Optional. `TrsSearch.vue` checks `searchId === searchCount` in three places to drop superseded responses. Vue 2.7 passes `onCleanup` to watch callbacks, which is the framework's built-in way to invalidate a previous async run, and a `finally` block covers the `loading` reset. The counter is correct, so this is only tidiness.
+    fix: |
+      Replaced `searchCount` with a `superseded` flag set from `onCleanup`, and moved the `loading` reset into `finally`. The new stale-response test passes unchanged.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+  - id: P3 2
+    include: true
+    title: Server-switch test doesn't check that no search reaches the new server with the old query
+    summary: test only checked the input was empty; now asserts no workflowhub search and old results cleared.
+    implementation_verified: true
+    issue: |
+      Optional. "clears the query when switching to another TRS server" only checks the input value. With the watcher now on `[query, trsServer]`, what matters is that no `trs_server=workflowhub` request goes out with the old query, and that the previous server's results disappear. Today the synchronous clear-then-set is batched into one watcher run, but nothing pins that.
+    fix: |
+      Added recording of each search's `trs_server`, a check that the dockstore results rendered, and, after the switch and a debounce wait, checks that only the dockstore search was sent and its results are gone. The test fails if the query is cleared a tick after the server changes.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+      - {profile: gx_test_challenger, model: Claude Opus 5.5, effort: low}
+  - id: P3 3
+    include: true
+    title: A query typed before the server list arrives shows "No search results found"
+    summary: optional, cosmetic; added a waiting message branch while trsServer is empty.
+    implementation_verified: true
+    issue: |
+      Optional. With a query typed and `trsServer` still empty, the watcher sets `loading = false` and `results = []`, so the template falls through to "No search results found, refine your search." until the server list loads. The window is short, but the message is wrong: no search has run.
+    fix: |
+      Added a `v-else-if="!trsServer"` alert, "Waiting for the TRS server list to load.", and asserted it in the existing typed-before-load test.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+  - id: P3 4
+    include: true
+    title: Stale-response guard has no test
+    summary: new out-of-order guard was untested; added a jest test that fails without it.
+    implementation_verified: true
+    issue: |
+      Optional. Ignoring responses to superseded searches is new behavior in this PR, but no test covers it. Without one, a later refactor could drop the guard and let a slow earlier response overwrite newer results.
+    fix: |
+      Added a jest test that holds the first search's response, runs a second search, then releases the first and checks only the second search's results show and the loading message is gone. It fails with the guard removed.
+    discovered_by:
+      - {profile: gx_test_challenger, model: Claude Opus 5.5, effort: low}
