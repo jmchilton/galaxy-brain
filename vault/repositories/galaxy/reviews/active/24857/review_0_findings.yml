@@ -1,0 +1,134 @@
+round: 0
+reviewed_commit: 93b224b00ea8b3330902da96c256b200df3b0bdf
+agents:
+  - {profile: default, path: _shared/reviewers/default.md, model: Claude Opus 5.5, effort: medium}
+  - {profile: gx_test_challenger, path: _shared/reviewers/gx_test_challenger.md, model: Claude Opus 5.5, effort: medium}
+  - {profile: gx_risk_assessment, path: _shared/reviewers/gx_risk_assessment.md, model: Claude Opus 5.5, effort: low}
+  - {profile: learning_galaxy, path: gx_reviews/reviewers/learning_galaxy.md, model: Claude Opus 5.5, effort: medium}
+verification: {model: Claude Opus 5.5, effort: medium}
+branches:
+  - name: pr_24857_round_0_rev_0
+    revision: 0
+    head: ce92fabf765
+    pr_title: Keep missing-tool sub-workflow outputs on upgrade, keep tags on refactor undo, tighten tests
+    description: |
+      `pr_24857_round_0_rev_0` builds on `93b224b00ea`. It keeps connections and workflow outputs from outputs of missing tools when a step is upgraded to a sub-workflow whose tools aren't installed, keeps tags set after a refactor when that refactor is undone or redone, and tightens the PR's tests: the reordered-inputs test now runs the upgraded workflow, the undo test checks exact stack lengths, a helper replaces the repeated upgrade action, and the TrsTool emit test covers a Dockstore-style version id. It also adds an E2E test that undoes a sub-workflow upgrade in the editor and saves.
+    commits:
+      - sha: b138729341d
+        subject: Keep outputs from missing tools when upgrading a sub-workflow step
+        detail: takes the new sub-workflow's output names from its workflow output labels in the missing-tool fallback and strengthens the missing-tool test to assert connections and the outer workflow output survive.
+        findings: [P2 1]
+      - sha: f1c22c63be4
+        subject: Run the upgraded workflow in the reordered-inputs test
+        detail: invokes the upgraded workflow with two distinct datasets and asserts the `cat1` output order.
+        findings: [P2 2]
+      - sha: 5a7363100aa
+        subject: Add helper for upgrade_subworkflow-to-version actions in tests
+        detail: adds `_upgrade_subworkflow_to` and uses it in the three tests that built the action by hand.
+        findings: [P3 3]
+      - sha: fdec8135494
+        subject: Assert exact undo stack length after each refactor
+        detail: replaces `toBeGreaterThanOrEqual(2)` with `toBe(1)` after the first refactor and `toBe(2)` after the second.
+        findings: [P3 2]
+      - sha: 5bc01eed122
+        subject: Keep current tags when undoing or redoing a refactor
+        detail: makes `restoreWorkflowState` keep the editor's current tags and adds a vitest test that sets tags after a refactor and undoes it.
+        findings: [P3 1]
+      - sha: b53ac3c2701
+        subject: Cover Dockstore-style version ids in TrsTool emit test
+        detail: gives one version a Dockstore-style id so the emit test covers both branches of `trsVersionId`.
+        findings: [P3 4]
+      - sha: ce92fabf765
+        subject: Add E2E test for undoing a sub-workflow upgrade in the editor
+        detail: adds `test_undo_subworkflow_upgrade`, which upgrades the step, undoes it from the Changes panel, saves, and checks the saved sub-workflow state.
+        findings: [P2 3]
+actions: {approve: false, approve_and_merge: false, comment: false, review_comment: false, request_changes: false, pull_request: false, push: false, issue_refactor: false, issue_galaxy_brain: false}
+findings:
+  - id: P2 1
+    include: true
+    title: Missing-tool sub-workflow upgrade drops connections and workflow outputs from outputs of missing tools
+    summary: missing tools list no outputs, so the new fallback dropped downstream connections and outer workflow outputs fed by them. Reproduced and fixed.
+    implementation_verified: true
+    issue: |
+      When the new sub-workflow uses a tool that isn't installed, `_apply_upgrade_subworkflow` now rebuilds the module and calls `_patch_step`. `SubWorkflowModule.get_all_outputs()` builds its outputs from `_workflow_to_dict_editor`, where a missing tool's `ToolModule.get_all_outputs()` is `[]`, so every sub-workflow output sourced from a missing tool is skipped. `_patch_step` then drops every downstream connection from those outputs and, after `93b224b00ea`, removes the outer step's labeled workflow outputs for them, reporting both as "no longer available". The PR says the step keeps the sub-workflow's inputs and outputs in this case, but the outputs that come from the missing tools are exactly the ones lost.
+
+      The test can't show this, since `SUBWORKFLOW_WITH_MISSING_TOOL` declares no outputs and the test only asserts `subworkflow.id`.
+    evidence: |
+      With `outputs: {workflow_output: {outputSource: not_installed/out_file1}}` added to the fixture and `WORKFLOW_NESTED_OUTPUT` as the outer workflow, the upgrade on `93b224b00ea` reports three messages: two `connection_drop_forced` for `second_cat` and one `workflow_output_drop_forced` for `nested_output`.
+    fix: |
+      In the missing-tool fallback, the upgrade now also takes the new sub-workflow's output names from its workflow output labels (skipping input steps, as `_workflow_to_dict_editor` does) and passes them to `_patch_step`. The test now gives the replacement an output, uses `WORKFLOW_NESTED_OUTPUT` and `step_by_label`, and asserts that there are no messages, that `inner_input` stays connected from `first_cat`, and that `second_cat`'s connections and `nested_output` survive. It fails on the PR and passes on the branch.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+      - {profile: gx_test_challenger, model: Claude Opus 5.5, effort: medium}
+  - id: P2 2
+    include: true
+    title: Reordered-inputs test checks stored connections, not the run-time swap
+    summary: test only asserted input_subworkflow_step labels; now runs the workflow and checks cat1 output order. Red on base impl.
+    implementation_verified: true
+    issue: |
+      `test_subworkflow_upgrade_keeps_connections_when_inputs_are_reordered` asserts that each connection's `input_subworkflow_step.label` matches its `input_name`. The bug the PR describes is that the datasets swap at run time, which the test doesn't exercise.
+    fix: |
+      Extended the test to invoke the upgraded workflow with `a` and `b` datasets for `outer_a` and `outer_b` and assert the `cat1` output is `a\nb\n`. With the merge-base `execute.py` the output is `b\na\n`.
+    discovered_by:
+      - {profile: gx_test_challenger, model: Claude Opus 5.5, effort: medium}
+  - id: P2 3
+    include: true
+    title: No E2E test for refactor undo in the editor
+    summary: refactor undo/redo and save-after-undo had only stubbed vitest coverage; added a Selenium/Playwright test.
+    issue: |
+      The editor gains undo and redo for refactors the server has already applied, but the vitest tests stub `WorkflowGraph` and emit a hand-built one-step workflow. Neither checks the PR's stated save behavior: after an undo the editor stays on the newest version, and saving writes a new version with the earlier content. No Selenium or Playwright test covers upgrading a sub-workflow step in the editor, or undo of any kind.
+    fix: |
+      Added `test_undo_subworkflow_upgrade` to `test_workflow_editor.py`, with `upgrade_subworkflow` and `latest_change` selectors. It bumps the nested workflow of `WORKFLOW_NESTED_SIMPLE` through the API, upgrades the step in the editor, checks the server saved the new sub-workflow, undoes the upgrade from the Changes panel, saves, and checks the saved workflow holds the pre-upgrade sub-workflow again. It passes with the Playwright backend.
+    discovered_by:
+      - {profile: gx_test_challenger, model: Claude Opus 5.5, effort: medium}
+  - id: P3 1
+    include: true
+    title: Undoing or redoing a refactor overwrites tags, which are not part of undo history
+    summary: restoreWorkflowState reapplied the snapshot's tags, reverting tags saved after the refactor. Fixed with a red-to-green vitest.
+    implementation_verified: true
+    issue: |
+      `restoreWorkflowState` calls `applyWorkflowAttributes`, which sets `tags.value = data.tags`. Tags are kept out of undo history because `WorkflowAttributes` saves them on the server as they change (`setTags`). If tags are edited after a refactor and the refactor is then undone, the editor reverts to the snapshot's tags while the server keeps the new ones, and the next save sends the old tags back. License, creator and DOI go through undo actions, so they aren't affected.
+    fix: |
+      `restoreWorkflowState` now keeps the editor's current tags. Added a vitest test that sets tags after a refactor, undoes it and checks `WorkflowAttributes` still gets the new tags; it fails on the PR.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+  - id: P3 2
+    include: true
+    title: Loose undo-stack count in the refactor undo test
+    summary: toBeGreaterThanOrEqual(2) would pass with a stray or missing action; mounting adds none, so now exact counts.
+    issue: |
+      `Index.test.ts` asserts `expect(undoRedoStore.undoStackLength).toBeGreaterThanOrEqual(2)` after two refactors. `mountWithSteps` adds steps through `stepStore.addStep`, which records no undo actions, so the stack is exactly 2, and the loose check wouldn't catch a refactor that pushes no action or an extra one.
+    fix: |
+      Asserted `toBe(1)` after the first refactor and `toBe(2)` after the second.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+      - {profile: gx_test_challenger, model: Claude Opus 5.5, effort: medium}
+  - id: P3 3
+    include: true
+    title: Repeated upgrade_subworkflow-to-version action dict in tests
+    summary: same upgrade_subworkflow + content_id dict built three times; replaced with a helper.
+    issue: |
+      The `upgrade_subworkflow` action with `content_id: self._app.security.encode_id(...)` now appears in `test_subworkflow_upgrade_specified` and both new tests.
+    fix: |
+      Added `_upgrade_subworkflow_to(label, workflow)` on the test class and used it in all three.
+    discovered_by:
+      - {profile: gx_test_challenger, model: Claude Opus 5.5, effort: medium}
+  - id: P3 4
+    include: true
+    title: "`trsVersionId` Dockstore branch untested"
+    summary: optional; trsVersionId is now exported for reuse but only plain ids were tested. Emit test now covers a Dockstore id.
+    issue: |
+      Optional. `trsVersionId` is now exported so the sub-workflow version picker can reuse it, but `TrsTool.test.ts` only uses plain version ids, so the Dockstore branch (an id containing `:<name>`, which emits the name) is untested.
+    fix: |
+      Gave one version in the emit test a Dockstore-style id (`#workflow/example:1.0`) and asserted it emits `1.0`; the other version keeps a plain id.
+    discovered_by:
+      - {profile: gx_test_challenger, model: Claude Opus 5.5, effort: medium}
+  - id: F1
+    include: false
+    title: Comment in `curated.py` misdescribes `get_trs_url` quoting
+    summary: comment says get_trs_url uses quote_plus; it was already wrong before the PR, and no version id git allows quotes differently.
+    filtered:
+      category: pre_existing
+      reason: curated.py is untouched and the base get_trs_url didn't quote versions at all, so the comment was already inaccurate; quote and quote_plus now differ only for spaces, which git refs can't contain.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
