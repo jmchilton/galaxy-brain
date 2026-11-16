@@ -1,0 +1,254 @@
+round: 0
+reviewed_commit: 677cab47347c1b40acf2988bed2f8ae18507ca9e
+agents:
+  - {profile: default, path: _shared/reviewers/default.md, model: Claude Opus 5.5, effort: medium}
+  - {profile: thermo_review, path: _shared/reviewers/thermo_review.md, model: Claude Opus 5.5, effort: medium}
+  - {profile: gx_test_challenger, path: _shared/reviewers/gx_test_challenger.md, model: Claude Opus 5.5, effort: medium}
+  - {profile: gx_risk_assessment, path: _shared/reviewers/gx_risk_assessment.md, model: Claude Opus 5.5, effort: low}
+  - {profile: learning_galaxy, path: gx_reviews/reviewers/learning_galaxy.md, model: Claude Opus 5.5, effort: medium}
+verification: {model: Claude Opus 5.5, effort: medium}
+branches:
+  - name: pr_24804_round_0_rev_0
+    revision: 0
+    head: 3867898f606
+    pr_title: Share resubmit helpers and replace mocked resubmission tests with integration tests
+    description: |
+      `pr_24804_round_0_rev_0` builds on `677cab47347`. It moves the tool-detected resubmit step into one base-runner helper that Pulsar also uses, so Pulsar no longer runs `check_tool_output` twice, and it gives `job_pair_for_id` and `__recover_job_wrapper` one helper for restoring the destination fields that aren't persisted. It maps the remaining `squeue` codes, ignores non-string runner states from Pulsar, takes the native Slurm runner's messages from the definitions and documents `job_output_not_returned_from_cluster`. On the test side, it replaces most of the `MagicMock` runner tests with integration tests: embedded Pulsar (tool error, OOM exit code, a rule that doesn't match), `FailsJobRunner` (node failure, preemption, cancellation, the narrower `unknown_error`, `runner_state ==`) and a message-queue Pulsar test that fails without the `job_pair_for_id` fix. It also adds plain-string tests for the Slurm CLI plugin's status and failure-reason parsing.
+    commits:
+      - sha: 202db9f2926
+        subject: Document the job_output_not_returned_from_cluster resubmit condition
+        detail: adds the condition to the resubmit variable lists in `doc/source/admin/jobs.md` and `job_conf.sample.yml`.
+        findings: [P3 3]
+      - sha: 1d601494c00
+        subject: Ignore a non-string runner_state reported by Pulsar
+        detail: treats a non-string `runner_state` like a malformed one in `_apply_remote_runner_state`, with a test for an int, a list and a dict.
+        findings: [P3 4]
+      - sha: b78761409ca
+        subject: Take the native Slurm runner's messages from the runner state definitions
+        detail: derives the memory, walltime and cancellation messages in `runners/slurm.py` from `RUNNER_STATE_DEFINITIONS` and compares against the shared `NOT_FOUND` constant.
+        findings: [P2 6]
+      - sha: a97ff7c2297
+        subject: Share the tool-detected resubmit step between the base and Pulsar runners
+        detail: adds `BaseJobRunner._resubmit_for_detected_state`, used by `_finish_or_resubmit_job` and Pulsar's `_complete_staged_job`, and passes Pulsar's detected state on to `job_wrapper.finish`.
+        findings: [P2 1]
+      - sha: d9574e66e9e
+        subject: Assert the embedded Pulsar resubmission ends with an ok job
+        detail: runs `exit_code_from_env` directly and asserts an ok job with exit code 0 and one resubmission, moving the metric helpers to the base test case.
+        findings: [P2 2]
+      - sha: 2c1a164f725
+        subject: Test OOM and unmatched resubmit rules over embedded Pulsar
+        detail: adds an OOM exit code resubmission test and a test that a tool error without a matching rule fails with its exit code, and drops the mocked unit tests they replace.
+        findings: [P2 3]
+      - sha: 655308750fc
+        subject: Test the new resubmit conditions through FailsJobRunner
+        detail: adds `FailsJobRunner` tests for `node_failure`, `preempted`, `cancelled`, the narrower `unknown_error` and `runner_state ==`, and drops the `failure()` unit tests they replace.
+        findings: [P2 4]
+      - sha: 776d52b429e
+        subject: Share restoring unpersisted destination fields and test it over MQ
+        detail: adds `JobHandlerQueue._restore_unpersisted_destination_fields`, used by `job_pair_for_id` and `__recover_job_wrapper`, and an MQ Pulsar test that resubmits a tool error to a local environment.
+        findings: [P2 5]
+      - sha: 26ec865fa62
+        subject: Map every squeue state code and test Slurm CLI status parsing
+        detail: maps `CF`, `RD`, `RF`, `RH`, `SE`, `SI`, `SO` and `ST`, logs and keeps watching on an unknown code, and adds `test_cli_slurm_status.py`.
+        findings: [P3 2]
+      - sha: d4568f1ee91
+        subject: Test CLI failure reasons without mocking the runner
+        detail: extracts `failure_reason_from_output` and tests it with the real `Slurm()` plugin, adding sacct fallback, preemption and out-of-memory cases.
+        findings: [P3 6]
+      - sha: 5e108468375
+        subject: Test Pulsar's remote runner state handling without mocking the runner
+        detail: tests `_apply_remote_runner_state` directly, keeps two runner-level tests for the `fail_job` wiring and drops the mock-call and `__discard_previous_attempt` tests.
+        findings: [P3 5]
+      - sha: 3867898f606
+        subject: Stop restating the memory message table in the Slurm helper test
+        detail: drops the `MEMORY_LIMIT_MESSAGES` assertion and its parametrize column from `test_memory_limit_messages`.
+        findings: [P3 8]
+actions: {approve: false, approve_and_merge: false, comment: false, review_comment: false, request_changes: false, pull_request: false, push: false, issue_refactor: false, issue_galaxy_brain: false}
+findings:
+  - id: P2 1
+    include: true
+    title: Pulsar's tool-failure resubmit copies the base runner and runs check_tool_output twice
+    summary: _resubmitted_for_tool_failure duplicated _finish_or_resubmit_job's mapping and discarded the detected state, so finish() re-ran check_tool_output; fixed with a shared base helper.
+    implementation_verified: true
+    issue: |
+      `PulsarJobRunner._resubmitted_for_tool_failure` is a near copy of the middle of `_finish_or_resubmit_job` in `runners/__init__.py`. Both run `check_tool_output`, commit, map `OUT_OF_MEMORY_ERROR` to `MEMORY_LIMIT_REACHED` and any other failure to `TOOL_DETECT_ERROR`, call `_handle_runner_state("failure", ...)` and check `runner_state_handled`. The mapping now lives in two places that can drift.
+
+      The copy has already drifted. The base runner passes the detected state to `job_wrapper.finish(check_output_detected_state=...)`, but Pulsar discards it. So when no rule matches, `_finish_pulsar_job` → `job_wrapper.finish` evaluates the stdio rules a second time and rewrites `job.job_messages` again.
+    fix: |
+      Added `BaseJobRunner._resubmit_for_detected_state(job_state, check_output_detected_state)`, which holds the mapping and the handler call, and used it from `_finish_or_resubmit_job` and from Pulsar's `_complete_staged_job`. Pulsar's early check is now `_check_output_for_resubmission`, which keeps the `resubmit`/`job.finished` gate. Its result goes through `_finish_pulsar_job` into `job_wrapper.finish(check_output_detected_state=...)`, so the check runs once. The embedded Pulsar integration tests from P2 2 and P2 3 cover this path, and all three pass on the branch.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+      - {profile: thermo_review, model: Claude Opus 5.5, effort: medium}
+      - {profile: learning_galaxy, model: Claude Opus 5.5, effort: medium}
+  - id: P2 2
+    include: true
+    title: The embedded Pulsar resubmission test passes on any failure
+    summary: _assert_job_fails passed whenever the tool test raised for any reason; now asserts an ok job after one resubmission.
+    implementation_verified: true
+    issue: |
+      `TestJobResubmissionEmbeddedPulsarToolDetectedErrorIntegration` relies on `_assert_job_fails("exit_code_from_env")`, which passes whenever `_run_tool_test` raises. A Pulsar setup error, a timeout, or a first attempt that errored and never resubmitted would all pass. The test treats "the tool test failed" as evidence that "the job succeeded after resubmission" without checking it.
+    fix: |
+      The test now runs `exit_code_from_env` in a test history, waits for the history to be ok, and asserts that the job is `ok` with exit code 0 and one resubmission. `_job_metrics`, `_assert_resubmission_count` and the `DatasetPopulator` setup moved to `_BaseResubmissionIntegrationTestCase`, and the class enables the `core` metrics plugin. Pulsar jobs do record `resubmission_count`, and the test passes on the branch.
+    discovered_by:
+      - {profile: gx_test_challenger, model: Claude Opus 5.5, effort: medium}
+  - id: P2 3
+    include: true
+    title: Pulsar's OOM and unmatched-rule paths are only tested with mocked runners
+    summary: the description says OOM exit codes resubmit over embedded Pulsar, but only the generic tool error had an integration test; added OOM and no-match tests.
+    implementation_verified: true
+    issue: |
+      The description says OOM exit codes resubmit over embedded Pulsar "(tested)", but only the generic tool-detected path has an integration test. The only tests for `_resubmitted_for_tool_failure` use a `MagicMock` runner whose `_handle_runner_state` side effect sets the flag the test then asserts. The riskiest new path is a failed tool whose resubmit rule doesn't match. It runs `check_tool_output` and commits before the normal finish, and nothing exercises it for real.
+    fix: |
+      Added `pulsar_small_memory` (`GALAXY_MEMORY_MB=4`, resubmitting on `memory_limit_reached`) and `pulsar_unmatched_tool_error` environments to `resubmission_embedded_pulsar_job_conf.yml`. `test_resubmit_on_oom_exit_code` checks that `exit_code_oom` passes after one resubmission. `TestJobResubmissionEmbeddedPulsarUnmatchedToolErrorIntegration` checks that `exit_code_from_env` with only a `memory_limit_reached` rule ends in `error` with exit code 4 and a single exit-code job message. Dropped the mocked `test_tool_detected_failures_reach_resubmission`, `test_unhandled_tool_failure_finishes_normally` and `test_destination_without_resubmit_skips_output_check`. Both new tests pass.
+    discovered_by:
+      - {profile: gx_test_challenger, model: Claude Opus 5.5, effort: medium}
+  - id: P2 4
+    include: true
+    title: New resubmit conditions are only tested through failure() with mocks
+    summary: node_failure/preempted/cancelled/narrowed unknown_error/runner_state matching are now driven through FailsJobRunner and the real handler.
+    implementation_verified: true
+    issue: |
+      `test_resubmit.py` calls `failure(MagicMock(), MagicMock(), job_state)`, so its only real assertion is that `runner_state_handled` flips. The existing `FailsJobRunner` takes a free-text `failure_state` resource parameter, so the PR's behaviour changes can run through the real resubmit handler next to `test_condition_expressions`. Those changes are the `node_failure` and `preempted` conditions, `cancelled` never resubmitting under `any_failure`, `unknown_error` no longer matching node failures, and matching an undefined reason by `runner_state` or `unknown_error`.
+    fix: |
+      Added `fail_first_node_failure_or_preempted`, `fail_first_unknown_error_only` and `fail_first_runner_state_by_name` environments to `resubmission_job_conf.yml`, and four `TestJobResubmissionIntegration` tests:
+
+      - `node_failure` and `preempted` both resubmit.
+      - `cancelled` under `any_failure` fails.
+      - `node_failure` with only `unknown_error` fails, while an undefined `from_the_future` reason matches `unknown_error`.
+      - `runner_state == 'from_the_future'` resubmits.
+
+      Dropped the unit tests these replace: `test_every_handled_runner_state_has_a_message`, `test_does_not_resubmit_when_condition_is_for_another_state`, `test_states_without_a_description_are_never_resubmitted` and `test_reason_without_definition_can_be_matched_by_name`. `test_resubmits_for_every_handled_runner_state` stays, because it covers `job_output_not_returned_from_cluster`, `tool_timelimit_reached` and `tool_detected_failure`, which the integration tests don't reach. All four new tests pass.
+    discovered_by:
+      - {profile: gx_test_challenger, model: Claude Opus 5.5, effort: medium}
+  - id: P2 5
+    include: true
+    title: "`job_pair_for_id` re-implements part of `__recover_job_wrapper` and the MQ fix has no test"
+    summary: second, narrower copy of restoring unpersisted resubmit/env/tags, with a default-destination fallback for a None destination_id; shared helper plus an MQ test that fails without the fix.
+    implementation_verified: true
+    issue: |
+      `JobHandlerQueue.job_pair_for_id` now restores `resubmit` from `job_config.get_destination(job.destination_id)` under `suppress(KeyError)`. `__recover_job_wrapper` already does this, with the same comment, and also restores `env` and `tags` and logs the dynamic-destination `KeyError`. The two copies cover different fields and handle a missing destination differently, so the next field found not to be persisted has to be added to both. When `destination_id` is `None`, `get_destination` silently falls back to the default destination's resubmit rules. The fix for "Jobs updated over a message queue lost their resubmit definitions" also has no test.
+    fix: |
+      Added `JobHandlerQueue._restore_unpersisted_destination_fields(job, job_destination)`, which restores `resubmit`, `env` and `tags`, logs the dynamic-destination case and skips jobs without a `destination_id`. Both callers use it. Added `TestEmbeddedMessageQueuePulsarResubmission` to `test_pulsar_embedded_mq.py`. Its Pulsar MQ environment runs `exit_code_from_env` with exit code 4 and resubmits on `tool_detected_failure` to a local environment that exits 0. Resubmitting to a different runner avoids the new `resubmission_count` protocol, so the test works with Pulsar 0.16. It passes against a local RabbitMQ and fails with the history in `error` when the `job_pair_for_id` restore is removed.
+    fix_details: |
+      The other wrapper built from a persisted destination, in `JobHandlerStopQueue` (`JobWrapper(job, self, use_persisted_destination=True)` before `dispatcher.stop`), was left alone. It only stops the job, so resubmit rules don't matter there.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+      - {profile: thermo_review, model: Claude Opus 5.5, effort: medium}
+      - {profile: gx_test_challenger, model: Claude Opus 5.5, effort: medium}
+  - id: P2 6
+    include: true
+    title: Consumers re-implement applying a reason, and the native Slurm runner keeps copies of the registered messages
+    summary: CLI, Pulsar and native Slurm each hand-roll set runner_state + pick message; native Slurm's literal message copies fixed on the branch, a shared apply helper left to the author.
+    issue: |
+      The description says every consumer "derives from" `register_runner_state`, but they share only the lookup. `cli.py` `_handle_job_failure_reasons` and `pulsar.py` `_apply_remote_runner_state` each repeat the same steps: set `runner_state`, use the runner's message or else `definition.fail_message`, and log. They also disagree on unknown reasons. The CLI path drops them, while Pulsar keeps well-formed unknown names (`REMOTE_RUNNER_STATE`), and nothing says whether that difference is intended.
+
+      The native Slurm runner, which this PR edits, keeps literal copies of messages the registry now owns. `OUT_OF_MEMORY_MSG` matches the `MEMORY_LIMIT_REACHED` `fail_message` word for word, and so do the inline TIMEOUT message (`WALLTIME_REACHED`) and the scancel message (`CANCELLED`). It also compares `slurm_state == "NOT_FOUND"` against a literal, though `runners/util/slurm` now exports `NOT_FOUND`. If a registered message changes, DRMAA Slurm users keep seeing the old wording.
+    fix: |
+      The branch takes the native Slurm runner's memory, walltime and cancellation messages from `RUNNER_STATE_DEFINITIONS` and compares against `NOT_FOUND`. The runner still doesn't emit the new reasons, as the description says. One step is left for the author: an `apply_runner_state(job_state, runner_state, message=None)` in `runner_state_definitions` that sets `runner_state`, picks the message and owns the rule for unknown names. `cli.py` and `pulsar.py` could then each make a single call. This changes how the CLI path treats unknown reasons, so it's a design call and isn't on the branch.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+      - {profile: thermo_review, model: Claude Opus 5.5, effort: medium}
+  - id: P3 1
+    include: true
+    title: Slurm CLI jobs whose batch script exits non-zero now skip finish_job
+    summary: "squeue -t all and the repaired sacct branch map FAILED to ERROR, so such jobs go through fail_job ('Job failed', no tool stdout/stderr or stdio rules); masked by the default core metrics plugin, so lowered from P2."
+    issue: |
+      Before this PR, every finished CLI Slurm job went through `finish_job`. It dropped out of the bulk `squeue`, and the single-status sacct branch computed `state` and then returned `job_states.OK` anyway. `finish_job` reads the exit code file and applies the tool's `<stdio>` rules in `check_tool_output`.
+
+      Now `get_single_status` uses `squeue -t all`, which keeps listing `F` jobs for `MinJobAge`, and the sacct branch returns the mapped state. Both map Slurm `FAILED` to `job_states.ERROR`. `check_watched_items` then finds no runner state for `FAILED` and calls `mark_as_failed` → `fail_job` → `job_wrapper.fail("Job failed")`. That skips `check_tool_output`, records no tool stdout or stderr, and doesn't offer `tool_detected_failure` to resubmit rules.
+
+      Slurm reports `FAILED` when the batch script exits non-zero. The tool command ends with `sh -c "exit $return_code"`, so the script exits with the tool's code unless `$instrument_post_commands` runs after it and exits 0. The default `core` metrics plugin does that, which is why this is P3 rather than P2. It still affects sites with job metrics disabled or a custom job template. Tools that accept a non-zero exit code, or legacy-profile tools that ignore exit codes, would now fail, and ordinary tool errors would show "Job failed" instead of the tool's stderr.
+
+      This is an analysis of the code. It wasn't reproduced against a real Slurm.
+    fix: |
+      Let `finish_job` decide for a plain `FAILED`. For example, in `check_watched_items` an `ERROR` for which `_handle_job_failure_reasons` found neither a runner state nor a message could fall through to `finish_job`, while `RaisedSignal` and the registered reasons keep failing the job. Whether that or mapping `F` to `OK` in the plugin is the better fit depends on what the plugin should mean by "failed", so it isn't on the branch.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+  - id: P3 2
+    include: true
+    title: "`_get_job_state` returns None for squeue codes it doesn't know, and the plugin's status parsing is untested"
+    summary: codes like CF (now reachable via squeue -t all) mapped to None and change_state(None); mapped the remaining codes, warn on unknown, and added parse_single_status/parse_status tests.
+    implementation_verified: true
+    issue: |
+      `Slurm._get_job_state` changed from raising `KeyError` to `.get(state)` and lost its `str` return type. `squeue` reports several codes that aren't in the map: `CF` (configuring, common on cloud and power-save nodes), `ST`, `SI`, `SO`, `SE`, `RH`, `RD` and `RF`. More of them are reachable now that single status uses `-t all`. For these codes the runner logs a change "to None" and calls `job_wrapper.change_state(None)`, which an SQL `NOT IN` guard happens to turn into a no-op.
+
+      None of the plugin's status changes is tested: `-t all`, `PR` now meaning `ERROR`, `_state_from_sacct` and the `None` return. `test_cli_failure_reasons.py` covers only failure reasons.
+    fix: |
+      Mapped `CF`/`RD`/`RF`/`RH` to queued, `SI`/`SO`/`ST` to running and `SE` to error. An unknown code now logs a warning and keeps the job watched as running, and the method returns `str` again. Added `test_cli_slurm_status.py`, which uses a small fake shell with canned output. It covers listed `PR`/`F`/`CD`/`R`/`CF` jobs and the sacct fallback (`CANCELLED by 1000`, `PREEMPTED`, `COMPLETED`, no rows). It also covers disabled accounting, an unknown code and bulk `parse_status`. `util/cli/job/slurm.py` is shared with Pulsar, so the mapping change needs mirroring there.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+      - {profile: gx_test_challenger, model: Claude Opus 5.5, effort: medium}
+  - id: P3 3
+    include: true
+    title: The new job_output_not_returned_from_cluster condition is undocumented
+    summary: the registry adds a job_output_not_returned_from_cluster resubmit variable (and test_resubmit asserts it) but the admin docs and sample config don't list it.
+    issue: |
+      Registering `JOB_OUTPUT_NOT_RETURNED_FROM_CLUSTER` with `condition="job_output_not_returned_from_cluster"` adds a boolean to resubmit expressions, and `test_resubmit.py` asserts it. `doc/source/admin/jobs.md` and `job_conf.sample.yml` were updated for `node_failure`, `preempted` and `runner_state`, but neither lists the new condition.
+    fix: |
+      Added `job_output_not_returned_from_cluster` to the condition variables in `doc/source/admin/jobs.md` and `job_conf.sample.yml`.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+      - {profile: learning_galaxy, model: Claude Opus 5.5, effort: medium}
+  - id: P3 4
+    include: true
+    title: A non-string runner_state from Pulsar raises instead of being ignored
+    summary: an int or list runner_state made _apply_remote_runner_state raise TypeError (job never failed over MQ, polling retries forever); now logged and ignored.
+    implementation_verified: true
+    issue: |
+      `_apply_remote_runner_state` guards against malformed reason strings with `REMOTE_RUNNER_STATE`, but a non-string value still breaks it. A list or dict makes `RUNNER_STATE_DEFINITIONS.get` raise `TypeError: unhashable type`, and an int makes `REMOTE_RUNNER_STATE.fullmatch` raise `TypeError`. On the MQ path the exception goes up through `__async_update`, so the job is never failed. On the polling path the monitor logs it and retries forever.
+    fix: |
+      A non-string `runner_state` is now handled like a malformed one: it's logged and ignored, and the remote message is still returned. The new test cases for an int, a list and a dict fail at `677cab47347` with `TypeError` and pass on the branch.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+  - id: P3 5
+    include: true
+    title: Several new Pulsar unit tests mock the code under test
+    summary: remote-runner-state tests called _update_job_state_for_status on a MagicMock self; __discard_previous_attempt and polling tests only asserted mock calls. Retargeted or dropped.
+    implementation_verified: true
+    issue: |
+      This one is optional. The six remote-runner-state tests in `test_pulsar_runner.py` call `PulsarJobRunner._update_job_state_for_status` unbound, with a `MagicMock` as `self`, and read `fail_job.call_args`. The logic they're meant to test is the module-level `_apply_remote_runner_state(job_state, full_status)`. `test_polling_does_not_fetch_full_status_of_running_jobs` asserts that a mock wasn't called. The two `__discard_previous_attempt` tests reach a name-mangled private method to assert that `clean()` was called on a mock. The embedded Pulsar integration test already depends on that cleanup, because it resubmits to the same Pulsar job id.
+    fix: |
+      The remote-runner-state cases now call `_apply_remote_runner_state` directly with a `SimpleNamespace` job state, and the malformed and non-string cases are one parametrized test. Two runner-level tests remain for the `fail_job` wiring: the message plus `full_status`, and the generic message. `test_lost_job_ignores_runner_state` stays. Dropped the running-job polling test and both `__discard_previous_attempt` tests. The `failure()` and `_resubmitted_for_tool_failure` mock tests were replaced under P2 3 and P2 4.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+      - {profile: gx_test_challenger, model: Claude Opus 5.5, effort: medium}
+  - id: P3 6
+    include: true
+    title: CLI failure-reason tests mock the runner, shell and job state
+    summary: extracted failure_reason_from_output and tested it with the real Slurm() plugin and plain strings, adding sacct fallback, PREEMPTED and OOM cases.
+    implementation_verified: true
+    issue: |
+      `test_cli_failure_reasons.py` calls `ShellJobRunner._handle_job_failure_reasons` unbound, with a `MagicMock` runner, shell and job state. The logic under test doesn't need a runner. It covers a registered reason giving a state and message, a plugin message without a reason, and an ordinary failure giving nothing. The sacct fallback (no `JobState=`, a `CANCELLED by 1000` line) and `PREEMPTED`, which the new `get_failure_reason` command can produce, aren't tested.
+    fix: |
+      Extracted the module-level `failure_reason_from_output(job_interface, stdout, external_job_id)` in `cli.py`, which returns `(runner_state, message)`. `_handle_job_failure_reasons` applies its result. The tests call it with the real `Slurm()` plugin and plain strings, and now cover `NODE_FAIL`, `PREEMPTED` and `OUT_OF_MEMORY` from `scontrol`, and `CANCELLED by 1000` and `TIMEOUT` from the sacct fallback.
+    discovered_by:
+      - {profile: gx_test_challenger, model: Claude Opus 5.5, effort: medium}
+  - id: P3 7
+    include: true
+    title: The Slurm CLI plugin re-parses scontrol and sacct output that the new shared module already parses
+    summary: util/cli/job/slurm.py uses ad-hoc JobState=/Reason= regexes and its own sacct parser beside util/slurm's parser; not fixed since util/slurm is mirrored with Pulsar.
+    issue: |
+      The PR moves `scontrol -o show job` parsing and sacct state parsing into `runners/util/slurm/__init__.py` to share them. The key=value splitting there copes with values that contain spaces and `=`. In the same PR, the Slurm CLI plugin parses the same `scontrol` output with ad-hoc regexes (`\bJobState=(\S+)`, `\bReason=(RaisedSignal\S+)`) and has its own sacct-line parser, `_state_from_sacct`. That leaves two parsers for one format side by side in `runners/util`.
+    fix: |
+      The plugin can't call `slurm_job_info`, because it builds command strings for a remote shell, but the parsing half can be shared. Split `slurm_job_info` into building the command and `parse_scontrol_job_info(stdout) -> dict[str, str]`. `parse_failure_reason` and `parse_failure_message` can then read `info["JobState"]` and `info.get("Reason")`. `util/slurm` is mirrored byte for byte with Pulsar, so this needs a matching Pulsar change and isn't on the branch.
+    discovered_by:
+      - {profile: thermo_review, model: Claude Opus 5.5, effort: medium}
+  - id: P3 8
+    include: true
+    title: Small test hygiene in the Slurm helper and resubmit tests
+    summary: test_memory_limit_messages restated the MEMORY_LIMIT_MESSAGES table (fixed); the registered_reason fixture deletes from runner_states.__dict__ by hand (left).
+    issue: |
+      This one is optional. In `test_slurm_util.py`, `test_memory_limit_messages` also asserts `MEMORY_LIMIT_MESSAGES[expected] == message`, which restates a constant table. In `test_resubmit.py`, the `registered_reason` fixture undoes `register_runner_state` by deleting from `RUNNER_STATE_DEFINITIONS` and `runner_states.__dict__` by hand.
+    fix: |
+      Dropped the `MEMORY_LIMIT_MESSAGES` assertion and its parametrize column. The fixture is left alone. If `register_runner_state` is a supported extension point, an unregister helper or context manager in `runner_state_definitions` would keep tests from reaching into the Bunch.
+    discovered_by:
+      - {profile: gx_test_challenger, model: Claude Opus 5.5, effort: medium}
+  - id: F1
+    include: false
+    title: register_runner_state monkeypatches the runner_states Bunch shared with Pulsar
+    summary: suggests keying the registry on value only and declaring new names in util/__init__.py, dropping the name parameter and setattr.
+    filtered:
+      category: relitigates_pr
+      reason: the description presents register_runner_state("GPU_LOST", ...) adding a new name as the API, with runner_states keeping only the names.
+    discovered_by:
+      - {profile: thermo_review, model: Claude Opus 5.5, effort: medium}
