@@ -1,0 +1,133 @@
+round: 0
+reviewed_commit: 5bdf34ea9ad057d551ec1812c7745e8267097c45
+agents:
+  - {profile: default, path: _shared/reviewers/default.md, model: Claude Fable 5.2, effort: medium}
+  - {profile: gx_test_challenger, path: _shared/reviewers/gx_test_challenger.md, model: Claude Fable 5.2, effort: medium}
+  - {profile: gx_risk_assessment, path: _shared/reviewers/gx_risk_assessment.md, model: Claude Fable 5.2, effort: low}
+  - {profile: learning_galaxy, path: gx_reviews/reviewers/learning_galaxy.md, model: Claude Fable 5.2, effort: medium}
+verification: {model: Claude Fable 5.2, effort: medium}
+branches:
+  - name: pr_24801_round_0_rev_0
+    revision: 0
+    head: d8ee6a160d6
+    pr_title: Move GFormInput swap checks to Selenium and trim the Vitest specs
+    description: |
+      `pr_24801_round_0_rev_0` builds on `5bdf34ea9ad`. It adds three Selenium checks for flows the swap touched and jsdom can't judge: the history panel index range filter applied with Enter, the API key show/hide button, and the visible group-name error in the tool credentials dialog. It removes the Vitest assertions on `GFormInput` classes and pass-through attributes, deletes `APIKeyItem.test.ts`, types the spec fixtures, and gives `FilterMenuInput` and `FilterMenuRanged` one shared text conversion.
+    commits:
+      - sha: 24f889bbac7
+        subject: Drop assertions on GFormInput classes and pass-through attributes
+        detail: removes the class, tag and pass-through attribute assertions from the seven specs, drops the vault secret mask and datalist/disabled tests, and keeps the value and behavior checks.
+        findings: [P3 1]
+      - sha: dae358e2ea6
+        subject: Add a Selenium test for the history panel index range filter
+        detail: adds `test_advanced_filter_index_range` and the `advanced_search_toggle` and `advanced_search_input` history panel selectors.
+        findings: [P2 1]
+      - sha: 245909be5fc
+        subject: Check the API key show/hide button in Selenium, not Vitest
+        detail: gives the button a `data-description`, clicks it in `test_api_key` and checks the input type, and deletes `APIKeyItem.test.ts`.
+        findings: [P3 2]
+      - sha: c1353d15fa3
+        subject: Type the fixtures of the credentials and filter menu specs
+        detail: types `SERVICE_DEFINITION` without the cast, removing its stray `multiple` field, and types the two filter menu mount helpers with the components' props.
+        findings: [P3 3]
+      - sha: 915ec94a817
+        subject: Share the filter menu text conversion
+        detail: adds `useFilterText` in `filterMenuText.ts` and binds `v-model` to it in both filter menu components.
+        findings: [P3 4]
+      - sha: d8ee6a160d6
+        subject: Check the credentials group name error in Selenium
+        detail: adds `test_credentials_group_name_error` against the `credentials_test` tool, two `data-description` attributes and five selectors, and drops the `d-block` assertion.
+        findings: [P3 5]
+actions: {approve: false, approve_and_merge: false, comment: false, review_comment: false, request_changes: false, pull_request: false, push: false, issue_refactor: false, issue_galaxy_brain: false}
+findings:
+  - id: P2 1
+    include: true
+    title: The range filter has no E2E test
+    summary: FilterMenuRanged is the most rewired input and no Selenium test touched a range filter or pressed Enter in an advanced filter; added a history panel test, which passes.
+    implementation_verified: true
+    issue: |
+      `FilterMenuRanged` is the most rewired input in the PR: `v-model` became `:model-value` with an `@update:model-value` handler and a text conversion, on both bounds. No Selenium test touches a range filter on any list (history panel `hid` and `create_time`, histories list `update_time`), and none presses Enter in an advanced filter field. Step 1 of the description's manual test plan is this flow.
+    fix: |
+      Added `test_history_panel.py::test_advanced_filter_index_range`. It opens the history panel's advanced filter on a history of four datasets, types `1` in "greater than index" and `4` in "lower than index", presses Enter, and waits for hids 2 and 3 to be shown and 1 and 4 hidden. `navigation.yml` gains `history_panel.advanced_search_toggle` and `advanced_search_input` (by filter name).
+    fix_details: |
+      The test passes at the reviewed commit and again after the conversion change in P3 4. It ran with the Playwright backend against the worktree's own Galaxy and Vite dev server.
+    discovered_by:
+      - {profile: gx_test_challenger, model: Claude Fable 5.2, effort: medium}
+  - id: P3 1
+    include: true
+    title: Specs assert the rendered component and pass-through attributes
+    summary: every spec asserted g-form-input/g-small classes and attributes the template passes straight through; optional since #24686 and #24718 merged the same style; trimmed on the branch.
+    implementation_verified: true
+    issue: |
+      Each of the seven specs has a test named for the component it renders ("renders both filters in GFormInput fields", "masks the stored secret in a disabled password GFormInput", …). They assert the `g-form-input` class and, in places, `g-small`, `mw-100`, `tagName === "INPUT"`, `required`, `type`, `autocomplete`, `list` or `disabled`. These check `GFormInput`'s own rendering and Vue's attribute fallthrough, not the component under test. They pass with every behavior broken and need rewriting at the next base-component change. The specs merged with #24686 and #24718 have the same style, so this is optional here, but worth settling before the remaining swaps.
+    fix: |
+      Removed the class, tag and attribute assertions and renamed the tests after what they still check. Dropped three whole tests: the vault secret mask (four template literals), the datalist/disabled test in `FilterMenuInput.test.ts`, and the "disabled password" test in `APIKeyItem.test.ts`. The value and behavior checks stay: the `change`/`on-update` emits, parent updates, Enter/Escape, `aria-invalid`, and the credentials payload and placeholder handling.
+    discovered_by:
+      - {profile: default, model: Claude Fable 5.2, effort: medium}
+      - {profile: gx_test_challenger, model: Claude Fable 5.2, effort: medium}
+  - id: P3 2
+    include: true
+    title: The API key reveal check belongs in Selenium
+    summary: the new Vitest test checks the show/hide button behind two module mocks while test_api_key already reads the same input; moved the check there and deleted APIKeyItem.test.ts.
+    implementation_verified: true
+    issue: |
+      `test_personal_information.py::test_api_key` already reads the input by `data-test-id="api-key-input"` and compares its value to the key. The new Vitest test "reveals and hides the key with the show/hide button" checks the right thing at the wrong layer: it mounts `APIKeyItem` behind two module mocks, one of which (`./model/service`) neither test uses, and finds the button by its tooltip text.
+    fix: |
+      Added `data-description="show or hide api key"` to the button and `preferences.api_key_show_hide_button` to `navigation.yml`. `test_api_key` now clicks the button and checks that the input's `type` goes from `password` to `text` and back. Deleted `APIKeyItem.test.ts`.
+    discovered_by:
+      - {profile: gx_test_challenger, model: Claude Fable 5.2, effort: medium}
+  - id: P3 3
+    include: true
+    title: Spec fixtures are cast instead of typed
+    summary: the credentials fixture's `as unknown as` cast hid a `multiple` field the schema doesn't have, and the filter menu mount helpers took untyped props; typed all three.
+    implementation_verified: true
+    issue: |
+      `CredentialsGroupForm.test.ts` builds `SERVICE_DEFINITION` with `as unknown as ServiceCredentialsDefinition`, so a schema change won't break it at compile time. The cast already hides one mismatch: the fixture sets `multiple: false`, which the schema type doesn't have. `mountInput` and `mountRanged` in the filter menu specs take `Record<string, unknown>`, which drops the components' prop types.
+    fix: |
+      Typed `SERVICE_DEFINITION` as `ServiceCredentialsDefinition` and removed the `multiple` field and the cast. `mountInput` and `mountRanged` now take `Partial<>` of the component's `$props`. `vue-tsc --noEmit` passes.
+    discovered_by:
+      - {profile: gx_test_challenger, model: Claude Fable 5.2, effort: medium}
+  - id: P3 4
+    include: true
+    title: The filter text conversion is written two ways in sibling components
+    summary: FilterMenuInput uses a writable computed, FilterMenuRanged an asText() function plus two inline handlers, for the same job; optional; shared as useFilterText on the branch.
+    implementation_verified: true
+    issue: |
+      `FilterMenuInput.vue` adapts its value with a writable computed (`inputValue`). `FilterMenuRanged.vue` uses an `asText()` function plus two inline `@update:model-value="… = $event ?? undefined"` handlers. Both carry the same comment and do the same job: present a `string | boolean | undefined` filter value as text and write text back. The conversion exists only for typing, since `FilterMenu.vue` routes `Boolean` filters to `FilterMenuBoolean` and neither component receives a boolean. This is optional.
+    fix: |
+      Added `useFilterText` in `client/src/components/Common/filterMenuText.ts`, a writable computed over the local value. `FilterMenuInput` and both bounds of `FilterMenuRanged` bind `v-model` to it, which removes `asText()` and the inline handlers. It passes `undefined` through, since `GFormInput`'s `modelValue` is optional.
+    fix_details: |
+      `vue-tsc --noEmit` passes, as do `FilterMenu.test.ts`, `FilterMenuInput.test.ts`, `FilterMenuRanged.test.ts` and the Selenium range filter test from P2 1.
+    discovered_by:
+      - {profile: default, model: Claude Fable 5.2, effort: medium}
+  - id: P3 5
+    include: true
+    title: The group-name error's visibility is checked through a class
+    summary: the `:state` fix on the BFormGroup was tested by asserting `d-block` in jsdom; optional; added a Selenium test that fails without the fix and passes with it.
+    implementation_verified: true
+    issue: |
+      The PR adds `:state` to the `BFormGroup` so the group-name message still shows, and the spec asserts the `d-block` class on `.invalid-feedback` as a stand-in for "visible". Whether the user sees the message is a CSS question jsdom can't answer, and the service credentials form had no Selenium coverage. The reviewer raised this as optional, depending on whether a test tool that declares credentials exists; `credentials_test` in `test/functional/tools/sample_tool_conf.xml` does.
+    evidence: |
+      With `:state="getGroupNameState()"` removed from the `BFormGroup`, the new Selenium test times out waiting for the message, which is in the DOM but hidden. With the PR's change it passes.
+    fix: |
+      Added `test_tool_form.py::TestLoggedInToolForm::test_credentials_group_name_error`. It opens `credentials_test`, opens the credentials dialog, creates a group, types a two-character name and waits for "Group name must be at least 3 characters" to be visible. The tool form's credentials button and the "Create New Group" button gain `data-description` attributes, and `navigation.yml` gains five `tool_form.credentials_*` selectors. Removed the `d-block` assertion from the Vitest spec, which still checks the message text and `aria-invalid`.
+    discovered_by:
+      - {profile: gx_test_challenger, model: Claude Fable 5.2, effort: medium}
+  - id: F1
+    include: false
+    title: The new value-to-text conversion is untested
+    summary: asks for a boolean or numeric filters value in each filter menu spec; FilterMenu never sends these inputs a boolean, and the conversion is now one helper both specs run through.
+    filtered:
+      category: not_actionable
+      reason: The conversion only satisfies the type; FilterMenu routes Boolean filters to FilterMenuBoolean, so the case under test can't occur.
+    discovered_by:
+      - {profile: gx_test_challenger, model: Claude Fable 5.2, effort: medium}
+  - id: F2
+    include: false
+    title: The hover step in Selenium test_api_key asserts nothing
+    summary: test_api_key hovers the input and re-reads its value, which never changes now that reveal is a button; the step predates the PR and is left in place.
+    filtered:
+      category: pre_existing
+      reason: The hover step is in test_personal_information.py, which the PR doesn't touch.
+    discovered_by:
+      - {profile: gx_test_challenger, model: Claude Fable 5.2, effort: medium}
