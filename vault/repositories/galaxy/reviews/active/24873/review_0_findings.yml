@@ -8,10 +8,10 @@ verification: {model: Claude Opus 5.5, effort: medium}
 branches:
   - name: pr_24873_round_0_rev_0
     revision: 0
-    head: e1b5062570f
+    head: e2a2bc112fa
     pr_title: Fix stale capture docstring and test the no-reason log line
     description: |
-      `pr_24873_round_0_rev_0` builds on `16758fc6136`. It updates the `_capture_workflow_tool_request_state` docstring, which still called the rejection case "quiet", and replaces the direct `_single_line_reason` test with a log-path test of the empty-reason line, which now reads "no reason given" instead of the `validation_failed` enum value.
+      `pr_24873_round_0_rev_0` builds on `16758fc6136`. It updates the `_capture_workflow_tool_request_state` docstring, which still called the rejection case "quiet", replaces the direct `_single_line_reason` test with a log-path test of the empty-reason line, which now reads "no reason given" instead of the `validation_failed` enum value, and replaces `_single_line_reason` itself with a `clean_pydantic_error` helper in `galaxy.tool_util.parameters` that the tool test linter now shares.
     commits:
       - sha: a266512f227
         subject: "Update capture docstring: rejection no longer quiet"
@@ -21,6 +21,10 @@ branches:
         subject: Replace private-helper test with log-path test of empty reason
         detail: drops `test_single_line_reason`, adds `test_capture_log_without_reason` through `_log_workflow_tool_request_state`, and changes the empty-reason fallback to "no reason given".
         findings: [P3 3]
+      - sha: e2a2bc112fa
+        subject: Share pydantic error cleanup between linter and capture log
+        detail: moves the linter's `_cleanup_pydantic_error` to `galaxy.tool_util.parameters.clean_pydantic_error` with a separator argument and calls it from the capture log in place of `_single_line_reason`.
+        findings: [P3 2]
 actions: {approve: false, approve_and_merge: false, comment: false, review_comment: false, request_changes: false, pull_request: false, push: false, issue_refactor: false, issue_galaxy_brain: false}
 findings:
   - id: P3 1
@@ -36,11 +40,11 @@ findings:
   - id: P3 2
     include: true
     title: "`_single_line_reason` duplicates existing pydantic-error cleanup"
-    summary: optional; linter's _cleanup_pydantic_error already strips the same pydantic URL lines. Not fixed on the release branch.
+    summary: optional; linter's _cleanup_pydantic_error already strips the same pydantic URL lines. Fixed with one shared helper.
     issue: |
       `galaxy.tool_util.linters.tests._cleanup_pydantic_error` already drops the `For further information visit https://errors.pydantic...` lines from the same `RequestParameterInvalidException(str(e))` text that `tool_util/parameters/model_validation.py` raises. The new private `_single_line_reason` in `workflow/modules.py` is a second copy of that logic, differing only in joining with `"; "` instead of newlines.
     fix: |
-      Optional, and fine to defer given the `release_26.2` target: move one helper somewhere shared (e.g. `galaxy.tool_util.parameters` or `galaxy.util`) with a separator argument and call it from both sites.
+      Moved the linter's helper to `galaxy.tool_util.parameters` as `clean_pydantic_error(error, separator="\n")` and replaced `_single_line_reason` with a call to it using `separator="; "`. Linter messages now also strip each line and drop blank lines; the linter and workflow module tests pass.
     discovered_by:
       - {profile: default, model: Claude Opus 5.5, effort: medium}
   - id: P3 3
