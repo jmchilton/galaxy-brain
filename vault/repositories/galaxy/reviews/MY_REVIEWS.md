@@ -3,7 +3,7 @@
 - [#24840](https://github.com/galaxyproject/galaxy/pull/24840) — initial review on `67d7e1ca88a` in progress. [notes](active/24840/index.md)
 - [#24867](https://github.com/galaxyproject/galaxy/pull/24867) — initial review on `59603c8e042` ready, unposted (four optional P3s; all fixed on `pr_24867_round_0_rev_0`, not pushed into PR). [notes](active/24867/index.md)
 - [#24857](https://github.com/galaxyproject/galaxy/pull/24857) — initial review on `93b224b00ea` in progress. [notes](active/24857/index.md)
-- [#24846](https://github.com/galaxyproject/galaxy/pull/24846) — initial review on `00be733f7cc` in progress. [notes](active/24846/index.md)
+- [#24846](https://github.com/galaxyproject/galaxy/pull/24846) — initial review on `00be733f7cc` ready, unposted (three P3s; all fixed on `pr_24846_round_0_rev_0`, not pushed into PR). [notes](active/24846/index.md)
 - [#24873](https://github.com/galaxyproject/galaxy/pull/24873) — initial review on `16758fc6136` ready, unposted (three P3s; all fixed on `pr_24873_round_0_rev_0`, not pushed into PR). [notes](active/24873/index.md)
 
 - [#24861](https://github.com/galaxyproject/galaxy/pull/24861) — approved (round 0, `15b1e13ac15`); review branch `pr_24861_round_0_rev_0` pushed into PR (head `e8c3915dd10`); awaiting merge. [notes](active/24861/index.md)

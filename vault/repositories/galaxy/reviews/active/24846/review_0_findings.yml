@@ -1,0 +1,70 @@
+round: 0
+reviewed_commit: 00be733f7cc9a515c7a994399a80268b1892fda9
+agents:
+  - {profile: default, path: _shared/reviewers/default.md, model: Claude Opus 5.5, effort: medium}
+  - {profile: gx_test_challenger, path: _shared/reviewers/gx_test_challenger.md, model: Claude Opus 5.5, effort: low}
+  - {profile: gx_risk_assessment, path: _shared/reviewers/gx_risk_assessment.md, model: Claude Opus 5.5, effort: low}
+verification: {model: Claude Opus 5.5, effort: medium}
+branches:
+  - name: pr_24846_round_0_rev_0
+    revision: 0
+    head: 492d43398c6
+    pr_title: Test curated list free text, drop stale Filtering comments
+    description: |
+      `pr_24846_round_0_rev_0` builds on `00be733f7cc`. It adds a `CuratedWorkflowList` test that pins the one-line `validatedFilterText()` change, drops comments in `CuratedWorkflowList.vue` and `ToolsList.vue` that still say `Filtering` loses free text, and documents the new plain-word behavior on `getFilterText`'s `sourceFilterText` parameter.
+    commits:
+      - sha: a0d7519d208
+        subject: Test CuratedWorkflowList keeps free text when removing invalid filters
+        detail: "types `flye owner:bob`, clicks \"Remove invalid filters from query\" and asserts the filter text and the catalog search are both `flye`."
+        findings: [P3 3]
+      - sha: b515788c99e
+        subject: Drop stale claims that Filtering loses free text
+        detail: rewords the `toggleRunnable`, `searchText` and `toggleCollection` comments in `CuratedWorkflowList.vue` and the `applyFilter` comment in `ToolsList.vue`, keeping the reasons that still hold.
+        findings: [P3 1]
+      - sha: 492d43398c6
+        subject: Document getFilterText keeping plain words without an autoFilterKey
+        detail: adds one sentence to the `sourceFilterText` docstring.
+        findings: [P3 2]
+actions: {approve: false, approve_and_merge: false, comment: false, review_comment: false, request_changes: false, pull_request: false, push: false, issue_refactor: false, issue_galaxy_brain: false}
+findings:
+  - id: P3 1
+    include: true
+    title: Comments still say `Filtering` drops free text
+    summary: four comments in CuratedWorkflowList.vue and ToolsList.vue justify workarounds with the bug this PR fixes; reworded.
+    implementation_verified: true
+    issue: |
+      After this change, `Filtering` keeps plain words when it rebuilds a query without an `autoFilterKey`. Several comments still give "drops free text" as the reason for a workaround. In `CuratedWorkflowList.vue`, a file this PR edits, those are `toggleRunnable()`, `searchText()` and `toggleCollection()`. In `ToolsList.vue`, `applyFilter`'s picker path says "`Filtering` would drop the free text". `ToolsList` builds its `Filtering` with no `autoFilterKey`, so this PR makes that comment false too. The workarounds are still justified for their other reasons: a leftover `c:` term, words after an unquoted filter folding into its value, and repeated filters merging. A comment that blames the fixed bug invites someone to remove the workaround, or to add a new one, for the wrong reason.
+    fix: |
+      Reworded the four comments to drop the free-text claim and keep the reasons that still hold.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+  - id: P3 2
+    include: true
+    title: Wider effect on Grid lists, FilterMenu and ToolsList is undocumented
+    summary: the fix also changes every Grid list search, FilterMenu advanced search and ToolsList tag toggling; docstring updated, description line optional.
+    issue: |
+      The PR description frames this as a workflow-list fix. The `filtering.ts` change applies to every `Filtering` that has no `autoFilterKey` and gets `sourceFilterText`. That covers every Grid config through `GridList.vue` `validatedFilterText()` and tag clicks, `FilterMenu.vue` advanced-search submit, and `ToolsList.vue`'s non-picker `setFilterValue` path. For example, a Grid search for `foo tag:bar` now sends `foo tag:bar` instead of `tag:bar`. These all look like improvements, and the existing Grid, FilterMenu and ToolsList tests pass. The `getFilterText` docstring for `sourceFilterText` still only mentions `autoFilterKey` and quoting.
+    fix: |
+      Added a sentence to the `sourceFilterText` docstring saying that without an `autoFilterKey`, its plain words are written first, as typed. Optionally, add a line to the PR description so release-branch reviewers know Grid list and advanced searches change too.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+  - id: P3 3
+    include: true
+    title: "`CuratedWorkflowList` change has no test"
+    summary: the one-line validatedFilterText() change in CuratedWorkflowList was untested; added a component test that fails without it.
+    implementation_verified: true
+    issue: |
+      `CuratedWorkflowList.vue` gets the same `getFilterText(..., filterText.value)` change as `WorkflowList.vue`, but only `WorkflowList` gets a component test. In the curated list, `validatedFilterText()` only backs the "Remove invalid filters from query" link, and no existing test clicks that link.
+    fix: |
+      Added `keeps free text when invalid filters are removed from the query` to `CuratedWorkflowList.test.ts`. It types `flye owner:bob`, clicks the link and asserts that the filter text and the catalog search are both `flye`. With the base `CuratedWorkflowList.vue`, the test fails.
+    discovered_by:
+      - {profile: gx_test_challenger, model: Claude Opus 5.5, effort: low}
+  - id: F1
+    include: false
+    title: Filtering unit test builds its own filter config
+    summary: optional suggestion to build the filtering.test.js case from workflowFilters.ts/curatedFilters.ts.
+    filtered:
+      category: not_actionable
+      reason: the shipped configs are already exercised end to end by the WorkflowList and new CuratedWorkflowList component tests; the unit test's job is the generic no-autoFilterKey path.
+    discovered_by:
+      - {profile: gx_test_challenger, model: Claude Opus 5.5, effort: low}
