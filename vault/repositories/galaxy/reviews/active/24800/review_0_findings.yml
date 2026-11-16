@@ -1,0 +1,43 @@
+round: 0
+reviewed_commit: 21620b47273fc9f76ccf632debccbe02c8badf2e
+agents:
+  - {profile: default, path: _shared/reviewers/default.md, model: Claude Opus 5.5, effort: medium}
+  - {profile: gx_test_challenger, path: _shared/reviewers/gx_test_challenger.md, model: Claude Opus 5.5, effort: low}
+  - {profile: gx_risk_assessment, path: _shared/reviewers/gx_risk_assessment.md, model: Claude Opus 5.5, effort: low}
+  - {profile: gx_performance_challenger, path: _shared/reviewers/gx_performance_challenger.md, model: Claude Opus 5.5, effort: medium}
+verification: {model: Claude Opus 5.5, effort: medium}
+branches:
+  - name: pr_24800_round_0_rev_0
+    revision: 0
+    head: a4a5b002431
+    pr_title: Test /api/tools listing refreshes after a tool source index reload
+    description: |
+      `pr_24800_round_0_rev_0` builds on `21620b47273`. It adds an integration test that boots Galaxy with `use_cached_toolbox`, renames a local probe tool, re-indexes it, runs the `reload_tool_source_cache` handler and checks that the `/api/tools` listing serves the new name.
+    commits:
+      - sha: a4a5b002431
+        subject: Test /api/tools listing refreshes after a tool source index reload
+        detail: "adds `TestCachedToolBoxIndexReloadRefreshesListing` to `test_tool_source_storage.py`, which fails with the PR's `_invalidate_tool_caches()` call removed."
+        findings: [P3 1]
+actions: {approve: false, approve_and_merge: false, comment: false, review_comment: false, request_changes: false, pull_request: false, push: false, issue_refactor: false, issue_galaxy_brain: false}
+findings:
+  - id: P3 1
+    include: true
+    title: No API-level test of the tool listing after an index reload
+    summary: optional; the unit test proves the cache clear, but nothing checks that GET /api/tools serves the new name after a reload_tool_source_cache broadcast. Added an integration test.
+    implementation_verified: true
+    issue: |
+      Optional. The bug is `GET /api/tools` serving stale names, labels, sections and versions after a `reload_tool_source_cache` broadcast. The new unit test drives a `CachedToolBox` with a mocked `_store.load_index`, so it shows the payload caches are cleared but not that the API listing picks up the change. The closest integration test, `test_reload_serves_edited_tool_version`, calls `reload_toolbox` (which builds a new toolbox with empty caches) and reads `/api/tools/{id}`, which doesn't go through the cached `to_dict` payloads, so it can't catch this regression.
+    fix: |
+      Added `TestCachedToolBoxIndexReloadRefreshesListing` to `test/integration/test_tool_source_storage.py`. It boots with `use_cached_toolbox` and a local probe tool, reads the probe's name from `/api/tools?in_panel=False` to warm the cache, renames the probe on disk, re-indexes it with `populate_store_inline`, calls the `reload_tool_source_cache` handler and asserts the listing shows the new name. With the PR's `_invalidate_tool_caches()` line removed, the test fails with `'Probe' == 'Renamed Probe'`.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+      - {profile: gx_test_challenger, model: Claude Opus 5.5, effort: low}
+  - id: F1
+    include: false
+    title: Replace `MagicMock` trans objects with a small dataclass
+    summary: nit to swap MagicMock(user_is_admin=...) for a dataclass in the new unit test.
+    filtered:
+      category: not_actionable
+      reason: the test follows the file's existing MagicMock trans convention (test_to_panel_entry_includes_config_file_for_admin), and it asserts on returned names, so a silently answered attribute can't make it pass falsely.
+    discovered_by:
+      - {profile: gx_test_challenger, model: Claude Opus 5.5, effort: low}
