@@ -1,0 +1,93 @@
+round: 0
+reviewed_commit: 67d7e1ca88a5b5ed6e325f217adbeb4398036135
+agents:
+  - {profile: default, path: _shared/reviewers/default.md, model: Claude Opus 5.5, effort: medium}
+  - {profile: gx_test_challenger, path: _shared/reviewers/gx_test_challenger.md, model: Claude Opus 5.5, effort: low}
+  - {profile: gx_risk_assessment, path: _shared/reviewers/gx_risk_assessment.md, model: Claude Opus 5.5, effort: low}
+verification: {model: Claude Opus 5.5, effort: medium}
+branches:
+  - name: pr_24840_round_0_rev_0
+    revision: 0
+    head: 9e33ce40176
+    pr_title: Accept phylotype labels and add mothur datatype regression tests
+    description: |
+      `pr_24840_round_0_rev_0` builds on `67d7e1ca88a`. It lets the Otu and Sabund sniffers accept integer labels again, so phylotype list/rabund/sabund outputs sniff as before. It replaces the distance-matrix `assert` with `return False`, and adds `test/unit/data/datatypes/test_mothur.py`, where each empty- or short-input fix gets a case that fails on `release_26.2`. The CountTable doctest moves into that module.
+    commits:
+      - sha: 14c0fbaae13
+        subject: "mothur: add regression tests for empty/short-input fixes"
+        detail: adds pytest cases for CountTable, GroupAbund, AlignCheck, DistanceMatrix and SffFlow `set_meta` and for the Pairwise, LowerTriangle and Square distance-matrix sniffers, using a `MockDataset` whose `has_data()` is size based.
+        findings: [P2 2]
+      - sha: 732565e6f45
+        subject: "mothur: accept integer (phylotype) labels in Otu/Sabund sniffers"
+        detail: allows plain integers in `MOTHUR_LABEL_RE`, applies the `<= 1` bound only to decimals, fixes the comment and doctest, and adds phylotype-style sniff cases.
+        findings: [P2 1]
+      - sha: 4e098c45e2e
+        subject: "mothur: return False for non-positive distance matrix counts instead of assert"
+        detail: swaps `assert sequence_count > 0` for `return False`, drops the redundant `line_num == 0` guards and adds a `0` count sniff case.
+        findings: [P3 1]
+      - sha: 2725f5bab17
+        subject: "mothur: move empty CountTable set_meta doctest to pytest"
+        detail: removes the `Bunch`/lambda doctest and adds a blank-line case to the pytest CountTable test.
+        findings: [P3 2]
+      - sha: 9e33ce40176
+        subject: "mothur: test Sabund sniffing with a label heading line"
+        detail: adds a positive Sabund sniff case whose first line is `label\tnumOtus\t...`.
+        findings: [P3 3]
+actions: {approve: false, approve_and_merge: false, comment: false, review_comment: false, request_changes: false, pull_request: false, push: false, issue_refactor: false, issue_galaxy_brain: false}
+findings:
+  - id: P2 1
+    include: true
+    title: Otu/Sabund sniffers reject phylotype's integer labels
+    summary: new label regex rejects integer labels written by phylotype, so its list/rabund/sabund outputs stop sniffing; fixed by allowing integers.
+    implementation_verified: true
+    issue: |
+      `MOTHUR_LABEL_RE` only accepts `unique` or a decimal of at most 1, and the comment says a label "is never a plain integer". mothur's `phylotype` labels each OTU level with its taxonomy depth (`0`, `1`, `2`, ...). The tools-iuc `phylotype` wrapper offers label values `0` to `10`, and its `final.tx.1.subsample.1.pick.shared` test data uses label `1`. The Otu/Sabund sniffers accepted files with these labels on `release_26.2` but reject them at this commit. Tool outputs declare their format, so this only affects upload and auto-detection. The tightening isn't needed for #5767: that file repeats label `1` on every line, and the new duplicate-label check rejects it by itself.
+    evidence: |
+      None of the 8 tools-iuc list/rabund/sabund test files uses integer labels (checked with `cut -f1`), and mothur isn't installed locally, so the tests use constructed phylotype-style files (labels `1`, `2`, `3`). They sniff True on `release_26.2`, False at `67d7e1ca88a` and True after the fix. Both `false2` fixtures still sniff False because of their duplicate labels. Running `guess_ext` over every file in `lib/galaxy/datatypes/test/` gives the same result before and after the fix. The 8 tools-iuc files sniff the same on `release_26.2`, at `67d7e1ca88a` and after the fix (7 True; `cd-test.list` has too few rows and is False on all three).
+    fix: |
+      Added `\d+` to `MOTHUR_LABEL_RE` and applied the `<= 1` bound only to decimal labels. Also fixed the comment and the `is_mothur_label('1')` doctest, and added `test_sniff_phylotype_integer_labels` for Sabund, Otu, and an Otu list with a heading line.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+  - id: P2 2
+    include: true
+    title: Most empty/short-input fixes have no regression test
+    summary: GroupAbund, AlignCheck, DistanceMatrix, SffFlow and PairwiseDistanceMatrix fixes were untested, and the empty.txt sniff doctests pass on the base; added a pytest module whose cases all fail on release_26.2.
+    implementation_verified: true
+    issue: |
+      Of the ten fix commits, only the Otu/Sabund sniffers and CountTable's empty `set_meta` have tests that fail without the fix. The new `empty.txt` doctests for LowerTriangle/SquareDistanceMatrix also pass on the base, because `is_of_type`/`run_sniffers_raw` already turned the old `UnboundLocalError` into False. The GroupAbund short-line and `skip` fix, the AlignCheck `data_lines` clamp, the DistanceMatrix blank-line skip, the PairwiseDistanceMatrix `all_ints` fix and the SffFlow empty guard have no tests.
+    fix: |
+      Added `test/unit/data/datatypes/test_mothur.py`, which builds `MockDataset` instances with a size-based `has_data()` so that empty files take the production path. It has a case for each fix: the CountTable, GroupAbund, AlignCheck, DistanceMatrix and SffFlow `set_meta` fixes (asserting no warning via `caplog` where the fix silences one), the integer-distance PairwiseDistanceMatrix sniff, and the empty LowerTriangle and Square sniffs. The sniffs are called directly, so the old exceptions surface. All 8 cases fail on `release_26.2` and pass at `67d7e1ca88a`. The tests ran with a venv borrowed from another Galaxy worktree, because the PR worktree has none.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+      - {profile: gx_test_challenger, model: Claude Opus 5.5, effort: low}
+  - id: P3 1
+    include: true
+    title: Replace the commented `assert sequence_count > 0` with `return False`
+    summary: assert plus a two-line comment stands in for return False and is stripped under python -O; redundant line_num == 0 guard.
+    implementation_verified: true
+    issue: |
+      `LowerTriangleDistanceMatrix.sniff_prefix` and `SquareDistanceMatrix.sniff_prefix` keep `assert sequence_count > 0` and add a comment explaining that sniffer exceptions count as "no match". `if sequence_count <= 0: return False` says the same thing without the comment, and it still works under `python -O`. With `-O`, a file containing only `0` sniffs True for both types. The new `if line_num == 0: return False` is also redundant now that `sequence_count = 0` is initialised, because `0 != 0 + 1` already returns False.
+    fix: |
+      Replaced both asserts with `return False`, dropped the redundant `line_num == 0` guards, and added `test_distance_matrix_sniff_zero_count`. That test raises `AssertionError` at `67d7e1ca88a` and fails under `-O`; it passes after the fix, with and without `-O`.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+  - id: P3 2
+    include: true
+    title: CountTable doctest hand-rolls a dataset with `Bunch` and lambdas
+    summary: moved the empty-count-table set_meta doctest into the pytest module using MockDataset.
+    issue: |
+      The new CountTable `set_meta` doctest builds a fake dataset from `Bunch` and lambdas inside the class docstring, and forces `has_data` to True. The existing `MockDataset` helper in `test/unit/data/datatypes/util.py` does this job in the other datatype tests, such as `test_tabular.py`.
+    fix: |
+      Removed the doctest. `test_count_table_set_meta_empty` now covers both an empty file and a blank-line file, which exercises the `not headers[0][0]` guard with `has_data()` true. Both cases fail on `release_26.2`.
+    discovered_by:
+      - {profile: gx_test_challenger, model: Claude Opus 5.5, effort: low}
+  - id: P3 3
+    include: true
+    title: No positive Sabund sniff test with a `label` heading line
+    summary: new Sabund heading-skip branch was unexercised; added a positive sniff case.
+    issue: |
+      `mothur_datatypetest_true.mothur.otu` covers the Otu heading skip, but no sabund fixture has a heading line, so no test reaches the new heading branch in `Sabund.sniff_prefix`.
+    fix: |
+      Added `test_sabund_sniff_with_heading_line`, which fails on `release_26.2` and passes at `67d7e1ca88a`.
+    discovered_by:
+      - {profile: gx_test_challenger, model: Claude Opus 5.5, effort: low}
