@@ -1,0 +1,124 @@
+round: 0
+reviewed_commit: 2b11cda0d36d236a4562eb8ef7be2cfeb77add03
+agents:
+  - {profile: default, path: _shared/reviewers/default.md, model: Claude Opus 5.5, effort: medium}
+  - {profile: gx_test_challenger, path: _shared/reviewers/gx_test_challenger.md, model: Claude Opus 5.5, effort: low}
+  - {profile: gx_risk_assessment, path: _shared/reviewers/gx_risk_assessment.md, model: Claude Opus 5.5, effort: low}
+  - {profile: learning_galaxy, path: gx_reviews/reviewers/learning_galaxy.md, model: Claude Opus 5.5, effort: medium}
+verification: {model: Claude Opus 5.5, effort: medium}
+branches:
+  - name: pr_25005_round_0_rev_0
+    revision: 0
+    head: b5de0686878
+    pr_title: Fail jobs on refused from_work_dir copies and test the fail() path
+    description: |
+      `pr_25005_round_0_rev_0` builds on `2b11cda0d36`. It makes a refused `from_work_dir` copy fail the job instead of leaving an empty OK dataset, catches `output_collection_security` errors in the `finish()` move loop, stops recording the same security job message twice under extended metadata, shares the `*`/`?` escaping between the job script and the Python glob check, and adds an integration test for the `fail()` path. Input-dataset links (P2 2) are left for a decision.
+    commits:
+      - sha: 1a3c521edca
+        subject: Fail the job when the job script refuses a from_work_dir copy
+        detail: the refusing `case` branch appends to `rejected_work_dir_outputs` in the job directory and `_ensure_outputs_in_job_directory()` fails the job when that file exists; a new unit test runs the copy without `realpath` on `PATH` and fails without the shell change.
+        findings: [P2 1]
+      - sha: 72b821c5ef5
+        subject: Handle output_collection_security errors in the finish() move loop
+        detail: catches `OutputCollectionSecurityError` next to `OSError` and records it like the up-front check.
+        findings: [P3 3]
+      - sha: 2054805318a
+        subject: Don't duplicate the output_collection_security job message
+        detail: skips appending a message identical to one already imported, and the integration tests now assert exactly one such message; the extended-metadata test failed with two before the fix.
+        findings: [P3 2]
+      - sha: bf9e1254d04
+        subject: Share the from_work_dir wildcard escaping between shell and Python
+        detail: adds `escape_preserving_wildcards()` next to `ensure_job_path_in_job_directory()` and uses it with `shlex.quote` in `command_factory` and `glob.escape` in the job wrapper.
+        findings: [P3 1]
+      - sha: b5de0686878
+        subject: Test that fail() doesn't move a named output linking outside the job
+        detail: a new `output_symlink_containment_timeout` tool with a one-second time limit makes the local runner call `fail()` mid-run; the test fails with the `fail()` hunk reverted.
+        findings: [P2 3]
+actions: {approve: false, approve_and_merge: false, comment: false, review_comment: false, request_changes: false, pull_request: false, push: false, issue_refactor: false, issue_galaxy_brain: false}
+findings:
+  - id: P2 1
+    include: true
+    title: A refused from_work_dir copy can leave an empty output in an OK job
+    summary: no realpath in the job script's environment means every from_work_dir copy is refused silently and the empty output goes OK; now fails the job.
+    implementation_verified: true
+    issue: |
+      The job script refuses the `from_work_dir` copy whenever the `case` doesn't match, not only when the source leaves the job directory. If `realpath` is missing or fails (old coreutils on cluster nodes, macOS before 13), both `$(realpath …)` expand to empty and the copy is skipped. The source is still inside the job directory, so `_ensure_outputs_in_job_directory()` passes, and the pre-created empty destination becomes an OK dataset. The only trace is a line on the job's stderr. The PR description says a missing `realpath` refuses the copy, which is right, but the refusal has to show up as a failed job.
+    fix: |
+      The refusing branch of the copy command now also appends its message to `rejected_work_dir_outputs` in the job directory. `_ensure_outputs_in_job_directory()` fails the job with an `output_collection_security` message when that file exists. It only checks that the file exists and never reads it, because the tool can write there. A unit test runs the generated copy without `realpath` on `PATH` and checks that the output stays empty and the file is written. It fails without the shell change. With the Python glob check disabled, the existing `from_work_dir_outside` integration test still errors through this file alone.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+  - id: P2 2
+    include: true
+    title: Links to the job's own input datasets now fail jobs, with no profile gate
+    summary: real IUC tools (trinotate, crispr_studio) symlink an input to a from_work_dir path and will now error; left unfixed, needs John's call.
+    issue: |
+      A tool that links one of its own inputs to a `from_work_dir` path, or to `$output` under `outputs_to_working_directory`, used to get the input's content. Now the link leads into the object store, outside the job directory, so the job fails with `output_collection_security`. The `from_work_dir` case applies in the default configuration and to every tool profile. Reading a dataset the job was already given isn't an escalation. The PR description says links inside the job directory keep working, but doesn't mention this break. 64360a61721 gated its new unnamed-output and external-link restrictions by tool profile to keep older tools working.
+    evidence: |
+      Static scan of tools-iuc, not run:
+
+      - `tools/trinotate/trinotate.xml`: `ln -s '$cond_download.trinotate_sqlite_in' Trinotate.sqlite`, with the `trinotate_sqlite` output (`<filter>keep_sqlite</filter>`) on `from_work_dir="Trinotate.sqlite"`. The tool then runs `Trinotate Trinotate.sqlite init`/`LOAD_*` through the link, so it already writes into its input dataset's file. That makes it a weak case to keep working, but it breaks.
+      - `tools/crispr_studio/crispr_studio.xml`: in rerun mode, `ln -s '${rerun.prev_final}'` and `'${rerun.prev_svg}'` onto two `from_work_dir` paths.
+    fix: |
+      Either allow sources whose realpath is one of the job's input dataset paths (`job_io.get_input_paths()`), or document the break in the PR description and release notes so admins know why these tools now error. An allow-list can't live in Python alone. The refusal happens in the job script's `case`, so the input realpaths would also have to be written into that `case`. Left unfixed on the review branch because it is a policy call for a release branch.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+  - id: P2 3
+    include: true
+    title: The fail() path change has no test
+    summary: added a timeout tool and integration test that drives fail() mid-run; red with the fail() hunk reverted.
+    implementation_verified: true
+    issue: |
+      `MinimalJobWrapper.fail()` now moves outputs through `_move_working_directory_output()` and skips rejected ones, but no test reaches it. A tool that links its output and then exits non-zero, as first suggested, goes through `finish()` with an ERROR state, not `fail()`. `fail()` runs when the runner gives up on a job, for example on a time limit.
+    fix: |
+      Added an `output_symlink_containment_timeout` test tool with a one-second `timelimit` that links its named output outside the job directory and sleeps. The local runner then calls `fail()` while the tool is still running. The new test in the `outputs_to_working_directory` base class checks that the job errors and the dataset doesn't contain the sentinel. It passes under both directory and extended metadata, and fails when the `fail()` hunk goes back to `shutil.move`.
+    discovered_by:
+      - {profile: gx_test_challenger, model: Claude Opus 5.5, effort: low}
+  - id: P3 1
+    include: true
+    title: The from_work_dir wildcard split is duplicated between the shell and Python
+    summary: both the job script quoting and the finish() glob re-implemented the */? split; now one shared helper.
+    issue: |
+      `_ensure_outputs_in_job_directory()` re-implements the `*`/`?` split of `command_factory.__quote_preserving_globs` (`re.split(r"([*?])", …)` and escape everything else). Both have to agree on what the job script globs, and two copies can drift.
+    fix: |
+      Added `escape_preserving_wildcards(path, escape)` next to `ensure_job_path_in_job_directory()` in `galaxy.model.store.discover`. The job script quoting calls it with `shlex.quote` and the finish check with `glob.escape`. `__quote_preserving_globs` and the now-unused `re` imports are gone.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+  - id: P3 2
+    include: true
+    title: Duplicate output_collection_security job message with extended metadata
+    summary: confirmed two identical messages under extended metadata; finish() now skips an identical one, and the tests assert exactly one.
+    implementation_verified: true
+    issue: |
+      With extended metadata and `outputs_to_working_directory`, `set_metadata` already rejects the escaping named output and records an `output_collection_security` message, which the import keeps. `finish()` then re-checks the same `false_path` and appends an identical second message. The integration test only checked membership, so it passed.
+    fix: |
+      `finish()` now appends the message only if an identical one isn't there already. The integration helper asserts exactly one `output_collection_security` message. The extended-metadata test failed with two messages before the change.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+  - id: P3 3
+    include: true
+    title: OutputCollectionSecurityError from the finish() move loop is unhandled
+    summary: the move loop only caught OSError; the security error now fails the job with the normal message.
+    issue: |
+      `_move_working_directory_output()` re-checks containment and raises `OutputCollectionSecurityError`, which is a `ValueError`. The `finish()` move loop only catches `OSError`. The up-front check normally rejects the output first, but if the second check ever fires, `finish()` raises and the job fails as "Unable to finish job" instead of with the `output_collection_security` message. Keep the check itself, since `fail()` has no up-front check.
+    fix: |
+      The loop now catches `OutputCollectionSecurityError` and records it like the up-front check. No test drives this path because the up-front check rejects the output first.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+  - id: F1
+    include: false
+    title: Directory-strategy metadata test should also check the dataset file
+    summary: checking the dataset file stays empty is vacuous; directory set_metadata never writes it.
+    filtered:
+      category: not_actionable
+      reason: the added assertion passes with the set_metadata check reverted; the directory strategy never writes the object-store file, and finish() moves it, which the integration tests cover.
+    discovered_by:
+      - {profile: gx_test_challenger, model: Claude Opus 5.5, effort: low}
+  - id: F2
+    include: false
+    title: Glob from_work_dir not covered end to end (optional)
+    summary: an integration test can't isolate the Python glob check; the shell refusal and the new rejection file already fail such jobs.
+    filtered:
+      category: not_actionable
+      reason: with P2 1's fix an escaping glob source fails the job through the job script's refusal too, so an integration test can't isolate the Python glob check; the shell glob refusal is covered by the command_factory unit test.
+    discovered_by:
+      - {profile: gx_test_challenger, model: Claude Opus 5.5, effort: low}
