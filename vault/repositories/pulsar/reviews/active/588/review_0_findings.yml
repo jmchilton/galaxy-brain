@@ -1,0 +1,104 @@
+round: 0
+reviewed_commit: 44de4be5a65c7bcbe9bf10c03fc83a44ac4855ba
+agents:
+  - {profile: default, path: _shared/reviewers/default.md, model: Claude Opus 5.5, effort: medium}
+  - {profile: generic_test_challenger, path: _shared/reviewers/generic_test_challenger.md, model: Claude Opus 5.5, effort: medium}
+  - {profile: generic_risk_assessment, path: _shared/reviewers/generic_risk_assessment.md, model: Claude Opus 5.5, effort: low}
+verification: {model: Claude Opus 5.5, effort: medium}
+branches:
+  - name: pr_588_round_0_rev_0
+    revision: 0
+    head: 48ca2e4c
+    pr_title: Don't chmod hardlinked tool files and decide execute bits in one place
+    description: |
+      `pr_588_round_0_rev_0` builds on `44de4be5`. Its first commit stops `remote_hardlink` from adding execute bits to Galaxy's original tool file: actions now declare `shares_source_inode`, the client sends no `executable` flag for them, and `preprocess` ignores the flag. The staged tool files test gains `hardlink` and `remote_hardlink` cases with a `0744` helper. The next commit moves the tool-and-executable decision into `TransferTracker.handle_transfer_source`, which hands it to `put_file` and the remote staging entry. After that, `copy` stages tool files the same way `transfer` and the remote actions do. The last two commits fix the `preprocess` type hint and reuse `MockTool` in the test. The wire format is unchanged. `ruff`, `isort` and all of `client_staging_test.py`, `transfer_action_test.py` and `client_test.py` pass.
+    commits:
+      - sha: f48425e5
+        subject: Don't chmod hardlinked tool files
+        detail: adds `shares_source_inode` to the actions (true for `hardlink` and `remote_hardlink`), skips the `executable` staging flag for those actions in `up.py` and `pre.py`, and adds `hardlink` and `remote_hardlink` cases to the integration test with a `0744` helper whose source mode must stay unchanged.
+        findings: [P1 1]
+      - sha: f65b40fe
+        subject: Decide tool file execute bits once in TransferTracker
+        detail: computes the flag once in `handle_transfer_source` and passes it to `put_file(executable=)` and the staging entry; `put_file` no longer checks the type, and the type check test moves to a `TransferTracker` test via `MockClient`.
+        findings: [P2 1, P3 3]
+      - sha: b0316c09
+        subject: Stage copied tool files executable like transfer does
+        detail: makes `copy` call `add_executable_bits` like the other routes, removes `copy_executable_bits`, `copy(preserve_executable=)` and the unused `mode` argument, and uses a `0744` source in the copy test.
+        findings: [P3 1]
+      - sha: 3c017262
+        subject: Fix preprocess setup_actions type hint
+        detail: changes `setup_actions` to `List[Dict[str, Any]]`.
+        findings: [P3 2]
+      - sha: 48ca2e4c
+        subject: Use MockTool in staged tool files test
+        detail: replaces the `SimpleNamespace` tool with `pulsar.client.test.check.MockTool`.
+        findings: [P3 4]
+actions: {approve: false, approve_and_merge: false, comment: false, review_comment: false, request_changes: false, pull_request: false, push: false, issue_refactor: false, issue_galaxy_brain: false}
+findings:
+  - id: P1 1
+    include: true
+    title: "`remote_hardlink` chmods Galaxy's original tool file, and fails the job when Pulsar doesn't own it"
+    summary: The remote staging entry for remote_hardlink carries executable, so preprocess chmods the hardlinked source inode (0744 to 0755, or PermissionError, failing the job). Reproduced and fixed.
+    implementation_verified: true
+    issue: |
+      `TransferTracker.handle_transfer_source` sets `executable` for every remote action, `remote_hardlink` included. `RemoteHardlinkAction.write_to_path` hardlinks the source into the job directory, so when `preprocess` then calls `add_executable_bits(path)`, it changes the mode of Galaxy's original tool file. The PR description's "the `hardlink` actions are unchanged" holds only for the client-side `hardlink`.
+
+      This happens whenever a tool file is executable for some class but has a read bit without the matching execute bit, e.g. `0744`. If the Pulsar user owns the file, the tool file in Galaxy's tool directory is widened from `0744` to `0755`. If it doesn't, which is a common setup, `os.chmod` raises `PermissionError`. That call is outside `action_executor.execute`, so it isn't retried. `_handling_of_preprocessing_state` records `JOB_FILE_PREPROCESSING_FAILED` and the job fails. Before this PR the job ran.
+    evidence: |
+      Adding `("remote_hardlink", "embedded")` to `test_staged_tool_files_keep_executable_bit` with a `0744` helper fails at the reviewed commit. The source file ends up `0o755`. The `PermissionError` path, where the job fails, comes from reading the code and was not reproduced.
+    fix: |
+      Added a `shares_source_inode` class attribute to the actions, true for `HardlinkAction` and `RemoteHardlinkAction`. The client no longer sends `executable` for those actions, and `preprocess` ignores the flag for them as well. The integration test now uses a `0744` helper, adds `hardlink` and `remote_hardlink` cases, and checks that the source mode is unchanged. The `preprocess` guard has no test of its own, because the fixed client never sends the flag for these actions.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+  - id: P2 1
+    include: true
+    title: Decide execute bits once, in `TransferTracker`, and let the action say whether it writes a new inode
+    summary: The tool-and-executable decision was made separately in client.py put_file and up.py, which is how remote_hardlink was missed. Moved into handle_transfer_source.
+    implementation_verified: true
+    issue: |
+      Applying the bits once per route is the right design. Pulsar has three separate writers: the client-side copy, the `upload_file` route, and the server-side `preprocess`, which every remote transport reaches through `remote_staging["setup"]`. The weak spot is where the decision is made. `JobClient.put_file` and `TransferTracker.handle_transfer_source` each work out "tool file and executable" on their own, and neither asks the action whether it writes a new inode. That gap is P1 1.
+    fix: |
+      `handle_transfer_source` already knows the action, the path type and the source path. It now makes the decision once in a private `__stage_executable` helper, using `shares_source_inode` from the P1 1 fix, and passes the result to `put_file(executable=)` and to the remote staging entry. `put_file` applies what it is given and no longer looks at the path type. The type check test moved from `put_file` to a `TransferTracker` test through `MockClient`, which checks that only executable tool files get the flag and executable inputs don't. The `put_file` copy test now passes `executable` explicitly. The wire format is unchanged.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+  - id: P3 1
+    include: true
+    title: Execute bits differ by transport
+    summary: copy mirrored source execute bits, while transfer and remote actions add 0o111 wherever readable (0744 staged as 0744 vs 0755). Fixed by moving copy to the bool semantics.
+    implementation_verified: true
+    issue: |
+      `copy` mirrors the source's own execute bits (`copy_executable_bits`). `transfer` and the remote actions send a bool, and the server adds an execute bit wherever there's a read bit. With umask 022, a `0744` tool file stages as `0744` through `copy` but as `0755` through `transfer` or `remote_copy`. The difference is harmless and never widens past the umask, but it's avoidable.
+    fix: |
+      `copy` now calls `add_executable_bits` on the staged file like the other routes, so `copy_executable_bits`, `copy(preserve_executable=)` and the now-unused `mode` argument of `add_executable_bits` are gone. Matching the bool keeps the wire format as it is, instead of sending a mask. The copy test now uses a `0744` source, which fails with the old mirroring.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+  - id: P3 2
+    include: true
+    title: "`preprocess` type hint is now wrong"
+    summary: setup_actions List[Dict[str, str]] now also holds a bool (and already held a dict); fixed to Dict[str, Any].
+    issue: |
+      `setup_actions: List[Dict[str, str]]` now holds a bool under `"executable"`, and it already held a dict under `"action"`.
+    fix: |
+      Changed it to `List[Dict[str, Any]]`.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+  - id: P3 3
+    include: true
+    title: "`is_executable` and the `type == TOOL` check are duplicated"
+    summary: The same tool-and-executable check was in client.py and up.py; removed by the P2 1 commit.
+    issue: |
+      The client checks the same condition in `client.py` (`put_file`) and in `up.py`.
+    fix: |
+      Removed by the P2 1 commit. `TransferTracker` now holds the only check.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+  - id: P3 4
+    include: true
+    title: Use the existing `MockTool` instead of a `SimpleNamespace` tool
+    summary: Optional, cosmetic. The integration test's SimpleNamespace tool duplicates pulsar.client.test.check.MockTool. Replaced.
+    issue: |
+      Optional. `test_staged_tool_files_keep_executable_bit` builds `SimpleNamespace(id="tool1", version="1.0", tool_dir=...)`. `pulsar.client.test.check.MockTool(tool_dir)` already has that shape and is the repo's stand-in for a staged tool.
+    fix: |
+      The test now uses `MockTool`.
+    discovered_by:
+      - {profile: generic_test_challenger, model: Claude Opus 5.5, effort: medium}
