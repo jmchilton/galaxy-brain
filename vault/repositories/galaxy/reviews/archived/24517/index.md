@@ -1,3 +1,6 @@
+---
+related_records: galaxy/reviews/23986
+---
 # galaxy#24517 — Read the start of an object from where it is stored
 
 - PR: https://github.com/galaxyproject/galaxy/pull/24517 (davelopez, base `dev`)
