@@ -1,3 +1,6 @@
+---
+related_records: galaxy/reviews/23986
+---
 # galaxy #23984 — Surface remote_tool_eval failures as job errors
 
 [PR #23984](https://github.com/galaxyproject/galaxy/pull/23984) · Status: verification complete; assessment returned to John; no GitHub review posted.
