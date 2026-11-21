@@ -4,7 +4,7 @@ Snapshot: 2026-11-09 (reclassified from GitHub: #24555 merged, removed; #22996 r
 
 ## Open Galaxy PRs — ready from our side (`ready`)
 
-- [`issue_24174_invocation_rerun_lineage`](active/issue_24174_invocation_rerun_lineage/index.md) — Records invocation rerun lineage in the database, API, run forms and invocation lists. [#24786](https://github.com/galaxyproject/galaxy/pull/24786).
+- [`issue_24174_invocation_rerun_lineage`](active/issue_24174_invocation_rerun_lineage/index.md) — Records invocation rerun lineage in the database, API and run forms; no UI display. [#24786](https://github.com/galaxyproject/galaxy/pull/24786).
 - [`issue_24438_select_comma_split_25.1`](active/issue_24438_select_comma_split_25.1/index.md) — Preserve commas in single-select tool tests; lint and document multiple-select comma values (#24438). [#24491](https://github.com/galaxyproject/galaxy/pull/24491).
 - [`issue_24220_drop_collection_matching_26.0`](active/issue_24220_drop_collection_matching_26.0/index.md) — Tool form drag and drop matches dropped collections like the server; shared literal split-type helper (#24220). Base `release_26.0`. [#24453](https://github.com/galaxyproject/galaxy/pull/24453).
 - [`upgrade_advice_structured_like`](active/upgrade_advice_structured_like/index.md) — Tool upgrade advisor: `structured_like` advice moved to 26.0 (#23884), plus 26.1/26.2 advice and advisor fixes. [#24524](https://github.com/galaxyproject/galaxy/pull/24524).

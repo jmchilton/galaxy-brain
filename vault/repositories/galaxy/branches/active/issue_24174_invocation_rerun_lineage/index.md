@@ -10,11 +10,11 @@ pr: 24786
 
 ## Status
 
-Reviewed by John at `683e2f05365` and ready (`ready`), with the same-workflow rule, the grid's expanded-row lineage line and differential-review test removals added after polish ([PR description](pr_description.md), [titles](pr_titles.md), [tags](pr_tags.md), [checklist](pr_checklist.md), [polish debrief](polish_debrief.md); [screenshots](screenshots/) with [index](screenshot_debrief.md)).
+Backend-only at `d0cfbada671` (`ready`): UI display stripped 2026-11-21 after reviewer feedback, history rewritten, description and title updated ([PR description](pr_description.md), [titles](pr_titles.md), [tags](pr_tags.md), [checklist](pr_checklist.md), [polish debrief](polish_debrief.md)).
 
-PR [#24786](https://github.com/galaxyproject/galaxy/pull/24786) is open, out of draft.
+PR [#24786](https://github.com/galaxyproject/galaxy/pull/24786) is open, out of draft, retitled "Persist workflow rerun lineage".
 
-Fork CI is green on `683e2f05365`; upstream's only red is `test_purge_all_histories` (Playwright `Test (3.10, 1)`, failed on rerun), unrelated: it also fails on dev run 42356060398 and on unrelated PRs since `b30953d1fca` added it.
+CI pending on `d0cfbada671`; `683e2f05365` was green apart from unrelated `test_purge_all_histories`.
 
 ## Decisions
 
@@ -24,6 +24,7 @@ Fork CI is green on `683e2f05365`; upstream's only red is `test_purge_all_histor
 - 2026-11-04: John decided a rerun's source must be an invocation of the same stored workflow (any version); a different workflow, including an identical copy, is rejected with 400 (`9a8bf84c5ab`). John asked for a PR description without hedging.
 - 2026-11-06: John decided the grid has no rerun hint on collapsed rows; lineage moves to a compact line in the expanded row, and full-page views keep their banners (`d66dcdb412b`).
 - 2026-11-07: John dropped `test_invocations_lineage.py` and `test_invocation_rerun_migration.py` in differential review (`683e2f05365`).
+- 2026-11-21: after mvdbeek and ahmedhamidawan found the display too prominent, John had all client display (banners, card badge, grid line, their vitests, lineage E2E and selectors) stripped; run forms still submit `rerun_of_invocation_id`, and `schema.ts` stays. History rewritten via filter-branch (backend byte-identical to `683e2f05365`; backup `issue_24174_pre_ui_strip_backup_683e2f05365`); new E2E `test_workflow_rerun_records_source` checks run-form submission via the API (red with the simple-form submit removed). Display left for a follow-up with the #22590 list rework.
 - Worktree: `~/projects/worktrees/galaxy/branch/issue_24174_invocation_rerun_lineage`.
 
 ## Notes

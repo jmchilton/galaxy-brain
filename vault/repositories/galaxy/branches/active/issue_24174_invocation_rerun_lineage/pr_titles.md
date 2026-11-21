@@ -1,1 +1,2 @@
-- Persist workflow rerun lineage and show it on invocations
+- Persist workflow rerun lineage
+- Persist workflow rerun lineage and show it on invocations (before UI display was stripped, 2026-11-21)

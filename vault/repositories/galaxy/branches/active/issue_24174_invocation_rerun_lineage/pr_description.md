@@ -1,31 +1,25 @@
-Implement 🎯 #24174 - Galaxy records which invocation a workflow rerun came from, and links the two.
+Implement 🎯 #24174 - Galaxy records which invocation a workflow rerun came from, and returns that lineage from the invocation API.
 
-Since 🔀 #20032, users iterate on an analysis by clicking **Rerun** on an invocation, changing something and submitting. After a few rounds, nothing tells them which run came from which. The rerun page knows its source (`/workflows/rerun?invocation_id=I`), but that link was dropped before submission. With this PR, the source is sent and stored, and the invocation page links both ways:
+Since 🔀 #20032, users iterate on an analysis by clicking **Rerun** on an invocation, changing something and submitting. After a few rounds, nothing records which run came from which. The rerun page knows its source (`/workflows/rerun?invocation_id=I`), but that link was dropped before submission. With this PR, both run forms send the source and the server stores it. The invoke payload takes `rerun_of_invocation_id`, so a parameter-sweep script can record lineage too, and invocation responses return `is_rerun`, `rerun_of_invocation_id` and `latest_rerun_invocation_id`.
 
-![Invocation J, a rerun of I that was itself rerun as K: one banner reads "This invocation is a rerun of an earlier invocation. View source invocation", a second reads "A newer rerun of this invocation exists. View latest rerun"](screenshots/workflow_rerun_lineage_source_3.png)
+***This PR adds no display.*** The UI records lineage silently. How to show it is left to a follow-up, alongside the invocation list rework (#22590).
 
-| Invocation cards                                                                                                                        | Invocations grid                                                                                                                                                                             |
-| --------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| ![The invocation card list: both reruns carry a Rerun badge, the original has none](screenshots/workflow_rerun_lineage_list_marker.png) | ![An expanded row in the invocations grid: under the "Last updated" line, one line reads "Rerun of an earlier invocation: View source · Newer rerun exists: View latest"](screenshots/workflow_rerun_lineage_grid_expanded.png) |
+***This uses the issue's listed alternative, a nullable, indexed `workflow_invocation.rerun_of_invocation_id` foreign key with a migration, rather than its migration-free meta-parameter proposal. With a meta parameter, finding the newest rerun would mean filtering unindexed text across every invocation's request parameters, and an `is_rerun` flag in lists would mean loading each row's request parameters. The column serves both from the invocation row and an index.***
 
-These come from the new E2E test, which runs I → J through the simple run form and J → K through the expanded one, and reloads each rerun page so the links are shown to persist. The API gets the same link: the invoke payload takes `rerun_of_invocation_id`, so a parameter-sweep script can record lineage too, and the invocation view returns it.
+***Lineage here is direct links only: J records its source I, and I reports its newest rerun. Galaxy doesn't group a whole lineage together, link I straight to K, or record which step was edited.***
 
-***This uses the issue's listed alternative, a nullable, indexed `workflow_invocation.rerun_of_invocation_id` foreign key with a migration, rather than its migration-free meta-parameter proposal. With a meta parameter, the "newer rerun" link would mean filtering unindexed text across every invocation's request parameters, and the list markers would mean loading each row's request parameters. The column serves both from the invocation row and an index.***
-
-***Lineage here is direct links only: J links to its source I, and I links to its newest rerun. Galaxy doesn't group a whole lineage together in lists, link I straight to K, or record which step was edited.***
-
-***Each link appears only when the viewer could already open the linked invocation. A newer private rerun by someone else is skipped, not revealed. List views add no queries; a single invocation view adds at most two.***
+***Each lineage id is returned only when the viewer could already open that invocation. A newer private rerun by someone else is skipped, not revealed. List views add no queries; a single invocation view adds at most two.***
 
 ***A rerun must run the same workflow as its source, in any version, so rerunning after editing the workflow keeps the link. The server rejects a source from a different workflow, including an identical copy, with a 400. Reruns from the UI always run the source's own workflow.***
 
 ***Invoking a workflow is unchanged unless the caller sends `rerun_of_invocation_id`. Existing invocations are not backfilled. `GET /api/invocations/{id}/request` stays a clean template, so replaying J's request doesn't label the new run a rerun of I. History and invocation imports drop lineage rather than carry a database id that means something else on another server.***
 
-<details><summary>What a viewer sees, and what they don't</summary>
+<details><summary>What a viewer gets from the API, and what they don't</summary>
 
-- **Access.** Each link is shown only when the viewer can access the linked invocation, using the usual invocation rule (the invocation's history is owned by the viewer, importable, or shared with them, or the viewer is an admin). A rerun can target a different history from its source, so each side is checked separately.
-- **"Latest rerun".** This is the newest direct rerun the viewer can access. When the newest is private to someone else, the link falls back to the next accessible one.
-- **Markers.** `is_rerun` is on every invocation view and drives the card badge. It stays `true` when the source has become inaccessible to the viewer: the badge still shows, but the detail page has no source banner.
-- **Invocation grids.** Collapsed rows show no rerun marker. Expanding a row in any of the four invocation grids shows the links as one compact line, because the expanded row is where the invocation's element view is loaded. A link the viewer can't access is left out of that line.
+- **Access.** Each lineage id is returned only when the viewer can access that invocation, using the usual invocation rule (the invocation's history is owned by the viewer, importable, or shared with them, or the viewer is an admin). A rerun can target a different history from its source, so each side is checked separately.
+- **`latest_rerun_invocation_id`.** This is the newest direct rerun the viewer can access. When the newest is private to someone else, it falls back to the next accessible one.
+- **`is_rerun`.** It is on every invocation view, collection views included. It stays `true` when the source has become inaccessible to the viewer, while `rerun_of_invocation_id` is then `null`.
+- **Element views only.** `rerun_of_invocation_id` and `latest_rerun_invocation_id` are on element views, since resolving them needs the access queries.
 - **Deleted sources.** The foreign key is `ON DELETE SET NULL`: deleting a source's row clears its reruns' links.
 - **Submitting.** On invoke, the server loads the source with the normal invocation access check before building any run config. A malformed id fails the whole request with 400, a missing invocation with 404, an inaccessible one with 403, and a source from a different workflow with 400. Both run forms show these errors in their existing "Workflow submission failed" alert. A batch invoke gives every invocation it creates the same source.
 
@@ -33,24 +27,24 @@ These come from the new E2E test, which runs I → J through the simple run form
 
 <details><summary>Cost</summary>
 
-Collection views, which back the grid, the card list and every other client list, add no queries. Element views resolve lineage for the whole batch in at most two queries, one for accessible sources and one ranked query for the newest accessible rerun of each invocation. The history access rule is applied in SQL rather than loaded per related invocation. A first, per-invocation version cost 611 statements to show a published invocation that 200 other users had rerun; this one costs 10, against 8 without lineage. On PostgreSQL 16 with 3M invocations the lineage queries take 0.1–0.3 ms, and the migration's DDL took about 1.4 s.
+Collection views, which back every client list, add no queries. Element views resolve lineage for the whole batch in at most two queries, one for accessible sources and one ranked query for the newest accessible rerun of each invocation. The history access rule is applied in SQL rather than loaded per related invocation. A first, per-invocation version cost 611 statements to show a published invocation that 200 other users had rerun; this one costs 10, against 8 without lineage. On PostgreSQL 16 with 3M invocations the lineage queries take 0.1–0.3 ms, and the migration's DDL took about 1.4 s.
 
 </details>
 
 <details><summary>How the branch is organised</summary>
 
-Fourteen commits:
+Twelve commits:
 
 1. Refactor: `serialize_workflow_invocations` holds the serialization loop and `serialize_workflow_invocation` delegates to it. No behavior change on `dev`.
 2. Model, migration, invoke payload, source validation, run-config propagation, the element-view lineage fields, API, migration and model-store tests.
-3. Client: both run forms submit the source, plus the lineage banners, the card badge and the grid column.
-4. to 8. Review, test and E2E follow-ups, plus CI typing fixes.
-9. Batched lineage resolution, with the access rule in SQL, plus unit tests for access semantics and query counts.
-10. Typing fixes for 9.
-11. A differential test of the SQL access clause against `check_security`, and separate 400 and 404 tests for invalid sources.
-12. The same-workflow rule for rerun sources, with its API test.
-13. Replaces the grid column from 3 with a compact lineage line in the expanded row, with unit tests and E2E coverage of its links.
-14. Drops the migration test from 2 and the lineage unit tests from 9 and 11.
+3. Client: both run forms submit the source, plus the regenerated API schema.
+4. to 6. Review and test follow-ups, plus CI typing fixes.
+7. Batched lineage resolution, with the access rule in SQL, plus unit tests for access semantics and query counts.
+8. Typing fixes for 7.
+9. A differential test of the SQL access clause against `check_security`, and separate 400 and 404 tests for invalid sources.
+10. The same-workflow rule for rerun sources, with its API test.
+11. Drops the migration test from 2 and the lineage unit tests from 7 and 9.
+12. An E2E test that both run forms record the source.
 
 </details>
 
@@ -90,7 +84,7 @@ Follow-up to 🔀 #20032 (fixing 🎯 #11340), which rebuilds a rerun's request 
 
 <details><summary>All general and workflow-related items pass.</summary>
 
-- [x] What does the user see when it fails? A rerun with an inaccessible, unknown or different-workflow source is rejected with "Workflow submission failed: …". Links the viewer can't access are hidden, not broken.
+- [x] What does the user see when it fails? A rerun with an inaccessible, unknown or different-workflow source is rejected with "Workflow submission failed: …". Lineage ids the viewer can't access are returned as `null`, not leaked.
 - [x] Is the diff free of unrelated or stale generated changes? Yes!
 - [x] Are unit tests not just testing the literal implementation? Yes. The model-store test checks lineage against real imports. Access semantics are covered by API tests.
 - [x] Are baseline tests in their own leading commits (if applicable)? Yes. The one reshaping of dev code is the leading no-behavior-change commit, which existing invocation API tests cover.
@@ -109,7 +103,7 @@ Follow-up to 🔀 #20032 (fixing 🎯 #11340), which rebuilds a rerun's request 
 
 ### ✅ [Scope Evaluation](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/GX_PROCESS_SCOPE_EVALUATION.md)
 
-<details><summary>Keep the direct-lineage scope: persistent source links, accessible newer-rerun hints, markers and both run forms.</summary>
+<details><summary>Keep the direct-lineage scope: persistent source links, accessible newest-rerun ids, <code>is_rerun</code> and both run forms.</summary>
 
 The indexed self foreign key is one of the issue's named alternatives and suits the reverse lookups. Transitive grouping, edited-step metadata and import remapping were weighed and left out. For I → J → K, K links to J and J links to I; following the links exposes the chain, but I doesn't link straight to K.
 
@@ -131,7 +125,7 @@ The element-view lineage fields depend on the viewer, and the serializers had ac
 
 <details><summary>Thin mocked wiring tests replaced by real browser coverage; migration and model-store tests kept and strengthened.</summary>
 
-- A mocked component test for the banner and a mocked rerun case in `WorkflowRunForm.test.ts` were dropped. The E2E test covers that wiring through a real browser and server, across both run forms, and adds assertions on the links in the grid's expanded row.
+- A mocked rerun case in `WorkflowRunForm.test.ts` was dropped. The E2E test covers that wiring through a real browser and server, across both run forms.
 - The migration test was kept, because an API test on an already-migrated server can't check pre-existing rows, the foreign key and index, `SET NULL` or the downgrade.
 - The model-store test now checks that exports omit the lineage id and that imports discard a planted one.
 
@@ -176,9 +170,8 @@ Codex reviewed the full diff, the invocation service and run request modules, an
 <details><summary>Tests</summary>
 
 - API (`lib/galaxy_test/api/test_workflows.py`): `test_workflow_invocation_rerun_lineage` covers persistence, list and element views, batch runs, latest-rerun ordering and request-export independence. `test_workflow_invocation_rerun_access` covers inaccessible sources and links. `test_workflow_invocation_rerun_same_workflow` checks that a copy of the workflow is rejected and a newer version accepted. `test_workflow_invocation_rerun_invalid_source` checks that a malformed source id gets a 400 and a missing invocation a 404, and that neither creates an invocation.
-- Client: `WorkflowInvocationLineage.test.ts` covers the banners and the compact line, and `WorkflowInvocationState.test.ts` checks that only non-full-page views are compact.
 - Unit: `test/unit/data/model/test_model_store.py` (imports drop lineage).
-- E2E: `lib/galaxy_test/selenium/test_workflow_rerun.py::TestWorkflowRun::test_workflow_rerun_lineage` (both run forms, both link directions, card badges, links in the grid's expanded row).
+- E2E: `lib/galaxy_test/selenium/test_workflow_rerun.py::TestWorkflowRun::test_workflow_rerun_records_source` reruns I → J through the simple run form and J → K through the expanded one, and checks each new invocation's `rerun_of_invocation_id` through the API.
 
 </details>
 
