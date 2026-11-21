@@ -1,0 +1,479 @@
+round: 0
+reviewed_commit: ae37e517ebc3e8acbbd2225848f4b896511375f1
+agents:
+  - {profile: default, path: _shared/reviewers/default.md, model: Claude Opus 5.5, effort: medium}
+  - {profile: thermo_review, path: _shared/reviewers/thermo_review.md, model: Claude Opus 5.5, effort: medium}
+  - {profile: gx_test_challenger, path: _shared/reviewers/gx_test_challenger.md, model: Claude Opus 5.5, effort: medium}
+  - {profile: gx_performance_challenger, path: _shared/reviewers/gx_performance_challenger.md, model: Claude Opus 5.5, effort: medium}
+  - {profile: gx_risk_assessment, path: _shared/reviewers/gx_risk_assessment.md, model: Claude Opus 5.5, effort: low}
+  - {profile: learning_galaxy, path: gx_reviews/reviewers/learning_galaxy.md, model: Claude Opus 5.5, effort: xhigh}
+verification: {model: Claude Opus 5.5, effort: medium}
+branches:
+  - name: pr_23986_round_0_rev_0
+    revision: 0
+    head: f4c1a518d0c
+    pr_title: Crypt4GH review fixes - grant lookups, tool refusals, binary inputs and test cleanup
+    description: |
+      `pr_23986_round_0_rev_0` builds on `ae37e517ebc`. It refuses to decrypt inputs for tools declaring credentials, passes encrypted datasets that match only as binary to tools encrypted, deletes a purged user's grants, looks up output grants in one query, skips the protected-input walk at submission when no input is encrypted, verifies metadata files of protected outputs from the object store backend, and warns when Crypt4GH is enabled without a walltime limit. It also shares the grant checks of submission and dispatch, narrows the generic Crypt4GH extensions to `c4gh` and `crypt4gh`, moves `iter_relpaths` to `galaxy.util.path`, and reworks the tests: integration helpers now authorize with the header the API exposes and call the protection API through `DatasetPopulator`, runner-independent refusal tests run once, failed outputs are checked to serve nothing but encrypted data, and new tests cover tool refusals, binary inputs and datatype redetection.
+    commits:
+      - sha: a95576c9c7c
+        subject: Explain why the dispatch-time job cache search skips protected jobs
+        detail: rewords the comment so it no longer contradicts the submit-time search reusing the same user's protected jobs.
+        findings: [P3 4]
+      - sha: fdf4b0caaae
+        subject: Say why crypt4gh is imported inside functions
+        detail: adds one module-level comment explaining that `crypt4gh` is a conditional dependency.
+        findings: [P3 8]
+      - sha: cd54e100736
+        subject: Only treat c4gh and crypt4gh as generic Crypt4GH extensions
+        detail: replaces the `c[^.]*4gh` pattern with an explicit set and extends the extension helper unit test.
+        findings: [P3 6]
+      - sha: 16452e13ed8
+        subject: Refuse to decrypt inputs for tools receiving user credentials
+        detail: makes `_can_decrypt_inputs` refuse tools with `tool.credentials` and updates the admin documentation.
+        findings: [P3 2]
+      - sha: 804af62f1ae
+        subject: Warn when Crypt4GH is enabled without a walltime limit
+        detail: logs a warning from `DatasetProtectionManager` when `crypt4gh_enabled` is set and no walltime limit is configured.
+        findings: [P3 5]
+      - sha: 5865f08ff09
+        subject: Delete a purged user's dataset protection grants; drop redundant index
+        detail: deletes the user's grants in `UserManager.purge`, drops the separate `user_id` index from the model and migration, and adds a purge unit test.
+        findings: [P3 7]
+      - sha: f95a4865a81
+        subject: Look up the grants of a protected job's outputs in one query
+        detail: loads existing output grants in chunked `IN` queries and keeps grants created in the loop in the same mapping.
+        findings: [P2 10]
+      - sha: 210fb80738e
+        subject: Skip the protected-input walk at submission unless an input is encrypted
+        detail: guards `check_job_inputs` with an in-memory check over `inp_data` and checks `is_protected` before looking up conversions.
+        findings: [P2 11]
+      - sha: 85b0ba57a09
+        subject: Verify metadata files of protected outputs from the object store backend
+        detail: lets `ObjectStore.get_data_head` take location arguments, adds `MetadataFile.get_data_head` and uses it in output verification.
+        findings: [P3 20]
+      - sha: 1270b22da92
+        subject: Share the grant checks of check_job_inputs and authorize_job
+        detail: moves the tool refusal and grant loop into `_usable_grants`, which `check_job_inputs` converts to a request error.
+        findings: [P3 10]
+      - sha: 14097da5a17
+        subject: Move iter_relpaths to galaxy.util.path
+        detail: moves the generic directory walk out of `galaxy.util.crypt4gh` and updates its four callers.
+        findings: [P3 13]
+      - sha: 24da5df9efc
+        subject: Check protected job step order by running the job script
+        detail: drops the substring-position test, records the metadata step in the script-running test and splits its loop into two tests.
+        findings: [P3 17]
+      - sha: b1058c5448a
+        subject: Drop grant manager unit tests repeating integration tests
+        detail: removes four unit tests whose behavior the integration tests already cover.
+        findings: [P3 14]
+      - sha: a0ec1e83891
+        subject: Run runner-independent refusal tests only once
+        detail: moves four tests refused before any job reaches a runner into a local-only class the Pulsar classes don't inherit.
+        findings: [P3 15]
+      - sha: af0dd67a554
+        subject: Test the refusal of tools that could send decrypted data out through the API
+        detail: replaces the `_can_decrypt_inputs` unit test on `Bunch` tools with an integration test running two new test tools.
+        findings: [P3 18, P3 2]
+      - sha: f5f6cfac83a
+        subject: Show that only encrypted data is served for failed protected outputs
+        detail: replaces three weak display checks with one helper that also asserts nothing but encrypted data was served.
+        findings: [P3 16]
+      - sha: 2d9b6c9a68c
+        subject: Test that redetecting an encrypted dataset's datatype keeps its inner type
+        detail: adds an API test running the `change_datatype` task with `auto` on an encrypted dataset.
+        findings: [P3 19]
+      - sha: 12f3c49c0fe
+        subject: Authorize datasets in tests with the header the API exposes
+        detail: makes `_authorize` read `metadata_crypt4gh_header` from the API like the browser and asserts its value after upload.
+        findings: [P2 6]
+      - sha: 4b437005cfb
+        subject: Call the dataset protection API through DatasetPopulator
+        detail: adds protection helpers to `DatasetPopulator` and uses them and `copy_hda` in both integration modules.
+        findings: [P2 9]
+      - sha: f4c1a518d0c
+        subject: Pass encrypted datasets matching only as binary to tools encrypted
+        detail: decides whether a tool reads an input encrypted from whether its inner format matched, with a new test tool and integration test.
+        findings: [P3 3]
+actions: {approve: false, approve_and_merge: false, comment: false, review_comment: false, request_changes: false, pull_request: false, push: false, issue_refactor: false, issue_galaxy_brain: false}
+findings:
+  - id: P2 1
+    include: true
+    title: Collection paths and JSON-serialized inputs hand tools the encrypted files
+    summary: "$collection.all_paths, data_style=paths config files and serialize() read stored paths, so decrypted jobs get ciphertext. Reproduced; not fixed (design call)."
+    implementation_verified: true
+    issue: |
+      `ProtectedInputsComputeEnvironment` points the tool at decrypted copies by overriding the compute environment's input path rewrites. That covers everything built from a `DatasetFilenameWrapper`: `$input`, `#for $e in $collection` and `$collection.paths_as_file`. Several established idioms read paths straight from the model instead:
+
+      - `DatasetCollectionWrapper.all_paths` and `all_metadata_files` read `collection.element_identifiers_extensions_paths_and_metadata_files`, which calls `Dataset.get_file_name()`.
+      - `data_collection_input_to_path` and `data_collection_input_to_staging_path_and_source_path` in `wrapped_json.py` back `$collection.serialize` and `<inputs data_style="paths"/>` or `data_style="staging_path_and_source_path"` config files for collection parameters.
+      - For single datasets, `DatasetFilenameWrapper.all_metadata_files` feeds `serialize()`'s `metadata_files` from the stored, encrypted metadata files, while `$input.metadata.bam_index` returns the decrypted ones.
+
+      The job still decrypts the element into `_protected/`, but the tool reads the ciphertext and the job ends `ok`. The admin docs say encrypted datasets are decrypted inside collections, and many IUC tools use JSON `inputs` config files or `all_paths`. No integration test passes an encrypted dataset as a collection element.
+    evidence: |
+      A throwaway test tool running `cat` over `$input1.all_paths` and, as a control, over `#for $e in $input1#`, on a list holding one authorized `fastqsanger.c4gh` dataset: the job ended `ok`, the control output decrypted to the FASTQ plaintext, and the `all_paths` output decrypted to the input's Crypt4GH ciphertext (`crypt4gh\x01...`).
+    fix: |
+      Have the collection wrapper's `all_paths`, `all_metadata_files` and `serialize`, and the single-dataset `all_metadata_files`, go through the compute environment per element, as the element wrappers do. Add an integration test with a collection input read through `all_paths` or a `data_style="paths"` config file, plus a `#for` loop as a control.
+
+      Not fixed on the review branch: routing these through the compute environment for every job also changes the paths Pulsar, deferred inputs and remote tool evaluation see today, so the author should pick between that and a protected-only hook. Estimated at about 100 to 150 changed lines with the test.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+  - id: P2 2
+    include: true
+    title: Protected-job behavior is scattered as inline protection_scheme branches through MinimalJobWrapper
+    summary: about nine job.protection_scheme checks across prepare/fail/finish/cleanup; suggests a per-job protection policy (null object for plain jobs). Not fixed, large refactor.
+    issue: |
+      `lib/galaxy/jobs/__init__.py` checks `job.protection_scheme`, or calls into `app.dataset_protection`, in at least nine unrelated places: `cleanup_job`, `protection_setup_failure()`, `clear_working_directory`, `_authorize_protected_job`, the job-cache reuse condition in `prepare`, `fail()` (twice), `_finish_dataset` and `finish()`. `JobLike.set_streams` adds a `getattr(self, "protection_scheme", None)` probe, and `BaseJobRunner._finish_or_resubmit_job` calls `protection_setup_failure()` from the `remote_tool_eval` error path.
+
+      Each check is reasonable alone, but together a reader of `fail()` or `finish()` has to know the Crypt4GH lifecycle to follow the generic flow, and nothing reminds the next change to these flows of the protection rules. Some invariants are also enforced twice in different forms: tool output kept out of `dataset.info` in both `_finish_dataset` and `set_metadata.py`, and the job directory never kept in both `cleanup_job` and `clear_working_directory`.
+    fix: |
+      Have `DatasetProtectionManager` return a per-job policy object where the job is authorized: a real one for protected jobs and a null object for all others. `MinimalJobWrapper` holds it and calls it unconditionally at fixed lifecycle points (cleanup, clearing the working directory, job reuse, redacting info and streams, before import, on fail, on finish, setup failure). The `protection_scheme` column stays as the persisted discriminator used to rebuild the policy, and `JobLike.set_streams` takes an explicit redaction decision from its caller.
+
+      Not fixed on the review branch: estimated at 300 to 500 changed lines across the job wrapper, runners and tests.
+    discovered_by:
+      - {profile: thermo_review, model: Claude Opus 5.5, effort: medium}
+  - id: P2 3
+    include: true
+    title: set_metadata_portable gains about a dozen output_protector branches
+    summary: nullable output_protector mode flag threaded through set_metadata, discover.py and output_collect; suggests an output-persistence strategy object. Not fixed, large refactor.
+    issue: |
+      `set_metadata_portable` threads `output_protector` through as a nullable mode flag. With a protector it skips validation, records `stored_from_discovery`, strips tool metadata from `file_dict`, swaps `collect_extra_files` for `persist_extra_files`, skips stdout and stderr in `dataset.info` (in two separate conditions), formats tracebacks differently in two places, installs a root logging filter, refuses unnamed outputs, forces `job.protection_scheme`, calls `output_protector.finish(...)`, flips `job.state` and skips `write_job_metadata`. The same optional protector is threaded into `ModelPersistenceContext` (`create_dataset`, `set_datasets_metadata`, `_persist_paths`) and `collect_primary_datasets`.
+
+      Every branch is a place where plain and protected persistence can drift apart, and a step added later can't tell whether it needs a protected variant.
+    fix: |
+      Define a small output-persistence strategy built once from `metadata_params`: plain persistence by default, `OutputProtector`-backed for protected jobs. Pass it, not an `Optional[OutputProtector]`, to `set_metadata_portable`, `ModelPersistenceContext` and `JobContext`, so the conditionals become method calls. `OutputProtector` already holds most of the logic (`protect_declared`, `without_tool_metadata`, `finish`).
+
+      Not fixed on the review branch: estimated at 250 to 400 changed lines.
+    discovered_by:
+      - {profile: thermo_review, model: Claude Opus 5.5, effort: medium}
+  - id: P2 4
+    include: true
+    title: The keep-encryption rule for datatype changes is enforced at six entry points
+    summary: keeps_encryption checks in datasets/library_datasets/history_contents/controller/PJA, generic modules import Crypt4GH; suggests one datatype-level policy at Registry.change_datatype. Not fixed.
+    issue: |
+      `keeps_encryption` and `ensure_datatype_change_keeps_encryption` are called from the dataset deserializer, `library_datasets.py`, the bulk change in `history_contents.py`, the legacy controller's datatype list, and `ChangeDatatypeAction` (which also wraps the new type and logs instead of raising), with `redetect_ext` preserving wrappers on top. Generic modules (`post.py`, `managers/datasets.py`) now import the `Crypt4GH` class for `isinstance` checks, against the PR's own boundary that the rest of Galaxy only talks about protected datasets. Any other datatype-change path stays unprotected unless someone remembers the rule.
+
+      Galaxy already has a datatype-level hook, `Data.is_datatype_change_allowed()`, which the deserializer calls right next to the new check, and a single mutation point, `Registry.change_datatype`.
+    fix: |
+      Generalize the hook into a target-aware policy on the datatype (e.g. `datatype_change_refusal(target) -> str | None`, overridden by `Crypt4GH`), call it from `Registry.change_datatype` and from one shared check used by the API paths that need an early user-facing error, filter the UI datatype list on it, and move the post-job action's wrap-the-requested-type step into `Crypt4GH`.
+
+      Not fixed on the review branch: estimated at about 200 to 300 changed lines.
+    discovered_by:
+      - {profile: thermo_review, model: Claude Opus 5.5, effort: medium}
+  - id: P2 5
+    include: true
+    title: Destination checks reach across layers and are split between ProtectionDestination.check and command_factory
+    summary: wrapper finds its runner via job_handler.dispatcher and a runner-name string compare; two refusals live in build_command. Suggests runner-described capabilities, one refusal stage. Not fixed.
+    issue: |
+      `MinimalJobWrapper._protection_destination` reaches its runner through `getattr(self.app.job_manager.job_handler, "dispatcher", None)`, then asks the dispatcher three new helpers (`runner_of`, `is_pulsar`, `splits_into_tasks`) and a new runner attribute. `is_pulsar` compares `runner.runner_name == "PulsarJobRunner"`. The wrapper assembles facts the runner already owns, through a back-reference the `getattr` default shows may be missing.
+
+      Refusals are also split: `ProtectionDestination.check` runs while preparing, while `command_factory.build_command` raises for two more conditions (metadata not embedded in the job; Pulsar with remote tool evaluation). Runners therefore catch `ProtectionError` at two stages, with new `except ProtectionError` arms in `runners/__init__.py` and two in `pulsar.py`.
+    fix: |
+      Have each runner describe its own capabilities (e.g. `runner.protection_capabilities(job_wrapper) -> ProtectionDestination`, overridden by `PulsarJobRunner` instead of detected by name) and pass that into `prepare`. Fold the two `command_factory` conditions into `ProtectionDestination.check`, since both are known before the command is built.
+
+      Not fixed on the review branch: estimated at about 150 to 250 changed lines across runners, the dispatcher and tests.
+    discovered_by:
+      - {profile: thermo_review, model: Claude Opus 5.5, effort: medium}
+  - id: P2 6
+    include: true
+    title: No test checks the header the browser sends when authorizing
+    summary: integration _authorize recrypted the test's own ciphertext, Vitest used a literal; now reads metadata_crypt4gh_header from the API and asserts its value.
+    implementation_verified: true
+    issue: |
+      The key icon sends `metadata_crypt4gh_header`, read from the HDA detailed view (`getCrypt4ghHeader` in `client/src/composables/datasetProtection.ts`), to the user service. No test checked that the API exposes this field or that its value is the dataset's user header: the integration helper `_authorize` built the header from the test's own ciphertext, and the Vitest test passes the literal `"user-header"`. If the serialized metadata changed, every test would still pass while the key icon broke.
+    fix: |
+      Added `MockRecryptorService.user_recrypt_header`, which takes the base64 header the browser sends. `_authorize` now reads `metadata_crypt4gh_header` from the detailed dataset view and recrypts that, and `test_upload_is_protected_but_not_ready` asserts the field equals the base64 of the uploaded user header. The grants test and four execution tests using `_authorize` (own, shared-recipient, conversion and expiring-keypair cases) pass.
+    discovered_by:
+      - {profile: gx_test_challenger, model: Claude Opus 5.5, effort: medium}
+  - id: P2 7
+    include: true
+    title: No E2E test for authorizing a dataset with the key icon
+    summary: the feature's only user interaction (key icon, user-service call, PUT, check mark) has no browser test. Not fixed, needs a CORS-capable mock user service.
+    issue: |
+      The key icon on an expanded encrypted dataset calls the user-side service, PUTs the grant and then shows a check mark. None of this has a browser test: the `showAuthorizeCompute` conditions in `DatasetActions.vue`, reading `crypt4gh_user_service_url` from the config, the browser-to-service call, and the status refresh after the PUT.
+    fix: |
+      Extend `MockRecryptorService` with a user-side `POST /recrypt_header` route and CORS preflight handling (`do_OPTIONS`, `Access-Control-Allow-*`). Add an `integration_selenium` test with `crypt4gh_user_service_url` pointing at the mock that uploads `reads.fastqsanger.c4gh` and a plain dataset, asserts the key icon (`.authorize-compute-btn`) appears only on the encrypted one, clicks it, and asserts `.authorized-check` appears and `GET datasets/{id}/protection` reports `ready`. Add the selectors to the history dataset smart components.
+
+      Not fixed on the review branch: estimated at about 200 changed lines with the mock service route, selectors and test, and it needs a built client to run.
+    discovered_by:
+      - {profile: gx_test_challenger, model: Claude Opus 5.5, effort: medium}
+  - id: P2 8
+    include: true
+    title: Grant-manager unit tests fake the model instead of using Galaxy's test app
+    summary: test_dataset_protection.py patches the ORM class with Bunch, uses a MagicMock session and replaces manager methods; suggests GalaxyDataTestApp rows. Not fixed, large rewrite.
+    issue: |
+      `test/unit/app/managers/test_dataset_protection.py` builds hand-rolled fakes (`_FakeDataset`, `_FakeOutput`, `_FakeObjectStore`, `Bunch` jobs, users and tools) with a `MagicMock` session. Nine tests patch the ORM class itself with `mock.patch("galaxy.managers.dataset_protection.DatasetProtectionGrant", Bunch)` and read the grant back from `sa_session.add.call_args`, several replace manager methods on the instance, and the concurrency test scripts `commit.side_effect`. These tests can't catch mapping or relationship errors and are tied to which methods the manager happens to call.
+    evidence: |
+      On the review branch, batching the output grant lookup into one `select(...)` broke eight of these tests: `select(Bunch)` raises `ArgumentError` once the ORM class is patched out. The branch had to stub the new `_get_grants` method in `_manager()` too.
+    fix: |
+      Build real `User`, `Dataset`, `HistoryDatasetAssociation` and `Job` rows on `galaxy.model.unittest_utils.data_app.GalaxyDataTestApp` and assert on queried `DatasetProtectionGrant` rows. Splitting the pure output classification in `finish_job` from purging and grant writing, and extracting the `Crypt4GHGrantData` construction in `_record_output_grants` into a pure function, would remove most remaining stubs.
+
+      Not fixed on the review branch: estimated at 400 or more changed lines.
+    discovered_by:
+      - {profile: gx_test_challenger, model: Claude Opus 5.5, effort: medium}
+  - id: P2 9
+    include: true
+    title: Protection API calls bypass populators and duplicate copy_hda
+    summary: both integration modules called datasets/{id}/protection through their own raw helpers and repeated copy_hda; now DatasetPopulator helpers.
+    implementation_verified: true
+    issue: |
+      `datasets/{id}/protection` was called through raw `_get`/`_put`: in `test_crypt4gh_grants.py` through `_protection`/`_grant` and inline in three places, and in `test_crypt4gh_execution.py` through separate `_ready`/`_authorize` helpers. `_copy_to_history` and the inline POST in `test_shared_copy_is_refused_before_any_service_call` repeated `DatasetPopulator.copy_hda`.
+    fix: |
+      Added `get_dataset_protection`, `get_dataset_protection_raw` and `set_dataset_protection_raw` to `DatasetPopulator` and used them, and `copy_hda`, in both modules. The whole grants module and the shared-copy test pass.
+    discovered_by:
+      - {profile: gx_test_challenger, model: Claude Opus 5.5, effort: medium}
+  - id: P2 10
+    include: true
+    title: Grant recording does one SELECT per protected output at job finish
+    summary: _record_output_grants queried per output (10k-element collection = 10k SELECTs); now chunked IN queries. The duplicate-insert edge wasn't reproduced but can't happen anymore.
+    issue: |
+      `DatasetProtectionManager._record_output_grants` called `_get_or_create_grant`, and so `get_grant`, for every protected output. A protected job writing a 10k-element collection made 10k grant lookups in the handler's finish path, nearly all of them misses on fresh datasets.
+
+      Galaxy's session doesn't autoflush, so a grant created earlier in the loop was also invisible to later lookups: two output instances of one dataset would insert duplicate rows and fail on the unique constraint at commit. I found no job that produces two output instances of one dataset, so that edge wasn't reproduced.
+    fix: |
+      `_record_output_grants` now loads the user's existing grants on all output datasets in `IN` queries chunked by 1000, and keeps grants it creates in the same mapping by dataset id, so a dataset shared by two outputs gets one grant. Integration tests recording output grants (`test_authorized_job_outputs_are_encrypted_for_the_user`, the BAM index test) pass.
+    discovered_by:
+      - {profile: gx_performance_challenger, model: Claude Opus 5.5, effort: medium}
+  - id: P2 11
+    include: true
+    title: Submission-time check_job_inputs walks and re-queries whole collections for every job
+    summary: with the feature on, every non-cached job walked its parameters and re-ran collection queries; now an in-memory is_protected check over inp_data guards it.
+    issue: |
+      With the feature enabled, `DefaultToolAction.execute` ran `check_job_inputs`, and so `_protected_inputs`, for every non-cached job, whether or not any input was encrypted. For a collection input, `_dataset_instances(value)` re-ran the nested-collection query that `_collect_input_datasets` had already run in the same request. `_read_datasets` also looked up conversions for `<conversion>` inputs before checking `is_protected`. Dispatch already guards the same work with the in-memory `has_protected_inputs(job)`.
+    fix: |
+      `check_job_inputs` now only runs when `any(is_protected(data) for data in inp_data.values() if data)`, since `inp_data` already holds collection elements, and `_protected_inputs` skips unprotected inputs before looking up their conversions.
+    discovered_by:
+      - {profile: gx_performance_challenger, model: Claude Opus 5.5, effort: medium}
+  - id: P3 1
+    include: true
+    title: Decrypted inputs still report the wrapper extension to tools
+    summary: "$input.ext, staging names and serialize() give fastqsanger.c4gh for plaintext; docs list it as a limitation. Optional, not fixed (behavior choice for the author)."
+    issue: |
+      `DatasetFilenameWrapper.file_ext` returns `fastqsanger.c4gh` for an input the job decrypts, so `get_staging_path()`, `name_and_ext` and the `serialize()` staging paths produce names like `sample.fastqsanger.c4gh` for plaintext. Tools often branch on `$input.ext` or link inputs as `input.$input.ext` so the program detects the format from the extension; they take the wrong branch or misdetect the format. The admin docs list this as a limitation, but it isn't a design decision in the PR description, and the compute environment already knows which inputs are decrypted and their inner extension (`ProtectedInput.ext`).
+    fix: |
+      Optional: have `file_ext` ask the compute environment for the decrypted extension, as path rewriting already does. Not fixed on the review branch because it changes what `$input.ext` means for these inputs, which the author documented deliberately. Estimated at about 30 to 60 changed lines with a test.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+  - id: P3 2
+    include: true
+    title: Tools that receive user credentials could decrypt inputs, unlike tools given file sources
+    summary: _can_decrypt_inputs refused file-source tools but not <credentials> tools, which can push data out the same way; now refused, with docs and an API test.
+    implementation_verified: true
+    issue: |
+      `_can_decrypt_inputs` refused tools given a `FileSourceConfigFile` because they would send the decrypted data out of Galaxy. Tools declaring `<credentials>` receive the user's secrets for external services and can push data out the same way, but passed.
+    fix: |
+      `_can_decrypt_inputs` now also refuses tools with `tool.credentials`, and the admin docs say so. The API test added for P3 18 runs a new test tool declaring credentials and asserts the request is refused.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+  - id: P3 3
+    include: true
+    title: Typed wrappers match binary-only inputs through class inheritance, and are then decrypted
+    summary: fastqsanger.c4gh matched format="binary" via Crypt4GH(Binary) but the job decrypted it and demanded a grant; now the binary input gets the encrypted file. Red/green API test.
+    implementation_verified: true
+    issue: |
+      `Crypt4GH` subclasses `Binary`, and `Crypt4GH.matches_any` first returns `isinstance(self, datatype_classes)`, so `fastqsanger.c4gh` matches an input with `format="binary"`. `_read_datasets` then decided to decrypt, because `binary` isn't a Crypt4GH extension: the binary-only tool needed an authorization and got plaintext FASTQ. The decisions to match and to decrypt came from two different rules.
+    evidence: |
+      On `ae37e517ebc`, running a `format="binary"` test tool on an unauthorized `fastqsanger.c4gh` dataset is refused with "You are not authorized to decrypt dataset ...".
+    fix: |
+      Added `_reads_encrypted`: an input is read encrypted when its parameter accepts a Crypt4GH format, or when the dataset's inner format doesn't match the parameter's formats (it matched through the wrapper class only). The admin docs mention binary inputs. The new integration test `test_binary_inputs_get_the_encrypted_file` runs a `crypt4gh_binary_input` test tool without authorization and gets `crypt4gh`; it fails on the PR and passes on the branch.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+  - id: P3 4
+    include: true
+    title: Dispatch-time job cache comment contradicts same-user reuse
+    summary: the prepare() comment said protected jobs are never reused while the submit-time search reuses the same user's; reworded.
+    issue: |
+      `Tool._may_reuse_job` deliberately reuses the same user's protected jobs, and the docs say so, but the second cache search in `MinimalJobWrapper.prepare()` skips every protected job with the comment "Outputs of protected jobs are encrypted for the job's user, never reuse them". The behavior is safe; the comment states a different rule.
+    fix: |
+      Reworded the comment to say only the submit-time search, which checks the cached job's user, may reuse protected jobs.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+  - id: P3 5
+    include: true
+    title: No warning when Crypt4GH is enabled without a walltime limit
+    summary: without a walltime the job margin silently assumes jobs finish within an hour of dispatch; now logs a warning at startup. No test.
+    issue: |
+      `DatasetProtectionManager.job_margin` is `1 day + 1 hour + (walltime or 0)`. Without a walltime limit, Galaxy's default, the margin silently assumes the job runs and has its outputs encrypted within an hour of dispatch, and a longer job on a grant near its expiration fails late with its outputs purged. The docs tell admins to configure a walltime, but nothing flags its absence.
+    fix: |
+      `DatasetProtectionManager` now logs a warning when `crypt4gh_enabled` is set and no walltime limit is configured. No test was written for the log line.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+  - id: P3 6
+    include: true
+    title: The generic Crypt4GH extension pattern accepted arbitrary c…4gh suffixes
+    summary: fullmatch(r"c[^.]*4gh") accepted cfoo4gh etc.; now an explicit {c4gh, crypt4gh} set with unit test.
+    implementation_verified: true
+    issue: |
+      `_is_generic_crypt4gh_file_ext` was `fullmatch(r"c[^.]*4gh", ...)`, so `cfoo4gh`, `cx4gh` and similar counted as Crypt4GH wrappers when uploading and wrapping. Only `c4gh` and `crypt4gh` are meant, and accepting never-intended input keeps it alive.
+    fix: |
+      Replaced the pattern with an explicit `GENERIC_CRYPT4GH_FILE_EXTS` set of `c4gh` and `crypt4gh`, and extended `test_extension_helpers` to reject `cfoo4gh` and `fastqsanger.cx4gh`.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+  - id: P3 7
+    include: true
+    title: Grant rows are never removed, and the user_id index is redundant
+    summary: user purge left grant rows (bearer capabilities); expired/purged-dataset grants pile up; user_id index duplicates the unique constraint. Purge + index fixed; periodic cleanup left as a suggestion.
+    implementation_verified: true
+    issue: |
+      `UserManager.purge` deletes the user's addresses, authnz tokens and other rows, but left their `dataset_protection_grant` rows, which hold headers sealed to a compute key. Nothing removes expired grants or grants on purged datasets either: the `delete-orphan` cascade only fires on ORM deletes of `Dataset`, which purging doesn't do, so the table grows with every protected output. `UniqueConstraint("user_id", "dataset_id", "scheme")` already provides a `user_id`-leading index, so the separate `index=True` on `user_id` only adds write and storage cost.
+    fix: |
+      `UserManager.purge` now deletes the user's grants, with a unit test that fails without the change, and the separate `user_id` index is gone from the model and the migration. Still open: a periodic (celery beat) cleanup of expired grants and grants on purged datasets, which an `expires_at` index would help, estimated at about 60 to 100 changed lines.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+      - {profile: gx_performance_challenger, model: Claude Opus 5.5, effort: medium}
+  - id: P3 8
+    include: true
+    title: Uncommented function-level crypt4gh imports
+    summary: job_execution/protection/crypt4gh.py imports crypt4gh inside four functions without saying why; one module comment added.
+    issue: |
+      `job_execution/protection/crypt4gh.py` imports `crypt4gh` inside `_decrypt_staged`, `_encrypt_body`, `protect_file` and `stage_inputs` without a comment. The reason is that `crypt4gh` is a conditional dependency.
+    fix: |
+      Added one module-level comment saying `crypt4gh` is a conditional dependency imported where it is used.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+  - id: P3 9
+    include: true
+    title: ProtectedInputsComputeEnvironment is about 90 lines of delegation plus a __getattr__ escape hatch
+    summary: decorator forwards ~20 ComputeEnvironment methods, adds __getattr__ and a materialized_objects property pair to change three methods. Not fixed; ties into the P2 1 design.
+    issue: |
+      `compute_environment.py` adds a decorator that forwards all twenty `ComputeEnvironment` methods explicitly, a `__getattr__` for runner-specific attributes such as Pulsar's path mapper, and a `materialized_objects` property and setter so writes reach the wrapped object. Only three methods change behavior. Callers probing the Pulsar environment now go through an untyped proxy, and the property pair exists only because the wrapper isn't the object the runner created.
+    fix: |
+      Put the protected-input rewrite into the path-rewrite step itself, e.g. an optional mapping of dataset ids to staged inputs that `ComputeEnvironment` consults before delegating, so no wrapper, `__getattr__` or forwarding is needed and `remote_tool_eval.py` sets the overrides. A smaller step is a reusable delegating base class. Not fixed on the review branch, because the same hook decides how P2 1 is fixed; estimated at about 100 to 150 changed lines.
+    discovered_by:
+      - {profile: thermo_review, model: Claude Opus 5.5, effort: medium}
+  - id: P3 10
+    include: true
+    title: check_job_inputs and authorize_job duplicated the grant-check loop
+    summary: both refused unsupported tools and looped over get_usable_grant/_grant_refusal, differing only in exception type and wording; now one _usable_grants.
+    issue: |
+      `check_job_inputs` (request time) and `authorize_job` (prepare time) both refused unsupported tools and looped over the inputs to decrypt, calling `get_usable_grant`, raising a "not authorized" message and calling `_grant_refusal`. Only the exception class and the message wording differed, so the next refusal rule would have to be added twice.
+    fix: |
+      Added `_usable_grants`, which raises `ProtectionError` and returns the grants; `authorize_job` uses it directly and `check_job_inputs` converts its error in the `except` it already had. The two "not authorized" messages are now one ("... Authorize the dataset (key icon) and run the job again."). The grant manager unit tests and the submission refusal integration tests pass.
+    discovered_by:
+      - {profile: thermo_review, model: Claude Opus 5.5, effort: medium}
+  - id: P3 11
+    include: true
+    title: Crypt4GHGrantData encodes a state machine in optional fields
+    summary: extra_files_key fallback, _job_files_key/_extra_files_expiration/_extra_files_expire/_lacks_extra_files reconstruct which combination applies; suggests a JobFiles sub-record. Not fixed.
+    issue: |
+      A grant's job files (extra files, metadata files, copied extra files) may or may not carry their own `extra_files_key`, falling back to the grant's `key_ref` and `expires_at` (`_job_files_key`). Expiration is `None` unless both `extra_files_key` and `extra_files` are set (`_extra_files_expiration`). `_store_user_grant` and `_record_output_grants` each hand-maintain these combinations. That is five optional fields plus four helpers whose job is to interpret which combination is in effect.
+    fix: |
+      Model the job-created files as one optional sub-record that always carries its key (`key_ref`, `expires_at`, `extra_files`, `metadata_files`, `copied_extra_files`), so grant data becomes `compute_header` plus `job_files`, and re-authorizing keeps `previous.job_files`. Not fixed on the review branch: it changes the stored grant JSON and its readers, estimated at about 150 to 200 changed lines with tests.
+    discovered_by:
+      - {profile: thermo_review, model: Claude Opus 5.5, effort: medium}
+  - id: P3 12
+    include: true
+    title: managers/dataset_protection.py mixes four responsibilities in about 900 lines
+    summary: grant storage, input classification, job authorization and post-job verification in one module plus ~25 private helpers; suggests a package split behind a facade. Not fixed.
+    issue: |
+      The module holds grant storage and validation, tool-input classification (including conversions), job authorization and plan building, and post-job verification and cleanup, plus about 25 module-level private helpers. It is under the 1k-line threshold, but it is the file every future protection change will touch.
+    fix: |
+      Split it along those seams (e.g. `dataset_protection/grants.py`, `inputs.py`, `authorization.py`, `verification.py`) with `DatasetProtectionManager` as a thin facade; the per-job policy from P2 2 is a natural home for the verification half. Not fixed on the review branch: mostly moved code, but well over 200 changed lines.
+    discovered_by:
+      - {profile: thermo_review, model: Claude Opus 5.5, effort: medium}
+  - id: P3 13
+    include: true
+    title: Generic iter_relpaths helper parked in util/crypt4gh.py
+    summary: a generic directory walk lived in the Crypt4GH utility module; moved to galaxy.util.path.
+    issue: |
+      `iter_relpaths(directory)` is a general directory-walk helper used for any extra-files tree, but it lived in `galaxy.util.crypt4gh`, so its callers imported the Crypt4GH module for a non-Crypt4GH operation.
+    fix: |
+      Moved `iter_relpaths` to `galaxy.util.path` and updated its four callers.
+    discovered_by:
+      - {profile: thermo_review, model: Claude Opus 5.5, effort: medium}
+  - id: P3 14
+    include: true
+    title: Grant manager unit tests repeat integration tests
+    summary: four unit tests duplicated integration coverage (grant validation, grant recording, metadata-file grants); dropped.
+    issue: |
+      `test_invalid_grants_are_rejected` and `test_expiration_dates_without_timezone_are_rejected` repeat the integration `test_invalid_grants_are_rejected`. `test_finish_job_records_grants_for_protected_outputs` is covered by `test_authorized_job_outputs_are_encrypted_for_the_user` and `test_outputs_can_be_used_in_further_jobs`, and `test_finish_job_grants_the_metadata_files_of_protected_outputs` by the BAM index integration test, where the second job decrypts the index through the output grant.
+    fix: |
+      Dropped the four unit tests, keeping the failure-mode tests the API can't easily reach.
+    discovered_by:
+      - {profile: gx_test_challenger, model: Claude Opus 5.5, effort: medium}
+  - id: P3 15
+    include: true
+    title: Pulsar subclasses repeated runner-independent refusal tests
+    summary: four tests refused before any runner ran in three Galaxy configurations; moved to a local-only class.
+    issue: |
+      `TestCrypt4GHPulsarEmbeddedIntegration` and `TestCrypt4GHPulsarEmbeddedMQIntegration` inherit all of `TestCrypt4GHExecutionIntegration`, including four tests refused before any job reaches a runner, so each ran in three Galaxy configurations.
+    fix: |
+      Moved them to a new local-only `TestCrypt4GHSubmissionRefusalIntegration`. A mixin was the reviewer's suggestion, but the shared tests depend on the base class's helpers; a separate class adds one local Galaxy boot and removes the two Pulsar repeats. The class passes.
+    discovered_by:
+      - {profile: gx_test_challenger, model: Claude Opus 5.5, effort: medium}
+  - id: P3 16
+    include: true
+    title: '"Plaintext not served" checks are weak and repeated'
+    summary: three display checks only asserted the plaintext's absence, which any error page satisfies; one helper now also asserts only encrypted data or nothing is served.
+    implementation_verified: true
+    issue: |
+      `self._get(f"datasets/{output['id']}/display")` followed by `assert PLAINTEXT_1.decode() not in response.text` appeared three times in `test_crypt4gh_execution.py`. Any error page satisfies it.
+    fix: |
+      Added `_assert_plaintext_not_served`, which asserts the plaintext is absent and that the response is an error, empty, or starts with `crypt4gh`, and used it in the three tests, which pass.
+    discovered_by:
+      - {profile: gx_test_challenger, model: Claude Opus 5.5, effort: medium}
+  - id: P3 17
+    include: true
+    title: Command factory tests repeat each other and loop instead of splitting cases
+    summary: a substring-position test repeated the script-running tests, and one test looped over two cases; folded and split.
+    issue: |
+      `test_protected_job_stages_inputs_around_the_tool` checked the order of substrings in the command string, which two tests running the generated script under bash already prove. `test_protected_job_skips_tool_when_staging_fails` looped over two staging outcomes with manual cleanup between them.
+    fix: |
+      Dropped the substring test, made the script-running test record the metadata step too (so it checks stage-in, cleanup of inputs, metadata, cleanup in order), and split the loop into two tests sharing a helper. `@pytest.mark.parametrize` doesn't apply because `TestCommandFactory` is a `unittest.TestCase`.
+    discovered_by:
+      - {profile: gx_test_challenger, model: Claude Opus 5.5, effort: medium}
+  - id: P3 18
+    include: true
+    title: Unit tests of private helpers built on Bunch
+    summary: _can_decrypt_inputs was tested on Bunch tools; replaced by an API refusal test with real tools. The _infer_inner_ext test is kept, nothing else covers its upload-name branch.
+    implementation_verified: true
+    issue: |
+      `test_only_tools_keeping_decrypted_data_in_galaxy_decrypt_inputs` called `_can_decrypt_inputs` with `Bunch` tools, and `test_inner_ext_inferred_from_the_uploaded_name` calls `Crypt4GH()._infer_inner_ext` on a `Bunch` dataset.
+    fix: |
+      Replaced the `_can_decrypt_inputs` unit test with the integration test `test_tools_that_could_send_decrypted_data_out_of_galaxy_are_refused`, which runs two new test tools (one given the user's file sources, one declaring credentials) on an authorized dataset and asserts both requests are refused before any key service call; it passes. Kept the `_infer_inner_ext` test: the upload detection tests the reviewer cited cover the extension, not the `created_from_basename` branch that sets `crypt4gh_inner_ext` metadata.
+    discovered_by:
+      - {profile: gx_test_challenger, model: Claude Opus 5.5, effort: medium}
+  - id: P3 19
+    include: true
+    title: No API test for redetecting the datatype of encrypted datasets
+    summary: routing the change_datatype task's auto through redetect_ext had only Bunch unit tests; added an API test (red without the preservation).
+    implementation_verified: true
+    issue: |
+      The celery `change_datatype` task and the legacy edit-attributes controller now redetect through `registry.redetect_ext`, so an encrypted dataset keeps its inner type. Only registry unit tests on `Bunch` datasets covered this.
+    evidence: |
+      The reviewer's suggested sequence (change to `c4gh`, then `auto`) ends at `c4gh`: API uploads have no `created_from_basename`, so after the change to `c4gh` the `crypt4gh_inner_ext` metadata is `data` and the inner type is gone.
+    fix: |
+      Added `test_redetecting_the_datatype_keeps_the_inner_datatype`, which runs the bulk `change_datatype` operation with `auto` on an uploaded `fastqsanger.c4gh` dataset and asserts it stays `fastqsanger.c4gh`. It passes, and fails with the wrapper preservation in `redetect_ext` disabled.
+    discovered_by:
+      - {profile: gx_test_challenger, model: Claude Opus 5.5, effort: medium}
+  - id: P3 20
+    include: true
+    title: Metadata-file verification read Galaxy's cache, and could pull whole files into it
+    summary: primary files were checked from the backend with get_data_head, metadata files via get_file_name() (cache, whole BAM index download); now read from the backend too.
+    implementation_verified: true
+    issue: |
+      `_is_protected_as_recorded` reads the primary file's header from the object store backend with `get_data_head`, but checked metadata files with `check_crypt4gh(metadata_file.get_file_name())`. On caching object stores that can pull a whole metadata file, such as a BAM index, into the cache just to read its first bytes, and it reads the possibly stale cache the primary check avoids. Verification is also serial, one backend request per output, extra file and metadata file, which may matter for large protected collections on S3.
+    fix: |
+      `ObjectStore.get_data_head` now takes the object store location arguments, `MetadataFile.get_data_head` reads a metadata file's start from the backend, and verification uses it. A distributed object store unit test reads a metadata file by `alt_name` (it fails without the change), and the BAM index integration test passes. Measuring finish time for large protected collections on S3 remains a suggestion.
+    discovered_by:
+      - {profile: gx_performance_challenger, model: Claude Opus 5.5, effort: medium}
+  - id: P3 21
+    include: true
+    title: Enabling the feature doubles the datatype registry and the client mapping payload
+    summary: measured 813 to 1627 extensions, view_mapping 153 to 311 KB; optional, not fixed.
+    issue: |
+      Measured on the PR with the sample `datatypes_conf.xml`: registered extensions go from 813 to 1627, `view_mapping` from 153 KB to 311 KB of raw JSON, `view_types_and_mapping` from 160 KB to 318 KB and `view_edam_formats` from 21 KB to 46 KB. The client fetches `/api/datatypes/types_and_mapping` on common pages, and remote metadata jobs rebuild every wrapper class because `crypt4gh_enabled="true"` is written into the registry XML. Registry load time stays small (0.07 to 0.29 s).
+    fix: |
+      Optional: leave the per-datatype `.c4gh` wrappers out of the mapping payloads, since the client only uses `isCrypt4ghExtension`, or document the growth for admins. Not fixed on the review branch; the payload change is estimated at about 30 to 60 changed lines.
+    discovered_by:
+      - {profile: gx_performance_challenger, model: Claude Opus 5.5, effort: medium}
+  - id: F1
+    include: false
+    title: Compute a protected job's outputs once per finish
+    summary: purged_outputs and finish_job both walk the outputs; reusing one walk would miss outputs discovered while importing between them.
+    filtered:
+      category: disproved
+      reason: purged_outputs runs before importing the compute host's report and finish_job after it, and outputs discovered during import only exist for the second walk.
+    discovered_by:
+      - {profile: gx_performance_challenger, model: Claude Opus 5.5, effort: medium}
