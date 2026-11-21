@@ -29,7 +29,7 @@ export interface SidebarGroup {
 export const OTHER = "Other";
 export const RANK: Record<string, number> = { blocked: 4, done: 3, working: 2, idle: 1 };
 
-/** Terminals by agent dir, alphabetically; shells and agents elsewhere go in Other, last. Rows most urgent first. */
+/** Terminals by agent dir, alphabetically; shells and agents elsewhere go in Other, last. Rows keep pane order, so they don't jump on status changes. */
 export function groupPanes(panes: SidebarPane[]): SidebarGroup[] {
 	const groups = new Map<string, SidebarPane[]>();
 	for (const p of panes) {
@@ -39,7 +39,7 @@ export function groupPanes(panes: SidebarPane[]): SidebarGroup[] {
 	}
 	return [...groups]
 		.sort(([a], [b]) => Number(a === OTHER) - Number(b === OTHER) || a.localeCompare(b))
-		.map(([label, rows]) => ({ id: `grp-${label}`, label, rows: rows.sort((x, y) => (RANK[y.status ?? ""] ?? 0) - (RANK[x.status ?? ""] ?? 0)) }));
+		.map(([label, rows]) => ({ id: `grp-${label}`, label, rows }));
 }
 
 export interface PagePane {

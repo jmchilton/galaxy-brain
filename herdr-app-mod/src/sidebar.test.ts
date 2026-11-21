@@ -21,11 +21,11 @@ describe("groupPanes", () => {
 		expect(groups.map((g) => [g.label, g.rows.map((r) => r.pane)])).toEqual([
 			["factory", ["c", "e"]],
 			["gx_branches", ["a"]],
-			["Other", ["d", "b"]],
+			["Other", ["b", "d"]],
 		]);
 	});
 
-	it("orders rows by status: needs you, done, working, idle, then no status", () => {
+	it("keeps rows in pane order whatever their status", () => {
 		const groups = groupPanes([
 			pane({ pane: "idle", status: "idle" }),
 			pane({ pane: "none", status: null }),
@@ -34,7 +34,7 @@ describe("groupPanes", () => {
 			pane({ pane: "done", status: "done" }),
 			pane({ pane: "working2", status: "working" }),
 		]);
-		expect(groups[0]!.rows.map((r) => r.pane)).toEqual(["blocked", "done", "working", "working2", "idle", "none"]);
+		expect(groups[0]!.rows.map((r) => r.pane)).toEqual(["idle", "none", "working", "blocked", "done", "working2"]);
 	});
 });
 
