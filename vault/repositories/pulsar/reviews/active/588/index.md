@@ -4,6 +4,6 @@
 
 ## Status
 
-Round 0 review of `44de4be5a65c7bcbe9bf10c03fc83a44ac4855ba` complete (1 P1, 1 P2, 4 P3, all fixed); review branch `pr_588_round_0_rev_0` (`48ca2e4c`) pushed to jmchilton; not delivered.
+Round 0 review of `44de4be5a65c7bcbe9bf10c03fc83a44ac4855ba` delivered 2026-11-21: approved, review branch `pr_588_round_0_rev_0` (`48ca2e4c`) pushed onto `preserve-tool-file-mode`.
 
 PR open, not draft, targeting `master`, by mvdbeek (checked 2026-11-21).
