@@ -1,0 +1,13 @@
+# Component - Job Preparation and Job Script
+
+Document what happens between a job handler picking up a `new` job and the job script reaching the runner: `MinimalJobWrapper.prepare()` in `lib/galaxy/jobs/__init__.py` (working directory, `_load_job`, the compute environment it receives or builds, `ToolEvaluator.build()` and what it returns: command line, version command, `extra_filenames` config files, environment variables, interactive tools; the late job-cache search; `registry.xml` and `job_io.json` written for remote evaluation and metadata), how `BaseJobRunner.prepare_job` and `PulsarJobRunner.queue_job` call it and which exceptions reject a job there (`ParameterValueError`, `InsufficientPermissionsException`, ...), and then `lib/galaxy/jobs/command_factory.py`: `build_command` and `CommandsBuilder` (prepend/append order, `tool_script.sh` externalization, containerization, stdout/stderr capture, `cd working`, remote tool evaluation, container monitor, return-code capture, `from_work_dir` copies, the in-job metadata command and `embed_metadata_in_job` / `requires_setting_metadata`, and the final exit code), for local, cluster and Pulsar (`for_pulsar`) jobs. Include a worked example of a rendered job script and which parts run inside the tool container. Cover `cleanup_job` and `clear_working_directory` (resubmission) as the end of the job directory's life. If galaxyproject/galaxy#23986 has merged, cover its protected-job steps (stage-in wrapped around the tool with `run_only_if`, `cleanup-inputs`, `cleanup`) as an example of a pre-tool step.
+
+Leave out tool evaluation internals and compute-environment path rewrites (requested as `Component - Tool Evaluation and Compute Environment`), container volume details (requested as `Component - Tool Containers`), Pulsar staging (`Component - Pulsar Input Staging`), the runner monitor/stop lifecycle (requested separately) and everything after the job finishes (`Component - Job Completion Lifecycle`).
+
+## Why
+
+#23986 hooks job authorization into `prepare()` and wraps the tool in decrypt and cleanup steps in `build_command`; explaining where those run, and why the stage-in lands outside the container, needed the job script's assembly order established from code. No note covers job preparation or the job script: `Component - Job Completion Lifecycle` starts after the command finishes and the runner lifecycle request leaves preparation out.
+
+## Requested by
+
+- vault/repositories/galaxy/reviews/active/23986: learning review needed `prepare()` and the `build_command` assembly order (what is prepended, appended, containerized, and run regardless of the tool's exit status) as a baseline for the protected-job hooks.
