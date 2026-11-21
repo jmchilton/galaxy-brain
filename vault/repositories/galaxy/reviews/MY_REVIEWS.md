@@ -1,7 +1,7 @@
 ## PRs to review (`to_review`)
 
 - [#25005](https://github.com/galaxyproject/galaxy/pull/25005) — round 0 review in progress on `2b11cda0d36`. [notes](active/25005/index.md)
-- [#25022](https://github.com/galaxyproject/galaxy/pull/25022) — round 0 review in progress on `5a5b2cc11c0`. [notes](active/25022/index.md)
+- [#25022](https://github.com/galaxyproject/galaxy/pull/25022) — initial review on `5a5b2cc11c0` ready, unposted (two P2s + five P3s; five fixed/partly fixed on `pr_25022_round_0_rev_0`, not pushed into PR). [notes](active/25022/index.md)
 - [#23986](https://github.com/galaxyproject/galaxy/pull/23986) — round 0 review on `ae37e517ebc` in progress (draft; John asked for extra learning depth + alternative-layers analysis). [notes](active/23986/index.md)
 - [#24801](https://github.com/galaxyproject/galaxy/pull/24801) — initial review on `5bdf34ea9ad` ready, unposted (one P2 + five P3s; all fixed on `pr_24801_round_0_rev_0`, not pushed into PR). [notes](active/24801/index.md)
 - [#24800](https://github.com/galaxyproject/galaxy/pull/24800) — initial review on `21620b47273` ready, unposted (one optional P3; fixed on `pr_24800_round_0_rev_0`, not pushed into PR). [notes](active/24800/index.md)

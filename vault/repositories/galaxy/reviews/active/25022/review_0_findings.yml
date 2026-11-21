@@ -1,0 +1,113 @@
+round: 0
+reviewed_commit: 5a5b2cc11c097d8dd18ef9b186bb20ec3e7dc356
+agents:
+  - {profile: default, path: _shared/reviewers/default.md, model: Claude Opus 5.5, effort: medium}
+  - {profile: gx_test_challenger, path: _shared/reviewers/gx_test_challenger.md, model: Claude Opus 5.5, effort: low}
+  - {profile: gx_risk_assessment, path: _shared/reviewers/gx_risk_assessment.md, model: Claude Opus 5.5, effort: low}
+  - {profile: learning_galaxy, path: gx_reviews/reviewers/learning_galaxy.md, model: Claude Opus 5.5, effort: medium}
+verification: {model: Claude Opus 5.5, effort: medium}
+branches:
+  - name: pr_25022_round_0_rev_0
+    revision: 0
+    head: 1db1e609529
+    pr_title: Match uuid Pulsar job ids in persistence migration, clarify persistence logging, extend tests
+    description: |
+      `pr_25022_round_0_rev_0` builds on `5a5b2cc11c0`. It makes the persistence migration find Galaxy jobs for Pulsar entries named by uuid (`assign_ids: uuid`) through `job_runner_external_id`, says in the startup warning that entries the script leaves in place can be deleted, logs at info level when a configured `persistence_directory` lacks `{server_name}`, and extends the migration test with a uuid-assigned job and a job without a handler, using `EMBEDDED_PULSAR_PERSISTENCE_DIRECTORY` instead of the literal directory name.
+    commits:
+      - sha: 3f9408b59a5
+        subject: Match uuid-assigned Pulsar job ids when migrating persistence entries
+        detail: adds `_job_for_pulsar_job_id`, which looks up non-numeric entry names by `job_runner_external_id`, and adds a running uuid-assigned job to the migration test, which fails on the PR and passes on the branch.
+        findings: [P2 1]
+      - sha: 00794296bc2
+        subject: Say in the legacy persistence warning that leftover entries can be deleted
+        detail: appends a sentence to the startup warning saying entries the script leaves in place belong to no active job and can be deleted.
+        findings: [P3 1]
+      - sha: 57713f60252
+        subject: Log when a configured Pulsar persistence_directory lacks {server_name}
+        detail: logs at info level when an explicitly configured string `persistence_directory` other than `__none__` has no `{server_name}`.
+        findings: [P3 2]
+      - sha: 1ecfbbbf9f5
+        subject: Cover the handler-less job case in the persistence migration test
+        detail: adds a queued job without a handler to the migration test and expects it to be left with "job has no handler".
+        findings: [P3 4]
+      - sha: 1db1e609529
+        subject: Use EMBEDDED_PULSAR_PERSISTENCE_DIRECTORY in persistence tests
+        detail: imports the runner constant in place of the two hard-coded `"pulsar_persisted_data"` strings.
+        findings: [P3 5]
+actions: {approve: false, approve_and_merge: false, comment: false, review_comment: false, request_changes: false, pull_request: false, push: false, issue_refactor: false, issue_galaxy_brain: false}
+findings:
+  - id: P2 1
+    include: true
+    title: "Migration ignores Pulsar job ids that are not Galaxy ids (`assign_ids: uuid`)"
+    summary: uuid-named entries were always reported as "no Galaxy job" and the admin told to delete them. Reproduced and fixed.
+    implementation_verified: true
+    issue: |
+      `migrate_embedded_pulsar_persistence` treats each index entry name as `model.Job.id` (`session.get(model.Job, int(job_id)) if job_id.isdigit()`). Pulsar names the entry after its own job id, which equals the Galaxy id only with the default `assign_ids: galaxy`. With `assign_ids: uuid` every entry is a 32-character hex id, so the script reports every live job as "no Galaxy job with this id" and the closing message tells the admin to delete it. The test encoded this: its uuid entry was expected to be left with that reason.
+
+      The runner already handles this case: `PulsarJobRunner.__async_update` resolves a 32-character id through `model.Job.job_runner_external_id`, which Galaxy sets from Pulsar's returned id for every Pulsar job (`set_job_destination(..., external_id=external_job_id)`).
+    evidence: |
+      With a running job whose `job_runner_external_id` is a uuid and an entry named after it, the migration on `5a5b2cc11c0` returns `reason='no Galaxy job with this id'` instead of moving it to `<source>/main/_default_-active-jobs/<uuid>`.
+    fix: |
+      Added `_job_for_pulsar_job_id`, which keeps the primary-key lookup for numeric names and looks other names up by `job_runner_external_id`. The migration test now adds a running job with a uuid external id and expects its entry to move; the random uuid entry stays as the unknown case. An entry written during setup, before Galaxy records the external id, still shows as unknown, which only matters for a job interrupted mid-submit.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+  - id: P2 2
+    include: true
+    title: Point-release upgrade strands queued jobs unless the admin runs a manual script; each handler could adopt its own entries
+    summary: design suggestion, not fixed on the branch; handler could move its own non-terminal entries at startup with the existing helper.
+    issue: |
+      After this lands in a 26.2 point release, every site using the default directory, including single-handler sites that never had the bug, moves to `<data_dir>/pulsar_persisted_data/<server_name>`. Entries left in the old directory are no longer recovered: as the PR description notes, a job queued at the upgrade restart stays queued, and jobs in postprocessing are not staged out again. The only runtime signal is a startup log warning, and point-release upgraders rarely read upgrade notes.
+    fix: |
+      The migration helper already does the hard part, and a handler can run it safely for itself in `__init_pulsar_app`, before `PulsarApp(**conf)` calls `recover_active_jobs`: move only entries whose job has `handler == self.app.config.server_name` and a non-terminal state. Each entry belongs to one handler, so concurrent handler startups never touch the same file, and a rename within `data_dir` is atomic. For example, add an optional `handler` filter to `migrate_embedded_pulsar_persistence`, call it from the default branch where the warning is now, and keep the warning for whatever is left (other handlers' or unrecoverable entries). The script then remains for explicit `persistence_directory` configs and cleanup. If you prefer to keep it manual, the upgrade note in the PR description should go into the 26.2 release notes, not only the sample config.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+  - id: P3 1
+    include: true
+    title: Startup warning keeps firing after the migration script ran
+    summary: script leaves missing/terminal entries in place, so the warning repeated forever with nothing to do. Reworded.
+    issue: |
+      The script deliberately leaves entries for missing or terminal jobs in the shared directory. `active_job_index_entries(base_directory)` still finds them, so every handler restart logs "Stop all job handlers and run scripts/migrate_embedded_pulsar_persistence.py" again, though running it changes nothing.
+    fix: |
+      Added a sentence to the warning saying that entries the script leaves in place belong to no active job and can be deleted.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+  - id: P3 2
+    include: true
+    title: Explicit `persistence_directory` without `{server_name}` keeps the bug silently
+    summary: sites with an explicit shared directory get no hint. Added an info log.
+    issue: |
+      A site that set `persistence_directory` (in `pulsar_app_config`, `app` or a `pulsar_config` file) keeps one directory shared by all handlers and gets no message, though it has exactly the double-submit problem the PR describes.
+    fix: |
+      Added an info-level log when a configured string `persistence_directory` other than `__none__` lacks `{server_name}`. Info rather than warning, since single-handler sites see it too.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+  - id: P3 3
+    include: true
+    title: Migration script `main()` is untested
+    summary: optional; default `--source`/`--target` resolution and the placeholder check are untested. Not fixed.
+    issue: |
+      `scripts/migrate_embedded_pulsar_persistence.py`'s default resolution of `--source` and `--target` and its `--target` placeholder check aren't exercised; only the library function is. Optional: untested script glue may be acceptable.
+    fix: |
+      A smoke test calling `main()` against the test's config, or moving the default resolution into a tested helper.
+    discovered_by:
+      - {profile: gx_test_challenger, model: Claude Opus 5.5, effort: low}
+  - id: P3 4
+    include: true
+    title: '"job has no handler" branch and the startup warning are untested'
+    summary: optional; handler-less case added to the test, startup warning still untested.
+    issue: |
+      The migration test covered unknown, non-numeric, terminal and running jobs but not a job without a handler, and the warning for entries left directly in the shared directory is untested. Optional.
+    fix: |
+      Added a queued job without a handler to the migration test, expected to be left with "job has no handler". The startup warning stays untested: it needs entries in the shared directory before the handler starts, which this test class can't set up.
+    discovered_by:
+      - {profile: gx_test_challenger, model: Claude Opus 5.5, effort: low}
+  - id: P3 5
+    include: true
+    title: Reuse the runner constant in tests
+    summary: nit; tests hard-coded "pulsar_persisted_data". Replaced.
+    issue: |
+      The tests hard-code `"pulsar_persisted_data"` though the module they import from defines `EMBEDDED_PULSAR_PERSISTENCE_DIRECTORY`.
+    fix: |
+      Imported `EMBEDDED_PULSAR_PERSISTENCE_DIRECTORY` and used it in both places.
+    discovered_by:
+      - {profile: gx_test_challenger, model: Claude Opus 5.5, effort: low}
