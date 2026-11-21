@@ -63,6 +63,61 @@ branches:
         subject: Stop restating the memory message table in the Slurm helper test
         detail: drops the `MEMORY_LIMIT_MESSAGES` assertion and its parametrize column from `test_memory_limit_messages`.
         findings: [P3 8]
+  - name: pr_24804_round_0_rev_1
+    revision: 1
+    head: eaa6202814b
+    pr_title: Share resubmit helpers and replace mocked resubmission tests with integration tests
+    description: |
+      `pr_24804_round_0_rev_1` is `pr_24804_round_0_rev_0` rebased onto the PR's new head `3f09bd54b36`, which adds staging back failed Pulsar jobs and `pulsar-galaxy-lib` 0.16.1 on top of the reviewed `677cab47347`. It keeps every fix: one base-runner helper for the tool-detected resubmit step that Pulsar also uses, so Pulsar no longer runs `check_tool_output` twice; one helper restoring unpersisted destination fields for `job_pair_for_id` and `__recover_job_wrapper`; every `squeue` code mapped; non-string runner states from Pulsar ignored; the native Slurm runner's messages taken from the definitions; and `job_output_not_returned_from_cluster` documented. On the test side it replaces most `MagicMock` runner tests with embedded Pulsar, `FailsJobRunner` and message-queue integration tests, and adds plain-string tests for the Slurm CLI plugin's parsing.
+    commits:
+      - sha: c860ac8477a
+        subject: Document the job_output_not_returned_from_cluster resubmit condition
+        detail: adds the condition to the resubmit variable lists in `doc/source/admin/jobs.md` and `job_conf.sample.yml`.
+        findings: [P3 3]
+      - sha: ad412ebe6f4
+        subject: Ignore a non-string runner_state reported by Pulsar
+        detail: treats a non-string `runner_state` like a malformed one in `_apply_remote_runner_state`, with a test for an int, a list and a dict.
+        findings: [P3 4]
+      - sha: e06af5408bd
+        subject: Take the native Slurm runner's messages from the runner state definitions
+        detail: derives the memory, walltime and cancellation messages in `runners/slurm.py` from `RUNNER_STATE_DEFINITIONS` and compares against the shared `NOT_FOUND` constant.
+        findings: [P2 6]
+      - sha: 45e15346919
+        subject: Share the tool-detected resubmit step between the base and Pulsar runners
+        detail: adds `BaseJobRunner._resubmit_for_detected_state`, used by `_finish_or_resubmit_job` and Pulsar's `_complete_staged_job`, and passes Pulsar's detected state on to `job_wrapper.finish`.
+        findings: [P2 1]
+      - sha: 967e01b1b2c
+        subject: Assert the embedded Pulsar resubmission ends with an ok job
+        detail: runs `exit_code_from_env` directly and asserts an ok job with exit code 0 and one resubmission, moving the metric helpers to the base test case.
+        findings: [P2 2]
+      - sha: f13732b038d
+        subject: Test OOM and unmatched resubmit rules over embedded Pulsar
+        detail: adds an OOM exit code resubmission test and a test that a tool error without a matching rule fails with its exit code, and drops the mocked unit tests they replace.
+        findings: [P2 3]
+      - sha: a0e610954a6
+        subject: Test the new resubmit conditions through FailsJobRunner
+        detail: adds `FailsJobRunner` tests for `node_failure`, `preempted`, `cancelled`, the narrower `unknown_error` and `runner_state ==`, and drops the `failure()` unit tests they replace.
+        findings: [P2 4]
+      - sha: 3dcab89c6b7
+        subject: Share restoring unpersisted destination fields and test it over MQ
+        detail: adds `JobHandlerQueue._restore_unpersisted_destination_fields`, used by `job_pair_for_id` and `__recover_job_wrapper`, and an MQ Pulsar test that resubmits a tool error to a local environment.
+        findings: [P2 5]
+      - sha: b8cfd6efe06
+        subject: Map every squeue state code and test Slurm CLI status parsing
+        detail: maps `CF`, `RD`, `RF`, `RH`, `SE`, `SI`, `SO` and `ST`, logs and keeps watching on an unknown code, and adds `test_cli_slurm_status.py`.
+        findings: [P3 2]
+      - sha: 066ba47ef39
+        subject: Test CLI failure reasons without mocking the runner
+        detail: extracts `failure_reason_from_output` and tests it with the real `Slurm()` plugin, adding sacct fallback, preemption and out-of-memory cases.
+        findings: [P3 6]
+      - sha: d238f9b7964
+        subject: Test Pulsar's remote runner state handling without mocking the runner
+        detail: tests `_apply_remote_runner_state` directly, keeps two runner-level tests for the `fail_job` wiring and drops the mock-call and `__discard_previous_attempt` tests.
+        findings: [P3 5]
+      - sha: eaa6202814b
+        subject: Stop restating the memory message table in the Slurm helper test
+        detail: drops the `MEMORY_LIMIT_MESSAGES` assertion and its parametrize column from `test_memory_limit_messages`.
+        findings: [P3 8]
 actions: {approve: false, approve_and_merge: false, comment: false, review_comment: false, request_changes: false, pull_request: false, push: false, issue_refactor: false, issue_galaxy_brain: false}
 findings:
   - id: P2 1
