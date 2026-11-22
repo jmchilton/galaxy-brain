@@ -82,7 +82,7 @@ branches:
         subject: Write remote evaluation files once, from the compute environment
         detail: adds `ComputeEnvironment.remote_evaluation_job_io` and `remote_evaluation_unstructured_paths`, overrides them in `PulsarComputeEnvironment`, and removes `PulsarJobRunner._setup_remote_tool_evaluation`.
         findings: [P2 4]
-actions: {approve: true, approve_and_merge: false, comment: false, review_comment: false, request_changes: false, pull_request: false, push: false, issue_refactor: false, issue_galaxy_brain: false}
+actions: {approve: false, approve_and_merge: false, comment: false, review_comment: false, request_changes: false, pull_request: false, push: false, issue_refactor: false, issue_galaxy_brain: false}
 findings:
   - id: P2 1
     include: true

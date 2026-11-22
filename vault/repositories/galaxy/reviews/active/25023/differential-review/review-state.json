@@ -1,0 +1,344 @@
+{
+  "schemaVersion": 1,
+  "kind": "differential-review-state",
+  "updatedAt": "2026-11-22T23:45:08.973Z",
+  "hunks": {
+    "h1:0c8916822b2fd3a6": {
+      "snapshotId": "20261122T193639Z-review-ff96b8bb47c4",
+      "path": "doc/source/admin/galaxy_options.rst",
+      "reviewedAt": "2026-11-22T23:44:53.929Z"
+    },
+    "h1:145686af45eb7728": {
+      "snapshotId": "20261122T193639Z-review-ff96b8bb47c4",
+      "path": "doc/source/admin/jobs.md",
+      "reviewedAt": "2026-11-22T23:44:54.294Z"
+    },
+    "h1:e88d1b0cbbab043a": {
+      "snapshotId": "20261122T193639Z-review-ff96b8bb47c4",
+      "path": "lib/galaxy/config/sample/galaxy.yml.sample",
+      "reviewedAt": "2026-11-22T23:44:54.600Z"
+    },
+    "h1:518182e664cd3f44": {
+      "snapshotId": "20261122T193639Z-review-ff96b8bb47c4",
+      "path": "lib/galaxy/config/sample/job_conf.xml.sample_advanced",
+      "reviewedAt": "2026-11-22T23:44:54.962Z"
+    },
+    "h1:8578a66c00b7c27f": {
+      "snapshotId": "20261122T193639Z-review-ff96b8bb47c4",
+      "path": "lib/galaxy/config/schemas/config_schema.yml",
+      "reviewedAt": "2026-11-22T23:44:55.309Z"
+    },
+    "h1:827289a7ae9c9124": {
+      "snapshotId": "20261122T193639Z-review-ff96b8bb47c4",
+      "path": "lib/galaxy/job_execution/compute_environment.py",
+      "reviewedAt": "2026-11-22T23:44:55.676Z"
+    },
+    "h1:14a6e2bae9316cba": {
+      "snapshotId": "20261122T193639Z-review-ff96b8bb47c4",
+      "path": "lib/galaxy/job_execution/compute_environment.py",
+      "reviewedAt": "2026-11-22T23:44:55.676Z"
+    },
+    "h1:0204fab7dc1cc3a3": {
+      "snapshotId": "20261122T193639Z-review-ff96b8bb47c4",
+      "path": "lib/galaxy/job_execution/compute_environment.py",
+      "reviewedAt": "2026-11-22T23:44:55.676Z"
+    },
+    "h1:63486c294122c369": {
+      "snapshotId": "20261122T193639Z-review-ff96b8bb47c4",
+      "path": "lib/galaxy/job_execution/compute_environment.py",
+      "reviewedAt": "2026-11-22T23:44:55.676Z"
+    },
+    "h1:101d47511e8aca4c": {
+      "snapshotId": "20261122T193639Z-review-ff96b8bb47c4",
+      "path": "lib/galaxy/jobs/__init__.py",
+      "reviewedAt": "2026-11-22T23:44:56.060Z"
+    },
+    "h1:679df1329870cdff": {
+      "snapshotId": "20261122T193639Z-review-ff96b8bb47c4",
+      "path": "lib/galaxy/jobs/__init__.py",
+      "reviewedAt": "2026-11-22T23:44:56.060Z"
+    },
+    "h1:a13d6683fe93630a": {
+      "snapshotId": "20261122T193639Z-review-ff96b8bb47c4",
+      "path": "lib/galaxy/jobs/__init__.py",
+      "reviewedAt": "2026-11-22T23:44:56.060Z"
+    },
+    "h1:519aad7088dc1610": {
+      "snapshotId": "20261122T193639Z-review-ff96b8bb47c4",
+      "path": "lib/galaxy/jobs/__init__.py",
+      "reviewedAt": "2026-11-22T23:44:56.060Z"
+    },
+    "h1:579468b788885ac4": {
+      "snapshotId": "20261122T193639Z-review-ff96b8bb47c4",
+      "path": "lib/galaxy/jobs/__init__.py",
+      "reviewedAt": "2026-11-22T23:44:56.060Z"
+    },
+    "h1:06cbf920747d869d": {
+      "snapshotId": "20261122T193639Z-review-ff96b8bb47c4",
+      "path": "lib/galaxy/jobs/command_factory.py",
+      "reviewedAt": "2026-11-22T23:44:56.426Z"
+    },
+    "h1:846665faafa62187": {
+      "snapshotId": "20261122T193639Z-review-ff96b8bb47c4",
+      "path": "lib/galaxy/jobs/command_factory.py",
+      "reviewedAt": "2026-11-22T23:44:56.426Z"
+    },
+    "h1:0c40e3ffe64741ba": {
+      "snapshotId": "20261122T193639Z-review-ff96b8bb47c4",
+      "path": "lib/galaxy/jobs/runners/pulsar.py",
+      "reviewedAt": "2026-11-22T23:44:56.820Z"
+    },
+    "h1:70936e988a799eba": {
+      "snapshotId": "20261122T193639Z-review-ff96b8bb47c4",
+      "path": "lib/galaxy/jobs/runners/pulsar.py",
+      "reviewedAt": "2026-11-22T23:44:56.820Z"
+    },
+    "h1:de0e9b6d7927c9c4": {
+      "snapshotId": "20261122T193639Z-review-ff96b8bb47c4",
+      "path": "lib/galaxy/jobs/runners/pulsar.py",
+      "reviewedAt": "2026-11-22T23:44:56.820Z"
+    },
+    "h1:83ebaaa0145c9066": {
+      "snapshotId": "20261122T193639Z-review-ff96b8bb47c4",
+      "path": "lib/galaxy/jobs/runners/pulsar.py",
+      "reviewedAt": "2026-11-22T23:44:56.820Z"
+    },
+    "h1:9543e671b7f14c60": {
+      "snapshotId": "20261122T193639Z-review-ff96b8bb47c4",
+      "path": "lib/galaxy/jobs/runners/pulsar.py",
+      "reviewedAt": "2026-11-22T23:44:56.820Z"
+    },
+    "h1:58235189e98ae1cb": {
+      "snapshotId": "20261122T193639Z-review-ff96b8bb47c4",
+      "path": "lib/galaxy/jobs/runners/pulsar.py",
+      "reviewedAt": "2026-11-22T23:44:56.820Z"
+    },
+    "h1:5cb4873adc49f09c": {
+      "snapshotId": "20261122T193639Z-review-ff96b8bb47c4",
+      "path": "lib/galaxy/jobs/runners/pulsar.py",
+      "reviewedAt": "2026-11-22T23:44:56.820Z"
+    },
+    "h1:83d59d25e4bf03c2": {
+      "snapshotId": "20261122T193639Z-review-ff96b8bb47c4",
+      "path": "lib/galaxy/jobs/runners/pulsar.py",
+      "reviewedAt": "2026-11-22T23:44:56.820Z"
+    },
+    "h1:08e5d0d0b8c2f433": {
+      "snapshotId": "20261122T193639Z-review-ff96b8bb47c4",
+      "path": "lib/galaxy/jobs/runners/pulsar.py",
+      "reviewedAt": "2026-11-22T23:44:56.820Z"
+    },
+    "h1:60b42a692fb7a4a1": {
+      "snapshotId": "20261122T193639Z-review-ff96b8bb47c4",
+      "path": "lib/galaxy/jobs/runners/pulsar.py",
+      "reviewedAt": "2026-11-22T23:44:56.820Z"
+    },
+    "h1:157ca1bca6f6ea95": {
+      "snapshotId": "20261122T193639Z-review-ff96b8bb47c4",
+      "path": "lib/galaxy/jobs/runners/pulsar.py",
+      "reviewedAt": "2026-11-22T23:44:56.820Z"
+    },
+    "h1:a96d6d721849436f": {
+      "snapshotId": "20261122T193639Z-review-ff96b8bb47c4",
+      "path": "lib/galaxy/metadata/__init__.py",
+      "reviewedAt": "2026-11-22T23:44:57.019Z"
+    },
+    "h1:faea8629bb0b4bfb": {
+      "snapshotId": "20261122T193639Z-review-ff96b8bb47c4",
+      "path": "lib/galaxy/tools/__init__.py",
+      "reviewedAt": "2026-11-22T23:44:57.425Z"
+    },
+    "h1:8a81d892e30ce7f9": {
+      "snapshotId": "20261122T193639Z-review-ff96b8bb47c4",
+      "path": "lib/galaxy/tools/__init__.py",
+      "reviewedAt": "2026-11-22T23:44:57.425Z"
+    },
+    "h1:e3a29ce5248a4bce": {
+      "snapshotId": "20261122T193639Z-review-ff96b8bb47c4",
+      "path": "lib/galaxy/tools/parameters/wrapped_json.py",
+      "reviewedAt": "2026-11-22T23:44:57.765Z"
+    },
+    "h1:015b09866af10a75": {
+      "snapshotId": "20261122T193639Z-review-ff96b8bb47c4",
+      "path": "lib/galaxy/tools/parameters/wrapped_json.py",
+      "reviewedAt": "2026-11-22T23:44:57.765Z"
+    },
+    "h1:562101bfbeacf27d": {
+      "snapshotId": "20261122T193639Z-review-ff96b8bb47c4",
+      "path": "lib/galaxy/tools/parameters/wrapped_json.py",
+      "reviewedAt": "2026-11-22T23:44:57.765Z"
+    },
+    "h1:e13b86fa350fac0c": {
+      "snapshotId": "20261122T193639Z-review-ff96b8bb47c4",
+      "path": "lib/galaxy/tools/remote_tool_eval.py",
+      "reviewedAt": "2026-11-22T23:44:58.152Z"
+    },
+    "h1:e1becaf8efba54cb": {
+      "snapshotId": "20261122T193639Z-review-ff96b8bb47c4",
+      "path": "lib/galaxy/tools/remote_tool_eval.py",
+      "reviewedAt": "2026-11-22T23:44:58.152Z"
+    },
+    "h1:1abc16b070bac255": {
+      "snapshotId": "20261122T193639Z-review-ff96b8bb47c4",
+      "path": "lib/galaxy/tools/remote_tool_eval.py",
+      "reviewedAt": "2026-11-22T23:44:58.152Z"
+    },
+    "h1:3f87f467d6fb727b": {
+      "snapshotId": "20261122T193639Z-review-ff96b8bb47c4",
+      "path": "lib/galaxy/tools/remote_tool_eval.py",
+      "reviewedAt": "2026-11-22T23:44:58.152Z"
+    },
+    "h1:6397b896c14c1954": {
+      "snapshotId": "20261122T193639Z-review-ff96b8bb47c4",
+      "path": "lib/galaxy/tools/remote_tool_eval.py",
+      "reviewedAt": "2026-11-22T23:44:58.152Z"
+    },
+    "h1:b15c7582cea705c3": {
+      "snapshotId": "20261122T193639Z-review-ff96b8bb47c4",
+      "path": "lib/galaxy/tools/remote_tool_eval.py",
+      "reviewedAt": "2026-11-22T23:44:58.152Z"
+    },
+    "h1:f3e8a74e8fcc0ac1": {
+      "snapshotId": "20261122T193639Z-review-ff96b8bb47c4",
+      "path": "lib/galaxy/tools/wrappers.py",
+      "reviewedAt": "2026-11-22T23:44:58.540Z"
+    },
+    "h1:69142531762e5309": {
+      "snapshotId": "20261122T193639Z-review-ff96b8bb47c4",
+      "path": "lib/galaxy/tools/wrappers.py",
+      "reviewedAt": "2026-11-22T23:44:58.540Z"
+    },
+    "h1:cef6a6fe9ec6a1f9": {
+      "snapshotId": "20261122T193639Z-review-ff96b8bb47c4",
+      "path": "lib/galaxy/tools/wrappers.py",
+      "reviewedAt": "2026-11-22T23:44:58.540Z"
+    },
+    "h1:8e216c1918b1fd66": {
+      "snapshotId": "20261122T193639Z-review-ff96b8bb47c4",
+      "path": "test/functional/tools/command_reads_configfile.xml",
+      "reviewedAt": "2026-11-22T23:44:58.927Z"
+    },
+    "h1:6f294151b48e4ded": {
+      "snapshotId": "20261122T193639Z-review-ff96b8bb47c4",
+      "path": "test/functional/tools/command_reads_input_size.xml",
+      "reviewedAt": "2026-11-22T23:44:59.311Z"
+    },
+    "h1:961671b1481155ab": {
+      "snapshotId": "20261122T193639Z-review-ff96b8bb47c4",
+      "path": "test/functional/tools/inputs_as_json_with_staging_path_and_source_path.xml",
+      "reviewedAt": "2026-11-22T23:44:59.718Z"
+    },
+    "h1:f7dc14bffb6e029e": {
+      "snapshotId": "20261122T193639Z-review-ff96b8bb47c4",
+      "path": "test/functional/tools/inputs_as_json_with_staging_path_and_source_path.xml",
+      "reviewedAt": "2026-11-22T23:44:59.718Z"
+    },
+    "h1:1c607e278edef38e": {
+      "snapshotId": "20261122T193639Z-review-ff96b8bb47c4",
+      "path": "test/functional/tools/sample_tool_conf.xml",
+      "reviewedAt": "2026-11-22T23:45:00.146Z"
+    },
+    "h1:ccae11c33e542477": {
+      "snapshotId": "20261122T193639Z-review-ff96b8bb47c4",
+      "path": "test/integration/embedded_pulsar_remote_tool_eval_directory_metadata_job_conf.yml",
+      "reviewedAt": "2026-11-22T23:45:00.572Z"
+    },
+    "h1:d8f9c629b1d649c9": {
+      "snapshotId": "20261122T193639Z-review-ff96b8bb47c4",
+      "path": "test/integration/embedded_pulsar_remote_tool_eval_job_conf.yml",
+      "reviewedAt": "2026-11-22T23:45:01.109Z"
+    },
+    "h1:c57ac11ce7842b66": {
+      "snapshotId": "20261122T193639Z-review-ff96b8bb47c4",
+      "path": "test/integration/test_pulsar_embedded_remote_tool_eval.py",
+      "reviewedAt": "2026-11-22T23:45:01.513Z"
+    },
+    "h1:83f5af9e040603fd": {
+      "snapshotId": "20261122T193639Z-review-ff96b8bb47c4",
+      "path": "test/integration/test_remote_tool_evaluation_directory_metadata.py",
+      "reviewedAt": "2026-11-22T23:45:02.020Z"
+    },
+    "h1:979d32413bc0ea9c": {
+      "snapshotId": "20261122T193639Z-review-ff96b8bb47c4",
+      "path": "test/unit/app/jobs/test_command_factory.py",
+      "reviewedAt": "2026-11-22T23:45:02.380Z"
+    },
+    "h1:5a37177f98e77288": {
+      "snapshotId": "20261122T193639Z-review-ff96b8bb47c4",
+      "path": "test/unit/app/jobs/test_pulsar_runner.py",
+      "reviewedAt": "2026-11-22T23:45:02.626Z"
+    },
+    "h1:25a41a646eab93fa": {
+      "snapshotId": "20261122T193639Z-review-ff96b8bb47c4",
+      "path": "test/unit/app/jobs/test_remote_evaluation_paths.py",
+      "reviewedAt": "2026-11-22T23:45:02.947Z"
+    },
+    "h1:0b9da7bb3f03c97a": {
+      "snapshotId": "20261122T193639Z-review-ff96b8bb47c4",
+      "path": "test/unit/app/tools/test_wrapped_json.py",
+      "reviewedAt": "2026-11-22T23:45:03.400Z"
+    }
+  },
+  "commits": {
+    "8a88b31141f801b76481a5c11fa8b5d32601851f": {
+      "sha": "c5055be538e84c1d8ea68d78499e88059fa85cf4",
+      "subject": "Fix remote tool evaluation and deferred inputs with Pulsar",
+      "snapshotId": "20261122T193639Z-review-ff96b8bb47c4",
+      "signedOffAt": "2026-11-22T23:45:04.935Z"
+    },
+    "d3c1dad6b7830754a268fa9feb4a3865e02e928e": {
+      "sha": "7609167e34bca66afa7a55d7ec0813a5a5bf9e75",
+      "subject": "Read load_contents inputs from Galaxy's copy of the dataset",
+      "snapshotId": "20261122T193639Z-review-ff96b8bb47c4",
+      "signedOffAt": "2026-11-22T23:45:05.562Z"
+    },
+    "9ebad7abd79019934b785a8ac5a60e9fe46990bb": {
+      "sha": "0543dc270cf4e5bd9063a9b0d37e4cfb5e25bfc5",
+      "subject": "Stage the files expression tools write to the job directory with Pulsar jobs",
+      "snapshotId": "20261122T193639Z-review-ff96b8bb47c4",
+      "signedOffAt": "2026-11-22T23:45:06.056Z"
+    },
+    "468279b20437a9fe81e9b011ecbafe64cd9628b0": {
+      "sha": "e8ea3622c2b25a4afea3824b41142fec7e616813",
+      "subject": "Allow remote tool evaluation with the directory metadata strategy",
+      "snapshotId": "20261122T193639Z-review-ff96b8bb47c4",
+      "signedOffAt": "2026-11-22T23:45:06.234Z"
+    },
+    "0412dadc80d1da544030be799998239748bbf786": {
+      "sha": "8fb2ab2ac6b413e46639fc539231aa8e193d298e",
+      "subject": "Test Pulsar remote evaluation of tools that read files while building the command",
+      "snapshotId": "20261122T193639Z-review-ff96b8bb47c4",
+      "signedOffAt": "2026-11-22T23:45:06.510Z"
+    },
+    "8b3cd52fca942db84a26ae7d4dd796dd3373729a": {
+      "sha": "1c6b7af94afd7f124a37c62f2797244c28c85d93",
+      "subject": "Resolve remote evaluation paths by UUID instead of the object store",
+      "snapshotId": "20261122T193639Z-review-ff96b8bb47c4",
+      "signedOffAt": "2026-11-22T23:45:07.586Z"
+    },
+    "2fe4920b5a638945c9b34294fc9762494fd07a42": {
+      "sha": "12bafa5a6b5635fd533738ed643f151440e3fd3e",
+      "subject": "Test that remote evaluation does not send the object store configuration",
+      "snapshotId": "20261122T193639Z-review-ff96b8bb47c4",
+      "signedOffAt": "2026-11-22T23:45:08.048Z"
+    },
+    "24dbb3010f67d24b3ce0ab0d9ed8341d109fb53e": {
+      "sha": "430a01db6265fb7b1b881894429e400a90768be3",
+      "subject": "Key remote evaluation paths by database ids",
+      "snapshotId": "20261122T193639Z-review-ff96b8bb47c4",
+      "signedOffAt": "2026-11-22T23:45:08.359Z"
+    },
+    "3722390d3d3bc34faed70f7eab876c885217f183": {
+      "sha": "fee0cf0ff4de4caa67aa6fc82c2df7acf402b07c",
+      "subject": "Resolve staged source paths through the compute environment",
+      "snapshotId": "20261122T193639Z-review-ff96b8bb47c4",
+      "signedOffAt": "2026-11-22T23:45:08.655Z"
+    },
+    "b7b1b6976eaade39bbfb1f7af9631b4a45187c82": {
+      "sha": "ff96b8bb47c49cd0886b04747bc1825bc8e25601",
+      "subject": "Test staged source paths with Pulsar remote evaluation",
+      "snapshotId": "20261122T193639Z-review-ff96b8bb47c4",
+      "signedOffAt": "2026-11-22T23:45:08.973Z"
+    }
+  }
+}
