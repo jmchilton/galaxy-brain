@@ -8,7 +8,7 @@ upstream_base_branch: release_26.1
 
 ## Status
 
-Status: `branches_implemented_needs_ci`. Hardened READY, scope kept as implemented. Base `release_26.1`; local head `b72810c2028` (3 commits), fork still has the pre-hardening `07763ce5ac6` until a force-push. Worktree: `~/projects/worktrees/galaxy/branch/issue_25004_mapped_job_outputs_26_1`.
+Status: `branches_implemented_needs_ci`. Hardened READY, scope kept as implemented. Base `release_26.1`; head `b72810c2028` (3 commits), pushed to the fork. Worktree: `~/projects/worktrees/galaxy/branch/issue_25004_mapped_job_outputs_26_1`.
 
 No PR yet. CI not yet seen.
 
