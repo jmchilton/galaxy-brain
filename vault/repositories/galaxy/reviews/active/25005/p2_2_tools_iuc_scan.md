@@ -31,3 +31,14 @@ Both are already buggy: they mutate a user's input dataset in place. The PR turn
 ## Limits
 
 Regex scan: links built in loops, in wrapper scripts writing to `$output`, or via dirs linked above an output could be missed. Only tools-iuc scanned, not other ToolShed owners.
+
+## Verification (2026-11-22)
+
+Subagent (Claude Opus 5.5, medium) checked tools-iuc#8992 and #8993 against the PR.
+
+- Mimic tool (`ln -s '$input' linked.txt && echo mutated >> linked.txt`, `from_work_dir="linked.txt"`), one integration run each, default local runner:
+  - PR head `2b11cda0d36`: job `error`, one `output_collection_security` message, output empty, input mutated. The job script's "Not collecting" line didn't reach `tool_stderr`; the failure surfaced only via the `finish()` re-check.
+  - Merge-base `aaf0cc2fb19`: job `ok`, output collected (mutated content), input mutated.
+- trinotate (#8992): partially confirmed. Trinotate 3.2.2 loaders write via DBI / `sqlite3 .import` with no unlink/recreate; link stays a link. Correction: input is mutated on every `select_download=no` run; `keep_sqlite` only decides whether the job fails.
+- crispr_studio (#8993): confirmed as written (`reformatData()` `open(..., 'w')` at L326; `.svg` link renamed at L809).
+- Caveats (from code, not run): containers mount the object store `:ro` under `outputs_to_working_directory`, so those setups already failed at the write; Pulsar skips the `from_work_dir` copy (`include_work_dir_outputs=False`), staged inputs live in the remote job dir.
