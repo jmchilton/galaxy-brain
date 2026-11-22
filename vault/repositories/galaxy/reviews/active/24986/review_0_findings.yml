@@ -1,0 +1,219 @@
+round: 0
+reviewed_commit: be2b1655fc6b933f47ca7e41aa0ea308cccfd3b7
+agents:
+  - {profile: default, path: _shared/reviewers/default.md, model: Claude Opus 5.5, effort: medium}
+  - {profile: gx_test_challenger, path: _shared/reviewers/gx_test_challenger.md, model: Claude Opus 5.5, effort: medium}
+  - {profile: gx_risk_assessment, path: _shared/reviewers/gx_risk_assessment.md, model: Claude Opus 5.5, effort: low}
+  - {profile: gx_performance_challenger, path: _shared/reviewers/gx_performance_challenger.md, model: Claude Opus 5.5, effort: medium}
+verification: {model: Claude Opus 5.5, effort: medium}
+branches:
+  - name: pr_24986_round_0_rev_0
+    revision: 0
+    head: 51f6b11473c
+    pr_title: Tighten default file locations for workflow inputs
+    description: |
+      `pr_24986_round_0_rev_0` builds on `be2b1655fc6`. In the editor, it moves the default-location logic into a typed `modules/defaultFile.ts` helper that drops the old file's basename and checksums when the location changes, and it merges keystrokes into one lazy undo entry. On the run side, `DataToolParameter.to_dict` now emits `default_location` and the client treats it as making an empty selection valid, so the workflow manager no longer reports the input as optional and tool data parameters with an XML default get the same option. The long run form omits only unset data and collection inputs, through a helper shared with the simple form. It also shares the `in` serialization between the editor and export dicts and reverts the no-op help change. On the test side, the API round trip now saves the editor dict unchanged and covers tool-step defaults, the optional-with-default case has its own test, a Selenium test submits from the expanded form, and the Simple Form toggle gets a navigation entry.
+    commits:
+      - sha: 7610d563e62
+        subject: Drop file metadata bound to the old location when editing a default
+        detail: removes `basename`, `created_from_basename` and the hash keys from the File default when the location changes, with a FormDefault test.
+        findings: [P2 1]
+      - sha: eae6ede045b
+        subject: Move default file location editing into a typed helper
+        detail: adds `modules/defaultFile.ts` with a `FileDefault` type, guard and `withDefaultFileLocation`, types `NewStep.in` as `StepInputDefaults`, and replaces the mount-based FormDefault test with a table test of the helper.
+        findings: [P3 4, P3 6]
+      - sha: c1b9f33b194
+        subject: Merge default location keystrokes into one undo entry
+        detail: adds a lazy `setInputDefaults` step action used by FormDefault, with an undo test.
+        findings: [P3 1]
+      - sha: 4a8aeda576e
+        subject: Revert unrelated help concatenation in the simple run form
+        detail: restores `help = step.annotation` in `WorkflowRunFormSimple.vue`.
+        findings: [P3 2]
+      - sha: 7c5dcd8e1fb
+        subject: Omit only unset data inputs from the long run form
+        detail: adds `omitUnsetWorkflowInput` in `Workflow/constants.ts`, used by both run forms, with a WorkflowRunForm test that keeps a cleared parameter input as null.
+        findings: [P2 2]
+      - sha: 2aaa7db7e49
+        subject: Share step input default serialization between editor and export
+        detail: adds `WorkflowStep.input_defaults_dict()` and uses it in `_workflow_to_dict_editor` and the native export.
+        findings: [P3 3]
+      - sha: 0a910e29033
+        subject: Expose default file locations from DataToolParameter
+        detail: emits `default_location` from `DataToolParameter.to_dict`, lets `FormData`, `FormElement` and `validateInputs` accept an empty value when it is set, and drops the manager's `optional`/`default_location` override, with an API test on `cat_default`'s build.
+        findings: [P2 3]
+      - sha: 4a96787b105
+        subject: Check editor round trips keep the whole file default
+        detail: saves the editor dict unchanged and compares the reopened default exactly, and adds a round trip for an inline tool-step default.
+        findings: [P2 4]
+      - sha: f3a9886e7bd
+        subject: Give the optional data input with a default its own test
+        detail: adds `test_optional_data_input_with_default_file_location_runs` and an `_editor_data_input_step` helper.
+        findings: [P3 5]
+      - sha: 87870749303
+        subject: Add a navigation entry for the run form's Simple Form toggle
+        detail: adds `workflow_run.simple_form_toggle` and `workflow_run_switch_to_simple_form()`, used by both tests that switched forms.
+        findings: [P3 8]
+      - sha: 6481436d1ff
+        subject: Submit a workflow with a default file from the expanded run form
+        detail: adds `test_dataset_default_location_expanded_form_submit`.
+        findings: [P2 5]
+      - sha: 51f6b11473c
+        subject: Trim the FormData default-file test to what E2E does not cover
+        detail: keeps only the check that a required input with a default file starts on "Use default file".
+        findings: [P3 7]
+actions: {approve: false, approve_and_merge: false, comment: false, review_comment: false, request_changes: false, pull_request: false, push: false, issue_refactor: false, issue_galaxy_brain: false}
+findings:
+  - id: P2 1
+    include: true
+    title: Changing the default location keeps metadata that describes the old file
+    summary: FormDefault spreads the old File default, so basename and hashes survive a URL change.
+    implementation_verified: true
+    issue: |
+      `FormDefault.vue` `onDefaultLocation` spreads the previous `File` default and replaces only `location`. `raw_to_galaxy` (`lib/galaxy/tools/parameters/basic.py`) also reads `basename` (the dataset name), every `HASH_NAMES` key (attached as `DatasetHash` and checked when the deferred dataset materializes), and `created_from_basename`. All of them describe the previous file. After an author points the input at a different URL in the editor, the run still names the dataset after the old file (the PR's own fixture has `basename: a file`), and an old `MD5`/`SHA-*` value makes materializing the new URL fail hash validation, with nothing in the editor showing why.
+    fix: |
+      Changing the location now drops `basename`, `created_from_basename` and the hash keys, and keeps location-independent keys such as `format`. A Vitest case with `basename` and `MD5` covers it.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+  - id: P2 2
+    include: true
+    title: The long run form omits every null input, including parameter inputs
+    summary: Long form deletes null for parameter_input too; simple form only for data/collection.
+    implementation_verified: true
+    issue: |
+      `WorkflowRunForm.vue` `onDefaultStepInputs` deletes `inputs[stepId]` whenever `data.input == null`. This handler serves every input step, including `parameter_input`. The simple form deliberately omits null only for `data_input` / `data_collection_input`. The backend treats the two differently (`WorkflowProgress.set_outputs_for_input` and `_ensure_input_step_outputs_populated` in `lib/galaxy/workflow/run.py`): a missing key uses the step default, a present `None` runs with `None`. So an optional parameter with a default that the user cleared now runs with the default in the long form, but with null in the simple form.
+    fix: |
+      Added `omitUnsetWorkflowInput` in `Workflow/constants.ts`, used by both forms, so only unset data and collection inputs are omitted. A WorkflowRunForm Vitest test submits a null data input and a null parameter input and checks that only the parameter is sent; it fails on the reviewed commit.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+  - id: P2 3
+    include: true
+    title: Default-file run-model handling is patched in the workflow manager instead of DataToolParameter
+    summary: Manager re-reads the default, reports optional=True for a required parameter, and the history scan for an initial value is discarded.
+    implementation_verified: true
+    issue: |
+      `WorkflowContentsManager._workflow_to_dict_run` takes `DataToolParameter.to_dict()` and then patches it for `data_input` steps (`optional = True`, `value = None`, `default_location`), re-reading the default through `step.get_input_default_value(None)` although the parameter already holds it as `default_object`. Consequences:
+
+      - **Contract mismatch.** The client is told `optional: True`, while `InputDataModule.get_runtime_inputs` builds the same parameter with `optional=False`. The real state is "required, satisfied by a default".
+      - **Sibling divergence.** Tool `<param type="data">` inputs can already declare a default (`default_object`). The tool form preselects a history dataset and offers no way to choose the default.
+      - **Wasted history scan.** Because `optional=False` is forced, `BaseDataToolParameter.get_initial_value` skips its early return and pages through up to 500 HDAs plus a count of the current history, newest first, and the manager then overwrites the result with `None`. For inputs declared optional this is new per-request work. Code reading only, not measured.
+    evidence: |
+      Making `get_initial_value` return `None` for any File default is not a safe fix on its own. With that change, `tools/cat_default/build` still returned a selected dataset: `populate_state` passes the empty initial value through `from_json`, which calls `raw_to_galaxy` on the default and so appears to create a deferred dataset on each form build. The review branch therefore leaves the scan alone.
+    fix: |
+      `DataToolParameter.to_dict` now emits `default_location` for a File default. `FormData`, `FormElement` and `validateInputs` treat it as making an empty selection valid, so the manager only sets `value = None` for `data_input` steps and no longer reports the input as optional. Tool data parameters with an XML default get the same "Use default file" option. An API test checks `default_location` on `cat_default`'s build.
+    fix_details: |
+      The history scan remains. Skipping it needs an explicit flag that `InputDataModule.get_runtime_inputs` sets on the parameter it builds, rather than a change for every data parameter with a default, so that tool form builds don't start materializing defaults.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+      - {profile: gx_performance_challenger, model: Claude Opus 5.5, effort: medium}
+  - id: P2 4
+    include: true
+    title: The API round trip rewrites the default before saving, so metadata survival is not tested
+    summary: Test strips the default to {class, location} before saving; tool-step inline defaults untested.
+    implementation_verified: true
+    issue: |
+      `test_default_file_location_editor_round_trip_and_run` replaces the downloaded `in.input.default` with `{"class": "File", "location": ...}` before calling `_update_workflow`, dropping the fixture's `basename` and `format`. The test would still pass if the editor serializer or the update path lost those keys. The new `_workflow_to_dict_editor` code emits `in` for every step type, which also fixes inline tool-step defaults that open-and-save used to drop, and nothing tests that case.
+    fix: |
+      The round-trip test now saves the editor dict unchanged and asserts the reopened default equals the original exactly, including `basename` and `format`. Added `test_tool_step_default_file_survives_editor_round_trip` for `WORKFLOW_WITH_STEP_DEFAULT_FILE_DATASET_INPUT`.
+    discovered_by:
+      - {profile: gx_test_challenger, model: Claude Opus 5.5, effort: medium}
+  - id: P2 5
+    include: true
+    title: The expanded run form's submit path with a default is untested
+    summary: Selenium test switches to the simple form before submitting, so the long-form omission never runs.
+    implementation_verified: true
+    issue: |
+      `WorkflowRunForm.vue` `onDefaultStepInputs` now omits a null input instead of sending `null`. `test_dataset_default_location` selects "Use default file" in the expanded form but switches to the Simple Form before submitting. The Simple Form builds its own payload, so the changed code never runs in any test.
+    fix: |
+      Added `test_dataset_default_location_expanded_form_submit`, which picks a dataset, switches back to "Use default file", submits from the expanded form and checks the output contains `chr1`.
+    discovered_by:
+      - {profile: gx_test_challenger, model: Claude Opus 5.5, effort: medium}
+  - id: P3 1
+    include: true
+    title: Each keystroke in the default-location field creates its own undo entry
+    summary: FormDefault emits onUpdateStep per keystroke, each a separate UpdateStepAction.
+    implementation_verified: true
+    issue: |
+      `FormDefault` emits `onUpdateStep` on every `update:modelValue`, which reaches `stepActions.updateStep` and applies a fresh `UpdateStepAction` each time. Typing a 40-character URL leaves about 40 "modify step" undo entries. Annotation and label edits merge keystrokes through `changeValueOrCreateAction` / `LazyMutateStepAction`.
+    fix: |
+      Added a lazy `setInputDefaults` step action, used by FormDefault like `FormOutputLabel` uses `setOutputLabel`. An actions test checks that three edits leave one undo entry.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+      - {profile: gx_performance_challenger, model: Claude Opus 5.5, effort: medium}
+  - id: P3 2
+    include: true
+    title: The simple form's help concatenation is unrelated and does nothing
+    summary: longFormInput.help is always empty for input steps.
+    implementation_verified: true
+    issue: |
+      `WorkflowRunFormSimple.vue` now builds `help` from `step.annotation` plus `longFormInput?.help`. The runtime inputs of input steps (`InputDataModule.get_runtime_inputs` and its siblings) set no `help`, so the change has no effect on this feature, which `FormData`'s status block renders. If it ever became non-empty it would change the help text of every input type.
+    fix: |
+      Reverted the line.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+  - id: P3 3
+    include: true
+    title: The editor dict duplicates the export path's `in` serialization
+    summary: New step_defaults block repeats the native export's step_in loop.
+    implementation_verified: true
+    issue: |
+      The new `step_defaults` block in `_workflow_to_dict_editor` repeats the `step_in` loop in the native export almost line for line, so the two representations can drift apart.
+    fix: |
+      Added `WorkflowStep.input_defaults_dict()` and used it in both places.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+  - id: P3 4
+    include: true
+    title: Loose typing for step `in` pushes runtime narrowing into the component
+    summary: "NewStep.in typed with `default?: unknown`; FormDefault repeats type guards."
+    implementation_verified: true
+    issue: |
+      `NewStep.in` is typed `Record<string, { default?: unknown }>`, so `FormDefault.vue` repeats `typeof value === "object" && "location" in value ...` and `previous.class === "File"` guards inline. A narrow `FileDefault` type with a guard would shorten both functions and make explicit which keys survive a location change.
+    fix: |
+      Added a `FileDefault` type and `isFileDefault` guard in `modules/defaultFile.ts`, and named the step `in` type `StepInputDefaults`.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+  - id: P3 5
+    include: true
+    title: The optional-plus-default case needs its own test; the current comment is misleading
+    summary: '"preserve an optional input" comment actually exercises the modules.py optional=False change.'
+    implementation_verified: true
+    issue: |
+      `input_step["tool_state"]["optional"] = "true"` carries the comment "preserve an optional input". It actually exercises the `modules.py` change that forces `optional=False` when a default exists, so the step can still build its `DataToolParameter` and run. The following `optional is True` assertion held either way because the manager forced it. The `data_input` step lookup is also repeated three times.
+    fix: |
+      Moved the case into `test_optional_data_input_with_default_file_location_runs`, which marks the input optional, checks the run model and invokes the workflow, and added an `_editor_data_input_step` helper.
+    discovered_by:
+      - {profile: gx_test_challenger, model: Claude Opus 5.5, effort: medium}
+  - id: P3 6
+    include: true
+    title: The FormDefault test emits from a child component instead of testing the merge rules directly
+    summary: Mount test finds a child FormElement by id prop and calls vm.$emit; better as a pure helper test.
+    implementation_verified: true
+    issue: |
+      The merge rules are worth pinning down (keep `format`, keep other `in` keys, clear to nothing), but the test mounts `FormDefault`, finds a child `FormElement` by its `id` prop and calls `field.vm.$emit` directly. Its `other: { default: 5 }` sibling cannot occur on a `data_input` step.
+    fix: |
+      Moved the logic into `withDefaultFileLocation` / `defaultFileLocation` in `modules/defaultFile.ts` and replaced the mount test with a table test of the helper.
+    discovered_by:
+      - {profile: gx_test_challenger, model: Claude Opus 5.5, effort: medium}
+  - id: P3 7
+    include: true
+    title: The FormData default-file test duplicates the E2E test
+    summary: Every assertion is also checked by test_dataset_default_location.
+    implementation_verified: true
+    issue: |
+      Each assertion in the new `FormData.test.ts` case ("Using default file", the location text, "Using selected dataset", the "Use default file" option) is also checked by `test_dataset_default_location`. The only extra is the cosmetic "Default file:" prefix.
+    fix: |
+      Trimmed the test to the one check E2E does not make: a required input with a default file starts on "Use default file" rather than preselecting a dataset.
+    discovered_by:
+      - {profile: gx_test_challenger, model: Claude Opus 5.5, effort: medium}
+  - id: P3 8
+    include: true
+    title: Add a navigation entry for the Simple Form toggle
+    summary: The same text XPath now appears twice in test_workflow_run.py.
+    implementation_verified: true
+    issue: |
+      `//button[contains(., "Simple Form")]` now appears twice in `test_workflow_run.py`.
+    fix: |
+      Added `workflow_run.simple_form_toggle` to `navigation.yml` and a `workflow_run_switch_to_simple_form()` helper, used in both places.
+    discovered_by:
+      - {profile: gx_test_challenger, model: Claude Opus 5.5, effort: medium}
