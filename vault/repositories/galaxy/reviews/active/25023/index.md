@@ -8,7 +8,7 @@
 ## Round 0
 
 - Reviewed commit: `ff96b8bb47c49cd0886b04747bc1825bc8e25601`
-- Status: initial review ready, unposted. Four P2s + six P3s, two findings filtered. Seven fixed on review branch `pr_25023_round_0_rev_0` (head `391e46a8a1e`, pushed to the jmchilton fork, not into the PR). Not fixed: P2 1 (#25021 conflict, fix belongs to whichever PR merges second) and P3 4 (dead model methods; would delete a test assertion).
+- Status: initial review trimmed, unposted; John dropped P3 5 and checked Approve. Six fixes on review branch `pr_25023_round_0_rev_1` (head `3a6d5333d72`, pushed to the jmchilton fork, not into the PR); rev_0 (`391e46a8a1e`) kept. Not fixed: P2 1 (#25021 conflict, fix belongs to whichever PR merges second) and P3 4 (dead model methods; would delete a test assertion).
 - Findings: [review_0_findings.yml](review_0_findings.yml)
 - Notes: [comment](johns_review_0_comment_note.md), [review-branch PR body](johns_review_0_pr_note.md)
 - Reports: [default](initial_review.md), [thermo](thermo_review.md), [test challenges](test_challenges_review.md) ([debrief](test_challenges_debrief.md)), [risks](risks.md), [learning_galaxy](learning_galaxy.md) ([vault follow-up](learning_galaxy_followup_issue.md))

@@ -47,7 +47,42 @@ branches:
         subject: Write remote evaluation files once, from the compute environment
         detail: adds `ComputeEnvironment.remote_evaluation_job_io` and `remote_evaluation_unstructured_paths`, overrides them in `PulsarComputeEnvironment`, and removes `PulsarJobRunner._setup_remote_tool_evaluation`.
         findings: [P2 4]
-actions: {approve: false, approve_and_merge: false, comment: false, review_comment: false, request_changes: false, pull_request: false, push: false, issue_refactor: false, issue_galaxy_brain: false}
+  - name: pr_25023_round_0_rev_1
+    revision: 1
+    head: 3a6d5333d72
+    pr_title: Single writer for remote evaluation files and stricter Pulsar remote evaluation tests
+    description: |
+      `pr_25023_round_0_rev_1` builds on `ff96b8bb47c`. It makes `prepare()` the only writer of `job_io.json` and `compute_environment.json`: compute environments now supply the `job_io` contents and unstructured paths through two `ComputeEnvironment` hooks, and Pulsar's `_setup_remote_tool_evaluation` rewrite is gone. It types the paths payload as a `TypedDict`, reads `remote_command_line` once per Pulsar queue and prepare step instead of querying per access, and returns False instead of asserting when a job has no tool. It documents that data table and select option paths aren't staged under remote evaluation. On the test side, it asserts the exact input size in the recorded command line and adds a test that `compute_environment.json` maps inputs under the Pulsar job's `inputs/`, which fails when this PR is merged with #25021's current head. It also shares the input-size job helper.
+    commits:
+      - sha: ee65091c791
+        subject: Share input-size job helper in Pulsar remote evaluation tests
+        detail: adds `_run_input_size_job` to `TestPulsarRemoteToolEvaluation` and uses it in `test_command_line_recorded` and `test_object_store_configuration_not_sent`.
+        findings: [P3 6]
+      - sha: 28f0e1494c0
+        subject: Assert Pulsar remote evaluation records staged input paths
+        detail: asserts `echo '4 4'` in the recorded command line and adds `test_evaluated_with_staged_input_paths`, which checks that the Pulsar-side `compute_environment.json` maps the input under the Pulsar job's `inputs/`.
+        findings: [P2 2]
+      - sha: 625ca54bd79
+        subject: Report no remote evaluation for jobs without a tool instead of asserting
+        detail: replaces `assert self.tool` in `remote_command_line` with a `self.tool is None` check that returns False.
+        findings: [P3 2]
+      - sha: b81fd8ff49c
+        subject: Read remote_command_line once per Pulsar queue and prepare step
+        detail: hoists the property into a local in `queue_job` and `__prepare_job`, so the `JobExportHistoryArchive` query no longer runs once per input dataset.
+        findings: [P3 1]
+      - sha: d49cf22a86b
+        subject: Document that remote evaluation does not stage data table paths
+        detail: adds a paragraph to `doc/source/admin/jobs.md` saying data table and select option paths must be readable at the same path where the job runs.
+        findings: [P2 3]
+      - sha: c5f1c749e6e
+        subject: Type remote evaluation paths as a TypedDict
+        detail: turns `RemoteEvaluationPaths` into a `TypedDict` with the four keys and defines it above `RemoteComputeEnvironment`.
+        findings: [P3 3]
+      - sha: 3a6d5333d72
+        subject: Write remote evaluation files once, from the compute environment
+        detail: adds `ComputeEnvironment.remote_evaluation_job_io` and `remote_evaluation_unstructured_paths`, overrides them in `PulsarComputeEnvironment`, and removes `PulsarJobRunner._setup_remote_tool_evaluation`.
+        findings: [P2 4]
+actions: {approve: true, approve_and_merge: false, comment: false, review_comment: false, request_changes: false, pull_request: false, push: false, issue_refactor: false, issue_galaxy_brain: false}
 findings:
   - id: P2 1
     include: true
@@ -145,7 +180,7 @@ findings:
     discovered_by:
       - {profile: thermo_review, model: Claude Opus 5.5, effort: low}
   - id: P3 5
-    include: true
+    include: false
     title: "`load_contents` unit test duplicates Pulsar integration coverage"
     summary: test_wrapped_json load_contents case repeats what param_value_from_file proves on Pulsar under both strategies.
     issue: |
