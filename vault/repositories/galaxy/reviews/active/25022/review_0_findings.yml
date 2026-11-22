@@ -34,7 +34,7 @@ branches:
         subject: Use EMBEDDED_PULSAR_PERSISTENCE_DIRECTORY in persistence tests
         detail: imports the runner constant in place of the two hard-coded `"pulsar_persisted_data"` strings.
         findings: [P3 5]
-actions: {approve: true, approve_and_merge: false, comment: false, review_comment: false, request_changes: false, pull_request: false, push: false, issue_refactor: false, issue_galaxy_brain: false}
+actions: {approve: false, approve_and_merge: false, comment: false, review_comment: false, request_changes: false, pull_request: false, push: false, issue_refactor: false, issue_galaxy_brain: false}
 findings:
   - id: P2 1
     include: true
