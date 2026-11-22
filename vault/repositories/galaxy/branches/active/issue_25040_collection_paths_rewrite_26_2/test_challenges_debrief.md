@@ -1,54 +1,59 @@
 Run via Claude Opus 5.5 at high effort.
 
-# Test challenges debrief
+# Test challenges debrief (round 2, after re-scope)
 
-I ran `GX_PROCESS_CHALLENGE_TESTS.md` on `7a484fe459a`. That removed 3 unit tests, merged 1 into another, replaced 2 mocks in the baseline helpers, and rebuilt the integration test's setup with existing populators. The baseline changes went into the `Baseline tests` commit with a fixup and autosquash, so that commit is still first. The other changes are a new commit, `Trim compute environment tests for collection path accessors`. Head: `ba7f4c7d9b5`.
+I ran `GX_PROCESS_CHALLENGE_TESTS.md` fresh on `5543883b662`. I made three changes, each squashed into the commit it belongs to with a fixup and autosquash. The `Baseline tests` commit is still first.
+
+1. **Added an `export_remote` integration test for nested collections with the collection name** (in the nested-prefix commit). I dropped the unit test it duplicates.
+2. **Dropped the `<tests>` block from `collection_input_paths.xml`.** It passed before and after the fix, and the Pulsar integration test runs the same tool with stronger assertions.
+3. **Merged two inline HDCA builders in the baseline tests into a `_list_wrapper` helper.**
+
+Head: `64d66d54ec3` (7 commits, the same as before). The tree matches the pre-rebase tree with the fixups applied.
 
 ## Per-test decisions
 
 Unit tests in `test/unit/app/tools/test_wrappers.py`:
 
-| Test | Decision | Why |
-|---|---|---|
-| `test_collection_wrapper_path_accessors` (baseline) | Kept, helpers reworked | Pins nested `list:paired` flattening order, identifier tuples, `serialize()` and `data_style="paths"` output without a compute environment. No framework test covers nested identifiers in staging paths. |
-| `test_collection_wrapper_path_accessors_without_a_collection` (baseline) | Kept | Covers the `__input_supplied` branch the fix now relies on for an unset optional collection. It's small and costs nothing. |
-| `test_dataset_wrapper_metadata_file_accessors` (baseline) | Kept | Pins single-dataset `all_metadata_files` and `serialize()` without rewriting. |
-| `test_collection_wrapper_path_accessors_follow_compute_environment` | Kept, absorbed the next test | Fast red test of the wrapper's contract with `ComputeEnvironment`. Its nested case is not in the integration test, which uses a flat list. |
-| `test_collection_wrapper_paths_leave_metadata_files_alone` | Merged into the test above | It passed on the base code, which never calls the compute environment, so it couldn't show the fix. Its assertions (`all_paths`, `data_style="paths"` and `get_all_staging_paths()` never call `input_metadata_rewrite`) now run inside the red test before `all_metadata_files` is read. |
-| `test_dataset_wrapper_metadata_file_accessors_follow_compute_environment` | Dropped | Duplicate. The collection red test already goes through `DatasetFilenameWrapper.all_metadata_files` for each element. The integration test checks `SINGLE_ALL_METADATA_FILES` and `SINGLE_SERIALIZE_METADATA` against `$single.metadata.bam_index` under real Pulsar staging. |
-| `test_dataset_wrapper_metadata_files_keep_paths_the_compute_environment_does_not_rewrite` | Dropped | Passed before and after the fix. The `None` fallback runs in every local-runner framework test that renders `all_metadata_files`, because `SharedComputeEnvironment.input_metadata_rewrite` returns `None`. `collection_input_paths` and `tool_provided_metadata_8` both do this. |
+| Test | Commit | Decision | Why |
+|---|---|---|---|
+| `test_collection_wrapper_path_accessors` | Baseline | Kept | Pins `list:paired` flattening order, identifier tuples, per-element extension, `serialize()` and `data_style="paths"` before the accessors move from the model to the wrappers. The framework tool `inputs_as_json_with_staging_paths` covers only one `list:list` element and doesn't check `all_paths` or `all_metadata_files`. |
+| `test_collection_wrapper_path_accessors_without_a_collection` | Baseline | Kept | Covers the unset optional collection (`__input_supplied`) branch that the new generator depends on. |
+| `test_collection_wrapper_path_accessors_keep_elements_with_repeated_identifiers` | Baseline | Kept, now uses `_list_wrapper` | Guards the parallel identifier list the fix needs. `element_instances` is keyed by identifier, so it would drop duplicates. The API won't build such a collection, so the unit layer is the only place to test it. |
+| `test_collection_wrapper_staging_paths_with_the_collection_name` | Baseline | Kept, now uses `_list_wrapper` | Pins the flat `include_collection_name` layout, including the name-length allowance. The nested-prefix commit must leave this layout byte-identical. No integration test covers the flat case. |
+| `test_dataset_wrapper_metadata_file_accessors` | Baseline | Kept | Pins single-dataset `all_metadata_files` and `serialize()` without rewriting. |
+| `test_nested_collection_staging_paths_include_the_collection_name_once` | Nested prefix | **Dropped, rewritten as an integration test** | This was easy to test end to end, and `export_remote` is the only caller of `include_collection_name`. The new integration test checks the same layout through `serialize()` as the files actually written. `get_all_staging_paths` is the code under `serialize()`, so the unit test added nothing more. |
+| `test_collection_wrapper_path_accessors_follow_compute_environment` | Compute environment | Kept | Fast red test for the fix. It also checks something the integration test can't see: paths-only accessors (`all_paths`, `data_style="paths"`, `get_all_staging_paths`) never call `input_metadata_rewrite`. Each such call makes Pulsar stage a file. |
+| `test_collection_wrapper_metadata_files_are_loaded_and_rewritten_once` | Caching | Kept | Checks the commit's contract: metadata files are loaded once and each one is rewritten once, which matters because Pulsar stages every rewrite. Fails before the commit (`9 == 1`). I kept `Mock(wraps=...)`. It is a spy on the real stub and reads clearly. A counting dataclass would need a `cast` through the method type, because mypy uses `check_untyped_defs`. |
+| `test_output_dataset_wrapper_metadata_files_are_not_staged` | Inputs-only rewrite | Kept | Not reachable end to end: output wrappers are built before outputs have metadata files. The unit layer is the only place to pin the guard, which matches #25023. It is small and fails before the commit. |
 
-Mock and helper changes:
+The helpers are unchanged apart from the new `_list_wrapper` / `_input1_wrapper` pair. They already use a real datatypes registry, real `Dataset(external_filename=...)` and a `StagingComputeEnvironment` dataclass. The only remaining stub is `get_metadata_file_paths_and_extensions`, because real metadata files need an object store. I found no restructuring that would remove it without growing the change.
 
-- **Baseline (fixup):**
-  - The collection wrapper now gets the real `example_datatype_registry_for_sample()` instead of a `Mock` whose `get_datatype_by_extension` returned `None`. This means `get_all_staging_paths()` resolves `file_ext_export_alias` as it does in production. The registry is built once through a `functools.cache` helper, because each build takes about 0.7 s.
-  - `_hda_at` no longer patches `get_file_name`. It uses a real `model.Dataset(external_filename=path)`. Only `get_metadata_file_paths_and_extensions` is still stubbed, because metadata files need an object store.
-  - `_list_paired_wrapper` kept its signature, so the intermediate commits still pass.
-- **`StagingComputeEnvironment`:** now a dataclass that records metadata rewrites. Its `rewrite_metadata` switch went away along with the `None` test that used it. The existing `MockComputeEnvironment` doesn't fit here, because it returns one fixed path for every dataset.
+Integration tests:
 
-Integration test `test/integration/test_pulsar_embedded_rewrite_parameters.py`:
+- **New, `test/integration/test_remote_files.py::test_export_remote_tool_nested_collection_with_collection_name`** (nested-prefix commit `fece82a987e`). This is finding 4 from the re-scope review. It exports a `list:list` with "Include the collection name as top level directory?" set and walks the FTP directory. It asserts the exact file set `list:list/test0/data{0,1,2}.txt`. It passes `export_type|incollection` correctly. The neighbouring test passes `infiles` and works only because the collection parameter defaults to the newest HDCA; I left that quirk alone. It uses `describe_tool_execution(...).assert_has_single_job.with_final_state("ok")` and `create_list_of_list_in_history`, so there are no raw HTTP calls. It runs under that class's `tool_evaluation_strategy: remote`, so it also covers the wrapper path without a database session.
+- **`test_pulsar_embedded_rewrite_parameters_input_paths.py`: unchanged.** Every call goes through a populator. The single `_upload_bam_list` helper is used once, so it doesn't need to move to the populators. It stays an integration test because it needs a Pulsar `rewrite_parameters` job config.
 
-- The hand-built fetch payload is gone. The single BAM comes from `dataset_populator.new_bam_dataset`, and the list from `DatasetCollectionPopulator.upload_collection` inside a small `_upload_bam_list` helper.
-- `run_tool` + `wait_for_job` + `get_history_dataset_content` became `describe_tool_execution(...).assert_has_single_job.with_output(...)`. That call also checks the job ended `ok`.
-- The per-key count expression (`2 if key.startswith(("FOR", "COLL")) else 1`) became an explicit `(key, count)` table.
-- Assertions are unchanged. No raw HTTP calls were used before or after.
-- Kept as an integration test, because it needs a job config (embedded Pulsar with `rewrite_parameters: true`). The existing `rewrite_parameters` tests need AMQP.
+Framework tool `test/functional/tools/collection_input_paths.xml`:
 
-Framework tool `test/functional/tools/collection_input_paths.xml`: unchanged. The `<tests>` block is a smoke check that passes before and after the fix, since the local runner doesn't rewrite paths. Its job is to keep the tool the integration test depends on working in framework CI. `has_line_matching` can't compare one output line with another, so the real comparisons stay in the integration test.
+- **Dropped its `<tests>` block** (in the compute environment commit). The local runner doesn't rewrite paths, so the block passed on base and couldn't show the fix. It only checked line shapes, and the Pulsar integration test runs the same tool and compares every accessor. Many tools in `sample_tool_conf.xml` (`multi_data_repeat.xml`, `discover_long_name.xml`, ...) have no `<tests>` and serve API or integration tests the same way. This reverses the round 1 decision.
 
 E2E: none needed. Nothing in this change is visible in the UI.
 
 ## Red/green
 
-I checked these in a temporary worktree at `origin/release_26.2`, which I removed afterwards:
+I checked these in a temporary worktree, which I removed afterwards.
 
-- The baseline tests from the rewritten `Baseline tests` commit pass on the base code: 36 passed.
-- With the branch's test file on the base code, only `test_collection_wrapper_path_accessors_follow_compute_environment` fails. It fails at its first assertion: `/galaxy/forward.dat` != `/job/inputs/forward.dat`.
-- The integration test on the base code fails at the `ALL_PATHS` assertion: the path is in the object store instead of `pulsar_staging/<job>/inputs/`.
+- Baseline commit tests on `origin/release_26.2` lib: 38 passed.
+- `test_wrappers.py` at each commit: 38, 38, 38, 38, 39, 40, 41.
+- Each later unit test fails on its parent commit, at its own assertion:
+  - compute environment: `/galaxy/forward.dat` != `/job/inputs/forward.dat`;
+  - caching: `9 == 1`;
+  - outputs: rewritten `/job/inputs/...` != `/galaxy/out_bai.dat`.
+- The new `export_remote` test on base fails at its assertion: `list:list/test0/list:list/data0.txt` != `list:list/test0/data0.txt`. It passes at `fece82a987e` and at head.
 
 ## Results at head
 
-- `test/unit/app/tools/test_wrappers.py`: 37 passed.
-- Integration `test_pulsar_embedded_rewrite_parameters.py`: 1 passed (34 s).
-- Framework `collection_input_paths`, `inputs_as_json_with_paths`, `inputs_as_json_with_staging_paths`, `export_remote`, `tool_provided_metadata_8`: 6 passed.
-- ruff, black and isort are clean on the changed files. mypy on the integration file only reports the strict-mode untyped-def notes that the original version also had.
+- `test/unit/app/tools/test_wrappers.py`: 41 passed.
+- `test/integration/test_remote_files.py -k collection`: 2 passed (the existing structure test and the new one).
+- `test/integration/test_pulsar_embedded_rewrite_parameters_input_paths.py`: 1 passed. The venv must be activated, or the upload job can't find `python`.
+- `cd lib && mypy . ../test`: no issues. ruff, black and isort are clean on the changed files.

@@ -1,0 +1,4 @@
+- [26.2] Route collection `all_paths`, `serialize()` and metadata file accessors through the compute environment
+- [26.2] Fix collection and metadata file paths for Pulsar `rewrite_parameters` jobs
+- [26.2] Make collection path accessors match `#for $e in $collection` under path rewriting
+- [26.2] Fix collection and metadata file paths on destinations that rewrite input paths

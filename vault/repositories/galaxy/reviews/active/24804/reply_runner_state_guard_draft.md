@@ -1,4 +1,4 @@
-Draft reply to mvdbeek's inline comment on `lib/galaxy/jobs/runners/pulsar.py:1453` (2026-11-21, on `eaa6202814b`): "can it be a list ? should we raise ?" — about the `isinstance(runner_state, str)` guard from P3 4 (`ad412ebe6f4`). Unposted; John to approve.
+Draft reply to mvdbeek's inline comment on `lib/galaxy/jobs/runners/pulsar.py:1453` (2026-11-21, on `eaa6202814b`): "can it be a list ? should we raise ?" — about the `isinstance(runner_state, str)` guard from P3 4 (`ad412ebe6f4`). Posted 2026-11-22 as https://github.com/galaxyproject/galaxy/pull/24804#discussion_r4659661024
 
 ---
 
