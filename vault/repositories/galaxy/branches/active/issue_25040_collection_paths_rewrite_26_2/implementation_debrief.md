@@ -16,7 +16,7 @@ created /home/ubuntu/projects/repositories/galaxy-brain/vault/repositories/galax
     changed cd4d46bb801a Route collection and metadata file path accessors through the compute environment (6 differing hunks)
 ```
 
-**Not pushed.** The force-push after the first review rebase was refused by the permission classifier. The fork still has the pre-review `6d2f2cabcf4`. The alt `issue_25040_collection_paths_rewrite_26_2_alt_original_scope` (`d525f5da834`) is pushed.
+**Pushed** to the fork at `cd4d46bb801` (2026-11-22, approved by John); issue note posted: https://github.com/galaxyproject/galaxy/issues/25040#issuecomment-7084235946. The alt `issue_25040_collection_paths_rewrite_26_2_alt_original_scope` (`d525f5da834`) is pushed.
 
 ## Commits
 
@@ -45,4 +45,4 @@ created /home/ubuntu/projects/repositories/galaxy-brain/vault/repositories/galax
 - Still valid for any scope option: [normal review](subagents/normal_review.md), [re-scope review](subagents/rescope_review.md), round 2 [test challenges](test_challenges_debrief.md), [performance](performance_challenges_debrief.md), [Codex](codex_review.md) (at `64d66d54ec3`), [thermo-nuclear](thermo_nuclear_review.md), [baseline refactor](baseline_refactor.md). Round 1 is under [earlier_drafts/1/](earlier_drafts/1/).
 - Validated at head: unit tests (`test/unit/app/tools/` + mapping, 1056 passed), the Pulsar `rewrite_parameters` integration test, the `export_remote` integration tests (10), the related framework tool tests (23), `make format`, and `make mypy` (clean).
 - If the allowance change is applied: update the baseline assertion that pins the allowance, add a long-identifier/long-name test, rerun `test_wrappers.py` per commit plus the `export_remote` integration tests, and take a revision snapshot.
-- Then force-push to the fork, and post the issue note per `GX_PROCESS_RECORD_IMPLEMENTATION.md`. It was skipped because the fork branch is stale.
+- Then force-push the revision to the fork.
