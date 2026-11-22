@@ -1,0 +1,276 @@
+round: 0
+reviewed_commit: e9fa3cda0899fe6de6fa53b13064a12905b97620
+agents:
+  - {profile: default, path: _shared/reviewers/default.md, model: Claude Opus 5.5, effort: medium}
+  - {profile: thermo_review, path: _shared/reviewers/thermo_review.md, model: Claude Opus 5.5, effort: medium}
+  - {profile: gx_test_challenger, path: _shared/reviewers/gx_test_challenger.md, model: Claude Opus 5.5, effort: medium}
+  - {profile: gx_risk_assessment, path: _shared/reviewers/gx_risk_assessment.md, model: Claude Opus 5.5, effort: low}
+  - {profile: gx_performance_challenger, path: _shared/reviewers/gx_performance_challenger.md, model: Claude Opus 5.5, effort: medium}
+  - {profile: learning_galaxy, path: gx_reviews/reviewers/learning_galaxy.md, model: Claude Opus 5.5, effort: medium}
+verification: {model: Claude Opus 5.5, effort: medium}
+branches:
+  - name: pr_25003_round_0_rev_0
+    revision: 0
+    head: 860a42132cc
+    pr_title: Typed pending changes, shared SSE fan-out and test scaffolding, RETURNING fallback for invocation SSE events
+    description: |
+      `pr_25003_round_0_rev_0` builds on `e9fa3cda089`. On the producer side, it stores pending invocation and job changes as the `InvocationUpdate`/`JobUpdate` TypedDicts, now defined once in `galaxy.model.pending_changes` beside both recorders, and types the publisher's dispatcher as a two-method Protocol. It falls back from `UPDATE ... RETURNING` when cancelling invocation jobs on databases without it, and routes an anonymous job's events to its history's owner once that history has one. On the consumer side, it extracts the owner/session/viewer fan-out the `invocation_update` and `job_update` handlers copied, and applies the same owner de-duplication to `history_update` viewers, with unit tests against a real `SSEConnectionManager`. In the test framework, it caches the current user id for event-driven waits, adds populator helpers for history subscriptions, moves shared SSE integration scaffolding into `SSEIntegrationTestCase` and `galaxy_test.base.sse`, gives `SSELineListener` one wait primitive, and tightens three tests. It also documents subscribe-time access checks and updates the `enable_sse_updates` description.
+    commits:
+      - sha: 3eb490991b7
+        subject: Store pending invocation and job changes as typed records
+        detail: moves `InvocationUpdate`/`JobUpdate` and `record_invocation_change` into `galaxy.model.pending_changes`, stores the records keyed by id, makes `record_job_change` keyword-only, and groups job recipients by `(user_id, session_id)`.
+        findings: [P2 2]
+      - sha: 36adad65c9b
+        subject: Share fan-out between invocation_update and job_update handlers
+        detail: adds `_push_routed_items` and a `RoutedItem` NamedTuple in `queue_worker`, and unit tests for owner de-duplication, session delivery and resync fan-out.
+        findings: [P2 1]
+      - sha: 732339a1a99
+        subject: Skip owners in history_update viewer fan-out too
+        detail: passes each history's owners as `exclude_user_ids` in `history_update` and updates its docstring.
+        findings: [P3 7]
+      - sha: 69d92d1d2a6
+        subject: Fall back from RETURNING when cancelling invocation jobs
+        detail: checks `dialect.update_returning` in `_delete_jobs` and selects the affected jobs before a bare `UPDATE` when it is False.
+        findings: [P3 1]
+      - sha: ab7df80ed9f
+        subject: Route anonymous job events to their history's owner
+        detail: makes `_record_job` fall back to `job.history.user_id` when the job has no user.
+        findings: [P3 3]
+      - sha: a35765c0926
+        subject: Type the publisher's dispatcher as a Protocol; name job dispatch fields in tests
+        detail: "adds `ChangeEventDispatcher`, drops the `type: ignore` comments in the unit tests, and records a `JobDispatch` dataclass in `RecordingDispatcher`."
+        findings: [P3 9]
+      - sha: 7a460a3e7c3
+        subject: Cover the job dispatch in the dispatch failure test
+        detail: adds a job to the failing transaction and asserts its dispatch is attempted after the invocation dispatch fails.
+        findings: [P3 10]
+      - sha: 549631919ca
+        subject: Give SSELineListener one wait primitive
+        detail: reimplements `wait_for_event` and `wait_for_event_where` on `wait_for_matching_event_count_above`.
+        findings: [P3 8]
+      - sha: effbd99122f
+        subject: Cache the current user id for SSE waits; skip subscribing for jobs without a history
+        detail: caches `users/current` per API key on `GalaxyInteractorHttpMixin` and skips the viewer subscription when a job has no history.
+        findings: [P3 4]
+      - sha: 9681c15b638
+        subject: Add populator helpers for history-subscriptions
+        detail: adds `subscribe_history_viewer`/`unsubscribe_history_viewer` and uses them in the populator and in `test_invocation_sse.py` and `test_history_sse.py`.
+        findings: [P2 4]
+      - sha: 4612fea0ac8
+        subject: Share SSE integration test scaffolding
+        detail: adds `SSEIntegrationTestCase` to `integration_util` and `job_states_for`/`invocation_states_for` to `galaxy_test.base.sse`, used by both new integration files.
+        findings: [P3 6]
+      - sha: 8c63ea6a447
+        subject: Cover a malformed id in the viewer subscription test
+        detail: subscribes the viewer to `["notanid", published_history_id]` so the test shows a bad id doesn't drop the valid one.
+        findings: [P3 11]
+      - sha: b2233408aec
+        subject: Document that viewer access is checked at subscribe time
+        detail: adds a sentence to `doc/source/admin/sse_updates.md` on subscriptions outliving a later access change.
+        findings: [P3 2]
+      - sha: bdaeada2399
+        subject: Mention invocation and job events in enable_sse_updates description
+        detail: updates `config_schema.yml` and regenerates the sample config and `galaxy_options.rst`.
+        findings: [P3 5]
+      - sha: 860a42132cc
+        subject: Describe history-owner routing of anonymous job events
+        detail: updates the `JobUpdate` docstring and `sse_updates.md` for the new anonymous-job routing.
+        findings: [P3 3]
+actions: {approve: false, approve_and_merge: false, comment: false, review_comment: false, request_changes: false, pull_request: false, push: false, issue_refactor: false, issue_galaxy_brain: false}
+findings:
+  - id: P2 1
+    include: true
+    title: "`invocation_update` and `job_update` handlers copy the same fan-out"
+    summary: Two ~40-line queue-worker handlers repeat the owner/session/viewer grouping; none of their routing branches had tests.
+    implementation_verified: true
+    issue: |
+      `invocation_update` and `job_update` in `lib/galaxy/queue_worker/__init__.py` repeat one algorithm: encode each item, group by user (and for jobs, session) and history, track owners per history, and push to owners and then to history viewers, excluding owners. They differ only in event name, list key, id field, and the job resync lists. A third entity event would copy it again. No test reached owner exclusion, anonymous session delivery, or resync fan-out to users, sessions and viewers. The integration waits poll for anonymous users, and the publisher unit tests stop at the dispatcher call.
+    fix: |
+      Added `_push_routed_items(sse_manager, encode, event, list_key, routed, event_id)` taking `RoutedItem(item, user_id, session_id, history_id)` NamedTuples. Both handlers build items and call it, and `job_update` then sends its resync events. Added `test/unit/app/queue_worker/test_sse_entity_updates.py` with a real `SSEConnectionManager` and `IdEncodingHelper`. It covers an owner subscribed to their own history getting one event, viewers getting only that history's items, session delivery, resync to users, sessions and viewers, and `invocation_update` routing. The tests pass on both the PR's handlers and the refactor.
+    discovered_by:
+      - {profile: thermo_review, model: Claude Opus 5.5, effort: medium}
+      - {profile: gx_test_challenger, model: Claude Opus 5.5, effort: medium}
+  - id: P2 2
+    include: true
+    title: Pending changes are stored as positional tuples and rebuilt into TypedDicts
+    summary: PendingChanges holds tuples with three adjacent int|None ids; the publisher unpacks them by position into TypedDicts defined in queue_worker.
+    issue: |
+      `PendingChanges.invocations` and `.jobs` hold positional tuples documented only by comments. The job tuple has three adjacent `int | None` ids (user, session, history), so swapped arguments at any `record_job_change` call site type-check. `_send_invocation_updates` and `_send_job_updates` unpack the tuples by position and rebuild `InvocationUpdate`/`JobUpdate`, which live in `queue_worker`. `_send_job_updates` also groups by stringly `("user", id)`/`("session", id)` keys. `record_invocation_change` sits in the 14k-line `galaxy/model/__init__.py` while `record_job_change` is in `pending_changes.py`.
+    fix: |
+      Moved `InvocationUpdate` and `JobUpdate` into `galaxy.model.pending_changes`, where `queue_worker`, `sse_dispatch` and the publisher import them. `PendingChanges` now stores them keyed by id. Both recorders now live there: `record_invocation_change` still takes the invocation, so the history owner is loaded only while a publisher listens, and `record_job_change` is keyword-only. `_send_invocation_updates` filters `pending.invocations.values()`, and `_send_job_updates` groups by `(user_id, session_id)`.
+    discovered_by:
+      - {profile: thermo_review, model: Claude Opus 5.5, effort: medium}
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+  - id: P2 3
+    include: true
+    title: Event-driven test waits accrete onto `BasePopulator` in a 5.5k-line file
+    summary: ~150 lines of SSE transport (listener lifecycle, viewer subscription, predicates) added to populators.py rather than galaxy_test/base/sse.py; not on the branch.
+    issue: |
+      `lib/galaxy_test/base/populators.py` gains `_sse_listener`, `wait_on_sse`, `_subscribe_to_history_owned_by_others`, `_current_user_id`, `wait_on_job_update`, `wait_on_history_update` and `wait_on_invocation`. That code is transport: it opens the stream, subscribes and unsubscribes as a viewer, and holds the event predicates. It belongs next to `SSELineListener` and `wait_on_events` in `galaxy_test/base/sse.py`. `wait_on_job_update(job_id: str | None, ..., history_id: str | None)` is also a nullable-mode API: `job_id=None` means "any job in this history", enforced by an `assert` inside a closure.
+    fix: |
+      Move this into an `SSEWaiter` in `galaxy_test/base/sse.py`, built from the interactor, that owns the enabled check, the listener lifecycle, viewer subscription and the job, invocation and history predicates. The populator would keep thin `wait=partial(...)` hooks into `wait_on_state`. Split `wait_on_job_update` into per-job and per-history waits. Not on the review branch: moving the code is over the size threshold. The branch's smaller fixes (P3 4, P2 4) touch the same methods.
+    discovered_by:
+      - {profile: thermo_review, model: Claude Opus 5.5, effort: medium}
+  - id: P2 4
+    include: true
+    title: "`events/history-subscriptions` POST/DELETE hand-rolled five times"
+    summary: populators.py, test_invocation_sse.py and test_history_sse.py each call the endpoint directly; no populator helper.
+    issue: |
+      The subscription endpoint is called directly in `BasePopulator._subscribe_to_history_owned_by_others` and the `wait_on_sse` cleanup, in `_subscribe_as_viewer` in `test/integration/test_invocation_sse.py`, and in the POST and DELETE in `test/integration/test_history_sse.py`.
+    fix: |
+      Added `subscribe_history_viewer(history_ids)` and `unsubscribe_history_viewer(history_ids)` to `BasePopulator`, both asserting 204, and used them in all three places.
+    discovered_by:
+      - {profile: gx_test_challenger, model: Claude Opus 5.5, effort: medium}
+  - id: P3 1
+    include: true
+    title: "`_delete_jobs` uses `RETURNING` on SQLite versions that lack it"
+    summary: With SSE on, invocation cancellation runs UPDATE ... RETURNING unconditionally; SQLite < 3.35 has no RETURNING, and Galaxy keeps a fallback for it elsewhere.
+    implementation_verified: true
+    issue: |
+      With a publisher listening, `WorkflowInvocation._delete_jobs` always adds `.returning(Job.id, Job.user_id, Job.session_id, Job.history_id)`. Galaxy still supports SQLite older than 3.35, which has no `RETURNING`: `History._next_hid` falls back for it, and `JobHandlerQueue` checks `supports_returning()`. Enabling SSE on such an install makes `cancel_invocation_steps` fail. MySQL also lacks `UPDATE ... RETURNING` (`mysql.dialect().update_returning` is False), but `_next_hid` already requires it on every non-SQLite database, so that case is moot. This is narrower than the original P2: only old SQLite with SSE on.
+    fix: |
+      `_delete_jobs` now checks `sa_session.get_bind().dialect.update_returning`. SQLAlchemy sets it from the SQLite version, and checking it avoids the `supports_returning` probe, which opens a second connection mid-transaction. When it is False, `_delete_jobs` selects the affected rows with the statement's `whereclause`, then runs the bare `UPDATE`. Added `test_cancelled_invocation_steps_publish_their_jobs_deleting`, parametrized over `update_returning`. It asserts the `deleting` record and that no statement uses `RETURNING` in the fallback case, and the fallback case fails on the PR head.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+  - id: P3 2
+    include: true
+    title: Viewer access is checked only at subscribe time
+    summary: A viewer keeps receiving ids/states for a history made private after subscribing; small leak, worth documenting.
+    issue: |
+      Viewers now receive invocation and job ids and states, so the subscription endpoint checks access. The check only runs at `POST /api/events/history-subscriptions`, though. If the owner later makes the history private or unshares it, an existing subscription keeps receiving `history_update`, `invocation_update` and `job_update` for it until the viewer unsubscribes or disconnects. The leak is small: ids and states only, and refetching them is still access controlled. Optional.
+    fix: |
+      Added a sentence to `doc/source/admin/sse_updates.md` recording this behavior. Re-checking access at dispatch time is the alternative if the leak isn't acceptable.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+  - id: P3 3
+    include: true
+    title: Anonymous job events reach nobody after the user logs in
+    summary: Jobs keep user_id None and the invalidated session after login; job_update routes by those while history_update follows the history owner.
+    implementation_verified: true
+    issue: |
+      `invocation_update` and `history_update` route by the history's owner, but `job_update` routes by `job.user_id`, falling back to `job.session_id`. When an anonymous user logs in, `handle_user_login` invalidates the session and `_associate_user_history` gives the anonymous history to the user. Its running jobs keep `user_id=None` and the old session, so their `job_update` events reach nobody, while `history_update` for the same history reaches the new owner. The new owner can refetch those jobs, since `JobManager._user_can_access_job` accepts access through the history.
+    fix: |
+      `_record_job` now falls back to `job.history.user_id` when the job has no user. This loads the history only for anonymous jobs. `_delete_jobs` keeps `Job.user_id`, because invocations always have a user. Added `test_anonymous_job_follows_its_history_to_the_user_who_logs_in`, which fails on the PR head, and updated the `JobUpdate` docstring and `sse_updates.md`. The PR description's routing sentence needs the same change.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+  - id: P3 4
+    include: true
+    title: Each event-driven wait re-fetches the current user; jobs without a history request `histories/None`
+    summary: users/current is fetched on every SSE wait (uncached); job_history_id can return None and the wait then GETs histories/None.
+    issue: |
+      Each `wait_on_sse` call with a history issues `GET histories/{id}` and `GET users/current`, and job waits add `GET jobs/{id}`, all to decide whether to subscribe as a viewer. `wait_for_jobs` and `wait_for_workflow` run many waits back to back. The PR reports SSE-enabled `test_jobs.py` at 4m27s against 3m16s polling. `job_history_id` also returns `None` for a job without a history, and `_subscribe_to_history_owned_by_others` then requests `histories/None`. Test framework only.
+    fix: |
+      `GalaxyInteractorHttpMixin._current_user_id` now caches the user id per API key, since tests switch users by swapping the interactor's key (`_different_user`). `wait_on_sse` skips the subscription when the history id resolves to `None`.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+      - {profile: gx_performance_challenger, model: Claude Opus 5.5, effort: medium}
+      - {profile: thermo_review, model: Claude Opus 5.5, effort: medium}
+  - id: P3 5
+    include: true
+    title: "`enable_sse_updates` description doesn't mention the new events"
+    summary: config_schema.yml (and the generated sample/RST) still list only history, entry-point and notification updates.
+    issue: |
+      `doc/source/admin/sse_updates.md` now covers invocation and job events. The `enable_sse_updates` description in `lib/galaxy/config/schemas/config_schema.yml`, which feeds the sample config and `galaxy_options.rst`, still lists only history, entry-point and notification updates.
+    fix: |
+      Added a sentence on invocation and job changes and regenerated `galaxy.yml.sample` and `galaxy_options.rst` with `config_manage.py`. Only that entry changed.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+  - id: P3 6
+    include: true
+    title: SSE integration test scaffolding copied between the new files
+    summary: Config hook, populator setUp and _listener copied in test_job_sse.py and test_invocation_sse.py; _states_for is a verbatim copy of _job_states_for.
+    issue: |
+      `test/integration/test_job_sse.py` and `test/integration/test_invocation_sse.py` each define the same `enable_sse_updates` config hook, populator `setUp` and `_listener()`. `_states_for` in `test_job_sse.py` is byte-identical to `_job_states_for` in `test_invocation_sse.py`. The older SSE integration files carry their own listener helpers too, so these are the fourth and fifth copies.
+    fix: |
+      Added `SSEIntegrationTestCase` to `lib/galaxy_test/driver/integration_util.py`, holding the config hook, populators and `_listener`, plus `job_states_for` and `invocation_states_for` in `galaxy_test/base/sse.py`. Both new files use them. The older SSE files are left alone.
+    discovered_by:
+      - {profile: thermo_review, model: Claude Opus 5.5, effort: medium}
+      - {profile: gx_test_challenger, model: Claude Opus 5.5, effort: medium}
+  - id: P3 7
+    include: true
+    title: Owner de-duplication for history viewers differs between `history_update` and the new events
+    summary: New handlers exclude owners from viewer pushes; history_update's docstring says duplicates are deliberate. One policy for all.
+    implementation_verified: true
+    issue: |
+      `history_update`'s docstring says viewer dispatch is additive and owners may get duplicates on purpose ("cheaper than maintaining a dedup index"). The new handlers add `exclude_user_ids` to `push_to_history_viewers` and skip owners, but only for the new events. History-viewer fan-out now follows two policies.
+    fix: |
+      `history_update` now passes each history's owners as `exclude_user_ids` too, and its docstring says so. Added `test_history_update_skips_owner_subscribed_as_viewer`, which fails on the PR head. The alternative, which changes only the PR's own code, is to drop `exclude_user_ids` from the new handlers and keep `history_update`'s additive policy.
+    discovered_by:
+      - {profile: thermo_review, model: Claude Opus 5.5, effort: medium}
+  - id: P3 8
+    include: true
+    title: "`SSELineListener` has two waiting mechanisms"
+    summary: New Condition-based wait sits beside polling wait_for_event/wait_for_event_where. Optional.
+    issue: |
+      `lib/galaxy_test/base/sse.py` adds the `threading.Condition`-based `wait_for_matching_event_count_above`, while `wait_for_event` and `wait_for_event_where` still poll through `wait_on`. Optional.
+    fix: |
+      `wait_for_event_where` now waits on `wait_for_matching_event_count_above(..., 0, timeout)`, and `wait_for_event` delegates to it. The return values are unchanged.
+    discovered_by:
+      - {profile: thermo_review, model: Claude Opus 5.5, effort: medium}
+  - id: P3 9
+    include: true
+    title: "Publisher unit-test doubles need `type: ignore` and 4-tuple assertions"
+    summary: Every register call ignores arg-type; job assertions repeat ([...], [], [], []).
+    issue: |
+      In `test/unit/app/managers/test_change_events.py`, `RecordingDispatcher.job_calls` holds 4-tuples, so each assertion repeats `([...], [], [], [])`. Every `register` call needs `# type: ignore[arg-type]` because the doubles aren't `SSEEventDispatcher`s, though `ChangeEventPublisher` uses only `invocation_update` and `job_update`.
+    fix: |
+      Added a `ChangeEventDispatcher` Protocol that `ChangeEventPublisher` takes, which drops the ignores, and a `JobDispatch` dataclass with empty-list defaults that `RecordingDispatcher` records.
+    discovered_by:
+      - {profile: gx_test_challenger, model: Claude Opus 5.5, effort: medium}
+  - id: P3 10
+    include: true
+    title: "`test_dispatch_failure_does_not_fail_commit` never reaches `job_update`"
+    summary: BrokenDispatcher.job_update is dead code; the transaction has no job.
+    issue: |
+      `BrokenDispatcher.job_update` is never called because the test's transaction has no job, so the separately guarded job dispatch isn't covered.
+    fix: |
+      `BrokenDispatcher` now records each call before raising. The test adds a job to the same transaction and asserts that the job dispatch is still attempted after the invocation dispatch fails, and that both states are committed.
+    discovered_by:
+      - {profile: gx_test_challenger, model: Claude Opus 5.5, effort: medium}
+  - id: P3 11
+    include: true
+    title: Malformed subscription ids are skipped but untested
+    summary: The new access check returns False for MalformedId/ObjectNotFound; no test sends one.
+    issue: |
+      `EventsService._is_accessible_history` skips malformed and unknown ids, but no test shows that a bad id leaves the other ids in the same request subscribed.
+    fix: |
+      `test_viewers_of_accessible_histories_receive_invocation_and_job_updates` now subscribes the viewer to `["notanid", published_history_id]` and still expects the published history's events.
+    discovered_by:
+      - {profile: gx_test_challenger, model: Claude Opus 5.5, effort: medium}
+  - id: P3 12
+    include: true
+    title: "`history-subscriptions` loads and checks each id of an unbounded list"
+    summary: Each id costs a history load, an access check and a broadcast; history_ids has no length limit. Not on the branch.
+    issue: |
+      `EventsService.subscribe_history_viewer` runs `history_manager.by_id` and `is_accessible` (one or two SELECTs) and one control broadcast for each entry of `history_ids`, and the list has no length limit. Small in practice.
+    fix: |
+      Cap the list in `HistoryViewerSubscriptionPayload`, or batch-load with `id IN (...)`. Not on the branch, since the right cap depends on how many histories the client may watch at once.
+    discovered_by:
+      - {profile: gx_performance_challenger, model: Claude Opus 5.5, effort: medium}
+  - id: F1
+    include: false
+    title: Always use `RETURNING` in `_delete_jobs` to drop the publisher branch
+    summary: Thermo suggested deleting the SSE-off branch; would break cancellation on SQLite < 3.35 even with SSE off.
+    filtered:
+      category: relitigates_pr
+      reason: The PR says RETURNING is used only when a publisher listens, and doing it always would extend P3 1's old-SQLite breakage to SSE-off installs.
+    discovered_by:
+      - {profile: thermo_review, model: Claude Opus 5.5, effort: medium}
+  - id: F2
+    include: false
+    title: Coalesce job and invocation events in a background dispatcher
+    summary: "Measured: 200 jobs queued->running->ok with a commit per transition = 600 job_update dispatches; resync cap is per transaction, so map-over progress isn't capped. Coalescing buffer is the PR's declared follow-up."
+    filtered:
+      category: relitigates_pr
+      reason: The PR states one control task per transaction and names a background dispatch queue as the follow-up in its Known limitation; the requested buffer is that follow-up.
+    discovered_by:
+      - {profile: gx_performance_challenger, model: Claude Opus 5.5, effort: medium}
+  - id: F3
+    include: false
+    title: "`_is_accessible_history` re-implements `get_accessible`"
+    summary: Uses by_id + is_accessible, the same primitives get_accessible wraps; switching only adds exception flow.
+    filtered:
+      category: not_actionable
+      reason: It already calls the manager's by_id and is_accessible; get_accessible would only replace a boolean with exception handling.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
