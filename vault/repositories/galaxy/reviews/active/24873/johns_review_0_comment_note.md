@@ -1,1 +1,1 @@
-<!-- John's words for the comment; must not be empty to post -->
+Looks good - thank you so much! I'm pushing some small tweaks I hope that is okay. -John
