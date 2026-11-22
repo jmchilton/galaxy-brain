@@ -101,7 +101,7 @@ findings:
   - id: P2 1
     include: true
     title: Collection paths and JSON-serialized inputs hand tools the encrypted files
-    summary: "$collection.all_paths, data_style=paths config files and serialize() read stored paths, so decrypted jobs get ciphertext. Reproduced; not fixed (design call)."
+    summary: "$collection.all_paths, data_style=paths config files and serialize() read stored paths, so decrypted jobs get ciphertext. Reproduced; root cause is pre-existing Galaxy bug #25040 (filed 2026-11-22); not fixed."
     implementation_verified: true
     issue: |
       `ProtectedInputsComputeEnvironment` points the tool at decrypted copies by overriding the compute environment's input path rewrites. That covers everything built from a `DatasetFilenameWrapper`: `$input`, `#for $e in $collection` and `$collection.paths_as_file`. Several established idioms read paths straight from the model instead:
@@ -116,7 +116,9 @@ findings:
     fix: |
       Have the collection wrapper's `all_paths`, `all_metadata_files` and `serialize`, and the single-dataset `all_metadata_files`, go through the compute environment per element, as the element wrappers do. Add an integration test with a collection input read through `all_paths` or a `data_style="paths"` config file, plus a `#for` loop as a control.
 
-      Not fixed on the review branch: routing these through the compute environment for every job also changes the paths Pulsar, deferred inputs and remote tool evaluation see today, so the author should pick between that and a protected-only hook. Estimated at about 100 to 150 changed lines with the test.
+      The bypass predates this PR: on `dev`, Pulsar with `rewrite_parameters: true` hands these accessors Galaxy-side paths instead of the staged ones (#25040). So the fix belongs in Galaxy generally, routing these accessors through the compute environment for every job, rather than in a protected-only hook. This PR depends on it: fixing #25040 first, or alongside, makes collection inputs decrypt as the admin docs describe.
+
+      Not fixed on the review branch. Estimated at about 100 to 150 changed lines with the test.
     discovered_by:
       - {profile: default, model: Claude Opus 5.5, effort: medium}
   - id: P2 2

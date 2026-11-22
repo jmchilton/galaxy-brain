@@ -10,7 +10,7 @@ related_records:
 - Round 0 findings: [review_0_findings.yml](review_0_findings.yml)
 - John's notes: [comment](johns_review_0_comment_note.md), [review-branch PR](johns_review_0_pr_note.md)
 - Reports: [default](initial_review.md), [thermo](thermo_review.md), [test challenges](test_challenges_review.md) ([debrief](test_challenges_debrief.md)), [performance](performance_challenges_review.md) ([debrief](performance_challenges_debrief.md)), [risks](risks.md)
-- Galaxy issue draft (unfiled): [collection paths bypass compute-environment rewrite](galaxy_issue_collection_paths_bypass_rewrite.md) — root cause behind P2 1, verified on `dev` `91c8ec88e0e` with embedded Pulsar ([repro](collection_paths_repro/))
+- Galaxy issue [#25040](https://github.com/galaxyproject/galaxy/issues/25040) (filed 2026-11-22 from [draft](galaxy_issue_collection_paths_bypass_rewrite.md)) — root cause behind P2 1, verified on `dev` `91c8ec88e0e` with embedded Pulsar ([repro](collection_paths_repro/))
 - Review branch: [`pr_23986_round_0_rev_0`](https://github.com/jmchilton/galaxy/tree/pr_23986_round_0_rev_0)
 
 ## Status
