@@ -1,0 +1,106 @@
+round: 0
+reviewed_commit: cd5a9c371480edfb1814193e0146f20dca52ec18
+agents:
+  - {profile: default, path: _shared/reviewers/default.md, model: Claude Opus 5.5, effort: medium}
+  - {profile: gx_test_challenger, path: _shared/reviewers/gx_test_challenger.md, model: Claude Opus 5.5, effort: low}
+  - {profile: gx_risk_assessment, path: _shared/reviewers/gx_risk_assessment.md, model: Claude Opus 5.5, effort: low}
+verification: {model: Claude Opus 5.5, effort: medium}
+branches:
+  - name: pr_25028_round_0_rev_0
+    revision: 0
+    head: 1281a52ebd1
+    pr_title: Test the no-fallback export path, simplify output lookup and keep purged extended outputs ok
+    description: |
+      `pr_25028_round_0_rev_0` builds on `cd5a9c37148`. It adds a unit test for params without a fallback path, which reaches the new `except` export, and an integration case for an unwritten output whose glob matches two files on Pulsar. It drops the unit tests that duplicate the new tool's tests, looks up each output's `DatasetPath` once, globs the `from_work_dir` path once in `set_metadata_portable`, and finishes outputs the user purged during an extended metadata job in `ok` rather than `error`.
+    commits:
+      - sha: 894002f73ac
+        subject: Test glob mismatch export for params without a fallback path
+        detail: adds `test_extended_metadata_from_work_dir_glob_mismatch_without_fallback`, which asserts an exported `error` state and failed metadata, and fails without the new `except` export block.
+        findings: [P2 1]
+      - sha: a2b6d05dfb4
+        subject: Look up an output's DatasetPath once for its filename keys
+        detail: replaces `_get_filename_override` and `_get_filename_fallback` with a typed `_get_dataset_path` that both keys read from.
+        findings: [P3 3]
+      - sha: 9105aba3f3a
+        subject: Glob a from_work_dir output path once in set_metadata_portable
+        detail: folds the fallback check into the existing glob block, so a single glob decides between the one match, the fallback path and the extra-files and purged handling.
+        findings: [P3 2]
+      - sha: 9d97bc6f423
+        subject: Drop unit tests duplicating from_work_dir_glob_output_written tool tests
+        detail: removes `test_extended_metadata_from_work_dir_keeps_written_output` and `test_extended_metadata_from_work_dir_single_match`, keeping the missing-output and no-fallback unit tests.
+        findings: [P2 2]
+      - sha: 47488ff0726
+        subject: Test unwritten from_work_dir output with a glob mismatch on Pulsar
+        detail: parametrizes `test_from_work_dir_output_not_written_is_empty` over 0 and 2 stray files; the 2-file case fails without the fallback.
+        findings: [P2 3]
+      - sha: 1281a52ebd1
+        subject: Finish outputs purged during an extended metadata job in ok state
+        detail: resets purged job outputs exported in `error` to `ok` after the extended metadata import when the job didn't fail, and asserts `ok` in `test_purge_while_job_running` for extended metadata.
+        findings: [P3 1]
+actions: {approve: false, approve_and_merge: false, comment: false, review_comment: false, request_changes: false, pull_request: false, push: false, issue_refactor: false, issue_galaxy_brain: false}
+findings:
+  - id: P2 1
+    include: true
+    title: The new `except` export path and the old-params path have no test
+    summary: Added unit test for params without filename_fallback; red without the except export block.
+    implementation_verified: true
+    issue: |
+      `set_metadata_portable`'s `except` block now exports an output in `error` state when it raised before any `object_store_update_actions` were queued. None of the new tests reach it. With `fallback_path` set, the two-match case no longer hits `assert len(matches) == 1`, and the zero-file case ends in the purged branch, which sets `ERROR` itself. So the second half of `cd5a9c37148` is untested, and so is the compatibility path the PR description promises ("Params without the key, written by older Galaxy versions, behave as before"). A node running new code sees that path for params written by an older Galaxy, and that is where the `except` export does its work.
+    fix: |
+      Added `test_extended_metadata_from_work_dir_glob_mismatch_without_fallback`. It runs the existing helper with two stray files and no fallback path, then asserts that the output is exported in `error` and that `external_metadata_set_successfully` is False. The test fails without the new `except` export block, because the output isn't exported at all.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+  - id: P2 2
+    include: true
+    title: Unit tests duplicate the new tool's tests
+    summary: Dropped keeps_written_output[0,2] and single_match; tool tests cover them in both Pulsar remote extended metadata modules (by reading, not run).
+    issue: |
+      `test_extended_metadata_from_work_dir_keeps_written_output[0,2]` and `test_extended_metadata_from_work_dir_single_match` assert the same contents (`written to output`, `stray 0`) as the three `<test>` blocks of `from_work_dir_glob_output_written.xml`. Those blocks run under the Pulsar extended and Pulsar rewrite-parameters integration modules. Both modules use `remote_metadata: true`, so they reach the `fallback_path` assignment in `pulsar.py` and exercise the same `set_metadata_portable` code end to end.
+    fix: |
+      Removed the two duplicate tests. The missing-output unit test stays, because it is the only coverage of the node exporting a really-missing output in `error`. The new no-fallback test (P2 1) stays as well.
+    discovered_by:
+      - {profile: gx_test_challenger, model: Claude Opus 5.5, effort: low}
+  - id: P2 3
+    include: true
+    title: The integration test doesn't cover an unwritten output with a glob mismatch
+    summary: Parametrized the rewrite-parameters integration test over 0 and 2 strays; the 2-stray case is red without the fallback.
+    implementation_verified: true
+    issue: |
+      `test_from_work_dir_output_not_written_is_empty` only runs `write_output=false` with no stray files. When nothing is written and two files match the glob, the fallback still has to be taken, and only the unit layer covers that. The integration test expects `ok` with empty content where the unit test expects `error`, but the two don't contradict each other. On Pulsar the output file exists remotely and is empty, while the unit setup has no file at all.
+    fix: |
+      Parametrized the test over `stray_files` 0 and 2. Both cases pass. The 2-file case fails without the fallback (`assert 'error' == 'ok'`), so it pins the end-to-end behavior.
+    discovered_by:
+      - {profile: gx_test_challenger, model: Claude Opus 5.5, effort: low}
+  - id: P3 1
+    include: true
+    title: Outputs purged during an extended metadata job now finish in `error`
+    summary: Verified via test_purge_while_job_running (queued before, error now); added a Galaxy-side reset to ok for purged outputs of non-failed jobs.
+    implementation_verified: true
+    issue: |
+      The purged branch in `set_metadata_portable` was written for outputs the user purged while the job ran. It now also sets `dataset.state = ERROR`. The node can't tell a really-missing output from one the user purged, so purging an output during a successful extended metadata job now leaves the HDA in `error`. Before, it stayed `queued`. On the non-extended path, `finish()` sets such outputs to `ok`. `purge_while_job_running` doesn't assert a state, so no test caught this.
+    evidence: |
+      `test_extended_metadata.py::test_purge_while_job_running` with a state probe: with the PR's code every purged output ended `error`, and `queued` without the new `ERROR` line.
+    fix: |
+      Galaxy doesn't import `purged` from the export, so its own flag still tells the two cases apart. After the extended metadata import, if the job didn't fail, Galaxy now resets job outputs that are purged and in `error` to `ok`, matching the non-extended path. Really-missing outputs aren't purged on the Galaxy side, so they stay in `error`. `purge_while_job_running` takes an optional `expected_state`, and the extended metadata test asserts `ok`. That test is red before this commit.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+  - id: P3 2
+    include: true
+    title: Two glob passes in `set_metadata_portable`
+    summary: Folded the fallback into the existing glob block; all test_metadata.py tests pass.
+    issue: |
+      The new fallback block globs `external_filename`, and then the existing `if not os.path.exists(external_filename)` block globs it again for the one-match case. The fallback block works only because it leaves the one-match case to the later block, and that block's `assert len(matches) == 1` is now reachable only for params without a fallback. Optional.
+    fix: |
+      Merged the two into one block. A single glob picks the one match if there is exactly one, or the fallback path when one was sent and the match count isn't one. Otherwise the existing extra-files and purged handling runs as before.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+  - id: P3 3
+    include: true
+    title: '`_get_filename_fallback` duplicates `_get_filename_override`''s lookup'
+    summary: Replaced both with one typed _get_dataset_path.
+    issue: |
+      Both helpers in `lib/galaxy/metadata/__init__.py` scan `output_fnames` for `real_path == file_name`. A single lookup that returns the matching `DatasetPath` would scan once and keep the two keys from drifting apart. Nit.
+    fix: |
+      Replaced both helpers with `_get_dataset_path`, which returns the matching `DatasetPath` or None. Both keys are now read from that one result.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
