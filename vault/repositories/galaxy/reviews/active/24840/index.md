@@ -5,7 +5,7 @@
 
 ## Status
 
-Round 0 on `67d7e1ca88a` ready, unposted: two P2s + three P3s, all fixed on `pr_24840_round_0_rev_0` (`9e33ce40176`, pushed to jmchilton fork, not into PR).
+Round 0 on `67d7e1ca88a` delivered: approved, and `pr_24840_round_0_rev_0` (`9e33ce40176`) fast-forward pushed onto the PR head branch (2 P2 + 3 P3, all fixed). Awaiting merge.
 
 - [Findings](review_0_findings.yml) · [comment note](johns_review_0_comment_note.md) · [PR note](johns_review_0_pr_note.md)
 - Reports: [default](initial_review.md), [test challenges](test_challenges_review.md), [risks](risks.md)

@@ -7,6 +7,6 @@
 ## Round 0
 
 - Reviewed commit: `16758fc6136190c2655101b78859f5215195c117`
-- Status: initial review ready, unposted. Three P3s (no P1/P2); all three fixed on `pr_24873_round_0_rev_0` (head `e2a2bc112fa`, pushed to jmchilton fork, not into PR). F1 filtered (disproved).
+- Status: approved + review branch pushed onto PR head (e2a2bc112fa); awaiting merge. Initial review delivered. Three P3s (no P1/P2); all three fixed on `pr_24873_round_0_rev_0` (head `e2a2bc112fa`, pushed to jmchilton fork, not into PR). F1 filtered (disproved).
 - [Findings](review_0_findings.yml) · [comment note](johns_review_0_comment_note.md) · [PR note](johns_review_0_pr_note.md)
 - Reports: [default](initial_review.md) · [test challenges](test_challenges_review.md) · [risks](risks.md)
