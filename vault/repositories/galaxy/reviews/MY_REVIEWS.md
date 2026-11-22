@@ -7,7 +7,7 @@
 - [#24804](https://github.com/galaxyproject/galaxy/pull/24804) — round 0 comment unposted (six P2s + eight P3s); twelve fixes rebased as `pr_24804_round_0_rev_1` and pushed into PR 2026-11-21 (head `eaa6202814b`). [notes](active/24804/index.md)
 - [#24840](https://github.com/galaxyproject/galaxy/pull/24840) — round 0 delivered + approved; review branch (`9e33ce40176`) pushed into PR; awaiting merge. [notes](active/24840/index.md)
 - [#24867](https://github.com/galaxyproject/galaxy/pull/24867) — initial review on `59603c8e042` ready, unposted (four optional P3s; all fixed on `pr_24867_round_0_rev_0`, not pushed into PR). [notes](active/24867/index.md)
-- [#24857](https://github.com/galaxyproject/galaxy/pull/24857) — initial review on `93b224b00ea` ready, unposted (three P2s + four P3s; all fixed on `pr_24857_round_0_rev_0`, not pushed into PR). [notes](active/24857/index.md)
+- [#24857](https://github.com/galaxyproject/galaxy/pull/24857) — round 0 on `93b224b00ea` approved (posted; three P2s + four P3s fixed on `pr_24857_round_0_rev_0`, not pushed into PR); awaiting merge. [notes](active/24857/index.md)
 - [#24846](https://github.com/galaxyproject/galaxy/pull/24846) — initial review on `00be733f7cc` ready, unposted (three P3s; all fixed on `pr_24846_round_0_rev_0`, not pushed into PR). [notes](active/24846/index.md)
 - [#24873](https://github.com/galaxyproject/galaxy/pull/24873) — approved; review branch (3 P3 fixes) pushed onto PR head `e2a2bc112fa`; awaiting merge. [notes](active/24873/index.md)
 

@@ -7,7 +7,7 @@
 
 ## Status
 
-Review: round 0 on `93b224b00ea` ready, unposted. Three P2s + four P3s, all fixed on `pr_24857_round_0_rev_0` (head `ce92fabf765`, pushed to jmchilton fork, not pushed into PR). One filtered (F1, pre-existing `curated.py` comment).
+Review: round 0 on `93b224b00ea` approved and posted (PR had moved to `f419c3acaf9` by posting). Three P2s + four P3s, all fixed on `pr_24857_round_0_rev_0` (head `ce92fabf765`, pushed to jmchilton fork, not pushed into PR). One filtered (F1, pre-existing `curated.py` comment).
 
 PR: open against `dev`, by mvdbeek; out of draft. Prep for sub-workflow versioning (#11430); feature follows in a separate PR.
 
