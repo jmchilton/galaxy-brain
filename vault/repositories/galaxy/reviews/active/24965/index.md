@@ -2,7 +2,7 @@
 
 [PR #24965](https://github.com/galaxyproject/galaxy/pull/24965) · Author: itisAliRH · Base: `release_26.0` · Worktree: `~/projects/worktrees/galaxy/pr/24965`
 
-**Status:** round 0 review on `bd5821aac20` ready, unposted (one P2 + one P3; both fixed on `pr_24965_round_0_rev_0` @ `10099ae3ffe`, pushed to jmchilton fork, not into PR).
+**Status:** round 0 Approve posted on `bd5821aac20` (one P2 + one P3; fixed on `pr_24965_round_0_rev_0` @ `10099ae3ffe`, fork only, not pushed into PR); awaiting merge.
 
 ## Round 0
 
