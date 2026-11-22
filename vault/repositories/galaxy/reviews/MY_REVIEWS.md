@@ -1,7 +1,7 @@
 ## PRs to review (`to_review`)
 
 - [#25003](https://github.com/galaxyproject/galaxy/pull/25003) — round 0 review in progress on `e9fa3cda089`. [notes](active/25003/index.md)
-- [#25023](https://github.com/galaxyproject/galaxy/pull/25023) — round 0 review in progress on `ff96b8bb47c`; draft. [notes](active/25023/index.md)
+- [#25023](https://github.com/galaxyproject/galaxy/pull/25023) — initial review on `ff96b8bb47c` ready, unposted (four P2s + six P3s; seven fixed on `pr_25023_round_0_rev_0`, not pushed into PR; P2 1 = semantic conflict with #25021); draft. [notes](active/25023/index.md)
 - [#25028](https://github.com/galaxyproject/galaxy/pull/25028) — initial review on `cd5a9c37148` ready, unposted (three P2s + three P3s; all fixed on `pr_25028_round_0_rev_0`, not pushed into PR). [notes](active/25028/index.md)
 - [#25005](https://github.com/galaxyproject/galaxy/pull/25005) — round 0 on `2b11cda0d36` posted as approval (LGTM modulo tools-iuc breakage); awaiting merge (two P2s + three P3s; all fixed on `pr_25005_round_0_rev_0`, not pushed into PR; P2 2 dropped, filed tools-iuc#8992/#8993). [notes](active/25005/index.md)
 - [#25022](https://github.com/galaxyproject/galaxy/pull/25022) — approved on `5a5b2cc11c0` with round 0 review posted; awaiting merge (review branch `pr_25022_round_0_rev_0` not pushed into PR). [notes](active/25022/index.md)

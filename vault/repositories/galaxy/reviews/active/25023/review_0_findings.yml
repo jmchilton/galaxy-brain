@@ -1,0 +1,184 @@
+round: 0
+reviewed_commit: ff96b8bb47c49cd0886b04747bc1825bc8e25601
+agents:
+  - {profile: default, path: _shared/reviewers/default.md, model: Claude Opus 5.5, effort: medium}
+  - {profile: learning_galaxy, path: gx_reviews/reviewers/learning_galaxy.md, model: Claude Opus 5.5, effort: medium}
+  - {profile: thermo_review, path: _shared/reviewers/thermo_review.md, model: Claude Opus 5.5, effort: low}
+  - {profile: gx_test_challenger, path: _shared/reviewers/gx_test_challenger.md, model: Claude Opus 5.5, effort: low}
+  - {profile: gx_risk_assessment, path: _shared/reviewers/gx_risk_assessment.md, model: Claude Opus 5.5, effort: low}
+verification: {model: Claude Opus 5.5, effort: medium}
+branches:
+  - name: pr_25023_round_0_rev_0
+    revision: 0
+    head: 391e46a8a1e
+    pr_title: Single writer for remote evaluation files and stricter Pulsar remote evaluation tests
+    description: |
+      `pr_25023_round_0_rev_0` builds on `ff96b8bb47c`. It makes `prepare()` the only writer of `job_io.json` and `compute_environment.json`: compute environments now supply the `job_io` contents and unstructured paths through two `ComputeEnvironment` hooks, and Pulsar's `_setup_remote_tool_evaluation` rewrite is gone. It types the paths payload as a `TypedDict`, reads `remote_command_line` once per Pulsar queue and prepare step instead of querying per access, and returns False instead of asserting when a job has no tool. It documents that data table and select option paths aren't staged under remote evaluation. On the test side, it asserts the exact input size in the recorded command line and adds a test that `compute_environment.json` maps inputs under the Pulsar job's `inputs/`, which fails when this PR is merged with #25021's current head. It shares the input-size job helper and drops the `load_contents` unit test that `param_value_from_file` covers on Pulsar.
+    commits:
+      - sha: 7fc8f43c177
+        subject: Share input-size job helper in Pulsar remote evaluation tests
+        detail: adds `_run_input_size_job` to `TestPulsarRemoteToolEvaluation` and uses it in `test_command_line_recorded` and `test_object_store_configuration_not_sent`.
+        findings: [P3 6]
+      - sha: b0837690e28
+        subject: Assert Pulsar remote evaluation records staged input paths
+        detail: asserts `echo '4 4'` in the recorded command line and adds `test_evaluated_with_staged_input_paths`, which checks that the Pulsar-side `compute_environment.json` maps the input under the Pulsar job's `inputs/`.
+        findings: [P2 2]
+      - sha: 3a73bd17da8
+        subject: Drop load_contents unit test covered by Pulsar integration tests
+        detail: removes `test_load_contents_reads_galaxy_file_before_compute_path_exists` and keeps the `null` `expression.json` case.
+        findings: [P3 5]
+      - sha: e80dd614822
+        subject: Report no remote evaluation for jobs without a tool instead of asserting
+        detail: replaces `assert self.tool` in `remote_command_line` with a `self.tool is None` check that returns False.
+        findings: [P3 2]
+      - sha: ea842fac1d2
+        subject: Read remote_command_line once per Pulsar queue and prepare step
+        detail: hoists the property into a local in `queue_job` and `__prepare_job`, so the `JobExportHistoryArchive` query no longer runs once per input dataset.
+        findings: [P3 1]
+      - sha: e75919a9491
+        subject: Document that remote evaluation does not stage data table paths
+        detail: adds a paragraph to `doc/source/admin/jobs.md` saying data table and select option paths must be readable at the same path where the job runs.
+        findings: [P2 3]
+      - sha: 0dc2304a14f
+        subject: Type remote evaluation paths as a TypedDict
+        detail: turns `RemoteEvaluationPaths` into a `TypedDict` with the four keys and defines it above `RemoteComputeEnvironment`.
+        findings: [P3 3]
+      - sha: 391e46a8a1e
+        subject: Write remote evaluation files once, from the compute environment
+        detail: adds `ComputeEnvironment.remote_evaluation_job_io` and `remote_evaluation_unstructured_paths`, overrides them in `PulsarComputeEnvironment`, and removes `PulsarJobRunner._setup_remote_tool_evaluation`.
+        findings: [P2 4]
+actions: {approve: false, approve_and_merge: false, comment: false, review_comment: false, request_changes: false, pull_request: false, push: false, issue_refactor: false, issue_galaxy_brain: false}
+findings:
+  - id: P2 1
+    include: true
+    title: "Semantic conflict with #25021: Pulsar `compute_environment.json` would record Galaxy-side paths"
+    summary: "Merged with #25021's head 4369a2a4dcc, remote evaluation on Pulsar gets Galaxy object-store paths; merges cleanly as text."
+    implementation_verified: true
+    issue: |
+      `remote_evaluation_paths()` builds the Pulsar `compute_environment.json` from `PulsarComputeEnvironment.input_path_rewrite`, `input_extra_files_rewrite` and `input_metadata_rewrite`, and relies on them returning Pulsar paths. #25021's current head (`4369a2a4dcc`, open) changes all three to return the Galaxy-side path and record the Pulsar path in `_evaluated_path_rewrites`, which only `ToolEvaluator._rewrite_evaluated_paths()` applies after a Galaxy-side `build()`. Remote evaluation never runs that on the Galaxy side, and `RemoteComputeEnvironment` has no rewrites, so whichever PR lands second sends the Pulsar evaluator Galaxy object-store paths for inputs, extra files and metadata files. That breaks every Pulsar destination that doesn't share Galaxy's filesystem.
+
+      The description's claim that the `load_contents` commit "is the same commit as in #25021, so the two PRs merge cleanly" is also stale: #25021 has since reverted it.
+    evidence: |
+      `git merge-tree --write-tree ff96b8bb47c 4369a2a4dcc` merges without conflicts. With the merged `pulsar.py`, `compute_environment.py` and `evaluation.py` laid over this PR, the existing tests (`command_reads_input_size`, `inputs_as_json_with_staging_paths`, `test_command_line_recorded`) still pass, because embedded Pulsar with `copy` keeps Galaxy paths readable. The review branch's `test_evaluated_with_staged_input_paths` fails on that merge and passes on this PR.
+    fix: |
+      Whichever PR merges second needs the Pulsar mapping built from Pulsar paths. For example, have `remote_evaluation_paths()` map each result through `compute_environment.evaluated_path_rewrites()`, or give `PulsarComputeEnvironment` explicit remote-path accessors (#25021's `_local_and_remote_input_paths`) for this PR to call. Also update the description's merge claim. The review branch's `test_evaluated_with_staged_input_paths` catches the conflict.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+  - id: P2 2
+    include: true
+    title: Integration tests can't tell staged paths from Galaxy paths
+    summary: Embedded Pulsar with copy keeps Galaxy paths readable, so the tests pass with either; command-line regex accepts any equal pair.
+    implementation_verified: true
+    issue: |
+      `test_pulsar_embedded_remote_tool_eval.py` uses embedded Pulsar with `default_file_action: copy` on the same host, so Galaxy object-store paths stay readable where the job runs. `command_reads_input_size`, `command_reads_configfile` and the `inputs_as_json_with_staging_paths` "every `source_path` exists" check therefore pass whether the evaluator gets Pulsar paths or Galaxy paths, which is exactly the regression in P2 1. `test_command_line_recorded` also asserts `echo '(\d+) \1'`, which passes for any equal pair although the input content is fixed.
+    fix: |
+      Added `test_evaluated_with_staged_input_paths`, which asserts that the Pulsar-side `compute_environment.json` maps the input under the Pulsar job's `inputs/` and not to its Galaxy path, and made `test_command_line_recorded` assert `echo '4 4'` (upload appends a newline to `abc`). Both pass on both metadata strategies; the new test fails on a merge with #25021's head.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+      - {profile: gx_test_challenger, model: Claude Opus 5.5, effort: low}
+  - id: P2 3
+    include: true
+    title: Data table and select option paths aren't staged under remote evaluation
+    summary: "`$param.fields.path` rewrites happen lazily during template evaluation, which remote evaluation skips on Galaxy's side."
+    issue: |
+      With local evaluation on Pulsar, `$param.fields.path` (and other `PATH_ATTRIBUTES`) calls `PulsarComputeEnvironment.unstructured_path_rewrite` while the template is rendered. The collected `path_rewrites_unstructured` become `arbitrary_files` in the `ClientJobDescription`, which is how reference data paths get staged or rewritten for destinations without shared reference data. With remote evaluation, Galaxy only renders environment variable templates (`PartialToolEvaluator`), so the mapping stays empty unless an environment variable reads such a path. On the remote side `RemoteComputeEnvironment.unstructured_path_rewrite` returns `None` and the command silently gets the Galaxy-side path. That works with CVMFS-style shared reference data and fails at run time otherwise.
+    fix: |
+      Added a paragraph to `doc/source/admin/jobs.md` saying these paths aren't staged under remote evaluation and must be readable at the same path where the job runs. Pre-computing the rewrites for select and data table parameters on the Galaxy side, or failing loudly when one would need staging, would close the gap.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+  - id: P2 4
+    include: true
+    title: "`job_io.json` and `compute_environment.json` are written twice for Pulsar"
+    summary: prepare() writes both with the Pulsar compute environment, then Pulsar's _setup_remote_tool_evaluation rewrites them with duplicated path logic.
+    implementation_verified: true
+    issue: |
+      `MinimalJobWrapper.prepare` writes both files, already with the `PulsarComputeEnvironment` (remote evaluation forces `rewrite_parameters`). `PulsarJobRunner._setup_remote_tool_evaluation` then rewrites both, re-deriving `metadata/outputs_new` and patching `job_io.to_dict()` field by field. The second write differs only in those `job_io` fields and `unstructured`. Two writers of one artifact will drift, and any other runner that stages elsewhere would have to copy the Pulsar override.
+    fix: |
+      Added `ComputeEnvironment.remote_evaluation_job_io()` and `remote_evaluation_unstructured_paths()`, with defaults matching the local runner's current output, overrode them in `PulsarComputeEnvironment`, and made `prepare()` the only writer. `_setup_remote_tool_evaluation` is removed.
+    fix_details: |
+      Ran `test_pulsar_embedded_remote_tool_eval.py` (all non-parametrized tests plus `job_properties`, `version_command_tool_dir`, `environment_variables`, `param_value_from_file`, `inputs_as_json_with_staging_paths`) on both metadata strategies, 9 passed each, and `test_remote_tool_evaluation_directory_metadata.py` (`test_command_line_built_in_job`, `job_properties`, `metadata_bam`), 3 passed.
+    discovered_by:
+      - {profile: thermo_review, model: Claude Opus 5.5, effort: low}
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+  - id: P3 1
+    include: true
+    title: "`remote_command_line` runs a DB query on every access, now inside a per-dataset loop"
+    summary: Property queries JobExportHistoryArchive each access; PR adds Pulsar call sites, one per input dataset.
+    issue: |
+      `MinimalJobWrapper.remote_command_line` runs `select(JobExportHistoryArchive)` each time. This PR adds five Pulsar call sites, one inside the `deferred_dataset_ids` comprehension, so the query runs once per input dataset. Optionally, the inline `tool_type in ("interactive", "set_metadata")` exclusion could become a class attribute on those tool classes, like `tool_type_local` and this PR's `job_directory_files`.
+    fix: |
+      Read the property once into a local in `queue_job` and `__prepare_job`. Not cached on the wrapper, since the destination, and with it the strategy, can change on resubmission. The class attribute idea is not on the branch.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+      - {profile: thermo_review, model: Claude Opus 5.5, effort: low}
+  - id: P3 2
+    include: true
+    title: "`assert self.tool` turns a False into an AssertionError"
+    summary: remote_command_line asserts a tool exists on remote destinations instead of returning False; no current caller reaches it without a tool.
+    issue: |
+      Before, `remote_command_line` evaluated to False without touching `self.tool`. Now a remote-strategy destination asserts `self.tool`. Wrappers without a tool do exist: at startup the handler builds one to `fail()` a job whose tool was removed. No current caller reaches the property on that path, so this is unlikely to fire, but returning False is just as short.
+    fix: |
+      Replaced the assertion with `self.tool is None or ...` returning False.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+  - id: P3 3
+    include: true
+    title: "`RemoteEvaluationPaths` should be a `TypedDict`"
+    summary: Untyped dict[str, dict[str, str]] accessed with four fixed keys; defined after its string-quoted use.
+    issue: |
+      `RemoteEvaluationPaths = dict[str, dict[str, str]]` is accessed with fixed keys (`datasets`, `extra_files`, `metadata_files`, `unstructured`) and is the JSON contract between Galaxy and the remote evaluator. It is also defined after `RemoteComputeEnvironment`, which references it as a string annotation.
+    fix: |
+      Made it a `TypedDict` with the four keys, defined above `RemoteComputeEnvironment`.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+      - {profile: thermo_review, model: Claude Opus 5.5, effort: low}
+  - id: P3 4
+    include: true
+    title: "`DatasetCollection.element_identifiers_extensions_paths_and_metadata_files` is now dead production code"
+    summary: Wrapper no longer delegates to the model property; only a test_galaxy_mapping assertion still calls it.
+    issue: |
+      `DatasetCollectionWrapper.element_identifiers_extensions_paths_and_metadata_files` no longer delegates to the model property (`lib/galaxy/model/__init__.py` ~8276), and `DatasetInstance.get_metadata_file_paths_and_extensions` (~6062) is only called from it. No code in `lib/` or `client/` uses either. That leaves two implementations of the same flattening, one of which ignores compute environment rewrites.
+    evidence: |
+      The only remaining caller is the assertion in `test/unit/data/test_galaxy_mapping.py:196`.
+    fix: |
+      Remove both model methods and that assertion. Not on the review branch, because it deletes an existing test assertion.
+    discovered_by:
+      - {profile: thermo_review, model: Claude Opus 5.5, effort: low}
+  - id: P3 5
+    include: true
+    title: "`load_contents` unit test duplicates Pulsar integration coverage"
+    summary: test_wrapped_json load_contents case repeats what param_value_from_file proves on Pulsar under both strategies.
+    issue: |
+      `test_load_contents_reads_galaxy_file_before_compute_path_exists` repeats what `param_value_from_file` proves on embedded Pulsar under both metadata strategies, where the Pulsar path doesn't exist while Galaxy prepares the job. The `null` `expression.json` case isn't covered elsewhere.
+    fix: |
+      Dropped the `load_contents` test and kept the `null` `expression.json` one.
+    discovered_by:
+      - {profile: gx_test_challenger, model: Claude Opus 5.5, effort: low}
+  - id: P3 6
+    include: true
+    title: Repeated run, wait and fetch-job boilerplate in the Pulsar integration tests
+    summary: Same upload/run_tool/wait/session.get block appears in several tests.
+    issue: |
+      `new_dataset` + `run_tool("command_reads_input_size")` + `wait_for_job` + fetching the `Job` is repeated in `test_command_line_recorded` and `test_object_store_configuration_not_sent`, and again in the local-runner test file.
+    fix: |
+      Added `_run_input_size_job()` to `TestPulsarRemoteToolEvaluation`, used by both tests there and by the new staged-path test. The single use in `test_remote_tool_evaluation_directory_metadata.py` is left alone.
+    discovered_by:
+      - {profile: gx_test_challenger, model: Claude Opus 5.5, effort: low}
+  - id: F1
+    include: false
+    title: UUID-less path fallback covered only by a fake-heavy unit test
+    summary: Asked for a store_by=id integration variant to replace test_remote_evaluation_paths.
+    filtered:
+      category: disproved
+      reason: Keys are Dataset.id and class:id:name regardless of object_store_store_by, and store_by id wouldn't create the UUID-less or shared-UUID files the unit test covers.
+    discovered_by:
+      - {profile: gx_test_challenger, model: Claude Opus 5.5, effort: low}
+  - id: F2
+    include: false
+    title: Whole tool directory staged when `<required_files>` is absent
+    summary: Suggested limiting the prefix "" staging to Tool Shed tools or logging the count.
+    filtered:
+      category: relitigates_pr
+      reason: The PR description and the jobs.md text state this staging behavior explicitly.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
