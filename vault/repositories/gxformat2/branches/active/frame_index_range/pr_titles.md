@@ -1,0 +1,4 @@
+- Range-check frame `contains_steps`/`contains_comments` indices
+- Lint out-of-range frame indices instead of converting to dangling `child_steps`
+- Reject frame step and comment indices past the end of the workflow
+- Flag out-of-range frame indices in lint and conversion

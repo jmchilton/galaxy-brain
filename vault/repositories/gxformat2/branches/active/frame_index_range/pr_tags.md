@@ -1,0 +1,1 @@
+- `bug` — out-of-range frame indices converted silently to dangling `child_steps`; lint missed them.
