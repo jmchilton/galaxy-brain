@@ -9,3 +9,4 @@ Fixing Pulsar `default_file_action: none` extra-files crashes required tracing t
 ## Requested by
 
 - vault/repositories/galaxy/branches/abandoned/issue_24600_pulsar_none_extra_files_25.1/brain_research.md: needed the contract for the path-rewrite hooks and which wrapper callers tolerate `None`.
+- vault/repositories/galaxy/branches/active/issue_25040_collection_paths_rewrite_26_2/brain_research.md: needed which tool-facing path accessors (`DatasetCollectionWrapper.all_paths`/`all_metadata_files`/`serialize`, `wrapped_json.py` `data_style` helpers, `DatasetFilenameWrapper.all_metadata_files`) honor the compute-environment hooks and which read model paths directly; also the remote (sessionless) tool-evaluation path of `DatasetCollection.element_identifiers_extensions_paths_and_metadata_files`.
