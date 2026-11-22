@@ -3,7 +3,7 @@
 - [View on GitHub](https://github.com/galaxyproject/galaxy/pull/25005)
 - Round 0 findings: [review_0_findings.yml](review_0_findings.yml)
 - John's notes: [comment](johns_review_0_comment_note.md), [review-branch PR](johns_review_0_pr_note.md)
-- Reports: [default](initial_review.md), [test challenges](test_challenges_review.md) ([debrief](test_challenges_debrief.md)), [risks](risks.md), [learning_galaxy](learning_galaxy.md) ([follow-up issue](learning_galaxy_followup_issue.md))
+- Reports: [default](initial_review.md), [test challenges](test_challenges_review.md) ([debrief](test_challenges_debrief.md)), [risks](risks.md), [learning_galaxy](learning_galaxy.md) ([follow-up issue](learning_galaxy_followup_issue.md)), [P2 2 tools-iuc scan](p2_2_tools_iuc_scan.md)
 - Review branch: [`pr_25005_round_0_rev_0`](https://github.com/jmchilton/galaxy/tree/pr_25005_round_0_rev_0)
 
 ## Status
