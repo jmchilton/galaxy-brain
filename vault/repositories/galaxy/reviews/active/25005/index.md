@@ -8,7 +8,7 @@
 
 ## Status
 
-Review: round 0 on `2b11cda0d36` ready, unposted. Three P2s + three P3s; five fixed on `pr_25005_round_0_rev_0` (head `b5de0686878`, pushed to jmchilton fork, not pushed into PR); P2 2 (input-dataset links now fail, no profile gate) left as John's call. Two filtered (F1, F2 not_actionable).
+Review: round 0 on `2b11cda0d36` ready, unposted. Two P2s + three P3s, all fixed on `pr_25005_round_0_rev_0` (head `b5de0686878`, pushed to jmchilton fork, not pushed into PR). P2 2 (input-dataset links) dropped by John after the [tools-iuc scan](p2_2_tools_iuc_scan.md); filed galaxyproject/tools-iuc#8992 (trinotate) and #8993 (crispr_studio). Two filtered (F1, F2 not_actionable).
 
 PR: open against `release_26.1`, by mvdbeek; out of draft.
 

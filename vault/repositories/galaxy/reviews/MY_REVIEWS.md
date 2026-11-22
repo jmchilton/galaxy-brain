@@ -1,6 +1,6 @@
 ## PRs to review (`to_review`)
 
-- [#25005](https://github.com/galaxyproject/galaxy/pull/25005) — initial review on `2b11cda0d36` ready, unposted (three P2s + three P3s; five fixed on `pr_25005_round_0_rev_0`, not pushed into PR; P2 2 John's call). [notes](active/25005/index.md)
+- [#25005](https://github.com/galaxyproject/galaxy/pull/25005) — initial review on `2b11cda0d36` ready, unposted (two P2s + three P3s; all fixed on `pr_25005_round_0_rev_0`, not pushed into PR; P2 2 dropped, filed tools-iuc#8992/#8993). [notes](active/25005/index.md)
 - [#25022](https://github.com/galaxyproject/galaxy/pull/25022) — approved on `5a5b2cc11c0` with round 0 review posted; awaiting merge (review branch `pr_25022_round_0_rev_0` not pushed into PR). [notes](active/25022/index.md)
 - [#23986](https://github.com/galaxyproject/galaxy/pull/23986) — initial review on `ae37e517ebc` ready, unposted (11 P2s + 21 P3s; 20 fixed on `pr_23986_round_0_rev_0`, not pushed into PR); draft. [notes](active/23986/index.md)
 - [#24800](https://github.com/galaxyproject/galaxy/pull/24800) — initial review on `21620b47273` ready, unposted (one optional P3; fixed on `pr_24800_round_0_rev_0`, not pushed into PR). [notes](active/24800/index.md)

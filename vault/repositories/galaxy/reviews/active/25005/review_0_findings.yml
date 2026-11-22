@@ -12,7 +12,7 @@ branches:
     head: b5de0686878
     pr_title: Fail jobs on refused from_work_dir copies and test the fail() path
     description: |
-      `pr_25005_round_0_rev_0` builds on `2b11cda0d36`. It makes a refused `from_work_dir` copy fail the job instead of leaving an empty OK dataset, catches `output_collection_security` errors in the `finish()` move loop, stops recording the same security job message twice under extended metadata, shares the `*`/`?` escaping between the job script and the Python glob check, and adds an integration test for the `fail()` path. Input-dataset links (P2 2) are left for a decision.
+      `pr_25005_round_0_rev_0` builds on `2b11cda0d36`. It makes a refused `from_work_dir` copy fail the job instead of leaving an empty OK dataset, catches `output_collection_security` errors in the `finish()` move loop, stops recording the same security job message twice under extended metadata, shares the `*`/`?` escaping between the job script and the Python glob check, and adds an integration test for the `fail()` path.
     commits:
       - sha: 1a3c521edca
         subject: Fail the job when the job script refuses a from_work_dir copy
@@ -48,9 +48,9 @@ findings:
     discovered_by:
       - {profile: default, model: Claude Opus 5.5, effort: medium}
   - id: P2 2
-    include: true
+    include: false
     title: Links to the job's own input datasets now fail jobs, with no profile gate
-    summary: real IUC tools (trinotate, crispr_studio) symlink an input to a from_work_dir path and will now error; left unfixed, needs John's call.
+    summary: "Dropped by John after the tools-iuc scan (p2_2_tools_iuc_scan.md): only trinotate and crispr_studio break, both already mutate their inputs; tracked in galaxyproject/tools-iuc#8992 and #8993."
     issue: |
       A tool that links one of its own inputs to a `from_work_dir` path, or to `$output` under `outputs_to_working_directory`, used to get the input's content. Now the link leads into the object store, outside the job directory, so the job fails with `output_collection_security`. The `from_work_dir` case applies in the default configuration and to every tool profile. Reading a dataset the job was already given isn't an escalation. The PR description says links inside the job directory keep working, but doesn't mention this break. 64360a61721 gated its new unnamed-output and external-link restrictions by tool profile to keep older tools working.
     evidence: |
