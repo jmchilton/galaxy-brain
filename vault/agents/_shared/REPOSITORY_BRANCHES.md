@@ -3,7 +3,6 @@ Store details about implementing and tracking branches in:
 vault/repositories/PROJECT/branches/STATUS/BRANCH_NAME/
 
 For PROJECT in (galaxy, pulsar, planemo, etc...).
-
 ## Statuses
 
 A branch lives under exactly one directory status:
@@ -15,7 +14,6 @@ A branch lives under exactly one directory status:
 The branch-tracking agent defines finer workflow statuses in `index.md` and its tracking index. Implementation, polishing, CI, reviews, approvals, parking, and opening a PR do not move the directory; agents may be working there.
 
 On merge or explicit abandonment, move the directory once agents working there have finished, and update the tracking index and links together. A closed, unmerged PR stays under `active/` pending a decision.
-
 ## Directory Contents
 
 Each directory contains an `index.md` file with branch metadata in YAML frontmatter. It serves as a status tracker and holds action links for the user.

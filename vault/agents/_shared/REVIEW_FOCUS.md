@@ -7,6 +7,7 @@ When reviewing external pull requests or local feature/fix branches - weight rev
 - Code that keeps unsupported or never-working input alive. If nothing could have relied on it, prefer rejecting it (a load-time error, lint, or validation error) over supporting it.
 - Python imports at module top level, not buried in functions (unless commented why).
 - Test coverage, and whether tests were weakened rather than the implementation fixed.
+	- Do not suggest adding unit tests simply for test coverage. The point of RED-GREEN unit testing is to aid the implementation - don't suggest unit tests simply for coverage.
 - Can unit tests be replaced with integration tests?
 - Are we avoiding silly, trivial unit tests?
 - Are we avoiding obvious comments?

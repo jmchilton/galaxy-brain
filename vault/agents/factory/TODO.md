@@ -1,5 +1,8 @@
 
 - Label responses to most actions.
+- Reviews - break up follow up issues better, more refactoring in release branches please.
+- Foundry process - drop agent/research. 
+- queue issue should just launch a gx_issue agent
 - How do we queue up site deploys? 
 - Move POLISH_BRANCH.md and DECOMPOSE_BASELINE_CHANGES_AND_POLISH.md into GX_PROCESS_ documents. 
 - Move GX_PROCESS_ documents into `_shared/gx_processes`.

@@ -55,8 +55,6 @@ Non-empty status means uncommitted changes. A non-zero count means local commits
 nowhere else. In either case do **not** remove it - tell the user what's there and wait for them to confirm.
 
 A clean worktree with no upstream may still be removed if its HEAD is a pushed remote branch's head or an ancestor of it (such as a merged PR's head commit). Otherwise treat it as unpushed.
-
-
 ## Status
 
 Check PR state with
