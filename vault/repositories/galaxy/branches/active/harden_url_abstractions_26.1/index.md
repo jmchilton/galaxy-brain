@@ -10,7 +10,7 @@ upstream_base_branch: release_26.1
 
 Status: implemented with DRS lookups hardened. Rebased 2026-11-21 cleanly. Base: `release_26.1` (`12da14a1c7f`), head `bb56b720f97`; mvdbeek review 1 ported and CI reds fixed 2026-11-09 ([response](review_mvdbeek_response.md)). [Debrief](implementation_debrief.md). Worktree: `~/projects/worktrees/galaxy/branch/harden_url_abstractions_26.1`.
 
-No PR yet. Fork CI on `bb56b720f97`: 24 green; reds unrelated and rerun 2026-11-22 — Unit tests 3.14 job (log unavailable, 3.10 job green) and Selenium `test_history_dataset_update_annotation_and_info` (dataset attributes alert timeout).
+No PR yet. Fork CI green on `bb56b720f97` after rerunning two unrelated reds (CWL conformance skipped), checked 2026-11-22.
 
 ## Scope
 
