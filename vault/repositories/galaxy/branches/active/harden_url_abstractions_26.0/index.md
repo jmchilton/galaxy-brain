@@ -10,7 +10,7 @@ upstream_base_branch: release_26.0
 
 Status: implemented with DRS lookups hardened. Rebased 2026-11-21 cleanly. Base: `release_26.0` (`99d1b09f33b`), head `197962a4e50`; mvdbeek review 1 ported and CI reds fixed 2026-11-09 ([response](review_mvdbeek_response.md)). [Debrief](implementation_debrief.md). Worktree: `~/projects/worktrees/galaxy/branch/harden_url_abstractions_26.0`.
 
-No PR yet. Fork CI pending on `197962a4e50`.
+No PR yet. Fork CI green on `197962a4e50` (CWL conformance skipped), checked 2026-11-22.
 
 ## Scope
 
