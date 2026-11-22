@@ -1,0 +1,70 @@
+round: 0
+reviewed_commit: bd5821aac2059ce9c3757e8e6c7982c207684bb6
+agents:
+  - {profile: default, path: _shared/reviewers/default.md, model: Claude Opus 5.5, effort: medium}
+  - {profile: gx_test_challenger, path: _shared/reviewers/gx_test_challenger.md, model: Claude Opus 5.5, effort: low}
+  - {profile: gx_risk_assessment, path: _shared/reviewers/gx_risk_assessment.md, model: Claude Opus 5.5, effort: low}
+verification: {model: Claude Opus 5.5, effort: medium}
+branches:
+  - name: pr_24965_round_0_rev_0
+    revision: 0
+    head: 10099ae3ffe
+    pr_title: Fix select all under a selected folder and tighten recursive selection spec
+    description: |
+      `pr_24965_round_0_rev_0` builds on `bd5821aac20`. It makes select all decide whether to unselect with the same check `selectDirectoryRecursive` uses, so a folder selected through an ancestor whose subtree holds no selected files can be cleared again, and adds a spec for that case. It also tightens the new spec's assertions to name exact selection states and check the omitted file by row.
+    commits:
+      - sha: 66bbf2fafb0
+        subject: Unselect all in a folder selected through an ancestor in the files dialog
+        detail: makes `onSelectAll` unselect when `isDirectorySelected(current) || pathExists(current.url)` and adds a spec where the recursive listing returns only folders.
+        findings: [P2 1]
+      - sha: 10099ae3ffe
+        subject: Tighten recursive selection spec assertions
+        detail: asserts `UNSELECTED` for the unselected subfolder, checks the omitted file is `UNSELECTED` and every other file `SELECTED`, and expects the select-all box to be `MIXED`.
+        findings: [P3 1]
+actions: {approve: false, approve_and_merge: false, comment: false, review_comment: false, request_changes: false, pull_request: false, push: false, issue_refactor: false, issue_galaxy_brain: false}
+findings:
+  - id: P2 1
+    include: true
+    title: Select all can't unselect a folder of empty folders below a selected folder
+    summary: Select-all icon shows SELECTED via ancestor but onSelectAll checks only selected files, so the click reselects and nothing changes; release_26.0 clears it.
+    implementation_verified: true
+    issue: |
+      `onSelectAll` decides whether to unselect (non-paginated) from `selectionModel.value.pathExists(current.url)` alone, i.e. from selected files. The select-all icon now comes from `checkIfAllSelected` → `isDirectorySelected`, which counts a folder as selected through an ancestor. When the current folder's subtree has no selected files (e.g. a recursive listing that returns only empty subfolders), the box shows selected but clicking it takes the select path: each subfolder toggles off through `selectDirectoryRecursive`, the current folder is pushed into `selectedDirectories`, and its subfolders count as selected again through it. The click changes nothing on screen, while on `release_26.0` it clears the rows.
+
+      `selectDirectoryRecursive` already decides with `isDirectorySelected(record) || pathExists(record.url)`, so the select-all toggle diverges from its sibling path.
+    evidence: |
+      The new spec (recursive listing returns only the `Directory` entries of `directory1RecursiveResponse`; click directory1, open directory1, open subdirectory1, select all) fails on `bd5821aac20` with `expected 'success' to be 'default'` and passes with the fix.
+    fix: |
+      Made `onSelectAll` unselect when `isDirectorySelected(urlTracker.current.value) || selectionModel.value.pathExists(urlTracker.current.value.url)`, matching `selectDirectoryRecursive`, and added `should unselect all in a folder of empty folders below a selected folder` to `FilesDialogRecursiveSelection.test.ts`. All 28 `FilesDialog` specs pass.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+  - id: P3 1
+    include: true
+    title: Loose assertions in the recursive selection spec
+    summary: not.toBe(SELECTED) passes on MIXED; toBeGreaterThan(0) and bare "success" don't pin the omitted file.
+    implementation_verified: true
+    issue: |
+      In `should show a selected folder as mixed after unselecting a folder below it`, `expect(row(subDirectoryId)._rowVariant).not.toBe(SELECTED)` also passes on `MIXED`, although after the unselect the subfolder has no selected files and no selected folder above it. In `should not count a file the listing did not return as selected`, `toBeGreaterThan(0)` only says some file is unselected, and it compares against the bare string `"success"` where the rest of the file uses `SELECTION_STATES`. The test drops exactly `filesOnly[0]`, so it can check that file and the others by row.
+    fix: |
+      Asserted `SELECTION_STATES.UNSELECTED` for the subfolder, checked that the omitted file's row is `UNSELECTED` and every other file's row `SELECTED`, and asserted the select-all box is `MIXED` instead of not `SELECTED`.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+      - {profile: gx_test_challenger, model: Claude Opus 5.5, effort: low}
+  - id: F1
+    include: false
+    title: Comment style on isDirectorySelected
+    summary: Suggests a /** … **/ doc comment instead of the dense // line.
+    filtered:
+      category: comment_nit
+      reason: Style-only rewording; the comment is accurate.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+  - id: F2
+    include: false
+    title: Confirm the new specs go red on release_26.0
+    summary: Asks to state that tests 1 and 2 fail against the base FilesDialog.vue.
+    filtered:
+      category: not_actionable
+      reason: A verification request, not a defect in the PR.
+    discovered_by:
+      - {profile: gx_test_challenger, model: Claude Opus 5.5, effort: low}
