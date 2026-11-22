@@ -1,1 +1,1 @@
-<!-- John's words for the comment; must not be empty to post -->
+I think there are a lot of API kind of details that should not be in an admin doc. Can you look over these results (which hypocritically suggest changes to that file) and split that file into a admin facing documentation and developer/API documentation. This is pre-existing but I think putting more API docs in there is highlighting the problem. -John
