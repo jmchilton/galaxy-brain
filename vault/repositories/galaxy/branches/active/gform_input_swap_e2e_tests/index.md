@@ -9,21 +9,26 @@ related_records: galaxy/reviews/24801
 
 ## Status
 
-Rebased from the unposted #24801 review branch onto `dev` 2026-11-21; hardening in progress.
+Hardened READY 2026-11-22, head `c75f4c0516a` on base `7e7dfea5535`; see the [implementation debrief](implementation_debrief.md).
 
 No PR yet.
 
+No CI yet; E2E tests passed locally under the Playwright and Selenium backends.
+
 ## Scope
 
-Follow-up to the merged [#24801](https://github.com/galaxyproject/galaxy/pull/24801) (`BFormInput` to `GFormInput` swaps), carrying the six fixes from its [round 0 review](../../../reviews/archived/24801/index.md), which was never posted. John's ask: rebase the review and get set up to PR the tests.
+Follow-up to the merged [#24801](https://github.com/galaxyproject/galaxy/pull/24801) (`BFormInput` to `GFormInput` swaps), from its unposted [round 0 review](../../../reviews/archived/24801/index.md). John's ask: rebase the review, harden it, and get set up to PR the tests. No behavior change, seven commits:
 
-1. Selenium test of the history panel index range filter (`test_advanced_filter_index_range`).
-2. Drops Vitest assertions on `GFormInput` classes and pass-through attributes.
-3. Checks the API key show/hide button in Selenium `test_api_key`; deletes `APIKeyItem.test.ts`.
-4. Types the credentials and filter menu spec fixtures.
-5. Shares the filter menu text conversion (`useFilterText`).
-6. Selenium test of the credentials group-name error (`test_credentials_group_name_error`).
+1. `_show_history_of_datasets` helper for two existing history panel Selenium tests.
+2. Baseline test: history panel index range filter (`test_advanced_filter_index_range`).
+3. Baseline test: API key show/hide button in `test_api_key`.
+4. Baseline test: credentials group-name error (`test_credentials_group_name_error`).
+5. Drops Vitest assertions on `GFormInput` classes and pass-through attributes; deletes `APIKeyItem.test.ts`.
+6. Types the credentials and filter menu spec fixtures.
+7. Types the filter menu text inputs' `filters` prop as `string | undefined`.
+
+Commits 1 to 4 can be split off as a tests-only PR.
 
 ## Worktree
 
-`~/projects/worktrees/galaxy/branch/gform_input_swap_e2e_tests/`.
+`~/projects/worktrees/galaxy/branch/gform_input_swap_e2e_tests/`. E2E runs use the bash runner at `.venv/galaxy_e2e_bash.sh` (zsh is not installed); never pipe its `up` into another command, it hangs.
