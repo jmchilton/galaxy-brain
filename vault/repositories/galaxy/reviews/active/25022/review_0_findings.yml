@@ -34,7 +34,7 @@ branches:
         subject: Use EMBEDDED_PULSAR_PERSISTENCE_DIRECTORY in persistence tests
         detail: imports the runner constant in place of the two hard-coded `"pulsar_persisted_data"` strings.
         findings: [P3 5]
-actions: {approve: false, approve_and_merge: false, comment: false, review_comment: false, request_changes: false, pull_request: false, push: false, issue_refactor: false, issue_galaxy_brain: false}
+actions: {approve: true, approve_and_merge: false, comment: false, review_comment: false, request_changes: false, pull_request: false, push: false, issue_refactor: false, issue_galaxy_brain: false}
 findings:
   - id: P2 1
     include: true
@@ -52,7 +52,7 @@ findings:
     discovered_by:
       - {profile: default, model: Claude Opus 5.5, effort: medium}
   - id: P2 2
-    include: true
+    include: false
     title: Point-release upgrade strands queued jobs unless the admin runs a manual script; each handler could adopt its own entries
     summary: design suggestion, not fixed on the branch; handler could move its own non-terminal entries at startup with the existing helper.
     issue: |
@@ -82,7 +82,7 @@ findings:
     discovered_by:
       - {profile: default, model: Claude Opus 5.5, effort: medium}
   - id: P3 3
-    include: true
+    include: false
     title: Migration script `main()` is untested
     summary: optional; default `--source`/`--target` resolution and the placeholder check are untested. Not fixed.
     issue: |

@@ -30,7 +30,7 @@ branches:
         subject: Show a waiting message instead of no results before TRS servers load
         detail: adds a `!trsServer` alert branch and asserts it in the existing typed-before-load test, which failed before the template change.
         findings: [P3 3]
-actions: {approve: false, approve_and_merge: false, comment: false, review_comment: false, request_changes: false, pull_request: false, push: false, issue_refactor: false, issue_galaxy_brain: false}
+actions: {approve: true, approve_and_merge: false, comment: false, review_comment: false, request_changes: false, pull_request: false, push: false, issue_refactor: false, issue_galaxy_brain: false}
 findings:
   - id: P3 1
     include: true

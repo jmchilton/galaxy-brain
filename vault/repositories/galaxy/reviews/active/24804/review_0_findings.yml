@@ -204,7 +204,7 @@ findings:
       - {profile: default, model: Claude Opus 5.5, effort: medium}
       - {profile: thermo_review, model: Claude Opus 5.5, effort: medium}
   - id: P3 1
-    include: true
+    include: false
     title: Slurm CLI jobs whose batch script exits non-zero now skip finish_job
     summary: "squeue -t all and the repaired sacct branch map FAILED to ERROR, so such jobs go through fail_job ('Job failed', no tool stdout/stderr or stdio rules); masked by the default core metrics plugin, so lowered from P2."
     issue: |

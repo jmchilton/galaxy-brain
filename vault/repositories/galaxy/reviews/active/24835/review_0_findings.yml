@@ -71,7 +71,7 @@ findings:
     discovered_by:
       - {profile: gx_test_challenger, model: Claude Opus 5.5, effort: low}
   - id: P3 1
-    include: true
+    include: false
     title: After-commit protocol is hand-threaded through each settle path
     summary: two parallel queues and a queue/run pair at every settle site; fine for 26.0, unify on dev via the follow-up issue.
     issue: |
@@ -93,7 +93,7 @@ findings:
     discovered_by:
       - {profile: default, model: Claude Opus 5.5, effort: medium}
   - id: P3 3
-    include: true
+    include: false
     title: "`job_state_counts` duplicates existing per-ICJ state counts"
     summary: fourth copy of the ICJ state count; consolidate on dev (follow-up issue). Optional on 26.0.
     issue: |
@@ -105,7 +105,7 @@ findings:
       - {profile: thermo_review, model: Claude Opus 5.5, effort: low}
       - {profile: gx_performance_challenger, model: Claude Opus 5.5, effort: medium}
   - id: P3 4
-    include: true
+    include: false
     title: Settled check's plan can flip to a scan of the job table
     summary: synthetic 2.1M-job DB saw a seq scan on job for a 100k map-over; PR's 20M-job benchmark saw nested loop. Unverified on production.
     issue: |
@@ -128,7 +128,7 @@ findings:
       - {profile: gx_performance_challenger, model: Claude Opus 5.5, effort: medium}
       - {profile: default, model: Claude Opus 5.5, effort: medium}
   - id: P3 6
-    include: true
+    include: false
     title: Paused map-overs now send SMTP inline in the handler loop
     summary: walltime and invalid-input pauses now send mail synchronously from the handler monitor loop, with no SMTP timeout. Optional.
     issue: |
