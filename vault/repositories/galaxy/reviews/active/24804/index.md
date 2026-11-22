@@ -13,3 +13,7 @@ related_records: pulsar/issues/492
 Round 0 on `677cab47347`: six P2s + eight P3s, comment unposted; twelve fixes rebased onto the author's `3f09bd54b36` as `pr_24804_round_0_rev_1` and pushed into the PR 2026-11-21 at John's request (head `eaa6202814b`).
 
 PR open, out of draft; CI pending on `eaa6202814b`; `TestEmbeddedMessageQueuePulsarPurge::test_purge_while_job_running` failed locally (`failed_metadata`) on the author's `3f09bd54b36` too, so it isn't from the review branch; consumes galaxyproject/pulsar#570 (merged 2026-11-13; Galaxy half of pulsar#492).
+
+## Author follow-up
+
+- 2026-11-21: mvdbeek reported the PR deployed on test and working. He asked inline on `pulsar.py:1453` whether `runner_state` can be a list and whether we should raise (P3 4 guard). [Reply draft](reply_runner_state_guard_draft.md), unposted.
