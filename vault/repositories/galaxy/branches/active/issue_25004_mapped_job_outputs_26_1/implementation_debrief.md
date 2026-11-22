@@ -1,6 +1,6 @@
 # Implementation debrief
 
-**STATUS: READY.** The fix for [#25004](https://github.com/galaxyproject/galaxy/issues/25004) is hardened on `release_26.1`. Scope stays as implemented. Local head is `b72810c2028`; the fork still has the pre-hardening `07763ce5ac6`, because the force-push after the autosquash was blocked and is waiting for John.
+**STATUS: READY.** The fix for [#25004](https://github.com/galaxyproject/galaxy/issues/25004) is hardened on `release_26.1`. Scope stays as implemented. Head `b72810c2028` is force-pushed to the fork (John approved), and the [workhorse note](https://github.com/galaxyproject/galaxy/issues/25004#issuecomment-7087637701) is posted on the issue.
 
 ```
 created .../differential-review/snapshots/20261122T200604Z-hardening-b72810c20285.json
