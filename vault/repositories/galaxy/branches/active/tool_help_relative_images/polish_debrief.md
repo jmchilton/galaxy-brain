@@ -20,7 +20,7 @@ created .../differential-review/snapshots/20261123T211523Z-polishing-d355bf5a070
    - SVG claim narrowed: help no longer links to the unsandboxed `shed_tool_static`; the legacy route itself is unchanged.
    - Highlighted the `path` containment answer near the top.
    - Risk: `/build` help HTML of shed tools now has tool-relative srcs, so non-Galaxy-client consumers must rewrite them.
-   - Risk: tool-dir-before-repo-root ordering re-checked by a new sweep (tools-iuc `b9b16be49`, tools-devteam `ddbe2a1`, galaxytools `a8748eb`): one help image target sits below its repo root, and it exists at one level only.
+   - Risk: tool-dir-before-repo-root ordering re-checked by a new sweep (tools-iuc `b9b16be49`, tools-devteam `ddbe2a1`, galaxytools `a8748eb`): across `.shed.yml` repositories, no help image target exists at both levels (only one target sits in a tool dir below its repo root).
 5. **Galaxy check**: `make format` clean. Full `mypy . ../test` from `lib`: 32 errors, none in the 12 changed Python files (all in untouched modules, local env).
 6. [Titles](pr_titles.md), [tags](pr_tags.md): `kind/enhancement`, `area/tool-framework`, `area/API`, `area/UI-UX`. Labeler would also add testing areas; dropped as not central.
 

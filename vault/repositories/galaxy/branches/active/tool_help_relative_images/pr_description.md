@@ -9,6 +9,8 @@ Follow-up to 🔀 #18722 - Markdown tool help, and RST help of tools not install
 | RST `.. figure::` target, installed Tool Shed tool | ❌ broken image | ✅ shown |
 | SVG help image of an installed Tool Shed tool | ⚠️ served with no CSP | ✅ served under a sandboxing CSP |
 
+⚠️ shown, but unsafe.
+
 ![Markdown tool help showing four images shipped with the tool: relative to the tool, a bare name found in static/images, beside the tool, and an SVG](screenshots/selenium_tool_form_help_markdown_relative_images.png)
 
 #18722 added `<help format="markdown">`, but Galaxy only ever rewrote image paths for RST help of installed Tool Shed tools. galaxy-iuc/standards#95 now makes Markdown the preferred help format and has to tell tool authors that ***"a tool that ships images in `static/images/` should stay on RST until that's fixed."*** Tool developers also see none of their help images when they load a tool from a checkout, even in RST.
@@ -50,7 +52,7 @@ This adds a public API route and sets the convention tool authors will write hel
 
 - New public route `GET /api/tools/{tool_id}/help_image` with `path` and `tool_version` query params.
 - Tool authors will rely on the lookup order: the tool dir, `static/images/` first for paths outside it, then a shed tool's repository root. It matches what shed RST help already relied on.
-- Installed shed tools' RST help now searches the tool dir before the repository root (the old route searched only the repository root). That only matters if the same image exists at both levels. In tools-iuc, tools-devteam and bgruening/galaxytools, one help image target sits in a tool dir below its repository root, and it exists at only one level.
+- Installed shed tools' RST help now searches the tool dir before the repository root (the old route searched only the repository root). That only matters if the same image exists at both levels. Across the `.shed.yml` repositories of tools-iuc, tools-devteam and bgruening/galaxytools, no help image target exists at both levels.
 - SVG help images are served, under `sandbox` CSP and `nosniff`. Refusing SVG instead would regress shed tools that show SVG today.
 - Help images are cached `private, max-age=3600`, so a changed image can take up to an hour to show in a browser that already has it.
 - `/api/tools/{id}/build` help of installed shed tools now carries tool-relative srcs instead of `shed_tool_static/...` paths that resolved against Galaxy's root. Only Galaxy's client points them at `help_image`; other consumers rendering that HTML must do the same.
