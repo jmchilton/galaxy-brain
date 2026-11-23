@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "kind": "differential-review-state",
-  "updatedAt": "2026-11-23T18:40:24.798Z",
+  "updatedAt": "2026-11-23T21:05:12.846Z",
   "hunks": {
     "h1:523a7a2c36e7417b": {
       "snapshotId": "20261115T014228Z-revision-349c6fd7abcc",
@@ -112,6 +112,181 @@
       "snapshotId": "20261115T014228Z-revision-349c6fd7abcc",
       "path": "lib/galaxy/tool_shed/util/shed_util_common.py",
       "reviewedAt": "2026-11-23T18:40:24.798Z"
+    },
+    "h1:9d5ef6697e804f8d": {
+      "snapshotId": "20261123T203851Z-revision-d355bf5a0702",
+      "path": "lib/galaxy/tool_util/xsd/galaxy.xsd",
+      "reviewedAt": "2026-11-23T21:04:36.269Z"
+    },
+    "h1:a931dd2496ea01bb": {
+      "snapshotId": "20261123T203851Z-revision-d355bf5a0702",
+      "path": "lib/galaxy/tools/__init__.py",
+      "reviewedAt": "2026-11-23T21:04:42.620Z"
+    },
+    "h1:66e1742677a4ffa4": {
+      "snapshotId": "20261123T203851Z-revision-d355bf5a0702",
+      "path": "lib/galaxy/tools/__init__.py",
+      "reviewedAt": "2026-11-23T21:04:42.620Z"
+    },
+    "h1:cea8dbdea2b9b7b9": {
+      "snapshotId": "20261123T203851Z-revision-d355bf5a0702",
+      "path": "lib/galaxy/tools/help_images.py",
+      "reviewedAt": "2026-11-23T21:04:54.071Z"
+    },
+    "h1:4b50b5ca0d99c31d": {
+      "snapshotId": "20261123T203851Z-revision-d355bf5a0702",
+      "path": "lib/galaxy/webapps/base/api.py",
+      "reviewedAt": "2026-11-23T21:04:59.966Z"
+    },
+    "h1:cba3db0a4936b473": {
+      "snapshotId": "20261123T203851Z-revision-d355bf5a0702",
+      "path": "lib/galaxy/webapps/base/api.py",
+      "reviewedAt": "2026-11-23T21:04:59.966Z"
+    },
+    "h1:8a0e96ebf1803371": {
+      "snapshotId": "20261123T203851Z-revision-d355bf5a0702",
+      "path": "lib/galaxy/webapps/base/api.py",
+      "reviewedAt": "2026-11-23T21:04:59.966Z"
+    },
+    "h1:8d94e44b23ebe98e": {
+      "snapshotId": "20261123T203851Z-revision-d355bf5a0702",
+      "path": "lib/galaxy/webapps/galaxy/api/tools.py",
+      "reviewedAt": "2026-11-23T21:05:01.106Z"
+    },
+    "h1:4e817255f1eeff9a": {
+      "snapshotId": "20261123T203851Z-revision-d355bf5a0702",
+      "path": "lib/galaxy/webapps/galaxy/api/tools.py",
+      "reviewedAt": "2026-11-23T21:05:01.106Z"
+    },
+    "h1:0f6e22ca0aa50a68": {
+      "snapshotId": "20261123T203851Z-revision-d355bf5a0702",
+      "path": "lib/galaxy/webapps/galaxy/api/tools.py",
+      "reviewedAt": "2026-11-23T21:05:01.106Z"
+    },
+    "h1:cb8fcf46e647f62c": {
+      "snapshotId": "20261123T203851Z-revision-d355bf5a0702",
+      "path": "lib/galaxy/webapps/galaxy/api/tools.py",
+      "reviewedAt": "2026-11-23T21:05:01.106Z"
+    },
+    "h1:33f926c9f7c43ab7": {
+      "snapshotId": "20261123T203851Z-revision-d355bf5a0702",
+      "path": "lib/galaxy/webapps/galaxy/api/tools.py",
+      "reviewedAt": "2026-11-23T21:05:01.106Z"
+    },
+    "h1:d8ed55fca8918f44": {
+      "snapshotId": "20261123T203851Z-revision-d355bf5a0702",
+      "path": "lib/galaxy/webapps/galaxy/controllers/shed_tool_static.py",
+      "reviewedAt": "2026-11-23T21:05:01.886Z"
+    },
+    "h1:8498fc4570470ab6": {
+      "snapshotId": "20261123T203851Z-revision-d355bf5a0702",
+      "path": "lib/galaxy/webapps/galaxy/controllers/shed_tool_static.py",
+      "reviewedAt": "2026-11-23T21:05:01.886Z"
+    },
+    "h1:ddaf9bdb607bba3f": {
+      "snapshotId": "20261123T203851Z-revision-d355bf5a0702",
+      "path": "lib/galaxy/webapps/galaxy/services/tools.py",
+      "reviewedAt": "2026-11-23T21:05:02.531Z"
+    },
+    "h1:b5ae254bd926ac6a": {
+      "snapshotId": "20261123T203851Z-revision-d355bf5a0702",
+      "path": "lib/galaxy/webapps/galaxy/services/tools.py",
+      "reviewedAt": "2026-11-23T21:05:02.531Z"
+    },
+    "h1:a3bdbb46fb32d153": {
+      "snapshotId": "20261123T203851Z-revision-d355bf5a0702",
+      "path": "lib/galaxy/webapps/galaxy/services/tools.py",
+      "reviewedAt": "2026-11-23T21:05:02.531Z"
+    },
+    "h1:26ebef07d50008ae": {
+      "snapshotId": "20261123T203851Z-revision-d355bf5a0702",
+      "path": "lib/galaxy_test/api/test_tools.py",
+      "reviewedAt": "2026-11-23T21:05:03.138Z"
+    },
+    "h1:85548ae0878a4868": {
+      "snapshotId": "20261123T203851Z-revision-d355bf5a0702",
+      "path": "lib/galaxy_test/api/test_tools.py",
+      "reviewedAt": "2026-11-23T21:05:03.138Z"
+    },
+    "h1:98fccc7b03293c16": {
+      "snapshotId": "20261123T203851Z-revision-d355bf5a0702",
+      "path": "lib/galaxy_test/api/test_tools.py",
+      "reviewedAt": "2026-11-23T21:05:03.138Z"
+    },
+    "h1:be3769096691e96f": {
+      "snapshotId": "20261123T203851Z-revision-d355bf5a0702",
+      "path": "lib/galaxy_test/api/test_tools.py",
+      "reviewedAt": "2026-11-23T21:05:03.138Z"
+    },
+    "h1:67f6b3a9649b4825": {
+      "snapshotId": "20261123T203851Z-revision-d355bf5a0702",
+      "path": "lib/galaxy_test/selenium/test_tool_form.py",
+      "reviewedAt": "2026-11-23T21:05:03.748Z"
+    },
+    "h1:b1c064a5b2a64713": {
+      "snapshotId": "20261123T203851Z-revision-d355bf5a0702",
+      "path": "test/functional/tools/help_images/beside_tool.png",
+      "reviewedAt": "2026-11-23T21:05:07.964Z"
+    },
+    "h1:22a9d748b30392d6": {
+      "snapshotId": "20261123T203851Z-revision-d355bf5a0702",
+      "path": "test/functional/tools/help_images/help_images_markdown.xml",
+      "reviewedAt": "2026-11-23T21:05:08.577Z"
+    },
+    "h1:a31a730ca2da987d": {
+      "snapshotId": "20261123T203851Z-revision-d355bf5a0702",
+      "path": "test/functional/tools/help_images/help_images_require_login.xml",
+      "reviewedAt": "2026-11-23T21:05:09.262Z"
+    },
+    "h1:6df13eaf61d1a610": {
+      "snapshotId": "20261123T203851Z-revision-d355bf5a0702",
+      "path": "test/functional/tools/help_images/help_images_rst.xml",
+      "reviewedAt": "2026-11-23T21:05:09.916Z"
+    },
+    "h1:c71b658b12012430": {
+      "snapshotId": "20261123T203851Z-revision-d355bf5a0702",
+      "path": "test/functional/tools/help_images/icon_outside_tool_dir.xml",
+      "reviewedAt": "2026-11-23T21:05:10.266Z"
+    },
+    "h1:dec8de013c776848": {
+      "snapshotId": "20261123T203851Z-revision-d355bf5a0702",
+      "path": "test/functional/tools/help_images/static/images/help_image.png",
+      "reviewedAt": "2026-11-23T21:05:10.580Z"
+    },
+    "h1:156a1135ca11ffa0": {
+      "snapshotId": "20261123T203851Z-revision-d355bf5a0702",
+      "path": "test/functional/tools/help_images/static/images/help_image.svg",
+      "reviewedAt": "2026-11-23T21:05:10.973Z"
+    },
+    "h1:e7c954a74dcfbade": {
+      "snapshotId": "20261123T203851Z-revision-d355bf5a0702",
+      "path": "test/functional/tools/sample_tool_conf.xml",
+      "reviewedAt": "2026-11-23T21:05:11.327Z"
+    },
+    "h1:5f0ec8671223725c": {
+      "snapshotId": "20261123T203851Z-revision-d355bf5a0702",
+      "path": "test/unit/app/tools/test_cached_tool.py",
+      "reviewedAt": "2026-11-23T21:05:11.798Z"
+    },
+    "h1:6bde219960bce36a": {
+      "snapshotId": "20261123T203851Z-revision-d355bf5a0702",
+      "path": "test/unit/app/tools/test_cached_tool.py",
+      "reviewedAt": "2026-11-23T21:05:11.798Z"
+    },
+    "h1:59b284e3643bb345": {
+      "snapshotId": "20261123T203851Z-revision-d355bf5a0702",
+      "path": "test/unit/app/tools/test_help_images.py",
+      "reviewedAt": "2026-11-23T21:05:12.233Z"
+    },
+    "h1:bc1b01a995070aaf": {
+      "snapshotId": "20261123T203851Z-revision-d355bf5a0702",
+      "path": "test/unit/tool_shed/test_shed_util_common.py",
+      "reviewedAt": "2026-11-23T21:05:12.846Z"
+    },
+    "h1:cbe466ecefc5f4ad": {
+      "snapshotId": "20261123T203851Z-revision-d355bf5a0702",
+      "path": "test/unit/tool_shed/test_shed_util_common.py",
+      "reviewedAt": "2026-11-23T21:05:12.846Z"
     }
   },
   "commits": {}

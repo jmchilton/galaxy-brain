@@ -1,0 +1,4 @@
+- Show images shipped with a tool in Markdown help and in help of local tools
+- Serve tool help images by relative path for every tool and help format
+- Relative tool help images for Markdown and RST, Tool Shed and local tools
+- Add a tool help image API endpoint and use it for all relative help images
