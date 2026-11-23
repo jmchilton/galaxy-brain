@@ -15,54 +15,6 @@
   status: recommended
   priority: low
   suggested_by: gx_reviews/SUGGESTED_TASKS.md#Review New PRs
-- prompt: Launch a review of galaxyproject/galaxy#24999
-  agent_dir: gx_reviews
-  link: https://github.com/galaxyproject/galaxy/pull/24999
-  description: |
-    🔎 mvdbeek [25.1]: write expression tool job files to configs/; direct ask - John in reviewRequests.
-  status: recommended
-  priority: high
-  suggested_by: gx_reviews/SUGGESTED_TASKS.md#Review New PRs
-- prompt: Launch a review of galaxyproject/galaxy#24154
-  agent_dir: gx_reviews
-  link: https://github.com/galaxyproject/galaxy/pull/24154
-  description: |
-    🔎 mvdbeek [26.1]: create filtered outputs as skipped placeholders for skipped jobs; draft; direct ask - John in reviewRequests.
-  status: recommended
-  priority: high
-  suggested_by: gx_reviews/SUGGESTED_TASKS.md#Review New PRs
-- prompt: Launch a review of galaxyproject/galaxy#22937
-  agent_dir: gx_reviews
-  link: https://github.com/galaxyproject/galaxy/pull/22937
-  description: |
-    🔎 marius-mather: DRS bundle support when fetching data; draft since 2026-06; direct ask - John in reviewRequests.
-  status: recommended
-  priority: high
-  suggested_by: gx_reviews/SUGGESTED_TASKS.md#Review New PRs
-- prompt: Launch a review of galaxyproject/galaxy#14768
-  agent_dir: gx_reviews
-  link: https://github.com/galaxyproject/galaxy/pull/14768
-  description: |
-    🔎 qiagu: [WIP] multi EFS mounting for AWS Batch; draft from 2022; direct ask - John in reviewRequests.
-  status: recommended
-  priority: high
-  suggested_by: gx_reviews/SUGGESTED_TASKS.md#Review New PRs
-- prompt: Launch a review of galaxyproject/galaxy#8336
-  agent_dir: gx_reviews
-  link: https://github.com/galaxyproject/galaxy/pull/8336
-  description: |
-    🔎 DarianHole: split large collections into smaller ones; draft from 2019; direct ask - John in reviewRequests.
-  status: recommended
-  priority: high
-  suggested_by: gx_reviews/SUGGESTED_TASKS.md#Review New PRs
-- prompt: Launch a review of galaxyproject/galaxy#7791
-  agent_dir: gx_reviews
-  link: https://github.com/galaxyproject/galaxy/pull/7791
-  description: |
-    🔎 natefoo: [WIP] new job states for better user feedback; draft from 2019; direct ask - John in reviewRequests.
-  status: recommended
-  priority: high
-  suggested_by: gx_reviews/SUGGESTED_TASKS.md#Review New PRs
 - prompt: Launch a review of galaxyproject/galaxy#25042
   agent_dir: gx_reviews
   link: https://github.com/galaxyproject/galaxy/pull/25042
