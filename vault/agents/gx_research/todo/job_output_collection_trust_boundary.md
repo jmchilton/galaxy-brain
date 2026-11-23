@@ -16,4 +16,4 @@ Leave out the `finish()` transaction layout ([[Component - Job Completion Lifecy
 
 ## Requested by
 
-- vault/repositories/galaxy/reviews/active/25005: learning review needed a map of output collection routes and their containment checks to explain the named-output / `from_work_dir` hardening.
+- vault/repositories/galaxy/reviews/archived/25005: learning review needed a map of output collection routes and their containment checks to explain the named-output / `from_work_dir` hardening.

@@ -8,4 +8,4 @@ Reviewing the invocation list filters needed the grid and `Filtering` contract, 
 
 ## Requested by
 
-- vault/repositories/galaxy/reviews/active/24708: `learning_galaxy` review needed the grid framework baseline and the new `FieldEntry.filter` extension point
+- vault/repositories/galaxy/reviews/archived/24708: `learning_galaxy` review needed the grid framework baseline and the new `FieldEntry.filter` extension point

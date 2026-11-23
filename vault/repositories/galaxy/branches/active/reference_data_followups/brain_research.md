@@ -2,11 +2,11 @@ Run via Claude Sonnet at high effort.
 
 ```yaml
 documents:
-  - path: vault/repositories/galaxy/reviews/active/24798/verified_review.md
+  - path: vault/repositories/galaxy/reviews/archived/24798/verified_review.md
     why: The verified findings (P2 1-3, P3 1, 3, 4) this branch ports, with the review-branch design (parse_reference_data(), reference_data_runtime_json(), ToolDataTable.readable_by()).
-  - path: vault/repositories/galaxy/reviews/active/24798/round_0_rev_0_branch_details.md
+  - path: vault/repositories/galaxy/reviews/archived/24798/round_0_rev_0_branch_details.md
     why: Commit-by-commit list of the review branch (pr_24798_round_0_rev_0) to cherry-pick or crib from; the worktree already carries the first three (harness, closed-table tests, admin API test) and the XML-guard/authoring-model commits are mid-conflict in factory.py and basic.py.
-  - path: vault/repositories/galaxy/reviews/active/24798/context_issue_23888.md
+  - path: vault/repositories/galaxy/reviews/archived/24798/context_issue_23888.md
     why: The #23888 parser-vs-authoring-model dialect problem; frames the "load reference_data through its authoring model" slice and the dump-policy matrix (full / exclude_unset / exclude_none).
   - path: vault/research/Component - YAML Tool Parser and Authoring Model Boundary.md
     why: Every site where a dict becomes a parser, which model/dump policy gates it, canonical vs legacy InputSource dialect (CanonicalYamlInputSource vs YamlInputSource).
@@ -16,10 +16,10 @@ documents:
     load_when: Adding the *_user.json twins and contract tests.
   - path: vault/repositories/galaxy/branches/merged/yaml_boolean_defaults/implementation_debrief.md
     why: Canonical-dialect decisions on the same parser and test infrastructure (helpers, DescribeUserTool, fixtures).
-  - path: vault/repositories/galaxy/reviews/active/24798/test_challenges_debrief.md
+  - path: vault/repositories/galaxy/reviews/archived/24798/test_challenges_debrief.md
     why: Test-challenge findings behind the closed-table and admin-path test gaps.
     load_when: Strengthening closed-table tests or the admin GalaxyTool API test.
-  - path: vault/repositories/galaxy/reviews/active/24798/learning_galaxy.md
+  - path: vault/repositories/galaxy/reviews/archived/24798/learning_galaxy.md
     why: Architecture walk-through of reference_data across authoring, loader, factory, runtimeify and the legacy to_cwl path; names the two runtime resolution paths that can drift.
     load_when: Merging the runtime list/single dumping or tracing job-time access checks.
   - path: vault/research/Component - YAML Tool Runtime.md

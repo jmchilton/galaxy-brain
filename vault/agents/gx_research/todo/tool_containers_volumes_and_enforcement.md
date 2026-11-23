@@ -19,4 +19,4 @@ Leave out container resolvers' image lookup details (mulled/biocontainers), inte
 ## Requested by
 
 - vault/repositories/galaxy/reviews/active/24561: learning review needed a baseline of container volume defaults and `require_container` enforcement.
-- vault/repositories/galaxy/reviews/active/24635: learning review needed where UDT image policy is enforced (create vs job prep, Pulsar refusal path) and how image references are canonicalized.
+- vault/repositories/galaxy/reviews/archived/24635: learning review needed where UDT image policy is enforced (create vs job prep, Pulsar refusal path) and how image references are canonicalized.

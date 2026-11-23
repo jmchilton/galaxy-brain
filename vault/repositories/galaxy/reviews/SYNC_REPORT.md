@@ -1,11 +1,34 @@
-# Galaxy review sync — 2026-11-09 (agent dir: gx_reviews)
+# Galaxy review-state sync
 
-**Archived (merged):** #24693, #24706, #24716, #24719, #24747, #24769, #24794. Worktrees removed (clean, branches pushed to fork).
+Sync date: 2026-11-22. Agent directory: `vault/agents/gx_reviews`.
 
-**New head since review:** #24288 (`b0fc15085c5`), #24708 (`284444a8e6a`), #24673 (`1565f5e61b4`, our push), #24101 (`584c25e181f`, already noted).
+## Archived (merged)
 
-**Status changes:** none beyond the above.
+#25028, #25005, #25022, #24800, #24867, #24857, #24846, #24861, #24835, #24826, #24817, #24798, #24770, #24700, #24772, #24685, #24708, #24673, #24647, #24635, #24415, #24101, #23869 moved to `archived/`; queue entries removed. Links in `gx_research/todo/*` and `branches/active/reference_data_followups/brain_research.md` repointed.
 
-**Mismatches:** active record #23676 has no queue entry (architectural comparison only; left as is).
+## Re-review needed (new head)
 
-**Removable worktrees:** none beyond those removed.
+- #24804: `eaa6202814b` -> `0329efc961e`
+- #24818: `efa3e7bbdaf` -> `d3adaeb1fc7`
+- #24738: `c55d04482f9` -> `dcd8410b095`
+- #24687: `82550bcf062` -> `bedf1d6cbcb`
+- #24696: `b26614f7c11` -> `5729db00bfc`
+- #24290: `b8eb7166` -> `fe484b35016`
+
+## Status changes
+
+Status lines above updated with new heads. Other open PRs unchanged vs recorded heads.
+
+## Mismatches
+
+- #23676: active record with no `MY_REVIEWS.md` entry (open, draft). Not added.
+
+## Worktrees
+
+Removed (clean, HEAD on a pushed remote branch): 25028, 25005, 25022, 24867, 24857, 24846, 24861, 24835, 24817, 24798, 24770, 24700, 24685. Removal still running at report time (also clean and pushed): 24708, 24673, 24635, 24415.
+
+Kept:
+- 24101: clean, HEAD `5a5cc5bda5b` is an earlier (force-pushed-over) author head, not an ancestor of the merged head nor on any local remote ref. Exists on GitHub; looks safe to remove after John confirms.
+- 23869: same situation, HEAD `a3b2e328f0c`.
+
+No worktree: 24800, 24826, 24772, 24647.
