@@ -11,11 +11,11 @@ related_records:
 
 ## Status
 
-Head `47d70d843f6` (pushed, one commit on `dev` at `65e6daff233`): fully types `galaxy.model.dataset_collections.{matching,structure}`, drops both from the `mypy.ini` red list and narrows the call sites in `tools/execute.py`, `workflow/modules.py` and `workflow/map_over.py`.
+Status: `branches_implemented_needs_ci`, hardening before polish (John, 2026-11-23). Head `0f66e1d1b93` (one commit, rebased onto `dev` `7dd58b00674`): fully types `galaxy.model.dataset_collections.{matching,structure}`, drops both from the `mypy.ini` red list and narrows the call sites in `tools/execute.py`, `workflow/modules.py` and `workflow/map_over.py`. Worktree: `~/projects/worktrees/galaxy/branch/collection_matching_typing`.
 
 No PR.
 
-No CI yet. Locally mypy is clean on the touched modules and their callers, and 423 unit tests pass (`test/unit/data/dataset_collections`, `test/unit/workflows`, two tool execution modules); both ran in a borrowed venv from another worktree, and the full `make mypy` and `tox -e mypy_legacy` were not run.
+Fork CI on `0f66e1d1b93` not yet seen. After rebase, mypy on the touched modules plus 18 consumer modules/tests matches `dev` exactly, and 219 unit tests pass (`test/unit/data/dataset_collections`, `test/unit/workflows/test_modules.py`).
 
 ## Decisions
 
