@@ -20,9 +20,10 @@ Snapshot: 2026-11-09 (reclassified from GitHub: #24555 merged, removed; #22996 r
 - [`issue_24328_data_table_mismatch_26.1`](active/issue_24328_data_table_mismatch_26.1/index.md) — Conflicting shed data table halts startup with an actionable error; installs no longer wipe Galaxy's tables (#24328). Base `release_26.1`. [#24349](https://github.com/galaxyproject/galaxy/pull/24349).
 - [`job_cache_own_metadata_files_25_1`](active/job_cache_own_metadata_files_25_1/index.md) — Job cache and copied outputs own their metadata files, so pgcleanup purging the source keeps them. Base `release_25.1`. [#24902](https://github.com/galaxyproject/galaxy/pull/24902).
 
+- [`issue_25040_collection_paths_rewrite_26_2`](active/issue_25040_collection_paths_rewrite_26_2/index.md) — Collection and metadata file accessors give tools compute-side paths; nested export layout fix (#25040). [#25049](https://github.com/galaxyproject/galaxy/pull/25049).
+
 ## Open Galaxy PRs — needs attention (`attention`)
 
-- [`issue_25040_collection_paths_rewrite_26_2`](active/issue_25040_collection_paths_rewrite_26_2/index.md) — Collection and metadata file accessors give tools compute-side paths; nested export layout fix (#25040). [#25049](https://github.com/galaxyproject/galaxy/pull/25049).
 - [`selenium_stories_core`](active/selenium_stories_core/index.md) — Writes Selenium and Playwright screenshots as Markdown, HTML and PDF stories; narrates tours. [#24137](https://github.com/galaxyproject/galaxy/pull/24137).
 
 - [`issue_24221_paged_map_over_options_26.1`](active/issue_24221_paged_map_over_options_26.1/index.md) — Paged collection options keep a collection's map-over entry, and it's selectable with a "(one job per …)" label (#24221). Base `release_26.1`. [#24228](https://github.com/galaxyproject/galaxy/pull/24228). CI reds undiagnosed (stale 2026-10-23 run).
