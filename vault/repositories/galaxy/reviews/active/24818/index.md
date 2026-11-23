@@ -9,3 +9,7 @@
 Round 0 initial review on `efa3e7bbdaf` (2026-11-11) ready, unposted: three P2s + seven P3s, nine fixed on `pr_24818_round_0_rev_0` (head `323625a69f8`, pushed to fork, not into PR). Nothing filtered.
 
 PR open, out of draft; review requested from John.
+
+2026-11-12: John posted P2 1 (per-dataset opt-in, asking for per-parameter models) and P3 1 (linking `8189c840546`, asking whether a tighter model is the real fix) as standalone PR comments, holding the rest for Marius's answer. No reply as of 2026-11-23.
+
+2026-11-15 force-push to `d3adaeb1fc7` is a rebase onto dev only (range-diff: conflict resolution around `input_extra_files_path` / `ReferenceDataInternalJson`, no behaviour change). Neither concern addressed; all ten findings still hold. PR body still says `secondary_files[0]` (P3 3). Review branch conflicts trivially with the new head in `lib/galaxy/tools/runtime.py` (import list, adjacent function); needs a rebase before Push.
