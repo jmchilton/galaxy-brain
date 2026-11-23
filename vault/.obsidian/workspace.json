@@ -4,21 +4,17 @@
     "type": "split",
     "children": [
       {
-        "id": "358c1451fb30bbe5",
+        "id": "3dd567a00ff62232",
         "type": "tabs",
         "children": [
           {
-            "id": "76b4e6ec87ebae88",
+            "id": "0bafcac3b14f83ab",
             "type": "leaf",
             "state": {
-              "type": "markdown",
-              "state": {
-                "file": "repositories/galaxy/branches/active/issue_25004_mapped_job_outputs_26_1/pr_titles.md",
-                "mode": "source",
-                "source": false
-              },
+              "type": "empty",
+              "state": {},
               "icon": "lucide-file",
-              "title": "pr_titles"
+              "title": "New tab"
             }
           }
         ]
@@ -201,13 +197,35 @@
       "code-files:Create Code File": false
     }
   },
-  "active": "76b4e6ec87ebae88",
+  "active": "0bafcac3b14f83ab",
   "lastOpenFiles": [
+    "repositories/galaxy/branches/active/collection_matching_typing/test_challenges_debrief.md",
+    "repositories/galaxy/branches/active/collection_matching_typing/differential-review/snapshots/20261123T204521Z-implementation-0f66e1d1b930.json",
+    "repositories/galaxy/branches/active/collection_matching_typing/differential-review/snapshots",
+    "repositories/galaxy/branches/active/collection_matching_typing/differential-review",
+    "repositories/galaxy/branches/active/editor_subworkflow_map_over_tests/index.md",
+    "repositories/galaxy/branches/active/editor_subworkflow_map_over_tests",
+    "repositories/galaxy/branches/active/tool_help_relative_images/implementation_debrief.md",
+    "repositories/galaxy/branches/active/tool_help_relative_images/subagents/normal_review_4.md",
+    "repositories/galaxy/branches/active/tool_help_relative_images/earlier_drafts/3/implementation_debrief.md",
+    "repositories/galaxy/branches/active/tool_help_relative_images/earlier_drafts/3",
+    "repositories/galaxy/branches/active/tool_help_relative_images/differential-review/snapshots/20261123T203851Z-revision-d355bf5a0702.json",
+    "repositories/galaxy/branches/active/collection_matching_typing/index.md",
+    "repositories/galaxy/branches/active/collection_matching_typing",
+    "repositories/galaxy/branches/active/tool_help_relative_images/index.md",
+    "repositories/galaxy/branches/active/issue_25004_mapped_job_outputs_26_1/pr_titles.md",
+    "repositories/galaxy/branches/active/tool_help_relative_images/differential-review/review-state.json",
+    "repositories/galaxy/branches/active/tool_security_review_spec/earlier_drafts/1/test_challenges_debrief.md",
+    "repositories/galaxy/branches/active/tool_security_review_spec/earlier_drafts/1",
+    "repositories/galaxy/branches/active/tool_security_review_spec/earlier_drafts",
+    "repositories/galaxy/branches/active/tool_security_review_spec/test_challenges_debrief.md",
+    "repositories/galaxy/branches/active/tool_security_review_spec/initial_implementation_debrief.md",
+    "repositories/galaxy/branches/active/tool_security_review_spec/subagents/normal_review_1.md",
+    "agents/telegram/AGENTS.md",
     "repositories/galaxy/branches/active/tool_security_review_spec/plan.md",
     "repositories/galaxy/branches/active/tool_security_review_spec/brain_research.md",
     "agents/gx_research/todo/declarative_yaml_test_harnesses.md",
     "repositories/galaxy/branches/active/tool_security_review_spec/index.md",
-    "repositories/galaxy/branches/active/tool_security_review_spec",
     "repositories/galaxy/branches/active/issue_25004_mapped_job_outputs_26_1/index.md",
     "repositories/galaxy/reviews/active/24986/index.md",
     "repositories/galaxy/branches/active/issue_25040_collection_paths_rewrite_26_2/review_response.md",
@@ -217,28 +235,6 @@
     "agents/gx_reviews/the_cracks/2026-11-18.md",
     "agents/gx_reviews/the_cracks/2026-11-17.md",
     "agents/gx_reviews/the_cracks/2026-11-16.md",
-    "repositories/galaxy/reviews/archived/23869/validation-evidence.txt",
-    "repositories/galaxy/reviews/archived/23869/review-2026-10-11.md",
-    "repositories/galaxy/reviews/archived/23869/registry-results.json",
-    "repositories/galaxy/reviews/archived/23869/registry-api-probe.py",
-    "repositories/galaxy/reviews/archived/23869/index.md",
-    "repositories/galaxy/reviews/archived/23869/fetch-plugins.py",
-    "repositories/galaxy/reviews/archived/23869/draft-review.md",
-    "repositories/galaxy/reviews/archived/23869/browser-results.json",
-    "repositories/galaxy/reviews/archived/23869/browser-probe.py",
-    "repositories/galaxy/reviews/archived/23869/api-results.json",
-    "repositories/galaxy/reviews/archived/23869",
-    "repositories/galaxy/reviews/archived/24101/validation-evidence.txt",
-    "repositories/galaxy/reviews/archived/24101/review-2026-10-14.md",
-    "repositories/galaxy/reviews/archived/24101/index.md",
-    "repositories/galaxy/reviews/archived/24101/draft-review.md",
-    "repositories/galaxy/reviews/archived/24415/verified_review.md",
-    "repositories/galaxy/reviews/archived/24415/verified_findings_checklist.md",
-    "repositories/galaxy/reviews/archived/24415/test_challenges_review.md",
-    "repositories/galaxy/reviews/archived/24415/test_challenges_debrief.md",
-    "repositories/galaxy/reviews/archived/24415/risks.md",
-    "repositories/galaxy/reviews/archived/24415/review_0_branch_details.md",
-    "repositories/galaxy/reviews/archived/24415/initial_review_response.md",
     "repositories/galaxy/branches/active/gform_input_swap_e2e_tests/screenshots/tool_form_credentials_new_group.png",
     "repositories/galaxy/branches/active/gform_input_swap_e2e_tests/screenshots/tool_form_credentials_group_name_error.png",
     "repositories/galaxy/branches/active/gform_input_swap_e2e_tests/screenshots/preferences_api_key_masked.png",
