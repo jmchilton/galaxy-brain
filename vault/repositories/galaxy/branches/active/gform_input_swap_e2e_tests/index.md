@@ -1,19 +1,20 @@
 ---
 upstream_base_branch: dev
 related_records: galaxy/reviews/24801
+pr: 25051
 ---
 # gform_input_swap_e2e_tests
 
-- [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:gform_input_swap_e2e_tests?expand=1)
+- [PR #25051](https://github.com/galaxyproject/galaxy/pull/25051)
 - [View on GitHub](https://github.com/jmchilton/galaxy/tree/gform_input_swap_e2e_tests)
 
 ## Status
 
-Polished 2026-11-22, head `c75f4c0516a` on base `7e7dfea5535`, ready for final review; see the [polish debrief](polish_debrief.md), [description](pr_description.md), [titles](pr_titles.md), [tags](pr_tags.md).
+Polished 2026-11-22, head `c75f4c0516a` on base `7e7dfea5535`, approved and opened; see the [polish debrief](polish_debrief.md), [description](pr_description.md), [titles](pr_titles.md), [tags](pr_tags.md).
 
-No PR yet.
+[#25051](https://github.com/galaxyproject/galaxy/pull/25051) opened 2026-11-22, out of draft.
 
-Fork CI green at head.
+Fork CI green at head; upstream CI pending.
 
 ## Scope
 
