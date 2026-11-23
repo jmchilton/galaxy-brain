@@ -71,7 +71,7 @@ Look at `DatasetCollectionWrapper._dataset_rows` and `DatasetFilenameWrapper._jo
 
 ## Context
 
-Alternative to 🔀 #25048. Overlaps 🔀 #25023 (remote tool evaluation on Pulsar) and 🔀 #25021 (Pulsar `rewrite_parameters` jobs whose command template reads inputs); the integration test here is named so it doesn't collide with #25021's. Alternative kept on 🌿[issue_25040_collection_paths_rewrite_26_2_alt_original_scope](https://github.com/jmchilton/galaxy/tree/issue_25040_collection_paths_rewrite_26_2_alt_original_scope) - the fix without the nested `include_collection_name` change and without the input-only metadata guard. Developed with [John's Galaxy Brain Branch Factory](https://galaxy-brain.jmchilton.net/factory/galaxy-branches/).
+Supersedes 🔀 #25048 (closed). Overlaps 🔀 #25023 (remote tool evaluation on Pulsar) and 🔀 #25021 (Pulsar `rewrite_parameters` jobs whose command template reads inputs); the integration test here is named so it doesn't collide with #25021's. Alternative kept on 🌿[issue_25040_collection_paths_rewrite_26_2_alt_original_scope](https://github.com/jmchilton/galaxy/tree/issue_25040_collection_paths_rewrite_26_2_alt_original_scope) - the fix without the nested `include_collection_name` change and without the input-only metadata guard. Developed with [John's Galaxy Brain Branch Factory](https://galaxy-brain.jmchilton.net/factory/galaxy-branches/).
 
 ## Agentic Checks
 
