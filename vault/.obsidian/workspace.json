@@ -4,21 +4,21 @@
     "type": "split",
     "children": [
       {
-        "id": "ea7dd1fb5dc4e316",
+        "id": "358c1451fb30bbe5",
         "type": "tabs",
         "children": [
           {
-            "id": "8dea6ebe39074679",
+            "id": "76b4e6ec87ebae88",
             "type": "leaf",
             "state": {
               "type": "markdown",
               "state": {
-                "file": "repositories/galaxy/reviews/active/23986/learning_galaxy.md",
+                "file": "repositories/galaxy/reviews/active/24986/index.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "learning_galaxy"
+              "title": "index"
             }
           }
         ]
@@ -43,7 +43,7 @@
                 "sortOrder": "alphabetical",
                 "autoReveal": true,
                 "showSearch": true,
-                "searchQuery": "23986"
+                "searchQuery": "gform_input_swap_e2e_tests"
               },
               "icon": "lucide-folder-closed",
               "title": "Files"
@@ -80,8 +80,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 200,
-    "collapsed": true
+    "width": 393.98989486694336
   },
   "right": {
     "id": "cbd554e3fe405514",
@@ -202,44 +201,44 @@
       "code-files:Create Code File": false
     }
   },
-  "active": "8dea6ebe39074679",
+  "active": "76b4e6ec87ebae88",
   "lastOpenFiles": [
-    "repositories/pulsar/reviews/active/588/johns_review_0_comment_note.md",
-    "repositories/galaxy/reviews/active/23986/review_0_findings.yml",
-    "repositories/galaxy/reviews/active/23986/johns_review_0_pr_note.md",
-    "repositories/galaxy/reviews/active/23986/johns_review_0_comment_note.md",
-    "repositories/galaxy/branches/active/gform_input_swap_e2e_tests/test_challenges_debrief.md",
-    "repositories/galaxy/branches/active/gform_input_swap_e2e_tests/polish_e2e_tests_debrief.md",
-    "repositories/galaxy/reviews/active/25005/johns_review_0_pr_note.md",
-    "repositories/galaxy/reviews/active/25005/johns_review_0_comment_note.md",
-    "repositories/galaxy/reviews/active/25005/review_0_findings.yml",
-    "repositories/galaxy/reviews/archived/24801/test_challenges_review.md",
-    "repositories/galaxy/reviews/archived/24801/test_challenges_debrief.md",
-    "repositories/galaxy/reviews/archived/24801/learning_galaxy.md",
-    "repositories/galaxy/reviews/archived/24801/risks.md",
-    "repositories/galaxy/reviews/archived/24801/review_0_findings.yml",
-    "repositories/galaxy/reviews/archived/24801/johns_review_0_pr_note.md",
-    "repositories/galaxy/reviews/archived/24801/johns_review_0_comment_note.md",
-    "repositories/galaxy/reviews/archived/24801/initial_review.md",
-    "repositories/galaxy/reviews/archived/24801/index.md",
-    "repositories/galaxy/reviews/archived/24801",
-    "repositories/galaxy/reviews/active/23986/thermo_review.md",
-    "repositories/galaxy/reviews/active/23986/test_challenges_review.md",
-    "repositories/galaxy/reviews/active/23986/test_challenges_debrief.md",
-    "repositories/galaxy/reviews/active/23986/risks.md",
-    "repositories/galaxy/reviews/active/23986/performance_challenges_review.md",
-    "repositories/galaxy/reviews/active/23986/performance_challenges_debrief.md",
-    "repositories/galaxy/reviews/active/23986/learning_galaxy_followup_issue.md",
-    "repositories/galaxy/reviews/active/23986/learning_galaxy.md",
-    "repositories/galaxy/reviews/active/23986/initial_review.md",
-    "repositories/galaxy/reviews/active/23986/alternative_layers.md",
-    "repositories/galaxy/branches/active/gform_input_swap_e2e_tests/initial_implementation_debrief.md",
-    "repositories/galaxy/branches/active/gform_input_swap_e2e_tests",
-    "repositories/galaxy/reviews/active/25022/review_0_findings.yml",
-    "repositories/galaxy/reviews/active/23986",
-    "repositories/galaxy/reviews/active/25005/differential-review/snapshots/20261121T211633Z-review-2b11cda0d36d.json",
-    "repositories/galaxy/reviews/active/25005/differential-review/snapshots",
-    "repositories/galaxy/reviews/active/25005/differential-review",
+    "repositories/galaxy/branches/active/gform_input_swap_e2e_tests/pr_titles.md",
+    "repositories/galaxy/reviews/active/24986/johns_review_0_comment_note.md",
+    "repositories/galaxy/branches/active/issue_25004_mapped_job_outputs_26_1/polish_debrief.md",
+    "repositories/galaxy/branches/active/issue_25004_mapped_job_outputs_26_1/differential-review/snapshots/20261123T003935Z-polishing-b72810c20285.json",
+    "repositories/galaxy/branches/active/issue_25004_mapped_job_outputs_26_1/pr_tags.md",
+    "repositories/galaxy/branches/active/issue_25004_mapped_job_outputs_26_1/pr_titles.md",
+    "repositories/galaxy/branches/active/issue_25004_mapped_job_outputs_26_1/pr_checklist.md",
+    "repositories/galaxy/branches/active/issue_25004_mapped_job_outputs_26_1/pr_description.md",
+    "repositories/galaxy/branches/active/issue_25004_mapped_job_outputs_26_1/index.md",
+    "repositories/galaxy/branches/active/issue_25004_mapped_job_outputs_26_1/human_review.md",
+    "repositories/galaxy/branches/active/issue_25004_mapped_job_outputs_26_1/differential-review/review-state.json",
+    "repositories/galaxy/branches/active/issue_25004_mapped_job_outputs_26_1/differential-review/snapshots/20261123T003226Z-revision-b72810c20285.json",
+    "repositories/galaxy/branches/active/issue_25004_mapped_job_outputs_26_1/differential-review/snapshots",
+    "repositories/galaxy/branches/active/issue_25004_mapped_job_outputs_26_1/differential-review",
+    "repositories/galaxy/branches/active/gform_input_swap_e2e_tests/pr_tags.md",
+    "repositories/galaxy/branches/active/gform_input_swap_e2e_tests/index.md",
+    "repositories/galaxy/reviews/active/24965/johns_review_0_comment_note.md",
+    "repositories/galaxy/branches/active/gform_input_swap_e2e_tests/human_review.md",
+    "repositories/galaxy/branches/active/gform_input_swap_e2e_tests/differential-review/review-state.json",
+    "repositories/galaxy/branches/active/gform_input_swap_e2e_tests/polish_debrief.md",
+    "repositories/galaxy/branches/active/gform_input_swap_e2e_tests/differential-review/snapshots/20261123T000615Z-polishing-c75f4c0516a0.json",
+    "repositories/galaxy/branches/active/gform_input_swap_e2e_tests/pr_description.md",
+    "repositories/galaxy/branches/active/gform_input_swap_e2e_tests/pr_checklist.md",
+    "repositories/galaxy/branches/active/gform_input_swap_e2e_tests/differential-review/snapshots/20261122T235626Z-revision-c75f4c0516a0.json",
+    "repositories/galaxy/branches/active/gform_input_swap_e2e_tests/differential-review/snapshots",
+    "repositories/galaxy/branches/active/gform_input_swap_e2e_tests/differential-review",
+    "repositories/galaxy/reviews/active/25003/johns_review_0_comment_note.md",
+    "repositories/galaxy/reviews/active/25023/johns_review_0_comment_note.md",
+    "repositories/galaxy/reviews/active/25023/human_review.md",
+    "repositories/galaxy/reviews/active/24857/johns_review_0_comment_note.md",
+    "repositories/galaxy/reviews/active/25003/johns_review_0_pr_note.md",
+    "repositories/galaxy/reviews/active/24986/test_challenges_review.md",
+    "repositories/galaxy/reviews/active/24986/test_challenges_debrief.md",
+    "repositories/galaxy/reviews/active/24986/risks.md",
+    "repositories/galaxy/reviews/active/24986/performance_challenges_review.md",
+    "repositories/galaxy/reviews/active/24986/performance_challenges_debrief.md",
     "repositories/galaxy/branches/active/tool_help_relative_images/screenshots/selenium_tool_form_help_rst_relative_images.png",
     "repositories/galaxy/branches/active/tool_help_relative_images/screenshots/selenium_tool_form_help_markdown_relative_images.png",
     "repositories/galaxy/branches/active/tool_help_relative_images/screenshots/playwright_tool_form_help_rst_relative_images.png",
