@@ -19,7 +19,7 @@ Follow-up to 🔀 #18722 - Markdown tool help, and RST help of tools not install
 
 ***Existing Tool Shed tools need no changes and render the same images in Galaxy, plus `.. figure::` targets that were broken before.*** Their RST help, including the legacy `$PATH_TO_IMAGES/` prefix, moves from `shed_tool_static` onto `help_image`, so there's one mechanism instead of two. The `shed_tool_static` route stays for existing links, and the Tool Shed app's own rendering is untouched.
 
-***SVG gets stricter, not looser:*** tool help used to link shed tools' SVG images through `shed_tool_static`, which serves them with no CSP. Help now links to `help_image`, which serves every image with `Content-Security-Policy: ... sandbox` and `nosniff`, so an SVG opened directly can't run script. The legacy route itself is left as is.
+***SVG gets stricter, not looser:*** `shed_tool_static` served shed tools' SVG help images with no CSP. `help_image`, and now `shed_tool_static` for existing links too, serve every image with `Content-Security-Policy: ... sandbox` and `nosniff`, so an SVG opened directly can't run script.
 
 ***Images in Markdown help, or in help of local tools, show only on Galaxy 27.0 and later.*** The XSD help docs say so, so tool authors targeting older servers know to keep shed-style RST.
 
@@ -53,7 +53,7 @@ This adds a public API route and sets the convention tool authors will write hel
 - New public route `GET /api/tools/{tool_id}/help_image` with `path` and `tool_version` query params.
 - Tool authors will rely on the lookup order: the tool dir, `static/images/` first for paths outside it, then a shed tool's repository root. It matches what shed RST help already relied on.
 - Installed shed tools' RST help now searches the tool dir before the repository root (the old route searched only the repository root). That only matters if the same image exists at both levels. Across the `.shed.yml` repositories of tools-iuc, tools-devteam and bgruening/galaxytools, no help image target exists at both levels.
-- SVG help images are served, under `sandbox` CSP and `nosniff`. Refusing SVG instead would regress shed tools that show SVG today.
+- SVG help images are served, under `sandbox` CSP and `nosniff`. Refusing SVG instead would regress shed tools that show SVG today. `shed_tool_static` gets the same two headers.
 - Help images are cached `private, max-age=3600`, so a changed image can take up to an hour to show in a browser that already has it.
 - `/api/tools/{id}/build` help of installed shed tools now carries tool-relative srcs instead of `shed_tool_static/...` paths that resolved against Galaxy's root. Only Galaxy's client points them at `help_image`; other consumers rendering that HTML must do the same.
 - Legacy `${static_path}/images/X` and `/static/...` targets stay broken, as on `dev`. The tools-iuc tools still using them are being fixed in the tools (galaxyproject/tools-iuc#9030 to #9033).
@@ -64,7 +64,7 @@ This adds a public API route and sets the convention tool authors will write hel
 
 The parts worth a human's attention are the route's shape (`{tool_id:path}/help_image` with query params, mirroring `/icon`) and `find_tool_file`'s containment check, which is what stops `path` from escaping the tool's directory. The CSP string in `HELP_IMAGE_HEADERS` is the other security-relevant line.
 
-The history is ordered to split cleanly: baseline tests (`a585a1a6563`), then the icon fixes and the refactors under them (`1bfb47160cb` .. `5879cabce8a`), then the endpoint and client (`f7436e73ddd` .. `af11f4f5af4`), then the Tool Shed unification, SVG and `$PATH_TO_IMAGES/` (`6f2e2b82c2d` .. `d355bf5a070`).
+The history is ordered to split cleanly: baseline tests (`a585a1a6563`), then the icon fixes and the refactors under them (`1bfb47160cb` .. `5879cabce8a`), then the endpoint and client (`f7436e73ddd` .. `af11f4f5af4`), then the Tool Shed unification, SVG and `$PATH_TO_IMAGES/` (`6f2e2b82c2d` .. `2388de41294`).
 
 </details>
 
@@ -159,7 +159,7 @@ The re-scope made every shed tool with RST help touch `tool_shed_repository`, wh
 
 <details><summary>Tests</summary>
 
-- Unit: `test/unit/app/tools/test_help_images.py` (lookup, symlinks, containment), `test_cached_tool.py` (shed RST rewrite, no install-DB query for imageless help), `test/unit/tool_shed/test_shed_util_common.py`.
+- Unit: `test/unit/app/tools/test_help_images.py` (lookup, symlinks, containment), `test_cached_tool.py` (shed RST rewrite, no install-DB query for imageless help), `test/unit/tool_shed/test_shed_util_common.py`, `test/unit/webapps/test_shed_tool_static.py` (legacy route headers).
 - API (`lib/galaxy_test/api/test_tools.py`): `help_image` content, media types, 404s, caching headers, 304s and CSP; `require_login` tools; RST `/build` output; the icon fixes.
 - Client: `ToolHelpMarkdown.test.ts`, `ToolHelpRst.test.js`, `ToolsListCard.test.ts`.
 - E2E (`lib/galaxy_test/selenium/test_tool_form.py`): Markdown and RST help images load on the tool form; pass on Selenium and Playwright.

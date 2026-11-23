@@ -8,11 +8,11 @@ upstream_base_branch: dev
 
 ## Status
 
-Status: `branches_ready_for_final_review` (polished 2026-11-23, no code changes). Base `dev`, head `d355bf5a070`. Alt: `tool_help_relative_images_alt_original_scope`. Backup of pre-refactor head: `tool_help_relative_images_r3_backup`. Worktree: `~/projects/worktrees/galaxy/branch/tool_help_relative_images`.
+Status: `branches_ready_for_final_review` (polished 2026-11-23; then CSP on `shed_tool_static` per John). Base `dev`, head `2388de41294`. Alt: `tool_help_relative_images_alt_original_scope`. Backup of pre-refactor head: `tool_help_relative_images_r3_backup`. Worktree: `~/projects/worktrees/galaxy/branch/tool_help_relative_images`.
 
 No PR yet. [Description](pr_description.md) · [Titles](pr_titles.md) · [Tags](pr_tags.md) · [Checklist](pr_checklist.md) · [Polish debrief](polish_debrief.md).
 
-Fork CI on `d355bf5a070` pending (no related reds so far); E2E passes locally on Playwright and Selenium.
+Fork CI restarted on `2388de41294`; E2E passes locally on Playwright and Selenium.
 
 Tool help images referenced by relative paths (e.g. `static/images/foo.png`) work for Markdown and RST help and for every tool, shed or local, via `/api/tools/{tool_id}/help_image`. Context: #18722 added Markdown help without images; galaxy-iuc/standards#95.
 
@@ -24,4 +24,4 @@ Tool help images referenced by relative paths (e.g. `static/images/foo.png`) wor
 - Plain relative image paths, rewritten client-side to `help_image`; query params for path/version.
 - Re-scope: installed shed RST also uses `help_image`; SVG served under a sandboxing CSP (reversible; the alt refuses SVG).
 - John (2026-11-14): do X1 (strip `$PATH_TO_IMAGES/` for non-shed RST) and X2 (icon lookup passes the user); login-only images/icons not a concern, icon caching unchanged.
-- Open for John: split icon fixes (incl. X2) into their own PR? CSP on legacy `shed_tool_static` too? `${static_path}/images/X` legacy targets: fixing via tools-iuc PRs #9030–#9033.
+- Open for John: split icon fixes (incl. X2) into their own PR? `${static_path}/images/X` legacy targets: fixing via tools-iuc PRs #9030–#9033.

@@ -24,8 +24,22 @@ created .../differential-review/snapshots/20261123T211523Z-polishing-d355bf5a070
 5. **Galaxy check**: `make format` clean. Full `mypy . ../test` from `lib`: 32 errors, none in the 12 changed Python files (all in untouched modules, local env).
 6. [Titles](pr_titles.md), [tags](pr_tags.md): `kind/enhancement`, `area/tool-framework`, `area/API`, `area/UI-UX`. Labeler would also add testing areas; dropped as not central.
 
+## Revision: CSP on `shed_tool_static` (John, 2026-11-23)
+
+```
+created .../differential-review/snapshots/20261123T212400Z-revision-2388de412948.json
+  revision @ 2388de412948 vs origin/dev (merge-base e7a3f2254c07)
+  since 20261123T211523Z-polishing-d355bf5a0702:
+    commits: 31 same, 0 rebased, 0 changed, 1 new, 0 dropped
+    hunks:   52 carried, 5 changed, 2 new, 0 dropped
+    new     2388de412948 Serve shed_tool_static images under the help image CSP
+```
+
+- New commit `2388de41294` on top: `HELP_IMAGE_SECURITY_HEADERS` (CSP + `nosniff`) moves to `galaxy.tools.help_images`; `help_image`'s `HELP_IMAGE_HEADERS` spreads it (values unchanged, checked) and `shed_tool_static` sets it on found images.
+- Red first: new `test/unit/webapps/test_shed_tool_static.py` failed with `KeyError: 'content-security-policy'`, passes after. Unit suites for help images, shed util and cached tool: 115 passed. Format/lint/pre-commit clean; full mypy unchanged (32, none in changed files). API tests not rerun (header values identical).
+- Pushed to `jmchilton`. Description updated: SVG paragraph, Risk Details, split range, tests list. Checklist answers unaffected.
+
 ## Left for John
 
-- Add CSP/`nosniff` to the legacy `shed_tool_static` route too (a few lines in the controller)? The scope evaluation lists the route's headers/removal as a follow-up, so not done here.
 - Tools list builds the image URL with the card's version but fetches help from `/build` without one. Fine as is?
 - Still open from earlier: split the icon fixes (`1bfb47160cb` .. `5879cabce8a`) into their own PR?
