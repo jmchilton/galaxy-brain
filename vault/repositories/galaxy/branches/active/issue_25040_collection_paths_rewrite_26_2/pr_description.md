@@ -15,7 +15,9 @@ On a destination that rewrites input paths (Pulsar with `rewrite_parameters: tru
 
 Every accessor now derives its rows from the per-element wrappers the collection wrapper already builds, so each one returns exactly what `#for $e in $input` renders, and input metadata files go through the same `input_metadata_rewrite` that `$input.metadata.<file>` uses. Output datasets keep their Galaxy-side metadata paths: those files don't exist yet when the command is built, and asking for the rewrite would make Pulsar try to stage them.
 
-***#25048 fixes the same bug with the same core move (paths from the element wrappers), so these two PRs are alternatives, and only one should land.*** This one also:
+That rewrite is also what gets a metadata file staged: with `rewrite_parameters: true`, Pulsar ships only the metadata files `input_metadata_rewrite` was called for while the command was built. On `release_26.2`, a tool that reads `.bai` files only through `all_metadata_files` or `serialize()` gets none of them on the Pulsar host; now it gets every one.
+
+***#25048 fixed the same bug with the same core move (paths from the element wrappers) and was closed in favour of this PR.*** Compared with it, this one also:
 
 - **Doesn't stage metadata files a tool never reads.** `all_paths`, `data_style="paths"` and the staging paths never load or rewrite metadata files. With `rewrite_parameters: true`, every `input_metadata_rewrite` call queues that file for transfer to the Pulsar host, so a tool reading only `$bams.all_paths` from 1,000 BAMs would otherwise ship 1,000 unused `.bai` files.
 - **Keeps every element when identifiers repeat**, as the old model query did. The wrapper's identifier-to-element dict holds one element per identifier, so rows are built from the element list paired with a parallel identifier list instead.
@@ -153,7 +155,7 @@ The refactors extract the metadata path helper, simplify the staging JSON builde
 
 <details>
 
-- `test/integration/test_pulsar_embedded_rewrite_parameters_input_paths.py` runs a tool that prints every accessor on embedded Pulsar with `rewrite_parameters: true` and `default_file_action: copy`, checks the per-element paths sit in Pulsar's staging directory, and checks every bulk accessor and the `data_style="paths"` config file against them. On `release_26.2` it fails with the object store path where the staged path should be.
+- `test/integration/test_pulsar_embedded_rewrite_parameters_input_paths.py` runs a tool that prints every accessor on embedded Pulsar with `rewrite_parameters: true` and `default_file_action: copy` and checksums every input and metadata file path it was given. It checks each path sits in Pulsar's staging directory and holds the bytes of Galaxy's copy, and checks every bulk accessor and the `data_style="paths"` config file against them. A second run leaves out `$input.metadata.bam_index`, so only the accessors can get the metadata files staged. On `release_26.2` both runs fail with an object store metadata path where the staged path should be. The checksum check and the second run come from Marius's review.
 - `test/unit/app/tools/test_wrappers.py` covers the same accessors with a stub compute environment, plus nested collections, repeated identifiers, output wrappers, and that paths-only accessors never ask for a metadata rewrite.
 - `test/integration/test_remote_files.py::test_export_remote_tool_nested_collection_with_collection_name` checks the nested export layout.
 

@@ -9,9 +9,9 @@ pr: 25049
 
 ## Status
 
-Status: `ready`. PR [#25049](https://github.com/galaxyproject/galaxy/pull/25049) opened 2026-11-22 at John's request, out of draft, alternative to mvdbeek's [#25048](https://github.com/galaxyproject/galaxy/pull/25048). Base: `release_26.2` (`3dcb0584c40`). Head: `80fe612c98d` (6 commits), pushed. Worktree: `~/projects/worktrees/galaxy/branch/issue_25040_collection_paths_rewrite_26_2`.
+Status: `attention` (review reply unposted). PR [#25049](https://github.com/galaxyproject/galaxy/pull/25049) approved by mvdbeek 2026-11-22 (closed #25048 in favour of it); his test critique addressed in `34c5ad8bd5c`, reply drafted in [review_response.md](review_response.md), not posted. Base: `release_26.2` (`3dcb0584c40`). Head: `34c5ad8bd5c` (7 commits), pushed. Worktree: `~/projects/worktrees/galaxy/branch/issue_25040_collection_paths_rewrite_26_2`.
 
-CI not yet seen.
+CI on `34c5ad8bd5c` not yet seen; updated Pulsar integration test passes locally (2) and fails on base `lib`.
 
 Fixes [#25040](https://github.com/galaxyproject/galaxy/issues/25040): collection `all_paths`, `serialize()`, `all_metadata_files`, `data_style="paths"` config files and single-dataset `all_metadata_files` skip the compute environment's input path rewrite. Also fixes nested `include_collection_name` staging paths (`export_remote`).
 
