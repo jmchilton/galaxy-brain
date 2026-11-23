@@ -1,5 +1,6 @@
 ---
 upstream_base_branch: dev
+pr: 25077
 ---
 # tool_help_relative_images
 
@@ -10,7 +11,7 @@ upstream_base_branch: dev
 
 Status: `branches_ready_for_final_review` (polished 2026-11-23; then CSP on `shed_tool_static` per John). Base `dev`, head `2388de41294`. Alt: `tool_help_relative_images_alt_original_scope`. Backup of pre-refactor head: `tool_help_relative_images_r3_backup`. Worktree: `~/projects/worktrees/galaxy/branch/tool_help_relative_images`.
 
-No PR yet. [Description](pr_description.md) · [Titles](pr_titles.md) · [Tags](pr_tags.md) · [Checklist](pr_checklist.md) · [Polish debrief](polish_debrief.md).
+Draft PR [#25077](https://github.com/galaxyproject/galaxy/pull/25077) opened 2026-11-23 (approved SHA `2388de41294`), waiting on CI (2 Test jobs red, undiagnosed). [Description](pr_description.md) · [Titles](pr_titles.md) · [Tags](pr_tags.md) · [Checklist](pr_checklist.md) · [Polish debrief](polish_debrief.md).
 
 Fork CI restarted on `2388de41294`; E2E passes locally on Playwright and Selenium.
 

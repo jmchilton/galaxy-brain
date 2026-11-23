@@ -38,6 +38,7 @@ None yet.
 
 ## Draft Galaxy PRs — waiting for CI (`ci_wait`)
 
+- [`tool_help_relative_images`](active/tool_help_relative_images/index.md) — Relative tool help images (Markdown/RST, shed and local) via new `/api/tools/{id}/help_image`. [#25077](https://github.com/galaxyproject/galaxy/pull/25077).
 - [`wf_tool_state`](active/wf_tool_state/index.md) — Adds gxwf CLI tooling for validating and converting stateful workflows. [#22996](https://github.com/galaxyproject/galaxy/pull/22996). Rebased 2026-11-09 at `6c670761a20`.
 - [`reference_data_followups`](active/reference_data_followups/index.md) — #24798 review follow-ups: reference_data guard, authoring-model loading, tests; fixes YAML text defaults. [#24855](https://github.com/galaxyproject/galaxy/pull/24855).
 
@@ -100,7 +101,6 @@ None yet.
 ## Galaxy branches — ready for final review (`branches_ready_for_final_review`)
 
 - [`issue_24532_user_deletion_refusal_25.1`](active/issue_24532_user_deletion_refusal_25.1/index.md) — Delete Account modal explains a config-refused self-deletion and stays open on failure (#24532). [Open PR](https://github.com/galaxyproject/galaxy/compare/release_25.1...jmchilton:galaxy:issue_24532_user_deletion_refusal_25.1?expand=1).
-- [`tool_help_relative_images`](active/tool_help_relative_images/index.md) — Relative tool help images (Markdown/RST, shed and local) via new `/api/tools/{id}/help_image`. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:tool_help_relative_images?expand=1).
 
 - [`invocation_graph_embedded_outputs`](active/invocation_graph_embedded_outputs/index.md) — Stage 3: steps can star a preferred output; with Embed Outputs on, a step is drawn as it and the layout grows. [Open PR](https://github.com/jmchilton/galaxy/compare/invocation_graph_embedded_workflow_outputs...invocation_graph_embedded_outputs?expand=1).
 - [`invocation_graph_embedded_workflow_outputs`](active/invocation_graph_embedded_workflow_outputs/index.md) — Stage 2: Embed Outputs shows workflow outputs as cards beside their steps, nudging steps right. [Open PR](https://github.com/jmchilton/galaxy/compare/invocation_graph_output_previews...invocation_graph_embedded_workflow_outputs?expand=1).
