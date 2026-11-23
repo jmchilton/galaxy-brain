@@ -41,5 +41,5 @@ created .../differential-review/snapshots/20261123T212400Z-revision-2388de412948
 
 ## Left for John
 
-- Tools list builds the image URL with the card's version but fetches help from `/build` without one. Fine as is?
+- ~~Tools list version vs versionless `/build`~~: resolved, not a regression. `GET /api/tools?in_panel=false` lists `_tools_by_id.values()`, the same object `get_tool(id)` returns with no version, so the card's version is the version `/build` renders.
 - Still open from earlier: split the icon fixes (`1bfb47160cb` .. `5879cabce8a`) into their own PR?
