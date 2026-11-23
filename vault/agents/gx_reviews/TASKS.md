@@ -34,6 +34,7 @@
   status: recommended
   priority: high
   suggested_by: gx_reviews/SUGGESTED_TASKS.md#Review New PRs
+  snoozed_until: 2026-11-30
 - prompt: Launch a review of galaxyproject/galaxy#25060
   agent_dir: gx_reviews
   link: https://github.com/galaxyproject/galaxy/pull/25060
@@ -73,16 +74,6 @@
   kind: human
   description: |
     👀 John directly in reviewRequests; initial review unposted (only P2 1 + P3 1 comments 2026-11-12, no reply); PR now CI-green/clean.
-  status: recommended
-  priority: high
-  suggested_by: gx_reviews/SUGGESTED_TASKS.md#Needs Follow Ups
-- prompt: Follow up on galaxyproject/galaxy#24738 (vault/repositories/galaxy/reviews/active/24738/).
-  agent_dir: gx_reviews
-  link: https://github.com/galaxyproject/galaxy/pull/24738
-  record: galaxy/reviews/24738
-  kind: human
-  description: |
-    👀 Review unposted, nothing checked; PR approved, John pushed 2026-11-23, dev merged in — decide re-review/post.
   status: recommended
   priority: high
   suggested_by: gx_reviews/SUGGESTED_TASKS.md#Needs Follow Ups

@@ -2,11 +2,11 @@
 
 [PR #24534](https://github.com/galaxyproject/galaxy/pull/24534) · author bernt-matthias · base `dev` · +76/−6
 
-**Status — 2026-10-28:** initial review in progress at head `1bf150cceb0191dca6d5db555035b9dc1331a182`.
+**Status — 2026-10-28:** review comment posted + `pr_24534_review_0` (`04dad6322cf`) pushed into PR; awaiting author.
 
 Worktree: `~/projects/worktrees/galaxy/pr/24534`. Related: #24509, #24516, #19766.
 
-## Initial review — 2026-10-28 (reviewed `1bf150cceb0`, unposted)
+## Initial review — 2026-10-28 (reviewed `1bf150cceb0`)
 
 [Response](initial_review_response.md) · [Verified review](verified_review.md) · [Findings checklist](verified_findings_checklist.md) · [Actions](initial_response_action.md) · [Branch details](review_0_branch_details.md) · [Agents](initial_review_agents.md) · reports: [default](initial_review.md), [tests](test_challenges_review.md), [risks](risks.md)
 
