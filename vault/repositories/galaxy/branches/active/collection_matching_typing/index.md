@@ -11,7 +11,7 @@ related_records:
 
 ## Status
 
-Status: `branches_implemented_needs_ci`, hardening paused: scope evaluation recommends a modest expansion, waiting on John. Head `78266137b64` (four commits on `dev` `7dd58b00674` after baseline refactor; backup `collection_matching_typing_pre_baseline_backup`): fully types `galaxy.model.dataset_collections.{matching,structure}`, drops both from the `mypy.ini` red list and narrows the call sites in `tools/execute.py`, `workflow/modules.py` and `workflow/map_over.py`. Worktree: `~/projects/worktrees/galaxy/branch/collection_matching_typing`.
+Status: `branches_implemented_needs_ci`, implementing the scope expansion John approved. Head `78266137b64` (four commits on `dev` `7dd58b00674` after baseline refactor; backup `collection_matching_typing_pre_baseline_backup`): fully types `galaxy.model.dataset_collections.{matching,structure}`, drops both from the `mypy.ini` red list and narrows the call sites in `tools/execute.py`, `workflow/modules.py` and `workflow/map_over.py`. Worktree: `~/projects/worktrees/galaxy/branch/collection_matching_typing`.
 
 No PR.
 
@@ -25,3 +25,4 @@ Fork CI on `78266137b64` not yet seen. Locally mypy on touched modules and their
 - Not behavior-neutral in three small places: unenumerated trees raise `NotImplementedError` where they raised `AttributeError` or a bare `Exception`; the map-over planner skips a nameless step input; `MatchingCollections.structure` no longer sets `when_values` on the shared `leaf`. Empty and unenumerated linked structures behave as on `dev` (regression caught and covered by test challenges).
 - `subworkflow_mapping` and `mapping_axes_model` will conflict with this in `matching.py`, `structure.py`, `type_description.py`, `tools/execute.py`, `workflow/modules.py` and `mypy.ini` until rebased onto it.
 - `MatchingCollections.structure` is now non-optional `BaseTree` (asserts; `for_collections` never builds a collection-less match).
+- John (2026-11-23): full scope expansion per [scope evaluation](scope_evaluation.md): `is None` for linked-match and `map_over.py` structure checks, `get_collection` in `_structure_for_output`, fully type `type_description.py` and `registry.py`.
