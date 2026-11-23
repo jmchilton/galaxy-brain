@@ -80,7 +80,8 @@ if [ "$herdr" = app ]; then
   # Codex's shared daemon would run its hooks with another terminal's HC_TERMINAL_ID.
   [ "$kind" = codex ] && set -- --no-daemon "$@"
   # An hc core started from a Claude shell passes on CLAUDE_* (CLAUDE_CODE_CHILD_SESSION turns off transcripts); fork.ts has the same.
-  clean='for v in $(env | sed -n "s/^\(CLAUDE[A-Za-z0-9_]*\)=.*/\1/p"); do unset "$v"; done; exec "$@"'
+  # Then the agent dir's own env file on the machine it runs on, e.g. a CLAUDE_CODE_OAUTH_TOKEN for one agent.
+  clean='for v in $(env | sed -n "s/^\(CLAUDE[A-Za-z0-9_]*\)=.*/\1/p"); do unset "$v"; done; f=$HOME/.config/galaxy-brain/agent_env/${PWD##*/}.env; if [ -r "$f" ]; then set -a; . "$f"; set +a; fi; exec "$@"'
   out=$(hc run --bg --json --no-parent --name "$name" --label "herdr.space=$space" --label "herdr.tab=$tab" $labels \
     --cwd "$cwd" ${host:+--on "$host"} -- sh -c "$clean" sh "$kind" "$@") || { echo "hc run failed: $out" >&2; exit 1; }
   terminal=$(printf '%s' "$out" | jq -r '.address // empty')

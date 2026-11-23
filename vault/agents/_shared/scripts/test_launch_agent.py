@@ -110,3 +110,22 @@ def test_agents_start_without_claude_session_env(tmp_path):
     out = subprocess.run(["sh", "-c", script, "sh", "env"], env=env, capture_output=True, text=True, check=True).stdout
     assert "KEEP_ME=yes" in out
     assert [line for line in out.splitlines() if line.startswith("CLAUDE")] == []
+
+
+def test_agents_load_their_agent_env_file(tmp_path):
+    """~/.config/galaxy-brain/agent_env/<agent_dir>.env is set after the CLAUDE_* cleanup, for that agent dir only."""
+    result, args = run_launch(tmp_path, "x")
+    assert result.returncode == 0, result.stderr
+    script, _ = agent_command(args)
+    env_dir = tmp_path / ".config" / "galaxy-brain" / "agent_env"
+    env_dir.mkdir(parents=True)
+    (env_dir / "telegram.env").write_text("CLAUDE_CODE_OAUTH_TOKEN=tok\n")
+    env = {**os.environ, "HOME": str(tmp_path)}
+
+    def agent_env(agent_dir):
+        cwd = tmp_path / "agents" / agent_dir
+        cwd.mkdir(parents=True)
+        return subprocess.run(["sh", "-c", script, "sh", "env"], cwd=cwd, env=env, capture_output=True, text=True, check=True).stdout
+
+    assert "CLAUDE_CODE_OAUTH_TOKEN=tok" in agent_env("telegram").splitlines()
+    assert "CLAUDE_CODE_OAUTH_TOKEN" not in agent_env("gx_branches")

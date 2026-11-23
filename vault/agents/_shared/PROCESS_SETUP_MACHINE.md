@@ -73,6 +73,7 @@ Install from `jmchilton/ghwt` main, not npm, because the npm release lags main. 
 Only on the one machine that hosts the [telegram desk](../telegram/AGENTS.md) (chickenstraws), and only when John asks: two desks would fight over the bot.
 
 - `~/.config/galaxy-brain/telegram.env` (mode 600) holds `TELEGRAM_BOT_TOKEN` and `TELEGRAM_ALLOWED_USERS`. Ask John for them.
+- Optional, so the desk outlives the machine's `/login` without taking Remote Control from other agents: John runs `claude setup-token` there and puts `CLAUDE_CODE_OAUTH_TOKEN=<token>` in `~/.config/galaxy-brain/agent_env/telegram.env` (mode 600). `launch_agent.sh` (`herdr: app`) loads `agent_env/<agent_dir>.env` for that agent dir only.
 - Keep a desk running across reboots and crashes: `systemctl --user link <clone>/vault/agents/telegram/systemd/gb-telegram-desk.service` and `systemctl --user enable --now <clone>/vault/agents/telegram/systemd/gb-telegram-desk.timer`. Needs `loginctl enable-linger`.
 
 ## Report
