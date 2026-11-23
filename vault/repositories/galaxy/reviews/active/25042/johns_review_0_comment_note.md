@@ -1,1 +1,1 @@
-<!-- John's words for the comment; must not be empty to post -->
+Seems like an important fix - thank you! -John
