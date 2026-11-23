@@ -1,0 +1,4 @@
+- Browser tests for inputs swapped to GFormInput, in place of Vitest class checks
+- Follow up #24801 with Selenium tests and trimmed GFormInput specs
+- Test the history range filter, API key reveal and credentials name error in a browser
+- Replace GFormInput pass-through assertions with E2E tests for three swapped inputs

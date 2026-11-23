@@ -54,7 +54,6 @@ None yet.
 
 ## Galaxy branches — implemented, work left (`branches_implemented_needs_ci`)
 
-- [`gform_input_swap_e2e_tests`](active/gform_input_swap_e2e_tests/index.md) — #24801 follow-up from its unposted review: Selenium tests for the range filter, API key show/hide and credentials group-name error; trims Vitest pass-through assertions; filter menu text inputs typed as text. Hardened READY; E2E green locally on both backends. Base `dev`, head `c75f4c0516a`. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:gform_input_swap_e2e_tests?expand=1).
 - [`tool_help_relative_images`](active/tool_help_relative_images/index.md) — Relative tool help images (Markdown and RST, shed and local tools) served via new `/api/tools/{id}/help_image`; shed RST unified onto it, SVG under sandbox CSP, `$PATH_TO_IMAGES/` honored for non-shed RST, icon endpoint fixes first (re-scoped, hardened READY; E2E green locally). Base `dev`, head `349c6fd7abc`. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:tool_help_relative_images?expand=1).
 - [`bool_expr_instance_evaluator_25.1`](active/bool_expr_instance_evaluator_25.1/index.md) — `BooleanExpressionEvaluator` binds its `TokenEvaluator` per instance, not on shared `BoolOperand` class state. Base `release_25.1`, head `93ef0d45a71`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_25.1...jmchilton:galaxy:bool_expr_instance_evaluator_25.1?expand=1).
 - [`issue_24545_oom_kill_detection`](active/issue_24545_oom_kill_detection/index.md) — Fails exit-0 jobs whose job stderr reports an OOM kill; resubmits Pulsar jobs; opt-in cgroup check (#24545). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_24545_oom_kill_detection?expand=1).
@@ -98,6 +97,7 @@ None yet.
 
 ## Galaxy branches — ready for final review (`branches_ready_for_final_review`)
 
+- [`gform_input_swap_e2e_tests`](active/gform_input_swap_e2e_tests/index.md) — #24801 follow-up from its unposted review: Selenium tests for the range filter, API key show/hide and credentials group-name error; trims Vitest pass-through assertions; filter menu text inputs typed as text. Polished; fork CI green. Base `dev`, head `c75f4c0516a`. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:gform_input_swap_e2e_tests?expand=1).
 - [`issue_24532_user_deletion_refusal_25.1`](active/issue_24532_user_deletion_refusal_25.1/index.md) — Delete Account modal explains a config-refused self-deletion and stays open on failure (#24532). [Open PR](https://github.com/galaxyproject/galaxy/compare/release_25.1...jmchilton:galaxy:issue_24532_user_deletion_refusal_25.1?expand=1).
 
 - [`invocation_graph_embedded_outputs`](active/invocation_graph_embedded_outputs/index.md) — Stage 3: steps can star a preferred output; with Embed Outputs on, a step is drawn as it and the layout grows. [Open PR](https://github.com/jmchilton/galaxy/compare/invocation_graph_embedded_workflow_outputs...invocation_graph_embedded_outputs?expand=1).

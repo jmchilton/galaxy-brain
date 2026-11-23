@@ -9,11 +9,11 @@ related_records: galaxy/reviews/24801
 
 ## Status
 
-Hardened READY 2026-11-22, head `c75f4c0516a` on base `7e7dfea5535`; see the [implementation debrief](implementation_debrief.md).
+Polished 2026-11-22, head `c75f4c0516a` on base `7e7dfea5535`, ready for final review; see the [polish debrief](polish_debrief.md), [description](pr_description.md), [titles](pr_titles.md), [tags](pr_tags.md).
 
 No PR yet.
 
-No CI yet; E2E tests passed locally under the Playwright and Selenium backends.
+Fork CI green at head.
 
 ## Scope
 
