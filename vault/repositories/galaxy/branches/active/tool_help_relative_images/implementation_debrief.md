@@ -1,48 +1,30 @@
 # Implementation debrief
 
-**STATUS: READY** (CI not yet seen). John chose both scope expansions (X1, X2) and said to keep hardening; both are in, and the third scope evaluation recommends keeping scope as is.
+**STATUS: READY** (CI not yet seen). Revision: John asked for a docs rewording (2026-11-23). The previous debrief, with the full hardening summary, is in [earlier_drafts/3/](earlier_drafts/3/implementation_debrief.md) and otherwise still applies.
 
 ```
-exists .../differential-review/snapshots/20261115T014228Z-revision-349c6fd7abcc.json
-  revision @ 349c6fd7abcc vs origin/dev (merge-base e7a3f2254c07)
-  since 20261112T190037Z-hardening-d0798eda1668:
-    commits: 0 same, 23 rebased, 4 changed, 4 new, 1 dropped
-    hunks:   40 carried, 16 changed, 1 new, 0 dropped
+created .../differential-review/snapshots/20261123T203851Z-revision-d355bf5a0702.json
+  revision @ d355bf5a0702 vs origin/dev (merge-base e7a3f2254c07)
+  since 20261115T014228Z-revision-349c6fd7abcc:
+    commits: 28 same, 2 rebased, 1 changed, 0 new, 0 dropped
+    hunks:   56 carried, 1 changed, 0 new, 0 dropped
+    changed 5f08197faedc Strip $PATH_TO_IMAGES/ from RST help image targets of non-shed tools (1 differing hunk)
 ```
-
-## What the branch does
-
-Base `dev`, head `349c6fd7abc` (31 commits, pushed to `jmchilton`). Tool help images referenced by relative paths work the same for every tool: Markdown or RST, Tool Shed installed or loaded locally.
-
-- `GET /api/tools/{tool_id:path}/help_image?path=&tool_version=` serves images from the tool dir, then a shed tool's repository root; paths outside `static/images/` are tried there first (the Tool Shed rule). `private, max-age=3600`, ETag/304, sandboxing CSP + `nosniff`; SVG served.
-- The client rewrites relative img srcs to that endpoint (`ToolCard`, `ToolsListCard`).
-- Installed shed RST help gets plain relative paths instead of `shed_tool_static/...`; the Tool Shed app and READMEs keep `set_image_paths`; the legacy route stays.
-- **New (X1):** non-shed RST help has `$PATH_TO_IMAGES/` stripped from `.. image::`/`.. figure::` targets (`strip_path_to_images`), so shed-style help (97 uses in tools-iuc) renders from a checkout. `${static_path}` and leading `/` left alone (Galaxy's `/static` for non-shed tools).
-- **New (X2):** the icon lookup passes the user, so logged-in users get icons of `require_login` tools (and admins get Data Manager icons). Icon caching unchanged, per John.
-- Commit order: baseline tests → icon fixes (now including X2, `5879cabce8a`) → refactors → feature ([baseline_refactor.md](baseline_refactor.md)). Splitting the icon fixes into their own PR needs the two refactor commits under them.
 
 ## This revision
 
-- X1/X2 implemented red-first; [normal review 3](subagents/normal_review_3.md) found no bugs; nits applied.
-- [Test challenge](test_challenges_debrief.md): folded the imageless-shed install-DB fix into the commit that introduced the regression (dropping its own commit), moved its test into the baseline commit, renamed the fixture to `help_images_require_login.xml`, added `test_tool_help_image_require_login`, and ran red checks for every new test.
-- [E2E polish](polish_e2e_tests_debrief.md): **both Selenium tests now run and pass on Playwright and Selenium (Chrome)**; they take screenshots; the test SVG was made visible.
-- [Baseline refactor](baseline_refactor.md): moved X2 into the icon-fix group; final tree unchanged. Old head kept as `tool_help_relative_images_r3_backup` on `jmchilton`.
-- [Scope evaluation](scope_evaluation.md): keep.
-- [Screenshots](screenshot_debrief.md): 4 images in the Markdown help, 3 in the RST help.
-- Branch check: `make format` clean. mypy on the touched modules matches `dev` except one more missing return annotation (`get_help_image`, same as its sibling `get_icon`) and one fewer in `shed_tool_static.py`.
-- Rebased onto current `origin/dev` along the way (only GitHub workflow pins upstream).
-- Not rerun for this ~10-line delta: performance, Codex, thermo-nuclear. Their round-2 debriefs still apply.
+The XSD Images section said the `$PATH_TO_IMAGES/` prefix "is ignored". Followed by the "Before Galaxy 27.0…" caveat, that read as if the branch broke tools using the prefix. It doesn't:
 
-## Validation
+- Installed shed tools: `dev` strips the prefix in `set_image_paths`; the branch strips it in `make_image_paths_relative`.
+- Local tools: `dev` leaves it literal, so the image is broken; the branch strips it (X1).
 
-API tests pass: help_image, icon and `/build` (11). Unit tests pass (114); vitest Tool + ToolsList pass (211). Both E2E tests pass on both backends. The `test/unit/tool_shed` failures come from `hg` not being installed and happen on `dev` too. **CI not yet seen.**
+The text now reads: "RST targets may keep the Tool Shed's legacy `$PATH_TO_IMAGES/` prefix; it works for local and Tool Shed tools alike. Galaxy releases before 27.0 support relative image paths only in RST help of tools installed from the Tool Shed."
 
-## Follow-ups (not in scope)
+- Folded into the X1 commit (`5f08197faed`). Head is now `d355bf5a070` (31 commits, same base), force-pushed to `jmchilton`.
+- `xmllint` is clean. It's a docs-only change, so no tests were rerun.
+- [Normal review 4](subagents/normal_review_4.md) found the wording accurate; nothing acted on.
 
-From the [scope evaluation](scope_evaluation.md):
-- Legacy `${static_path}/images/X` targets (look up `static/images/images/X`; broken on dev too) and `/static/...` targets: 11 uses in 7 tools-iuc tools. Fix with a lookup fallback or with tools-iuc PRs.
-- A `planemo lint` check for help images.
-- Documenting the convention once standards#95 merges ("until Galaxy 27.0").
-- The legacy `shed_tool_static` route's headers or removal.
+## Follow-ups
 
-Carried from earlier rounds: `../` paths; a short `max-age` on 404s; md5 vs mtime ETag; the `help_images.py` rename; RST substitution images.
+- The legacy `${static_path}/images/X` targets in tools-iuc are being fixed in the tools themselves rather than with a Galaxy lookup fallback: tools-iuc #9030 (rp2paths), #9031 (dnabot), #9032 (weblogo3) and #9033 (fasta_clipping_histogram). On usegalaxy.eu, snpfreqplot and interval2maf already return 200; tasmanian 1.0.7 returns 400, but its help on tools-iuc `main` no longer references an image.
+- The other follow-ups are unchanged; see the [previous debrief](earlier_drafts/3/implementation_debrief.md#follow-ups-not-in-scope).

@@ -8,7 +8,7 @@ upstream_base_branch: dev
 
 ## Status
 
-Status: `branches_implemented_needs_ci`. READY: re-scoped once, hardened three times; John chose X1/X2 (2026-11-14), third scope evaluation says keep. Base `dev`, head `349c6fd7abc`. Alt: `tool_help_relative_images_alt_original_scope`. Backup of pre-refactor head: `tool_help_relative_images_r3_backup`. Worktree: `~/projects/worktrees/galaxy/branch/tool_help_relative_images`.
+Status: `branches_implemented_needs_ci`. READY: re-scoped once, hardened three times; John chose X1/X2 (2026-11-14), third scope evaluation says keep. Base `dev`, head `d355bf5a070`. Alt: `tool_help_relative_images_alt_original_scope`. Backup of pre-refactor head: `tool_help_relative_images_r3_backup`. Worktree: `~/projects/worktrees/galaxy/branch/tool_help_relative_images`.
 
 No PR yet. CI not yet seen; Selenium tests pass locally (Playwright and Selenium).
 
@@ -22,4 +22,4 @@ Tool help images referenced by relative paths (e.g. `static/images/foo.png`) wor
 - Plain relative image paths, rewritten client-side to `help_image`; query params for path/version.
 - Re-scope: installed shed RST also uses `help_image`; SVG served under a sandboxing CSP (reversible; the alt refuses SVG).
 - John (2026-11-14): do X1 (strip `$PATH_TO_IMAGES/` for non-shed RST) and X2 (icon lookup passes the user); login-only images/icons not a concern, icon caching unchanged.
-- Open for John: split icon fixes (incl. X2) into their own PR? `${static_path}/images/X` legacy targets: lookup fallback or tools-iuc PRs?
+- Open for John: split icon fixes (incl. X2) into their own PR? `${static_path}/images/X` legacy targets: fixing via tools-iuc PRs #9030–#9033.
