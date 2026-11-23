@@ -1,6 +1,6 @@
 # Open PR and branch queue
 
-Snapshot: 2026-11-09 (reclassified from GitHub: #24555 merged, removed; #22996 rebased, to `ci_wait`). Previous 2026-11-07.
+Snapshot: 2026-11-23 (reclassified from GitHub: #24555 merged, removed; #22996 rebased, to `ci_wait`). Previous 2026-11-07.
 
 ## Open Galaxy PRs — ready from our side (`ready`)
 
@@ -20,6 +20,7 @@ Snapshot: 2026-11-09 (reclassified from GitHub: #24555 merged, removed; #22996 r
 - [`issue_24328_data_table_mismatch_26.1`](active/issue_24328_data_table_mismatch_26.1/index.md) — Conflicting shed data table halts startup with an actionable error; installs no longer wipe Galaxy's tables (#24328). Base `release_26.1`. [#24349](https://github.com/galaxyproject/galaxy/pull/24349).
 - [`job_cache_own_metadata_files_25_1`](active/job_cache_own_metadata_files_25_1/index.md) — Job cache and copied outputs own their metadata files, so pgcleanup purging the source keeps them. Base `release_25.1`. [#24902](https://github.com/galaxyproject/galaxy/pull/24902).
 - [`issue_25040_collection_paths_rewrite_26_2`](active/issue_25040_collection_paths_rewrite_26_2/index.md) — Collection and metadata file accessors give tools compute-side paths; nested export layout fix (#25040). [#25049](https://github.com/galaxyproject/galaxy/pull/25049).
+- [`issue_25004_mapped_job_outputs_26_1`](active/issue_25004_mapped_job_outputs_26_1/index.md) — Job Outputs on Dataset Details no longer lists the map-over HDCA as each mapped job's output. [#25067](https://github.com/galaxyproject/galaxy/pull/25067).
 
 ## Open Galaxy PRs — needs attention (`attention`)
 
@@ -97,7 +98,6 @@ None yet.
 
 ## Galaxy branches — ready for final review (`branches_ready_for_final_review`)
 
-- [`issue_25004_mapped_job_outputs_26_1`](active/issue_25004_mapped_job_outputs_26_1/index.md) — Job Outputs on Dataset Details no longer lists the map-over HDCA as each mapped job's output (#25004). [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.1...jmchilton:galaxy:issue_25004_mapped_job_outputs_26_1?expand=1).
 - [`issue_24532_user_deletion_refusal_25.1`](active/issue_24532_user_deletion_refusal_25.1/index.md) — Delete Account modal explains a config-refused self-deletion and stays open on failure (#24532). [Open PR](https://github.com/galaxyproject/galaxy/compare/release_25.1...jmchilton:galaxy:issue_24532_user_deletion_refusal_25.1?expand=1).
 
 - [`invocation_graph_embedded_outputs`](active/invocation_graph_embedded_outputs/index.md) — Stage 3: steps can star a preferred output; with Embed Outputs on, a step is drawn as it and the layout grows. [Open PR](https://github.com/jmchilton/galaxy/compare/invocation_graph_embedded_workflow_outputs...invocation_graph_embedded_outputs?expand=1).

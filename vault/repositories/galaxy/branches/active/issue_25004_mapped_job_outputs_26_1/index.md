@@ -1,5 +1,6 @@
 ---
 upstream_base_branch: release_26.1
+pr: 25067
 ---
 # issue_25004_mapped_job_outputs_26_1
 
@@ -8,9 +9,11 @@ upstream_base_branch: release_26.1
 
 ## Status
 
-Status: `branches_ready_for_final_review`. Polished; no code changed since hardening. Base `release_26.1`; head `b72810c2028` (3 commits), pushed to the fork. Worktree: `~/projects/worktrees/galaxy/branch/issue_25004_mapped_job_outputs_26_1`.
+Status: `ready`. PR open. Base `release_26.1`; head `b72810c2028` (3 commits), pushed to the fork. Worktree: `~/projects/worktrees/galaxy/branch/issue_25004_mapped_job_outputs_26_1`.
 
-No PR yet. Fork CI: one unrelated Converter-tests flake (rerun); long jobs pending at polish time.
+PR [#25067](https://github.com/galaxyproject/galaxy/pull/25067) opened 2026-11-23 at `b72810c`, release_26.1.
+
+Fork CI green on `b72810c`.
 
 Fixes [#25004](https://github.com/galaxyproject/galaxy/issues/25004): the Job Outputs table on Dataset Details listed the implicit map-over HDCA as an output of each mapped job.
 
