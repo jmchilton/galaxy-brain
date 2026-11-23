@@ -25,7 +25,7 @@ Status lines above updated with new heads. Other open PRs unchanged vs recorded 
 
 ## Worktrees
 
-Removed (clean, HEAD on a pushed remote branch): 25028, 25005, 25022, 24867, 24857, 24846, 24861, 24835, 24817, 24798, 24770, 24700, 24685. Removal still running at report time (also clean and pushed): 24708, 24673, 24635, 24415.
+Removed (clean, HEAD on a pushed remote branch): 25028, 25005, 25022, 24867, 24857, 24846, 24861, 24835, 24817, 24798, 24770, 24700, 24685, 24708, 24673, 24635, 24415.
 
 Kept:
 - 24101: clean, HEAD `5a5cc5bda5b` is an earlier (force-pushed-over) author head, not an ancestor of the merged head nor on any local remote ref. Exists on GitHub; looks safe to remove after John confirms.
