@@ -1,7 +1,7 @@
 ## PRs to review (`to_review`)
 
 - [#24965](https://github.com/galaxyproject/galaxy/pull/24965) — round 0 Approve posted on `bd5821aac20` (P2 + P3 fixed on `pr_24965_round_0_rev_0`, on fork only); awaiting merge. [notes](active/24965/index.md)
-- [#24986](https://github.com/galaxyproject/galaxy/pull/24986) — initial review on `be2b1655fc6` ready, unposted (five P2s + eight P3s; all fixed on `pr_24986_round_0_rev_0`, P2 3 partly; not pushed into PR). [notes](active/24986/index.md)
+- [#24986](https://github.com/galaxyproject/galaxy/pull/24986) — round 0 Approve posted on `be2b1655fc6` (five P2s + eight P3s; fixes on `pr_24986_round_0_rev_0`, not pushed into PR; awaiting author). [notes](active/24986/index.md)
 - [#25003](https://github.com/galaxyproject/galaxy/pull/25003) — round 0 Approve posted on `e9fa3cda089`; awaiting merge (four P2s + twelve P3s; 14 fixed on `pr_25003_round_0_rev_0`, not pushed into PR). [notes](active/25003/index.md)
 - [#25023](https://github.com/galaxyproject/galaxy/pull/25023) — round 0 review on `ff96b8bb47c` posted as Approve (2026-11-22); review branch `pr_25023_round_0_rev_1` on fork, not pushed into PR; P2 1 = semantic conflict with #25021; draft. [notes](active/25023/index.md)
 - [#25028](https://github.com/galaxyproject/galaxy/pull/25028) — initial review on `cd5a9c37148` ready, unposted (three P2s + three P3s; all fixed on `pr_25028_round_0_rev_0`, not pushed into PR). [notes](active/25028/index.md)
