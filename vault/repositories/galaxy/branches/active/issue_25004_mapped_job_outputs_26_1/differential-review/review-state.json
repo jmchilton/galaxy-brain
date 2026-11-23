@@ -1,0 +1,67 @@
+{
+  "schemaVersion": 1,
+  "kind": "differential-review-state",
+  "updatedAt": "2026-11-23T00:34:23.509Z",
+  "hunks": {
+    "h1:18c325de78e28ebd": {
+      "snapshotId": "20261123T003226Z-revision-b72810c20285",
+      "path": "lib/galaxy/managers/jobs.py",
+      "reviewedAt": "2026-11-23T00:33:18.519Z"
+    },
+    "h1:18b2d0e96adb1c11": {
+      "snapshotId": "20261123T003226Z-revision-b72810c20285",
+      "path": "lib/galaxy/model/__init__.py",
+      "reviewedAt": "2026-11-23T00:33:25.827Z"
+    },
+    "h1:fb01cdcbc510cf6a": {
+      "snapshotId": "20261123T003226Z-revision-b72810c20285",
+      "path": "lib/galaxy/model/store/__init__.py",
+      "reviewedAt": "2026-11-23T00:33:33.346Z"
+    },
+    "h1:bf79c585fc219860": {
+      "snapshotId": "20261123T003226Z-revision-b72810c20285",
+      "path": "lib/galaxy/model/store/__init__.py",
+      "reviewedAt": "2026-11-23T00:33:33.346Z"
+    },
+    "h1:170bb6e7c49dc0ed": {
+      "snapshotId": "20261123T003226Z-revision-b72810c20285",
+      "path": "lib/galaxy_test/api/test_histories.py",
+      "reviewedAt": "2026-11-23T00:33:47.299Z"
+    },
+    "h1:6830dcd639c597f1": {
+      "snapshotId": "20261123T003226Z-revision-b72810c20285",
+      "path": "lib/galaxy_test/api/test_jobs.py",
+      "reviewedAt": "2026-11-23T00:34:03.525Z"
+    },
+    "h1:8edf600b61d5d2c3": {
+      "snapshotId": "20261123T003226Z-revision-b72810c20285",
+      "path": "lib/galaxy_test/api/test_jobs.py",
+      "reviewedAt": "2026-11-23T00:34:03.525Z"
+    },
+    "h1:155d22b100f9cfd4": {
+      "snapshotId": "20261123T003226Z-revision-b72810c20285",
+      "path": "test/unit/data/model/test_model_store.py",
+      "reviewedAt": "2026-11-23T00:34:11.144Z"
+    }
+  },
+  "commits": {
+    "efcd45cb71cec8dd407c0b0f194dfc738676c896": {
+      "sha": "8432a4fb470910445a123ad48e08dddc68e12e8e",
+      "subject": "Baseline tests for parameters_display job outputs",
+      "snapshotId": "20261123T003226Z-revision-b72810c20285",
+      "signedOffAt": "2026-11-23T00:34:12.947Z"
+    },
+    "a97b3564a3087a44000b4e16381c4f0f06040821": {
+      "sha": "e824a289163f5107ebfcf0d9a15adb28c6723119",
+      "subject": "Don't list the map-over collection as a mapped job's output",
+      "snapshotId": "20261123T003226Z-revision-b72810c20285",
+      "signedOffAt": "2026-11-23T00:34:14.790Z"
+    },
+    "1baa015d52afaf3e3493e2a8209186295dfb96f3": {
+      "sha": "b72810c2028553f23607190db8c3c24f5c15a1fc",
+      "subject": "Restore implicit collections' job links on history import",
+      "snapshotId": "20261123T003226Z-revision-b72810c20285",
+      "signedOffAt": "2026-11-23T00:34:23.509Z"
+    }
+  }
+}

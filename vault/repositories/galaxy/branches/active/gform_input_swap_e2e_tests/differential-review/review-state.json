@@ -1,0 +1,241 @@
+{
+  "schemaVersion": 1,
+  "kind": "differential-review-state",
+  "updatedAt": "2026-11-23T00:30:25.223Z",
+  "hunks": {
+    "h1:1cb5a142ea36b9c4": {
+      "snapshotId": "20261123T000615Z-polishing-c75f4c0516a0",
+      "path": "client/src/components/Collections/common/PairingFilterInputGroup.test.ts",
+      "reviewedAt": "2026-11-23T00:30:17.268Z"
+    },
+    "h1:941b7be120e79798": {
+      "snapshotId": "20261123T000615Z-polishing-c75f4c0516a0",
+      "path": "client/src/components/Collections/common/PairingFilterInputGroup.test.ts",
+      "reviewedAt": "2026-11-23T00:30:17.268Z"
+    },
+    "h1:1ce73591b5b37f1e": {
+      "snapshotId": "20261123T000615Z-polishing-c75f4c0516a0",
+      "path": "client/src/components/Collections/sheet/SampleSheetGrid.test.ts",
+      "reviewedAt": "2026-11-23T00:30:17.445Z"
+    },
+    "h1:cffa67f79190c7b0": {
+      "snapshotId": "20261123T000615Z-polishing-c75f4c0516a0",
+      "path": "client/src/components/Common/FilterMenuInput.test.ts",
+      "reviewedAt": "2026-11-23T00:30:17.847Z"
+    },
+    "h1:93e853bbd507ad70": {
+      "snapshotId": "20261123T000615Z-polishing-c75f4c0516a0",
+      "path": "client/src/components/Common/FilterMenuInput.test.ts",
+      "reviewedAt": "2026-11-23T00:30:17.847Z"
+    },
+    "h1:562dfcec2ac0bb19": {
+      "snapshotId": "20261123T000615Z-polishing-c75f4c0516a0",
+      "path": "client/src/components/Common/FilterMenuInput.test.ts",
+      "reviewedAt": "2026-11-23T00:30:17.847Z"
+    },
+    "h1:91bbf16691ef6744": {
+      "snapshotId": "20261123T000615Z-polishing-c75f4c0516a0",
+      "path": "client/src/components/Common/FilterMenuInput.vue",
+      "reviewedAt": "2026-11-23T00:30:18.219Z"
+    },
+    "h1:a6cb4cd183547e02": {
+      "snapshotId": "20261123T000615Z-polishing-c75f4c0516a0",
+      "path": "client/src/components/Common/FilterMenuInput.vue",
+      "reviewedAt": "2026-11-23T00:30:18.219Z"
+    },
+    "h1:87b54386f6d12c04": {
+      "snapshotId": "20261123T000615Z-polishing-c75f4c0516a0",
+      "path": "client/src/components/Common/FilterMenuInput.vue",
+      "reviewedAt": "2026-11-23T00:30:18.219Z"
+    },
+    "h1:491de64058d92884": {
+      "snapshotId": "20261123T000615Z-polishing-c75f4c0516a0",
+      "path": "client/src/components/Common/FilterMenuRanged.test.ts",
+      "reviewedAt": "2026-11-23T00:30:18.461Z"
+    },
+    "h1:4f0229a00581b28f": {
+      "snapshotId": "20261123T000615Z-polishing-c75f4c0516a0",
+      "path": "client/src/components/Common/FilterMenuRanged.test.ts",
+      "reviewedAt": "2026-11-23T00:30:18.461Z"
+    },
+    "h1:6c80eea7cc6192d6": {
+      "snapshotId": "20261123T000615Z-polishing-c75f4c0516a0",
+      "path": "client/src/components/Common/FilterMenuRanged.vue",
+      "reviewedAt": "2026-11-23T00:30:18.789Z"
+    },
+    "h1:c34c2bad4df1f2c4": {
+      "snapshotId": "20261123T000615Z-polishing-c75f4c0516a0",
+      "path": "client/src/components/Common/FilterMenuRanged.vue",
+      "reviewedAt": "2026-11-23T00:30:18.789Z"
+    },
+    "h1:8ec7658d65232541": {
+      "snapshotId": "20261123T000615Z-polishing-c75f4c0516a0",
+      "path": "client/src/components/Common/FilterMenuRanged.vue",
+      "reviewedAt": "2026-11-23T00:30:18.789Z"
+    },
+    "h1:4cb44cc60d262fc1": {
+      "snapshotId": "20261123T000615Z-polishing-c75f4c0516a0",
+      "path": "client/src/components/Common/FilterMenuRanged.vue",
+      "reviewedAt": "2026-11-23T00:30:18.789Z"
+    },
+    "h1:6136b12aa67eac04": {
+      "snapshotId": "20261123T000615Z-polishing-c75f4c0516a0",
+      "path": "client/src/components/ConfigTemplates/VaultSecret.test.ts",
+      "reviewedAt": "2026-11-23T00:30:19.182Z"
+    },
+    "h1:6cd53890c0035911": {
+      "snapshotId": "20261123T000615Z-polishing-c75f4c0516a0",
+      "path": "client/src/components/Tool/ToolCredentials.vue",
+      "reviewedAt": "2026-11-23T00:30:19.405Z"
+    },
+    "h1:0da46e4ea1510dbd": {
+      "snapshotId": "20261123T000615Z-polishing-c75f4c0516a0",
+      "path": "client/src/components/User/APIKey/APIKeyItem.test.ts",
+      "reviewedAt": "2026-11-23T00:30:19.825Z"
+    },
+    "h1:74cb7717d2d8ed20": {
+      "snapshotId": "20261123T000615Z-polishing-c75f4c0516a0",
+      "path": "client/src/components/User/APIKey/APIKeyItem.vue",
+      "reviewedAt": "2026-11-23T00:30:20.252Z"
+    },
+    "h1:d51ca01f76c112c0": {
+      "snapshotId": "20261123T000615Z-polishing-c75f4c0516a0",
+      "path": "client/src/components/User/Credentials/CredentialsGroupForm.test.ts",
+      "reviewedAt": "2026-11-23T00:30:20.653Z"
+    },
+    "h1:106448342db30b46": {
+      "snapshotId": "20261123T000615Z-polishing-c75f4c0516a0",
+      "path": "client/src/components/User/Credentials/CredentialsGroupForm.test.ts",
+      "reviewedAt": "2026-11-23T00:30:20.653Z"
+    },
+    "h1:c30d5aef706268f2": {
+      "snapshotId": "20261123T000615Z-polishing-c75f4c0516a0",
+      "path": "client/src/components/User/Credentials/CredentialsGroupForm.test.ts",
+      "reviewedAt": "2026-11-23T00:30:20.653Z"
+    },
+    "h1:7ba10e1ede61cc0a": {
+      "snapshotId": "20261123T000615Z-polishing-c75f4c0516a0",
+      "path": "client/src/components/User/Credentials/CredentialsGroupForm.test.ts",
+      "reviewedAt": "2026-11-23T00:30:20.653Z"
+    },
+    "h1:53a60bfdcc49ee52": {
+      "snapshotId": "20261123T000615Z-polishing-c75f4c0516a0",
+      "path": "client/src/components/User/Credentials/CredentialsGroupForm.test.ts",
+      "reviewedAt": "2026-11-23T00:30:20.653Z"
+    },
+    "h1:131e6c1523bfbd9d": {
+      "snapshotId": "20261123T000615Z-polishing-c75f4c0516a0",
+      "path": "client/src/components/User/Credentials/CredentialsGroupForm.vue",
+      "reviewedAt": "2026-11-23T00:30:20.864Z"
+    },
+    "h1:cff1a832395478a9": {
+      "snapshotId": "20261123T000615Z-polishing-c75f4c0516a0",
+      "path": "client/src/components/User/Credentials/CredentialsGroupForm.vue",
+      "reviewedAt": "2026-11-23T00:30:20.864Z"
+    },
+    "h1:31f5bbd494856285": {
+      "snapshotId": "20261123T000615Z-polishing-c75f4c0516a0",
+      "path": "client/src/components/User/Credentials/ServiceCredentials.vue",
+      "reviewedAt": "2026-11-23T00:30:21.083Z"
+    },
+    "h1:c60a69c8739e185c": {
+      "snapshotId": "20261123T000615Z-polishing-c75f4c0516a0",
+      "path": "client/src/components/User/Credentials/ServiceCredentials.vue",
+      "reviewedAt": "2026-11-23T00:30:21.083Z"
+    },
+    "h1:4e5fd14b84dc1bf6": {
+      "snapshotId": "20261123T000615Z-polishing-c75f4c0516a0",
+      "path": "client/src/utils/navigation/navigation.yml",
+      "reviewedAt": "2026-11-23T00:30:21.314Z"
+    },
+    "h1:3786e305e1ca3162": {
+      "snapshotId": "20261123T000615Z-polishing-c75f4c0516a0",
+      "path": "client/src/utils/navigation/navigation.yml",
+      "reviewedAt": "2026-11-23T00:30:21.314Z"
+    },
+    "h1:316bdc9fc8f862b8": {
+      "snapshotId": "20261123T000615Z-polishing-c75f4c0516a0",
+      "path": "client/src/utils/navigation/navigation.yml",
+      "reviewedAt": "2026-11-23T00:30:21.314Z"
+    },
+    "h1:f6d3fb3719903d13": {
+      "snapshotId": "20261123T000615Z-polishing-c75f4c0516a0",
+      "path": "lib/galaxy_test/selenium/test_history_panel.py",
+      "reviewedAt": "2026-11-23T00:30:21.573Z"
+    },
+    "h1:05e522f7039adaa2": {
+      "snapshotId": "20261123T000615Z-polishing-c75f4c0516a0",
+      "path": "lib/galaxy_test/selenium/test_history_panel.py",
+      "reviewedAt": "2026-11-23T00:30:21.573Z"
+    },
+    "h1:a2b3baa6b4edc542": {
+      "snapshotId": "20261123T000615Z-polishing-c75f4c0516a0",
+      "path": "lib/galaxy_test/selenium/test_history_panel.py",
+      "reviewedAt": "2026-11-23T00:30:21.573Z"
+    },
+    "h1:8d23ef2ba1fed4c3": {
+      "snapshotId": "20261123T000615Z-polishing-c75f4c0516a0",
+      "path": "lib/galaxy_test/selenium/test_history_panel.py",
+      "reviewedAt": "2026-11-23T00:30:21.573Z"
+    },
+    "h1:e3a3bd784668efc1": {
+      "snapshotId": "20261123T000615Z-polishing-c75f4c0516a0",
+      "path": "lib/galaxy_test/selenium/test_personal_information.py",
+      "reviewedAt": "2026-11-23T00:30:21.857Z"
+    },
+    "h1:19c21499aa649c7f": {
+      "snapshotId": "20261123T000615Z-polishing-c75f4c0516a0",
+      "path": "lib/galaxy_test/selenium/test_personal_information.py",
+      "reviewedAt": "2026-11-23T00:30:21.857Z"
+    },
+    "h1:031dbff8302802da": {
+      "snapshotId": "20261123T000615Z-polishing-c75f4c0516a0",
+      "path": "lib/galaxy_test/selenium/test_tool_form.py",
+      "reviewedAt": "2026-11-23T00:30:22.317Z"
+    }
+  },
+  "commits": {
+    "920176b6ed8bda67b633e8de685a9ca7d3571537": {
+      "sha": "1dc5d5d5bb29b0d04dcd93596d0bd05f862f885b",
+      "subject": "Share the dataset setup of two history panel Selenium tests",
+      "snapshotId": "20261123T000615Z-polishing-c75f4c0516a0",
+      "signedOffAt": "2026-11-23T00:30:23.440Z"
+    },
+    "bdd36cb91a79d1a647c6bc3c3639aaf2337ea95b": {
+      "sha": "e2033ae7beb262745b3b12109fef944ef9e5c9aa",
+      "subject": "Baseline tests: history panel index range filter in Selenium",
+      "snapshotId": "20261123T000615Z-polishing-c75f4c0516a0",
+      "signedOffAt": "2026-11-23T00:30:23.669Z"
+    },
+    "4485b4fe9efa105708722b6b7eaa97f27de3929d": {
+      "sha": "37b4eca61d2717335256ac95eb22003d1d7c79ba",
+      "subject": "Baseline tests: API key show/hide button in Selenium",
+      "snapshotId": "20261123T000615Z-polishing-c75f4c0516a0",
+      "signedOffAt": "2026-11-23T00:30:24.054Z"
+    },
+    "242a27f87f1fd075a0ea317dc443a22bc67d8453": {
+      "sha": "4677122d35bdf47c9fda9a361d4d2bdfd59e590a",
+      "subject": "Baseline tests: credentials group name error in Selenium",
+      "snapshotId": "20261123T000615Z-polishing-c75f4c0516a0",
+      "signedOffAt": "2026-11-23T00:30:24.460Z"
+    },
+    "a4e130f9bf2eaa65906627383525dbcda3bff2c8": {
+      "sha": "56baebfb3212aa99f614b5c0beb4265bbc5f5e67",
+      "subject": "Drop Vitest assertions on GFormInput classes and pass-through attributes",
+      "snapshotId": "20261123T000615Z-polishing-c75f4c0516a0",
+      "signedOffAt": "2026-11-23T00:30:24.702Z"
+    },
+    "74a01d922a356ef202244f7e7df135a15c9a71dc": {
+      "sha": "40d9d41baa5ac56b044b60a960cdfa4d2b033d24",
+      "subject": "Type the fixtures of the credentials and filter menu specs",
+      "snapshotId": "20261123T000615Z-polishing-c75f4c0516a0",
+      "signedOffAt": "2026-11-23T00:30:24.956Z"
+    },
+    "219f7019ea92616b5bff57ac02955e69a7fad5d3": {
+      "sha": "c75f4c0516a086b1a324bbe38d4a05876591c60a",
+      "subject": "Type the filter menu text inputs as holding text",
+      "snapshotId": "20261123T000615Z-polishing-c75f4c0516a0",
+      "signedOffAt": "2026-11-23T00:30:25.223Z"
+    }
+  }
+}
