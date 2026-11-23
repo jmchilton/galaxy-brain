@@ -35,7 +35,7 @@ agent_dir: gx_branches
 name: pr-{name}
 profile: Sonnet (medium)
 
-Open the PR for branch {name}. BRANCH_DIRECTORY is {record}. If the CI is done and green, open it directly otherwise open it as a draft waiting on CI. This launch is my approval of the PR open. Stop and ask if pr_description.md is missing. If no title is chosen, please pick the first one.
+Open the PR for branch {name}. BRANCH_DIRECTORY is {record}. If the CI is done and green, open it directly otherwise open it as a draft waiting on CI. This launch is my approval of the PR open. Stop and ask if pr_description.md is missing. Title the PR with `pr_title` from the branch record's `index.md` frontmatter; if there is none, take the first option in `pr_titles.md`.
 
 ## 💬 Respond to review
 status: active

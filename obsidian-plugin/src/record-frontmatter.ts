@@ -13,16 +13,31 @@ export interface RecordFrontmatter {
 	related_records?: string[];
 	/** Upstream PR number for a branch. */
 	pr?: number;
+	/** The PR title John chose for a branch. */
+	pr_title?: string;
 }
 
-const STRING_FIELDS = ["upstream_base_branch", "parent_branch"] as const;
+const STRING_FIELDS = ["upstream_base_branch", "parent_branch", "pr_title"] as const;
 const LIST_FIELDS = ["blockers", "blocking", "related_records", "child_branches"] as const;
 
-const unquote = (value: string) => value.trim().replace(/^(["'])(.*)\1$/, "$2");
+/** A plain, single-quoted or double-quoted YAML scalar. */
+function unquote(value: string): string {
+	const v = value.trim();
+	if (/^".*"$/.test(v)) {
+		try {
+			return JSON.parse(v);
+		} catch {
+			return v.slice(1, -1);
+		}
+	}
+	return /^'.*'$/.test(v) ? v.slice(1, -1).replace(/''/g, "'") : v;
+}
+
+const FRONTMATTER = /^---\n([\s\S]*?)^---[ \t]*(\n|$)/m;
 
 /** `key: value`, `key: [a, b]` and `key:` + `  - a` lines of a leading `---` block; other YAML is ignored. */
 export function recordFrontmatter(body: string): RecordFrontmatter {
-	const block = /^---\n([\s\S]*?)^---$/m.exec(body);
+	const block = FRONTMATTER.exec(body);
 	if (!block || block.index !== 0) return {};
 	const raw: Record<string, string[]> = {};
 	let listKey: string | undefined;
@@ -37,7 +52,7 @@ export function recordFrontmatter(body: string): RecordFrontmatter {
 		if (!m) continue;
 		const key = m[1]!;
 		const value = m[2]!;
-		const flow = /^\[(.*)\]$/.exec(value);
+		const flow = STRING_FIELDS.includes(key as never) ? null : /^\[(.*)\]$/.exec(value);
 		if (flow) raw[key] = flow[1]!.split(",").map(unquote).filter(Boolean);
 		else if (value) raw[key] = [unquote(value)];
 		else raw[(listKey = key)] = [];
@@ -52,3 +67,19 @@ export function recordFrontmatter(body: string): RecordFrontmatter {
 
 /** The note's text after a leading `---` block. */
 export const withoutFrontmatter = (body: string): string => body.replace(/^---\n[\s\S]*?^---[ \t]*\n+/m, (block, index: number) => (index === 0 ? "" : block));
+
+/** Sets one top-level scalar, quoted, in the leading `---` block, or removes it for null; other lines stay as they are. */
+export function setFrontmatterScalar(body: string, key: string, value: string | null): string {
+	const line = value === null ? null : `${key}: ${JSON.stringify(value)}`;
+	const block = FRONTMATTER.exec(body);
+	if (!block || block.index !== 0) return line === null ? body : `---\n${line}\n---\n${body}`;
+	const lines = block[1]!.split("\n").slice(0, -1);
+	const at = lines.findIndex((one) => new RegExp(`^${key}:`).test(one));
+	// A value continued on indented lines goes with it.
+	let end = at + 1;
+	while (at >= 0 && end < lines.length && /^\s+\S/.test(lines[end]!) && !/^\s*-\s/.test(lines[end]!)) end++;
+	if (at >= 0) lines.splice(at, end - at, ...(line === null ? [] : [line]));
+	else if (line !== null) lines.push(line);
+	const rest = body.slice(block[0].length);
+	return lines.length ? `---\n${lines.join("\n")}\n---${block[2]}${rest}` : rest.replace(/^\n+/, "");
+}

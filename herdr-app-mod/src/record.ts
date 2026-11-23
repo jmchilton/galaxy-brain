@@ -1,5 +1,5 @@
 // A record's landing page for the Herdr app, a tab whose only pane is this mod: its files as links with
-// File Docs hints, its launchers (through gb-pane's draft dialog), and index.md or the chosen file.
+// File Docs hints, its launchers (through gb-pane's draft dialog), a branch's PR panel or a review's findings, and index.md or the chosen file.
 
 import { div, View } from "gpui-kit";
 import { h_flex, v_flex } from "gpui-base";
@@ -7,6 +7,8 @@ import { exec, openOverlay, props, readTextFile, theme, watchFolder } from "herd
 import { withoutFrontmatter } from "../../obsidian-plugin/src/record-frontmatter";
 import { type RecordFileLink, recordFileLabel, type RecordFileLinks } from "../../site/src/lib/file-docs";
 import type { CommitDiff, CommitFile, FindingsChange, FindingsCheck, FindingsPanel } from "../../herdr-plugin/src/findings-types";
+import type { BranchPanel } from "../../obsidian-plugin/src/branch-panel";
+import { type BranchUi, renderBranchPanel } from "./branch-panel";
 import { highlightDiff } from "../../obsidian-plugin/src/diff-highlight";
 import { chip } from "./chip";
 import { MAX_HIGHLIGHT_CHARS } from "./diff-lines";
@@ -14,7 +16,7 @@ import { commitKey, type FindingsUi, renderFindingsPanel, type ShownCommit } fro
 import { appHost, delay, host, logRenderFailures, obsidianUrl, openUrl } from "./host";
 import { type MarkdownBlock, markdownBlocks } from "./markdown-blocks";
 import { type MarkdownHost, renderMarkdown } from "./markdown-view";
-import { editFindings } from "./note-edits";
+import { editFindings, setBranchTitle } from "./note-edits";
 import { isImagePath, linkTarget, withoutTitle } from "./record-page";
 import { openRecordTab, openRepositoryTab, openReviewTab } from "./record-tab";
 import { commitLines } from "./review-rows";
@@ -80,6 +82,11 @@ export default class GbRecord extends View {
 	declare checking: boolean;
 	/** Fixing commits' diffs by sha, kept across reloads; a sha's diff never changes. */
 	declare commits: Map<string, ShownCommit | "loading">;
+	/** Null for records other than branches with PR files. */
+	declare branch: BranchPanel | null;
+	declare branchPreviewOpen: boolean;
+	/** The branch's parsed PR preview, by text. */
+	declare branchBlocks: { text: string; blocks: MarkdownBlock[] } | null;
 
 	init(_props: unknown, cx: Cx) {
 		this.page = null;
@@ -94,6 +101,9 @@ export default class GbRecord extends View {
 		this.check = null;
 		this.checking = false;
 		this.commits = new Map();
+		this.branch = null;
+		this.branchPreviewOpen = false;
+		this.branchBlocks = null;
 		cx.spawn(async (cx: Cx) => {
 			await this.load(cx);
 			await this.watch(cx);
@@ -107,6 +117,7 @@ export default class GbRecord extends View {
 			this.error = this.page ? null : `${ref} isn't in this vault; resync.`;
 			if (this.page) await this.read();
 			this.setFindings(this.page?.findings ? await appHost({ type: "findings", ref }) : null);
+			this.branch = this.page?.record.kind === "branches" ? await appHost({ type: "branchPanel", ref }) : null;
 		} catch (error) {
 			this.error = String(error);
 		}
@@ -201,6 +212,28 @@ export default class GbRecord extends View {
 		};
 	}
 
+	branchUi(): BranchUi {
+		const { key } = this.page!.record;
+		return {
+			previewOpen: this.branchPreviewOpen,
+			togglePreview: () => {
+				this.branchPreviewOpen = !this.branchPreviewOpen;
+			},
+			preview: (text) => {
+				if (this.branchBlocks?.text !== text) this.branchBlocks = { text, blocks: markdownBlocks(text, { repo: this.page!.upstream }) };
+				return this.branchBlocks.blocks;
+			},
+			markdownHost: (scope) => this.markdownHost(scope),
+			openFile: (name, cx) => this.show(cx, name),
+			setTitle: (title, cx) =>
+				cx.spawn(async (cx: Cx) => {
+					const panel = await setBranchTitle(`${key}/index.md`, props()?.ref as string, title);
+					if (panel) this.branch = panel;
+					cx.notify();
+				}),
+		};
+	}
+
 	/** Opened outside the app: TextView can't load a file's image. */
 	openImage(cx: Cx, path: string) {
 		cx.spawn(async () => exec("open", [`${VAULT}/${path}`]));
@@ -255,6 +288,7 @@ export default class GbRecord extends View {
 				.when(related.length > 0, (el: El) => el.child(this.renderRelated(t)))
 				.child(this.renderFiles(t, links))
 				.when(record.launchers.length > 0, (el: El) => el.child(this.renderLaunchers(t)))
+				.when(this.branch !== null, (el: El) => el.child(renderBranchPanel(t, this.branch!, this.branchUi())))
 				.when(this.findings !== null, (el: El) => el.child(renderFindingsPanel(t, this.findings!, this.findingsUi())))
 				.child(div().border_b(1).border_color(t.border))
 				.child(this.blocks === null ? div().text_color(t.dim).child(`No ${this.file} in this record.`) : renderMarkdown(t, this.blocks, this.markdownHost())),

@@ -45,6 +45,19 @@ def test_branch_metadata_passes(tmp_path, schema):
     assert validate_records(tmp_path, schema) == ([], [])
 
 
+def test_pr_title_passes_on_branches_only(tmp_path, schema):
+    write_record(tmp_path, "galaxy/branches/active/fix", {"pr_title": "[26.0] Fix: a title"})
+    write_record(tmp_path, "galaxy/reviews/active/24300", {"pr_title": "Review fixes"})
+    errors, _ = validate_records(tmp_path, schema)
+    assert messages(errors) == ["pr_title: only branch records take this field"]
+
+
+def test_empty_pr_title_is_an_error(tmp_path, schema):
+    write_record(tmp_path, "galaxy/branches/active/fix", {"pr_title": ""})
+    errors, _ = validate_records(tmp_path, schema)
+    assert len(errors) == 1 and "pr_title" in errors[0][1]
+
+
 def test_unknown_field_is_an_error(tmp_path, schema):
     index = write_record(tmp_path, "galaxy/issues/queued/123", {"blocker": "gx_issues/later"})
     errors, _ = validate_records(tmp_path, schema)

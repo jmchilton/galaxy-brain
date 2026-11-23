@@ -7,7 +7,7 @@ Galaxy conventions for files in `repositories/galaxy/branches/<status>/<branch>/
 Proposed PR description. Structured per [GX_PR_DESCRIPTIONS](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/_shared/GX_PR_DESCRIPTIONS.md).
 ## pr_titles.md
 
-Three to five PR title options as a markdown list, written while polishing ([POLISH_BRANCH](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/gx_branches/POLISH_BRANCH.md)). Release-branch targets prefix each title with the version tag, e.g. `[26.0]`.
+Three to five PR title options as a markdown list, written while polishing ([POLISH_BRANCH](https://github.com/jmchilton/galaxy-brain/blob/main/vault/agents/gx_branches/POLISH_BRANCH.md)). Release-branch targets prefix each title with the version tag, e.g. `[26.0]`. John picks one in the record's PR panel, which stores it as `pr_title` in `index.md`'s frontmatter; agents leave the options in place.
 
 ## pr_checklist.md
 

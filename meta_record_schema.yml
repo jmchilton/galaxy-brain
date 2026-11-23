@@ -38,6 +38,9 @@ properties:
   pr:
     type: integer
     minimum: 1
+  pr_title:
+    type: string
+    minLength: 1
   blockers:
     oneOf:
       - $ref: "#/definitions/blocker_ref"

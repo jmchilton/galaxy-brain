@@ -266,3 +266,40 @@ describe("appRequest", () => {
 		expect(() => appRequest({ type: "launch" } as never, deps())).toThrow("unknown app request");
 	});
 });
+
+describe("branch PR panel", () => {
+	const BRANCH = "repositories/galaxy/branches/active/fix";
+	const ref = "galaxy/branches/fix";
+	const branch = () =>
+		deps({
+			[`${BRANCH}/index.md`]: "---\nupstream_base_branch: dev\n---\n# fix\n",
+			[`${BRANCH}/pr_titles.md`]: "- One\n- [26.0] Two: b\n",
+			[`${BRANCH}/pr_description.md`]: "Body\n",
+			[`${BRANCH}/human_review.md`]: "Reviewed.\n",
+			[`${BRANCH}/pr_tags.md`]: "- kind/bug\n",
+			"repositories/galaxy/branches/active/plain/index.md": "# plain\n",
+		});
+	const index = (d: AppHostDeps) => readFileSync(join(d.vaultRoot, BRANCH, "index.md"), "utf8");
+
+	it("gives the panel, and null for a branch without PR files", () => {
+		const d = branch();
+		expect(appRequest({ type: "branchPanel", ref }, d)).toMatchObject({ status: "✅ Ready to open the PR", chosen: null, titles: [{ title: "One" }, { title: "[26.0] Two: b" }] });
+		expect(appRequest({ type: "branchPanel", ref: "galaxy/branches/plain" }, d)).toBeNull();
+	});
+
+	it("sets pr_title in index.md, keeping its other lines, and clears it", () => {
+		const d = branch();
+		expect(appRequest({ type: "setBranchTitle", ref, title: "[26.0] Two: b" }, d)).toMatchObject({ chosen: "[26.0] Two: b", warnings: [] });
+		expect(index(d)).toBe('---\nupstream_base_branch: dev\npr_title: "[26.0] Two: b"\n---\n# fix\n');
+		expect(appRequest({ type: "setBranchTitle", ref, title: null }, d)).toMatchObject({ chosen: null });
+		expect(index(d)).toBe("---\nupstream_base_branch: dev\n---\n# fix\n");
+	});
+
+	it("refuses a title it doesn't offer and a ref that isn't a branch", () => {
+		const d = branch();
+		expect(() => appRequest({ type: "setBranchTitle", ref, title: "Three" }, d)).toThrow("Three isn't one of galaxy/branches/fix's titles; reload");
+		expect(() => appRequest({ type: "branchPanel", ref: "galaxy/reviews/fix" }, d)).toThrow("no branch record galaxy/reviews/fix");
+		expect(() => appRequest({ type: "branchPanel", ref: "galaxy/branches/../fix" }, d)).toThrow("no branch record");
+		expect(index(d)).toBe("---\nupstream_base_branch: dev\n---\n# fix\n");
+	});
+});

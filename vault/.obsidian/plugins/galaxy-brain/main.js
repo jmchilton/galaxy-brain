@@ -114,8 +114,19 @@ var init_repository_tabs = __esm({
 });
 
 // src/record-frontmatter.ts
+function unquote(value) {
+  const v = value.trim();
+  if (/^".*"$/.test(v)) {
+    try {
+      return JSON.parse(v);
+    } catch {
+      return v.slice(1, -1);
+    }
+  }
+  return /^'.*'$/.test(v) ? v.slice(1, -1).replace(/''/g, "'") : v;
+}
 function recordFrontmatter(body) {
-  const block = /^---\n([\s\S]*?)^---$/m.exec(body);
+  const block = FRONTMATTER.exec(body);
   if (!block || block.index !== 0) return {};
   const raw = {};
   let listKey;
@@ -130,7 +141,7 @@ function recordFrontmatter(body) {
     if (!m) continue;
     const key2 = m[1];
     const value = m[2];
-    const flow = /^\[(.*)\]$/.exec(value);
+    const flow = STRING_FIELDS.includes(key2) ? null : /^\[(.*)\]$/.exec(value);
     if (flow) raw[key2] = flow[1].split(",").map(unquote).filter(Boolean);
     else if (value) raw[key2] = [unquote(value)];
     else raw[listKey = key2] = [];
@@ -142,13 +153,32 @@ function recordFrontmatter(body) {
   if (pr && /^\d+$/.test(pr)) fields.pr = Number(pr);
   return fields;
 }
-var STRING_FIELDS, LIST_FIELDS, unquote;
+function setFrontmatterScalar(body, key2, value) {
+  const line = value === null ? null : `${key2}: ${JSON.stringify(value)}`;
+  const block = FRONTMATTER.exec(body);
+  if (!block || block.index !== 0) return line === null ? body : `---
+${line}
+---
+${body}`;
+  const lines = block[1].split("\n").slice(0, -1);
+  const at = lines.findIndex((one) => new RegExp(`^${key2}:`).test(one));
+  let end = at + 1;
+  while (at >= 0 && end < lines.length && /^\s+\S/.test(lines[end]) && !/^\s*-\s/.test(lines[end])) end++;
+  if (at >= 0) lines.splice(at, end - at, ...line === null ? [] : [line]);
+  else if (line !== null) lines.push(line);
+  const rest = body.slice(block[0].length);
+  return lines.length ? `---
+${lines.join("\n")}
+---${block[2]}${rest}` : rest.replace(/^\n+/, "");
+}
+var STRING_FIELDS, LIST_FIELDS, FRONTMATTER, withoutFrontmatter;
 var init_record_frontmatter = __esm({
   "src/record-frontmatter.ts"() {
     "use strict";
-    STRING_FIELDS = ["upstream_base_branch", "parent_branch"];
+    STRING_FIELDS = ["upstream_base_branch", "parent_branch", "pr_title"];
     LIST_FIELDS = ["blockers", "blocking", "related_records", "child_branches"];
-    unquote = (value) => value.trim().replace(/^(["'])(.*)\1$/, "$2");
+    FRONTMATTER = /^---\n([\s\S]*?)^---[ \t]*(\n|$)/m;
+    withoutFrontmatter = (body) => body.replace(/^---\n[\s\S]*?^---[ \t]*\n+/m, (block, index) => index === 0 ? "" : block);
   }
 });
 
@@ -12655,7 +12685,7 @@ __export(main_exports, {
   default: () => GalaxyBrainPlugin
 });
 module.exports = __toCommonJS(main_exports);
-var import_obsidian11 = require("obsidian");
+var import_obsidian12 = require("obsidian");
 
 // src/ci-status.ts
 init_repository_tabs();
@@ -13553,15 +13583,15 @@ function parseProfiles(data) {
     return [{ name, agent, ...model ? { model } : {}, ...effort ? { effort } : {}, args }];
   });
 }
+var FLAGS = {
+  claude: { model: "--model", effort: "--effort", also: [] },
+  codex: { model: "-m", effort: "-c", also: ["--model"] }
+};
 function profileArgs(profile) {
+  const flags = FLAGS[profile.agent];
   const args = [];
-  if (profile.agent === "claude") {
-    if (profile.model) args.push("--model", profile.model);
-    if (profile.effort) args.push("--effort", profile.effort);
-  } else {
-    if (profile.model) args.push("-m", profile.model);
-    if (profile.effort) args.push("-c", `model_reasoning_effort="${profile.effort}"`);
-  }
+  if (profile.model) args.push(flags.model, profile.model);
+  if (profile.effort) args.push(flags.effort, profile.agent === "claude" ? profile.effort : `model_reasoning_effort="${profile.effort}"`);
   return [...args, ...profile.args];
 }
 function defaultProfile(profiles, launcher) {
@@ -21874,7 +21904,7 @@ var RepositoryView = class extends import_obsidian8.ItemView {
   }
   async renderRecent(root, records, bodies, launchable, all) {
     const controls = root.createDiv({ cls: "gbr-tabs" });
-    const choose = (options, value, onChange) => {
+    const choose2 = (options, value, onChange) => {
       const select = controls.createEl("select", { cls: "dropdown" });
       for (const [key2, label3] of Object.entries(options)) {
         select.createEl("option", { text: label3, value: key2 }).selected = key2 === value;
@@ -21885,9 +21915,9 @@ var RepositoryView = class extends import_obsidian8.ItemView {
         void this.render();
       };
     };
-    choose(RECENT_BY, this.recentBy, (by) => this.recentBy = by);
+    choose2(RECENT_BY, this.recentBy, (by) => this.recentBy = by);
     const kinds = { all: "All kinds", ...KIND_LABELS };
-    choose(kinds, this.recentKind ?? "all", (kind) => this.recentKind = kind === "all" ? void 0 : kind);
+    choose2(kinds, this.recentKind ?? "all", (kind) => this.recentKind = kind === "all" ? void 0 : kind);
     const recent = recentRecords(records, { by: this.recentBy, kind: this.recentKind });
     const unread = recent.flatMap((record) => record.indexPath && !bodies.has(record.indexPath) ? [record.indexPath] : []);
     for (const [path, body] of await this.readIndexes(unread)) bodies.set(path, body);
@@ -22392,12 +22422,155 @@ function renderFindings(app, el3, record, hooks) {
   if (landing2.previews.pr !== null) details2(root, "preview:pr", "Preview PR body", hooks, (body) => markdown2(body, landing2.previews.pr));
 }
 
+// src/branch-strip.ts
+var import_obsidian11 = require("obsidian");
+init_landing();
+
+// src/branch-panel.ts
+init_record_frontmatter();
+var BRANCH_PANEL_FILES = {
+  index: "index.md",
+  titles: "pr_titles.md",
+  tags: "pr_tags.md",
+  checklist: "pr_checklist.md",
+  description: "pr_description.md",
+  humanReview: "human_review.md"
+};
+var LIST_ITEM = /^[-*+]\s+(.+?)\s*$/;
+var CHECK_ITEM = /^[-*+]\s+\[([ xX])\]/;
+var PLACEHOLDER2 = /^\(PUBLISHING_AGENT:.*\)[ \t]*$/m;
+var FILE_LABELS = {
+  description: "\u{1F4DD} Description",
+  titles: "\u{1F3F7}\uFE0F Titles",
+  tags: "\u{1F516} Labels",
+  checklist: "\u2611\uFE0F Checklist",
+  humanReview: "\u{1F440} Human review"
+};
+var listItems = (text2) => [
+  ...new Set(
+    withoutFrontmatter(text2 ?? "").split("\n").map((line) => LIST_ITEM.exec(line)?.[1]).filter((item2) => Boolean(item2))
+  )
+];
+function checklist(text2) {
+  if (text2 === null) return null;
+  const marks = text2.split("\n").flatMap((line) => CHECK_ITEM.exec(line)?.[1] ?? []);
+  return marks.length ? { done: marks.filter((mark) => mark !== " ").length, total: marks.length } : null;
+}
+function prBody(description, humanReview2) {
+  return humanReview2 === null ? description : description.replace(PLACEHOLDER2, () => humanReview2.trim());
+}
+function branchPanel(files) {
+  const { pr = null, pr_title } = recordFrontmatter(files.index ?? "");
+  if (!pr && [files.titles, files.tags, files.checklist, files.description].every((text2) => text2 === null)) return null;
+  const options = listItems(files.titles);
+  const chosen = pr_title ?? null;
+  const titles = options.map((title2) => ({ title: title2, chosen: title2 === chosen, listed: true }));
+  if (chosen && !options.includes(chosen)) titles.unshift({ title: chosen, chosen: true, listed: false });
+  const errors = [];
+  const warnings = [];
+  if (!pr) {
+    if (files.description === null) errors.push("No pr_description.md; Open PR stops");
+    if (files.humanReview === null) (files.description !== null && PLACEHOLDER2.test(files.description) ? errors : warnings).push("No human_review.md; review the latest differential review snapshot");
+    if (!chosen) warnings.push(options.length ? "No title chosen; Open PR takes the first" : "No pr_titles.md options");
+    else if (!options.includes(chosen)) warnings.push("The chosen title isn't in pr_titles.md");
+    if (files.tags === null) warnings.push("No pr_tags.md; the PR gets no labels");
+  }
+  const check = checklist(files.checklist);
+  if (!pr && check && check.done < check.total) warnings.push(`Checklist ${check.done}/${check.total} answered yes`);
+  const status = pr ? `\u2705 PR #${pr} is open` : errors.length ? `\u26D4 ${errors[0]}` : "\u2705 Ready to open the PR";
+  const title = chosen ?? options[0];
+  return {
+    status,
+    warnings: [...errors.slice(1).map((error) => `\u26D4 ${error}`), ...warnings.map((warning) => `\u26A0\uFE0F ${warning}`)],
+    pr,
+    titles,
+    chosen,
+    tags: listItems(files.tags).map((tag) => tag.replace(/^`(.*)`$/, "$1")),
+    checklist: check,
+    files: Object.keys(FILE_LABELS).filter((key2) => files[key2] !== null).map((key2) => ({ name: BRANCH_PANEL_FILES[key2], label: FILE_LABELS[key2] })),
+    preview: files.description === null ? null : `${title ? `# ${title}
+
+` : ""}${prBody(withoutFrontmatter(files.description), files.humanReview)}`
+  };
+}
+var setPrTitle = (index, title) => setFrontmatterScalar(index, "pr_title", title);
+
+// src/branch-strip.ts
+async function readFiles(app, record) {
+  const entries = await Promise.all(
+    Object.entries(BRANCH_PANEL_FILES).map(async ([key2, name]) => {
+      const file = app.vault.getFileByPath(`${record.dir}/${name}`);
+      return [key2, file ? await app.vault.cachedRead(file) : null];
+    })
+  );
+  return Object.fromEntries(entries);
+}
+async function choose(app, record, title) {
+  const file = app.vault.getFileByPath(`${record.dir}/index.md`);
+  if (!file) return void new import_obsidian11.Notice(`${record.dir}/index.md is gone`);
+  try {
+    await app.vault.process(file, (text2) => setPrTitle(text2, title));
+  } catch (error) {
+    new import_obsidian11.Notice(`PR title not saved: ${error instanceof Error ? error.message : error}`);
+  }
+}
+var toneLine2 = (el3, line, cls = "") => el3.createDiv({ text: line, cls: `gb-findings-${statusTone(line)} ${cls}`.trim() });
+async function renderBranchPanel(app, el3, record, component, state) {
+  const panel = branchPanel(await readFiles(app, record));
+  if (!panel) return;
+  const root = el3.createDiv({ cls: "gb-findings gb-branch-panel" });
+  root.createDiv({ text: panel.pr ? `Pull request \xB7 #${panel.pr}` : "Pull request", cls: "gb-findings-title" });
+  toneLine2(root, panel.status, "gb-findings-status");
+  for (const line of panel.warnings) toneLine2(root, line);
+  const files = root.createDiv({ cls: "gb-record-row" });
+  for (const one of panel.files) {
+    const button2 = files.createEl("button", { text: one.label, cls: "gb-record-chip", attr: { title: `Open ${one.name}` } });
+    button2.onclick = (event) => void app.workspace.openLinkText(`${record.dir}/${one.name}`, "", event.metaKey || event.ctrlKey);
+  }
+  if (panel.checklist) files.createSpan({ text: `\u2611 ${panel.checklist.done}/${panel.checklist.total}`, cls: "gb-record-where" });
+  for (const tag of panel.tags) files.createSpan({ text: tag, cls: "gb-branch-tag" });
+  if (panel.titles.length) {
+    const editable = !panel.pr;
+    const list3 = root.createDiv({ cls: "gb-findings-list" });
+    for (const one of panel.titles) {
+      const item2 = list3.createEl("label", { cls: "gb-findings-item gb-branch-title" });
+      const input = item2.createEl("input", { type: "radio", attr: { name: `gb-pr-title-${record.dir}`, title: editable ? "Use this title" : "Retitle the open PR on GitHub" } });
+      input.checked = one.chosen;
+      input.disabled = !editable;
+      input.onchange = () => void choose(app, record, one.title);
+      item2.createSpan({ text: one.title, cls: one.chosen ? "" : "gb-findings-out" });
+      if (!one.listed) item2.createSpan({ text: " (not in pr_titles.md)", cls: "gb-findings-summary" });
+    }
+    if (editable && panel.chosen) {
+      const clear = root.createDiv({ cls: "gb-record-row" }).createEl("button", { text: "\u2715 Clear title", cls: "gb-record-chip gb-record-chip-quiet", attr: { title: "Remove pr_title; Open PR takes the first option" } });
+      clear.onclick = () => void choose(app, record, null);
+    }
+  }
+  if (panel.preview !== null) {
+    const box = root.createEl("details", { cls: "gb-findings-details" });
+    box.createEl("summary", { text: "Preview PR" });
+    const body = box.createDiv({ cls: "gb-findings-body" });
+    let filled = false;
+    const sync = () => {
+      if (!box.open || filled) return;
+      filled = true;
+      void import_obsidian11.MarkdownRenderer.render(app, panel.preview, body, `${record.dir}/pr_description.md`, component);
+    };
+    box.open = state.previewOpen;
+    sync();
+    box.addEventListener("toggle", () => {
+      state.previewOpen = box.open;
+      sync();
+    });
+  }
+}
+
 // src/main.ts
 var PROFILES_PATH = "agents/_shared/AGENT_PROFILES.yml";
 var ENVIRONMENTS_PATH = "agents/_shared/ENVIRONMENTS.yml";
 var RECORD_AGENTS_PATH = "agents/_shared/RECORD_AGENTS.yml";
 var FACTORY_AGENT_DIR = "factory";
-var GalaxyBrainPlugin = class extends import_obsidian11.Plugin {
+var GalaxyBrainPlugin = class extends import_obsidian12.Plugin {
   constructor() {
     super(...arguments);
     this.recordActions = /* @__PURE__ */ new WeakMap();
@@ -22405,12 +22578,14 @@ var GalaxyBrainPlugin = class extends import_obsidian11.Plugin {
     this.recordStrips = /* @__PURE__ */ new WeakMap();
     /** Findings panels' state, by record dir. */
     this.findingsStates = /* @__PURE__ */ new Map();
+    /** Branch PR panels' state, by record dir. */
+    this.branchStates = /* @__PURE__ */ new Map();
   }
   async onload() {
     registerDifferentialReview(this);
     this.registerEvent(
       this.app.workspace.on("file-menu", (menu, file) => {
-        if (!(file instanceof import_obsidian11.TFile)) return;
+        if (!(file instanceof import_obsidian12.TFile)) return;
         menu.addItem(
           (item2) => item2.setTitle("Copy contents").setIcon("copy").onClick(() => this.copyContents(file))
         );
@@ -22451,7 +22626,7 @@ var GalaxyBrainPlugin = class extends import_obsidian11.Plugin {
     this.registerMarkdownCodeBlockProcessor("gb-missed-prs", (source, el3, ctx) => this.renderMissedPrs(source, el3, ctx.sourcePath));
     this.registerMarkdownCodeBlockProcessor("gb-missed-prs-feed", (source, el3, ctx) => this.renderMissedPrsFeed(source, el3, ctx));
     this.registerRecordStrips();
-    if (!import_obsidian11.Platform.isDesktopApp) return;
+    if (!import_obsidian12.Platform.isDesktopApp) return;
     this.addCommand({
       id: "launch-agent",
       name: "Launch agent for this record",
@@ -22474,9 +22649,9 @@ var GalaxyBrainPlugin = class extends import_obsidian11.Plugin {
   async copyContents(file) {
     try {
       await navigator.clipboard.writeText(await this.app.vault.read(file));
-      new import_obsidian11.Notice(`Copied ${file.name}`);
+      new import_obsidian12.Notice(`Copied ${file.name}`);
     } catch (error) {
-      new import_obsidian11.Notice(`Could not copy ${file.name}: ${error}`);
+      new import_obsidian12.Notice(`Could not copy ${file.name}: ${error}`);
     }
   }
   /** Keeps the landing strips on open record index.md notes current. */
@@ -22486,15 +22661,15 @@ var GalaxyBrainPlugin = class extends import_obsidian11.Plugin {
     this.registerEvent(this.app.workspace.on("layout-change", refresh));
     this.register(() => {
       for (const leaf of this.app.workspace.getLeavesOfType("markdown")) {
-        if (leaf.view instanceof import_obsidian11.MarkdownView) this.recordStrips.get(leaf.view)?.el.remove();
+        if (leaf.view instanceof import_obsidian12.MarkdownView) this.recordStrips.get(leaf.view)?.el.remove();
       }
     });
-    const redraw = (0, import_obsidian11.debounce)(() => this.refreshRecordStrips(true), 300, true);
+    const redraw = (0, import_obsidian12.debounce)(() => this.refreshRecordStrips(true), 300, true);
     const onFile = ({ path }) => {
       if (path.startsWith("repositories/")) redraw();
     };
     const onModify = ({ path }) => {
-      if (path.startsWith("repositories/") && /\/((FILE_DOCS|LAUNCHERS|MY_[A-Z]+|index|human_review|johns_review_\d+_(comment|pr)_note)\.md|review_\d+_findings\.yml)$/.test(path)) redraw();
+      if (path.startsWith("repositories/") && /\/((FILE_DOCS|LAUNCHERS|MY_[A-Z]+|index|human_review|pr_(titles|tags|checklist|description)|johns_review_\d+_(comment|pr)_note)\.md|review_\d+_findings\.yml)$/.test(path)) redraw();
     };
     this.app.workspace.onLayoutReady(() => {
       refresh();
@@ -22508,7 +22683,7 @@ var GalaxyBrainPlugin = class extends import_obsidian11.Plugin {
   refreshRecordStrips(redraw = false) {
     for (const leaf of this.app.workspace.getLeavesOfType("markdown")) {
       const view = leaf.view;
-      if (!(view instanceof import_obsidian11.MarkdownView)) continue;
+      if (!(view instanceof import_obsidian12.MarkdownView)) continue;
       const path = view.file?.path;
       const record = path ? recordFromPath(path) : null;
       const landing2 = record && path === `${record.dir}/index.md` ? path : null;
@@ -22527,7 +22702,7 @@ var GalaxyBrainPlugin = class extends import_obsidian11.Plugin {
     }
   }
   async fillRecordStrip(el3, record) {
-    const launchers = import_obsidian11.Platform.isDesktopApp ? await this.launchersFor(record) : [];
+    const launchers = import_obsidian12.Platform.isDesktopApp ? await this.launchersFor(record) : [];
     const filled = createDiv();
     await renderRecordStrip(
       this.app,
@@ -22535,8 +22710,13 @@ var GalaxyBrainPlugin = class extends import_obsidian11.Plugin {
       record,
       launchers.map((launcher) => ({ label: launcher.label, tooltip: launcher.command ?? launcher.prompt, run: () => void this.confirmLaunch(launcher, record) }))
     );
+    if (record.kind === "branches") {
+      let state = this.branchStates.get(record.dir);
+      if (!state) this.branchStates.set(record.dir, state = { previewOpen: false });
+      await renderBranchPanel(this.app, filled, record, this, state);
+    }
     const adapter = this.app.vault.adapter;
-    if (record.kind === "reviews" && adapter instanceof import_obsidian11.FileSystemAdapter) {
+    if (record.kind === "reviews" && adapter instanceof import_obsidian12.FileSystemAdapter) {
       const vaultRoot = adapter.getBasePath();
       const state = this.findingsState(record);
       renderFindings(this.app, filled, record, { vaultRoot, component: this, state, runCheck: () => this.runFindingsCheck(vaultRoot, record, state) });
@@ -22570,7 +22750,7 @@ var GalaxyBrainPlugin = class extends import_obsidian11.Plugin {
   refreshRecordActions() {
     for (const leaf of this.app.workspace.getLeavesOfType("markdown")) {
       const view = leaf.view;
-      if (!(view instanceof import_obsidian11.MarkdownView)) continue;
+      if (!(view instanceof import_obsidian12.MarkdownView)) continue;
       const record = view.file && recordFromPath(view.file.path);
       const reviewable = !!record && isReviewableRecordKind(record.kind);
       const hasCi = record?.kind === "branches" || record?.kind === "reviews";
@@ -22601,7 +22781,7 @@ var GalaxyBrainPlugin = class extends import_obsidian11.Plugin {
   refreshAgentActions() {
     for (const leaf of this.app.workspace.getLeavesOfType("markdown")) {
       const view = leaf.view;
-      if (!(view instanceof import_obsidian11.MarkdownView)) continue;
+      if (!(view instanceof import_obsidian12.MarkdownView)) continue;
       const agent = view.file && agentFromPath(view.file.path);
       const existing = this.agentActions.get(view);
       if (existing && existing.agent !== agent) {
@@ -22623,7 +22803,7 @@ var GalaxyBrainPlugin = class extends import_obsidian11.Plugin {
     if (!vaultRoot) return;
     const file = this.app.vault.getFileByPath(agentLaunchersPath(agent));
     const launchers = file ? parseAgentLaunchers(await this.app.vault.cachedRead(file), agent) : [];
-    if (launchers.length === 0) return void new import_obsidian11.Notice(`No launchers in ${agentLaunchersPath(agent)}`);
+    if (launchers.length === 0) return void new import_obsidian12.Notice(`No launchers in ${agentLaunchersPath(agent)}`);
     const absolute = path ? `${vaultRoot}/${path}` : "";
     new LauncherSuggest(this.app, launchers, (launcher) => {
       const name = fillAgentTemplate(launcher.name, agent, absolute);
@@ -22646,7 +22826,7 @@ var GalaxyBrainPlugin = class extends import_obsidian11.Plugin {
     const { execFile } = require("child_process");
     const PATH = [...CLI_BIN_DIRS, process.env.PATH].join(":");
     execFile("code", [path], { env: { ...process.env, PATH } }, (error) => {
-      if (error) new import_obsidian11.Notice(`Could not run the VS Code \`code\` CLI: ${error.message}`, 1e4);
+      if (error) new import_obsidian12.Notice(`Could not run the VS Code \`code\` CLI: ${error.message}`, 1e4);
     });
   }
   /** okWithOutput: resolve with stdout despite a nonzero exit, as `gh pr checks` exits 1/8 for failed/pending checks. */
@@ -22663,7 +22843,7 @@ var GalaxyBrainPlugin = class extends import_obsidian11.Plugin {
   async openRecordInCode(record) {
     const worktree = this.worktreeFor(record, await this.indexBody(record));
     if (worktree) this.openInCode(worktree);
-    else new import_obsidian11.Notice(`No worktree on disk for ${record.name}`);
+    else new import_obsidian12.Notice(`No worktree on disk for ${record.name}`);
   }
   async openCiStatus(record) {
     const sources = ciSources(record, await this.indexBody(record));
@@ -22681,7 +22861,7 @@ var GalaxyBrainPlugin = class extends import_obsidian11.Plugin {
   async openRecordCompare(record) {
     const url = compareUrl(record, await this.indexBody(record));
     if (url) window.open(url);
-    else new import_obsidian11.Notice(`No upstream_base_branch in ${record.name}'s index.md`);
+    else new import_obsidian12.Notice(`No upstream_base_branch in ${record.name}'s index.md`);
   }
   async loadLaunchers() {
     const files = this.app.vault.getMarkdownFiles().flatMap((file) => {
@@ -22721,7 +22901,7 @@ var GalaxyBrainPlugin = class extends import_obsidian11.Plugin {
     new ChoiceSuggest(this.app, repositoryNames(files), "Open repository\u2026", (repo) => void this.openRepository(repo)).open();
   }
   async addLaunchItems(menu, file) {
-    if (!import_obsidian11.Platform.isDesktopApp) return;
+    if (!import_obsidian12.Platform.isDesktopApp) return;
     const record = recordFromPath(file.path);
     if (!record) return;
     for (const launcher of await this.launchersFor(record)) {
@@ -22733,23 +22913,23 @@ var GalaxyBrainPlugin = class extends import_obsidian11.Plugin {
   async pickLauncher(record) {
     const launchers = await this.launchersFor(record);
     if (launchers.length === 0) {
-      new import_obsidian11.Notice(`No launchers for ${record.repo}/${record.kind} (${record.status}) in repositories/${record.repo}/${record.kind}/LAUNCHERS.md`);
+      new import_obsidian12.Notice(`No launchers for ${record.repo}/${record.kind} (${record.status}) in repositories/${record.repo}/${record.kind}/LAUNCHERS.md`);
       return;
     }
     new LauncherSuggest(this.app, launchers, (launcher) => void this.confirmLaunch(launcher, record)).open();
   }
   async loadProfiles() {
     try {
-      const profiles = parseProfiles((0, import_obsidian11.parseYaml)(await this.app.vault.adapter.read(PROFILES_PATH)));
+      const profiles = parseProfiles((0, import_obsidian12.parseYaml)(await this.app.vault.adapter.read(PROFILES_PATH)));
       if (profiles.length > 0) return profiles;
     } catch (error) {
-      new import_obsidian11.Notice(`Could not read ${PROFILES_PATH}: ${error}`);
+      new import_obsidian12.Notice(`Could not read ${PROFILES_PATH}: ${error}`);
     }
     return FALLBACK_PROFILES;
   }
   async loadEnvironments() {
     try {
-      const environments = parseEnvironments((0, import_obsidian11.parseYaml)(await this.app.vault.adapter.read(ENVIRONMENTS_PATH)));
+      const environments = parseEnvironments((0, import_obsidian12.parseYaml)(await this.app.vault.adapter.read(ENVIRONMENTS_PATH)));
       if (environments.length > 0) return environments;
     } catch {
     }
@@ -22777,13 +22957,13 @@ var GalaxyBrainPlugin = class extends import_obsidian11.Plugin {
   }
   vaultRoot() {
     const adapter = this.app.vault.adapter;
-    if (adapter instanceof import_obsidian11.FileSystemAdapter) return adapter.getBasePath();
-    new import_obsidian11.Notice("Launching agents needs the desktop app");
+    if (adapter instanceof import_obsidian12.FileSystemAdapter) return adapter.getBasePath();
+    new import_obsidian12.Notice("Launching agents needs the desktop app");
     return null;
   }
   async syncAgent(repo, kind) {
     try {
-      return parseRecordAgents((0, import_obsidian11.parseYaml)(await this.app.vault.adapter.read(RECORD_AGENTS_PATH)))[repo]?.[kind];
+      return parseRecordAgents((0, import_obsidian12.parseYaml)(await this.app.vault.adapter.read(RECORD_AGENTS_PATH)))[repo]?.[kind];
     } catch {
       return void 0;
     }
@@ -22806,7 +22986,7 @@ var GalaxyBrainPlugin = class extends import_obsidian11.Plugin {
     let raw;
     let tasks;
     try {
-      raw = (0, import_obsidian11.parseYaml)(source);
+      raw = (0, import_obsidian12.parseYaml)(source);
       tasks = parseTasks(raw, { profiles: profiles.map((p) => p.name), agentDirs: await this.agentDirs() });
     } catch (error) {
       el3.createDiv({ cls: "gb-tasks-error", text: `gb-tasks: ${error instanceof Error ? error.message : error}` });
@@ -22815,10 +22995,10 @@ var GalaxyBrainPlugin = class extends import_obsidian11.Plugin {
     const rewrite = async (entries2) => {
       const file = this.app.vault.getFileByPath(ctx.sourcePath);
       const section2 = ctx.getSectionInfo(el3);
-      if (!file || !section2) return void new import_obsidian11.Notice("Could not locate this gb-tasks block");
+      if (!file || !section2) return void new import_obsidian12.Notice("Could not locate this gb-tasks block");
       await this.app.vault.process(
         file,
-        (note) => replaceBlockBody(note, section2.lineStart, section2.lineEnd, entries2.length ? (0, import_obsidian11.stringifyYaml)(entries2) : "")
+        (note) => replaceBlockBody(note, section2.lineStart, section2.lineEnd, entries2.length ? (0, import_obsidian12.stringifyYaml)(entries2) : "")
       );
     };
     const entries = raw;
@@ -22826,7 +23006,7 @@ var GalaxyBrainPlugin = class extends import_obsidian11.Plugin {
     const snooze = (index, day) => rewrite(entries.map((entry, i) => i === index ? { ...entry, snoozed_until: day } : entry));
     renderTaskCards(el3, tasks, {
       defaultProfile: profiles[0]?.name ?? "",
-      ...import_obsidian11.Platform.isDesktopApp ? {
+      ...import_obsidian12.Platform.isDesktopApp ? {
         launch: (task, index, pending) => void this.confirmTask(task, () => void remove(index), task.agentDir, pending),
         refine: (task) => void this.refineTask(task)
       } : {},
@@ -22838,7 +23018,7 @@ var GalaxyBrainPlugin = class extends import_obsidian11.Plugin {
   /** Cards for a ```gb-missed-prs block in the note at path; ✔ / ↺ toggle `reviewed`. */
   renderMissedPrs(source, el3, path) {
     try {
-      renderMissedPrCards(el3, parseMissedPrs((0, import_obsidian11.parseYaml)(source)), { setReviewed: (pr, reviewed) => setReviewedInFile(this.app, path, pr, reviewed) });
+      renderMissedPrCards(el3, parseMissedPrs((0, import_obsidian12.parseYaml)(source)), { setReviewed: (pr, reviewed) => setReviewedInFile(this.app, path, pr, reviewed) });
     } catch (error) {
       renderMissedPrsError(el3, error);
     }
@@ -22851,7 +23031,7 @@ var GalaxyBrainPlugin = class extends import_obsidian11.Plugin {
   /** Opens a task's record index.md, wherever its status puts it. */
   openTaskRecord(record, newLeaf) {
     const path = recordIndexPath(record, this.app.vault.getMarkdownFiles().map((file) => file.path));
-    if (!path) return void new import_obsidian11.Notice(`No record ${record.repo}/${record.kind}/${record.name}`);
+    if (!path) return void new import_obsidian12.Notice(`No record ${record.repo}/${record.kind}/${record.name}`);
     void this.app.workspace.openLinkText(path, "", newLeaf);
   }
   /** Launch dialog for the factory agent to discuss refining task. */
@@ -22880,17 +23060,17 @@ var GalaxyBrainPlugin = class extends import_obsidian11.Plugin {
     const { execFile } = require("child_process");
     const { homedir: homedir3 } = require("os");
     const PATH = [`${homedir3()}/.local/bin`, ...CLI_BIN_DIRS, process.env.PATH].join(":");
-    const started = new import_obsidian11.Notice(`Running ${label3}\u2026`, 0);
+    const started = new import_obsidian12.Notice(`Running ${label3}\u2026`, 0);
     execFile(executable, args, { env: { ...process.env, PATH }, timeout: 18e4 }, (error, stdout, stderr) => {
       started.hide();
-      if (error) new import_obsidian11.Notice(`${label3} failed: ${(stderr || error.message).trim()}`, 0);
-      else new import_obsidian11.Notice(stdout.trim() || `${label3} done`, 15e3);
+      if (error) new import_obsidian12.Notice(`${label3} failed: ${(stderr || error.message).trim()}`, 0);
+      else new import_obsidian12.Notice(stdout.trim() || `${label3} done`, 15e3);
     });
   }
   launch(vaultRoot, launcher, profile, environment, name, prompt, launched, pending) {
     const { execFile } = require("child_process");
     const where = environment.host ? ` on ${environment.name}` : "";
-    const started = new import_obsidian11.Notice(`Launching ${profile.name} in ${launcher.agentDir}${where}\u2026`, 0);
+    const started = new import_obsidian12.Notice(`Launching ${profile.name} in ${launcher.agentDir}${where}\u2026`, 0);
     pending?.(true);
     const [executable, ...args] = launchArgv(environment, vaultRoot, [launcher.agentDir, profile.agent, name, prompt, ...profileArgs(profile)]);
     execFile(
@@ -22901,16 +23081,16 @@ var GalaxyBrainPlugin = class extends import_obsidian11.Plugin {
         started.hide();
         if (error) {
           pending?.(false);
-          new import_obsidian11.Notice(`Launch failed: ${(stderr || error.message).trim()}`, 15e3);
+          new import_obsidian12.Notice(`Launch failed: ${(stderr || error.message).trim()}`, 15e3);
         } else {
-          new import_obsidian11.Notice(stdout.trim(), 1e4);
+          new import_obsidian12.Notice(stdout.trim(), 1e4);
           launched?.();
         }
       }
     );
   }
 };
-var CommandModal = class extends import_obsidian11.Modal {
+var CommandModal = class extends import_obsidian12.Modal {
   constructor(app, label3, args, run2) {
     super(app);
     this.label = label3;
@@ -22920,7 +23100,7 @@ var CommandModal = class extends import_obsidian11.Modal {
   onOpen() {
     this.setTitle(this.label);
     this.contentEl.createEl("pre", { text: this.args.join(" \\\n  ") });
-    new import_obsidian11.Setting(this.contentEl).addButton(
+    new import_obsidian12.Setting(this.contentEl).addButton(
       (button2) => button2.setButtonText("Run").setCta().onClick(() => {
         this.close();
         this.run();
@@ -22931,11 +23111,11 @@ var CommandModal = class extends import_obsidian11.Modal {
     this.contentEl.empty();
   }
 };
-var LauncherSuggest = class extends import_obsidian11.FuzzySuggestModal {
-  constructor(app, launchers, choose) {
+var LauncherSuggest = class extends import_obsidian12.FuzzySuggestModal {
+  constructor(app, launchers, choose2) {
     super(app);
     this.launchers = launchers;
-    this.choose = choose;
+    this.choose = choose2;
     this.setPlaceholder("Launch agent\u2026");
   }
   getItems() {
@@ -22948,11 +23128,11 @@ var LauncherSuggest = class extends import_obsidian11.FuzzySuggestModal {
     this.choose(launcher);
   }
 };
-var ChoiceSuggest = class extends import_obsidian11.FuzzySuggestModal {
-  constructor(app, choices, placeholder, choose) {
+var ChoiceSuggest = class extends import_obsidian12.FuzzySuggestModal {
+  constructor(app, choices, placeholder, choose2) {
     super(app);
     this.choices = choices;
-    this.choose = choose;
+    this.choose = choose2;
     this.setPlaceholder(placeholder);
   }
   getItems() {
@@ -22965,7 +23145,7 @@ var ChoiceSuggest = class extends import_obsidian11.FuzzySuggestModal {
     this.choose(choice);
   }
 };
-var LaunchModal = class extends import_obsidian11.Modal {
+var LaunchModal = class extends import_obsidian12.Modal {
   constructor(app, launcher, details3) {
     super(app);
     this.launcher = launcher;
@@ -22975,14 +23155,14 @@ var LaunchModal = class extends import_obsidian11.Modal {
     const { launcher } = this;
     let { name, prompt, profile, environment } = this.details;
     this.setTitle(`${launcher.label} in ${launcher.agentDir}`);
-    new import_obsidian11.Setting(this.contentEl).setName("Agent name").addText(
+    new import_obsidian12.Setting(this.contentEl).setName("Agent name").addText(
       (text2) => text2.setValue(name).onChange((value) => name = value)
     );
-    new import_obsidian11.Setting(this.contentEl).setName("Prompt").addTextArea((area) => {
+    new import_obsidian12.Setting(this.contentEl).setName("Prompt").addTextArea((area) => {
       area.setValue(prompt).onChange((value) => prompt = value);
       area.inputEl.rows = 6;
     }).settingEl.addClass("galaxy-brain-launch-prompt");
-    new import_obsidian11.Setting(this.contentEl).addDropdown((dropdown) => {
+    new import_obsidian12.Setting(this.contentEl).addDropdown((dropdown) => {
       for (const option of this.details.profiles) dropdown.addOption(option.name, option.name);
       dropdown.setValue(profile.name).onChange((value) => {
         profile = this.details.profiles.find((option) => option.name === value) ?? profile;

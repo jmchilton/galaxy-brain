@@ -2,6 +2,7 @@
 
 import { notify } from "herdr";
 import type { FindingsEdit, FindingsPanel } from "../../herdr-plugin/src/findings-types";
+import type { BranchPanel } from "../../obsidian-plugin/src/branch-panel";
 import { tasksPath } from "../../obsidian-plugin/src/agent-routines";
 import type { ListedTask } from "../../obsidian-plugin/src/task-list";
 import { appHost } from "./host";
@@ -29,3 +30,6 @@ export const markPrReviewed = (path: string, pr: number) => edit<boolean>(path, 
 /** The panel after the edit. */
 export const editFindings = (file: string, change: FindingsEdit) =>
 	edit<FindingsPanel>(file, "id" in change ? `${change.id} is no longer in ${file}` : `${file} is gone`, { type: "id" in change ? "setFindingInclude" : "setFindingAction", ...change });
+
+/** The panel after setting, or clearing for null, the branch's pr_title. */
+export const setBranchTitle = (index: string, ref: string, title: string | null) => edit<BranchPanel>(index, `${index} is gone`, { type: "setBranchTitle", ref, title });

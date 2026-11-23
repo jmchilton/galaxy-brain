@@ -36,6 +36,7 @@ import { parseTasks, recordIndexPath, refinementPrompt, replaceBlockBody, type T
 import { ALL_REPOS, REPOSITORY_VIEW, RepositoryView } from "./repository-view";
 import { renderRecordStrip } from "./record-strip";
 import { type FindingsStripState, renderFindings } from "./findings-strip";
+import { type BranchStripState, renderBranchPanel } from "./branch-strip";
 
 const PROFILES_PATH = "agents/_shared/AGENT_PROFILES.yml";
 const ENVIRONMENTS_PATH = "agents/_shared/ENVIRONMENTS.yml";
@@ -49,6 +50,8 @@ export default class GalaxyBrainPlugin extends Plugin {
 	private recordStrips = new WeakMap<MarkdownView, { path: string; el: HTMLElement }>();
 	/** Findings panels' state, by record dir. */
 	private findingsStates = new Map<string, FindingsStripState>();
+	/** Branch PR panels' state, by record dir. */
+	private branchStates = new Map<string, BranchStripState>();
 
 	async onload() {
 		registerDifferentialReview(this);
@@ -148,7 +151,7 @@ export default class GalaxyBrainPlugin extends Plugin {
 		};
 		// Only files that decide what a strip shows.
 		const onModify = ({ path }: { path: string }) => {
-			if (path.startsWith("repositories/") && /\/((FILE_DOCS|LAUNCHERS|MY_[A-Z]+|index|human_review|johns_review_\d+_(comment|pr)_note)\.md|review_\d+_findings\.yml)$/.test(path)) redraw();
+			if (path.startsWith("repositories/") && /\/((FILE_DOCS|LAUNCHERS|MY_[A-Z]+|index|human_review|pr_(titles|tags|checklist|description)|johns_review_\d+_(comment|pr)_note)\.md|review_\d+_findings\.yml)$/.test(path)) redraw();
 		};
 		this.app.workspace.onLayoutReady(() => {
 			refresh();
@@ -192,6 +195,11 @@ export default class GalaxyBrainPlugin extends Plugin {
 			record,
 			launchers.map((launcher) => ({ label: launcher.label, tooltip: launcher.command ?? launcher.prompt, run: () => void this.confirmLaunch(launcher, record) })),
 		);
+		if (record.kind === "branches") {
+			let state = this.branchStates.get(record.dir);
+			if (!state) this.branchStates.set(record.dir, (state = { previewOpen: false }));
+			await renderBranchPanel(this.app, filled, record, this, state);
+		}
 		const adapter = this.app.vault.adapter;
 		if (record.kind === "reviews" && adapter instanceof FileSystemAdapter) {
 			const vaultRoot = adapter.getBasePath();

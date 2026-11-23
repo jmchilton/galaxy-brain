@@ -1,4 +1,4 @@
-// `app` requests, for the Herdr app's mods only, not Chrome: note edits, the findings panel, environments and auto actions, which keep the YAML
+// `app` requests, for the Herdr app's mods only, not Chrome: note edits, the findings and branch PR panels, environments and auto actions, which keep the YAML
 // parser out of the app's one script heap, repository listings, the error log, and forking an agent's session.
 
 import { readFileSync, existsSync } from "node:fs";
@@ -8,6 +8,7 @@ import { tasksPath } from "../../obsidian-plugin/src/agent-routines";
 import { isCrackFile, setMissedPrReviewed } from "../../obsidian-plugin/src/missed-prs";
 import { removeTask, snoozeTask } from "../../obsidian-plugin/src/task-list";
 import { type AutoActionChange, autoActionsPanel, DISPATCH_CONFIG_PATH, editAutoAction } from "./auto-actions";
+import { branchPanel, branchTitleEdit } from "./branch-host";
 import { type ErrorLogDeps, logRenderFailure, logStatusErrors } from "./error-log";
 import { findingsCheck, findingsCommit, findingsEdit, findingsPanel } from "./findings-host";
 import type { FindingsEdit } from "./findings-types";
@@ -40,6 +41,9 @@ export type AppRequest =
 	/** Started, then polled for its result. */
 	| { type: "findingsCheck"; ref: string; check: "start" | "result" }
 	| { type: "findingsCommit"; ref: string; sha: string }
+	| { type: "branchPanel"; ref: string }
+	/** Answers the new panel; a null title clears it. */
+	| { type: "setBranchTitle"; ref: string; title: string | null }
 	| { type: "autoActions" }
 	/** Answers the new panel, or false when the action is gone. */
 	| ({ type: "setAutoAction" } & AutoActionChange)
@@ -99,6 +103,12 @@ export function appRequest(request: AppRequest, deps: AppHostDeps): unknown {
 			return findingsCheck(vaultRoot, request);
 		case "findingsCommit":
 			return findingsCommit(vaultRoot, request);
+		case "branchPanel":
+			return branchPanel(vaultRoot, request.ref);
+		case "setBranchTitle": {
+			const edit = branchTitleEdit(vaultRoot, request);
+			return editNote(vaultRoot, edit.path, edit.change) && branchPanel(vaultRoot, request.ref);
+		}
 		case "autoActions":
 			return autoActionsPanel(vaultRoot);
 		case "setAutoAction": {

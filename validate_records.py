@@ -35,7 +35,7 @@ RECORD_STATUSES = {
     "reviews": ("active", "archived"),
 }
 RECORD_KINDS = tuple(RECORD_STATUSES)
-BRANCH_ONLY_FIELDS = ("upstream_base_branch", "parent_branch", "child_branches", "pr")
+BRANCH_ONLY_FIELDS = ("upstream_base_branch", "parent_branch", "child_branches", "pr", "pr_title")
 # Mirrors TERMINAL_STATUSES in site/src/lib/records.ts.
 TERMINAL_STATUSES = {"merged", "abandoned", "archived", "closed", "rejected"}
 
