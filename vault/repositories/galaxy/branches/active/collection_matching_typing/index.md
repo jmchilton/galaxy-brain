@@ -11,13 +11,13 @@ related_records:
 
 ## Status
 
-Status: `branches_implemented_needs_ci`, hardening before polish (John, 2026-11-23). Head `772533a98a3` (seven commits on `dev` `7dd58b00674`; test challenges fixed a truthiness regression, thermo-nuclear review tidied structure typing): fully types `galaxy.model.dataset_collections.{matching,structure}`, drops both from the `mypy.ini` red list and narrows the call sites in `tools/execute.py`, `workflow/modules.py` and `workflow/map_over.py`. Worktree: `~/projects/worktrees/galaxy/branch/collection_matching_typing`.
+Status: `branches_implemented_needs_ci`, hardening before polish (John, 2026-11-23). Head `78266137b64` (four commits on `dev` `7dd58b00674` after baseline refactor; backup `collection_matching_typing_pre_baseline_backup`): fully types `galaxy.model.dataset_collections.{matching,structure}`, drops both from the `mypy.ini` red list and narrows the call sites in `tools/execute.py`, `workflow/modules.py` and `workflow/map_over.py`. Worktree: `~/projects/worktrees/galaxy/branch/collection_matching_typing`.
 
 No PR.
 
-Fork CI on `772533a98a3` not yet seen. Locally mypy on touched modules and their consumers matches `dev`, and the dataset collection, workflow module and tool execution unit tests pass.
+Fork CI on `78266137b64` not yet seen. Locally mypy on touched modules and their consumers matches `dev`, and the dataset collection, workflow module and tool execution unit tests pass.
 
-[Test challenges](test_challenges_debrief.md) · [Codex](codex_review.md) · [Thermo-nuclear](thermo_nuclear_review.md)
+[Test challenges](test_challenges_debrief.md) · [Codex](codex_review.md) · [Thermo-nuclear](thermo_nuclear_review.md) · [Baseline refactor](baseline_refactor.md)
 
 ## Decisions
 
