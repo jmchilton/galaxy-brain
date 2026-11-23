@@ -7,3 +7,7 @@
 Approved on `82550bcf062` 2026-11-07, review posted (3 P2s + 10 P3s; all fixed on `pr_24687_review_0`); awaiting merge.
 
 PR open against `dev`, out of draft.
+
+## Archived
+
+Merged 2026-11-23; tracking ended (GitHub state: MERGED).

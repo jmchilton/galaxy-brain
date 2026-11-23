@@ -17,3 +17,7 @@ PR open, out of draft; CI pending on `eaa6202814b`; `TestEmbeddedMessageQueuePul
 ## Author follow-up
 
 - 2026-11-21: mvdbeek reported the PR deployed on test and working. He asked inline on `pulsar.py:1453` whether `runner_state` can be a list and whether we should raise (P3 4 guard). [Reply](reply_runner_state_guard_draft.md) posted 2026-11-22: https://github.com/galaxyproject/galaxy/pull/24804#discussion_r4659661024
+
+## Archived
+
+Merged 2026-11-23; tracking ended (GitHub state: MERGED).

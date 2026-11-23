@@ -8,3 +8,7 @@
 
 - [Findings](review_0_findings.yml) · [comment note](johns_review_0_comment_note.md) · [PR note](johns_review_0_pr_note.md)
 - Reports: [default](initial_review.md) · [test challenges](test_challenges_review.md) ([debrief](test_challenges_debrief.md)) · [risks](risks.md)
+
+## Archived
+
+Merged 2026-11-23; tracking ended (GitHub state: MERGED).

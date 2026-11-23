@@ -12,3 +12,7 @@
 - Findings: [review_0_findings.yml](review_0_findings.yml)
 - Notes: [comment](johns_review_0_comment_note.md), [review-branch PR body](johns_review_0_pr_note.md)
 - Reports: [default](initial_review.md), [thermo](thermo_review.md), [test challenges](test_challenges_review.md) ([debrief](test_challenges_debrief.md)), [risks](risks.md), [learning_galaxy](learning_galaxy.md) ([vault follow-up](learning_galaxy_followup_issue.md))
+
+## Archived
+
+Merged 2026-11-23; tracking ended (GitHub state: MERGED).

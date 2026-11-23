@@ -11,4 +11,4 @@ Leave out tool evaluation internals and compute-environment path rewrites (reque
 ## Requested by
 
 - vault/repositories/galaxy/reviews/active/23986: learning review needed `prepare()` and the `build_command` assembly order (what is prepended, appended, containerized, and run regardless of the tool's exit status) as a baseline for the protected-job hooks.
-- vault/repositories/galaxy/reviews/active/25023: needed the remote-evaluation branch of `prepare()` (files written to `metadata/outputs_new/`), the guarded `remote_tool_eval && { ... }` job script shape, and `Tool.job_directory_files`.
+- vault/repositories/galaxy/reviews/archived/25023: needed the remote-evaluation branch of `prepare()` (files written to `metadata/outputs_new/`), the guarded `remote_tool_eval && { ... }` job script shape, and `Tool.job_directory_files`.

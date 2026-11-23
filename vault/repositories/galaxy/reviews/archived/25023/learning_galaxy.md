@@ -118,5 +118,5 @@ sequenceDiagram
 
 Both relevant gaps already have pending requests; per this run's coordinator instructions nothing outside this file and the follow-up file was written. Suggested `## Requested by` lines for the coordinator to add:
 
-- `vault/agents/gx_research/todo/tool_evaluation_compute_environment.md` — `vault/repositories/galaxy/reviews/active/25023`: needed `RemoteComputeEnvironment`, the `compute_environment.json` path map, the new `input_metadata_rewrite(dataset, metadata_name, metadata_file)` signature, and `RemoteToolEvaluator` without an object store.
-- `vault/agents/gx_research/todo/job_preparation_and_job_script.md` — `vault/repositories/galaxy/reviews/active/25023`: needed the remote-evaluation branch of `prepare()` (files written to `metadata/outputs_new/`), the guarded `remote_tool_eval && { ... }` job script shape, and `Tool.job_directory_files`.
+- `vault/agents/gx_research/todo/tool_evaluation_compute_environment.md` — `vault/repositories/galaxy/reviews/archived/25023`: needed `RemoteComputeEnvironment`, the `compute_environment.json` path map, the new `input_metadata_rewrite(dataset, metadata_name, metadata_file)` signature, and `RemoteToolEvaluator` without an object store.
+- `vault/agents/gx_research/todo/job_preparation_and_job_script.md` — `vault/repositories/galaxy/reviews/archived/25023`: needed the remote-evaluation branch of `prepare()` (files written to `metadata/outputs_new/`), the guarded `remote_tool_eval && { ... }` job script shape, and `Tool.job_directory_files`.

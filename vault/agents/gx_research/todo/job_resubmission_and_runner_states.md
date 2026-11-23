@@ -18,4 +18,4 @@ galaxy#24804 replaces four hand-kept lists of failure reasons with a registry, a
 
 ## Requested by
 
-- vault/repositories/galaxy/reviews/active/24804: needed the resubmit handler, condition variables and runner-state flow to explain the PR, and found no note.
+- vault/repositories/galaxy/reviews/archived/24804: needed the resubmit handler, condition variables and runner-state flow to explain the PR, and found no note.
