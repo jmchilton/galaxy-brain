@@ -3,6 +3,7 @@ upstream_base_branch: dev
 related_records:
   - galaxy/branches/subworkflow_mapping
   - galaxy/branches/mapping_axes_clarity_correctness
+  - galaxy/branches/collection_matching_typing
 ---
 # mapping_axes_model
 

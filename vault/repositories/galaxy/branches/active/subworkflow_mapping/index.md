@@ -3,6 +3,7 @@ upstream_base_branch: dev
 pr: 23676
 related_records:
   - galaxy/branches/mapping_axes_model
+  - galaxy/branches/collection_matching_typing
   - galaxy/branches/mapping_axes_clarity_correctness
   - galaxy/branches/workflow_test_timeouts
   - galaxy/branches/subworkflow_mapping_per_step_semantics
