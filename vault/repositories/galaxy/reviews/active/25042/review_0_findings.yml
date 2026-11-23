@@ -1,0 +1,86 @@
+round: 0
+reviewed_commit: c29193e2b0fa39e9d76a09c88c8ea93a88615e11
+agents:
+  - {profile: default, path: _shared/reviewers/default.md, model: Claude Opus 5.5, effort: medium}
+  - {profile: gx_test_challenger, path: _shared/reviewers/gx_test_challenger.md, model: Claude Opus 5.5, effort: low}
+  - {profile: gx_risk_assessment, path: _shared/reviewers/gx_risk_assessment.md, model: Claude Opus 5.5, effort: low}
+  - {profile: gx_performance_challenger, path: _shared/reviewers/gx_performance_challenger.md, model: Claude Opus 5.5, effort: medium}
+verification: {model: Claude Opus 5.5, effort: medium}
+branches:
+  - name: pr_25042_round_0_rev_0
+    revision: 0
+    head: c7314279e0a
+    pr_title: Match text and select step input defaults to the saved form state
+    description: |
+      `pr_25042_round_0_rev_0` builds on `c29193e2b0f`. It round trips each step input default through `params_to_strings` / `params_from_strings` before comparing it with the form, so a text or select default written as a YAML number survives an unrelated editor save (with a unit test and a `gx_text` API test), adds a `WorkflowStep.input_defaults` property that the export and editor dicts share, types the new step input form default helpers, and trims the `same_form_value` test to its empty-value cases.
+    commits:
+      - sha: 69e181f4630
+        subject: Compare text and select step input defaults as the saved form state decodes them
+        detail: computes `StepInputFormDefault.value` with `params_to_strings` / `params_from_strings` instead of `to_python` alone, with a unit test and an API editor-save test that both fail on the PR head.
+        findings: [P2 1]
+      - sha: 03ce9f541b2
+        subject: Gather step input defaults with WorkflowStep.input_defaults
+        detail: adds the property next to `get_input_default_value` and uses it in `_add_step_in` and the editor dict.
+        findings: [P3 1]
+      - sha: a03b0551294
+        subject: Type the step input form default helpers
+        detail: types `inputs` as `ToolInputsT`, the state as `dict[str, Any]` and the defaults as `dict[str, Any]`.
+        findings: [P3 2]
+      - sha: c7314279e0a
+        subject: Keep only the empty value cases in the same_form_value test
+        detail: drops the `(7, 7)` and `(3, 7)` cases, which only test `==`.
+        findings: [P3 3]
+actions: {approve: false, approve_and_merge: false, comment: false, review_comment: false, request_changes: false, pull_request: false, push: false, issue_refactor: false, issue_galaxy_brain: false}
+findings:
+  - id: P2 1
+    include: true
+    title: Text and select defaults written as numbers are dropped on an unrelated save
+    summary: text default 7 / select default 1 never equals the decoded form "7" / "1", so the first unrelated editor save drops the default. Fixed with a round trip.
+    implementation_verified: true
+    issue: |
+      `step_input_form_defaults` converts the default with `input.to_python`, but `ToolParameter.to_python` is the identity and `TextToolParameter` / `SelectToolParameter` don't coerce. The form side goes through `params_to_strings` and `params_from_strings`, and `safe_loads` keeps scalars as strings. A Format 2 text default of `7`, or a select default of `1` on options `"1"`/`"2"`, therefore comes back from the editor as `"7"` / `"1"`. `same_form_value("7", 7)` is `False`, so the default counts as changed in the form and is dropped on a save where the user touched nothing. The value that runs is the same, but the workflow is silently rewritten (export loses `in`, the value moves into `state`), contrary to the stated rule that a default is kept while the form still shows it.
+    evidence: |
+      The new unit test fails on `c29193e2b0f` with `same_form_value('7', 7)` returning `False` for the text parameter, and the new API test fails there with the step's `in` gone after an unmodified editor save.
+    fix: |
+      `step_input_form_defaults` now converts each default through `params_to_strings` and `params_from_strings`, the round trip the saved tool state takes, so the editor shows and compares the default the way the form decodes it. Integer, float and boolean defaults convert as before. Added `test_step_input_form_defaults_match_the_saved_form_state`, which shows text and select defaults in the form, round trips the state and checks both still match, and `test_update_from_editor_keeps_numeric_text_step_input_default`, which saves a `gx_text` step with `default: 7` unchanged through the editor path and checks the default is kept. Both fail on the PR head and pass on the branch.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+  - id: P3 1
+    include: true
+    title: Step input defaults are gathered in two places
+    summary: optional; `_add_step_in` and the editor dict both filter `step.inputs` on `default_value_set`. Fixed with `WorkflowStep.input_defaults`.
+    issue: |
+      `_add_step_in` and `_workflow_to_dict_editor` both build the name-to-default mapping from `step.inputs` filtered on `default_value_set`. A `WorkflowStep` property next to `inputs_by_name` / `get_input_default_value` would leave one place that knows what a set default is. Optional.
+    fix: |
+      Added `WorkflowStep.input_defaults` and used it in both places.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+  - id: P3 2
+    include: true
+    title: Loose typing on the new helpers
+    summary: "`dict[Any, Any]` and untyped inputs/state where `ToolInputsT` and `dict[str, Any]` fit. Fixed."
+    issue: |
+      `step_input_form_defaults` and the two `ToolModule` methods take `dict[Any, Any]` for defaults that are always keyed by prefixed input name, and `inputs` / `state_inputs` are untyped though `ToolInputsT` exists in `galaxy.tools.parameters`.
+    fix: |
+      Typed `inputs` as `ToolInputsT` and the state and defaults as `dict[str, Any]`. mypy reports no new errors in the changed modules.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+  - id: P3 3
+    include: true
+    title: "`same_form_value` test cases that only test `==`"
+    summary: optional; `(7, 7, True)` and `(3, 7, False)` restate `==`. Dropped, empty-value cases kept.
+    issue: |
+      `test_same_form_value_treats_empty_values_as_equal` also checks `(7, 7, True)` and `(3, 7, False)`, which only exercise `==`. The empty-value cases are the non-obvious behavior worth pinning. Optional.
+    fix: |
+      Dropped the two equality cases.
+    discovered_by:
+      - {profile: gx_test_challenger, model: Claude Opus 5.5, effort: low}
+  - id: F1
+    include: false
+    title: No API test for an untouched scalar default surviving an editor save
+    summary: author dropped exactly this API test in 087f86ec20d as covered by the browser test.
+    filtered:
+      category: relitigates_pr
+      reason: the untouched gx_int case is covered by the browser test and 087f86ec20d dropped its API twin on purpose; the reachable gap (text/select) is now covered under P2 1.
+    discovered_by:
+      - {profile: gx_test_challenger, model: Claude Opus 5.5, effort: low}
