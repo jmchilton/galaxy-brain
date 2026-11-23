@@ -1,0 +1,118 @@
+{
+  "schemaVersion": 1,
+  "kind": "differential-review-state",
+  "updatedAt": "2026-11-23T18:40:24.798Z",
+  "hunks": {
+    "h1:523a7a2c36e7417b": {
+      "snapshotId": "20261115T014228Z-revision-349c6fd7abcc",
+      "path": "client/packages/api-client/src/schema/schema.ts",
+      "reviewedAt": "2026-11-23T18:39:28.892Z"
+    },
+    "h1:f02fbb66185e66f9": {
+      "snapshotId": "20261115T014228Z-revision-349c6fd7abcc",
+      "path": "client/packages/api-client/src/schema/schema.ts",
+      "reviewedAt": "2026-11-23T18:39:28.892Z"
+    },
+    "h1:70675b7899fe05ff": {
+      "snapshotId": "20261115T014228Z-revision-349c6fd7abcc",
+      "path": "client/src/components/Tool/ToolCard.vue",
+      "reviewedAt": "2026-11-23T18:39:34.856Z"
+    },
+    "h1:65ebde789599ebef": {
+      "snapshotId": "20261115T014228Z-revision-349c6fd7abcc",
+      "path": "client/src/components/Tool/ToolHelp.vue",
+      "reviewedAt": "2026-11-23T18:39:44.893Z"
+    },
+    "h1:87e04f1c9b89c173": {
+      "snapshotId": "20261115T014228Z-revision-349c6fd7abcc",
+      "path": "client/src/components/Tool/ToolHelpMarkdown.test.ts",
+      "reviewedAt": "2026-11-23T18:39:51.063Z"
+    },
+    "h1:febec6a9f5997a85": {
+      "snapshotId": "20261115T014228Z-revision-349c6fd7abcc",
+      "path": "client/src/components/Tool/ToolHelpMarkdown.vue",
+      "reviewedAt": "2026-11-23T18:39:58.784Z"
+    },
+    "h1:8587ba194775ce39": {
+      "snapshotId": "20261115T014228Z-revision-349c6fd7abcc",
+      "path": "client/src/components/Tool/ToolHelpRst.test.js",
+      "reviewedAt": "2026-11-23T18:40:01.814Z"
+    },
+    "h1:f46055a4d9e810cc": {
+      "snapshotId": "20261115T014228Z-revision-349c6fd7abcc",
+      "path": "client/src/components/Tool/ToolHelpRst.test.js",
+      "reviewedAt": "2026-11-23T18:40:01.814Z"
+    },
+    "h1:6c123d8ac3d4088b": {
+      "snapshotId": "20261115T014228Z-revision-349c6fd7abcc",
+      "path": "client/src/components/Tool/ToolHelpRst.vue",
+      "reviewedAt": "2026-11-23T18:40:06.684Z"
+    },
+    "h1:119447098c8722bc": {
+      "snapshotId": "20261115T014228Z-revision-349c6fd7abcc",
+      "path": "client/src/components/Tool/ToolHelpRst.vue",
+      "reviewedAt": "2026-11-23T18:40:06.684Z"
+    },
+    "h1:8dfb6774d716c66f": {
+      "snapshotId": "20261115T014228Z-revision-349c6fd7abcc",
+      "path": "client/src/components/ToolsList/ToolsListCard.test.ts",
+      "reviewedAt": "2026-11-23T18:40:07.843Z"
+    },
+    "h1:14843097e50c1700": {
+      "snapshotId": "20261115T014228Z-revision-349c6fd7abcc",
+      "path": "client/src/components/ToolsList/ToolsListCard.vue",
+      "reviewedAt": "2026-11-23T18:40:08.816Z"
+    },
+    "h1:d82a7de5acddf397": {
+      "snapshotId": "20261115T014228Z-revision-349c6fd7abcc",
+      "path": "client/src/composables/formattedToolHelp.js",
+      "reviewedAt": "2026-11-23T18:40:17.350Z"
+    },
+    "h1:8bcb96d893261860": {
+      "snapshotId": "20261115T014228Z-revision-349c6fd7abcc",
+      "path": "client/src/composables/formattedToolHelp.js",
+      "reviewedAt": "2026-11-23T18:40:17.350Z"
+    },
+    "h1:3b17270af1976b4f": {
+      "snapshotId": "20261115T014228Z-revision-349c6fd7abcc",
+      "path": "client/src/utils/navigation/navigation.yml",
+      "reviewedAt": "2026-11-23T18:40:19.626Z"
+    },
+    "h1:c59635807643e2a5": {
+      "snapshotId": "20261115T014228Z-revision-349c6fd7abcc",
+      "path": "lib/galaxy/tool_shed/util/shed_util_common.py",
+      "reviewedAt": "2026-11-23T18:40:24.798Z"
+    },
+    "h1:807b6abb2e227f04": {
+      "snapshotId": "20261115T014228Z-revision-349c6fd7abcc",
+      "path": "lib/galaxy/tool_shed/util/shed_util_common.py",
+      "reviewedAt": "2026-11-23T18:40:24.798Z"
+    },
+    "h1:8af09e16b3652a25": {
+      "snapshotId": "20261115T014228Z-revision-349c6fd7abcc",
+      "path": "lib/galaxy/tool_shed/util/shed_util_common.py",
+      "reviewedAt": "2026-11-23T18:40:24.798Z"
+    },
+    "h1:80907ac1532a49d7": {
+      "snapshotId": "20261115T014228Z-revision-349c6fd7abcc",
+      "path": "lib/galaxy/tool_shed/util/shed_util_common.py",
+      "reviewedAt": "2026-11-23T18:40:24.798Z"
+    },
+    "h1:88b0494cb6b6886d": {
+      "snapshotId": "20261115T014228Z-revision-349c6fd7abcc",
+      "path": "lib/galaxy/tool_shed/util/shed_util_common.py",
+      "reviewedAt": "2026-11-23T18:40:24.798Z"
+    },
+    "h1:3a6099e769fb76a0": {
+      "snapshotId": "20261115T014228Z-revision-349c6fd7abcc",
+      "path": "lib/galaxy/tool_shed/util/shed_util_common.py",
+      "reviewedAt": "2026-11-23T18:40:24.798Z"
+    },
+    "h1:58527fd17ea62902": {
+      "snapshotId": "20261115T014228Z-revision-349c6fd7abcc",
+      "path": "lib/galaxy/tool_shed/util/shed_util_common.py",
+      "reviewedAt": "2026-11-23T18:40:24.798Z"
+    }
+  },
+  "commits": {}
+}
