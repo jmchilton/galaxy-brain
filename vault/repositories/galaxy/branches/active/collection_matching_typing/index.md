@@ -11,11 +11,11 @@ related_records:
 
 ## Status
 
-Status: `branches_implemented_needs_ci`, re-hardening after the scope expansion John approved. Head `f45e16e607d` (seven commits on `dev` `7dd58b00674`; backup of pre-refactor history `collection_matching_typing_pre_baseline_backup`): fully types `galaxy.model.dataset_collections.{matching,structure,type_description,registry}`, drops all four from the `mypy.ini` red list and narrows the call sites in `tools/execute.py`, `workflow/modules.py` and `workflow/map_over.py`. Worktree: `~/projects/worktrees/galaxy/branch/collection_matching_typing`.
+Status: `branches_need_polish`; hardened (scope expanded per John). Head `8a815b7a807` (seven commits on `dev` `7dd58b00674`; backup of pre-refactor history `collection_matching_typing_pre_baseline_backup`): fully types `galaxy.model.dataset_collections.{matching,structure,type_description,registry}`, drops all four from the `mypy.ini` red list and narrows the call sites in `tools/execute.py`, `workflow/modules.py` and `workflow/map_over.py`. Worktree: `~/projects/worktrees/galaxy/branch/collection_matching_typing`.
 
 No PR.
 
-Fork CI on `f45e16e607d` not yet seen. Locally mypy on touched modules and their consumers matches `dev`, and the dataset collection, workflow module and tool execution unit tests pass.
+Fork CI on `8a815b7a807` pending; `78266137b64` lint red (B018 in `test_structure.py`) fixed. Locally flake8 and format clean, mypy (targeted and full `make mypy`) matches `dev`, 454 unit tests pass.
 
 [Test challenges](test_challenges_debrief.md) · [Codex](codex_review.md) · [Thermo-nuclear](thermo_nuclear_review.md) · [Baseline refactor](baseline_refactor.md) · [Scope evaluation](scope_evaluation.md) · [Re-scope](implementation_rescope_debrief.md) · Earlier: [earlier_drafts/1/](earlier_drafts/1/)
 
