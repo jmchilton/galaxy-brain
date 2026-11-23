@@ -4,6 +4,7 @@ pr: 23676
 related_records:
   - galaxy/branches/mapping_axes_model
   - galaxy/branches/collection_matching_typing
+  - galaxy/branches/editor_subworkflow_map_over_tests
   - galaxy/branches/mapping_axes_clarity_correctness
   - galaxy/branches/workflow_test_timeouts
   - galaxy/branches/subworkflow_mapping_per_step_semantics
