@@ -38,7 +38,7 @@ Run `_shared/GX_PROCESS_CHECK_BRANCH.md` and fix any errors.
 
 ## 8. PR Titles
 
-Place 3-5 title options as a simple markdown list in `BRANCH_DIRECTORY/pr_titles.md`. For a release-branch target, prefix every title with Galaxy's version tag (`[26.0]` for `release_26.0`).
+Place 3-5 title options as a simple markdown list in `BRANCH_DIRECTORY/pr_titles.md`. For a release-branch target, prefix every title with Galaxy's version tag (`[26.0]` for `release_26.0`). John picks one as `pr_title` in `index.md`'s frontmatter; a PR opened later uses it, else the first option.
 
 ## 9. PR Tags
 

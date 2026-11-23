@@ -45,29 +45,28 @@ describe("branchPanel", () => {
 		expect(panel.warnings).toEqual(["⚠️ The chosen title isn't in pr_titles.md"]);
 	});
 
-	it("is blocked without pr_description.md, and flags no labels and a no", () => {
-		const panel = branchPanel(files({ description: null, tags: null, checklist: "- [x] a\n- [ ] b\n" }))!;
+	it("is blocked without pr_description.md or human_review.md, and flags no labels and a no", () => {
+		const panel = branchPanel(files({ description: null, humanReview: null, tags: null, checklist: "- [x] a\n- [ ] b\n" }))!;
 		expect(panel.status).toBe("⛔ No pr_description.md; Open PR stops");
-		expect(panel.warnings).toEqual(["⚠️ No title chosen; Open PR takes the first", "⚠️ No pr_tags.md; the PR gets no labels", "⚠️ Checklist 1/2 answered yes"]);
+		expect(panel.warnings).toEqual([
+			"⛔ No human_review.md; Open PR stops until you review the latest snapshot",
+			"⚠️ No title chosen; Open PR takes the first",
+			"⚠️ No pr_tags.md; the PR gets no labels",
+			"⚠️ Checklist 1/2 answered yes",
+		]);
 		expect(panel.preview).toBeNull();
 	});
 
-	it("is blocked without human_review.md when the description has its placeholder", () => {
-		const panel = branchPanel(files({ index: "---\npr_title: First title\n---\n", humanReview: null }))!;
-		expect(panel.status).toBe("⛔ No human_review.md; review the latest differential review snapshot");
-		expect(panel.warnings).toEqual([]);
-		expect(panel.preview).toContain(PLACEHOLDER);
-	});
-
-	it("only warns without human_review.md when the description has no placeholder for it", () => {
+	it("is blocked without human_review.md even when the description has no placeholder", () => {
 		const panel = branchPanel(files({ index: "---\npr_title: First title\n---\n", description: "Body\n", humanReview: null }))!;
-		expect(panel.status).toBe("✅ Ready to open the PR");
-		expect(panel.warnings).toEqual(["⚠️ No human_review.md; review the latest differential review snapshot"]);
+		expect(panel.status).toBe("⛔ No human_review.md; Open PR stops until you review the latest snapshot");
+		expect(panel.warnings).toEqual([]);
+		expect(panel.preview).toBe("# First title\n\nBody\n");
 	});
 
 	it("only reports the open PR once there is one", () => {
 		const panel = branchPanel(files({ index: "---\npr: 25077\n---\n", humanReview: null, tags: null }))!;
-		expect(panel.status).toBe("✅ PR #25077 is open");
+		expect(panel.status).toBe("✅ PR #25077");
 		expect(panel.pr).toBe(25077);
 		expect(panel.warnings).toEqual([]);
 	});

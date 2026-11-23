@@ -22470,14 +22470,14 @@ function branchPanel(files) {
   const warnings = [];
   if (!pr) {
     if (files.description === null) errors.push("No pr_description.md; Open PR stops");
-    if (files.humanReview === null) (files.description !== null && PLACEHOLDER2.test(files.description) ? errors : warnings).push("No human_review.md; review the latest differential review snapshot");
+    if (files.humanReview === null) errors.push("No human_review.md; Open PR stops until you review the latest snapshot");
     if (!chosen) warnings.push(options.length ? "No title chosen; Open PR takes the first" : "No pr_titles.md options");
     else if (!options.includes(chosen)) warnings.push("The chosen title isn't in pr_titles.md");
     if (files.tags === null) warnings.push("No pr_tags.md; the PR gets no labels");
   }
   const check = checklist(files.checklist);
   if (!pr && check && check.done < check.total) warnings.push(`Checklist ${check.done}/${check.total} answered yes`);
-  const status = pr ? `\u2705 PR #${pr} is open` : errors.length ? `\u26D4 ${errors[0]}` : "\u2705 Ready to open the PR";
+  const status = pr ? `\u2705 PR #${pr}` : errors.length ? `\u26D4 ${errors[0]}` : "\u2705 Ready to open the PR";
   const title = chosen ?? options[0];
   return {
     status,
