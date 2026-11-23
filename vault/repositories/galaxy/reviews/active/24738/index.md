@@ -7,6 +7,8 @@
 
 Initial review (round 0) on `c55d04482f9` ready, unposted; trimmed by John 2026-11-11 to two P2s + three P3s (P2 3, P2 4, P3 1–3), all fixed on `pr_24738_round_0_rev_1` (pushed to jmchilton fork, not into PR). `rev_0` keeps the untrimmed fixes.
 
+2026-11-23: John had a `dev` merge pushed into the PR (`dcd8410b095` → `30d71956c29`, merging `7dd58b00674`) to clear conflicts with dev's `invocation_update`/`job_update` SSE work in `lib/galaxy/app/__init__.py` and `lib/galaxy/queue_worker/__init__.py`; both sides kept. Quota, change-event and SSE entity unit tests pass. Dev's `ChangeEventPublisher` (`lib/galaxy/managers/change_events.py`) now sits beside the PR's own `send_user_quota_updates_on_commit` listener — possible shared abstraction for re-review.
+
 ## Round 0 (`c55d04482f9`)
 
 - [verified_review.md](verified_review.md) · [initial_review_response.md](initial_review_response.md) · [initial_response_action.md](initial_response_action.md) · [verified_findings_checklist.md](verified_findings_checklist.md)
