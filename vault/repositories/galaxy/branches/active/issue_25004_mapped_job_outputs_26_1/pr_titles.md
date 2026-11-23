@@ -1,0 +1,4 @@
+- [26.1] Don't list the map-over collection as each mapped job's output
+- [26.1] Fix Job Outputs listing the whole map-over collection for each element's job
+- [26.1] Fix Dataset Details showing the parent collection as a mapped job's output
+- [26.1] Only show a mapped job's own outputs in Job Outputs
