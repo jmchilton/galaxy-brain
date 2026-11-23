@@ -11,13 +11,13 @@ related_records:
 
 ## Status
 
-Status: `branches_implemented_needs_ci`, implementing the scope expansion John approved. Head `78266137b64` (four commits on `dev` `7dd58b00674` after baseline refactor; backup `collection_matching_typing_pre_baseline_backup`): fully types `galaxy.model.dataset_collections.{matching,structure}`, drops both from the `mypy.ini` red list and narrows the call sites in `tools/execute.py`, `workflow/modules.py` and `workflow/map_over.py`. Worktree: `~/projects/worktrees/galaxy/branch/collection_matching_typing`.
+Status: `branches_implemented_needs_ci`, re-hardening after the scope expansion John approved. Head `f45e16e607d` (seven commits on `dev` `7dd58b00674`; backup of pre-refactor history `collection_matching_typing_pre_baseline_backup`): fully types `galaxy.model.dataset_collections.{matching,structure,type_description,registry}`, drops all four from the `mypy.ini` red list and narrows the call sites in `tools/execute.py`, `workflow/modules.py` and `workflow/map_over.py`. Worktree: `~/projects/worktrees/galaxy/branch/collection_matching_typing`.
 
 No PR.
 
-Fork CI on `78266137b64` not yet seen. Locally mypy on touched modules and their consumers matches `dev`, and the dataset collection, workflow module and tool execution unit tests pass.
+Fork CI on `f45e16e607d` not yet seen. Locally mypy on touched modules and their consumers matches `dev`, and the dataset collection, workflow module and tool execution unit tests pass.
 
-[Test challenges](test_challenges_debrief.md) · [Codex](codex_review.md) · [Thermo-nuclear](thermo_nuclear_review.md) · [Baseline refactor](baseline_refactor.md) · [Scope evaluation](scope_evaluation.md)
+[Test challenges](test_challenges_debrief.md) · [Codex](codex_review.md) · [Thermo-nuclear](thermo_nuclear_review.md) · [Baseline refactor](baseline_refactor.md) · [Scope evaluation](scope_evaluation.md) · [Re-scope](implementation_rescope_debrief.md) · Earlier: [earlier_drafts/1/](earlier_drafts/1/)
 
 ## Decisions
 
@@ -26,3 +26,4 @@ Fork CI on `78266137b64` not yet seen. Locally mypy on touched modules and their
 - `subworkflow_mapping` and `mapping_axes_model` will conflict with this in `matching.py`, `structure.py`, `type_description.py`, `tools/execute.py`, `workflow/modules.py` and `mypy.ini` until rebased onto it.
 - `MatchingCollections.structure` is now non-optional `BaseTree` (asserts; `for_collections` never builds a collection-less match).
 - John (2026-11-23): full scope expansion per [scope evaluation](scope_evaluation.md): `is None` for linked-match and `map_over.py` structure checks, `get_collection` in `_structure_for_output`, fully type `type_description.py` and `registry.py`.
+- `subworkflow_mapping` rebase onto this: its `map_over.py` `if linked_structure:` should become `is None`. Deferred: a source collection mapped over a subcollection type (e.g. `list:paired` over `paired`) still fails `_structure_for_output`'s shape check.
