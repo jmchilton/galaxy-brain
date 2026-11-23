@@ -15,14 +15,32 @@ dirs=$(find "$dir/active" -mindepth 1 -maxdepth 1 -type d -exec basename {} \; 2
 echo "## tracked in index only (no active record): $(comm -23 <(printf '%s\n' "$linked" | sort -u) <(printf '%s\n' "$dirs" | sort -u) | tr '\n' ' ')"
 echo "## active record with no index entry: $(comm -13 <(printf '%s\n' "$linked" | sort -u) <(printf '%s\n' "$dirs" | sort -u) | tr '\n' ' ')"
 
-echo "## PRs: number state mergedAt closedAt isDraft mergeable reviewDecision headRefOid checks(pass/fail/pending) index_shas"
+me=$(gh_user)
+echo "## PRs: number state mergedAt closedAt isDraft mergeable reviewDecision headRefOid checks(pass/fail/pending) my_review my_comment acted index_shas"
+echo "## acted = UNPOSTED_BUT_ACTED when the active record's index.md says unposted but $me reviewed or commented after the latest round's report was added"
 printf '%s\n%s\n' "$linked" "$dirs" | grep -E '^[0-9]+$' | sort -un | while read -r n; do
-  row=$(gh pr view "$n" -R "$repo" --json number,state,mergedAt,closedAt,isDraft,mergeable,reviewDecision,headRefOid,statusCheckRollup \
-    --jq '[.number,.state,.mergedAt,.closedAt,.isDraft,.mergeable,.reviewDecision,.headRefOid,
-      ([.statusCheckRollup[]?|(.conclusion // .state // "")]|"\(map(select(.=="SUCCESS" or .=="NEUTRAL" or .=="SKIPPED"))|length)/\(map(select(.=="FAILURE" or .=="ERROR" or .=="TIMED_OUT" or .=="CANCELLED"))|length)/\(map(select(.==""or .=="PENDING"))|length)")]|@tsv') || { echo "$n	QUERY_FAILED"; continue; }
-  shas=
+  json=$(gh pr view "$n" -R "$repo" --json number,state,mergedAt,closedAt,isDraft,mergeable,reviewDecision,headRefOid,statusCheckRollup,reviews,comments) \
+    || { echo "$n	QUERY_FAILED"; continue; }
+  shas= rec=0
   for f in "$dir"/*/"$n"/index.md; do
     [ -f "$f" ] && shas=$(grep -oE '\b[0-9a-f]{7,40}\b' "$f" | sort -u | head -5 | tr '\n' ',')
   done
+  d="$dir/active/$n"
+  if grep -qi unposted "$d/index.md" 2>/dev/null; then
+    for f in "$d"/review_*_findings.yml "$d"/initial_review_response.md "$d"/draft-review.md "$d"/verified_review.md; do
+      [ -f "$f" ] || continue
+      t=$(git -C "$d" log --diff-filter=A -1 --format=%ct -- "$(basename "$f")" 2>/dev/null || true)
+      [ "${t:-0}" -gt "$rec" ] && rec=$t
+    done
+  fi
+  row=$(jq -r --arg me "$me" --argjson rec "${rec:-0}" '
+    ([.reviews[]?|select(.author.login==$me)]|last) as $r
+    | ([.comments[]?|select(.author.login==$me)]|last) as $c
+    | ([$r.submittedAt, $c.createdAt]|map(select(.))|map(fromdate)|max // 0) as $acted
+    | [.number,.state,.mergedAt,.closedAt,.isDraft,.mergeable,.reviewDecision,.headRefOid,
+      ([.statusCheckRollup[]?|(.conclusion // .state // "")]|"\(map(select(.=="SUCCESS" or .=="NEUTRAL" or .=="SKIPPED"))|length)/\(map(select(.=="FAILURE" or .=="ERROR" or .=="TIMED_OUT" or .=="CANCELLED"))|length)/\(map(select(.==""or .=="PENDING"))|length)"),
+      (if $r then "\($r.state)@\($r.submittedAt)" else "-" end),
+      ($c.createdAt // "-"),
+      (if $rec > 0 and $acted > $rec then "UNPOSTED_BUT_ACTED" else "-" end)]|@tsv' <<<"$json")
   printf '%s\t%s\n' "$row" "$shas"
 done
