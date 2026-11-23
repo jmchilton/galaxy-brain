@@ -17,7 +17,7 @@ echo "## active record with no index entry: $(comm -13 <(printf '%s\n' "$linked"
 
 me=$(gh_user)
 echo "## PRs: number state mergedAt closedAt isDraft mergeable reviewDecision headRefOid checks(pass/fail/pending) my_review my_comment acted index_shas"
-echo "## acted = UNPOSTED_BUT_ACTED when the active record's index.md says unposted but $me reviewed or commented after the latest round's report was added"
+echo "## acted = UNPOSTED_BUT_APPROVED when the active record's index.md says unposted but $me approved after the latest round's report was added"
 printf '%s\n%s\n' "$linked" "$dirs" | grep -E '^[0-9]+$' | sort -un | while read -r n; do
   json=$(gh pr view "$n" -R "$repo" --json number,state,mergedAt,closedAt,isDraft,mergeable,reviewDecision,headRefOid,statusCheckRollup,reviews,comments) \
     || { echo "$n	QUERY_FAILED"; continue; }
@@ -36,11 +36,12 @@ printf '%s\n%s\n' "$linked" "$dirs" | grep -E '^[0-9]+$' | sort -un | while read
   row=$(jq -r --arg me "$me" --argjson rec "${rec:-0}" '
     ([.reviews[]?|select(.author.login==$me)]|last) as $r
     | ([.comments[]?|select(.author.login==$me)]|last) as $c
-    | ([$r.submittedAt, $c.createdAt]|map(select(.))|map(fromdate)|max // 0) as $acted
+    | ([.reviews[]?|select(.author.login==$me and .state=="APPROVED")]|last.submittedAt // null) as $a
+    | (if $a then ($a|fromdate) else 0 end) as $acted
     | [.number,.state,.mergedAt,.closedAt,.isDraft,.mergeable,.reviewDecision,.headRefOid,
       ([.statusCheckRollup[]?|(.conclusion // .state // "")]|"\(map(select(.=="SUCCESS" or .=="NEUTRAL" or .=="SKIPPED"))|length)/\(map(select(.=="FAILURE" or .=="ERROR" or .=="TIMED_OUT" or .=="CANCELLED"))|length)/\(map(select(.==""or .=="PENDING"))|length)"),
       (if $r then "\($r.state)@\($r.submittedAt)" else "-" end),
       ($c.createdAt // "-"),
-      (if $rec > 0 and $acted > $rec then "UNPOSTED_BUT_ACTED" else "-" end)]|@tsv' <<<"$json")
+      (if $rec > 0 and $acted > $rec then "UNPOSTED_BUT_APPROVED" else "-" end)]|@tsv' <<<"$json")
   printf '%s\t%s\n' "$row" "$shas"
 done

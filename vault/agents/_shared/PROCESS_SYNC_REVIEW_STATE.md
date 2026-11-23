@@ -13,7 +13,7 @@ scripts/sync_review_state.sh ../../repositories/PROJECT/reviews/MY_REVIEWS.md OW
 It covers `MY_REVIEWS.md` entries plus every directory under `reviews/active/`, and prints:
 
 1. Mismatches: entries with no active record, and active records with no entry.
-2. One row per PR: number, state, mergedAt, closedAt, isDraft, mergeable, reviewDecision, `headRefOid`, checks (pass/fail/pending), John's latest review (`STATE@date`) and comment date, `acted`, and SHAs found in the record's `index.md`.
+2. One row per PR: number, state, mergedAt, closedAt, isDraft, mergeable, reviewDecision, `headRefOid`, checks (pass/fail/pending), John's latest review (`STATE@date`) and comment date, `acted` (`UNPOSTED_BUT_APPROVED`), and SHAs found in the record's `index.md`.
 
 Compare `headRefOid` with the last reviewed commit in `index.md`; the SHA column is a heuristic, so read the record when it's unclear. Use `gh pr view` directly for review bodies or other fields the script omits.
 
@@ -22,7 +22,7 @@ Compare `headRefOid` with the last reviewed commit in `index.md`; the SHA column
 - **Merged or closed:** remove the entry and archive the record per REPOSITORY_REVIEWS.md (GitHub state and why tracking ended in `index.md`), unless an agent is still working there; then just note it in the report.
 - **New commits since the last review:** update the status (e.g. `new commits since <sha>; re-review`). Don't re-review in a sync.
 - **Review state changed:** reflect delivered reviews, approvals, draft ↔ ready, and author replies in the status line.
-- **`UNPOSTED_BUT_ACTED`:** John posted by hand, so the record is stale. Read his review and comments with `gh pr view`. Then rewrite the `index.md` Status and the `MY_REVIEWS.md` entry to what was delivered (e.g. `approved 2026-11-12; awaiting merge`, or which findings went out as comments). Keep re-review notes and explicit decisions. Drop the word "unposted" so the flag clears, and write a partial post as `partly posted: …`.
+- **`UNPOSTED_BUT_APPROVED`:** John approved by hand, so the record is stale. Rewrite the `index.md` Status and the `MY_REVIEWS.md` entry to `approved <date>; awaiting merge`, keeping re-review notes and explicit decisions. Drop the word "unposted" so the flag clears.
 - **Active record with no entry, or entry with no record:** report it; don't add or drop on a guess.
 - Keep explicit user decisions in entries as written.
 
