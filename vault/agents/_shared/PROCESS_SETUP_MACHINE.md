@@ -68,6 +68,13 @@ Install from `jmchilton/ghwt` main, not npm, because the npm release lags main. 
 - The first codex launch in the galaxy-brain clone stops on a trust prompt. Accept it over ssh with `herdr pane send-keys <pane> Enter`.
 - `~/.codex/hooks.json` needs a `SessionStart` group running `sh '<clone>/vault/agents/_shared/scripts/hc_session_label.sh' codex` (timeout 5). Append it as the last group, because the hook trust entries in `config.toml` are keyed by position. The next codex launch then asks you to review hooks. Choose "Trust all and continue" only if it lists exactly one new hook.
 
+## Telegram desk
+
+Only on the one machine that hosts the [telegram desk](../telegram/AGENTS.md) (chickenstraws), and only when John asks: two desks would fight over the bot.
+
+- `~/.config/galaxy-brain/telegram.env` (mode 600) holds `TELEGRAM_BOT_TOKEN` and `TELEGRAM_ALLOWED_USERS`. Ask John for them.
+- Keep a desk running across reboots and crashes: `systemctl --user link <clone>/vault/agents/telegram/systemd/gb-telegram-desk.service` and `systemctl --user enable --now <clone>/vault/agents/telegram/systemd/gb-telegram-desk.timer`. Needs `loginctl enable-linger`.
+
 ## Report
 
 End with a table showing each tool's version before and after, plus the ghwt commit. List anything you skipped or that is waiting on John.

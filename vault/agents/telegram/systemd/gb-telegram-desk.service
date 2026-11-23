@@ -1,0 +1,8 @@
+[Unit]
+Description=Start the galaxy-brain telegram desk unless one is running
+After=herdr-core-start.service
+
+[Service]
+Type=oneshot
+# .bashrc sets PATH (claude, hc, uv) before its interactive check.
+ExecStart=/bin/bash -c ". ~/.bashrc; exec %h/projects/repositories/galaxy-brain/vault/agents/telegram/scripts/start_desk.sh"
