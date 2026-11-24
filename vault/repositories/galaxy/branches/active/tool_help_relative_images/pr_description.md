@@ -25,11 +25,10 @@ Follow-up to 🔀 #18722 - Markdown tool help, and RST help of tools not install
 
 <details><summary>Tool icon fixes that come first</summary>
 
-The new endpoint shares its file lookup and conditional-GET response with the tool icon endpoint, so the icon route is moved onto those helpers first. That turned up three `dev` bugs, each fixed in its own commit with a test:
+The new endpoint shares its file lookup and conditional-GET response with the tool icon endpoint, so the icon route is moved onto those helpers first. That turned up two `dev` bugs, each fixed in its own commit with a test (a third, `If-None-Match` never producing a 304, was fixed upstream in #24788; `d6f556886a9` adds an API test for it):
 
-- `If-None-Match` never produced a 304: the quoted ETag was compared to the client's unquoted value (`1bfb47160cb`).
-- Symlinked tool dirs failed to resolve, and an icon outside the tool dir was a 500 instead of a 404 (`532dc070873`).
-- Logged-in users got a 401 for icons of `require_login` tools, and admins for Data Manager tool icons, because the lookup didn't pass the user (`5879cabce8a`).
+- Symlinked tool dirs failed to resolve, and an icon outside the tool dir was a 500 instead of a 404 (`72ae98c4fa3`).
+- Logged-in users got a 401 for icons of `require_login` tools, and admins for Data Manager tool icons, because the lookup didn't pass the user (`25932518f91`).
 
 They can be split into their own PR if preferred; see the split points under Risk Review Advice.
 
@@ -64,7 +63,7 @@ This adds a public API route and sets the convention tool authors will write hel
 
 The parts worth a human's attention are the route's shape (`{tool_id:path}/help_image` with query params, mirroring `/icon`) and `find_tool_file`'s containment check, which is what stops `path` from escaping the tool's directory. The CSP string in `HELP_IMAGE_HEADERS` is the other security-relevant line.
 
-The history is ordered to split cleanly: baseline tests (`a585a1a6563`), then the icon fixes and the refactors under them (`1bfb47160cb` .. `5879cabce8a`), then the endpoint and client (`f7436e73ddd` .. `af11f4f5af4`), then the Tool Shed unification, SVG and `$PATH_TO_IMAGES/` (`6f2e2b82c2d` .. `2388de41294`).
+The history is ordered to split cleanly: baseline tests (`bdce78a683e`), then the icon fixes and the refactors under them (`d6f556886a9` .. `25932518f91`), then the endpoint and client (`b3a9ac8cc9c` .. `a9c4a5cf28e`), then the Tool Shed unification, SVG and `$PATH_TO_IMAGES/` (`e596c8db81e` .. `19401b9a2dc`).
 
 </details>
 
@@ -145,7 +144,7 @@ The re-scope made every shed tool with RST help touch `tool_shed_repository`, wh
 - [x] What does the user see when it fails? A broken image with its alt text: `help_image` 404s on a missing image, unknown tool, non-image file or path outside the tool dir, 401s for anonymous users of `require_login` tools.
 - [x] Is the diff free of unrelated or stale generated changes? Yes!
 - [x] Are unit tests not just testing the literal implementation? Yes. `test_help_images.py` uses real files and symlinks; vitest checks rendered `img` srcs; the shed tests check RST output and that no install DB queries run.
-- [x] Are baseline tests in their own leading commits (if applicable)? Yes. `a585a1a6563` is first and only adds tests and fixtures; tests that fail on `dev` come in later commits.
+- [x] Are baseline tests in their own leading commits (if applicable)? Yes. `bdce78a683e` is first and only adds tests and fixtures; tests that fail on `dev` come in later commits.
 - [x] Are the comments free of excess archeology? Yes.
 - [x] If comments contain some description of previous implementation, bugs, etc.. - what purpose do they serve? They explain legacy compatibility: the `$PATH_TO_IMAGES` note and the XSD line that releases before 27.0 only support Tool Shed RST.
 

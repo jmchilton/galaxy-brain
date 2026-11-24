@@ -9,11 +9,11 @@ pr: 25077
 
 ## Status
 
-Status: `branches_ready_for_final_review` (polished 2026-11-23; then CSP on `shed_tool_static` per John). Base `dev`, head `2388de41294`. Alt: `tool_help_relative_images_alt_original_scope`. Backup of pre-refactor head: `tool_help_relative_images_r3_backup`. Worktree: `~/projects/worktrees/galaxy/branch/tool_help_relative_images`.
+Status: `ci_wait`; rebased onto `dev` 2026-11-24 with conflicts, head `19401b9a2dc` (was `2388de41294`). Alt: `tool_help_relative_images_alt_original_scope`. Backup of pre-refactor head: `tool_help_relative_images_r3_backup`. Worktree: `~/projects/worktrees/galaxy/branch/tool_help_relative_images`.
 
-Draft PR [#25077](https://github.com/galaxyproject/galaxy/pull/25077) opened 2026-11-23 (approved SHA `2388de41294`), waiting on CI (2 Test jobs red, undiagnosed). [Description](pr_description.md) · [Titles](pr_titles.md) · [Tags](pr_tags.md) · [Checklist](pr_checklist.md) · [Polish debrief](polish_debrief.md).
+Draft PR [#25077](https://github.com/galaxyproject/galaxy/pull/25077) opened 2026-11-23 (approved SHA `2388de41294`), waiting on CI after the rebase. [Description](pr_description.md) · [Titles](pr_titles.md) · [Tags](pr_tags.md) · [Checklist](pr_checklist.md) · [Polish debrief](polish_debrief.md).
 
-Fork CI restarted on `2388de41294`; E2E passes locally on Playwright and Selenium.
+CI pending on `19401b9a2dc`; affected unit tests and lint pass locally after the rebase.
 
 Tool help images referenced by relative paths (e.g. `static/images/foo.png`) work for Markdown and RST help and for every tool, shed or local, via `/api/tools/{tool_id}/help_image`. Context: #18722 added Markdown help without images; galaxy-iuc/standards#95.
 
@@ -25,4 +25,5 @@ Tool help images referenced by relative paths (e.g. `static/images/foo.png`) wor
 - Plain relative image paths, rewritten client-side to `help_image`; query params for path/version.
 - Re-scope: installed shed RST also uses `help_image`; SVG served under a sandboxing CSP (reversible; the alt refuses SVG).
 - John (2026-11-14): do X1 (strip `$PATH_TO_IMAGES/` for non-shed RST) and X2 (icon lookup passes the user); login-only images/icons not a concern, icon caching unchanged.
+- Rebase 2026-11-24: upstream landed the same icon ETag fix (#24788, `cbad53ce096`) and a 1-day icon cache (`87c0b93762e`). Our icon fix commit is now test-only; `cached_file_response` adopts upstream's 304 semantics from the extraction commit; icon `Cache-Control` follows upstream (1 day, no `immutable`).
 - Open for John: split icon fixes (incl. X2) into their own PR? `${static_path}/images/X` legacy targets: fixing via tools-iuc PRs #9030–#9033.
