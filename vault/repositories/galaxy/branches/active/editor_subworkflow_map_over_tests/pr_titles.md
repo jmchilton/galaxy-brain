@@ -1,0 +1,4 @@
+- [26.2] Fix workflow editor ignoring a subworkflow input's declared collection type
+- [26.2] Workflow editor: honor subworkflow collection input types when connecting and mapping over
+- [26.2] Fix subworkflow collection inputs accepting any collection in the workflow editor
+- [26.2] Map subworkflow steps over in the editor like the scheduler does

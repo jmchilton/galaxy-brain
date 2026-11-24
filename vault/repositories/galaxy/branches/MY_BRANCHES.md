@@ -96,7 +96,6 @@ None yet.
 
 - [`collection_matching_typing`](active/collection_matching_typing/index.md) — Types collection matching, structure, type description, registry modules; fixes two latent map-over bugs. Head `5096d8476ec`. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:collection_matching_typing?expand=1).
 - [`converted_dataset_lookup_via_manager_26.0`](active/converted_dataset_lookup_via_manager_26.0/index.md) — Existing implicit conversions looked up via `DatasetAssociationManager.get_accessible_converted`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.0...jmchilton:galaxy:converted_dataset_lookup_via_manager_26.0?expand=1).
-- [`editor_subworkflow_map_over_tests`](active/editor_subworkflow_map_over_tests/index.md) — Editor honors a subworkflow input's declared collection type; tests pin how a subworkflow step maps over a list. Base `release_26.2`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:editor_subworkflow_map_over_tests?expand=1)
 
 ## Galaxy branches — ready for final review (`branches_ready_for_final_review`)
 
@@ -123,6 +122,7 @@ None yet.
 - [`issue_23914_page_card_actions`](active/issue_23914_page_card_actions/index.md) — Makes notebook card title and Edit/Share actions follow the current user and page, so a late user load shows Share. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_23914_page_card_actions?expand=1).
 - [`issue_23521_conditional_case_resolution`](active/issue_23521_conditional_case_resolution/index.md) — Rejects conditional cases that resolve to nothing instead of running the last when-case (#23521). [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.0...jmchilton:galaxy:issue_23521_conditional_case_resolution?expand=1).
 - [`issue_24389_reject_duplicate_test_params_26.2`](active/issue_24389_reject_duplicate_test_params_26.2/index.md) — Conflicting duplicate tool-test params error at load from 26.2 (#24389). Stacked on the 26.1 lint branch. [Open PR](https://github.com/jmchilton/galaxy/compare/issue_24389_lint_duplicate_test_params_26.1...issue_24389_reject_duplicate_test_params_26.2?expand=1).
+- [`editor_subworkflow_map_over_tests`](active/editor_subworkflow_map_over_tests/index.md) — Editor honors a subworkflow input's declared collection type; tests pin how a subworkflow step maps over a list. Base `release_26.2`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:editor_subworkflow_map_over_tests?expand=1)
 
 ## Galaxy branches — approved, opens when green (`branches_need_pr`)
 
