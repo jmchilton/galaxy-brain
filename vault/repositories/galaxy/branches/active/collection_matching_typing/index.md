@@ -11,13 +11,13 @@ related_records:
 
 ## Status
 
-Status: `branches_need_polish`; hardened (scope expanded per John). Head `5096d8476ec` (seven commits on `dev` `7dd58b00674`; backups `collection_matching_typing_pre_baseline_backup`, `collection_matching_typing_pre_checklist_backup`): fully types `galaxy.model.dataset_collections.{matching,structure,type_description,registry}`, drops all four from the `mypy.ini` red list and narrows the call sites in `tools/execute.py`, `workflow/modules.py` and `workflow/map_over.py`. Worktree: `~/projects/worktrees/galaxy/branch/collection_matching_typing`.
+Status: `branches_ready_for_final_review`; hardened (scope expanded per John) and polished 2026-11-24. Head `7fc6c4d3317` (seven commits on `dev` `7dd58b00674`; backups `collection_matching_typing_pre_{baseline,checklist,api_tests}_backup`): fully types `galaxy.model.dataset_collections.{matching,structure,type_description,registry}`, drops all four from the `mypy.ini` red list and narrows the call sites in `tools/execute.py`, `workflow/modules.py` and `workflow/map_over.py`. Worktree: `~/projects/worktrees/galaxy/branch/collection_matching_typing`.
 
 No PR.
 
-Fork CI on `5096d8476ec` not yet seen; earlier lint red (B018 in `test_structure.py`) fixed. Locally flake8 and format clean, mypy matches `dev`, 455 unit tests and the new framework guard pass.
+Fork CI on `7fc6c4d3317` not yet seen; earlier lint red (B018 in `test_structure.py`) fixed. Locally flake8 and format clean, mypy matches `dev`, 455 unit tests, the framework guard and two new API tests pass.
 
-[Test challenges](test_challenges_debrief.md) · [Codex](codex_review.md) · [Thermo-nuclear](thermo_nuclear_review.md) · [Baseline refactor](baseline_refactor.md) · [Scope evaluation](scope_evaluation.md) · [Re-scope](implementation_rescope_debrief.md) · [Checklist](pr_checklist.md) · [Description](pr_description.md) · [Tags](pr_tags.md) · Earlier: [earlier_drafts/1/](earlier_drafts/1/), [earlier_drafts/2/](earlier_drafts/2/)
+[Test challenges](test_challenges_debrief.md) · [Codex](codex_review.md) · [Thermo-nuclear](thermo_nuclear_review.md) · [Baseline refactor](baseline_refactor.md) · [Scope evaluation](scope_evaluation.md) · [Re-scope](implementation_rescope_debrief.md) · [Checklist](pr_checklist.md) · [Description](pr_description.md) · [Titles](pr_titles.md) · [Tags](pr_tags.md) · [Polish](polish_debrief.md) · Earlier: [earlier_drafts/1/](earlier_drafts/1/), [earlier_drafts/2/](earlier_drafts/2/)
 
 ## Decisions
 

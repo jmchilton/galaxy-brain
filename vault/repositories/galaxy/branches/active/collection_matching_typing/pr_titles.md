@@ -1,0 +1,4 @@
+- Type collection matching and structure modules, fix two map-over bugs they hid
+- Type `galaxy.model.dataset_collections` matching, structure and type descriptions
+- Fully type collection matching; fix empty-list linking and DCE identifier sources
+- Drop collection matching, structure, type description and registry from the mypy red list
