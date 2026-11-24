@@ -1,0 +1,134 @@
+round: 0
+reviewed_commit: 8dd9549cab94b9b3568b098fcc02255faecfcead
+agents:
+  - {profile: default, path: _shared/reviewers/default.md, model: Claude Opus 5.5, effort: medium}
+  - {profile: thermo_review, path: _shared/reviewers/thermo_review.md, model: Claude Opus 5.5, effort: medium}
+  - {profile: gx_test_challenger, path: _shared/reviewers/gx_test_challenger.md, model: Claude Opus 5.5, effort: medium}
+  - {profile: gx_risk_assessment, path: _shared/reviewers/gx_risk_assessment.md, model: Claude Opus 5.5, effort: low}
+  - {profile: learning_galaxy, path: gx_reviews/reviewers/learning_galaxy.md, model: Claude Opus 5.5, effort: medium}
+verification: {model: Claude Opus 5.5, effort: medium}
+branches:
+  - name: pr_25002_round_0_rev_0
+    revision: 0
+    head: 296e2764b8c
+    pr_title: Fix falsy rename values, share step input resolution, add rename tests
+    description: |
+      `pr_25002_round_0_rev_0` builds on `8dd9549cab9`. It makes `$(inputs.name)` render an unconnected tool parameter set to `0` or `false` instead of an empty string, extracts one step-input resolution helper shared by the `when` expression and the rename, and moves the collection-of-values check into a named predicate. It also adds framework tests for falsy values and for a connected tool parameter, a vitest for rename-reference ports offered by `validInputTerminals()`, a shared client predicate for names a step already owns, and a single Playwright `new_page` call. Finally, it passes the resolved values to the rename as an argument next to `replacement_dict` rather than on a transient `PostJobAction` copy.
+    commits:
+      - sha: 8c0bff7abbe
+        subject: Rename from falsy tool parameter values, not an empty string
+        detail: reads the step state directly when `replacement_for_input` drops a falsy value, with a framework test for `0`, a tool `false` and a connected `false` boolean input.
+        findings: [P2 1]
+      - sha: 424b718eff8
+        subject: Test rename from a connected tool parameter
+        detail: adds a framework workflow that connects `head`'s `lineNum` to a `param_value_from_file` integer and renames with `first_$(inputs.lineNum)`.
+        findings: [P3 5]
+      - sha: b1297085492
+        subject: Build Playwright page options once
+        detail: replaces the two `new_page` branches with one call passing `record_video_dir`/`record_video_size` only when recording.
+        findings: [P3 3]
+      - sha: e06dce4ecdc
+        subject: Share step input resolution between when and rename
+        detail: adds `ToolModule._step_input_value`, used by the `when` extra step state loop and `_referenced_step_input_values`, and a module-level `is_collection_of_values`.
+        findings: [P2 2]
+      - sha: 5bf493acca0
+        subject: Test rename reference ports in validInputTerminals
+        detail: adds a vitest that gives a step a `$(inputs.sample_name)` rename and asserts a text parameter output's `validInputTerminals()` offers `sample_name`.
+        findings: [P3 4]
+      - sha: ee773812155
+        subject: Share the step-owned input name check in the step store
+        detail: adds `stepOwnsInputName` and uses it in `findStepExtraInputs` and `unconnectedGateNames`.
+        findings: [P3 2]
+      - sha: 296e2764b8c
+        subject: Pass rename step input values as an argument, not a PJA copy
+        detail: removes `STEP_INPUT_VALUES_ARGUMENT` and the transient `PostJobAction` copy, and passes `step_input_values` next to `replacement_dict` through every action's `execute`/`execute_on_mapped_over` to `RenameDatasetAction._gen_new_name`.
+        findings: [P2 3]
+actions: {approve: false, approve_and_merge: false, comment: false, review_comment: false, request_changes: false, pull_request: false, push: false, issue_refactor: false, issue_galaxy_brain: false}
+findings:
+  - id: P2 1
+    include: true
+    title: Unconnected tool parameters set to `0` or `false` rename to an empty string
+    summary: "$(inputs.x) for a tool param in state with value 0/false gave \"\" (truthy walrus in replacement_for_input). Fixed locally in the rename path, red-to-green framework test."
+    implementation_verified: true
+    issue: |
+      `_referenced_step_input_values` resolves tool parameters through `progress.replacement_for_input`, which reads step state with a truthiness check (`and (state_input := get_path(...))`). A parameter set to `0` or `false` falls through to `NO_REPLACEMENT`, and `format_step_input_reference` turns that into `""`. Tool execution doesn't notice because `NO_REPLACEMENT` leaves the state value in place, but this PR is the first caller that uses the returned value as the value. So `int_$(inputs.parameter)` with `gx_int` set to `0` renamed to `int_`, and a `gx_boolean` set to false gave `bool_` rather than the `false` the PR description promises. A connected `false` boolean already rendered correctly.
+    evidence: |
+      The new framework test failed on `8dd9549cab9`: `expected [int_0_flag_false] but found [int__flag_false]`.
+    fix: |
+      Added a fallback in the rename path: when a tool parameter resolves to `NO_REPLACEMENT`, read the value from `step.state.inputs` directly. `replacement_for_input` is unchanged because the tool callback, map-over planning and pick-value all share it. Added `rename_from_falsy_step_input_values`, a framework test covering an integer `0`, a tool boolean `false` and a connected boolean workflow input set to false. It also covers the boolean formatting end to end, which only the unit test checked before.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+      - {profile: gx_test_challenger, model: Claude Opus 5.5, effort: medium}
+  - id: P2 2
+    include: true
+    title: Step-input resolution is duplicated between the `when` loop and the rename
+    summary: _referenced_step_input_values repeated the when loop's tool input / connection / default dispatch with incidental differences. Fixed with a shared helper.
+    implementation_verified: true
+    issue: |
+      `_referenced_step_input_values` reimplemented the dispatch the `when` extra-step-state loop in `ToolModule.execute` already does: tool input → `replacement_for_input`, else connected extra input → `replacement_for_connection(connections[0])`, else the step input's default. The PR also edits that loop to add the default fallback, so the two copies carry the same three-way branch but differ in details a reader has to diff by hand. The `when` loop honours map-over `iteration_elements` and passes `is_data=True`; the rename passes `is_data=False, optional=True`. The next consumer of extra step inputs would add a third copy. The inline "collection of values" check (`expression.json` and not skipped, over `dataset_instances`) is a data-shape rule embedded in rename code.
+    fix: |
+      Added `ToolModule._step_input_value(trans, progress, step, name, all_inputs_by_name, *, is_data, optional, iteration_elements)`. Both the `when` loop and `_referenced_step_input_values` call it, so the differences are now explicit arguments. The rename keeps only what is rename-specific: data short-circuit, falsy state fallback, `expression.json` read, collection guard and formatting. Moved the collection check to a module-level `is_collection_of_values` next to `replace_expression_json_dataset`. The rename and `when` framework workflows, including `when_expression_nested_tool_inputs`, and the collection-of-values API test pass after the refactor.
+    discovered_by:
+      - {profile: thermo_review, model: Claude Opus 5.5, effort: medium}
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+  - id: P2 3
+    include: true
+    title: Resolved values reach the rename through a hidden action-argument key on a fabricated `PostJobAction`
+    summary: "STEP_INPUT_VALUES_ARGUMENT smuggled in action_arguments of a transient ORM PostJobAction; also forces an optional mode on _effective_post_job_actions. Fixed: values now passed as an argument next to replacement_dict."
+    issue: |
+      The scheduler builds a new ORM `PostJobAction(pja.action_type, None, pja.output_name, {..., "step_input_values": ...})` per rename and `RenameDatasetAction` reads the values back out of `action_arguments`, the dict that is otherwise the persisted, user-authored shape of the action. The contract between `modules.py` and `post.py` is a magic key plus comments saying the copy must never be stored. It also gives `_effective_post_job_actions` an optional rewrite mode: it runs once raw to find references and again in each of `_handle_post_job_actions` and `_handle_mapped_over_post_job_actions`, which both gain a `step_input_values` parameter. A transient mapped object is easy to attach to a session by accident later. Inside a workflow a stored key can't leak in, because the scheduler overwrites it whenever a reference exists, so this is a maintainability concern rather than a correctness one.
+    fix: |
+      Values are now passed explicitly, the way `replacement_dict` already is ("Pass along replacement dict with the execution of the PJA so we don't have to modify the object"). `ActionBox.execute`/`execute_on_mapped_over` and every action's `execute`/`execute_on_mapped_over` take a `step_input_values=None` keyword, so dispatch stays uniform. `RenameDatasetAction` hands it to `_gen_new_name`, and both workflow handlers pass it. Removed `STEP_INPUT_VALUES_ARGUMENT`, `_resolve_rename_step_input_references` and the optional mode on `_effective_post_job_actions`. `test_rename_step_input_references` passes the values to `_gen_new_name` directly and keeps every case. The unit tests, the rename framework workflows and `test_run_rename_from_step_input_on_mapped_over_collection` pass.
+    discovered_by:
+      - {profile: thermo_review, model: Claude Opus 5.5, effort: medium}
+  - id: P3 1
+    include: true
+    title: Editor and backend disagree on what a tool parameter is, and unknown names rename to `""`
+    summary: optional; client hides the port for any top-level tool_state key (e.g. a conditional), backend only knows leaf inputs, so $(inputs.cond) or a typo silently renames to "". Not fixed.
+    issue: |
+      `findStepExtraInputs` (`client/src/stores/workflowStepStore.ts`) suppresses the rename port when the name is any top-level key of `step.tool_state`. The backend treats a name as a tool input only when it is in `all_inputs_by_name`, the prefixed leaf inputs from `get_all_inputs`. For a conditional, section or repeat container (`$(inputs.cond)`), the editor shows no port. The backend then finds no tool input, connection or default, so the reference silently renames to `""`. A typo in hand-written gxformat2 does the same.
+    fix: |
+      Optional. Suppress the port only for scalar `tool_state` values. Add a lint or validation warning for `$(inputs.x)` references that match neither a tool leaf input nor a step input, so input that never worked is rejected instead of quietly producing empty names.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+  - id: P3 2
+    include: true
+    title: "Client: duplicated \"name owned by the step\" predicate, and a port whose `type` is ignored"
+    summary: optional; findStepExtraInputs and unconnectedGateNames repeat the same inputs/tool_state check (fixed); InputRenameReferenceTerminal declares type text but ignores it (not fixed).
+    issue: |
+      In `client/src/stores/workflowStepStore.ts`, `findStepExtraInputs` and `unconnectedGateNames` both inline the "is in `step.inputs` or is a `tool_state` key" check. Separately, `renameReferencePort` declares `type: "text"`, but `InputRenameReferenceTerminal.attachable` replaces `InputParameterTerminal.attachable` entirely and never reads `type`, `optional` or `acceptsMultipleValues`. The port claims to be a text parameter while accepting integers, floats and booleans, and `rename_reference?: boolean` becomes a second discriminator beside `input_type`/`type`.
+    fix: |
+      Added `stepOwnsInputName(step, name)` and used it in both places. The type question is optional and not changed: derive `InputRenameReferenceTerminal` from `BaseInputTerminal`, or give the port a dedicated parameter `type` that `terminalFactory` dispatches on, instead of the flag.
+    discovered_by:
+      - {profile: thermo_review, model: Claude Opus 5.5, effort: medium}
+  - id: P3 3
+    include: true
+    title: Duplicated `new_page` call in `get_playwright_driver`
+    summary: nit; two new_page branches differ only by video kwargs. Fixed.
+    issue: |
+      `get_playwright_driver` (`lib/galaxy/selenium/driver_factory.py`) repeats `browser_instance.new_page(viewport=...)` in both branches of `if video_dir`.
+    fix: |
+      Replaced it with one `new_page` call. It passes `record_video_dir` and `record_video_size` only when recording, and `None` (Playwright's default) otherwise. Not run in a browser test.
+    discovered_by:
+      - {profile: thermo_review, model: Claude Opus 5.5, effort: medium}
+  - id: P3 4
+    include: true
+    title: "`validInputTerminals()` now offering rename and gate ports is untested"
+    summary: terminals.ts validInputTerminals switched to getCombinedStepInputs; only caller is the keyboard ConnectionMenu, Selenium drags. Added a vitest.
+    implementation_verified: true
+    issue: |
+      `BaseOutputTerminal.validInputTerminals()` (`client/src/components/Workflow/Editor/modules/terminals.ts`) now iterates `getCombinedStepInputs` instead of `step.inputs`, so it offers gate and rename-reference ports. Its only caller is `ConnectionMenu.vue`, the keyboard connection menu. The Selenium test connects by dragging, so nothing exercises this path.
+    fix: |
+      Added a vitest beside the rename-reference `canAccept` cases in `terminals.test.ts`. It gives a step a `$(inputs.sample_name)` rename and asserts that a text parameter output's `validInputTerminals()` offers `sample_name`. It fails with `step.inputs` in place of `getCombinedStepInputs` and passes with the PR's change.
+    discovered_by:
+      - {profile: gx_test_challenger, model: Claude Opus 5.5, effort: medium}
+  - id: P3 5
+    include: true
+    title: No test renames from a connected tool parameter
+    summary: tool param connected to a computed value goes through the expression.json unwrap; only the state-set case was tested. Added a framework test.
+    issue: |
+      For a non-data tool input, `_referenced_step_input_values` calls `replacement_for_input` and then `replace_expression_json_dataset`. `rename_from_tool_parameter.gxwf.yml` only covers a value set in `state`. When the parameter is connected to a computed value, the `expression.json` unwrap is what produces the value instead of a dataset name, and nothing covers it.
+    fix: |
+      Added `rename_from_connected_tool_parameter`, which connects `head`'s `lineNum` to a `param_value_from_file` integer and asserts the output is named `first_2`. It passes on the reviewed commit and on the branch.
+    discovered_by:
+      - {profile: gx_test_challenger, model: Claude Opus 5.5, effort: medium}
