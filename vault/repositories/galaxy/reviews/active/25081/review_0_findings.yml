@@ -1,0 +1,208 @@
+round: 0
+reviewed_commit: 975fd1a7ad0551b4b1c7f79084499d97e75f7ca5
+agents:
+  - {profile: default, path: _shared/reviewers/default.md, model: Claude Opus 5.5, effort: medium}
+  - {profile: thermo_review, path: _shared/reviewers/thermo_review.md, model: Claude Opus 5.5, effort: medium}
+  - {profile: gx_test_challenger, path: _shared/reviewers/gx_test_challenger.md, model: Claude Opus 5.5, effort: medium}
+  - {profile: gx_risk_assessment, path: _shared/reviewers/gx_risk_assessment.md, model: Claude Opus 5.5, effort: low}
+  - {profile: gx_performance_challenger, path: _shared/reviewers/gx_performance_challenger.md, model: Claude Opus 5.5, effort: medium}
+  - {profile: learning_galaxy, path: gx_reviews/reviewers/learning_galaxy.md, model: Claude Opus 5.5, effort: medium}
+verification: {model: Claude Opus 5.5, effort: medium}
+branches:
+  - name: pr_25081_round_0_rev_0
+    revision: 0
+    head: 549e8a0d16b
+    pr_title: Prune and index psa_nonce, test the id_key backfill and callback messages
+    description: |
+      `pr_25081_round_0_rev_0` builds on `975fd1a7ad0`. It indexes `psa_nonce.salt` and `psa_nonce.timestamp` in the PR's new migration and prunes expired OAuth2 state nonces on each login start, adds a migration test for the `id_key` backfill, tests the Custos data fix with its default tables and the user-facing `AuthnzManager.callback()` messages, validates `id_key` with the rest of the confirmation payload, drops the unused `get_social_auth_by_extra_data()`, and fixes a stale comment and an admin note. All tests the branch adds or edits pass.
+    commits:
+      - sha: 769e744e7dc
+        subject: Test confirmed Keycloak identity stores id_key and logs in again
+        detail: adds `test_confirmed_identity_logs_in_again` (confirmation, `id_key == "sub"`, second login matches the created user) and gives `pending()` the `id_key` the pipeline supplies.
+        findings: [P3 3]
+      - sha: a6a6449e49d
+        subject: Validate confirmation id_key in _confirmation_identity()
+        detail: "`_confirmation_identity()` now requires a non-empty `id_key` of at most 255 characters and returns it, `create_user()` drops its inline check, and `test_invalid_confirmation_identity` gains `id_key` cases plus a check that the base payload is valid."
+        findings: [P3 2]
+      - sha: b9fb52e7fdd
+        subject: Index psa_nonce and prune expired OAuth2 state nonces
+        detail: indexes `PSANonce.salt` and `PSANonce.timestamp` in the model and in `ddd0f036e070` (dropped on downgrade), plus a bounded prune of expired `social_core.oauth2.` nonces in `PSANonce.use()`, with a red-to-green test through a real login start.
+        findings: [P2 1]
+      - sha: 8f6d180b539
+        subject: Test ddd0f036e070 id_key backfill
+        detail: adds `test_ddd0f036e070` to `test_migrations.py`, which downgrades to `b9467a8c12de`, inserts pre-`id_key` rows, upgrades and checks each backfilled key and the new nonce indexes.
+        findings: [P2 2]
+      - sha: 7ebbcb769ba
+        subject: Test Custos data fix with its default tables
+        detail: adds `test_default_tables_match_schema_at_revision`, which runs migrate, restore and remove without explicit tables on the pre-`id_key` schema.
+        findings: [P2 4]
+      - sha: b5d730f94e2
+        subject: Test AuthnzManager.callback() messages for social-auth-core 6 failures
+        detail: adds two tests through `trans.app.authnz_manager.callback()` for the `identifier_migration_conflict` and `nonce_mismatch` messages, sharing the cross-session setup with the existing GHSA test.
+        findings: [P2 3]
+      - sha: 412d574fd01
+        subject: Split matched and unmatched pre-6 association tests
+        detail: replaces the `if id_key:` branch with two tests sharing an `existing_keycloak_association()` helper.
+        findings: [P3 8]
+      - sha: 7a17b10310a
+        subject: Drop unused UserAuthnzToken.get_social_auth_by_extra_data()
+        detail: removes the full-scan implementation so the mixin's `NotImplementedError` applies.
+        findings: [P3 1]
+      - sha: 878fdf797a9
+        subject: Update social logger comment for social-auth-core 6 exceptions
+        detail: replaces the removed `AuthForbidden` in the `"social"` logger comment with "an AuthException subclass".
+        findings: [P3 5]
+      - sha: 549e8a0d16b
+        subject: Document ID_KEY override remediation in ddd0f036e070
+        detail: adds the `UPDATE oidc_user_authnz_tokens SET id_key = ...` remediation for overridden `ID_KEY` to the migration docstring.
+        findings: [P3 4]
+actions: {approve: false, approve_and_merge: false, comment: false, review_comment: false, request_changes: false, pull_request: false, push: false, issue_refactor: false, issue_galaxy_brain: false}
+findings:
+  - id: P2 1
+    include: true
+    title: OAuth2 state nonces in `psa_nonce` are never pruned and have no lookup index
+    summary: new in social-auth-core 6; anonymous login starts grow psa_nonce without bound and every lookup scans it. Fixed with index + bounded prune.
+    implementation_verified: true
+    issue: |
+      With social-auth-core 6, `BaseOAuth2.get_or_create_state()` stores a `psa_nonce` row through `PSANonce.use()` on every login start. Only a completed callback removes it (`validate_state()` calls `PSANonce.consume()`). This is new: social-auth-core 5.2.0's `oauth.py` never called `storage.nonce`, and the old `PSANonce.use()` would have raised if it had been called. Now every abandoned login, every retry and every state that outlives `STATE_LIFETIME` (1800 s) leaves a row behind for good, and nothing in Galaxy deletes them.
+
+      `/authnz/<provider>/login` needs no Galaxy login, so anonymous clients can grow the table without bound. `psa_nonce` has only its primary-key index, so the lookup in `use()` and the delete in `consume()` both scan the whole table, and every login start and callback gets slower as it grows.
+    evidence: |
+      The performance reviewer's sqlite micro-benchmark with the same columns measured 0.26 ms per lookup at 10k rows and 25 ms at 1M rows (`SCAN psa_nonce`), against 0.002 ms with an index on `salt`. Postgres was not measured.
+    fix: |
+      Indexed `PSANonce.salt` (used by the `use()`/`consume()` lookups) and `PSANonce.timestamp` (used by the prune) in the model, and created `ix_psa_nonce_salt` and `ix_psa_nonce_timestamp` in the PR's `ddd0f036e070` migration (dropped on downgrade). `PSANonce.use()` now first deletes up to 100 nonces whose `server_url` starts with `social_core.oauth2.` and whose timestamp is older than `BaseOAuth2.STATE_LIFETIME`, modelled on `FlowState._cleanup`. Nonces outside that scope are left alone. A new test seeds an expired, a recent and an unrelated nonce, runs a real login start, and checks that only the expired one is gone. It fails without the prune. The migration test from P2 2 checks that both indexes exist after upgrade.
+    fix_details: |
+      The cutoff uses social-core's default `STATE_LIFETIME`, because Galaxy doesn't override it and the storage class has no backend in scope. A deployment that set a longer `STATE_LIFETIME` would need this to read the setting.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+      - {profile: gx_performance_challenger, model: Claude Opus 5.5, effort: medium}
+  - id: P2 2
+    include: true
+    title: The `id_key` backfill in `ddd0f036e070` has no test
+    summary: backfill decides whether existing OIDC users can still log in; nothing exercised it. Added test_ddd0f036e070.
+    implementation_verified: true
+    issue: |
+      `ddd0f036e070` decides, row by row, whether existing users can still log in. A wrong or misspelled provider key leaves `id_key = ""`, and social-auth-core 6 then refuses the association with `identifier_migration_conflict`. The unit tests build rows that already have `id_key` set, so nothing runs the per-provider mapping, the Google `uid LIKE '%@%'` split, the unknown-provider case or the downgrade.
+    fix: |
+      Added `test_ddd0f036e070` to `test/unit/data/model/migration_fixes/test_migrations.py`, following the existing per-revision tests there. It downgrades to `b9467a8c12de` and checks that `id_key` is gone. It then inserts `keycloak`, `okta-openidconnect`, `tapis`, Google-email, Google-sub and unknown-provider rows through Core, upgrades, and checks `sub`, `preferred_username`, `id`, `email`, `sub` and `""`. Misspelling `okta-openidconnect` in `OLD_ID_KEYS` makes it fail.
+    fix_details: |
+      An alternative is to move the backfill into a `data_fixes` helper and test it the way `test_migrate_custos_to_psa.py` does. The alembic test needs no production refactor and also runs the downgrade.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+      - {profile: gx_test_challenger, model: Claude Opus 5.5, effort: medium}
+  - id: P2 3
+    include: true
+    title: The new `AuthnzManager.callback()` error mapping has no coverage
+    summary: identifier_migration_conflict and restart_login message branches were never reached by a test. Added two manager-level tests.
+    implementation_verified: true
+    issue: |
+      The PR splits `AuthAssociationError` on `code == "identifier_migration_conflict"`. It also maps `AuthException` by `recovery`: `restart_login` keeps the "session expired" message, and anything else now gets the generic "contact an administrator" message plus `log.exception`. No test reaches these branches. The tests call `PSAAuthnz.callback()` and assert the raw exceptions, so the messages users actually see are unchecked.
+    fix: |
+      Added `manager_callback()` to `test_deferred_user_creation.py` and two tests that go through `trans.app.authnz_manager.callback()` with the real backend. One checks that an unkeyed pre-6 association gets "could not be safely matched". The other checks that the cross-session nonce from the GHSA test gets the "has expired or is invalid" restart message and creates nothing. The existing exception-level tests are unchanged. Both new tests fail when the `code` or `recovery` condition is changed.
+    discovered_by:
+      - {profile: gx_test_challenger, model: Claude Opus 5.5, effort: medium}
+  - id: P2 4
+    include: true
+    title: The Custos data fix's default `get_psa_table()` path is untested
+    summary: every Custos test passed explicit tables, so the fix for the downgrade/upgrade breakage was never exercised. Added a default-tables test.
+    implementation_verified: true
+    issue: |
+      The PR fixes `custos_to_psa.get_psa_table()` so that revision `724237cc4cf0` no longer names the new `id_key` column. Every test in `test_migrate_custos_to_psa.py` passes `psa_table=UserAuthnzTokenTest.__table__` explicitly, so the default path the revision actually uses never runs.
+    fix: |
+      Added `test_default_tables_match_schema_at_revision`. It runs `migrate_custos_tokens_to_psa`, `restore_custos_tokens_from_psa` and `remove_migrated_psa_tokens` with no explicit tables on the test file's pre-`id_key` schema. With the old `get_psa_table()` it fails with `no such column: oidc_user_authnz_tokens.id_key`, the regression in the PR description.
+    discovered_by:
+      - {profile: gx_test_challenger, model: Claude Opus 5.5, effort: medium}
+  - id: P3 1
+    include: true
+    title: "`get_social_auth_by_extra_data()` is unused and scans every association of a provider"
+    summary: no caller in social-core 6.2.0 or Galaxy; Python-side full scan with a different comparison than migrate_social_auth. Dropped.
+    issue: |
+      Nothing in social-auth-core 6.2.0 calls `UserAuthnzToken.get_social_auth_by_extra_data()` (only the abstract stub in `storage.py` defines it), and Galaxy doesn't either. The implementation loads every `oidc_user_authnz_tokens` row for the provider and filters in Python. It compares with `str(...) == str(value)`, while `migrate_social_auth()` a few lines below uses social-core's `identifier_matches()`. It has no test. If a future backend called it on the login-miss path, every new user's first login would pay a full scan.
+    fix: |
+      Removed the method, so the mixin's `NotImplementedError` applies and fails loudly if a backend ever needs it. If it should stay, use `identifier_matches()` and push the match into SQL.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+      - {profile: thermo_review, model: Claude Opus 5.5, effort: medium}
+      - {profile: gx_performance_challenger, model: Claude Opus 5.5, effort: medium}
+  - id: P3 2
+    include: true
+    title: "`id_key` is validated outside `_confirmation_identity()` and defaults to `\"\"`"
+    summary: a missing id_key in the confirmation payload was stored as "", the unkeyed row the migration removes. Validation moved into _confirmation_identity().
+    implementation_verified: true
+    issue: |
+      `_confirmation_identity()` validates the confirmation payload both when it is saved (`check_user_creation_confirmation`) and when it is consumed (`create_user`). The PR adds `id_key` to the payload, but checks it only in `create_user`, inline (`data.get("id_key", "")` plus `isinstance`). A missing or empty value is stored as `""`, which is exactly the unkeyed association the PR's migration exists to remove. The pipeline always supplies a non-empty `id_key` from `social_uid`, so an empty one only comes from a broken caller.
+    fix: |
+      `_confirmation_identity()` now requires a non-empty `id_key` string of at most 255 characters and returns it with the other fields. `create_user()` drops its own check. `test_invalid_confirmation_identity` gains `None`, `""` and non-string `id_key` cases, and checks that its base payload is valid so the other cases still fail for their own reason. Hand-built confirmation payloads in the tests now include `id_key`, as the pipeline's do. A confirmation saved without `id_key` now fails with `InvalidFlow` instead of creating an unkeyed row that social-auth-core 6 would refuse anyway.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+      - {profile: thermo_review, model: Claude Opus 5.5, effort: medium}
+  - id: P3 3
+    include: true
+    title: Keycloak confirmation doesn't check the stored `id_key` or a second login
+    summary: only the Google confirmation test checked id_key; pending() stored "" rows. Added a Keycloak confirm-then-relogin test.
+    implementation_verified: true
+    issue: |
+      `create_user()` now copies `id_key` from the confirmation data, but only the Google confirmation test checks it. The `pending()` fixture has no `id_key`, so `test_create_user_preserves_identity_tokens_and_activation` creates `id_key = ""` rows, which social-auth-core 6 refuses on the next login.
+    fix: |
+      Added `test_confirmed_identity_logs_in_again`. It confirms a Keycloak identity, checks `id_key == "sub"`, then runs a second login and checks that it matches the created user without adding rows. `pending()` now includes `"id_key": "sub"`.
+    discovered_by:
+      - {profile: gx_test_challenger, model: Claude Opus 5.5, effort: medium}
+  - id: P3 4
+    include: true
+    title: The note on overridden `ID_KEY` exists only in the PR description
+    summary: deployments with ID_KEY set in oidc_config.xml get the default key backfilled; remediation only in PR body. Added to migration docstring.
+    issue: |
+      `PSAAuthnz.__init__` copies every `oidc_config.xml` property into the social-auth settings, so a deployment can set `ID_KEY`. Its associations are then backfilled with the backend's default key, not the configured one, and its users can no longer be matched. The only warning is in the PR description, which admins won't see at upgrade time.
+    fix: |
+      Added the note and the remediation (`UPDATE oidc_user_authnz_tokens SET id_key = '<configured key>' WHERE provider = '<backend name>'`) to the `ddd0f036e070` docstring. A release-notes entry would reach more admins.
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+  - id: P3 5
+    include: true
+    title: The `"social"` logger comment names the removed `AuthForbidden`
+    summary: lib/galaxy/config comment still says social-core re-raises AuthForbidden, gone in 6.x. Fixed.
+    issue: |
+      The `"social"` logger comment in `lib/galaxy/config/__init__.py` says social-core "re-raises AuthCanceled/AuthForbidden/etc." `AuthForbidden` no longer exists in social-auth-core 6.2.0, so the upgrade makes the comment wrong.
+    fix: |
+      The comment now says it re-raises "an AuthException subclass".
+    discovered_by:
+      - {profile: default, model: Claude Opus 5.5, effort: medium}
+  - id: P3 6
+    include: true
+    title: "`_psa_session()` is used in only some methods of the classes it guards"
+    summary: optional; new helper used in rewritten PSANonce/UserAuthnzToken methods, siblings in the same classes still use cls.sa_session. Not fixed.
+    issue: |
+      The PR adds `_psa_session()` to narrow `sa_session: Session | None`, and uses it in the `PSANonce` and `UserAuthnzToken` methods it rewrote. Other methods of those two classes still call `cls.sa_session` directly: `PSANonce.save()`, and `UserAuthnzToken.save()`, `set_extra_data()`, `changed()`, `create_user()`, `user_exists()`, `get_user()`, `get_users_by_email()` and `get_social_auth_for_user()`. The two styles now sit side by side in the same classes. This is optional.
+    fix: |
+      Use `_psa_session()` in every storage method of `PSANonce` and `UserAuthnzToken`, or make it a classmethod on a small shared mixin that declares `sa_session: ClassVar[Session | None]`, as `social_sqlalchemy`'s `SQLAlchemyMixin._session()` does.
+    discovered_by:
+      - {profile: thermo_review, model: Claude Opus 5.5, effort: medium}
+  - id: P3 7
+    include: true
+    title: "`AuthnzManager.callback()` dispatches on `code`/`recovery` inside a growing except ladder"
+    summary: optional refactor; six except arms, two branching on social-core metadata. Not fixed.
+    issue: |
+      `callback()` now has six `except` arms. Two of them branch again on social-core's metadata: `AuthAssociationError` on `e.code == "identifier_migration_conflict"`, and `AuthException` on `e.recovery != "restart_login"`, which falls back to the same message as `except Exception`. social-auth-core 6 added stable `code`/`recovery` metadata so callers can dispatch on data instead of exception classes. The current code works; this is optional.
+    fix: |
+      Use one `except AuthException as e:` arm that calls a small pure function such as `_auth_failure_message(provider, e) -> str`, keyed on `e.code` and `e.recovery`, with `AuthCanceled` and `PKCECodeVerifierMissing` (an `AuthSessionError`) as entries. The message table is then easy to read and extend, and the tests from P2 3 cover it.
+    discovered_by:
+      - {profile: thermo_review, model: Claude Opus 5.5, effort: medium}
+  - id: P3 8
+    include: true
+    title: "`test_association_from_before_social_auth_core_6_needs_id_key` mixes two behaviours behind `if id_key:`"
+    summary: optional; one parametrized test asserted match for "sub" and refusal for "". Split into two tests.
+    issue: |
+      The test is parametrized on `id_key` and branches on it: it asserts a match for `"sub"` and an `identifier_migration_conflict` refusal for `""`. Two tests with explicit expectations read better. This is optional.
+    fix: |
+      Split it into `test_backfilled_association_from_before_social_auth_core_6_matches` and `test_association_from_before_social_auth_core_6_needs_id_key`, which share an `existing_keycloak_association()` helper. Every assertion is kept.
+    discovered_by:
+      - {profile: gx_test_challenger, model: Claude Opus 5.5, effort: medium}
+  - id: F1
+    include: false
+    title: "`get_psa_table(connection)` no longer uses `connection`"
+    summary: the parameter was already unused before the PR (it returned UserAuthnzToken.table).
+    filtered:
+      category: pre_existing
+      reason: the pre-PR body `cast(Table, UserAuthnzToken.table)` ignored `connection` too; VARCHAR vs String is a nit.
+    discovered_by:
+      - {profile: thermo_review, model: Claude Opus 5.5, effort: medium}
