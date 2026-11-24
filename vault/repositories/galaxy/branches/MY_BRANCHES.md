@@ -95,7 +95,7 @@ None yet.
 
 ## Galaxy branches — needs polish (`branches_need_polish`)
 
-- [`collection_matching_typing`](active/collection_matching_typing/index.md) — Types collection matching, structure, type description, registry modules; fixes two latent map-over bugs. Head `8a815b7a807`. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:collection_matching_typing?expand=1).
+- [`collection_matching_typing`](active/collection_matching_typing/index.md) — Types collection matching, structure, type description, registry modules; fixes two latent map-over bugs. Head `ad49f27d383`. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:collection_matching_typing?expand=1).
 - [`converted_dataset_lookup_via_manager_26.0`](active/converted_dataset_lookup_via_manager_26.0/index.md) — Existing implicit conversions looked up via `DatasetAssociationManager.get_accessible_converted`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.0...jmchilton:galaxy:converted_dataset_lookup_via_manager_26.0?expand=1).
 
 ## Galaxy branches — ready for final review (`branches_ready_for_final_review`)

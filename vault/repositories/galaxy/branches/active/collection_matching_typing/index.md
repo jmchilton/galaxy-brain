@@ -11,13 +11,13 @@ related_records:
 
 ## Status
 
-Status: `branches_need_polish`; hardened (scope expanded per John). Head `8a815b7a807` (seven commits on `dev` `7dd58b00674`; backup of pre-refactor history `collection_matching_typing_pre_baseline_backup`): fully types `galaxy.model.dataset_collections.{matching,structure,type_description,registry}`, drops all four from the `mypy.ini` red list and narrows the call sites in `tools/execute.py`, `workflow/modules.py` and `workflow/map_over.py`. Worktree: `~/projects/worktrees/galaxy/branch/collection_matching_typing`.
+Status: `branches_need_polish`; hardened (scope expanded per John). Head `ad49f27d383` (seven commits on `dev` `7dd58b00674`; backups `collection_matching_typing_pre_baseline_backup`, `collection_matching_typing_pre_checklist_backup`): fully types `galaxy.model.dataset_collections.{matching,structure,type_description,registry}`, drops all four from the `mypy.ini` red list and narrows the call sites in `tools/execute.py`, `workflow/modules.py` and `workflow/map_over.py`. Worktree: `~/projects/worktrees/galaxy/branch/collection_matching_typing`.
 
 No PR.
 
-Fork CI on `8a815b7a807` pending; `78266137b64` lint red (B018 in `test_structure.py`) fixed. Locally flake8 and format clean, mypy (targeted and full `make mypy`) matches `dev`, 454 unit tests pass.
+Fork CI on `ad49f27d383` not yet seen; earlier lint red (B018 in `test_structure.py`) fixed. Locally flake8 and format clean, mypy matches `dev`, 455 unit tests and the new framework guard pass.
 
-[Test challenges](test_challenges_debrief.md) · [Codex](codex_review.md) · [Thermo-nuclear](thermo_nuclear_review.md) · [Baseline refactor](baseline_refactor.md) · [Scope evaluation](scope_evaluation.md) · [Re-scope](implementation_rescope_debrief.md) · Earlier: [earlier_drafts/1/](earlier_drafts/1/)
+[Test challenges](test_challenges_debrief.md) · [Codex](codex_review.md) · [Thermo-nuclear](thermo_nuclear_review.md) · [Baseline refactor](baseline_refactor.md) · [Scope evaluation](scope_evaluation.md) · [Re-scope](implementation_rescope_debrief.md) · [Tags](pr_tags.md) · Earlier: [earlier_drafts/1/](earlier_drafts/1/), [earlier_drafts/2/](earlier_drafts/2/)
 
 ## Decisions
 
@@ -27,3 +27,5 @@ Fork CI on `8a815b7a807` pending; `78266137b64` lint red (B018 in `test_structur
 - `MatchingCollections.structure` is now non-optional `BaseTree` (asserts; `for_collections` never builds a collection-less match).
 - John (2026-11-23): full scope expansion per [scope evaluation](scope_evaluation.md): `is None` for linked-match and `map_over.py` structure checks, `get_collection` in `_structure_for_output`, fully type `type_description.py` and `registry.py`.
 - `subworkflow_mapping` rebase onto this: its `map_over.py` `if linked_structure:` should become `is None`. Deferred: a source collection mapped over a subcollection type (e.g. `list:paired` over `paired`) still fails `_structure_for_output`'s shape check.
+- John (2026-11-24): keep `test/unit/workflows/test_map_over.py` and add a framework guard for an empty-list subworkflow map-over (`subworkflow_map_over_empty_list.gxwf.yml`).
+- Follow-up candidate: `verify_collection` skips `element_count: 0`, so `filter_null.gxwf-tests.yml`'s zero count asserts nothing.
