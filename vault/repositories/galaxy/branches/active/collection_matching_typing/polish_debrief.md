@@ -61,6 +61,7 @@ Backups on `jmchilton`: `collection_matching_typing_pre_baseline_backup` (`77253
 - The pre-existing "type_registry not used" comment in `CollectionTypeDescriptionFactory.__init__` is stale on `dev`; left alone, since it's outside the diff.
 - Follow-up candidate: `verify_collection` skips `element_count: 0`, so `filter_null.gxwf-tests.yml` asserts nothing there.
 - When `subworkflow_mapping` rebases onto this, its `map_over.py` `if linked_structure:` should become `is None`.
+- Fork CI: green on `8a815b7a807` (code identical to head bar tests and a comment); `7fc6c4d3317` pending at hand-off.
 - Process: two galaxy-brain syncs dropped a local commit (reflog-recovered) while other sessions committed concurrently; saved as a memory.
 
 ## Questions for John

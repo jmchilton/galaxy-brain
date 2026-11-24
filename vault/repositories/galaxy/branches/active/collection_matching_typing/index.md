@@ -15,7 +15,7 @@ Status: `branches_ready_for_final_review`; hardened (scope expanded per John) an
 
 No PR.
 
-Fork CI on `7fc6c4d3317` not yet seen; earlier lint red (B018 in `test_structure.py`) fixed. Locally flake8 and format clean, mypy matches `dev`, 455 unit tests, the framework guard and two new API tests pass.
+Fork CI green on `8a815b7a807` (same code, fewer tests); `7fc6c4d3317` pending. Locally flake8 and format clean, mypy matches `dev`, 455 unit tests, the framework guard and two new API tests pass.
 
 [Test challenges](test_challenges_debrief.md) · [Codex](codex_review.md) · [Thermo-nuclear](thermo_nuclear_review.md) · [Baseline refactor](baseline_refactor.md) · [Scope evaluation](scope_evaluation.md) · [Re-scope](implementation_rescope_debrief.md) · [Checklist](pr_checklist.md) · [Description](pr_description.md) · [Titles](pr_titles.md) · [Tags](pr_tags.md) · [Polish](polish_debrief.md) · Earlier: [earlier_drafts/1/](earlier_drafts/1/), [earlier_drafts/2/](earlier_drafts/2/)
 
