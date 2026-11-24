@@ -10,11 +10,11 @@ related_records:
 
 ## Status
 
-Hardened through scope evaluation; local head `2885dc64873` (baseline tests `aa47be35ea6`, then the editor fix) on `release_26.2`, awaiting a force-push (the fork is still at `b8c7a93e57a`).
+Hardened through scope evaluation; local head `2885dc64873` (baseline tests `aa47be35ea6`, then the editor fix) on `release_26.2`, pushed to the fork.
 
 No PR.
 
-The fork's CI ran on `b8c7a93e57a` and its client unit tests and linting are green; the new head is untested in CI.
+Fork CI on `2885dc64873` is pending.
 
 ## Decisions
 
