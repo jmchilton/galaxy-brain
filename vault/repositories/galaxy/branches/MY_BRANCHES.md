@@ -57,7 +57,6 @@ None yet.
 
 ## Galaxy branches — implemented, work left (`branches_implemented_needs_ci`)
 
-- [`editor_subworkflow_map_over_tests`](active/editor_subworkflow_map_over_tests/index.md) — Editor honors a subworkflow input's declared collection type; tests pin how a subworkflow step maps over a list. Base `release_26.2`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:editor_subworkflow_map_over_tests?expand=1)
 - [`bool_expr_instance_evaluator_25.1`](active/bool_expr_instance_evaluator_25.1/index.md) — `BooleanExpressionEvaluator` binds its `TokenEvaluator` per instance, not on shared `BoolOperand` class state. Base `release_25.1`, head `93ef0d45a71`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_25.1...jmchilton:galaxy:bool_expr_instance_evaluator_25.1?expand=1).
 - [`issue_24545_oom_kill_detection`](active/issue_24545_oom_kill_detection/index.md) — Fails exit-0 jobs whose job stderr reports an OOM kill; resubmits Pulsar jobs; opt-in cgroup check (#24545). [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_24545_oom_kill_detection?expand=1).
 - [`issue_24375_restriction_string_roundtrip_26.1`](active/issue_24375_restriction_string_roundtrip_26.1/index.md) — Workflow text input restrictions/suggestions round-trip the editor's `value:label,...` string losslessly (backslash escapes; stray commas dropped; lone `:` = empty value), and restrictions + suggestions opens as restricted (#24375). Hardened READY (re-scoped once). Base `release_26.1`, local head `4333ba9e1a6`; needs a force-push (fork still `c3bf15ffc76`). [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.1...jmchilton:galaxy:issue_24375_restriction_string_roundtrip_26.1?expand=1).
@@ -97,6 +96,7 @@ None yet.
 
 - [`collection_matching_typing`](active/collection_matching_typing/index.md) — Types collection matching, structure, type description, registry modules; fixes two latent map-over bugs. Head `5096d8476ec`. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:collection_matching_typing?expand=1).
 - [`converted_dataset_lookup_via_manager_26.0`](active/converted_dataset_lookup_via_manager_26.0/index.md) — Existing implicit conversions looked up via `DatasetAssociationManager.get_accessible_converted`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.0...jmchilton:galaxy:converted_dataset_lookup_via_manager_26.0?expand=1).
+- [`editor_subworkflow_map_over_tests`](active/editor_subworkflow_map_over_tests/index.md) — Editor honors a subworkflow input's declared collection type; tests pin how a subworkflow step maps over a list. Base `release_26.2`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.2...jmchilton:galaxy:editor_subworkflow_map_over_tests?expand=1)
 
 ## Galaxy branches — ready for final review (`branches_ready_for_final_review`)
 

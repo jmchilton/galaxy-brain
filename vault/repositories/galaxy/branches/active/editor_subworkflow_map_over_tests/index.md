@@ -10,11 +10,11 @@ related_records:
 
 ## Status
 
-Hardened through scope evaluation; local head `2885dc64873` (baseline tests `aa47be35ea6`, then the editor fix) on `release_26.2`, pushed to the fork.
+Hardened, polishing; head `a92b870744e` on `release_26.2`, pushed: baseline vitest tests `aa47be35ea6`, editor fix `2885dc64873`, Selenium test `a92b870744e` (see [screenshot_debrief.md](screenshot_debrief.md)).
 
 No PR.
 
-Fork CI on `2885dc64873` is pending.
+Fork CI on `2885dc64873`: client unit, linting and API tests green; only unrelated reds (release script version check, macOS startup); `a92b870744e` pending.
 
 ## Decisions
 
