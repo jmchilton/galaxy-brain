@@ -21,6 +21,9 @@ Snapshot: 2026-11-23 (reclassified from GitHub: #24555 merged, removed; #22996 r
 - [`job_cache_own_metadata_files_25_1`](active/job_cache_own_metadata_files_25_1/index.md) — Job cache and copied outputs own their metadata files, so pgcleanup purging the source keeps them. Base `release_25.1`. [#24902](https://github.com/galaxyproject/galaxy/pull/24902).
 - [`issue_25040_collection_paths_rewrite_26_2`](active/issue_25040_collection_paths_rewrite_26_2/index.md) — Collection and metadata file accessors give tools compute-side paths; nested export layout fix (#25040). [#25049](https://github.com/galaxyproject/galaxy/pull/25049).
 - [`issue_25004_mapped_job_outputs_26_1`](active/issue_25004_mapped_job_outputs_26_1/index.md) — Job Outputs on Dataset Details no longer lists the map-over HDCA as each mapped job's output. [#25067](https://github.com/galaxyproject/galaxy/pull/25067).
+- [`harden_url_abstractions_25.1`](active/harden_url_abstractions_25.1/index.md) — Checks each URL fetch hop (http source, TRS, remote ZIP, DRS) against `validate_non_local`. [#25112](https://github.com/galaxyproject/galaxy/pull/25112).
+- [`harden_url_abstractions_26.0`](active/harden_url_abstractions_26.0/index.md) — 26.0 port of `harden_url_abstractions_25.1`, DRS lookups included. [#25113](https://github.com/galaxyproject/galaxy/pull/25113).
+- [`harden_url_abstractions_26.1`](active/harden_url_abstractions_26.1/index.md) — 26.1 port of `harden_url_abstractions_25.1`, DRS lookups included. [#25114](https://github.com/galaxyproject/galaxy/pull/25114).
 
 ## Open Galaxy PRs — needs attention (`attention`)
 
@@ -76,9 +79,6 @@ None yet.
 
 ## Galaxy branches — implemented, work left, green (`branches_implemented`)
 
-- [`harden_url_abstractions_25.1`](active/harden_url_abstractions_25.1/index.md) — Checks each URL fetch hop (http source, TRS, remote ZIP, DRS) against `validate_non_local`. Head `2901959623f`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_25.1...jmchilton:galaxy:harden_url_abstractions_25.1?expand=1).
-- [`harden_url_abstractions_26.0`](active/harden_url_abstractions_26.0/index.md) — 26.0 port of `harden_url_abstractions_25.1`, DRS lookups included. Head `197962a4e50`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.0...jmchilton:galaxy:harden_url_abstractions_26.0?expand=1).
-- [`harden_url_abstractions_26.1`](active/harden_url_abstractions_26.1/index.md) — 26.1 port of `harden_url_abstractions_25.1`, DRS lookups included. Head `bb56b720f97`. [Open PR](https://github.com/galaxyproject/galaxy/compare/release_26.1...jmchilton:galaxy:harden_url_abstractions_26.1?expand=1).
 - [`vitest_real_api_calls`](active/vitest_real_api_calls/index.md) — Records real Galaxy API responses for client tests, starting with history and quota usage. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:vitest_real_api_calls?expand=1).
 - [`issue_24178_subworkflow_step_params_export`](active/issue_24178_subworkflow_step_params_export/index.md) — Exports subworkflow step params as `<index>|name`; unknown/malformed keys 400; subworkflow invocations record their own step params; shared step-param row resolver; schema docs (#24178). Re-scoped 2026-10-16, head `57bf3eebd77`. [Open PR](https://github.com/galaxyproject/galaxy/compare/dev...jmchilton:galaxy:issue_24178_subworkflow_step_params_export?expand=1).
 - [`issue_24175_imported_invocation_step_params`](active/issue_24175_imported_invocation_step_params/index.md) — Re-keys step params on invocation import so Rerun of imported runs works; drops unmappable legacy rows (#24175). Stacked on `issue_24178_subworkflow_step_params_export`; re-scoped, head `10eed573535`. [Open PR](https://github.com/galaxyproject/galaxy/compare/issue_24178_subworkflow_step_params_export...jmchilton:galaxy:issue_24175_imported_invocation_step_params?expand=1).

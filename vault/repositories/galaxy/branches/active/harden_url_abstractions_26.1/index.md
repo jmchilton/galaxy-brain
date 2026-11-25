@@ -1,5 +1,6 @@
 ---
 upstream_base_branch: release_26.1
+pr: 25114
 ---
 # harden_url_abstractions_26.1
 
@@ -10,7 +11,7 @@ upstream_base_branch: release_26.1
 
 Status: implemented with DRS lookups hardened. Rebased 2026-11-21 cleanly. Base: `release_26.1` (`12da14a1c7f`), head `bb56b720f97`; mvdbeek review 1 ported and CI reds fixed 2026-11-09 ([response](review_mvdbeek_response.md)). [Debrief](implementation_debrief.md). Worktree: `~/projects/worktrees/galaxy/branch/harden_url_abstractions_26.1`.
 
-No PR yet. Fork CI green on `bb56b720f97` after rerunning two unrelated reds (CWL conformance skipped), checked 2026-11-22.
+PR #25114 opened 2026-11-25 ("[26.1] Check every redirect hop of server-side URL fetches", labels kind/bug, area/security). Fork CI green on `bb56b720f97` after rerunning two unrelated reds (CWL conformance skipped), checked 2026-11-22.
 
 ## Scope
 
