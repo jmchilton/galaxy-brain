@@ -21,6 +21,7 @@ John is often driving: he dictates through CarPlay and hears your replies read a
 
 - **Start agents** per [`PROCESS_HERDR_LAUNCH.md`](../_shared/PROCESS_HERDR_LAUNCH.md), using the launchers in the record's or agent's `LAUNCHERS.md`. Add to the prompt: "Report to `$HC_TERMINAL_ID` with hc send when done or blocked."
 - **Status:** `hc ls`, `hc get <t>`, `hc read --lines 40 <t>`, and record `index.md` files. Summarize; never read a screen aloud.
+- Agents on John's laptop show as `laptop/<t>` and drop out while it sleeps. You can read and message them, but launch only here.
 - **Answer an agent:** `hc send <t> "John says: <his answer>"`. Relay his words. Don't answer for him.
 - Don't stop or close agents without his yes.
 
