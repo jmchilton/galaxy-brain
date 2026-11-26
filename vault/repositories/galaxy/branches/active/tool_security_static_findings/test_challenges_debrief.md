@@ -11,7 +11,7 @@ I added two commits to `test/unit/tool_util/security/`. Neither touches the anal
 
 - **`doc/source/dev/writing_tests.md`.** I read it. These are plain pytest unit tests of a library with no app, so the decision tree puts them at the unit layer.
 - **API, integration and E2E layers.** Not applicable. Nothing in this branch wires the review into Galaxy at runtime: no config, evaluator or API. No E2E test is warranted.
-- **Mocks.** `test_judge.RecordingJudge` is already a small, reusable stand-in rather than a mock. `test_patterns._finding` builds real `Finding` dataclasses. No `SimpleNamespace` or `mock` is used anywhere in the package, so I rewrote nothing.
+- **Mocks.** `test_judge.RecordingJudge` is already a small, reusable stand-in rather than a mock. `test_patterns._finding` builds real `Finding` dataclasses. A grep for `mock`, `SimpleNamespace` and `monkeypatch` in `test/unit/tool_util/security/` finds nothing, so I rewrote nothing.
 - **Red check.** The package does not exist on dev, so "fails without the branch" would only fail at import, and that proves nothing. Instead, each new test was shown red under a temporary one-line mutation of the field it pins, and each mutation was reverted. The table below has the details.
 - **"Baseline tests" prefix.** Not used. There is nothing on dev for these tests to pin.
 
@@ -27,6 +27,11 @@ I added two commits to `test/unit/tool_util/security/`. Neither touches the anal
 | `Report.add`: `level=first.level` | merge test |
 | `__init__`: skip `report.closers.pop` for unchecked locations | `test_no_closers_...[echo $free \| sh]` |
 | `interp`: record writes and closers even when poisoned | `test_no_closers_...[rewrite]`, `test_writes_are_left_out_when_a_value_is_rewritten` |
+| `_record_closers` returns at once | `test_closers_...` unquoted and double-quote params, JSON test |
+| `_record_escape_closer` returns at once | `test_closers_...[repr]` |
+| `to_dict`: `closers` emits `writes` | `test_json_report_carries_the_fields_of_a_value_check` |
+| `_by_location`: rename the `chars` key | JSON test, `test_writes_record_what_does_harm_outside_quotes` |
+| `_finding_to_dict`: `closes` emits `breakout` | JSON test |
 | `cases.yml`: add a case with only `doc` and `tool` | `test_every_case_expects_something` (and docs freshness) |
 
 Before this branch's tests, every row except the last two passed the whole suite.
