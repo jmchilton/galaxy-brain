@@ -71,16 +71,6 @@
   status: recommended
   priority: high
   suggested_by: gx_reviews/SUGGESTED_TASKS.md#Needs Follow Ups
-- prompt: Follow up on galaxyproject/galaxy#24598 (vault/repositories/galaxy/reviews/active/24598/).
-  agent_dir: gx_reviews
-  link: https://github.com/galaxyproject/galaxy/pull/24598
-  record: galaxy/reviews/24598
-  kind: human
-  description: |
-    👀 Approved, awaiting your merge; hippi345 asked 2026-11-10 if anything else is needed; four failing checks.
-  status: recommended
-  priority: high
-  suggested_by: gx_reviews/SUGGESTED_TASKS.md#Needs Follow Ups
 - prompt: Follow up on galaxyproject/galaxy#24190 (vault/repositories/galaxy/reviews/active/24190/).
   agent_dir: gx_reviews
   link: https://github.com/galaxyproject/galaxy/pull/24190

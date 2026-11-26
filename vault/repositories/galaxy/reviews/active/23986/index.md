@@ -15,7 +15,7 @@ related_records:
 
 ## Status
 
-Review: round 0 on `ae37e517ebc` ready, unposted. 11 P2s + 21 P3s; 20 fixed on `pr_23986_round_0_rev_0` (head `f4c1a518d0c`, pushed to jmchilton fork, not pushed into PR). One filtered (F1, disproved).
+Review: round 0 on `ae37e517ebc`; not posted via actions, John commented by hand 2026-11-22 and davelopez will address (2026-11-24). New head `16f3b1d9f45`, conflicting — re-review (synced 2026-11-25). 11 P2s + 21 P3s; 20 fixed on `pr_23986_round_0_rev_0` (head `f4c1a518d0c`, pushed to jmchilton fork, not pushed into PR). One filtered (F1, disproved).
 
 PR: open against `dev`, by davelopez; draft. Supersedes #23277; builds on merged #23984, #23985, #24517.
 
