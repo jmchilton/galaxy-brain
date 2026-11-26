@@ -12,7 +12,7 @@ related_records:
 
 ## Status
 
-Re-scoped into branch 4 (refuse jobs of tools with static findings left after patching) and re-hardened; BLOCKED on a scope decision (third evaluation suggests a capability-findings switch), head `cab486f13a1`.
+Re-scoped into branch 4 (refuse jobs of tools with static findings left after patching) and re-hardened; BLOCKED on a scope decision (third evaluation suggests a capability-findings switch), head `12af42b3aab` (2026-11-26: re-picked `tool_patches` collection_fix commits e0a94aa8566, f531c63edc2, 8bb1573a319 on top of `cab486f13a1`; 820 patch+security unit tests pass).
 
 ## Decisions
 
