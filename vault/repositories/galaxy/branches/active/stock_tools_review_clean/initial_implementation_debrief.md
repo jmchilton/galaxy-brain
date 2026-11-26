@@ -1,8 +1,16 @@
 # Initial implementation debrief: stock_tools_review_clean
 
-Branch `stock_tools_review_clean` on `origin/release_26.1` (`7e8075a360e`): 17 commits, 28 files, +101/−78, not pushed. Only tool XML changes, plus one unit test. The review is measured with the analyser from `jmchilton/tool_security_static_findings`, run from a scratch extract over the 204 stock XML files (172 under `tools/`, 32 under `lib/galaxy/tools/`).
+Branch `stock_tools_review_clean` on `origin/release_26.1` (`7e8075a360e`): 19 commits, pushed to `jmchilton/stock_tools_review_clean` (head `605f9b26407`). Only tool XML changes, one unit test, and one new tool test with its test-data file. The review is measured with the analyser from `jmchilton/tool_security_static_findings`, run from a scratch extract over the 204 stock XML files (172 under `tools/`, 32 under `lib/galaxy/tools/`).
 
-Result: vulnerability findings go from 170 to 107, and files with any vulnerability finding from 62 to 47. Each of the 107 that remain is left for a stated reason (see below): upload1's exemption, an analyser false positive, a server-set value, or a broken tool that needs a decision. `uncheckable-template-code` remains only on upload1, which is exempted.
+Result: vulnerability findings go from 170 to 91, and files with any vulnerability finding from 62 to 47. Each of the 91 that remain is left for a stated reason (see below): upload1's exemption, an analyser false positive, a server-set value, or code John deferred. `uncheckable-template-code` and unchecked locations remain only on upload1, which is exempted.
+
+## Decisions (John, 2026-11-26)
+
+- **Disclosure:** push as is. The branch is pushed and tracking `jmchilton/stock_tools_review_clean`.
+- **upload1:** exempted in the review (see below).
+- **Data source size limit:** not now. The 26 data source tools are left as they are (section below).
+- **Fix joiner2 and shrimp_wrapper** so they work as their authors intended, keeping ids and inputs. Done in commits 18 and 19.
+- **Deferred:** HiGlass `uploaded_genomes`, the sample_sheet_to_tabular newlines, and all analyser changes.
 
 ## Commits
 
@@ -24,7 +32,36 @@ Result: vulnerability findings go from 170 to 107, and files with any vulnerabil
 16. `1356cb2d074` Check for GFF input with is_of_type in Extract Genomic DNA.
 17. `4e5b690b17d` End options before the positional arguments of two optparse tools (`Extract_features1`, `vcf_to_maf_customtrack1`).
 
+18. `917c41da640` Fix the paired-end branch of SHRiMP's command template.
+19. `605f9b26407` Write Relational join 2's sorted inputs to the working directory (adds a `<test>` and `test-data/joiner2_out.tabular`).
+
 Commits 1–2 are the upload1 PR. The rest are per-tool or small groups and can be split however is convenient.
+
+## joiner2 and shrimp_wrapper fixes
+
+**Versions:** neither tool's version is bumped. Stock tool versions are bumped only with a backup copy of the old version, so existing workflows keep resolving it; see the discussion on galaxyproject/galaxy#21648, where a grep fix's bump was reverted (`e5027b0f5b5`). A bug fix keeps the version. Both tools failed on every job before, so no earlier result changes.
+
+**shrimp_wrapper (`917c41da640`)**
+- **Fix:** removed the stray `)` from the paired-end `#elif`. The template now compiles.
+- **Review:** its one finding is a low `option-injection` on `'$param.spaced_seed'`. That is the same positional-script false positive as shrimp_color_wrapper, and the script only accepts a digits-only seed.
+- **Proof:**
+  - The tool's `<test>` can't run here. `rmapper-ls` (SHRiMP 1.x) isn't on bioconda, and the test's data files (`shrimp_phix_anc.fa`, `shrimp_wrapper_test1.fastq`) aren't in `test-data/`.
+  - Instead, I rendered all four branches (single/paired × skip/full). Before the fix each failed with a Cheetah `ParseError`.
+  - I ran each rendered command with the real `shrimp_wrapper.py`, a stub `rmapper-ls` on `PATH`, and small FASTQ and FASTA inputs. All four exit 0. The wrapper passed the expected `-s … -h …` options and files to the mapper, and the single-end runs produced the coordinate table.
+  - This proves the template and wrapper plumbing, not SHRiMP's alignments.
+
+**joiner2 (`605f9b26407`)**
+- **What was wrong:** `$input1.tmp` was an attribute lookup on the dataset, so every command build raised `NotFound: cannot find 'tmp'`.
+- **Fix:**
+  - Each input is sorted on its join column into a file in the job's working directory: `sort -k 'N,N' '$input1' > input1.tmp`.
+  - The two files are joined with `join -1 N -2 M`, and the output still goes through `tr " " "\t"`.
+  - The steps are chained with `&&`. The `rm -rf` is dropped, because the working directory is cleaned with the job.
+  - The sort key is narrowed from `-k N` (field to end of line) to `-k N,N`, so `sort` and `join` compare the same field in any locale.
+- **Review:** no findings.
+- **Proof:**
+  - **New `<test>`:** joins `1.bed` and `2.bed` on column 2. The expected output was generated by running the rendered command and checked against an independent Python join: 49 rows, same set. Lines are compared sorted, because row order depends on the locale.
+  - **Framework runner:** passes with the fix. The same test against the original command fails (`cannot find 'tmp'`).
+  - **No baseline commit:** a baseline-tests commit wasn't possible, since no test can pass on the original. The test goes in with the fix.
 
 ## upload1
 
@@ -60,44 +97,43 @@ Vulnerability findings:
 | nested-interpreter | low | 1 | 1 |
 | configfile-injection | high | 4 | 4 |
 | configfile-injection | low | 4 | 4 |
-| path-traversal | medium | 11 | 4 |
-| argument-injection | medium | 34 | 8 |
-| argument-injection | low | 13 | 13 |
-| option-injection | low | 87 | 72 |
-| **Total** | | **170** | **107** |
+| path-traversal | medium | 11 | 0 |
+| argument-injection | medium | 34 | 2 |
+| argument-injection | low | 13 | 9 |
+| option-injection | low | 87 | 70 |
+| **Total** | | **170** | **91** |
 
 Other measures:
 
 | Measure | Before | After |
 |---|---|---|
 | Files with any vulnerability finding | 62 | 47 |
-| Files whose worst vulnerability is high / medium / low | 5 / 19 / 38 | 2 / 3 / 42 |
+| Files whose worst vulnerability is high / medium / low | 5 / 19 / 38 | 2 / 2 / 43 |
 | Files with no findings at all | 85 | 90 |
 | `uncheckable-template-code` | 2 (upload1, extract_genomic_dna) | 1 (upload1) |
-| Classified unchecked locations | 3 | 2 (upload1; shrimp_wrapper, which doesn't compile) |
+| Classified unchecked locations | 3 | 1 (upload1) |
 | Capability: `template-app-access` | 27 | 26 (Extract Genomic DNA no longer reads `$__app__`) |
 | Capability: `template-reflection` | 3 | 1 (upload1's `getVar`) |
 
-All other capability counts are unchanged. Reports: `before.json` and `after.json` in this session's scratchpad. They hold per-tool detail, so they stay out of the vault.
+All other capability counts are unchanged. Reports: `before.json` and `after2.json` (after the joiner2 and shrimp_wrapper fixes) in this session's scratchpad. They hold per-tool detail, so they stay out of the vault.
 
-### The 107 remaining vulnerability findings, by reason
+### The 91 remaining vulnerability findings, by reason
 
 | Findings | Reason | What's needed |
 |---|---|---|
 | 1 | upload1 `$paramfile` | Exempted. |
-| 39 | Low `option-injection` on quoted values passed to a shipped script that reads `sys.argv`/`@ARGV`/`$1..` by position. Tools: genbank, liftOver, CreateInterval, axt ×2, changeCase, cutWrapper, fixedValueColumn, gff_filter_by_attribute, gff_filter_by_feature_count, gtf2bedgraph, the cellxgene configfile script, nine MAF tools, blat, shrimp_color, sift's shell wrapper, bar_chart, gsummary. | Analyser change. A leading dash can't make these values options. |
+| 40 | Low `option-injection` on quoted values passed to a shipped script that reads `sys.argv`/`@ARGV`/`$1..` by position. Tools: genbank, liftOver, CreateInterval, axt ×2, changeCase, cutWrapper, fixedValueColumn, gff_filter_by_attribute, gff_filter_by_feature_count, gtf2bedgraph, the cellxgene configfile script, nine MAF tools, blat, shrimp_color, shrimp_wrapper, sift's shell wrapper, bar_chart, gsummary. | Analyser change. A leading dash can't make these values options. |
 | 27 | `data_column` values: joiner, mergeCols, sorter, maf_by_block_number, linkToDavid, linkToGProfile, lps, sift, bar_chart, grouping, higlass `valuecol`. | Analyser change. Since `52c5f9dc180` (in release_26.1 and the analyser branch), Galaxy rejects non-numeric columns when it can't check them. The analyser still taints them "only when the referenced dataset is empty". |
-| 17 | joiner2 | Broken tool, decision below. |
 | 5 | Export tools' `__EXPORT_HISTORY_COMMAND_INPUTS_OPTIONS__` (a multi-word option string the action builds on the server, split on purpose) and `__EXPORT_TO_URI__` (set by the action) | Analyser change, or a framework change that passes them as separate parameters. |
 | 4 | maf_filter: `${repr(value)}` in a Python configfile | Analyser change. `repr()` of a `str` is a Python string literal, but the analyser only treats `repr` of a list as escaped. |
 | 3 | Values that follow `--`: Extract_features1 (1) and vcf_to_maf_customtrack1 (2) | Analyser change. Its shell model ends options for the next word only. |
 | 3 | Data configfiles that are a single user value (grep and grep 1.0.1 pattern files; data_fetch's `request_json`). A newline only adds the user's own patterns, or is JSON whitespace. | Analyser change. |
 | 2 | history import: `b64encode()` output in option position | Analyser change. The analyser's encoder alphabet includes `-` and `_`, which only `urlsafe_b64encode` produces. |
-| 2 | HiGlass `uploaded_genomes` | Decision below: it is a string used as a dict, so this is dead or crashing code. |
+| 2 | HiGlass `uploaded_genomes` | Deferred (John): it is a string used as a dict, so this is dead or crashing code. |
 | 1 | HiGlass dbkey echoed inside `#if dbkey in $existing_genomes` | Analyser change. It doesn't narrow a value tested for membership in a literal list. |
 | 1 | gpass: `${base_name}` inside a word that begins with `${extra_files_path}/` | Analyser change. It counts any value in a word that starts with a placeholder as leading the word. |
 | 1 | ncbi_datasets: `type="file"` param | Analyser change. The analyser says file params aren't sanitized, but `FileToolParameter` uses the base `to_param_dict_string` and is sanitized (checked: `a'b;c` renders as `a__sq__bXc`). |
-| 1 | sample_sheet_to_tabular: an element identifier with a newline adds a row to the output table | Decision below. |
+| 1 | sample_sheet_to_tabular: an element identifier with a newline adds a row to the output table | Deferred (John). |
 
 Other analyser gaps seen while fixing, and how I handled them:
 - The analyser treats any argument of `echo` or `printf` that starts with a value as an option. ilastik uses a real indent instead, `echo '  '<name>`.
@@ -131,14 +167,15 @@ Other analyser gaps seen while fixing, and how I handled them:
   - `lib/galaxy_test/api/test_tools_upload.py`: 70 passed, 1 skipped, 6 failed. All 6 failures were `dbkey 'hg19'` invalid because the test server's builds list was empty. Rerun with `builds_file_path=tool-data/shared/ucsc/builds.txt.sample`, `test_upload_dbkey`, `test_upload_multiple_files_*` and `test_multiple_files_posix_lines` (7) all pass. So all of the file passes.
   - `lib/galaxy_test/api/test_libraries.py` (its legacy library uploads go through upload1): 36 passed, 2 skipped.
 - **Interactive tools:** none have tests. Covered by render comparison only.
+- **joiner2 and shrimp_wrapper:** see their section above.
+  - joiner2's new framework test: 1/1 passes, and fails against the original command.
+  - shrimp_wrapper: the template renders in all four branches, and all four run end to end against a stub mapper. Its `<test>` can't run here (no SHRiMP 1.x binary, data files missing).
 
 ## Tools left alone on purpose
 
 - **Security test examples:** confirmed that no security test or spec case in the three security branches uses a shipped tool. They use `test/functional/tools/` and `lib/galaxy/tool_util/security/spec/tools/`. The only stock-shaped text is a synthetic snippet in `test_review.py` that copies upload's `value_from` conditional.
 - **upload1:** exempted, as above.
-- **Behaviour changes I stopped at:**
-  - joiner2 (`tools/filters/joiner2.xml`, not in the sample tool_conf, no tests). `$input1.tmp` is an attribute lookup that raises `NotFound: cannot find 'tmp'`, so every job fails. The obvious intent, `${input1}.tmp`, would write temp files beside the input datasets and `rm -rf` them.
-  - shrimp_wrapper (`tools/metag_tools/shrimp_wrapper.xml`, not in the sample tool_conf). The command doesn't compile (a stray `)` in an `#elif`), so every job fails and the analyser can't review it.
+- **Deferred by John:**
   - HiGlass `uploaded_genomes`. It is initialised as `""` and then assigned by key, so a labelled chromosome-size upload that matches a built-in genome raises `TypeError`, and the bedgraph branch for a custom genome indexes a string. Making it `{}` would make that feature work, which is a behaviour change. The two remaining lows are on this code.
   - sample_sheet_to_tabular. An element identifier containing a newline adds a row to the output. Replacing newlines changes the output for such identifiers.
   - Export tools' option string (above): it needs a framework change, not a tool change.
@@ -162,6 +199,8 @@ Other analyser gaps seen while fixing, and how I handled them:
 Gratuitous capability uses that were removed: Extract Genomic DNA's `$__app__` / `__class__` datatype check, and upload1's `self.separator`.
 
 ## Data source tools and `$__app__.config.output_size_limit`
+
+**Decision (John, 2026-11-26): not now.** These tools are unchanged on this branch. The analysis below is kept for later.
 
 At branch 3's default (`enforce_code` + `strict`), this read gives `uncheckable-template-code`. That refuses every job of the 26 stock data-source tools that use it (all of `tools/data_source/` with `tool_type="data_source"` except ncbi_datasets), 17 of them in the sample tool_conf. It is probably the largest remaining set of stock refusals. There is no tool-only fix that keeps behaviour, so I changed nothing.
 
@@ -187,12 +226,14 @@ At branch 3's default (`enforce_code` + `strict`), this read gives `uncheckable-
 
 ## Decisions for John
 
-1. Do joiner2 and shrimp_wrapper get fixed (a change from always-failing to working), removed, or left alone?
-2. HiGlass `uploaded_genomes`: fix the `""`/`{}` bug, a behaviour change that makes labelled chromosome-size overrides work, or leave it?
-3. sample_sheet_to_tabular: replace newlines in element identifiers in the output, or accept the extra row?
-4. Analyser changes for the false-positive rows above, to be made on the security branches. The largest are positional-script arguments (39) and `data_column` (27).
-5. Export tools: keep the server-built option string and accept its findings, or split it into separate job parameters in `history_imp_exp.py`?
-6. Data source size limit: do the small Galaxy-side change (the limit in the JSON `job_config`, the argument dropped from 26 XMLs) on this branch, in its own PR, or not at all?
-7. The `./` and `--` argv changes in the Jupyter, HiGlass and optparse commits change the words passed but not their meaning. Are those acceptable for a release_26.1 PR?
+Resolved 2026-11-26 (see "Decisions" at the top):
+- joiner2 and shrimp_wrapper: fixed.
+- HiGlass `uploaded_genomes`, sample_sheet newlines, analyser changes: deferred.
+- Data source size limit: not now.
+- Disclosure: pushed as is.
 
-Not done yet: the normal review subagent, the snapshot and hardening steps, and no pushes.
+Still open:
+1. Export tools: keep the server-built option string and accept its findings, or split it into separate job parameters in `history_imp_exp.py`?
+2. The `./` and `--` argv changes in the Jupyter, HiGlass and optparse commits change the words passed but not their meaning. Are those acceptable for a release_26.1 PR?
+
+Not done yet: the normal review subagent, and the snapshot and hardening steps.
