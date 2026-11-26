@@ -10,7 +10,7 @@ related_records: galaxy/branches/tool_patches
 
 ## Status
 
-Implemented, re-scoped and re-hardened; READY, landing after both parents (head `9fc1faf4440`).
+Implemented, re-scoped and re-hardened; BLOCKED on a scope decision (the second scope evaluation suggests reporting lowered findings), head `9fc1faf4440`.
 
 ## Decisions
 

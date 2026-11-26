@@ -1,4 +1,4 @@
-Run via Claude Opus at high effort. **Recommendation: keep the scope as implemented.** This is the second scope evaluation. The first one's expansion, `--fail-on uncleared` (`ff7567349f0`, hardened in `937ca04214d` and `87eab50a554`), supplied the request's one missing condition. The branch now covers the whole request: findings before and after a patch, targeted findings cleared (opt-in `--fail-on uncleared`), nothing new (the default gate), and patch state in the static CLI's text and JSON reports. It is small, the library is reusable, and it is offline with no runtime enforcement. One new modest expansion came up in re-hardening: report the findings a patch makes less severe. It is not recommended now, because it depends on a question only John can answer: does a lowered finding count as progress? It is listed below as a decision. The scopes the first evaluation rejected (typing `PatchFile.fixes`, per-tool guids, runtime surfacing) have no new evidence and stay out.
+Run via Claude Opus at high effort. **Recommendation: expand, modestly. Report the findings a patch makes less severe.** This is the second scope evaluation. The first one's expansion, `--fail-on uncleared` (`ff7567349f0`, hardened in `937ca04214d` and `87eab50a554`), supplied the request's one missing condition. The branch now covers the request: findings before and after a patch, targeted findings cleared (opt-in `--fail-on uncleared`), nothing new (the default gate), and patch state in the static CLI's report. Re-hardening found one visibility gap. A patch that lowers a finding, say HIGH to MEDIUM through a tighter sanitizer, gets no `CLEARED` line and no `NEW` line, so a partial fix is invisible in the patch review. The fix is about 15 lines in this branch's own `patch_review.py`, plus a test on the existing synthetic awk fixture: `PatchReview.lowered`, a JSON `lowered` key, and `LOWERED` lines. Whether a lowered finding also satisfies `--fail-on uncleared` stays John's call. Today it doesn't, and that is documented. Not implemented: this is a second evaluation, so the branch parks for John. The scopes the first evaluation rejected (typing `PatchFile.fixes`, per-tool guids, runtime surfacing) have no new evidence and stay out.
 
 ## Possible Decompositions
 
@@ -26,7 +26,7 @@ This gives reviewers a smaller first PR and isolates the opt-in gate semantics (
 
 ## Scopes considered
 
-### As implemented (recommended)
+### As implemented
 
 `review_patches(tool_source, db, guid)` returns a `PatchReview`, with `cleared`, `introduced` (new or worse), `notes_added`, `mismatched` and `uncleared`. The CLI's `--tool-patch-path` adds PATCH, CLEARED and NEW lines and JSON keys, fails on any regression, and offers the opt-in `--fail-on mismatch` and `--fail-on uncleared`.
 
@@ -34,7 +34,7 @@ This gives reviewers a smaller first PR and isolates the opt-in gate semantics (
 |---|---|
 | <ul><li>Covers every condition in the request</li><li>Thin: reuses `review_tool_source`, `apply_patches`, `patches_as_dicts`, `key_from_ids`, `sorted_refs` and `finding_to_dict`</li><li>No parent changes and no runtime code</li><li>Base CLI output byte-identical to the parent</li></ul> | <ul><li>`uncleared` is attributed per tool, not per unit</li><li>A severity-lowering security patch fails `--fail-on uncleared`, and a lowered finding doesn't show in the patch lines</li><li>Only `_local` keys match a directory of tools; `--guid` covers one file</li></ul> |
 
-### Expand (new, not recommended yet): report lowered findings
+### Expand (recommended): report lowered findings
 
 Add `PatchReview.lowered`: findings whose match survives at a lower severity. Add it to the JSON and as `LOWERED` lines. Optionally, let a lowered finding satisfy `--fail-on uncleared`. This is about 15 lines and a test (the awk fixture already exists).
 
@@ -45,7 +45,8 @@ Add `PatchReview.lowered`: findings whose match survives at a lower severity. Ad
 <details><summary>Details</summary>
 
 - Probe: a synthetic awk tool with a sanitizer change that takes out `;`. `nested-interpreter` goes from HIGH to MEDIUM, with no CLEARED and no NEW. `--fail-on uncleared` exits 1. The JSON `before` still shows HIGH, so the change can be recovered by diffing, but nothing names it.
-- If John answers "strict", only the reporting half is left. That alone is a nicety, not a gap in the request.
+- The reporting half is needed whatever John decides about the gate. With "strict", it shows partial fixes. With "progress", it is what the gate reads.
+- Validation still to do: a red-to-green test on the awk fixture (library and CLI), then a re-run of the base and patched byte comparisons. The base output can't change, because the new key and lines appear only with `--tool-patch-path`.
 
 </details>
 
@@ -85,7 +86,11 @@ The alt `tool_patches_static_findings_alt_original_scope`.
 
 ## Decisions for John (not scope changes)
 
-- **A lowered finding under `--fail-on uncleared`:** strict (today, documented) or progress? If progress, take the "report lowered findings" expansion.
+- **A lowered finding under `--fail-on uncleared`:** strict (today, documented) or progress? Either way, the recommended reporting expansion is the base.
 - **Flag name.** `uncleared` sits next to `unchecked` and `uncheckable`. The review recommends `clears-nothing`.
 - **Hoists into the parents:** `note_lines` and `report_dict` → `classify.py`, and `compat_doc` → `unittest_utils` (see `baseline_refactor.md`). These are only worth doing if the parents are reopened.
 - **`capability-obfuscation` matched by its constant message**, carried over from the earlier thermo review.
+
+## Parking
+
+STATUS BLOCKED for John's scope decision. What would change is the "report lowered findings" expansion above. Everything else still applies: the re-scope review (`subagents/review_rescope.md`), the test challenges, the thermo review and its fixes, and the byte-identical checks. The expansion's validation is listed in its details.

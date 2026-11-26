@@ -7,7 +7,7 @@ created .../tool_patches_static_findings/differential-review/snapshots/20261126T
     commits: 33 same, 0 rebased, 0 changed, 4 new, 0 dropped
 ```
 
-**STATUS: READY**, stacked on two parents.
+**STATUS: BLOCKED** on a scope decision, stacked on two parents.
 
 - Head: `9fc1faf4440` on `jmchilton/tool_patches_static_findings`.
 - Parent: `tool_security_static_findings` (`d4ae281e442`), which is itself waiting on a history decision.
@@ -45,12 +45,13 @@ created .../tool_patches_static_findings/differential-review/snapshots/20261126T
 - Refactor baseline: report-only. Optionally, `note_lines`/`report_dict` could move into the parent's `classify.py`.
 - Scope evaluations:
   - Round 1: expand. It added `--fail-on uncleared`; the alt `tool_patches_static_findings_alt_original_scope` is at `812703c96b6`.
-  - Round 2: keep.
+  - Round 2: expand modestly again (report findings a patch makes less severe: `PatchReview.lowered`, a JSON `lowered` key and `LOWERED` lines, about 15 lines plus a test on the awk fixture). Not implemented: a second evaluation parks the branch for John. The reviews, test challenges and thermo fixes still apply if the expansion is taken.
 - Codex was blocked by the permission classifier.
 - The analyser's output is byte-identical throughout.
 
 ## Decisions for John
 
+- **Take the "report lowered findings" expansion?** This is the reason for BLOCKED. Taking it needs a red-to-green test on the awk fixture and a re-run of the output comparisons.
 - **The flag name `uncleared`.** Alternatives: `clears-nothing`, `no-clear`, `ineffective`.
 - **Should a lowered finding count as progress (cleared)?** Today `cleared` is strict.
 - **Matching capability findings by message.** A second `capability-obfuscation` blob in the same place is not reported as new. Reordering a multi-module `#import` still churns, and fixing that needs an analyser change.

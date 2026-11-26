@@ -31,6 +31,7 @@ Not acted on:
 - **S4. A bad collection path is found by counting `db.collections`, and the error says "see the log".** The fix is a `strict` loader flag in `tool_patches` (parent).
 - **`REPRODUCIBILITY_LEVELS[-1]` equals the loader default.** It is kept explicit: offline review must apply every op whatever the default becomes, and the comment says so.
 - **`notes_added` and `to_dict` re-run `classify()`.** It is cheap, and caching would conflict with the recomputed-properties choice.
+- **A vulnerability finding with no refs is matched by `expr` (template text).** The docs say findings aren't matched by template text. Every vulnerability is built in `interp.py` with `source_refs(...)`, so this happens only when none of a value's sources is a `Source`. Edge case, kept as it is.
 - **Drop `PatchReview.patched`.** Low conviction. It costs a fabricated ToolSource in one test.
 - **Parent `apply_patches` sets `patch_state` on the caller's ToolSource when nothing applied.** This is parent code.
 - **Docs paragraph is dense.** It could be turned into bullets. Kept as prose to match the rest of the page.
