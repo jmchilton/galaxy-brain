@@ -11,7 +11,9 @@ related_records:
 
 ## Status
 
-Implemented, re-scoped and re-hardened; READY for polish and CI (head `1e92a257548`).
+Implemented, re-scoped and re-hardened; revised for `collection_fix` patch files (2026-11-26); READY for polish and CI (head `8bb1573a319`).
+
+`tool_patches_static_findings` carries this branch's commits and needs `e0a94aa8566`, `f531c63edc2` and `8bb1573a319` re-picked (or a rebase onto the new head); not yet done.
 
 ## Decisions
 
@@ -20,3 +22,4 @@ Implemented, re-scoped and re-hardened; READY for polish and CI (head `1e92a2575
 - Per-changeset override files are looked up by the changeset checked out on disk (`.hg/dirstate`), never `installed_changeset_revision` (John, 2026-11-25).
 - Out of scope: admin endpoint, tool-form badge, `Job` column, live reload, authoring CLI, shipped patches.
 - Fixtures are synthetic test tools only (`identifier_single`).
+- `collection_fix: true` files load with security ops and no upstream entry, mirroring the collection checker; the flag isn't reported on patch state (file-level vs per-kind state) (2026-11-26).

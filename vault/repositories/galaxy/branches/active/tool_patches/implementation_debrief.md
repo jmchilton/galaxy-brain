@@ -1,77 +1,52 @@
-# Implementation debrief
+# Implementation debrief (revision: collection_fix)
 
 ```
-created .../tool_patches/differential-review/snapshots/20261126T033947Z-hardening-1e92a2575484.json
-  hardening @ 1e92a2575484 vs origin/dev (merge-base ce63095e7a8a)
-  since 20261126T024853Z-revision-cc4712bc0720:
-    commits: 20 same, 0 rebased, 0 changed, 5 new, 0 dropped
+created .../tool_patches/differential-review/snapshots/20261126T212551Z-revision-8bb1573a319e.json
+  revision @ 8bb1573a319e vs origin/dev (merge-base ce63095e7a8a)
+  since 20261126T033947Z-hardening-1e92a2575484:
+    commits: 25 same, 0 rebased, 0 changed, 3 new, 0 dropped
+    hunks:   84 carried, 2 changed, 0 new, 0 dropped
+    new     e0a94aa8566b Accept collection_fix tool patch files
+    new     f531c63edc27 Pin collection_fix flag 1.0 and mixed security advisory cases
+    new     8bb1573a319e Challenge collection_fix tests: valid cases join the load table
 ```
 
-**STATUS: READY.** Head `1e92a257548` on `jmchilton/tool_patches`, 25 commits on `origin/dev`. The baseline tests commit `daeb3750f0c` comes first.
+**STATUS: READY.** Head `8bb1573a319` is on `jmchilton/tool_patches`, with 28 commits on top of `origin/dev`. The previous debrief is in `earlier_drafts/2/`.
 
-## What it is
+## Change
 
-- **The engine.** `galaxy.tool_util.patches` is a pure engine.
-  - Patch files are validated by pydantic with load-time lint, and duplicate YAML keys are rejected.
-  - There are four ops (`replace_text`, `replace_element`, `add_element`, `remove_element`), each with an exact `occurrences`. Each op is classified POST first, then PRE.
-  - Units are per kind (security, then compat), each atomic and reporting `applied | already_applied | mismatch | skipped`.
-  - `needed_from` gates units on the series. Ops and an advisory can share a file. Site policy demotes patches to generated advisories.
-  - Patches stack across collections. Each collection uses scandir with Go-style segment encoding. Per-changeset override files are chosen from `.hg/dirstate` (v1 and v2), can be symlinks inside the collection root, and fall back to the version file.
-  - `verified` comes from `coverage/`. A parameter-model guard rejects patches that change the tool's parameters.
-  - Digests cover file contents, `codes.yml`, `coverage/`, the policy, the series and `ENGINE_VERSION`.
-- **Galaxy wiring.**
-  - Config: `tool_patch_paths` (default `[]`), `tool_patch_reproducibility` (default `ordinary_inputs`) and `tool_patch_requirement_changes` (default false).
-  - One database per process. `app.tool_patches`, the populator and the freshness probe share it, and changes take effect on restart.
-  - Eager seam: `get_expanded_tool_source`. With patches configured, store rows aren't served there.
-  - Store seam: the populator's `process_tool`. The fast path checks the patch digest, and the freshness token folds in collection tokens.
-  - State is carried as `ToolIndexEntry.patch` and `ToolIndex.tool_patch_collections`, plus the manifest's `tool_patches`. `--tool-patch-path` is available.
-  - `Tool.patch` and `patches` on panel entries come from the index for cached stubs.
-  - `reload_tool_by_id` keeps the shed guid.
-  - Job-cache skip for applied patches above `rejects_inputs`, enforced in `Tool.completed_jobs`, the tool-request service and `/api/jobs/search`.
-  - A boot and per-populate summary line is logged.
+The patch collection added a top-level `collection_fix: true` field. It marks hand-authored security fixes that have no upstream PR. `PatchFile` had `extra="forbid"` and required a security upstream entry, so it skipped every such file. It now mirrors the collection checker (`tools/checker.py`):
 
-## Choices worth a reviewer's eye
+- **The field.** `collection_fix: Literal[True] | None`, with a before-mode field validator. The validator rejects explicit `null`, `false`, `1`, `1.0` and strings, the same way the checker's `is not True` test does; lax `Literal[True]` would have accepted `1` and `1.0`.
+- **The exemption.** With the flag set, security ops need no security upstream entry. A security advisory still needs one.
+- **Its own requirements.** The flag needs `authoring: hand` and security ops, with the checker's error messages word for word. The engine already modelled `authoring`, so nothing is missing there.
+- **Commit `e0a94aa8566`.** It holds the model change in `lib/galaxy/tool_util/patches/model.py` and its tests. `f531c63edc2` and `8bb1573a319` are test-only follow-ups.
 
-- **Spec bullets superseded by dated decisions.**
-  - Ops and an advisory may share a file, so the old "fails to load" test bullet was dropped.
-  - A compat unit that `needed_from` gates out reports `skipped`; it isn't silent.
-- **Restart-only semantics.** Processes running different collections disagree on the freshness token while a rolling restart is in progress. The store flips between them until every process has restarted. Live reload, in phase 2, is the fix.
-- **Engine.**
-  - For `remove_element`, the selector-invariance check expects `before − occurrences` matches.
-  - The parameter-model guard is skipped when the profile and `<inputs>` are byte-identical (the perf fix). It counts as unknown, rather than blocking, when the pre-image can't be modelled.
-- **Not accepted from the prototype format.** `script_sha256` and `param_model` are rejected by `extra="forbid"`. Such files load unpatched rather than silently losing a guard.
-- **Level rename** (John, 2026-11-25): `unusual_inputs` and `ordinary_inputs`, with no aliases.
-- **`INDEX_SCHEMA_HASH` changes** even with the feature off, so publishers need a parallel bundle.
-- **Pre-existing issues seen along the way.** Neither is fixed here.
-  - `safe_element_identifier` raises `TypeError` on a dataset name containing `'`. That's why the fixture uses a dot.
-  - A same-version `register_tool` keeps the old default `_tools_by_id` entry.
+## Decisions
 
-## Hardening
+- **The flag is not reported on `PatchState` or the API `patches` entries.**
+  - It is a file-level flag, but state is reported per kind. In a file stacked on a PR, the security state covers the PR's ops and the collection's ops together, so the flag would mislabel the PR ops.
+  - The collection's own docs say the ops carry no marker.
+  - A file with no PR already shows an empty `upstream` on its security state.
+  - A test pins that the field stays off the state.
+- **Only the order of error reports differs.** The model raises its first error, while the checker collects all of them. Both accept and reject the same files.
 
-- Normal reviews: `subagents/review_phase_ab.md`, `review_phase_cd.md` and `review_rescope.md`, all acted on.
-- Test challenges were run twice; the second run is fresh. Earlier drafts are in `earlier_drafts/1/`.
-- Performance challenge: one fix, the parameter-model skip.
-- Thermo-nuclear review was run twice.
-- Baseline refactor: none possible.
-- Scope evaluations:
-  - Round 1: expand. Re-scoped, with the alt `tool_patches_alt_original_scope` at `4ec188d7a21`.
-  - Round 2: keep.
-- Codex was blocked by the permission classifier; see `codex_review.md`.
-- Check-branch: `make format` and mypy are clean. The one remaining mypy error, in `managers/notification.py`, already exists on dev.
-- Tests:
-  - Unit: 1408 passed, 1 skipped, 2 xpassed. `test_watcher` fails on clean dev as well.
-  - `test/integration/test_tool_patches.py`: 12 passed, run alone. It covers the eager toolbox, the cached toolbox, `already_applied` and the job-cache rule on all three paths.
+## Validation
 
-## Decisions for John
+- **Red to green.** All 12 new cases failed on `1e92a257548` and pass after the fix. The test challenge also tried five mutations of the model, and each one turned at least one case red at its own assertion.
+- **Real collection sweep, run in the scratchpad.** Every `collection_fix` file in the collection was rejected before the fix and loads after it.
+  - The sweep also found a pre-existing gap outside this scope: four other files carry `script_sha256`, which the engine still refuses under `extra="forbid"`. The earlier debrief already noted this.
+- **Unit tests.** 584 passed and 2 xpassed across the patches unit tests: `test_tool_patches.py`, toolbox, cached tool, `source_store`, store selection and `scripts/tool_source`. `test_tool_patches.py` alone passed 191 at head.
+- **Integration.** `test/integration/test_tool_patches.py` ran alone, with no other test server running, and 12 passed at `e0a94aa8566`. The later commits change unit tests only.
+- **Formatting and types.** black, isort, ruff and flake8 are clean.
+  - mypy on the changed files reports one `no-any-return` in the test helper `patch_states`. That helper is unchanged, and the error already exists on the hardening head.
+- **Normal review: ship, no bugs.** The reviewer checked checker/model parity on 19 cases. The test challenge debrief is `test_challenges_debrief.md`, and the review is `subagents/review_collection_fix.md`.
 
-- **Split the PR?** The scope evaluation lists six options. The most natural one is engine + eager first, then the store.
-- **Split `test_tool_patches.py`?** It is 1,309 lines.
-- **Counters.** Where should the patch-state counters live, and should patch counts go into the populator's returned stats?
-- **API payload.** Should `/api/tools` list payloads get a compact `patches` form? Today the field adds 0.6–1.6 KB per matched tool.
-- **Skipped compat units.** Should a `skipped` compat unit also drop that file's compat advisory?
-- **Writable named stores.** Should they take the local patch config, as they do today?
-- **Celery task schema.** Should `ToolSource` carry `patch`? That would let the worker apply the job-cache rule itself instead of the web process deciding.
+## Follow-ups (not done)
 
-## Out of scope (follow-ups)
+- **Checker parity for other boolean fields.** `UpstreamRef.subset` and `changes_requirements` accept an explicit `false`, which the checker rejects. A shared only-true type could cover them and `collection_fix`. This gap predates this revision.
+- **`script_sha256`.** The engine has no support for it yet; see the earlier debrief.
 
-Admin endpoint, tool-form badge, `Job.tool_patch` column with the precise cache rule, live reload/watch, authoring CLI, shipped patches, `tool_patch_exclude`.
+## Dependent branch
+
+`tool_patches_static_findings` carries `tool_patches`' commits. It needs `e0a94aa8566`, `f531c63edc2` and `8bb1573a319` re-picked, or a rebase onto the new head. That branch was not touched.
