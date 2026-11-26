@@ -3,7 +3,9 @@ upstream_base_branch: dev
 child_branches:
   - tool_patches_static_findings
   - tool_security_runtime
-related_records: galaxy/branches/tool_patches
+related_records:
+  - galaxy/branches/tool_patches
+  - galaxy/branches/stock_tools_review_clean
 ---
 # Static tool security findings (analyser, spec, codes, CLI) without runtime enforcement
 
@@ -27,7 +29,7 @@ READY. Implemented, re-scoped and re-hardened. The history was squashed to 6 com
 - `tool_patches_static_findings`.
 - `tool_security_runtime`: runtime enforcement on top, built in parallel.
 
-Both started on the old head. Move each with `git rebase --onto tool_security_static_findings d4ae281e442 <child>`. The trees are identical, so no conflicts are expected.
+Both sit on the squashed head `d4e4f68dd25`.
 
 ## Re-sync when `tool_security_review_spec` settles
 

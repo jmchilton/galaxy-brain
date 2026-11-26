@@ -1,6 +1,7 @@
 ---
 upstream_base_branch: dev
 parent_branch: tool_security_static_findings
+related_records: galaxy/branches/stock_tools_review_clean
 ---
 # Tool security review with runtime enforcement (job refusals) on the static findings
 
