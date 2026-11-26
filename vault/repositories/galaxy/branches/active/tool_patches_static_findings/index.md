@@ -10,7 +10,7 @@ related_records: galaxy/branches/tool_patches
 
 ## Status
 
-Implementation started 2026-11-25.
+Rebuilt on the hardened parents (head `8e5cda36884`); hardening in progress.
 
 ## Decisions
 
