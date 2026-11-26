@@ -1,48 +1,77 @@
 Run via Claude Opus at high effort.
 
-# Test challenges: `test_patch_review.py`
+# Test challenges: static findings refusal
 
-Scope: `test/unit/tool_util/security/test_patch_review.py`, the only test file this branch's integration adds. This is a fresh pass after the re-scope. Commits: `937ca04214d` (guard case, from the re-scope review) and `87eab50a554`. The earlier draft is in `earlier_drafts/1/test_challenges_debrief.md`.
+Scope: the tests this round added (`817454ed1e8..67d756d9ca2`). They are:
+- `test_refusal.py`
+- `test_static_findings_refusal.py`
+- `TestStaticReview` in `test_populate_store.py`
+- the static-review tests in `test_toolbox.py` and `test_cached_tool.py`
+- `test/integration/test_tool_static_findings_refusal.py`
 
-## Layer
+The earlier draft, which covered patch review, is in `earlier_drafts/2/`. Changes are in commit `65194bb4453`.
 
-The review and its CLI are offline. They use no Galaxy app, server or browser, so unit tests are the right layer, and no API, integration or E2E test applies. `test/integration/test_tool_patches.py` covers runtime patching, which is the parent's code, not this branch's. The fixtures are real: synthetic patch collections written with the `tool_patches` test helpers, `identifier_single.xml`, and synthetic awk and import tools written to `tmp_path`. No `Mock` is used.
+## Bug: the new unit tests failed mypy
+
+`make mypy` runs `mypy . ../test`, so CI would have gone red on 14 errors:
+- `test_static_findings_refusal.py` passed `SimpleNamespace` where `Tool` and `GalaxyAppConfiguration` are expected (12 errors).
+- `test_refusal.py` typed `_review(**report: dict)` wrong (2 errors).
+
+Fixed. The one mypy error left, at `galaxy/managers/notification.py:995`, comes from the environment; the branch doesn't touch that file.
 
 ## Changes
 
-- **`--fail-on uncleared` test reshaped** to mirror the mismatch test as `(patch, fail_on, exit_code)`. The test is now `test_cli_fails_on_an_applied_security_patch_that_clears_nothing_only_when_asked`, with four cases:
-  - `default`: a cosmetic security patch without the flag exits 0. This pins that the gate is opt-in.
-  - `clears`: a cleaning patch exits 0.
-  - `clears-nothing`: a cosmetic patch with the flag exits 1.
-  - `compat`: an applied compat patch that clears nothing, with the flag, exits 0. This pins that the gate covers security patches only, as the mismatch test's `compat` case does for mismatch.
-- **Ids** now use hyphens, like the rest of the file. The old ones were `clears_its_finding` and `clears_nothing`.
-- **`STALE_COMPAT` replaced** by a local `_compat_patch(ops)` helper, shared by the mismatch and uncleared tests. A shared `compat_patch` next to `security_patch` in `unittest_utils/tool_patches.py` would be parent (`tool_patches`) code. `test_tool_patches.py` has its own `compat_doc`, so a shared helper is worth doing if the parent is reopened.
-- **Guard case added** (`937ca04214d`): `fail-on-uncleared` in `test_cli_rejects_patch_options_without_a_collection`.
+- **`test_static_findings_refusal.py`.** `SimpleNamespace` is replaced by `RefusalConfig` and `ReviewedTool` dataclasses. `_config` and `_tool` cast them, the same way `populate_config()` does in `app_unittest_utils/tool_source_support.py`.
+- **Rewritten on the production path.** `test_refusal.py::test_finding_a_patch_lowered_still_refuses_at_its_new_severity` checked `StaticReview.of(PatchReview.after)`. Load doesn't call that path. The test also imported the private `_awk_review` from another test module.
+  - It is now `test_reviews_the_patched_source_only_when_refusals_are_on`, which calls `patch_and_review_tool_source` on an awk tool with the lowering patch. It asserts `StaticReview(severities={"nested-interpreter": "medium"})` with refusal on, and `None` with refusal off.
+  - It replaces `test_reviews_the_loaded_source_only_when_refusals_are_on`, whose on case (identifier_single, shell-injection) the integration `static_refused` test already covers.
+  - The integration lowered test can't take this over. Its threshold is `medium`, and the awk finding is `high` before the patch and `medium` after, so it refuses either way. That test proves an applied patch doesn't exempt a tool. It doesn't prove the severity is lowered.
+- **`test_toolbox.py`.** The parse-path half was dropped. It asserted only `static_review is not None` and the version, and integration covers the same path. The test is now `test_static_review_kept_on_stored_source`. Its stored-source assertion went from `refused_rules("critical") == ["template-exec"]` to the exact `StaticReview`.
+- **`test_cached_tool.py`.** `reviewed != kept` became `reviewed == StaticReview(version=REVIEW_VERSION)`. The fresh review of `echo merge` is empty.
+- **`test_refusal.py`.**
+  - The worst-severity test now has a third, `low` finding after the `high` one, so it fails if the last finding wins. Before, it only failed if the first one won.
+  - The notes-only test builds its `Report` inline, and `_review` takes findings only.
+- **Integration.** A `_show_tool(tool_id)` helper, which asserts 200, replaces the two raw `tools/<id>` GETs. The load check now asserts the returned `id`.
 
 ## Red-to-green
 
-Each new case fails at its own assertion, not at argparse:
+Each check is a one-line mutation to the branch's code, run against the in-scope unit tests:
 
-| Mutation | Failing case |
+| Mutation | Red |
 |---|---|
-| `PatchReview.uncleared` returns `False` | `clears-nothing` |
-| `kind == SECURITY` filter removed | `compat` |
-| `FailOn.parse` turns `uncleared` on always | `default` |
-| guard tuple set back to `(MISMATCH,)` | `fail-on-uncleared` (guard test) |
+| `StaticReview.of` keeps the first severity | worst-severity |
+| `StaticReview.of` keeps the last severity | worst-severity |
+| `at_or_above` uses `>` | threshold (3 params), message |
+| `refused_rules` ignores the on/off flag | `runs...[off]` |
+| lib/galaxy exemption removed | own-tools |
+| review before patching | patched-source; populator `entries_keep`, `turning_refusals_on` |
+| `except Exception` narrowed | failed-review |
+| severity not validated | config error |
+| eager store return not reviewed | toolbox stored |
+| materialization always reviews fresh | cached |
+| materialization trusts a stale entry review | cached |
+| index entry drops `static_review` | populator `entries_keep`, `stale`, `turning_refusals_on` |
+| carry-forward ignores the review | populator `stale`, `turning_refusals_on` |
+| freshness token ignores refusals | populator token |
+| `expected_review_version` ignores the off switch | populator `refusals_off`, token, `turning_refusals_on`; patched-source (off half) |
 
-The `clears` case fails if `not self.cleared` is dropped, by reasoning.
+`implementation_rescope_debrief.md` showed that the integration file goes red when the prepare check is removed. That run wasn't repeated.
 
 ## Kept, and why
 
-- **Library tests:** clearing, cosmetic rewrite, new sink, unquoting, severity raise and lower, decode (uncheckable), import-line append and reorder, and reason-only churn. Each pins a distinct match-key or notes behaviour of the reusable `review_patches` API.
-  - `test_cleaning_patch_clears_its_finding` overlaps `test_cli_text_shows_patch_states_and_cleared_findings`. It is kept as the one library-level happy path, because `review_patches` is public API and a split that lands the library first would need it.
-  - The reason-only churn test builds two `Report`s directly. No real tool flips `NOT_ANALYSED` to `NOT_CHECKABLE` with no other note change.
-- **CLI tests:** usage errors (exit 2 plus message), JSON shape, text lines, `--min-severity`, mismatch, uncleared, broken template, error entry and judge.
-- **`test_cli_lists_a_patch_review_that_raises_as_an_error`** monkeypatches `review_patches` to raise. No real input makes it raise, and a one-line stub is the simplest seam.
-- **`_RecordingJudge`** is a small class (no `Mock`) that implements `assess`. `main` builds `AnthropicJudge()` itself, so the monkeypatch is the only seam.
+- `test_uncheckable_codes_and_unchecked_locations_alone_refuse_nothing` pins a documented decision: no option refuses on uncheckable codes. It goes red if `of` or `refused_rules` starts reading report notes.
+- `test_refuses_a_job_naming_the_rules_at_or_above_the_severity` pins the exact message with several rules joined. Integration checks only the prefix and the tool id.
+- `test_failed_review_is_kept_and_refuses_nothing` monkeypatches `review_tool_source`. No real input makes the review raise, so the stub is the simplest seam.
+- `TestStaticReview` in the populator tests is not covered by integration. The cached integration test would still pass without the stored review, because materialization falls back to a fresh review.
+- The cached test's missing-review and stale-review cases are not covered by integration.
 
 ## Not changed
 
-- **No test for a severity-lowering security patch under `--fail-on uncleared`.** It fails today, and the semantics are a decision for John (see `subagents/review_rescope.md`). A test can pin the answer once he decides.
+- No E2E test: the feature has no UI.
+- The awk fixture now exists three times: in `test_patch_review.py`, the integration test and `test_static_findings_refusal.py`. A shared fixture would mean editing the older `test_patch_review.py`, which is out of scope, so the copies are left as they are.
 
-Suite: `test/unit/tool_util/security` + `test/unit/tool_util/test_tool_patches.py`, 800 passed.
+## Results
+
+- Related unit suites passed: `tool_util/security`, `test_tool_patches`, `test_static_findings_refusal`, `test_toolbox`, `test_cached_tool`, `source_store`, `scripts/tool_source` and `test_job_wrapper`. 1228 passed and 2 xpassed.
+- Integration: `test_tool_static_findings_refusal.py`, 6 passed (eager and cached).
+- ruff, black, isort and mypy are clean on the touched files.
