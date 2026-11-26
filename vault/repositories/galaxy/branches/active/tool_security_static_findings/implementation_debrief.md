@@ -60,7 +60,7 @@ Every message describes static behaviour only. None of the commits carries a "Ba
 
 ## Decisions for John
 
-1. **The sanitizer move (`7ea120eef20`).** It could be its own small dev PR, opened from John's fork or by mvdbeek. Otherwise it stays the first commit of the feature PR.
+1. ~~**The sanitizer move (`7ea120eef20`).**~~ Decided (John, 2026-11-26): stays the first commit of this branch; no re-export shim at the old path.
 2. **PR split.** `scope_evaluation.md` lists options A–F. The new history splits cleanly after commit 3, which is the original scope.
 3. **Behaviour.**
    - Non-XML tools make the run exit 1.

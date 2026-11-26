@@ -19,6 +19,7 @@ READY. Implemented, re-scoped and re-hardened. The history was squashed to 6 com
 - Source: `jmchilton/tool_security_review_spec` at `d5f7cb05e91`, which stacks on mvdbeek's `tool-security-review-on-load`. Port only the static piece; no findings at job preparation, no `ToolEvaluator.build()` enforcement, no job refusals, no runtime config (John, 2026-11-25).
 - Method: `cherry-pick -x` the static and mixed commits onto `origin/dev`, keeping authorship; drop runtime hunks; skip runtime-only commits; one framing cleanup commit (approved 2026-11-25).
 - History: squashed to 6 commits that keep authorship, with `Co-authored-by` trailers on the mixed ones (John, 2026-11-26). See `implementation_debrief.md`.
+- Sanitizer move (`7ea120eef20`): stays the first commit of this branch, not its own PR. No re-export shim at `galaxy.tools.parameters.sanitize`; assume no outside importers (John, 2026-11-26).
 - The source pin stays at `d5f7cb05e91`. Newer `tool_security_review_spec` commits (another session's work, e.g. `45231d97bac`) are not ported yet.
 
 ## Children
