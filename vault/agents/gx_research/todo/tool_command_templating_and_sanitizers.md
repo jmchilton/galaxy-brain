@@ -9,3 +9,4 @@ A static security analyser models exactly this pipeline (what characters a value
 ## Requested by
 
 - vault/repositories/galaxy/branches/active/tool_security_static_findings/brain_research.md: needs the Cheetah, sanitizer and `build_param_dict` contract the static review mirrors, and the dependency boundaries for importing it from `galaxy.tool_util`.
+- vault/repositories/galaxy/branches/active/stock_tools_review_clean/brain_research.md: needs to know which Cheetah namespace names and wrappers a stock tool command may use (output dataset wrappers, `varExists`/`getVar`, `__tool_directory__`) so the static review sees through them, and the sanitizer defaults it assumes.
