@@ -16,3 +16,4 @@ Implementation started 2026-11-23.
 - Every refusal kind gets a CODE, each with red and green cases on a real tool XML and a real job context, documented in a new docs section.
 - Spec tools and cases ship in the package at `lib/galaxy/tool_util/security/spec/` (John asked for `security_review/spec`; kept under the existing `galaxy.tool_util.security` package), not in `test/functional/tools`: Planemo and the Tool Shed will reuse them.
 - "Real tool" means a real tool XML file written for the spec. Don't search the Tool Shed for vulnerable tools (John, 2026-11-23).
+- No `enforce` alias for `enforce_code`; the default level stays `enforce_code` (John, 2026-11-26).
