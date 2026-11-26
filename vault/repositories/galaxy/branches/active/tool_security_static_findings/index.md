@@ -10,7 +10,7 @@ related_records: galaxy/branches/tool_patches
 
 ## Status
 
-Implementation started 2026-11-25.
+Implemented, re-scoped and re-hardened; BLOCKED on a PR-shape decision (history squash vs reword), head `d4ae281e442`.
 
 ## Decisions
 
