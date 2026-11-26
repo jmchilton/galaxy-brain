@@ -10,7 +10,7 @@ related_records: galaxy/branches/tool_patches
 
 ## Status
 
-Rebuilt on the hardened parents (head `8e5cda36884`); hardening in progress.
+Implemented, re-scoped and re-hardened; READY, landing after both parents (head `9fc1faf4440`).
 
 ## Decisions
 
