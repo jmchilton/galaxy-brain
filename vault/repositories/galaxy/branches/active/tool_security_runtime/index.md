@@ -9,7 +9,9 @@ parent_branch: tool_security_static_findings
 
 ## Status
 
-Implemented and reviewed, hardening in progress; head `3f0aef6a491`. Default `enforce_code` + `strict` refuses Galaxy's own `upload1`, `model_attributes`, `config_vars` and `command_reads_configfile` jobs (inherited from the source), so a defaults decision is pending.
+Implemented and hardened; BLOCKED on a defaults decision (default `enforce_code` + `strict` refuses Galaxy's own `upload1`, `model_attributes`, `config_vars` and `command_reads_configfile` jobs, inherited from the source), head `26e15a538bd`.
+
+No PR; CI not run.
 
 ## Decisions
 
