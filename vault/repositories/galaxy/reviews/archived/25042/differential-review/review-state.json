@@ -1,0 +1,139 @@
+{
+  "schemaVersion": 1,
+  "kind": "differential-review-state",
+  "updatedAt": "2026-11-23T22:00:47.934Z",
+  "hunks": {
+    "h1:b91ef6f48cd60a8c": {
+      "snapshotId": "20261123T205602Z-review-c29193e2b0fa",
+      "path": "client/src/stores/workflowStepStore.ts",
+      "reviewedAt": "2026-11-23T22:00:40.380Z"
+    },
+    "h1:c2709077c6853c04": {
+      "snapshotId": "20261123T205602Z-review-c29193e2b0fa",
+      "path": "lib/galaxy/managers/workflows.py",
+      "reviewedAt": "2026-11-23T22:00:40.982Z"
+    },
+    "h1:58296f161d6ea54e": {
+      "snapshotId": "20261123T205602Z-review-c29193e2b0fa",
+      "path": "lib/galaxy/managers/workflows.py",
+      "reviewedAt": "2026-11-23T22:00:40.982Z"
+    },
+    "h1:88e3cb9cf372cf99": {
+      "snapshotId": "20261123T205602Z-review-c29193e2b0fa",
+      "path": "lib/galaxy/managers/workflows.py",
+      "reviewedAt": "2026-11-23T22:00:40.982Z"
+    },
+    "h1:789caa2674895319": {
+      "snapshotId": "20261123T205602Z-review-c29193e2b0fa",
+      "path": "lib/galaxy/managers/workflows.py",
+      "reviewedAt": "2026-11-23T22:00:40.982Z"
+    },
+    "h1:cdfba5232f57e27d": {
+      "snapshotId": "20261123T205602Z-review-c29193e2b0fa",
+      "path": "lib/galaxy/managers/workflows.py",
+      "reviewedAt": "2026-11-23T22:00:40.982Z"
+    },
+    "h1:200f1220ac580eff": {
+      "snapshotId": "20261123T205602Z-review-c29193e2b0fa",
+      "path": "lib/galaxy/workflow/modules.py",
+      "reviewedAt": "2026-11-23T22:00:41.391Z"
+    },
+    "h1:7e891de6a8924483": {
+      "snapshotId": "20261123T205602Z-review-c29193e2b0fa",
+      "path": "lib/galaxy/workflow/modules.py",
+      "reviewedAt": "2026-11-23T22:00:41.391Z"
+    },
+    "h1:25aa283d5c940caa": {
+      "snapshotId": "20261123T205602Z-review-c29193e2b0fa",
+      "path": "lib/galaxy/workflow/modules.py",
+      "reviewedAt": "2026-11-23T22:00:41.391Z"
+    },
+    "h1:e392121f89fb6a9f": {
+      "snapshotId": "20261123T205602Z-review-c29193e2b0fa",
+      "path": "lib/galaxy/workflow/modules.py",
+      "reviewedAt": "2026-11-23T22:00:41.391Z"
+    },
+    "h1:c9193395cb9406ce": {
+      "snapshotId": "20261123T205602Z-review-c29193e2b0fa",
+      "path": "lib/galaxy_test/api/test_workflows.py",
+      "reviewedAt": "2026-11-23T22:00:41.979Z"
+    },
+    "h1:a4c92aba30af3159": {
+      "snapshotId": "20261123T205602Z-review-c29193e2b0fa",
+      "path": "lib/galaxy_test/api/test_workflows.py",
+      "reviewedAt": "2026-11-23T22:00:41.979Z"
+    },
+    "h1:08602b58c8a1e5f8": {
+      "snapshotId": "20261123T205602Z-review-c29193e2b0fa",
+      "path": "lib/galaxy_test/selenium/test_workflow_editor.py",
+      "reviewedAt": "2026-11-23T22:00:42.817Z"
+    },
+    "h1:5cc99e51e58eef14": {
+      "snapshotId": "20261123T205602Z-review-c29193e2b0fa",
+      "path": "test/unit/workflows/test_step_input_form_defaults.py",
+      "reviewedAt": "2026-11-23T22:00:43.596Z"
+    }
+  },
+  "commits": {
+    "988740ac5c5f591ede36929a72337b96912cc40d": {
+      "sha": "52ec75f57a35d4c50dd3522e497b0844563697e4",
+      "subject": "Keep step input defaults when saving from the workflow editor",
+      "snapshotId": "20261123T205602Z-review-c29193e2b0fa",
+      "signedOffAt": "2026-11-23T22:00:44.923Z"
+    },
+    "bde41a04fdf0c6aeb6dcf0131a7e00e9554b195b": {
+      "sha": "c08173caa7ea80eaeb7031c81f8b98cd92a06db3",
+      "subject": "Drop test_defaults_editor, superseded by the editor round-trip test",
+      "snapshotId": "20261123T205602Z-review-c29193e2b0fa",
+      "signedOffAt": "2026-11-23T22:00:45.086Z"
+    },
+    "272d48dc05e47b899709277601decf6e4ac1115e": {
+      "sha": "49d01411e7b7bd9b6be62971de00dd5f489df111",
+      "subject": "Declare the step input defaults block on the client step type",
+      "snapshotId": "20261123T205602Z-review-c29193e2b0fa",
+      "signedOffAt": "2026-11-23T22:00:45.422Z"
+    },
+    "d5b72bdbeeed0c9a216896da5381ba6919072679": {
+      "sha": "8726c491e15d41ddcdac87e820d4a73c523fc989",
+      "subject": "Let the workflow editor's tool form win over step input defaults",
+      "snapshotId": "20261123T205602Z-review-c29193e2b0fa",
+      "signedOffAt": "2026-11-23T22:00:45.603Z"
+    },
+    "4c44c78fbd780cebde538ee1d98ce1ee56c98d2c": {
+      "sha": "fbf078ef33172bc21dd8f6733c86038b89443a89",
+      "subject": "Test which value wins between the editor's tool form and step input defaults",
+      "snapshotId": "20261123T205602Z-review-c29193e2b0fa",
+      "signedOffAt": "2026-11-23T22:00:45.793Z"
+    },
+    "5b44446dd571e6af48c320eb02dbb7b57e349306": {
+      "sha": "8b19aa31aa2be35e02fc16a72f7f0d1f6189768b",
+      "subject": "Move the step input form default logic to the tool module",
+      "snapshotId": "20261123T205602Z-review-c29193e2b0fa",
+      "signedOffAt": "2026-11-23T22:00:46.090Z"
+    },
+    "21099dc5e9538b75341f7824003efadf1aa69815": {
+      "sha": "b345132c95db3b13bc0bf31748fb1742882a7a0f",
+      "subject": "Test same_form_value on raw values",
+      "snapshotId": "20261123T205602Z-review-c29193e2b0fa",
+      "signedOffAt": "2026-11-23T22:00:46.436Z"
+    },
+    "c5703d889f491b88a22d7af0ca4dedc0aaf44e51": {
+      "sha": "bc7f4ad4a7a18691ee8715b86464895eea79a276",
+      "subject": "Test step input defaults across workflow editor saves in the browser",
+      "snapshotId": "20261123T205602Z-review-c29193e2b0fa",
+      "signedOffAt": "2026-11-23T22:00:46.808Z"
+    },
+    "ddf1f2dd119eb5b11d8fdab17089cf7c940202ee": {
+      "sha": "087f86ec20dc25fb8f236d6571e1adf1d445e75e",
+      "subject": "Drop the API tests the editor browser test covers",
+      "snapshotId": "20261123T205602Z-review-c29193e2b0fa",
+      "signedOffAt": "2026-11-23T22:00:47.167Z"
+    },
+    "6f7200bc08a7433f88706750bba58cdab2c9dd60": {
+      "sha": "c29193e2b0fa39e9d76a09c88c8ea93a88615e11",
+      "subject": "Serve the data step input default test file from the mock HTTP server",
+      "snapshotId": "20261123T205602Z-review-c29193e2b0fa",
+      "signedOffAt": "2026-11-23T22:00:47.934Z"
+    }
+  }
+}

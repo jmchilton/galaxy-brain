@@ -1,23 +1,23 @@
 # Galaxy review-state sync
 
-Sync date: 2026-11-22. Agent directory: `vault/agents/gx_reviews`.
+Sync date: 2026-11-25. Agent directory: `vault/agents/gx_reviews`.
 
 ## Archived (merged)
 
-#25028, #25005, #25022, #24800, #24867, #24857, #24846, #24861, #24835, #24826, #24817, #24798, #24770, #24700, #24772, #24685, #24708, #24673, #24647, #24635, #24415, #24101, #23869 moved to `archived/`; queue entries removed. Links in `gx_research/todo/*` and `branches/active/reference_data_followups/brain_research.md` repointed.
+#24738, #25042 moved to `archived/`; queue entries removed; worktrees removed.
 
 ## Re-review needed (new head)
 
-- #24804: `eaa6202814b` -> `0329efc961e`
-- #24818: `efa3e7bbdaf` -> `d3adaeb1fc7`
-- #24738: `c55d04482f9` -> `dcd8410b095`
-- #24687: `82550bcf062` -> `bedf1d6cbcb`
-- #24696: `b26614f7c11` -> `5729db00bfc`
-- #24290: `b8eb7166` -> `fe484b35016`
+- #25002: `8dd9549cab9` -> `502a9fa67ca`
+- #23986: `ae37e517ebc` -> `16f3b1d9f45` (draft, conflicting)
+- #24818: `d3adaeb1fc7` -> `1d54a3586f8`
+- #24484: `380309990e5` -> `6294a325143`
 
 ## Status changes
 
-Status lines above updated with new heads. Other open PRs unchanged vs recorded heads.
+- #23986: John commented by hand 2026-11-22; davelopez replied 2026-11-24.
+- #24598: author check-in 2026-11-10; four failing checks.
+- #24190: queue line now matches the record's 2026-10-20 supersession.
 
 ## Mismatches
 
@@ -25,10 +25,6 @@ Status lines above updated with new heads. Other open PRs unchanged vs recorded 
 
 ## Worktrees
 
-Removed (clean, HEAD on a pushed remote branch): 25028, 25005, 25022, 24867, 24857, 24846, 24861, 24835, 24817, 24798, 24770, 24700, 24685, 24708, 24673, 24635, 24415.
-
-Kept:
-- 24101: clean, HEAD `5a5cc5bda5b` is an earlier (force-pushed-over) author head, not an ancestor of the merged head nor on any local remote ref. Exists on GitHub; looks safe to remove after John confirms.
-- 23869: same situation, HEAD `a3b2e328f0c`.
-
-No worktree: 24800, 24826, 24772, 24647.
+- `ghwt rm` for 24738 and 25042 removed the worktrees but failed to archive their ghwt notes (copyfile error -11 from the iCloud Obsidian folder).
+- Kept, awaiting John: 23869, 24101 (earlier force-pushed-over heads).
+- 24829: merged PR, no record; not removed.

@@ -7,14 +7,6 @@
   status: recommended
   priority: low
   suggested_by: gx_reviews/SUGGESTED_TASKS.md#Review New PRs
-- prompt: Launch a review of galaxyproject/galaxy#25042
-  agent_dir: gx_reviews
-  link: https://github.com/galaxyproject/galaxy/pull/25042
-  description: |
-    🔎 mvdbeek [25.1]: keep step input defaults when saving from workflow editor; ready, workflows, +355 lines.
-  status: recommended
-  priority: low
-  suggested_by: gx_reviews/SUGGESTED_TASKS.md#Review New PRs
 - prompt: Follow up on galaxyproject/galaxy#23522 (vault/repositories/galaxy/reviews/active/23522/).
   agent_dir: gx_reviews
   link: https://github.com/galaxyproject/galaxy/pull/23522
@@ -35,14 +27,6 @@
   priority: high
   suggested_by: gx_reviews/SUGGESTED_TASKS.md#Review New PRs
   snoozed_until: 2026-11-30
-- prompt: Launch a review of galaxyproject/galaxy#25060
-  agent_dir: gx_reviews
-  link: https://github.com/galaxyproject/galaxy/pull/25060
-  description: |
-    🔎 mvdbeek [26.2]: fix remote tool evaluation for user-defined tools; ready, jobs, +85/-6, follows #25023 which John reviewed.
-  status: recommended
-  priority: low
-  suggested_by: gx_reviews/SUGGESTED_TASKS.md#Review New PRs
 - prompt: Launch a review of galaxyproject/galaxy#25002
   agent_dir: gx_reviews
   link: https://github.com/galaxyproject/galaxy/pull/25002
@@ -74,6 +58,36 @@
   kind: human
   description: |
     👀 John directly in reviewRequests; initial review unposted (only P2 1 + P3 1 comments 2026-11-12, no reply); PR now CI-green/clean.
+  status: recommended
+  priority: high
+  suggested_by: gx_reviews/SUGGESTED_TASKS.md#Needs Follow Ups
+- prompt: Follow up on galaxyproject/galaxy#25081 (vault/repositories/galaxy/reviews/active/25081/).
+  agent_dir: gx_reviews
+  link: https://github.com/galaxyproject/galaxy/pull/25081
+  record: galaxy/reviews/25081
+  kind: human
+  description: |
+    👀 Initial review ready, unposted, no actions checked.
+  status: recommended
+  priority: high
+  suggested_by: gx_reviews/SUGGESTED_TASKS.md#Needs Follow Ups
+- prompt: Follow up on galaxyproject/galaxy#24598 (vault/repositories/galaxy/reviews/active/24598/).
+  agent_dir: gx_reviews
+  link: https://github.com/galaxyproject/galaxy/pull/24598
+  record: galaxy/reviews/24598
+  kind: human
+  description: |
+    👀 Approved, awaiting your merge; hippi345 asked 2026-11-10 if anything else is needed; four failing checks.
+  status: recommended
+  priority: high
+  suggested_by: gx_reviews/SUGGESTED_TASKS.md#Needs Follow Ups
+- prompt: Follow up on galaxyproject/galaxy#24190 (vault/repositories/galaxy/reviews/active/24190/).
+  agent_dir: gx_reviews
+  link: https://github.com/galaxyproject/galaxy/pull/24190
+  record: galaxy/reviews/24190
+  kind: human
+  description: |
+    👀 Record leaves #24190's fate to you (superseded on 26.2 by issue_24303 branch).
   status: recommended
   priority: high
   suggested_by: gx_reviews/SUGGESTED_TASKS.md#Needs Follow Ups

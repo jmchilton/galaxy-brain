@@ -1,5 +1,7 @@
 # #24738 — Update the storage usage live when it changes on the server
 
+**Archived 2026-11-25:** merged 2026-11-24T08:38Z (head `30d71956c29`). The re-review noted for the post-approval head was not done. Tracking ended; worktree removed.
+
 - [View on GitHub](https://github.com/galaxyproject/galaxy/pull/24738) · base `dev` · author davelopez · worktree `~/projects/worktrees/galaxy/pr/24738`
 - Follows #24664 (part 2 of #24663).
 

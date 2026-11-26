@@ -23,5 +23,5 @@ Leave out the notification system's own semantics and the quota accounting itsel
 
 ## Requested by
 
-- vault/repositories/galaxy/reviews/active/24738/: needed the baseline SSE pipeline to explain the new `user_quota_update` producer.
+- vault/repositories/galaxy/reviews/archived/24738/: needed the baseline SSE pipeline to explain the new `user_quota_update` producer.
 - vault/repositories/galaxy/reviews/archived/25003/: needed the SSE pipeline baseline to explain the session-event `invocation_update` / `job_update` producer.

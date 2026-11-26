@@ -1,5 +1,7 @@
 # Galaxy #25042 — [25.1] Keep step input defaults when saving from the workflow editor
 
+**Archived 2026-11-25:** merged 2026-11-24T16:35Z (head `94dcb5cd8cc`). Head differs from reviewed `c29193e2b0f`; not re-reviewed. Tracking ended; worktree removed.
+
 [PR #25042](https://github.com/galaxyproject/galaxy/pull/25042) · author mvdbeek · base `release_25.1` · worktree `~/projects/worktrees/galaxy/pr/25042`
 
 **Latest status — 2026-11-23:** round 0 review on `c29193e2b0fa39e9d76a09c88c8ea93a88615e11` delivered as approval 2026-11-23; awaiting merge (one P2 + three P3s, all fixed on `pr_25042_round_0_rev_0` @ `c7314279e0a`, pushed to fork only).
