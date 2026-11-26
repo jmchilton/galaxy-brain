@@ -1,6 +1,6 @@
 # Initial implementation debrief: stock_tools_review_clean
 
-Branch `stock_tools_review_clean` on `origin/release_26.1` (`7e8075a360e`): 19 commits, pushed to `jmchilton/stock_tools_review_clean` (head `605f9b26407`). Only tool XML changes, one unit test, and one new tool test with its test-data file. The review is measured with the analyser from `jmchilton/tool_security_static_findings`, run from a scratch extract over the 204 stock XML files (172 under `tools/`, 32 under `lib/galaxy/tools/`).
+Branch `stock_tools_review_clean` on `origin/release_26.1` (`7e8075a360e`): 20 commits, pushed to `jmchilton/stock_tools_review_clean` (head `258532ee094`). Only tool XML changes, one unit test, and one new tool test with its test-data file. The review is measured with the analyser from `jmchilton/tool_security_static_findings`, run from a scratch extract over the 204 stock XML files (172 under `tools/`, 32 under `lib/galaxy/tools/`).
 
 Result: vulnerability findings go from 170 to 91, and files with any vulnerability finding from 62 to 47. Each of the 91 that remain is left for a stated reason (see below): upload1's exemption, an analyser false positive, a server-set value, or code John deferred. `uncheckable-template-code` and unchecked locations remain only on upload1, which is exempted.
 
@@ -34,6 +34,7 @@ Result: vulnerability findings go from 170 to 91, and files with any vulnerabili
 
 18. `917c41da640` Fix the paired-end branch of SHRiMP's command template.
 19. `605f9b26407` Write Relational join 2's sorted inputs to the working directory (adds a `<test>` and `test-data/joiner2_out.tabular`).
+20. `258532ee094` Check ilastik's link names, not raw identifiers, for duplicates. This acts on review finding 1: `a/b` and `a_b` now give the duplicate error. A render comparison shows ordinary values unchanged. Panoply, VRM Editor and Phinch take a single dataset, so they can't collide. HiGlass can: the second file silently overwrites the first in `data/`, as two identical identifiers already did before this branch. It has no duplicate guard to extend, so it is listed rather than fixed.
 
 Commits 1–2 are the upload1 PR. The rest are per-tool or small groups and can be split however is convenient.
 
