@@ -11,7 +11,7 @@ related_records:
 
 ## Status
 
-Implementation started 2026-11-25.
+Implemented, re-scoped and re-hardened; READY for polish and CI (head `1e92a257548`).
 
 ## Decisions
 

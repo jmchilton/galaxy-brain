@@ -11,7 +11,7 @@ This is a fresh pass over `git diff origin/dev...HEAD` at `1fffa4251fe`, with ex
 - **`_model_source`** now reads `<inputs>` through `XmlPagesSource`, the same reader the parameter model uses.
 - **Small tidies:**
   - `_policy_bytes` is one join that produces the same bytes.
-  - One over-long line in the schema description is rewrapped. Regenerating `galaxy_options.rst` and the sample with `config_manage.py` produced no diff.
+  - One over-long line in the schema description is rewrapped. Regenerating `galaxy_options.rst` and the sample with `config_manage.py` produced no diff. `config/galaxy.yml.sample` is a symlink to the tracked sample, so the sample really was regenerated.
 
 **Not acted on:**
 - the process-lifetime patch-state counter (NEEDS-DECISION, low priority);
@@ -41,14 +41,24 @@ Earlier item #11 (the patch database built three times at boot) **is resolved** 
 
 <details><summary>Full review</summary>
 
-Scope: `origin/dev...HEAD` at `1fffa4251fe`. I read the whole diff, then the re-scope delta `4ec188d7a21..HEAD` line by line, along with the call sites around each seam: `ToolBox.get_expanded_tool_source` and `_get_tool_source_from_store`, `CachedToolBox` init and materialise, the populator's `process_tool` and result loop, `tool_confs_token`, and `MinimalGalaxyApplication`.
+Scope: `origin/dev...HEAD` at `1fffa4251fe`.
+
+What I read:
+- the re-scope delta `4ec188d7a21..HEAD`, line by line;
+- every Galaxy-side seam hunk in the full diff;
+- in full: `database.py`, `tools/patches.py`, `collection.py`, `keys.py`, `hg.py`, `xmlutil.py` and `codes.py`;
+- the parameter-model part of `engine.py`;
+- the outline, `PatchFile` and the op models of `model.py`;
+- the call sites around each seam: `ToolBox.get_expanded_tool_source` and `_get_tool_source_from_store`, `CachedToolBox` init and materialise, the populator's `process_tool` and result loop, `tool_confs_token`, and `MinimalGalaxyApplication`.
+
+The engine's op classifiers and appliers, and the test module bodies other than the re-scope changes, got a lighter pass. Their structure was the subject of draft 1's fixes.
 
 **Verdict:** the structure holds up. The re-scope added little code, and most of it is in the right layer:
 - the memo is in the Galaxy wiring module;
 - the engine version and summary are on the database;
 - the parameter-model fast path is in the engine.
 
-There is no structural regression, and no file crosses 1000 lines because of the re-scope. The one existing-file growth worth watching, `tools/__init__.py`, gained only about 15 lines over the whole branch. I found three cheap boundary and canonical-layer fixes and one design smell that has no clearly better replacement.
+There is no structural regression, and no file crosses 1000 lines because of the re-scope. The one existing-file growth worth watching, `tools/__init__.py`, gained 22 insertions and 2 deletions over the whole branch. It was already well over 1000 lines. I found three cheap boundary and canonical-layer fixes and one design smell that has no clearly better replacement.
 
 ## Findings acted on
 
@@ -107,6 +117,14 @@ There is no structural regression, and no file crosses 1000 lines because of the
   - The populate restart modelling asserts that the same config keeps its database before a fresh config picks up the change.
   - `test_ops_outside_inputs_skip_the_parameter_model` is a perf guard of the kind the perf process allows.
   - None of these weaken a check.
+- **`hg.py`.** I found no canonical reader to reuse. Galaxy's `hg_util` modules (`lib/galaxy/tool_shed/util`, `lib/tool_shed/util`) need the `mercurial` library and repo objects, which `galaxy.tool_util` can't depend on. Nothing outside `patches/` reads `.hg/dirstate`. The bespoke header reader is justified.
+- **`xmlutil.py`.** `galaxy.util.parse_xml_string` strips whitespace and uses the default parser. The patch fragments need an entity-free, no-network parser that keeps whitespace, and C14N comparison has no equivalent in `galaxy.util`. So these are not near-duplicates.
+- **`keys.py`.** There's no canonical full shed-guid splitter. Galaxy splits on `"/repos/"` ad hoc in several places, and `key_from_ids` uses `galaxy.util.tool_version.is_shed_guid`.
+- **`collection.py`.** The walk, register and lookup steps are each one concern. Lazy hashing, parsing and coverage go through a single lock. Cosmetic nits I didn't take:
+  - `_read_coverage` builds a `/` string and then splits it;
+  - the `codes.yml` path is joined twice;
+  - `_read_yaml` and `parse_patch_yaml` are near-twins (file vs bytes).
+- **`codes.py` and the `model.py` rules.** Generated codes are typed `CodeEntry` data. The mixed-file rules live in one validator and in `policy_governs`/`policy_ops`. No repeated conditionals are left.
 - **File sizes.** No existing file crosses 1000 lines because of this branch. `database.py` (441), `model.py` (444), `collection.py` (350) and `engine.py` (about 330) are cohesive.
 
 </details>

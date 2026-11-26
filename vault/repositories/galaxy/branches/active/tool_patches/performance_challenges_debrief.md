@@ -14,6 +14,7 @@ Measurements come from scratch scripts run with the worktree `.venv/bin/python` 
 - The fix compares those two things before building anything. When they are byte-identical the model can't differ, so the function returns False. Its result is the same as before:
   - With identical inputs, an exception on the pre-image would also happen on the post-image, and the old code returned False in that case too.
   - Otherwise the two models are equal, so it returned False.
+  - Outside `<inputs>`, `XmlToolSource.__init__` reads only `profile`, which is compared, and serializes the root. So it can't raise on something an op changed elsewhere, and the old post-image path couldn't return True for that reason either.
 
 | Applied `replace_text` on `command` (warm) | before | after |
 |---|---|---|
