@@ -38,7 +38,7 @@ This is branch 4: static review, tool patches, and refusal of tools that keep st
 - **Compute at load on the patched source.** `review_tool_source(patched)` is used, not `review_patches()`, which would re-apply patches, double-count states and run the analyser twice. Lowered findings refuse at their new severity by construction.
 - **Severity-free storage.** The threshold is applied at prepare.
 - **What doesn't refuse.** Uncheckable codes, unchecked locations and a failed review refuse nothing, and there is no option to make them refuse. The legacy `upload1` would trip an uncheckable option.
-- **Exempt.** Tools under `lib/galaxy`: `set_metadata_tool.xml` has a HIGH finding on a hidden param. Dynamic tools are not reviewed either.
+- **Exempt.** Tools under `lib/galaxy`: `set_metadata_tool.xml` would otherwise be refused over a server-set hidden param. Dynamic tools are not reviewed either.
 - **Freshness.** `REVIEW_VERSION = galaxy.version.VERSION`. `INDEX_SCHEMA_HASH` is bumped.
 - **Flag.** `Tool.static_review`. No API or UI change.
 - **Matching the pin.**

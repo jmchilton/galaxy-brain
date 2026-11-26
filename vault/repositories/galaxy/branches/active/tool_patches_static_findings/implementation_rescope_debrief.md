@@ -19,7 +19,7 @@ John split the work into four branches. This one became branch 4: static review,
 - **Severity-free storage.** The threshold is applied at prepare, so changing it needs no re-review.
 - **Config.** `tool_security_refuse_static_findings` (bool, default off) and `tool_security_refuse_static_findings_severity` (`critical`/`high`/`medium`/`low`, default `high`), validated at startup.
 - **What doesn't refuse.** Uncheckable codes, unchecked locations and a failed review (logged) refuse nothing, and there is no option to make them refuse. The legacy `upload1` carries `uncheckable-template-code`, so such an option would be a footgun.
-- **Exempt.** Tools under `lib/galaxy` (`set_metadata_tool.xml` has a HIGH finding on a hidden param), and dynamic tools, which don't load from a tool file.
+- **Exempt.** Tools under `lib/galaxy` (`set_metadata_tool.xml` would otherwise be refused over a server-set hidden param), and dynamic tools, which don't load from a tool file.
 - **Freshness.** The stored review records `galaxy.version.VERSION`. When refusal is on, the carry-forward, materialization and `tool_confs_token` require it. `INDEX_SCHEMA_HASH` is bumped.
 - **Flag on the tool.** `Tool.static_review`, with `refused_rules(tool, config)`. Nothing is exposed in the API or UI.
 - **Refusal shape.** `[static-findings] This job was not run: the security review of this tool reports <rules>, and this Galaxy server does not run such tools. Please contact the administrators of this server. Tool '<name>' (<id> version <v>).`
