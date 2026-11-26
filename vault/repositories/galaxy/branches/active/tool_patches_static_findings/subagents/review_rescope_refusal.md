@@ -1,8 +1,8 @@
-# Review: re-scope to refusal (a8725a60831, bc1147fa677, 63d78adcfd2)
+# Review: re-scope to refusal (1186a1d9990, 87fd7d9d087, 206c34d1318)
 
 Run via Claude Opus at high effort (general-purpose subagent).
 
-**Acted on** (in `67d756d9ca2`): the isort order in `tools/__init__.py`; ruff UP042 (`RefusalCode` is now a `StrEnum`, a change the sibling's copy needs too); a bad severity value now raises a `ConfigurationError` at startup (`validate_static_findings_config`) instead of failing every tool load and job, and the refused-rules log moved inside the `try`; `load_tool_source` was renamed `patch_and_review_tool_source`; the module docstring is now one line; the comment says "job's info"; the docs and the config description say capability findings count; the duplicate, trivial `test_failed_review_refuses_nothing` was dropped.
+**Acted on** (in `a3ad4c935f9`): the isort order in `tools/__init__.py`; ruff UP042 (`RefusalCode` is now a `StrEnum`, a change the sibling's copy needs too); a bad severity value now raises a `ConfigurationError` at startup (`validate_static_findings_config`) instead of failing every tool load and job, and the refused-rules log moved inside the `try`; `load_tool_source` was renamed `patch_and_review_tool_source`; the module docstring is now one line; the comment says "job's info"; the docs and the config description say capability findings count; the duplicate, trivial `test_failed_review_refuses_nothing` was dropped.
 
 **Not acted on:**
 - Default `high` refuses many stock `tools/` tools (54 of 171, 49 on capability findings only). This is documented now. A kind filter (vulnerabilities only) is left to John.

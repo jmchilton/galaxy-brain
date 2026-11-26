@@ -1,6 +1,6 @@
 Run via gpt-6-sol at medium effort.
 
-# Codex review (re-harden, `817454ed1e8..65194bb4453`)
+# Codex review (re-harden, `817454ed1e8..0ff5cb77dc8`)
 
 Nothing to act on. Codex reported one finding, and it is refuted as a defect of this branch. It does point at a gap the store already had.
 

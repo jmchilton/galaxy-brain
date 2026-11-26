@@ -2,14 +2,14 @@ Run via Claude Opus at high effort.
 
 # Test challenges: static findings refusal
 
-Scope: the tests this round added (`817454ed1e8..67d756d9ca2`). They are:
+Scope: the tests this round added (`817454ed1e8..a3ad4c935f9`). They are:
 - `test_refusal.py`
 - `test_static_findings_refusal.py`
 - `TestStaticReview` in `test_populate_store.py`
 - the static-review tests in `test_toolbox.py` and `test_cached_tool.py`
 - `test/integration/test_tool_static_findings_refusal.py`
 
-The earlier draft, which covered patch review, is in `earlier_drafts/2/`. Changes are in commit `65194bb4453`.
+The earlier draft, which covered patch review, is in `earlier_drafts/2/`. Changes are in commit `0ff5cb77dc8`.
 
 ## Bug: the new unit tests failed mypy
 

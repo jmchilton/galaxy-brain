@@ -1,8 +1,8 @@
 Run via Claude Opus at high effort.
 
-# Thermo-nuclear review: static findings refusal (`817454ed1e8..65194bb4453`)
+# Thermo-nuclear review: static findings refusal (`817454ed1e8..0ff5cb77dc8`)
 
-Verdict: the design is sound and small (`security_review.py` is about 110 lines; the wiring is a line or two at each site). There is no structural regression and no file crosses 1k lines because of this round. Three cuts were worth making, and all three are in `e0e05449bfe`. The docs rewrap is `538ef35c060`; `fb189f06a5b` pins the severity list to the schema enum.
+Verdict: the design is sound and small (`security_review.py` is about 110 lines; the wiring is a line or two at each site). There is no structural regression and no file crosses 1k lines because of this round. Three cuts were worth making, and all three are in `28b6de0d0ba`. The docs rewrap is `cd9b1e25aa6`; `cab486f13a1` pins the severity list to the schema enum.
 
 **Acted on**
 - **Freshness branch moved out of `CachedToolBox`.** `_create_tool_from_stored_source` had an if/else: reuse the entry's review when current, else review. That was feature logic in a 2,157-line file (2,153 now). `with_static_review` now takes `kept=`, so the cached site is one call and the "current" rule lives only in `security_review`.
@@ -13,7 +13,7 @@ Verdict: the design is sound and small (`security_review.py` is about 110 lines;
   - `galaxy-config` can't import `tool_util`, so the list is `galaxy.config.STATIC_FINDINGS_SEVERITIES`. A test pins it to `SEVERITIES` minus `info`.
 - **Test changes.**
   - `test_unknown_severity_is_a_configuration_error` now builds a real `GalaxyAppConfiguration`, with `High` and `info` cases. The off case is still allowed.
-  - Added `test_configurable_severities_are_the_findings_severities_but_info`. It pins `STATIC_FINDINGS_SEVERITIES` to `SEVERITIES` minus `info`, and to the schema `enum` (`fb189f06a5b`).
+  - Added `test_configurable_severities_are_the_findings_severities_but_info`. It pins `STATIC_FINDINGS_SEVERITIES` to `SEVERITIES` minus `info`, and to the schema `enum` (`cab486f13a1`).
   - `test_materializing_keeps_a_current_review...` gains an assertion that refusal off drops a kept review. A mutation that checks `kept` before `reviews_tool` turns it red. These changes only strengthen tests.
 - **Docs.** Rewrapped an overlong line in `tool_security_review.md` and in the schema `desc`. `make config-rebuild` reflows both, so `galaxy.yml.sample` and `galaxy_options.rst` are unchanged.
 

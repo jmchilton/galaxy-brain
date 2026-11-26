@@ -10,7 +10,7 @@ related_records: galaxy/branches/tool_patches
 
 ## Status
 
-Re-scoping (second time) into branch 4: static review, tool patches, and refusing jobs of tools that keep static findings after patching.
+Re-scoped into branch 4 (refuse jobs of tools with static findings left after patching) and re-hardened; BLOCKED on a scope decision (third evaluation suggests a capability-findings switch), head `cab486f13a1`.
 
 ## Decisions
 

@@ -4,14 +4,14 @@ John split the work into four branches. This one became branch 4: static review,
 
 ## Commits added
 
-- `a8725a60831`: `galaxy.tool_util.security.refusal.StaticReview`, the worst severity per rule plus the reviewing Galaxy version. `refused_rules(threshold)` is the decision. `charsets.at_or_above` is shared with `FailOn.met` (`--fail-on <severity>`).
-- `bc1147fa677`: `RefusalCode`, ported from `tool_security_review_spec@d5f7cb05e91`, plus `static-findings`.
-- `63d78adcfd2`:
+- `1186a1d9990`: `galaxy.tool_util.security.refusal.StaticReview`, the worst severity per rule plus the reviewing Galaxy version. `refused_rules(threshold)` is the decision. `charsets.at_or_above` is shared with `FailOn.met` (`--fail-on <severity>`).
+- `87fd7d9d087`: `RefusalCode`, ported from `tool_security_review_spec@d5f7cb05e91`, plus `static-findings`.
+- `206c34d1318`:
   - `galaxy.tools.security_review` holds the ported `ToolInputRejected`, plus `with_static_review`, `patch_and_review_tool_source`, `static_review_is_current` and `check_static_findings`.
   - It is wired into `ToolBox.get_expanded_tool_source` (both returns), the populator's `process_tool` (stored on `ToolIndexEntry.static_review`), its carry-forward check and the freshness token, `CachedToolBox._create_tool_from_stored_source` (falling back to a fresh review) and `Tool.parse`.
   - `JobWrapper.prepare` refuses. The base runner and Pulsar fail the job like `InsufficientPermissionsException`, with no traceback.
   - Adds config, docs and tests.
-- `67d756d9ca2`: fixes from the review (`subagents/review_rescope_refusal.md`).
+- `a3ad4c935f9`: fixes from the review (`subagents/review_rescope_refusal.md`).
 
 ## Decisions
 
