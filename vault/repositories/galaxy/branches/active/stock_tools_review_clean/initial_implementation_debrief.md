@@ -1,5 +1,11 @@
 # Initial implementation debrief: stock_tools_review_clean
 
+```
+created .../stock_tools_review_clean/differential-review/snapshots/20261126T234757Z-implementation-258532ee094f.json
+  implementation @ 258532ee094f vs origin/release_26.1 (merge-base 7e8075a360e9)
+  first snapshot: 20 commits, 31 files, 39 hunks
+```
+
 Branch `stock_tools_review_clean` on `origin/release_26.1` (`7e8075a360e`): 20 commits, pushed to `jmchilton/stock_tools_review_clean` (head `258532ee094`). Only tool XML changes, one unit test, and one new tool test with its test-data file. The review is measured with the analyser from `jmchilton/tool_security_static_findings`, run from a scratch extract over the 204 stock XML files (172 under `tools/`, 32 under `lib/galaxy/tools/`).
 
 Result: vulnerability findings go from 170 to 91, and files with any vulnerability finding from 62 to 47. Each of the 91 that remain is left for a stated reason (see below): upload1's exemption, an analyser false positive, a server-set value, or code John deferred. `uncheckable-template-code` and unchecked locations remain only on upload1, which is exempted.
