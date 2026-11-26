@@ -1,6 +1,8 @@
 ---
 upstream_base_branch: dev
-related_records: galaxy/branches/tool_security_static_findings
+related_records:
+  - galaxy/branches/tool_security_static_findings
+  - galaxy/branches/tool_patches_static_findings
 ---
 # Tool patch database: declarative patches applied at tool load
 
