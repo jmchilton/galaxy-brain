@@ -1,71 +1,79 @@
 # Implementation debrief
 
 ```
-created .../tool_security_static_findings/differential-review/snapshots/20261126T041329Z-hardening-d4ae281e442c.json
-  hardening @ d4ae281e442c vs origin/dev (merge-base ce63095e7a8a)
-  since 20261126T034325Z-revision-79f7da403127:
-    commits: 99 same, 0 rebased, 0 changed, 2 new, 0 dropped
+created .../tool_security_static_findings/differential-review/snapshots/20261126T153646Z-revision-d4e4f68dd259.json
+  revision @ d4e4f68dd259 vs origin/dev (merge-base ce63095e7a8a)
+  since 20261126T041329Z-hardening-d4ae281e442c:
+    commits: 1 same, 1 rebased, 1 changed, 3 new, 98 dropped
+    hunks:   85 carried, 0 changed, 0 new, 0 dropped
+    new     005924736eae Add a static security review of tool command and configfile templates
+    new     6cda8d23eb07 Add a declarative spec, access patterns and docs for the security review
+    changed 6779934056ae Catalog the security review's rules, classify what it cannot decide (21 differing hunks)
+    new     d4e4f68dd259 Review tool directories with the security review CLI, add --fail-on
 ```
 
-**STATUS: BLOCKED on a PR-shape decision.** The code is ready. The history needs John's call before a PR.
+**STATUS: READY.** This revision only rewrites the history. The code is unchanged.
 
-- Head: `d4ae281e442` on `jmchilton/tool_security_static_findings`.
-- 101 commits on `origin/dev`: 63 by mvdbeek, 38 by John.
-- Source: `jmchilton/tool_security_review_spec` at `d5f7cb05e91`, which stacks on `mvdbeek/tool-security-review-on-load`.
+- Head moves from `d4ae281e442` to `d4e4f68dd25` on `jmchilton/tool_security_static_findings`. The old head is kept as alt `tool_security_static_findings_alt_cherry_pick_history` (`alts/cherry_pick_history.md`).
+- John authorized the rewrite on 2026-11-26 without checking with mvdbeek first.
 
-## What it is
+## Commits (on `ce63095e7a8`)
 
-- **The port.**
-  - mvdbeek's static analyser `galaxy.tool_util.security` and the `ToolParameterSanitizer` move to `galaxy.tool_util.parser.sanitize`.
-  - John's declarative spec (synthetic tools plus `cases.yml`, with a static runner) and docs.
-  - 82 commits cherry-picked with `-x`, authorship kept; 22 runtime-only commits skipped.
-  - Runtime removed entirely: no job-prep review, no `ToolEvaluator` enforcement, no refusals, no runtime config, no app wiring.
-  - Analyser `to_dict()` output is byte-identical to the source branch on 387 tools.
-- **John-side additions, from the re-scope.**
-  - A `Rule` catalog with descriptions. Spec rules are typed, and the docs get a generated section.
-  - A pure `classify(report)`, ported from the source's `_no_plain_value` with `Co-authored-by` mvdbeek. It returns `Uncheckable` codes and the classified unchecked locations, and spec cases can carry a `codes` expectation.
-  - The CLI (`galaxy-tool-security-review`, or `python -m galaxy.tool_util.security`):
-    - walks directories and reviews XML tools only;
-    - gives per-tool error entries;
-    - reports tool id and version, plus the `codes` and `uncheckable_locations` JSON keys;
-    - adds `--fail-on <severity|uncheckable|unchecked>`.
-  - Packaging: `MANIFEST.in` lists the spec files, guarded by a test. Docs are reframed for offline use.
-- **Hardening.**
-  - Normal reviews: `subagents/review_port.md` and `review_rescope.md`.
-  - Test challenges, run twice.
-  - Thermo-nuclear review, run twice. The John-side code is restructured; analyser findings are NEEDS-DECISION.
-  - Refactor baseline: report-only.
-  - Scope evaluations: round 1 expand (re-scoped, alt `tool_security_static_findings_alt_original_scope` at `92320a751cb`); round 2 keep.
-  - Codex was blocked by the permission classifier.
+1. `7ea120eef20`, mvdbeek: "Move ToolParameterSanitizer to galaxy.tool_util.parser".
+   - Reused unchanged, so it keeps its SHA and has no Claude trailer. If the move lands on dev first, the branch drops it on rebase.
+2. `005924736ea`, mvdbeek, co-authored by John: "Add a static security review of tool command and configfile templates".
+   - The analyser, the judge, the original file-only CLI, the console script and the analyser tests.
+3. `6cda8d23eb0`, John: "Add a declarative spec, access patterns and docs for the security review".
+   - The spec, the runner, `patterns.py`, the admin docs and `MANIFEST.in`.
+   - The tree after this commit equals the alt `_alt_original_scope` (`92320a751cb`).
+4. `6779934056a`, John, co-authored by Marius: "Catalog the security review's rules, classify what it cannot decide".
+   - `rules.py`, `classify.py`, the spec `codes` and the generated Rules and codes docs.
+5. `03acc356d7c`, John: "Pin the security review CLI's text and JSON output".
+   - The pin of the old CLI, kept separate so commit 6's test diff shows the change in behaviour.
+6. `d4e4f68dd25`, John, co-authored by Marius: "Review tool directories with the security review CLI, add --fail-on".
+
+How the commits were built: commits 2–4 are tree snapshots restored from `92320a751cb` and `d4ae281e442` by path. Commit 4's docs are HEAD's docs with the old CLI prose (one hand edit), and commit 6 restores the full HEAD tree.
+
+Every message describes static behaviour only. None of the commits carries a "Baseline tests" prefix. The brief mentioned one real baseline-tests commit, but none exists: both prefixed commits tested code that is new in this branch. The sanitizer move goes first instead.
+
+## Checks
+
+- `git diff d4ae281e442 d4e4f68dd25` is empty. Both trees are `86b9efe7716`, and the merge-base is still `ce63095e7a8`.
+- Security unit tests at each commit:
+
+  | Commit | Passed |
+  |---|---|
+  | 2 | 488 |
+  | 3 | 556 |
+  | 4 | 566 |
+  | 5 | 569 |
+  | 6 | 590 |
+
+  Commit 1 was not re-tested. It is the unchanged earlier commit.
+- ruff, black and isort are clean. mypy from `lib/` shows the same 22 errors in 11 unrelated modules as the base.
+- Pushed with `--force-with-lease` from `d4ae281e442`.
+- rerere: `rerere.enabled` was unset in the shared clone, and `rr-cache` (293 older entries) existed, so rerere was implicitly on. It is now set to `false`, and the entries are untouched. No conflict resolution was used.
+
+## Children
+
+`tool_patches_static_findings` and `tool_security_runtime` are built on `d4ae281e442`. Move them with `git rebase --onto tool_security_static_findings d4ae281e442 <child>`. The tree is identical, so this needs no conflict resolution.
 
 ## Decisions for John
 
-1. **History.** About 40 cherry-picked messages describe runtime behaviour that is gone. Some commits add code a later commit removes (`codes.py`, a timeout pair, Python 3.8 support). Two carry a misleading "Baseline tests" prefix.
-   - Option 1: keep the picks and reword.
-   - Option 2: squash to about six commits that keep authorship with `Co-authored-by`. The plan is in `subagents/review_port.md` and `baseline_refactor.md`.
-   - Check with mvdbeek first.
-2. **mvdbeek's sanitizer move `7ea120eef20`.** It could be its own small dev PR, from John's fork or by mvdbeek, leading with layering. Or it stays the first commit of the feature PR.
-3. **PR split.** `scope_evaluation.md` lists options A–F; one of them is the port, then the John-side re-scope.
-4. **Behaviour.**
+1. **The sanitizer move (`7ea120eef20`).** It could be its own small dev PR, opened from John's fork or by mvdbeek. Otherwise it stays the first commit of the feature PR.
+2. **PR split.** `scope_evaluation.md` lists options A–F. The new history splits cleanly after commit 3, which is the original scope.
+3. **Behaviour.**
    - Non-XML tools make the run exit 1.
    - The `unchecked`/`uncheckable` naming.
    - `--judge` doesn't affect `--fail-on`.
-   - `classify` gates codes on unchecked locations, at the code level only.
-5. **Spec.**
-   - Should spec cases pin the classified `uncheckable_locations`?
+   - `classify` gates on code level only.
+4. **Spec.**
+   - Should cases pin the classified `uncheckable_locations`?
    - Should `path_like_name` fold into `element_identifier_shell_injection`?
    - Should `level` become an expectation?
-6. **Analyser restructuring (for mvdbeek).** Split the 1,972-line `interp.py`, turn the `if name ==` call models into a registry, use `Rule` at the emit sites, and remove the thread-local recording. About 20 "job check" comments remain in the analyser.
-
-## Tests
-
-- `test/unit/tool_util/security`: 590 passed.
-- ruff, black, isort and `make format` are clean.
-- mypy (from `lib/`) is clean for `galaxy/tool_util/security`. The 22 errors in 11 unrelated modules match the base.
-- The generated docs sections are fresh.
-- CLI text and JSON output are byte-identical before and after the final restructuring.
-
-## Other notes
-
-- **rerere.** The first cherry-picks recorded about 14 `rr-cache` resolutions in the shared Galaxy clone. They were deleted, because they could have silently resolved the other session's rebases of `tool_security_review_spec`. The rest of the port ran with `rerere.enabled=false`.
-- **Sibling session.** One commit hit an `index.lock` in the shared clone, which points to activity from another session. The retry succeeded.
+5. **Analyser restructuring (for mvdbeek).**
+   - Split `interp.py`.
+   - Use a registry for the call models.
+   - Use `Rule` at the emit sites.
+   - Remove the thread-local recording.
+   - About 20 "job check" comments remain.
