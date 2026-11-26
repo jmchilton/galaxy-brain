@@ -19,7 +19,7 @@ Constraints that apply to every option:
 2. Analyser and its tests (mvdbeek). This folds in the py3.8 add/remove pair, the timeout add/remove pair and the `ANALYSER_VERSION` residue.
 3. John's analyser changes as 3–4 topical commits: user preferences, literal rewrites, pipe-to-shell, levels/reads/assignments, and reflection/getVar.
 4. Spec, docs, patterns and packaging (John).
-5. The recommended codes and CLI expansion (John).
+5. (Add-on, not part of the branch as implemented: the recommended codes and CLI expansion, John.)
 6. Test hardening (the test-challenge and thermo commits).
 
 One review with readable history. Large (~11.5k lines), but most of it is a single cohesive module.
@@ -49,7 +49,7 @@ This isolates the one part a Galaxy reviewer is most likely to question: an opti
 
 This gives the smallest reviews, but three PRs must merge in order before the child branch can be opened.
 
-Splitting the analyser itself (for example, vulnerabilities apart from `capabilities.py`) is not offered. `__init__.review_tool_source` and `interp` call the capability audit inline, so a split would need the restructuring this branch avoids.
+Splitting the analyser itself (for example, vulnerabilities apart from `capabilities.py`) is not offered. `__init__.review_tool_source` runs the capability audit (`PythonAudit`, `audit_shell_events` over the interpreter's shell events, `audit_tool`) inline with the analysis, so a split would need the restructuring this branch avoids.
 
 ## Scopes considered
 
@@ -68,7 +68,7 @@ Additions, all John-authored. None of them edits mvdbeek's emit sites, so `Repor
 - `rules.py`: a `Rule` StrEnum with a description for each rule, mirroring `patterns.PatternCode`/`DESCRIPTIONS`.
   - `FindingExpectation.rule` becomes `Rule`.
   - A generated rules section in the docs.
-  - Tests: every rule emitted over the spec tools and `test/functional/tools` is in the catalog, and every vulnerability rule has a spec case.
+  - Tests: every rule emitted over the spec tools and `test/functional/tools` is in the catalog, and every vulnerability rule has a spec case. `server-injection` has none today (the other eight are pinned through `findings` or `serious_rules`), so this adds one synthetic spec tool and case.
 - `classify(report)`: the pure part of the source branch's `_no_plain_value`.
   - It needs no `level` or `when_unsure` parameters.
   - It keeps the source's code strings where the meaning carries over, so the runtime branch could import them.
@@ -81,7 +81,7 @@ Additions, all John-authored. None of them edits mvdbeek's emit sites, so `Repor
 
 | Pros | Cons |
 |---|---|
-| <ul><li>Delivers "codes" as a static vocabulary and puts back a code on spec cases</li><li>`classify` is about 50 lines that already depend only on `Report` and `report.py` constants. It answers "which tools does the review fail to vet", the question for target discovery and the patch database</li><li>The walk reuses Planemo's walker (`loader_directory.load_tool_sources_from_path`), not new code</li><li>The exit code makes the CLI usable in CI and IUC sweeps, and it matches the child's regression gate</li><li>Fixes the abort-on-one-bad-tool bug in touched code</li></ul> | <ul><li>About 400–500 more lines including tests</li><li>Brings back `REFLECTION_RULE`, which the thermo commit inlined</li><li>`classify`'s "checkable" framing assumes a value-level check that dev doesn't have, so its docs must word it as "findings the review cannot decide from the template"</li><li>Changes `__main__.py`, which the child branch rebases over</li></ul> |
+| <ul><li>Delivers "codes" as a static vocabulary and puts back a code on spec cases</li><li>`classify` is about 50 lines that already depend only on `Report` and `report.py` constants. It answers "which tools does the review fail to vet", the question for target discovery and the patch database</li><li>The walk reuses Planemo's walker (`loader_directory.load_tool_sources_from_path` with `register_load_errors=True` and `is_tool_load_error`), so per-tool load errors need no new walking code</li><li>The exit code makes the CLI usable in CI and IUC sweeps, and it matches the child's regression gate</li><li>Fixes the abort-on-one-bad-tool bug in touched code</li></ul> | <ul><li>About 400–500 more lines including tests and one new spec tool</li><li>Brings back `REFLECTION_RULE`, which the thermo commit inlined</li><li>`classify`'s "checkable" framing assumes a value-level check that dev doesn't have, so its docs must word it as "findings the review cannot decide from the template"</li><li>Changes `__main__.py`, which the child branch rebases over</li></ul> |
 
 <details><summary>Details</summary>
 
@@ -97,10 +97,10 @@ Additions, all John-authored. None of them edits mvdbeek's emit sites, so `Repor
   - It exits 1 when `--fail-on <severity>` is met, when `--fail-on uncheckable` and `classify` returns codes, or when a tool fails to load or review. The failed tool is reported in its entry, with code `uncheckable-review-failed`.
   - The child already exits 1 on a patch regression; that check is ORed in.
   - 2 stays argparse's usage error.
-- **Identity.** Use `tool_source.parse_id()`/`parse_version()` in the CLI's per-path entry and in the text header. Leaving `Report.to_dict()` alone keeps the identity check and the child's `PatchReview.to_dict()` stable. A guid isn't knowable offline; the child's `--guid` covers that.
+- **Identity.** Use `tool_source.parse_id()`/`parse_version()` in the CLI's per-path entry and in the text header. Leaving `Report.to_dict()` alone keeps the byte-identical check and leaves the child's `PatchReview.to_dict()` method unchanged. The CLI entry becomes an envelope such as `{path: {tool_id, tool_version, codes, error, report}}`, and the child's `reports[path] = review.to_dict()` line moves into the same envelope on rebase. A guid isn't knowable offline; the child's `--guid` covers that.
 - **`--min-severity` and `--json`** (thermo item 9): JSON stays full. Say so in `--help`, or apply the filter to `findings` only. Either way is small, and the choice belongs with the CLI change.
 - **Red-to-green.** Each step has a test that fails first:
-  - the catalog test fails on an unknown rule;
+  - the catalog test fails on an unknown rule, and the coverage test fails until a `server-injection` case exists;
   - a `codes:` expectation fails before `classify` exists;
   - a CLI test runs a temp directory holding one good tool and one broken one, asserting both entries and exit 1;
   - `--fail-on high` is checked against `stray_quote.xml`.
@@ -150,6 +150,8 @@ Rejected. Keep the data, and describe the fields in the docs as inputs for a val
 
 ### Contracted: drop the LLM judge (`judge.py`, `--judge`)
 
+Ship the review without the optional step that asks Claude whether each medium-or-above vulnerability is real.
+
 | Pros | Cons |
 |---|---|
 | <ul><li>No optional network or Anthropic dependency in `galaxy-tool-util`</li><li>About 370 lines less, and a clean cut: only `__main__` imports it</li></ul> | <ul><li>It is part of mvdbeek's design</li><li>The import is optional and lazy, and the tests use a `RecordingJudge` stand-in</li><li>It is useful for triaging a sweep's findings</li></ul> |
@@ -157,6 +159,8 @@ Rejected. Keep the data, and describe the fields in the docs as inputs for a val
 Keep, unless John expects reviewer push-back. Option D above shows the split if so.
 
 ### Contracted: analyser only, spec and docs later
+
+Port the sanitizer move, analyser and CLI now, and send the spec package and docs page as a later PR.
 
 | Pros | Cons |
 |---|---|
@@ -168,12 +172,12 @@ Rejected as a scope. It survives as Option C's ordering.
 
 The choice is between keeping 84 picks (90 commits now) and squashing per author.
 
-| Keep 90 picks, reword only | Squash to about 6 commits (Option A) |
+| Keep 90 picks, reword only | Squash to about 6 commits |
 |---|---|
 | <ul><li>Commit-level provenance against mvdbeek's branch</li><li>No rewrite of how his work is presented</li></ul> | <ul><li>Messages describe only static behaviour</li><li>Removes the add-then-delete pairs: `codes.py`, timeout, py3.8, `ANALYSER_VERSION`</li><li>Removes the false "Baseline tests" prefixes</li><li>`Co-authored-by` trailers keep the credit</li></ul> |
 | <ul><li>About 40 messages still describe runtime</li><li>Galaxy reviewers will read a refusal story for code that refuses nothing</li></ul> | <ul><li>Rewrites the presentation of mvdbeek's series. Check with him first</li><li>Loses commit-level bisect inside the analyser</li></ul> |
 
-Squash, after checking with mvdbeek. The plan is in `subagents/review_port.md`, plus one commit for the recommended expansion.
+Squash, after checking with mvdbeek. The plan is in `subagents/review_port.md`, plus one commit for the recommended expansion. It applies under every decomposition option; only the PR boundaries change.
 
 ### Smaller items noted by the reviews, folded or deferred
 
