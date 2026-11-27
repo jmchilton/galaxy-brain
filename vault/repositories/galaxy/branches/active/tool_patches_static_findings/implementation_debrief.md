@@ -6,7 +6,12 @@ created .../tool_patches_static_findings/differential-review/snapshots/20261126T
   first snapshot: 50 commits, 64 files, 122 hunks
 ```
 
-**STATUS: BLOCKED on a scope decision** (the capability-findings switch, unchanged). Head `60e85e935d2` on `jmchilton/tool_patches_static_findings`. The earlier debrief is `earlier_drafts/3/implementation_debrief.md`; everything in it still holds except where this revision changes it.
+**STATUS: BLOCKED on a scope decision** (the capability-findings switch, unchanged). Head `342c587105f` on `jmchilton/tool_patches_static_findings`.
+
+**Rebase (2026-11-27):** `git rebase --onto 76a196cdabf d4e4f68dd25`, which brings in branch 1's `output_size_limit` allowance. It applied cleanly. Afterwards:
+- the related unit suites passed 1256, with 2 xpassed;
+- `test_tool_static_findings_refusal.py`, run alone, passed 8 of 8;
+- I force-pushed with a lease on `60e85e935d2`. The upload1 exemption commit was `60e85e935d2` and is now `342c587105f`. The earlier debrief is `earlier_drafts/3/implementation_debrief.md`; everything in it still holds except where this revision changes it.
 
 ## This revision
 

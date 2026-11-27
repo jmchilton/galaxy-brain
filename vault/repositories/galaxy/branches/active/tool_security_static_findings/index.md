@@ -30,7 +30,7 @@ READY. Implemented, re-scoped and re-hardened. The history was squashed to 6 com
 - `tool_patches_static_findings`.
 - `tool_security_runtime`: runtime enforcement on top, built in parallel.
 
-Both sit on the squashed head `d4e4f68dd25`. gx_workhorse-3 (their single writer) is rebasing them onto `76a196cdabf`.
+Both sit on `76a196cdabf` (rebased 2026-11-27 by gx_workhorse-3, their single writer).
 
 ## Re-sync when `tool_security_review_spec` settles
 

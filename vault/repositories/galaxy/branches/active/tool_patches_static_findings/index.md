@@ -12,7 +12,7 @@ related_records:
 
 ## Status
 
-Re-scoped into branch 4 (refuse jobs of tools with static findings left after patching) and re-hardened; BLOCKED on a scope decision (third evaluation suggests a capability-findings switch), head `60e85e935d2`.
+Re-scoped into branch 4 (refuse jobs of tools with static findings left after patching) and re-hardened; BLOCKED on a scope decision (third evaluation suggests a capability-findings switch), head `342c587105f`, rebased onto branch 1's `76a196cdabf` (2026-11-27).
 
 ## Decisions
 

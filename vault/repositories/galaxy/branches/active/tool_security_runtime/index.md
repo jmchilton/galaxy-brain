@@ -10,7 +10,7 @@ related_records: galaxy/branches/stock_tools_review_clean
 
 ## Status
 
-Implemented and hardened, with the upload1 exemption added. BLOCKED on a defaults decision: the default `enforce_code` + `strict` still refuses 17 stock data source tools and some functional test tools. Head `e3d98e549b7`.
+Implemented and hardened, with the upload1 exemption added, and rebased onto branch 1's `76a196cdabf`. BLOCKED on a defaults decision: the default `enforce_code` + `strict` still refuses some functional test tools. Head `9e7e9cf38a0`.
 
 No PR; CI not run.
 
@@ -18,7 +18,7 @@ No PR; CI not run.
 
 - Branch 3 of 4 split out of the tool-security work: `tool_security_static_findings` plus the runtime enforcement (job-prep review, `ToolEvaluator` enforcement, refusals, runtime config, app wiring) it stripped (John, 2026-11-26).
 - Source pin: runtime code from `jmchilton/tool_security_review_spec` at `d5f7cb05e91` only, read via `git show`; that branch's ref and worktree are never touched.
-- Based on the squashed parent head `d4e4f68dd25` (tree identical to the pre-squash `d4ae281e442`).
+- Based on parent head `76a196cdabf` (2026-11-27), which allows the data source tools' `$__app__.config.output_size_limit` read. In the rebased spec commit, both of its spec cases get red/green jobs, and `MockAppConfig` gets `output_size_limit = 0`.
 - Exempt Galaxy's own `upload1` (John, 2026-11-26). It's matched by its real path against the bundled `upload.xml`, never by id or action. The helper is shared byte-for-byte with branch 4.
 - Where the parent's re-scope replaced something the runtime calls (`_no_plain_value` became `classify()`, the `Rule` catalog), the runtime uses the parent's version.
 
