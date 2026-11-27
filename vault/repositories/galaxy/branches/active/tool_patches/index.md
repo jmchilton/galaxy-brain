@@ -23,3 +23,6 @@ Implemented, re-scoped and re-hardened; revised for `collection_fix` patch files
 - Out of scope: admin endpoint, tool-form badge, `Job` column, live reload, authoring CLI, shipped patches.
 - Fixtures are synthetic test tools only (`identifier_single`).
 - `collection_fix: true` files load with security ops and no upstream entry, mirroring the collection checker; the flag isn't reported on patch state (file-level vs per-kind state) (2026-11-26).
+- Tool ids and key segments are read verbatim, with no path encoding: the encoding refused 95 collection files of 18 tools with uppercase ids (John, 2026-11-27).
+- New patch kind `python2to3`: generated text ops that convert a template that only compiles through Galaxy's Python 2 path, proven by the collection's deep lint to compile to the same module. Always `identical`, applied before security and compat ops, never demoted by site caps, and a mismatch raises no advisory (John, with Marius's permission, 2026-11-27).
+- Galaxy reads only `collection.yml`, `codes.yml` and `patches/` from a collection. `coverage/` is the collection's own provenance: Galaxy no longer reads it, it leaves the digests, and `PatchState.verified` is gone. `verified` was never true for real content, because Galaxy hashed `to_string()` while coverage stores a c14n hash (John, 2026-11-27).
