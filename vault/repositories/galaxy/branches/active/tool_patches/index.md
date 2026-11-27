@@ -13,7 +13,7 @@ related_records:
 
 Implemented, re-scoped and re-hardened; revised for `collection_fix` patch files (2026-11-26); READY for polish and CI (head `8bb1573a319`).
 
-`tool_patches_static_findings` carries this branch's commits and needs `e0a94aa8566`, `f531c63edc2` and `8bb1573a319` re-picked (or a rebase onto the new head); not yet done.
+`tool_patches_static_findings` carries this branch's commits, including `e0a94aa8566`, `f531c63edc2` and `8bb1573a319` (re-picked there as `95e9796a7c3`, `a2ed7462327` and `dc28179fd66`; checked 2026-11-27). If this branch changes again, re-pick onto branch 4's head.
 
 ## Decisions
 
