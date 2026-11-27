@@ -12,7 +12,7 @@ related_records:
 
 ## Status
 
-Re-scoped into branch 4 (refuse jobs of tools with static findings left after patching) and re-hardened; BLOCKED on a scope decision (third evaluation suggests a capability-findings switch), head `342c587105f`, rebased onto branch 1's `76a196cdabf` (2026-11-27).
+Re-scoped into branch 4 (refuse jobs of tools with static findings left after patching) and re-hardened; BLOCKED on a scope decision (third evaluation suggests a capability-findings switch), head `4f54ef8c934`, rebased onto branch 1's `0ad21214cce` (2026-11-27, after branch 1's re-sync to spec `6eb4ad6ae71`; applied cleanly). After the rebase: related unit suites 1474 passed, 2 xpassed (1256 before; the difference is branch 1's new security tests), and `test_tool_static_findings_refusal.py` alone 8 of 8.
 
 ## Decisions
 

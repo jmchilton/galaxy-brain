@@ -8,7 +8,9 @@ upstream_base_branch: release_25.1
 
 ## Status
 
-Implementation started 2026-11-23.
+In progress, pushed. Head `6eb4ad6ae71` on `jmchilton/tool_security_review_spec`. Landed 2026-11-27: the loop readings over literal lists and select values (`8d1d17cbc3d`), the interpreter lookup-scope fixes for lambdas, generators, comprehensions, `#block`, `getVar` and in-place list growth plus the test-challenge pins (`8d1845286e0..ba8b70b6d35`), and the output size limit allowance carried over from `tool_security_static_findings` (`6eb4ad6ae71`). At the head, 777 security unit tests and the 1973 tests of `test/unit/app/tools/test_security_review_spec.py` (run alone) pass.
+
+The test challenge debrief is `test_challenges_debrief.md` (earlier one in `earlier_drafts/1/`); review debriefs are in `subagents/`. Static changes are ported to `tool_security_static_findings`, whose source pin is this head.
 
 ## Decisions
 
