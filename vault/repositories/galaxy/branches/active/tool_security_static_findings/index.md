@@ -14,7 +14,7 @@ related_records:
 
 ## Status
 
-READY. Implemented, re-scoped and re-hardened. The history was squashed to 6 commits on 2026-11-26, with the tree unchanged. Head `d4e4f68dd25`; the old 101-commit head `d4ae281e442` is kept as alt `_alt_cherry_pick_history`.
+READY. Implemented, re-scoped and re-hardened. The history was squashed to 6 commits on 2026-11-26, with the tree unchanged, then one commit was added. Head `76a196cdabf`; the old 101-commit head `d4ae281e442` is kept as alt `_alt_cherry_pick_history`.
 
 ## Decisions
 
@@ -22,6 +22,7 @@ READY. Implemented, re-scoped and re-hardened. The history was squashed to 6 com
 - Method: `cherry-pick -x` the static and mixed commits onto `origin/dev`, keeping authorship; drop runtime hunks; skip runtime-only commits; one framing cleanup commit (approved 2026-11-25).
 - History: squashed to 6 commits that keep authorship, with `Co-authored-by` trailers on the mixed ones (John, 2026-11-26). See `implementation_debrief.md`.
 - Sanitizer move (`7ea120eef20`): stays the first commit of this branch, not its own PR. No re-export shim at `galaxy.tools.parameters.sanitize`; assume no outside importers (John, 2026-11-26).
+- Data source tools (`76a196cdabf`): the exact read `$__app__.config.output_size_limit` (26 stock data source XMLs) produces no finding, via `_HARMLESS_APP_READS` in `capabilities.py`. Spec cases `output_size_limit_read` and `output_size_limit_reach`. Chosen over a Galaxy change to `DataSourceTool` and the XMLs (John, 2026-11-26). Not in `tool_security_review_spec`: carry it through a re-sync, or port it there.
 - The source pin stays at `d5f7cb05e91`. Newer `tool_security_review_spec` commits (another session's work, e.g. `45231d97bac`) are not ported yet.
 
 ## Children
@@ -29,7 +30,7 @@ READY. Implemented, re-scoped and re-hardened. The history was squashed to 6 com
 - `tool_patches_static_findings`.
 - `tool_security_runtime`: runtime enforcement on top, built in parallel.
 
-Both sit on the squashed head `d4e4f68dd25`.
+Both sit on the squashed head `d4e4f68dd25`. gx_workhorse-3 (their single writer) is rebasing them onto `76a196cdabf`.
 
 ## Re-sync when `tool_security_review_spec` settles
 
