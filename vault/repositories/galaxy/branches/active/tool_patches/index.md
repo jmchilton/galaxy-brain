@@ -11,9 +11,9 @@ related_records:
 
 ## Status
 
-Implemented, re-scoped and re-hardened; revised for `collection_fix` patch files (2026-11-26); READY for polish and CI (head `8bb1573a319`).
+Implemented, re-scoped and re-hardened; revised for `collection_fix` patch files (2026-11-26), then on 2026-11-27 for `coverage/` no longer read (`a10f45acba4`), verbatim key segments (`469cb604a52`) and the `python2to3` kind (`d16178fc120`, `4993f7d8d92`); READY for polish and CI (head `4993f7d8d92`, pushed). 567 tool patch unit tests pass; the index schema hash is re-pinned twice, which invalidates deployed index bundles. Reviews: `subagents/review_python2to3.md`, `subagents/review_drop_verified.md`.
 
-`tool_patches_static_findings` carries this branch's commits, including `e0a94aa8566`, `f531c63edc2` and `8bb1573a319` (re-picked there as `95e9796a7c3`, `a2ed7462327` and `dc28179fd66`; checked 2026-11-27). If this branch changes again, re-pick onto branch 4's head.
+`tool_patches_static_findings` carries this branch's commits, including `e0a94aa8566`, `f531c63edc2` and `8bb1573a319` (re-picked there as `95e9796a7c3`, `a2ed7462327` and `dc28179fd66`; checked 2026-11-27). If this branch changes again, re-pick onto branch 4's head. The four 2026-11-27 commits are not yet re-picked there.
 
 ## Decisions
 
