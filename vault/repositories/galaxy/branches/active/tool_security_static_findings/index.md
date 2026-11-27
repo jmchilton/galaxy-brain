@@ -23,6 +23,7 @@ READY. Implemented, re-scoped and re-hardened. The history was squashed to 6 com
 - History: squashed to 6 commits that keep authorship, with `Co-authored-by` trailers on the mixed ones (John, 2026-11-26). See `implementation_debrief.md`.
 - Sanitizer move (`7ea120eef20`): stays the first commit of this branch, not its own PR. No re-export shim at `galaxy.tools.parameters.sanitize`; assume no outside importers (John, 2026-11-26).
 - Data source tools (`76a196cdabf`): the exact read `$__app__.config.output_size_limit` (26 stock data source XMLs) produces no finding, via `_HARMLESS_APP_READS` in `capabilities.py`. Spec cases `output_size_limit_read` and `output_size_limit_reach`. Chosen over a Galaxy change to `DataSourceTool` and the XMLs (John, 2026-11-26). Not in `tool_security_review_spec`: carry it through a re-sync, or port it there.
+- Drop the LLM judge from mvdbeek's analyser (`judge.py`, `test_judge.py`, the CLI's `--judge`, `Finding.assessment`/`Report.assess()`, its docs) as a new commit on this branch, not folded into `005924736ea`. Keep it off re-syncs from `tool_security_review_spec`, which still has it. Branch 4 drops its judge test scaffolding to match (John, 2026-11-27).
 - The source pin stays at `d5f7cb05e91`. Newer `tool_security_review_spec` commits (another session's work, e.g. `45231d97bac`) are not ported yet.
 
 ## Children
