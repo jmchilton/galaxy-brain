@@ -26,3 +26,7 @@ The test challenge debrief is `test_challenges_debrief.md` (earlier one in `earl
 - Spec tools and cases ship in the package at `lib/galaxy/tool_util/security/spec/` (John asked for `security_review/spec`; kept under the existing `galaxy.tool_util.security` package), not in `test/functional/tools`: Planemo and the Tool Shed will reuse them.
 - "Real tool" means a real tool XML file written for the spec. Don't search the Tool Shed for vulnerable tools (John, 2026-11-23).
 - No `enforce` alias for `enforce_code`; the default level stays `enforce_code` (John, 2026-11-26).
+- A name a `#set` may not have bound reads as the local or the job parameter, but only for names a job can send on the rebased base: declared inputs, the tool's `template_job_parameters`, or any name on a tool that keeps undeclared job parameters (John, 2026-11-27).
+- Every lambda in a template is flagged as code the review can't check, except pure lambdas, whose bodies read only their arguments, literals, `$` names and allowed builtins, and change nothing. The real uses pass by shape, not through a per-tool list (John, 2026-11-27).
+- A template that only compiles through Galaxy's Python 2 path is fixed upstream (cmscan: bgruening/galaxytools#2145) or with a `python2to3` patch in the tool patch database, not by converting it inside the analyser (John, 2026-11-27).
+- `${__app__['config'].output_size_limit}` keeps its high finding with no uncheckable code. It's unexercised: no tool uses it, and the `$__app__` wrapper can't be subscripted (John, 2026-11-27).
