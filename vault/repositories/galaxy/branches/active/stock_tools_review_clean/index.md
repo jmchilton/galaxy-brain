@@ -12,7 +12,7 @@ related_records:
 
 ## Status
 
-Implemented, re-scoped and re-hardened; BLOCKED on a scope decision (the second evaluation suggests two one-line fixes: ML Jupyter's repository mode and Extract Genomic DNA's Python 3 bytes bug). Head `dcd4d5eb9a1`.
+Implemented, re-scoped, re-hardened and revised; READY with decisions (`implementation_debrief.md`). Head `6cfe8e271c1`: the reshaped history plus the ML Jupyter `pull_repo` and Extract Genomic DNA `b""` fixes.
 
 No PR; CI not run.
 
@@ -25,4 +25,5 @@ No PR; CI not run.
 - upload1 keeps `getVar`; it is exempted in the review on branches 3 and 4 instead (John, 2026-11-26).
 - Published as-is, including fixes the private triage judged exploitable (John, 2026-11-26).
 - joiner2 and shrimp_wrapper fixed. HiGlass `uploaded_genomes`, the sample_sheet newlines and the analyser false positives are deferred (John, 2026-11-26).
-- Pushed history isn't rewritten. The local `stock_tools_review_clean_reshaped` holds the PR-shaped history, and adopting it needs John's go-ahead for a force-push.
+- The reshaped (PR-shaped) history is adopted, and the branch was force-pushed with a lease over `dcd4d5eb9a1` (John, 2026-11-27).
+- The second scope evaluation's two fixes are taken: ML Jupyter's repository mode compares with `pull_repo`, and Extract Genomic DNA reads stderr as bytes (John, 2026-11-27).
