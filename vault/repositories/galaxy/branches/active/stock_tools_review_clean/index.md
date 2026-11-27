@@ -12,7 +12,9 @@ related_records:
 
 ## Status
 
-Implementation started 2026-11-26.
+Implemented, re-scoped and re-hardened; BLOCKED on a scope decision (the second evaluation suggests two one-line fixes: ML Jupyter's repository mode and Extract Genomic DNA's Python 3 bytes bug). Head `dcd4d5eb9a1`.
+
+No PR; CI not run.
 
 ## Decisions
 
@@ -20,3 +22,7 @@ Implementation started 2026-11-26.
 - `upload1` is reworked so it no longer needs `getVar`, or otherwise reviews clean, without adding findings. The other stock tools follow.
 - Stock tools that the security tests use as examples of findings stay as they are.
 - The review is measured with the analyser from `tool_security_static_findings`; this branch doesn't carry it.
+- upload1 keeps `getVar`; it is exempted in the review on branches 3 and 4 instead (John, 2026-11-26).
+- Published as-is, including fixes the private triage judged exploitable (John, 2026-11-26).
+- joiner2 and shrimp_wrapper fixed. HiGlass `uploaded_genomes`, the sample_sheet newlines and the analyser false positives are deferred (John, 2026-11-26).
+- Pushed history isn't rewritten. The local `stock_tools_review_clean_reshaped` holds the PR-shaped history, and adopting it needs John's go-ahead for a force-push.
