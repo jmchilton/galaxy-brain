@@ -40,10 +40,9 @@ Normal reviews, test challenges, thermo-nuclear, baseline refactor and two scope
 
 ## Decisions for John
 
-1. **PR split.** `scope_evaluation.md` lists four options. The two new commits belong with the functional fixes (joiner2, shrimp_wrapper).
+1. **PR split.** `scope_evaluation.md` lists four options. The two new commits belong with the functional fixes (joiner2, shrimp_wrapper). The `./` and `--` argv changes are fine on release_26.1 (John, 2026-11-27), so option 4 isn't needed to keep them off the release.
 2. **Codex:** unblock the host (install `bubblewrap`) if you want a review from a model other than Claude.
 3. **Behaviour questions:**
-   - Are the `./` and `--` argv changes acceptable on release_26.1?
    - Should the export tools' option string, which the server builds, be split?
    - Should HiGlass refuse jobs where two tracks would share a name? Today it ingests both. Any change belongs on dev.
 4. **Recorded and not acted on** (`subagents/review_revision.md`):

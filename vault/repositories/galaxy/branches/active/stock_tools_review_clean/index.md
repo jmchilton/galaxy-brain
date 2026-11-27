@@ -26,4 +26,5 @@ No PR; CI not run.
 - Published as-is, including fixes the private triage judged exploitable (John, 2026-11-26).
 - joiner2 and shrimp_wrapper fixed. HiGlass `uploaded_genomes`, the sample_sheet newlines and the analyser false positives are deferred (John, 2026-11-26).
 - The reshaped (PR-shaped) history is adopted, and the branch was force-pushed with a lease over `dcd4d5eb9a1` (John, 2026-11-27).
+- The `./` and `--` argv changes (Jupyter tools, HiGlass, `git clone --`, the optparse tools) are fine on release_26.1. They change the words passed but not their meaning (John, 2026-11-27).
 - The second scope evaluation's two fixes are taken: ML Jupyter's repository mode compares with `pull_repo`, and Extract Genomic DNA reads stderr as bytes (John, 2026-11-27).
