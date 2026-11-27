@@ -12,7 +12,13 @@ related_records:
 
 ## Status
 
-Re-scoped into branch 4 (refuse jobs of tools with static findings left after patching) and re-hardened; BLOCKED on a scope decision (third evaluation suggests a capability-findings switch), head `4f54ef8c934`, rebased onto branch 1's `0ad21214cce` (2026-11-27, after branch 1's re-sync to spec `6eb4ad6ae71`; applied cleanly). After the rebase: related unit suites 1474 passed, 2 xpassed (1256 before; the difference is branch 1's new security tests), and `test_tool_static_findings_refusal.py` alone 8 of 8.
+BLOCKED on the scope decision (the capability-findings switch), unchanged. Shared plumbing revision done (2026-11-27). Head `dacf77a87c6`, which was `4f54ef8c934`. It is built on shared commit S `5659a4db4a4` ("Share the tool security refusal"), which sits on branch 1 `53559de55d0`. `tool_security_runtime` carries S unchanged, so S is the merge base of the two branches. Exempt set: only upload1 (unless a tool patch applies), set metadata, data fetch and history import/export. Everything else Galaxy ships is reviewed. Tests on the final head:
+- related unit suites: 1582 passed, 2 xpassed;
+- `test_tool_static_findings_refusal.py`: 8 of 8;
+- `test_tool_patches.py`: 12 of 12;
+- both upload and library API tests pass.
+
+See `implementation_debrief.md`.
 
 ## Decisions
 
@@ -24,4 +30,5 @@ Re-scoped into branch 4 (refuse jobs of tools with static findings left after pa
 - Shared plumbing with branch 3 (John, 2026-11-27): one identical base commit both children carry on top of branch 1 (`ToolInputRejected`, upload1 helpers, one "Galaxy's own tool" check, one runner catch with Pulsar failing refused jobs directly). This branch's `security_review.py` becomes `static_findings.py`, and its `codes.py` shrinks to one `static-findings` code.
 - Galaxy's own tools, exempt from refusal (John, 2026-11-27): only upload1 (unless patched), set metadata, data fetch, and history import/export. This replaces the `lib/galaxy` directory rule, which exempted every stock tool in an installed package plus the converters and spec tools. Everything else Galaxy ships is reviewed; tools that then get findings are fixed (`stock_tools_review_clean`) or their false positives are removed from the analyser, rather than exempted.
 - The judge test scaffolding (`_RecordingJudge`, the `--judge` CLI tests, the `replace(before)` copy in `patch_review.py`) goes with branch 1's judge removal (John, 2026-11-27).
+- Shared base commit S is `5659a4db4a4` (2026-11-27). Rebase S first when branch 1 moves, then `git rebase --onto <new S> <old S>` both children. `galaxy.tools.security_review` here is now `galaxy.tools.static_findings`, and `codes.py` is gone (one `STATIC_FINDINGS` constant in `tool_util/security/refusal.py`).
 - The writer is gx_workhorse-3 on chickenstraws (agreed with t7t, 2026-11-26). Coordinate before moving the branch.

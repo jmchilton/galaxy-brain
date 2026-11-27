@@ -10,7 +10,19 @@ related_records: galaxy/branches/stock_tools_review_clean
 
 ## Status
 
-Implemented and hardened, with the upload1 exemption added, and rebased onto branch 1's `0ad21214cce` (2026-11-27, after branch 1's re-sync to spec `6eb4ad6ae71`). BLOCKED on a defaults decision: the default `enforce_code` + `strict` still refuses some functional test tools. Head `b9cd00f067b`. After the rebase: unit suites 3045 passed (1065 for security, `test_security_review.py` and `test_cached_tool.py`; 1980 for `test_security_review_spec.py` run alone), and `test/integration/test_tool_security_review.py` 11 of 11.
+BLOCKED on the defaults decision, as before: the default `enforce_code` + `strict` still refuses some functional test tools. The shared plumbing revision is done (2026-11-27).
+
+- Head `d097f908686` (was `b9cd00f067b`).
+- It is built on shared commit S `5659a4db4a4` ("Share the tool security refusal"), which sits on branch 1 `53559de55d0`. `tool_patches_static_findings` carries S unchanged, so S is the branches' merge base.
+- Exempt from review and from the per-job check: only upload1, set metadata, data fetch and history import/export. Tools with nothing to review (no command, user-defined, expression) are left alone too.
+- An ftpfile param is checked as Galaxy writes it.
+
+Tests:
+- unit suites: 3285 passed;
+- `test/integration/test_tool_security_review.py`: 11 of 11;
+- both upload and library API tests pass.
+
+See `implementation_debrief.md`.
 
 No PR; CI not run.
 
@@ -22,6 +34,7 @@ No PR; CI not run.
 - Exempt Galaxy's own `upload1` (John, 2026-11-26). It's matched by its real path against the bundled `upload.xml`, never by id or action. The helper is shared byte-for-byte with branch 4.
 - Shared plumbing with branch 4 (John, 2026-11-27): one identical base commit both children carry on top of branch 1, holding `ToolInputRejected`, the upload1 helpers, one "Galaxy's own tool" check and one runner catch. Branch 3 adopts branch 4's direct fail on Pulsar: a refused job fails at once, never resubmitted.
 - Galaxy's own tools, exempt from review in both branches (John, 2026-11-27): only upload1 (unless patched), set metadata, data fetch, and history import/export. Everything else Galaxy ships (stock tools in every install layout, converters, collection operations, sample sheet tools) is reviewed. Tools that then get findings are fixed (`stock_tools_review_clean`) or their false positives are removed from the analyser, rather than exempted. The per-job value check skips the same exempt tools.
+- Shared base commit S is `5659a4db4a4` (2026-11-27). Rebase S first when branch 1 moves, then `git rebase --onto <new S> <old S>` both children. Branch 1's spec cases need red and green jobs here, as in the spec commit.
 - Where the parent's re-scope replaced something the runtime calls (`_no_plain_value` became `classify()`, the `Rule` catalog), the runtime uses the parent's version.
 
 ## Re-sync with newer source commits
