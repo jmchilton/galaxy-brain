@@ -1,53 +1,59 @@
-Run via Claude Opus at high effort.
+Run via Claude Opus 5.5.
 
-# Test challenges: tool_security_static_findings (re-harden)
+# Test challenges: tool_security_static_findings (judge removal and the repr()/file param fixes)
 
-One commit, `e067cc3dd2a`, on top of `79f7da40312`. It is test-only apart from one spec property, `ReviewExpectation.rules`. `test/unit/tool_util/security` went from 604 to 589 passed. The drop is one merged test plus two parametrized coverage tests (8 and 9 members) that became set checks. No check was weakened. The analyser is untouched; the generated docs section is byte-identical, and so is the CLI oracle (see `thermo_nuclear_review.md`).
+Scope: only the tests changed by the three newest commits on `0ad21214cce`. Earlier tests were challenged in `earlier_drafts/3/test_challenges_debrief.md` and were not challenged again.
 
-## Changes
+The changes were folded into their commits as fixups, and the two commit messages were reworded to match. The new head is `53559de55d0`:
 
-- **`test_main.py`**
-  - `test_review_error_keeps_tool_id_and_version` no longer monkeypatches `review_tool_source`. It reviews a real tool written to `tmp_path`: the tool loads, but its `<validator type="nope">` makes the review raise. The test also checks that the next path is still reviewed, and the exact-dict assertion now carries the real error string.
-  - The YAML tests write a minimal `class: GalaxyTool` file to `tmp_path` instead of copying `simple_constructs.yml`. `test_main` no longer depends on `test/functional/tools`.
-  - `test_text_names_the_tool_version` was folded into `test_text_lists_findings_by_tool`, which now asserts the exact header instead of `startswith`. `_directory` (one caller) was inlined, and the `PIPE` constant is used where `tool_path("pipe_to_shell.xml")` was repeated.
-- **`test_rules.py`: strengthened.** `test_emitted_rules_are_catalogued` used to record only the first `kind` seen for each rule. It now collects every kind a rule is emitted with and requires exactly `{vulnerability}` or `{capability}`, so a rule emitted with both kinds now fails.
-- **`test_classify.py`: strengthened.** In two tests, `X in result.codes` became an exact `codes ==`, and the rewrites reason is compared exactly.
-- **`test_spec.py`** now holds the spec checks that were scattered across files:
-  - Pattern coverage and the vulnerability-rule spec coverage are set differences instead of per-member parametrizations, so a failure names every missing member.
-  - The pattern descriptions get the same `set(...) == set(PatternCode)` check that `Rule` and `Uncheckable` have, which also catches stale keys.
-  - `test_spec_rejects_an_unknown_rule` (from `test_rules`) and `test_spec_rejects_review_failed_as_a_classify_code` (from `test_classify`) moved here, beside the loader they test.
-- **Design: `ReviewExpectation.rules`** (a plain `@property`, so `model_dump` and the generated docs are unchanged) is "the rules a case names". It replaces `docs._case_rules` and the coverage test's inline copy.
+- `47de75304e2` Drop the language model judge (unchanged)
+- `30fd8ee53f4` repr() as a Python literal (was `e78b2e4befe`)
+- `53559de55d0` file param sanitized (was `70ffe7eeceb`)
+
+`test/unit/tool_util/security` went from 824 to 822 passed. Each commit is green on its own: 807, 820 and 822. The generated docs section was regenerated at each commit. `test_docs_list_the_cases` and `test_spec_files_are_packaged` pass. ruff, black and isort are clean on `test_sources.py`. Direct mypy on the file reports only the file's existing `no-untyped-def` noise; there are two more, from one more test function.
 
 ## Red checks
 
-The package does not exist on dev, so "fails without the branch" would only fail at import. Each changed test was instead shown red under a temporary mutation, which was reverted with `git checkout`. All mutations ran before the identity dumps.
+The analyser exists only on this branch. So instead of running against dev, each new test was run with the revision's own change reverted, either the whole change or the single relevant line. Every revert was undone with `git checkout`.
 
-| Mutation | Went red |
-|---|---|
-| `__main__._identify` returns `None, None` | `test_review_error_keeps_tool_id_and_version` |
-| `Rule.OPTION_INJECTION` dropped from `VULNERABILITY_RULES` | `test_emitted_rules_are_catalogued` |
-| `classify`: `if capabilities:` becomes `if True:` (spurious `TEMPLATE_CODE`) | the rewrites and pipe tests. Both passed with the old `in` checks. |
-| `ReviewExpectation.rules` returns `serious_rules` only | `test_every_vulnerability_rule_has_a_case` |
-| The rewrites reason text reworded | `test_rewrites_name_the_rewriting_code` |
+| Revert | Went red | Stayed green |
+|---|---|---|
+| Whole `interp.py` of the repr() commit | spec `repr_python_literal`, `repr_inside_python_string`, `json_inside_python_string`; 7 of 10 literal rows | spec `repr_in_shell`; rows json.dumps outside a string, json.dumps in `'...'`, slice |
+| Only `chars = chars - {"\\"}` (the review's backslash fix) | json.dumps in `'...'` row, once the clean rows check every severity (see below) | everything else |
+| Only the slice dropping `quoted` | slice row `${repr($free)[1:-1]}` | everything else |
+| `"file"` put back with the as-is types in `model._value` | spec `file_param_stays_quoted` | spec `raw_file_param_shell_injection`, `ftpfile_param_shell_injection` |
 
-The rule emitted with both kinds case was reasoned, not mutated: forcing it would mean changing the analyser.
+## Changes
+
+- **`test_literal_in_python_configfile` split in two** (`test_sources.py`):
+  - `test_literal_in_python_configfile_stays_one_string` covers the 4 clean shapes.
+  - `test_literal_in_python_configfile_breakout` covers the 6 flagged shapes and pins `breakout`, `requires` and `context`.
+  - A `python_script_findings` helper serves both. This removes the test's `if breakout is None: ... return` branch.
+  - The clean rows now assert that `configfile:script` has no finding at any severity, not just no HIGH one. That makes the json.dumps-in-`'...'` row pin review item 4: the LOW "can escape the closing quote", which nothing else pinned.
+- **Dropped spec case `repr_in_shell`** (with its tool and MANIFEST line). The commit says the shell reading of repr() is unchanged, and the case passes with the whole change reverted. repr() in the command is already pinned, with job-check characters, by `test_breakout`'s `echo "${repr(str($free))}"` and the two closers tests. If John wants it back for the admin docs, restore it from `e78b2e4befe`.
+- **Dropped spec case `raw_file_param_shell_injection`** (with `file_param_raw.xml` and its MANIFEST line). It passes with the change reverted. After the change, a file param's raw value is built on the same fall-through path as a text param's, and `${text.value}` is pinned as RAW by `test_finding_names_its_source` and `raw_text_shell_injection`.
+
+## Kept, though green with the change reverted
+
+- **Spec `ftpfile_param_shell_injection`.** This is the only test anywhere of the as-is branch of `model._value` (color, directory_uri, ftpfile). It is the branch this commit edited. Without it, removing all four types, the security false negative the commit message rules out ("the other three types are unchanged"), would go unnoticed. It is a baseline-type pin. A separate "Baseline tests" commit is not possible, because the analyser does not exist before this branch. That is the same reasoning as in `earlier_drafts/3`.
+- **Row `x = ${json.dumps($free)}` of the stays-one-string test.** This commit narrowed the early return to `not quote and ...`, and this row is the only pin of the side that clears json.dumps() written as code in a Python configfile. The test as a whole goes red with the change reverted.
 
 ## Process items
 
-- **`doc/source/dev/writing_tests.md`:** read. This is a library with no server, so the unit layer is right. No API, integration or E2E test applies, because nothing wires the review into Galaxy at runtime.
-- **Mocks:** the only one was the `monkeypatch` above, and it is gone. `RecordingJudge` (`test_judge`) is already a small reusable stand-in. `test_patterns._finding` builds real `Finding` dataclasses.
-- **Ported tests** (`test_review`, `test_sources`, `test_known_helpers`, `test_judge`, `test_patterns`, `test_template`) were challenged, and none was dropped:
-  - `test_template` is a differential test against Cheetah's own parser.
-  - `test_patterns` pins `expr` shapes that the spec cases do not reach.
-  - `test_judge` uses a real stand-in.
-- **"Baseline tests" prefix:** not used, because there is nothing on dev to pin.
-- **Tree dependence:** `test_rules` still walks `test/functional/tools` with no skip guard. That matches the other `test/unit/tool_util` tests (`test_parsing`, `test_test_definition_parsing`). The `packages/tool_util` run goes through the `tests/tool_util` symlink inside the tree, so it always has the directory.
+- **`47de75304e2`:** deleting `test_judge.py` is right, because its module is gone. No other test referenced the judge, `--judge`, `assessment` or `Report.assess()`, and the CLI tests never covered `--judge`. Nothing new is needed for a removed advisory field.
+- **Mocks:** none in the changed tests. They review real tool XML through `_util.review`.
+- **Layer:** this is a static library with no server, so unit and spec tests are the right layer. No API, integration or E2E test applies.
+- **Spec and source overlap:**
+  - Spec `repr_python_literal` matches rows `x = ${repr($free)}`.
+  - Spec `repr_inside_python_string` matches `x = '${repr(str($text))}'`.
+  - Spec `json_inside_python_string` matches `x = "${json.dumps(...)}"`.
+
+  They assert different parts of the same result: the spec asserts rule, severity, accessor and checkable, and appears in the admin docs, while the rows assert breakout and context. This is the same split that earlier rounds accepted for `test_breakout`.
 
 ## Not done
 
-- **`test_review.py`'s 28 subset checks** (`expected in rules(...)`) were left alone. They are mvdbeek's tests, and exact sets would pin every incidental low finding. The suggested helper from the earlier draft still applies. `test_review.py` stays at 983 lines.
-- **Spec `unchecked_locations` still compares the report's own set**, not the classified one. That is pending John's decision; the CLI tests pin the classified set.
-- **`path_like_name` is still a near-duplicate of `element_identifier_shell_injection`.** That decision carries over from `earlier_drafts/1`.
+- **`_ESCAPING_ADDS["pystr"]` has no test.** Removing the entry leaves all 824 tests green. It repeats what `introduced(..., escape=True)` records per ref, as the review noted, and `shlex` is listed both ways too. It was kept for the table's consistency. It is code, not test scope.
+- **The review's open items 5, 6, 7, 9 and 11** are unchanged. They are not test issues.
 
 ## Status
 
