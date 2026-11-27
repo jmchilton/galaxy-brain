@@ -8,13 +8,15 @@ upstream_base_branch: release_25.1
 
 ## Status
 
-In progress, pushed. Head `5d002704315` on `jmchilton/tool_security_review_spec`, 123 commits on `origin/release_25.1` (mvdbeek's 85, then ours). Landed 2026-11-27:
+In progress, pushed. Head `1452f233609` on `jmchilton/tool_security_review_spec`, 128 commits on `origin/release_25.1` (mvdbeek's 85, then ours). Landed 2026-11-27:
 - the loop readings over literal lists and select values (`8d1d17cbc3d`);
 - the interpreter lookup-scope fixes for lambdas, generators, comprehensions, `#block`, `getVar` and in-place list growth, plus the test-challenge pins;
 - the output size limit allowance carried over from `tool_security_static_findings`;
-- after the rebase, the narrowed maybe-unset `#set` read, the Galaxy names a data source tool's job parameters replace, and the getVar and `#set global` namespace reads (`2963dcacc1e..5d002704315`).
+- after the rebase, the narrowed maybe-unset `#set` read, the Galaxy names a data source tool's job parameters replace, and the getVar and `#set global` namespace reads (`2963dcacc1e..5d002704315`);
+- branch 1's FP-2 (`repr()` of a string as a Python literal) and FP-1 (file params rendered sanitized), carried over with red and green jobs (`9f36eccfacd`, `52a1224c47c`);
+- the lambda rule: every lambda the review can't read gets `template-lambda` and refuses every job, pure lambdas pass by shape, and a list method passed on as a value marks the template not analysed (`6c836a5a37b..1452f233609`). Over 3,692 corpus tools, 2 change (`scanpy_plot`, `plot_muon`), each gaining a missed source on an existing finding.
 
-At the head, 972 security unit tests and the 2121 tests of `test/unit/app/tools/test_security_review_spec.py` (run alone) pass. The pre-rebase head is the local branch `tool_security_review_spec_pre_rebase` (`6eb4ad6ae71`).
+At the head, 1082 security unit tests and the 2418 tests of `test/unit/app/tools/test_security_review_spec.py` (run alone) pass. From here on gx_workhorse-3 (t25) writes this branch for the planemo-monitor sweep fixes (agreed 2026-11-27). The pre-rebase head is the local branch `tool_security_review_spec_pre_rebase` (`6eb4ad6ae71`).
 
 The test challenge debrief is `test_challenges_debrief.md` (earlier one in `earlier_drafts/1/`); review debriefs are in `subagents/`. Static changes are ported to `tool_security_static_findings`, whose source pin is this head.
 
