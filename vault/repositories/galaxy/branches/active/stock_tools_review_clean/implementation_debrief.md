@@ -1,121 +1,103 @@
 # Implementation debrief
 
 ```
-created .../stock_tools_review_clean/differential-review/snapshots/20261128T000743Z-revision-1a6d0585a37d.json
-  revision @ 1a6d0585a37d vs origin/release_25.1 (merge-base fa9176afc8f9)
-  since 20261127T173504Z-revision-5e553bfe3035:
-    commits: 26 same, 0 rebased, 0 changed, 8 new, 0 dropped
-    hunks:   38 carried, 0 changed, 23 new, 0 dropped
-    new     62a34ead110e Quote element identifiers in identifier test tools
-    new     9c9af956ccce Quote element identifiers in identifier_single test tool
-    new     fa1b82b8cdc8 Quote collection element keys in collection test tools
-    new     96e0b73790e2 Quote collection names in paired and record collection test tools
-    new     5ca35c7c240f Quote directory_uri values in directory_uri test tools
-    new     a6ea5fa7dce5 Quote unsanitized text in unicode_stream test tool
-    new     1990f5955da4 Quote stripped text in cheetah_casting test tool
-    new     1a6d0585a37d Drop unused app config branch from config_vars test tool
+created .../stock_tools_review_clean/differential-review/snapshots/20261128T030250Z-revision-22ff539f97ab.json
+  revision @ 22ff539f97ab vs origin/release_25.1 (merge-base fa9176afc8f9)
+  since 20261128T000743Z-revision-1a6d0585a37d:
+    commits: 34 same, 0 rebased, 0 changed, 4 new, 0 dropped
+    hunks:   47 carried, 14 changed, 0 new, 0 dropped
+    new     aa82ffefbac8 Clean element identifiers in identifier test tools with an allow-list re.sub
+    new     996999da6c07 Clean the element identifier in identifier_single with an allow-list re.sub
+    new     cabd60052e2e Clean collection element keys echoed by collection test tools with an allow-list re.sub
+    new     22ff539f97ab Clean the file names collection_type_source tools make from element keys
 ```
 
-**STATUS: READY**, with the decisions below. John asked for the framework test-tool cleanup to join this branch rather than stand as its own (2026-11-27). The previous debrief is `earlier_drafts/4/implementation_debrief.md`; its stock-tool content still applies unchanged.
+**STATUS: READY**, with the decisions below. John read the regex evaluation alt and chose (2026-11-28): framework test tools clean element identifiers with the IUC regex, and real tools keep `shlex.quote` because it keeps the exact value. The previous debrief is `earlier_drafts/5/implementation_debrief.md`. Its stock-tool and test-tool content still applies, apart from the sites listed here.
 
-- **Head:** `1a6d0585a37` on `jmchilton/stock_tools_review_clean`, 34 commits on `origin/release_25.1` (`fa9176afc8f`). The 26 stock-tool commits are untouched. The 8 test-tool commits sit on top as their own group, a plain fast-forward over `5e553bfe303`.
-- **26.1 alt:** `stock_tools_review_clean_alt_release_26_1` is at `cc4079ce8bc`, which adds the same 8 commits over `6cfe8e271c1`, also a fast-forward. The three `collection_type_source*` hunks that 25.1 drops are present there.
-- **Source:** the commits came from the local branch `functional_test_tools_review_clean` (`070dab20526..22feb23fb4b` on dev). Its records are folded in here; see "Framework test tools" below.
+- **Head:** `22ff539f97a` on `jmchilton/stock_tools_review_clean`, 38 commits on `origin/release_25.1`. 4 new commits sit on top of `1a6d0585a37`, pushed as a plain fast-forward.
+- **26.1 alt:** `stock_tools_review_clean_alt_release_26_1` is at `d7fce338706`, the same 4 commits on `cc4079ce8bc`, also a fast-forward. Its fourth commit also covers the three 26.1-only `collection_type_source_{conditional,digit_name,section_repeat}` tools.
+- **Regex alt:** `stock_tools_review_clean_alt_regex_identifiers` (`0bd72f5a542`) is unchanged. It stays the record of the regex-everywhere evaluation.
 
-## The test-tool commits
+## What changed
 
-| 25.1 | 26.1 alt | Subject | Tools on 25.1 |
+The 4 commits are cherry-picks of the alt's commits for identifier sites. Commits 1 and 4 were reworded after the review.
+
+| 25.1 | 26.1 alt | Subject | Tools |
 |---|---|---|---|
-| `62a34ead110` | `d12fdb0d000` | Quote element identifiers in identifier test tools | `identifier_{collection,all_collection_types,in_conditional,multiple,multiple_in_conditional,multiple_in_repeat,single_in_repeat}` |
-| `9c9af956ccc` | `8bead642223` | Quote element identifiers in identifier_single test tool | `identifier_single` |
-| `fa1b82b8cdc` | `e968f664f70` | Quote collection element keys in collection test tools | `collection_type_source{,_map_over}`, `collection_list_2x_or_3x_nested`, `collection_list_or_nested_list_input`, `collection_list_paired_or_unpaired`, `collection_paired_or_list_paired_input` (26.1 adds `_conditional`, `_digit_name`, `_section_repeat`) |
-| `96e0b73790e` | `c37dc16269a` | Quote collection names in paired and record collection test tools | `collection_paired_test`, `collection_record_test_two_files` |
-| `5ca35c7c240` | `11e607036eb` | Quote directory_uri values in directory_uri test tools | `directory_uri`, `parameters/gx_directory_uri`, `parameters/gx_directory_uri_validation` |
-| `a6ea5fa7dce` | `1adcb2531bb` | Quote unsanitized text in unicode_stream test tool | `unicode_stream` |
-| `1990f5955da` | `0fc9ab350c3` | Quote stripped text in cheetah_casting test tool | `cheetah_casting` |
-| `1a6d0585a37` | `cc4079ce8bc` | Drop unused app config branch from config_vars test tool | `config_vars` |
+| `aa82ffefbac` | `1608a13303f` | Clean element identifiers in identifier test tools with an allow-list re.sub | `identifier_{collection,all_collection_types,in_conditional,multiple,multiple_in_conditional,multiple_in_repeat,single_in_repeat}` |
+| `996999da6c0` | `35490ad3a81` | Clean the element identifier in identifier_single with an allow-list re.sub | `identifier_single` |
+| `cabd60052e2` | `e5a54bb4015` | Clean collection element keys echoed by collection test tools with an allow-list re.sub | `collection_list_2x_or_3x_nested`, `collection_list_or_nested_list_input`, `collection_list_paired_or_unpaired`, `collection_paired_or_list_paired_input` |
+| `22ff539f97a` | `d7fce338706` | Clean the file names collection_type_source tools make from element keys | `collection_type_source{,_map_over}` (26.1 adds `_conditional`, `_digit_name`, `_section_repeat`) |
 
-The messages match the source, except the first. Its body now says the quoting keeps the command safe for any identifier, instead of describing how a quote could close the argument.
+- **Echoed identifiers** use `'${re.sub('^[-.]|[^\\w .-]', '_', str(x))}'`, single-quoted, with spaces kept. Where a literal prefix is echoed, prefix and value are one single-quoted word.
+- **File names** use `#set $name = re.sub('^[-.]|[^\\w.-]', '_', str($key)) or '_'`, then `'output/$name'`.
+- **Not taken from the alt:**
+  - `tools/`: ilastik and HiGlass keep `shlex.quote`.
+  - The collection names (`$f1.name`) in `collection_paired_test` and `collection_record_test_two_files`. Their tests' `Collection name: collection name` is a name, not an identifier.
+- **Still `shlex.quote` in test tools:** `cheetah_casting`, `collection_paired_test`, `collection_record_test_two_files`, `directory_uri`, `parameters/gx_directory_uri{,_validation}` and `unicode_stream`. None of them is an identifier site.
 
-## Adapting to 25.1 and 26.1
+## What users see differently (vs `1a6d0585a37`)
 
-- **Dropped on 25.1:** the hunks for `collection_type_source_conditional.xml`, `collection_type_source_digit_name.xml` and `collection_type_source_section_repeat.xml`. Those tools don't exist on 25.1 or 26.0.
-- **Adapted on both 25.1 and 26.1:** `identifier_collection.xml`, `identifier_all_collection_types.xml` and `identifier_single.xml`. dev's versions echo a literal `'identifier '` prefix and a second `safe_identifier` line; those came with upstream test commits `a2f5ae521a8`, `94153e4336b` and `27cd79c10a1`, which are on 26.2 and dev only. The 25.1 and 26.1 versions echo the bare identifier, and their tests assert bare lines. So these use `echo ${shlex.quote(str(...))}`, the same form as the other no-prefix identifier tools in that commit. Backporting the upstream test commits was not an option. They also change `galaxy.xsd` docs and API tests.
-- **Unchanged:** the other 19 files are byte-identical on dev, 25.1 and 26.1, so their hunks applied as they were.
-- **`config_vars`:** rechecked on 25.1 and 26.1. The only callers are the tool's own test and the three `test_handler_assignment_methods.py` classes, all with the default `__test_key`. `test_mules_as_job_handlers.py` is absent, and `b39e8ad9a2b` is an ancestor of both bases. So the `$__app__` branch is dropped on both.
-- **Forward merge (from the review):** release_25.1 merges cleanly into 26.0 and 26.1. Into 26.2 and dev, the three adapted identifier tools conflict on one hunk each; nothing else does.
-  - **Resolution:** take dev's prefix form with the quoting, i.e. `git checkout 22feb23fb4b -- test/functional/tools/identifier_{single,collection,all_collection_types}.xml`. Taking the 26.2 side would silently drop the quoting, and taking the 25.1 side breaks those tools' own 26.2/dev tests.
-- **Wrappers:** the review checked the 25.1 wrappers with real objects. `.keys()`, `element_identifier`, `InputValueWrapper`, `$texttest.strip()` and directory_uri's unsanitized `to_param_dict_string` behave as on dev.
+- **Test values are unchanged.** `forward`, `reverse`, `i1`, `samp1`, `1`, `2`, `1.tabular`, `simple_line.txt`, `Plain HDA`, `test_level_1`, `outer1`, `échantillon` and `数据` all render the same argv.
+- **Echoed identifiers:** a leading `.`/`-` becomes `_`, and so do `'`, `/`, `;`, `$()`, tab and newline. This fixes the parent's `-n`, which `echo` swallowed. Identifiers that clean alike (`a:b`, `a_b`) can't be told apart in the output.
+- **`collection_type_source*` file names**, and so discovered element names: spaces are cleaned too (`my sample` becomes `my_sample`). `../x` becomes `_._x`, `.hidden` becomes `_hidden`, and an empty key becomes `_`. On the parent, `../x` wrote outside `output/` and `a/b` failed.
+- **Collisions.** Keys A then B that clean to one name N give a collection with one element fewer, and no error:
+
+  | Tool | Command | Result |
+  |---|---|---|
+  | `collection_type_source` | `cat header > N; cat A >> N`, then the same for B | N is the header plus B; A is lost |
+  | `collection_type_source_map_over` | `>>` only | N is A then B, merged |
+  | `_conditional`, `_digit_name` (26.1) | `>` | N is B; last wins |
+  | `_section_repeat` (26.1) | `>` in both loops | The section list: last wins. The repeat input is `paired`, so it can't collide |
+
+  Paired inputs can't collide. No test uses keys that clean alike. A unique suffix would avoid this, but these are test tools.
 
 ## Verification
 
-**Analyser** (`~/tool_security/analyser_b1` at `53559de55d0`) over `test/functional/tools`, vulnerability findings:
+**Analyser**, branch 1 at `53559de55d0` (`~/tool_security/analyser_b1`) and at its current head `590a784bd04` (a fresh detached worktree, since removed). The two agree on every count. Vulnerability findings, high/medium/low:
 
-| | 25.1 before | 25.1 after | 26.1 before | 26.1 after |
-|---|---|---|---|---|
-| High | 35 | 8 | 43 | 8 |
-| Medium | 21 | 21 | 26 | 26 |
-| Low | 89 | 88 | 95 | 94 |
-| Tools with a high | 26 | 5 | 29 | 5 |
+| | parent | revision | regex alt |
+|---|---|---|---|
+| 25.1 `tools/` | 0/0/78 | 0/0/78 | 0/0/78 |
+| 25.1 `test/functional/tools/` | 8/21/87 | 8/19/79 | 8/19/79 |
+| 26.1 `tools/` | 0/0/77 | 0/0/77 | |
+| 26.1 `test/functional/tools/` | 8/26/93 | 8/20/85 | |
 
-- **No new findings on either branch.** Every finding that appears after the change restates one from before at the same tool, rule and severity; only the expression is now the quoted one. One low goes with `config_vars`.
-- **Highs left:** `color_param`, `color_param_string_method`, `gx_color`, `gx_color_optional` and `model_attributes`. These are known-intended or analyser false positives.
-- **Lows left:** the no-prefix identifier tools, `cheetah_casting` and `unicode_stream` stay low `option-injection`, as on dev. On 25.1 and 26.1 that includes the three adapted identifier tools, which are clean on dev because of the prefix.
-- **Mediums left:** the `collection_type_source*` `path-traversal` mediums. They are data-level and accepted, as on dev.
+- **`tools/`:** the JSON reports are byte-identical to the parent's on both bases.
+- **Test tools:** the only changes are removed findings. The 8 identifier tools lose their low `option-injection`. The `collection_type_source*` tools lose their medium `path-traversal`: 2 on 25.1, and 6 on 26.1, where `_section_repeat` had two. On 25.1 every per-tool result matches the regex alt.
+- **Highs left:** the same 5 tools as before, all known-intended or false positives.
+- All changed files are XSD-valid: 14 on 25.1 and 17 on 26.1.
 
-**Tests on 25.1**, each run in turn under `~/tool_security/.galaxy-tests.lock`:
-- **Framework:** 17 of 17, across the 10 changed tools that have `<tests>`.
-- **API:** 49 of 49. That covers the 47 nodes in `test_jobs`, `test_tool_execute`, `test_tools`, `test_workflow_extraction` and `test_workflows` that use a changed tool, re-grepped on 25.1. It includes helper-driven tests such as the `identifier_single` job-cache tests and `test_subcollection_mapping`.
-- **Workflow framework:** 9 of 9, from the 4 `gxwf.yml` files on 25.1 that use a changed tool (`zip_collection`, `subcollection_rank_sorting`, `subcollection_rank_sorting_paired` and `triply_nested_list_mapping`).
-- **Integration:**
-  - `test_handler_assignment_methods.py`: 1 passed; the 2 postgres-only classes were skipped.
-  - `test_remote_files.py::test_write_to_files`: 1 passed.
-  - `test_extended_metadata.py[collection_paired_test]`: 1 passed.
-  - `test_workflow_scheduling_options.py::test_collection_explicit_and_implicit`, which uses `collection_paired_test`: 1 passed.
+**Tests**, each run in turn under `~/tool_security/.galaxy-tests.lock` with `-p no:postgresql`:
 
-**Tests on the 26.1 alt** (a temporary worktree, since removed, using a 26.1 venv with matching pins):
-- **Framework:** 20 of 20, across the 13 changed tools that have `<tests>`.
-- **API:** 68 of 68. That is all 62 nodes re-grepped on 26.1, not a sample, since the run was cheap.
-- **Workflow framework:** 14 of 14, from the 7 `gxwf.yml` files on 26.1 that use a changed tool.
+| | 25.1 | 26.1 alt |
+|---|---|---|
+| Framework, every changed tool with `<tests>` | 9/9 (5 tools) | 12/12 (8 tools) |
+| Workflow framework | 8/8 (`subcollection_rank_sorting{,_paired}`, `triply_nested_list_mapping`) | 13/13 (adds `collection_semantics_list_paired{,_or_unpaired}`, `collection_type_source_conditional_mapped`) |
+| API, every node re-grepped on the base (incl. helper- and fixture-driven) | 45/45 (43 nodes) | 55/55 (51 nodes) |
 
-**Not run:** the Selenium tool-form tests that open `identifier_multiple`, `collection_paired_test` and `identifier_collection`. They only render the form, which these command-only changes don't touch.
+- **26.1 venv:** the 26.1 runs used a temporary worktree, since removed, with `issue_25004_mapped_job_outputs_26_1`'s `.venv`. Its pins match 26.1's, and the 25.1 venv's don't.
+- **Not run:** the integration tests from the last debrief. They exercise `config_vars`, `directory_uri` and `collection_paired_test`, none of which changed. Also not run: the Selenium form tests, which only render the form.
 
-**Review:** `subagents/review_test_tools_25_1.md` found nothing blocking. Its should-fix, recording the forward-merge resolution, is taken above. No code changed.
+**Review:** `subagents/review_test_tool_identifiers.md` found nothing blocking. Its should-fix, the forward-merge resolution, is below, and both message nits are taken.
 
-**Test challenges** were not regenerated. The >3-tests rule is about tests, and these commits change no test files: they change test tools whose output is unchanged for every value the tests use. The review's render comparison checks exactly that, and the existing `test_challenges_debrief.md` is about the stock tools, which are unchanged.
+## Forward merge
 
-## Framework test tools: initial implementation (folded in)
-
-This is the dev branch's initial debrief, condensed. Its brain research is `subagents/brain_research_functional_test_tools.md`, and its review is `subagents/review_functional_test_tools.md`. The review's top line refers to the dev commits.
-
-- **Scope:** the 25 incidental (category c) framework test tools now pass the static review without high findings, and each tests what it tested before. On dev that took eight commits over `070dab20526`, with head `22feb23fb4b`. It was never pushed.
-- **Idiom:** `#import shlex` and `${shlex.quote(str(...))}`, as on the stock tools.
-- **Prefixes stay glued:** where a tool echoed a literal prefix, the prefix stays glued to the quoted value: `echo 'identifier '${shlex.quote(...)}`. A split form (`echo identifier ${...}`) added 11 low `option-injection` findings. The glued form adds none and gives the same argv.
-- **`cheetah_casting`** keeps `$texttest.strip()`. Commit `706ec29add1` added that call as the check that old-profile empty text renders as `""`, not `None`, so the stripped result is quoted. The existing `'#out_file1'` typo stays. Fixing it would add a line that `test_run_with_numeric_input_connection` doesn't expect.
-- **Not changed:**
-  - Deliberate security examples.
-  - Tools that test a feature the review flags: `command_reads_configfile`, `environment_variables_inject` and the legacy `<code>` tools.
-  - Analyser false positives: `model_attributes` and the colour params.
-  - CWL and YAML tools.
-  - Any tool that a security test on branches 1, 3 or 4 uses as a red case.
-- **`identifier_single`:** cleaned up here as well. Branch 4 (`tool_patches_static_findings`) uses it as a red case, and on that branch the red case moves to a new `identifier_single_unsanitized` tool. That move belongs to branch 4. The dev review lists every branch 4 file that depends on the old text: two refusal tests, `test_patch_review.py`'s `ECHO`, the two tool-patch tests and `identifier_single_fixed.xml`.
-- **dev results:**
-  - Analyser highs went from 64 to 27, and tools with a high from 41 to 16.
-  - Framework 21/21, API 67/67, workflow framework 16/16, and the same three integration tests passed.
-  - XSD-valid on dev.
-  - The review found nothing blocking.
+- **Clean:** release_25.1 still merges cleanly into 26.0 and 26.1.
+- **Conflicts:** into 26.2 and dev, the three adapted identifier tools still conflict on one hunk each. The 26.1 alt conflicts in the same three files, plus `tools/extract/extract_genomic_dna.py`. That last one predates this revision.
+- **Resolution, unchanged:** take dev's versions of the three files whole: `git checkout 22feb23fb4b -- test/functional/tools/identifier_{single,collection,all_collection_types}.xml`.
+- **At 26.2 and later this is an exception to the regex rule.** Those files keep `shlex.quote` there, with dev's glued `'identifier '` prefix. dev's tools exist to print the raw identifier next to `safe_element_identifier`, and `test_identifier_outside_map` asserts `identifier ../Plain HDA`, which the regex would turn into `_._Plain HDA`. The prefix already makes them analyser-clean.
+- **Take whole files, not hunks.** In `identifier_collection` and `identifier_all_collection_types`, `#import re` merges in outside the conflict. Taking only dev's hunk would leave `#import re` above `shlex.quote`, and the template would fail.
 
 ## Decisions for John
 
-1. **Forward-merge conflict** in the three adapted identifier tools at 26.2 and dev. The resolution is above. It would also go in the PR description.
-2. **Three tools are still high on 26.1 after the forward merge:** `collection_type_source_conditional`, `_digit_name` and `_section_repeat`. The 26.1 alt has their fixes. If the 25.1 branch is the one that merges, they need a small follow-up on release_26.1.
-3. **Dev branch message:** the local `functional_test_tools_review_clean` still has the old wording in `30153332c65`. It doesn't matter unless that branch is published.
-4. **Nit, not acted on:** `str($f1.name)` prints `None` for an unnamed collection, where it printed an empty string before. No test uses one.
-5. **Still open from the last debrief** (`earlier_drafts/4/implementation_debrief.md`):
-   - 25.1's support window ends around 2026-12-12; after that, release_26.0 is the policy target.
-   - The `./` and `--` argv changes on 25.1.
-   - The review nits: HiGlass, upload1's separator, ML Jupyter's `git`.
-   - The Qiskit 25.1 low.
-   - The PR split: these 8 commits form their own group, which can be split into a PR on its own.
-   - Codex is still blocked by the host sandbox.
-   - The two behaviour questions, the housekeeping, and the deferred items.
+1. **Collisions** in `collection_type_source*` for keys that clean alike (above). Accepted for test tools unless you want a unique suffix.
+2. **The 26.2/dev exception** for the three identifier tools (above). It would also go in the PR description.
+3. **For branch 1, from the review:** `collection_creates_list*` echo the keys of a `structured_like` output collection. The analyser doesn't trace those back to input identifiers, so it reports nothing there. That looks like a coverage gap in the analyser, outside this branch.
+4. **Still open from earlier debriefs** (`earlier_drafts/5/implementation_debrief.md`):
+   - The 26.1-only `collection_type_source*` follow-up if the 25.1 branch is the one that merges. It would now reuse commit 4's text.
+   - `str($f1.name)` printing `None`.
+   - The dev branch's message.
+   - 25.1's support window.
+   - The PR split: the test-tool commits, now 12, form their own group.
+   - The rest of the earlier list.

@@ -2,6 +2,8 @@
 
 `stock_tools_review_clean_alt_regex_identifiers` at `0bd72f5a542` is pushed to `jmchilton`. It is an evaluation alt: 7 commits on top of the parent (`1a6d0585a37`, release_25.1). Where the parent shell-quotes an identifier-like value with `shlex.quote`, the alt cleans it with an allow-list `re.sub` and single-quotes the result. Identifier-like values are element identifiers, collection element keys and collection names. Everything else on the parent is unchanged. John asked for it on 2026-11-28 and decides after reading this; the parent and its 26.1 alt are untouched.
 
+**Decision (John, 2026-11-28):** the regex is used for element identifiers and collection keys in the framework test tools only. The parent took this alt's 4 commits for those sites (`22ff539f97a`), and real tools and collection names keep `shlex.quote`. This alt stays as the record of the regex-everywhere evaluation.
+
 ## The documented patterns
 
 | Source | Form | Notes |
