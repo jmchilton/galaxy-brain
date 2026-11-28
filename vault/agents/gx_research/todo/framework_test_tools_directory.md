@@ -8,4 +8,4 @@ Editing fixture tools without changing what they test needs a map from each tool
 
 ## Requested by
 
-- vault/repositories/galaxy/branches/active/functional_test_tools_review_clean/brain_research.md: needed to know which suites and tool confs reach each of ~25 edited fixture tools, and which tools are deliberate security or feature examples.
+- vault/repositories/galaxy/branches/active/stock_tools_review_clean/subagents/brain_research_functional_test_tools.md: needed to know which suites and tool confs reach each of ~25 edited fixture tools, and which tools are deliberate security or feature examples.
