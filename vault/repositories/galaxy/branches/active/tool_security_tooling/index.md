@@ -1,9 +1,6 @@
 ---
 upstream_base_branch: dev
 parent_branch: tool_patches_static_findings
-related_records:
-  - galaxy/branches/tool_patches
-  - galaxy/branches/tool_security_static_findings
 ---
 # Tool security tooling: admin UI and API for patches and findings, CLI report, developer tools
 
