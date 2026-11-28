@@ -1,81 +1,85 @@
-Run via Claude Opus 5.5.
+Run via Claude Opus 5.5 at default effort.
 
-**Coordinator:** after a rebase onto the final shared commit `5659a4db4a4`, the challenge commit `7114e570ada` became the branch tip (see `index.md` for the head); the other hashes below are from before that rebase. I applied recommendations 1 to 4 for the shared commit:
-- `_real_lib_path(path, tools_dir)`.
-- The base runner test moved to `test/unit/app/jobs/test_prepare_refusals.py`, with a `RefusingJobWrapper` dataclass.
-- `test_galaxy_upload_tool_path` is folded in.
-- The Pulsar test asserts `str(refusal)`.
+# Test challenges: interactive and CWL exclusions, and the move to identifier_single_unsanitized
 
-The sibling branch's challenge also added source-checkout `tools/` paths to the shared lists. Not acted on:
-- 5 and 6: the sibling branch reads `stored_source_path` and `tool_file()`, and its upload1 tests cover them.
-- 7: a "Baseline tests" split, needed only if the shared commit becomes its own PR.
-- The suggested test for a mismatched upload1 patch.
+This round only challenged the tests the revision added or changed:
+- `2a3abbc52d1` (interactive and CWL tools left out)
+- `2aa6116bf77` (red case moved to `identifier_single_unsanitized`)
+- the `review_exclusion` / `built_tool_type` tests of the shared commit `d598fb16089`, which only get recommendations below.
 
-# Test challenges: Galaxy's own tools and the shared refusal plumbing
+The challenge started on head `2aa6116bf77`. The changes are uncommitted in the worktree, for the coordinator. The earlier challenges are in `earlier_drafts/5/`.
 
-This round only challenged the tests the revision added or changed. They were challenged on head `f8e12554650`, and the changes are in commit `7114e570ada`. The earlier challenges are in `earlier_drafts/4/`.
+**Changed:**
+- `test_static_findings_refusal.py`:
+  - `test_interactive_tools_are_not_refused` now passes the refusing review as `kept`.
+  - `test_tools_that_only_look_interactive_are_refused` and `test_tools_a_type_element_builds_as_ordinary_tools_are_refused` are folded into one parametrized test, `test_tools_galaxy_builds_as_ordinary_tools_are_refused`.
+  - The comment on `test_the_unsafe_test_tool_is_refused` is reworded.
+- `test_populate_store.py`:
+  - `_tool_xml` takes a `tool_type`.
+  - `TestStaticReview._setup` takes `interactive=True`, which replaces the test's string surgery on the tool XML and the tool conf.
 
-**Changed:** in `test_static_findings_refusal.py`, `test_tools_galaxy_runs_itself_are_not_reviewed` and `test_galaxy_upload_tool_is_exempt` are folded into one test, `test_galaxy_own_tools_are_not_reviewed`. It runs over upload1 and set metadata, and now also pins that the load log names the tool and stays silent while refusals are off. `catWrapper.xml` is dropped from `test_other_tools_galaxy_ships_are_reviewed`.
+No tests were added or dropped. No implementation file changed.
 
 **Not changed:**
-- The removal of `test_galaxy_upload_tool_path`. It moved verbatim to the shared commit.
-- The removal of the judge tests. `judge.py`, `--judge` and `Finding.assessment` are gone, so nothing they covered is left.
-- The shared commit's tests, which only get recommendations below.
+- `test_cwl_tools_are_not_refused`
+- the populator test's assertions
+- the mechanical renames in `2aa6116bf77`: `test_patch_review.py`, `test_tool_patches.py`, and the integration tests' tool id, fixture and helper rename (`_run_identifier_single` to `_run_tool`)
 
-The in-scope unit tests (static findings refusal, security refusal, patch review, Pulsar runner, cached tool) all pass: 253 tests. ruff, black and isort are clean. The one mypy error in the file (`def fail(tool_source)`, untyped) is already on head.
+The in-scope unit tests all pass: 340 tests across these files:
+- `test_static_findings_refusal.py`
+- `test_security_refusal.py`
+- `test_populate_store.py`
+- `test_patch_review.py`
+- `test_tool_patches.py`
+
+ruff, black and isort are clean on both changed files. The mypy errors in them are the files' existing untyped-def errors. No integration or API tests were run.
+
+A private note was written about one aspect of the exclusion's design. Nothing about it is recorded here.
 
 ## Branch tests (acted on)
 
-### `test_tools_galaxy_runs_itself_are_not_reviewed` and `test_galaxy_upload_tool_is_exempt`: folded
+### `test_interactive_tools_are_not_refused`: the kept review is passed
 
-- **Duplicated cases.** The five-path parametrization repeated `test_galaxy_own_tools` in the shared `test_security_refusal.py`. That test already pins each hidden tool path, and `test_galaxy_runs_five_tools_as_its_own_machinery` pins the list. At the static findings layer, the thing to prove is that `reviews_tool` uses the predicate. One tool Galaxy runs itself (set metadata, the original case) and upload1 do that.
-- **Fails without the change.** All five cases passed under the old `lib/galaxy` directory rule. I checked this by temporarily restoring that rule behind the new signature. They only pin behavior that already existed, so extra cases add nothing at this layer.
-- **The log assertion is stronger now.**
-  - Before, it used `caplog.text.count(...) == 1`, for upload1 only.
-  - Now the test reads the records of the `static_findings` logger. It asserts exactly one message, which names the path, and no message while `tool_security_refuse_static_findings` is off.
-  - Both parts fail at their own assertion when the library is mutated: dropping the `if config.tool_security_refuse_static_findings:` guard fails the refusals-off check, and removing the `log.info` fails the unpack.
-  - The commit message promises the log ("Galaxy logs at load each of its own tools it does not review"), so it is behavior for an admin, not an implementation detail.
-- **The upload1 case fails without the change**, relative to the base without the upload exemption. The set metadata case pins existing behavior. That is intended, and it is the test that existed before.
+`CachedToolBox` calls `with_static_review(..., kept=entry.static_review)`. The test only exercised `kept=None`, so swapping the `kept` branch ahead of the exclusion branch passed every test. A store built before this revision, at the same `VERSION` (a dev install), would then keep refusing the jobs of an interactive tool.
 
-### `test_other_tools_galaxy_ships_are_reviewed`: `catWrapper.xml` dropped
+The test already builds the refusing review to show the tool is not trivially clean. Now it passes that review as `kept` too.
+- **Mutation:** with the `kept` branch moved first in `with_static_review`, both cases (XML and YAML) fail at that assertion.
+- **Against `HEAD~2`'s `static_findings.py`:** both fail at the same assertion. That is the test's own assertion, not the changed signature.
 
-With the old rule restored, `unzip_collection`, `sample_sheet_to_tabular`, `bam_to_bai` and `command_position` each fail at `review is not None`. `catWrapper.xml` passed: in a source checkout `bundled` links to `tools/`, so `in_directory` (by real path) already put it outside `lib/galaxy`. Only an installed package shows that case. The new predicate is an allowlist by real path, so no layout can exempt a stock tool. The shared predicate test keeps `catWrapper` as a check against the owner's decision. The comment on the remaining cases now says why they are interesting: they sit under `lib/galaxy`, which the old rule left out.
+### The lookalike and `<type>` element tests: folded into `test_tools_galaxy_builds_as_ordinary_tools_are_refused`
 
-### `test_galaxy_upload_tool_path` removal: fine
+These two were the same test with a different XML edit and a different half of the `static_review_is_current` check. They are now one parametrization (`lookalike`, `type_element`), and each case asserts both halves: its review is current, and None is not.
 
-It moved verbatim into the shared `test_security_refusal.py`, together with `is_galaxy_upload_tool`.
+These are negative controls on a relaxation, so both pass against `HEAD~2`'s behavior (they fail there only on the new `static_review_is_current` signature). That is intended: an exclusion that grows too broad is the failure that matters. The `type_element` case also kills a plausible wrong implementation. With `with_static_review` reading `tool_source.parse_tool_type()` instead of `built_tool_type()`, it fails at `review is not None`. The `lookalike` case pins the commit message's "entry points alone do not make it one". At the predicate layer it costs one parametrization id here, and the shared tests do not pin it (see the recommendations below).
 
-### Judge test removal (`test_patch_review.py`): nothing of value lost
+### `test_the_unsafe_test_tool_is_refused`: kept, comment reworded
 
-`_RecordingJudge`, `test_cli_judges_the_patched_source` and `test_cli_judges_only_the_patched_report_when_no_op_applies` covered the following, and none of it is left to cover:
-- `--judge`
-- the `replace(before)` copy in `review_patches`, which kept the verdicts out of `before`
-- the `assessment` field
+This is a fixture canary. The integration test asserts that the refused job's `misc_info` starts with `... shell-injection, and this Galaxy server`. That holds only if `shell-injection` is the tool's one rule at high, which is why the exact `== ["shell-injection"]` is justified. `test_patch_review.py` pins that the tool has `shell-injection` at high, but not that it is refused through `with_static_review` with nothing else. The old comment ("whatever happens to identifier_single") referred to a sibling branch's cleanup and would mean nothing after the merge. It now says what the test guards.
 
-`judge.py`, `test_judge.py`, `Finding.assessment`, `Report.assess` and the CLI flag were all removed with them. `review_patches` now returns `after = before` when no op applies, which is safe now that nothing mutates a report. Their non-judge assertions are still covered:
-- The patched source's introduced findings and exit 1 are covered by `test_cli_reports_patch_review[introduces]` (`bool(report["introduced"]) is bool(exit_code)`).
-- The mismatch state is covered by `test_cli_fails_on_a_mismatched_security_patch_only_when_asked`.
+### `test_interactive_tools_are_not_reviewed_and_stay_unchanged` (populator): helpers instead of string surgery
 
-## Shared commit (recommendations)
+The test used to do two things by hand:
+- replace `<tool ` in `_tool_xml` output with `<tool tool_type="interactive" `
+- replace `</toolbox>` in the conf `_setup` had written
 
-These tests are in `873d6552976`, which a sibling branch carries identically. I didn't edit them.
+Now `_tool_xml(..., tool_type=...)` writes the attribute, and `_setup(tmp_path, interactive=True)` adds the tool and its conf entry. The assertions are the same. With the populator's fast path mutated to pass `None` instead of `old_entry.tool_type`, the test fails at its own assertion (`3 == 4` unchanged). Against `HEAD~2`, it fails at the `static_review is None` assertion.
 
-1. **`test_own_tools_resolve_beside_the_real_tools_directory` tests a private function.** It monkeypatches the private `_TOOLS_DIR` and calls `_real_lib_path` directly. Make it a pure function that takes the tools directory as a parameter, `_real_lib_path(path, tools_dir)` or a public `real_lib_path`, so the test passes `linked` without monkeypatching. Otherwise drop it and rely on `test_galaxy_own_tools`, which resolves the real set metadata path in the checkout.
-2. **`test_runner_fails_a_refused_job_without_an_error` is in the wrong file and builds its doubles by hand.**
-   - It tests `BaseJobRunner.prepare_job` and `PREPARE_REFUSALS`, not `security_refusal`. Move it to `test/unit/app/jobs/`, next to the Pulsar case. `test_pulsar_runner.py` would do, or a small `test_runner_prepare_refusals.py`.
-   - Replace the `SimpleNamespace` job wrapper, and the lambdas assigned onto `object.__new__(BaseJobRunner)`, with a small `RefusingJobWrapper` dataclass that records `fail()` calls. Both runner tests can share it.
-   - The container case pins existing behavior. The security-review case fails without the change, which is right.
-3. **Fold `test_galaxy_upload_tool_path` into the parametrized tests.**
-   - Its positive cases (the bundled path and the functional-test link) are already in `test_galaxy_own_tools`.
-   - The `upload.py` negative is already in `test_other_tools_galaxy_ships_are_reviewed`.
-   - The `None` case is in `test_copies_of_galaxy_own_tools_are_reviewed`.
-   - What is left to test is the distinction between `is_galaxy_upload_tool` and `is_galaxy_own_tool`. Assert one line in `test_galaxy_own_tools`: `is_galaxy_upload_tool(path) == (os.path.basename(path) == "upload.xml")`.
-4. **Parametrized Pulsar `test_rejected_job_fails_without_resubmission`: fine.** The pinned `"[a-code] ..."` message repeats `test_refusal_names_its_codes_first`. `str(refusal)`, as the base runner test uses, would be enough, but the explicit form is harmless.
-5. **`test_materialized_tool_keeps_its_stored_source_path` has no reader on this branch.** It asserts a one-line assignment, and nothing on branch 4 reads `Tool.stored_source_path` or `security_refusal.tool_file()`. They are for the sibling branch's job-preparation review. Keep the test if the sibling has no cached-toolbox integration test that reads the path. If it does, drop this unit test as covered.
-6. **Untested helpers.** At the shared commit, nothing tests `declares_upload_tool`, `upload_tool_lookalike_message` or `tool_file` directly. Branch 4 covers the first two through `test_upload_tool_lookalike_is_reviewed`. `tool_file` (`config_file`, falling back to `stored_source_path`) has no test or caller here, so the sibling should cover it.
-7. **`test_galaxy_runs_five_tools_as_its_own_machinery`: keep.** It pins the owner's list, so adding a hidden tool forces a decision. `hidden_lib_tool_paths()` already existed, and the test passes before S, so it is really a baseline test. If S is split into its own PR, consider putting it in a "Baseline tests" commit.
+### Not acted on
 
-## Not in scope, noted
+- **`test_cwl_tools_are_not_refused`:** fine. It fails without the change at `static_review is None`, and its first assertion shows the CWL tool would be refused. It has no log assertion, because the log wiring is pinned by the interactive and own-tools tests, and the CWL reason string by the shared tests.
+- **The populator's declared-vs-built disagreement** (`tool_type="interactive"` with `<type class="Tool">`): no populator test. In this case the fast path always reparses. That is safe by construction, because a kept entry can only carry the review `with_static_review` gave it. A test would pin a performance cost, not a safety property.
+- **Integration coverage for interactive tools:** none added. Running one needs `interactivetools_enable` and an entry point setup. The unit path (`with_static_review` gives `None`, so `check_static_findings` returns early) covers the decision.
+- **The `_built` / `_exclusion` helpers' annotated-variable return:** kept. It satisfies `warn_return_any` across the `galaxy.tools` import.
+- **No E2E tests:** the feature has no UI.
 
-- **`_patched()` only counts an APPLIED state.** No test pins that a non-applied (mismatched) upload1 patch leaves the tool exempt. It would be a one-line case beside `test_patched_galaxy_upload_tool_is_reviewed`. This code predates the revision, as `_unpatched_upload_tool`.
-- **No E2E test is needed.** This is load-time and job-preparation behavior with no UI. The integration test `test_galaxy_upload_tool_runs` covers upload1 end to end. The coordinator runs it.
+## Recommendations for the shared commit
+
+These are for `test/unit/app/tools/test_security_refusal.py` and `lib/galaxy/tools/security_refusal.py`, which this challenge did not edit.
+
+1. **Pin the lookalike at the predicate.** `built_tool_type` is where "entry points alone do not make a tool interactive" holds, but no shared test has a tool with `<entry_points>` and no `tool_type`. Add a case to `test_review_exclusion_follows_the_class_galaxy_builds` or `test_review_exclusion`, for example `TYPED_TOOL` without the `<type>` element plus an `<entry_points>` block, that expects `None`. The branch test could then drop its `lookalike` id if you want it lean.
+2. **Fold the patched assertions into one test.**
+   - `test_patched_own_tools_are_reviewed` and the last line of `test_galaxy_interactive_tools_are_excluded` both pin what `patched` does: it lifts the own-tool exclusion but not the type exclusion.
+   - A single `test_a_patch_lifts_only_the_own_tool_exclusion` would read better: upload1 patched gives `None`, an interactive type patched still gives `"it is an interactive tool"`, plus `review_exclusion(None, None) is None`.
+   - `review_exclusion(GALAXY_UPLOAD_TOOL, None) == GALAXY_OWN_TOOL` repeats the `upload.xml` case of `test_review_exclusion` and can go.
+3. **Docstring nit.** `built_tool_type` says "a user-defined tool's class wins over a declared `tool_type`". A `class: GalaxyUserTool` source cannot declare `tool_type`: `YamlToolSource` raises `UntrustedToolSourceError` ("User-defined tools may not set tool_type"). Reword that clause to say a user-defined tool builds as `UserDefinedTool` (`user_defined`), or drop it. It needs no test.
+4. **Nothing to split.** The shared tests fail without the shared change because the API is new, so no "Baseline tests" split applies unless the shared commit becomes its own PR.
