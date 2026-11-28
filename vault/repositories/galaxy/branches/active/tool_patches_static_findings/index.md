@@ -1,6 +1,7 @@
 ---
 upstream_base_branch: dev
 parent_branch: tool_security_static_findings
+child_branches: tool_security_tooling
 related_records:
   - galaxy/branches/tool_patches
   - galaxy/branches/stock_tools_review_clean
